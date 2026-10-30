@@ -1,0 +1,64 @@
+{
+  "dir": "methylsaferseqs__10.1073+pnas.2220704120",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methylsaferseqs__10.1073+pnas.2220704120/pnas.2220704120_PMC10104560.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10104560.1/PMC10104560.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedPMC10104560 main244/250\u2013274/398\u2013410;publishedSIwholeTableS1 andoriginalp4inspected;2originals. SaferSeqSbasekitinternalsnotinherited.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methylsaferseqs__10.1073+pnas.2220704120/pnas.2220704120_supp_pnas.2220704120.sapp.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10104560.1/pnas.2220704120.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedPMC10104560 main244/250\u2013274/398\u2013410;publishedSIwholeTableS1 andoriginalp4inspected;2originals. SaferSeqSbasekitinternalsnotinherited.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph. No complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "dna_round25",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Before-open original counter /tmp/round25-dna-original-counts.tsv; source investigation closed2/1/2, no overrun.",
+      "locations": "PublishedPMC10104560 main244/250\u2013274/398\u2013410;publishedSIwholeTableS1 andoriginalp4inspected;2originals. SaferSeqSbasekitinternalsnotinherited.",
+      "findings": "MethylSaferSeqS selected paired LA/LM WGS preparation",
+      "deferred": [
+        "HistoricalSaferSeqSbaseendpreparation/fullligation/primerlandinggeometry andvendororiginals;sourcePanel48/hemi-nestedvalidationbranchesnotassembled. SelectedWGSbothbranchesretained,notmistakenforoneconcatenatedmolecule."
+      ],
+      "oligo_scraper": "MandatoryscrapersSMM6/2,Sci13/1,Methyl18/1; originalSMMp4 andMethylSITablep4inspected.",
+      "verification": "39focusedchecks pass across3graphs;guard9wholetextmatches0failed8independentlyverifiedformattingexemptions5unassembledinputs;chemistry81unresolved0contradictory. No complete molecularvalidation oracceptedabsence claim."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted25_reader",
+    "date": "2026-10-30",
+    "scope": "Publishedmain250\u2013274/398\u2013410 plus publishedSIoriginalTableS1p4. Selected critical implementation and all8text-formattingexceptions independentlyverified; notfull linked-source orabsenceaudit.",
+    "finding": "Allfive exemptinputs (modified3adapter andtwoWGSprimerrows separatelyusedinLA/LM) matcheveryfixedbase/modification inoriginal. Singleprimer copying, sequentialheatreleases/originalpool, USERcopiesrelease andseparateLA/LM/WGS workups/primerroles correct; opaquepreligationboundarydoesnotinventendrepair."
+  },
+  "text_matching_exceptions": {
+    "base_ligate_oligo_0": "Wholemodifiedordering independentlyverified inpublishedSITableS1p4; localfixture retainsallfixedbases/PS/indexpositions.",
+    "lm_wgs_pcr_oligo_0": "Wholemodifiedordering independentlyverified inpublishedSITableS1p4; localfixture retainsallfixedbases/PS/indexpositions.",
+    "lm_wgs_pcr_oligo_1": "Wholemodifiedordering independentlyverified inpublishedSITableS1p4; localfixture retainsallfixedbases/PS/indexpositions.",
+    "la_wgs_pcr_oligo_0": "Wholemodifiedordering independentlyverified inpublishedSITableS1p4; localfixture retainsallfixedbases/PS/indexpositions.",
+    "la_wgs_pcr_oligo_1": "Wholemodifiedordering independentlyverified inpublishedSITableS1p4; localfixture retainsallfixedbases/PS/indexpositions."
+  }
+}

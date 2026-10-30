@@ -1,0 +1,81 @@
+{
+  "dir": "flash-rna-protein-interactions__10.1093+nar+gkz1141",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7026646.1/PMC7026646.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain76\u2013126/150/170\u2013176, actualFig1originalPDFp2; selectedtaggedQKI XF2.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7026646.1/gkz1141_supplemental_files.zip#Supplementary_Table_1.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualTableS1s-oligo andqPCR410a/b wholeorders/roles; cloning constructs notassignedtolibrary; P5/P3productionbodiesunassembled.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7026646.1/gkz1141_supplemental_files.zip#Ilik_SI_compiled_01.10.19_clean.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1XF1\u20138blueprint and selectedXF2RNaseH/PK branch only.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "targeted_owner_round40",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Selectedoriginals sourcepassclosedbeforeimplementation; source-qualifiedselectedbranch, notcompletechemistry/source/absenceaudit.",
+      "locations": "Publishedmain76\u2013126/150/170\u2013176, actualFig1originalPDFp2; selectedtaggedQKI XF2.; ActualTableS1s-oligo andqPCR410a/b wholeorders/roles; cloning constructs notassignedtolibrary; P5/P3productionbodiesunassembled.; PublishedSI1XF1\u20138blueprint and selectedXF2RNaseH/PK branch only.",
+      "findings": "Positivephysicalpreparation andsource-version/identifier/catalog/correction distinctions retained; no similarmethod constructor or unsupportedabsence inherited. See detailednote.",
+      "deferred": [
+        "ActualwholeproductionP5/P3primerorders, PCRindexvalues/lengths/readlanding and exactrunlayout remainunassembled; qPCR410ordersnotproductionprimers.",
+        "Sourceprotocols.io XF2https://www.protocols.io/view/flash-zv9f696?version_warning=no ordinaryunread/citedrevisionidentitynotverified, notclaimedblocked.",
+        "Upstreamengineeredcellstocks, exactRNA/protein/cDNA/circle/sealedproducts, occupancy/yields/offproducts andpreciseiSp18atomnomenclature."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle scan25hits/3representations; originalTableS1 s-oligos/qPCR modified orderings independently checked in workbook context and sourceFig1/SI1XF2 scope. Scraper is a pointer, not evidence or source-absence claim.",
+      "verification": "30focusedPASS including16wholemodifiedorderfixtures andnonnucleotidespacer-tractregression; guard4exact0fail0exceptions/2unknownproductionprimers; chemistry36unresolved0contradictory. Independentselectedcriticalpeerclosed on same3originals after spacerScene andliteral source-pattern refinements, notabsencepass2."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Directlylinkedoriginals enumeratedwithactualgatesversusordinaryunread; no currentrevision/predecessor/fullrecipeequivalence.",
+    "deferred_targets": [
+      "ActualwholeproductionP5/P3primerorders, PCRindexvalues/lengths/readlanding and exactrunlayout remainunassembled; qPCR410ordersnotproductionprimers.",
+      "Sourceprotocols.io XF2https://www.protocols.io/view/flash-zv9f696?version_warning=no ordinaryunread/citedrevisionidentitynotverified, notclaimedblocked.",
+      "Upstreamengineeredcellstocks, exactRNA/protein/cDNA/circle/sealedproducts, occupancy/yields/offproducts andpreciseiSp18atomnomenclature."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-positive partialselectedpreparation only; no complete molecules, finalversionequivalence or acceptedabsence/pass2.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round40_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same closed published PMC7026646 main76\u2013126/150/170\u2013176 and actual Fig1 PDFp2; original Supplementary_Table_1.xlsx raw ZIP/XML whole14 s-oligo and410a/b orders; published Ilik SI actual FigS1 PDFp2 XF2 branch/caption only. No new originals, protocols.io, predecessor, vendor or other recipe opened.",
+    "findings": [
+      "Known source RNA13/DNA37 ordering, 5P/3P and nonnucleotide iSp18 retained. Owner fixed local Scene to show31nt/19nt linker-connected tracts of ONE covalent oligo, avoiding direct nucleotide adjacency across spacer. Local5P end is known; whole occupied fold/junction remains unassembled and exact stem compatibility is only13bp.",
+      "Literal main150 processing pattern NNB1B2NT1T2T3T4T5T6NN and TableS1 NN+[fixed6]+N+[YY/RR]+NN are both preserved after requested clarification. FiveN deduplication, twoRY replicate and fixedsix condition roles are scoped; actual processing coordinate map/read mask remains unassembled.",
+      "Selected XF2 His\u2192Strep capture, RNA trimming, firstATP-freePNK, RNA5P adapter ligation, actual tagged-bead pooling, fresh adapter-deprotectingPNK, PK release and covalently retained DNA3OH self-primed SSIII match selected sources. RNaseH route remains distinct from NaOH/ATP-PNK alternatives; original RNA adapter tags are copied before source intended RNA removal/5PcDNA formation. No fresh external RT primer or perfect conversion asserted.",
+      "Actual9of9.5ul RNA and6of6.5ul cDNA transfers/remainders, circle1ul qPCR/9ul production allocation, actual20ul Q5 master component provenance, qPCR410a/b versus unassembled production P5/P3, twoAMPure cleanups/QC/loading are separate. Source UV value and39ul listed PCR total remain literal. No blocking implementation defect remains in selected scope."
+    ],
+    "verification": "Reran30 focused checks PASS including16 whole original modified-order fixtures and physical spacer-tract regression; independently matched all16 against raw XLSX ZIP/XML. Source guard4 exact checked/0 failed/0 exceptions/2 unknown production primer inputs. Chemistry36 steps/36 unresolved/0 contradictory. Narrow implementation recheck only; no absence pass2, full recipe equivalence or complete chemical audit."
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "dir": "mad-dash__10.1093+nar+gkz425",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mad-dash__10.1093+nar+gkz425/nar_gkz425_PMC6698666.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6698666.1/PMC6698666.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round19",
+        "date": "2026-10-29",
+        "locations": "PublishedVORMethods52\u201362/main study brain/multiplex/bead route; sourceguide preparation scope positive only.",
+        "finding": "Positive selectedsource scope only; unassembled geometry/endpolarity retained, no absence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mad-dash__10.1093+nar+gkz425/nar_gkz425_supp_gkz425_supplemental_files_Hardigan-et-al_MAD_DASH_Supplemental_Materials_v3.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6698666.1/gkz425_supplemental_files.zip#Hardigan-et-al_MAD_DASH_Supplemental Materials_v3.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round19",
+        "date": "2026-10-29",
+        "locations": "PublishedSI1085\u20131468: sourceidentity/reproducedprotocol,adapterpolarity1135\u20131145,allocation1351\u20131354,mainvsSIformulations,cleavage/PK/PCR/cleanup/normalization.",
+        "finding": "Positive selectedsource scope only; unassembled geometry/endpolarity retained, no absence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mad-dash__10.1093+nar+gkz425/nar_gkz425_supp_gkz425_supplemental_files_Hardigan-et-al_MAD_DASH_Supplemental_Tables_v2.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6698666.1/gkz425_supplemental_files.zip#Hardigan-et-al_MAD_DASH_Supplemental_Tables_v2.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round19",
+        "date": "2026-10-29",
+        "locations": "OriginalworkbookTableS1ordering/RT/PCRrows,sharedstrings/rowassociations;Index01wholefixedflanks give7ntCAAACGC,not6ntadapterdiversity.",
+        "finding": "Positive selectedsource scope only; unassembled geometry/endpolarity retained, no absence claim."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "coordinator_round19",
+      "date": "2026-10-29",
+      "locations": "PublishedVORMethods52\u201362/main study brain/multiplex/bead route; sourceguide preparation scope positive only.",
+      "finding": "Source points to Roberts2015,Alon2011 andDASH;direct predecessors remain deferred/no constructors imported. This selected enumeration is not a full linked-source audit."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Three publishedoriginals readwithin cap;privateincomplete mainstudy model with literalSIpolarity/volumewording andsourcevariants;no fullaudit/absenceclaim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "coordinator_round19",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Publishedmain+chemistrySI+oligoworkbook,preprintexcluded; sourceinvestigationclosed.",
+      "locations": "PublishedVORMethods52\u201362/main study brain/multiplex/bead route; sourceguide preparation scope positive only.; PublishedSI1085\u20131468: sourceidentity/reproducedprotocol,adapterpolarity1135\u20131145,allocation1351\u20131354,mainvsSIformulations,cleavage/PK/PCR/cleanup/normalization.; OriginalworkbookTableS1ordering/RT/PCRrows,sharedstrings/rowassociations;Index01wholefixedflanks give7ntCAAACGC,not6ntadapterdiversity.",
+      "findings": "LimitedPCR/Cas9/RNase/PKinactivation/PCR2 physicalorder,sourcecohort/readout,syntheticRNAdiversityvs7ntsampleindex retained;3adapterendpolarityunresolved ratherthansilentlyrepaired.",
+      "deferred": [
+        "DirectRoberts2015/Alon2011 andsourcecitedDASHoriginals",
+        "Authoritativecompleteadapterordering/endchemistry",
+        "CompleteRNA/RT/ligation/PCR/guideinventory/readgeometry",
+        "ExactSIpostMAD20+1+1plus30PCRadditionsversusnominal50ulcleanupallocation"
+      ],
+      "oligo_scraper": "Mandatoryscraperallpublishedbundle;wholeoriginalTableS1rN/RT/PCRrows independentlyreadbycoordinator,13localchecks.",
+      "verification": "13localchecks;sourceguard10checked0failed0exempt;chemical21unresolved0contradictory. Independentselectedimplementationreviewclosed;notfullsourceorabsenceaudit."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_multi_reader_round19",
+    "date": "2026-10-29",
+    "scope": "Publishedmain52\u201362,SI1135\u20131145 andTableS1rN rows; selected implementationreview,notnotes/fullsource/absenceaudit",
+    "finding": "13checks pass;retainedRTprimer,mainstudyallocation/4PCR/cleanup/RNP/RNase/PK/heat/11PCR2/noinventedprePCR2cleanup,serialbeadfractions/QC/pool/sourcevariantsconsistent. Endpolarityunresolvedasprinted;no silent repair or idealdepletion."
+  }
+}

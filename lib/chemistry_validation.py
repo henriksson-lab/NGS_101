@@ -19,6 +19,7 @@ from protocol_graph import (InputRole, MaterialKind, MolecularRelation,
                             ProtocolGraph, StepKind)
 from restriction import Digest, FilledDigest
 from topology import HairpinTopology
+from rna_lariat import RNALariatTopology
 import seqprimers
 
 
@@ -576,6 +577,17 @@ def check_graph(graph: ProtocolGraph) -> tuple[Claim, ...]:
     claims = []
     for material in graph.materials.values():
         state = _chemical(material)
+        if isinstance(state, RNALariatTopology):
+            try:
+                state.validate_connectivity()
+            except ValueError as error:
+                claims.append(Claim(material.id, "declared RNA lariat backbone connectivity",
+                                    Status.CONTRADICTORY, str(error)))
+            else:
+                claims.append(Claim(
+                    material.id, "declared RNA lariat backbone connectivity", Status.ESTABLISHED,
+                    "supplied RNA retains its ordinary backbone and one specified 2′–5′ bond; "
+                    "this does not establish formation, enzyme behavior or source identity"))
         if isinstance(state, Digest):
             claims.append(_cut(material.id, state))
         if isinstance(material.chemical_state, RCAProduct) and isinstance(material.state, Construct):

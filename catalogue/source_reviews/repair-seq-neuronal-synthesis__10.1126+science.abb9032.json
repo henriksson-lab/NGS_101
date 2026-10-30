@@ -1,0 +1,59 @@
+{
+  "dir": "repair-seq-neuronal-synthesis__10.1126+science.abb9032",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9179101.1/PMC9179101.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAMNIHMS1747554main89/Fig1caption270/MatMethdelegation193; final equivalence unverified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "matmeth_si",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9179101/bin/NIHMS1747554-supplement-Figs__S1-S20___Mat___Meth__Refs_.pdf",
+      "availability": "unavailable",
+      "reason": "Actual associated supplementary original gated/TDM; not in PMCCloudobjectset.",
+      "relevance": "relevant",
+      "inspection_scope": "NamedMatMeth original not obtained; associatedmain delegates operative recipe here.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "dna_owner_round33",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedAM coarse positivepreparation only, no final-equivalence claim.",
+      "locations": "AssociatedAMNIHMS1747554main89/Fig1caption270/MatMethdelegation193; final equivalence unverified.",
+      "findings": "Positive EdU24h\u2192genomeisolation/sonication\u2192clickbiotin\u2192streptavidin\u2192amplification sequence; exactMatMeth gated.",
+      "deferred": [
+        "ActualnamedMatMethSI",
+        "Fullcapture/library/primer/rungeometry andfinalversioncomparison"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; relevant TableS4 hits verified inoriginalZIP/XML forNAIL. Emptyentrap/Repair hits not absenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Associatedmainreference12isMatMethSI; actualneededgated. Othercomparators/preprintnotadopted."
+  },
+  "missing_claims": [],
+  "conclusion": "SourcepositiveassociatedAM coarse privatepartial; detailedMatMethblocked, no completeaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round33",
+    "date": "2026-10-30",
+    "documents": 1,
+    "scope": "Same associatedNIHMS1747554/PMC9179101 main89,MaterialsMethodsdelegation193 andFig1caption270 only. Narrow implementation/source-limit recheck only, not pass2 or full linked-source/absenceaudit.",
+    "finding": "Source24hcellularEdUnucleosideincorporation\u2192isolategenomes\u2192sonication\u2192biotinclick\u2192streptavidinboundenrichment\u2192amplification/NGS matches coarse graph. No fresh invitroEdUTP, inheritedadapter/program or false pure-product/occupancy assumed. Non-retainedcapturefraction unresolved; actualnamedMatMethsupplement gated, no finalequivalence. No blocking critical issue in this selected component scope.",
+    "verification": "8focusedPASS."
+  }
+}

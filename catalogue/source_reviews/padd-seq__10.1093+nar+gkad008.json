@@ -1,0 +1,69 @@
+{
+  "dir": "padd-seq__10.1093+nar+gkad008",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/padd-seq__10.1093+nar+gkad008/nar_gkad008_PMC10085696.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10085696.1/PMC10085696.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main91\u2013115/129: sourceproteinChIP\u2192reversecrosslink\u2192damageIP/stalledcopy, comparatorpreparationsseparate.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/padd-seq__10.1093+nar+gkad008/nar_gkad008_supp_gkad008_supplemental_file.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10085696.1/gkad008_supplemental_file.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedTableS1originalp2andwholeSupplementaryProtocol160\u2013413/printedpp13\u201317;originalPCRp16viewed;all5modifiedwholeorderingsandphysicalstocks/QC/sizefractionsverified.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Historicalkit/predecessororiginalsandwholeend/readgeometryunassembled; stock/unitbridgesunassigned, notunavailableinventeddocuments."
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialpreparation; sourceaccess/versionbarriersqualifyselectedscope. No confirmedabsence/fullsourceaudit/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "dna_round29",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main91\u2013115/129: sourceproteinChIP\u2192reversecrosslink\u2192damageIP/stalledcopy, comparatorpreparationsseparate.; PublishedTableS1originalp2andwholeSupplementaryProtocol160\u2013413/printedpp13\u201317;originalPCRp16viewed;all5modifiedwholeorderingsandphysicalstocks/QC/sizefractionsverified.",
+      "findings": "PublishedPolII/CPDNVPsourcepartialgraphwithserialChIP/damageIP,all5modifiedoligos/localadapterendand3Acontact/explicitstockaliquots,stall/ExoI/workups,15productionvs22QCcycles/threewayeluateallocation/two-stagephysicalsizefractions. Literal10mMsourceunitsretained.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round29-dna-original-counts.tsv",
+        "source_investigation_closed": true,
+        "scope_note": "Neworiginalinvestigationclosed; subsequentliteral/model/peerconsistencychecksuseonlysamealreadyreadsections. Noarchitecture/fetcherorrecursivechase."
+      },
+      "oligo_scraper": "MandatoryPADD7hits/3representations,Paireddefault0hits/2largefilesexcludedthen39exacttargetedhandlelocations,DAF28hits/2representations. Hitscheckedagainstselectedoriginals;nomissingclaimfromzeros.",
+      "verification": "62focusedchecks(20PADD/30Paired/12DAF)pass;genericguard11exact0fail0exempt19unassembledinputstates. Narrowpair/endclaimsestablished9/conditional0/unresolved122/contradictory0;fullreaction/sourcevalidationnotclaimed.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/padd-seq__10.1093+nar+gkad008/nar_gkad008_PMC10085696.xml.txt \u2014 Published main91\u2013115/129: sourceproteinChIP\u2192reversecrosslink\u2192damageIP/stalledcopy, comparatorpreparationsseparate.; /husky/henriksson/NGS101_papers/sources/padd-seq__10.1093+nar+gkad008/nar_gkad008_supp_gkad008_supplemental_file.pdf.txt \u2014 PublishedTableS1originalp2andwholeSupplementaryProtocol160\u2013413/printedpp13\u201317;originalPCRp16viewed;all5modifiedwholeorderingsandphysicalstocks/QC/sizefractionsverified.",
+      "deferred": [
+        "Historicalkit/predecessororiginalsandwholeend/readgeometryunassembled; stock/unitbridgesunassigned, notunavailableinventeddocuments."
+      ]
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round29",
+    "date": "2026-10-30",
+    "scope": "SamePADDmain91\u2013115andSI160\u2013413includingrenderedoriginalTableS1p2/PCRp16.",
+    "finding": "Narrowcriticalsource/modelcheckclosed;sourceorder/physicalfractions/stockaliquots/modifiedwholeorderingsverified. Fullsource/reaction/absenceauditnotclaimed."
+  }
+}

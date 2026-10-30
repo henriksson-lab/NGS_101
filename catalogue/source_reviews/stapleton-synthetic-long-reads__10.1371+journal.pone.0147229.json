@@ -1,0 +1,81 @@
+{
+  "dir": "stapleton-synthetic-long-reads__10.1371+journal.pone.0147229",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stapleton-synthetic-long-reads__10.1371+journal.pone.0147229/journal.pone.0147229_PMC4720449.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published original (author manuscriptFalse),Results105–139/Fig1 and Methods183–212 genomicpreparation,two/single-tubepairing,complexity,mRNAfront and multiplexing;ref27/36 identities only."
+    },
+    {
+      "id": "s13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stapleton-synthetic-long-reads__10.1371+journal.pone.0147229/journal.pone.0147229_supp_pone.0147229.s030.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedS13Table alloligo/keyinventory;selectedOligo1secondvariant,Oligo2unambiguousinternal-dUvariant,Oligos3–10and12–13 ordering/modifications verified. Index key explicitly6baseTruSeqSmallRNAindex. Remainingvariant applicability/actualselectedsamplevalues unresolved."
+    },
+    {
+      "id": "s1note",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stapleton-synthetic-long-reads__10.1371+journal.pone.0147229/journal.pone.0147229_supp_pone.0147229.s017.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedS1Note entire2paragraphsingle/two-tubebarcodepairing discussion;experimentassignment,twosequencingregionvariants,hairpin rationale and SapIbranch physicalsplit."
+    },
+    {
+      "id": "smartseq2_detailed",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nprot.2014.006",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Methods RNAfront explicitly essentially asref36withmodifiedprimers;exact2014detailed RT original and reagent/version applicability not read. Retrieval deferred bycap,not an observed access failure.",
+      "reason": "Methods RNAfront explicitly essentially asref36withmodifiedprimers;exact2014detailed RT original and reagent/version applicability not read. Retrieval deferred bycap,not an observed access failure."
+    },
+    {
+      "id": "smartseq2_defining",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nmeth.2639",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Results139 explicitly modifiesSmartseq2ref27 forbarcodedRT/secondstrand;definingoriginal notread inthissourcepass,no hiddenrecipeimport.",
+      "reason": "Results139 explicitly modifiesSmartseq2ref27 forbarcodedRT/secondstrand;definingoriginal notread inthissourcepass,no hiddenrecipeimport."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Three sourcevariant graphs keptindependent:genericDNA2tube(default),RNA2tubecitedRTfront,andDNA1tube. Publishedmethodreadoutoperationalcontinuity included,unassembledpolymer/end/USER/circle/readgeometrykeepspreviewsprivate.",
+      "locations": "Published original (author manuscriptFalse),Results105–139/Fig1 and Methods183–212 genomicpreparation,two/single-tubepairing,complexity,mRNAfront and multiplexing;ref27/36 identities only.; PublishedS13Table alloligo/keyinventory;selectedOligo1secondvariant,Oligo2unambiguousinternal-dUvariant,Oligos3–10and12–13 ordering/modifications verified. Index key explicitly6baseTruSeqSmallRNAindex. Remainingvariant applicability/actualselectedsamplevalues unresolved.; PublishedS1Note entire2paragraphsingle/two-tubebarcodepairing discussion;experimentassignment,twosequencingregionvariants,hairpin rationale and SapIbranch physicalsplit.",
+      "findings": "dT-tailedgenomicDNA ligates extendedbarcodeadapters;singleprimerdU LongAmpPCR→USER→fragmentase/EDTA/cleanup→E.coliligase→biotin-dCTP-only T4/Klenowstage→remainingdNTPs→cleanup→diluteT4dsDNAcircle→T5/column→Covarisshear→streptavidincapture. Two-tubeseparate15%beadsbeforemainrepair;SapI/pairadapter/lcPCR/retainsupernatant/cleanup→1–5%actualrunpool. Single-tubedistinctadaptervariants+Oligo10,no15%split. Physical5P/PS/deoxyU/ribo/LNA metadata retained inactualScene inputs;modifications not copied into unknownproducts. Index6independently sourced and main/pairindices mustdiffer.",
+      "deferred": [
+        "All full strand/end/USERcut/biotin/circle/ligation/primer/read geometry",
+        "RemainingS13variant applicability and S14multiplexingoligos",
+        "S1–S3/S12andsingle-tube rendered figures;remaining original sections",
+        "Directly cited2014full-lengthRTprotocol and definingSmartseq2original",
+        "Historical kit sources and independentlinked-source review"
+      ],
+      "verification": "LocalSubassembly12+Stapleton20=32checks pass;bothprivatebuilds pass;sourceguard21checked0failed0unrepresented0exceptions;pairing0;scopedchemistry6established(pairing-only),91unresolved,0contradictory. Molecular/sourcecompleteness not implied. Additional explicitvariant transcription passes:dna_single_tube8checked/rna_two_tube10checked,both0failed0skipped0unrepresented;defaultguarddoesnotauto-discover parameterizedvariants.",
+      "oligo_scraper": "/tmp/round09-stapleton-hits.log;20oligolikehits across3files;S13selected oligos/modifications andsixbaseIndexkey verified inoriginalTable,not inferredfromscraper."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Source-cited predecessors and source-version boundaries enumerated;remaining chemistry-relevant originals/figures are pending,not accepted absence. No inherited sharedkit recipe supplies unknowns."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "All full strand/end/USERcut/biotin/circle/ligation/primer/read geometry",
+    "RemainingS13variant applicability and S14multiplexingoligos",
+    "S1–S3/S12andsingle-tube rendered figures;remaining original sections",
+    "Directly cited2014full-lengthRTprotocol and definingSmartseq2original",
+    "Historical kit sources and independentlinked-source review"
+  ],
+  "index_width_validation": "Source S13 Index=n-base key is parsed;both actual model primer feature widths are compared to that source value. Unknown-width generic matching alone cannot establish the width."
+}

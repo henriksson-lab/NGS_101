@@ -1,0 +1,82 @@
+{
+  "dir": "msr-seq__10.1038+s41467-022-30261-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9072684.1/PMC9072684.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain49–65/165–203/301; actualFig1 PDFp3; CMC315 meaning context only, not merged preparation.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9072684.1/41467_2022_30261_MOESM8_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualSupplementaryData5 originalmodifiedCHO/L2/PCR ordering sheets; read1/read2 and3nt/4nt families kept separate.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9072684.1/41467_2022_30261_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualSI1Figure1 controls/caption includingrU-versusdT oxidation, on-beadRT/CIP and optional branches.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "targeted_owner_round39",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published selected originals only; source investigation closed before implementation, not a complete chemistry/source/absence audit.",
+      "locations": "Publishedmain49–65/165–203/301; actualFig1 PDFp3; CMC315 meaning context only, not merged preparation.; ActualSupplementaryData5 originalmodifiedCHO/L2/PCR ordering sheets; read1/read2 and3nt/4nt families kept separate.; ActualSI1Figure1 controls/caption includingrU-versusdT oxidation, on-beadRT/CIP and optional branches.",
+      "findings": "Actual source-defined physical preparation and modified library oligo roles read; no source absence, precursor constructor or modern kit defaults inferred. See note for selectedbranch and source discrepancies.",
+      "deferred": [
+        "Full product molecules and actual sampleCHO/index pairings/read landing; complete native hairpin/RNA occupied geometry.",
+        "Optionalperiodate/β-elimination/CMC/AlkB/overnightRT/mRNA branches not merged; CMC-specificN6UMI meaning not automatically transferred.",
+        "HistoricalSSIVVILO/vendor internals ordinary unread; actual same master components do not establish whole occupied substrate/product."
+      ],
+      "oligo_scraper": "Mandatory bundle scan completed; source orderings verified against selected original library tables, unrelated analytical/alternative oligos not assigned to selected library.",
+      "verification": "15focusedPASS including4wholemodifiedoriginalworkbookorders and completeCHOmodeledpolymer/tokencomparison; sourceguard2exact0fail/1internalbiotindT-nucleotideexception/1unrepresentedN6L2input. Chemistry29unresolved0contradictory. Independent selected implementation peer pending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Directly linked source/vendor targets ordinary unread outside selected capped scope; no accepted absence claim.",
+    "deferred_targets": [
+      "Full product molecules and actual sampleCHO/index pairings/read landing; complete native hairpin/RNA occupied geometry.",
+      "Optionalperiodate/β-elimination/CMC/AlkB/overnightRT/mRNA branches not merged; CMC-specificN6UMI meaning not automatically transferred.",
+      "HistoricalSSIVVILO/vendor internals ordinary unread; actual same master components do not establish whole occupied substrate/product."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-positive selected preparation only; full molecules/reactions/readout and directly linked depth-one follow-up remain unassembled. No accepted absence/pass2.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round39_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same3closedpublishedoriginalsonly: PMC9072684main165–203/301plus315CMCmeaningcontext, actualFig1PDFp3render; MOESM8Data5rawZIP/XMLRead2-4ntCHObc1B3/Read1L2B16 andcustomPCRD3-D4/header. Otherfirstfewbarcodefamilyrows/3ntfamilyheaderandfirstrows incidentallyreadinthissameworkbook, notimported. MOESM1SI1Fig1controlscaption35–52. No neworiginals/network/vendor/predecessororwholeabsenceaudit.",
+    "findings": [
+      "IndependentlyverifiedwholemodifiedData5orders: CHO5P/rA, internalbiotin-dTphysicalnucleotideatindex27, terminalrU/3P; L2N6/fullDNAorderingandadditionalterminalphysicalddC; customPCRprimerbodydistinctfromcommercialRPLbody. NarrowiBiodTtextguardexceptionisjustifiedbyrawsourceorderandcompletepolymer/tokentest.",
+      "Main/actualFig1andSIcontrolsagreewithsourceCIPremovalofCHO3P andintramolecularCHOpriming, noexternalRTprimeradded; RNaseHfollowedbyperiodateblocksremainingRNA-rU3OHclasses whileDNA-endedcDNAremainsligation-eligible. Completeoccupiedfold/junction/productgeometryandconversionremainunassembled; foldconstructorinferredbydefault.",
+      "ActualC1capture/unboundremoval, optionalbarcodedbeadpool/contributionremainders,5–10percentbeadslurryPCRallocationanduntransferredstock, off-beadPCR/column/gelworkupfates areexplicit. No perfectselection/recovery orimaginedbeadreleaseprogramme isclaimed.",
+      "SourceONE5ulSSIVVILOmasterprovidescopresentenzyme/nucleotide/othersupplies. Main199specifiesQ5polymerase/dNTP/bufferrecipewithoutassertingcommercialpremixpackaging; modeldoesnotinventone. StandardshortRT/Read2referenceCHO/I1reference andN6readcomplexity remainqualified; main315CMC-specificN6UMI/100bpreadcontextnotmergedintobaseline.",
+      "No blockingimplementationdefectfoundwithinselectedscope; source3nt/4ntandRead1/Read2families, treatment/overnightRTbranchesandwholeexperimentalindexpairingremainseparate/unassigned. No code/notechange requested."
+    ],
+    "verification": "Reran15focusedchecksPASS; sourceguard2exactchecked/0failed/1independentlysourceverifiedinternalbiotindTexception/1N6L2unrepresentedinput; chemistry29steps/29unresolved/0contradictory. Narrow implementationpeeronly, notabsencepass2orcompletechemical/sourceaudit."
+  }
+}

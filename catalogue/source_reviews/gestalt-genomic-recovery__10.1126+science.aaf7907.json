@@ -1,0 +1,69 @@
+{
+  "dir": "gestalt-genomic-recovery__10.1126+science.aaf7907",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gestalt-genomic-recovery__10.1126+science.aaf7907/science.aaf7907_PMC4967023.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Accepted author manuscript, TDM: Results 65\u201387; v1 cell-culture single-extension 10 nt UMI paragraph 79; separate v6/v7 zebrafish recovery 87. No detailed Methods are supplied by this original."
+    },
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://shendure-web.gs.washington.edu/documents/mckenna_science_2016.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Standard fetch returned HTML rather than PDF; final published main remains unread.",
+      "reason": "Standard fetch returned HTML rather than PDF; final published main remains unread."
+    },
+    {
+      "id": "methods_docx",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4967023/bin/NIHMS789616-supplement-supplemental_figures_and_methods.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual PMC preparing-to-download gate; named Methods and Fig. S4A original not read.",
+      "reason": "Actual PMC preparing-to-download gate; named Methods and Fig. S4A original not read."
+    },
+    {
+      "id": "tables_xlsx",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4967023/bin/NIHMS789616-supplement-supplemental_tables.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual PMC download gate; named original tables not read.",
+      "reason": "Actual PMC download gate; named original tables not read."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Conditional accepted-manuscript v1 cell-culture recovery: single-extension UMI tagging, targeted PCR and reported NGS. Recorder creation is separate upstream context. Detailed unavailable Methods prevent full recipe assembly.",
+      "locations": "Accepted author manuscript, TDM: Results 65\u201387; v1 cell-culture single-extension 10 nt UMI paragraph 79; separate v6/v7 zebrafish recovery 87. No detailed Methods are supplied by this original.",
+      "findings": "Inherited array uses lineage_barcode, separate from the 10 nt recovery UMI. Wild-type 257 bp context is not assigned to edited allele length. No cleanup, enzyme, read layout or later CARLIN/scGESTALT recipe is invented.",
+      "deferred": [
+        "Final published article and actual defining Methods DOCX/table XLSX",
+        "Document-version applicability and exact recorder/primer/extension/PCR/workup/read geometry",
+        "Directly linked chemistry sources and independent review"
+      ],
+      "verification": "Local GESTALT 6 + LINNAEUS 12 + CARLIN 12 = 30 checks pass; three private builds pass; default source guard 3 exact primers checked, 0 failed/exemptions, 9 unassembled inputs; pairing 0; scoped chemistry 0 established, 29 unresolved, 0 contradictory. These checks do not establish complete source or molecular coverage.",
+      "oligo_scraper": "/tmp/round10-gestalt-hits.log: no exact oligo hit in the available bundle; this does not establish absence. The actual detailed originals are gated."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actual source identities, versions and access limitations enumerated. Final chemistry is not supplied by superseded preprints, a platform name or related-method defaults."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Final published article and actual defining Methods DOCX/table XLSX",
+    "Document-version applicability and exact recorder/primer/extension/PCR/workup/read geometry",
+    "Directly linked chemistry sources and independent review"
+  ]
+}

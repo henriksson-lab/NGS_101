@@ -1,0 +1,50 @@
+{
+  "dir": "photon__10.1038+s41467-025-59801-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12078482.1/PMC12078482.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainFig1/Methods192\u2013222 selectedHeLaSGroute"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12078482.1/41467_2025_59801_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI/Table1 originalp6 wholemodifiedorderings; Table text checked against rendering"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedmainFig1/Methods192\u2013222 selectedHeLaSGroute; PublishedSI/Table1 originalp6 wholemodifiedorderings; Table text checked against rendering",
+      "findings": "In-situ reverse transcription with two dual-caged primers, spatial uncaging, post-lysis splinted handle ligation and biotin capture precede continued template switching, analytical-PCR-guided amplification, kit finishing and a selected DASH depletion route.",
+      "deferred": [
+        "Full linked-source review and molecular/read geometry; no absence conclusions."
+      ],
+      "oligo_scraper": "Mandatory source-bundle scraper executed; only selected original source pointers were evidence. All used modifications/orderings checked against selected originals.",
+      "locations": "PublishedmainFig1/Methods192\u2013222 selectedHeLaSGroute; PublishedSI/Table1 originalp6 wholemodifiedorderings; Table text checked against rendering",
+      "verification": "44focusedchecks(PHOTON12/PSS16/PBA16);sourceguard9exact0failed0exceptions2unassembledover2graphs;scopedchemistry2established/57unresolved/0contradictory. PSS helper-only; complete products/read geometry unassembled."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Cited precursor/vendor and additional source details not recursively pursued; selected capped pass only."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round27",
+    "date": "2026-10-30",
+    "scope": "Publishedmain192\u2013222 andmain62/ref17; originalSI Table1p6render. Same2selectedoriginals; no kit/guide-panel/linked-sourceaudit.",
+    "finding": "DualcagedRTmodifiedorderings,postlysisadapter50ulstock/10ulallocation,knownlocal15+15splintnick,biotincapture,continuedRT/TSO,5cycleQCallocation/continuedPCRandselectedDASHroute consistent. SourcePSSancestrylimitedtoimaging/photoselectiondesign, notTn5/RTchemistry. Fullstates/cyclemaskunassembled; selectedcriticalscopeclosed."
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "dir": "hybriseq__10.1038+s42003-025-08702-8",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12365068.1/PMC12365068.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main125\u2013190 selected standard96well DNA-probe/cellular preparation; bulkRNaseH/independentRNAseq/tiling comparators separated."
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12365068.1/42003_2025_8702_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Data1/2/6\u20139 selected headers/wholeprobe/common/linker3P/quencher/representativeA1barcodeorderings; analytical Data10 identities distinguished."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main125\u2013190 selected standard96well DNA-probe/cellular preparation; bulkRNaseH/independentRNAseq/tiling comparators separated.; Published Data1/2/6\u20139 selected headers/wholeprobe/common/linker3P/quencher/representativeA1barcodeorderings; analytical Data10 identities distinguished.",
+      "locations": "Published main125\u2013190 selected standard96well DNA-probe/cellular preparation; bulkRNaseH/independentRNAseq/tiling comparators separated.; Published Data1/2/6\u20139 selected headers/wholeprobe/common/linker3P/quencher/representativeA1barcodeorderings; analytical Data10 identities distinguished.",
+      "findings": "Published adjacent RNA-splinted DNA-probe reporter ligation followed by two in-cell split-pool ligation barcode rounds and a third-well PCR/Illumina adapter PCR; actual plate/product scope remains partial.",
+      "deferred": [
+        "PublishedSI1 ordinaryunread; exactwholeproductionP5/P7,96wellfractions/allpoolmembers,sealedreporters/readlandingunassembled.",
+        "Source main calls leftcommon partialNextaraRead2, literalpublishedworkbook retained without architecture inheritance; firstpooltemperaturestringunassigned.",
+        "Automatically fetched superseded preprint excluded as authority; no full source/absence audit."
+      ],
+      "verification": "32focusedchecks(Hybri16/TaDRIM16)pass;two-graphsourceguard8exact0failed0exceptions1unassembledinput;scopedchemistry9established1conditional65unresolved0contradictory.Narrowrelationsonly,notcomplete reactionvalidation.",
+      "oligo_scraper": "MandatoryHybribundle205candidates/4representations;TaDRIM45/4 plus2largefilesnormalcap-skipped. Only selectedoriginals verified as evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped selectedsource/implementationpass; deferred originals/component values do not establish absence. No full linked-source review."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round31",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Narrowselectedpublishedsource/modelcriticalreviewonly;combinedsourcecap2unchanged,notcompleteallsource,linked-information,chemistryorabsenceaudit.",
+    "finding": "Coordinator read same publishedmain125\u2013177/Illumina paragraph plus actualMOESM3KIF23row5/Data6whole3P linkers/quenchers/representativebarcodes. Literalcommonhandle, inferredRNApair/5Prightprobe, source randomUMI8, opaqueplatepools and .5ng/QC/pellet/adapterPCRsourceconsistent. BulkRNAseqcomparators notmerged; fullproductionprimers/wholeproducts remainunassembled.",
+    "verification": "32focusedchecks(Hybri16/TaDRIM16)pass;two-graphsourceguard8exact0failed0exceptions1unassembledinput;scopedchemistry9established1conditional65unresolved0contradictory.Narrowrelationsonly,notcomplete reactionvalidation."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "dir": "chem-seq__10.1038+nbt.2776",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nbt.2776.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "OfficialdeclaredPDFstandardfallbackreturnedHTMLnotPDF; publisherpagerequiredidentityendpoint. Fullfinalbodyunread, no bypass.",
+      "inspection_scope": "Publishedtitle/DOIidentityfromselectedledger andfailedmainidentity/bodyattempt only; notchemistryauthority.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "associated_am",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4189815.1/PMC4189815.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAMPMC4189815/NIHMS616754 titleGenome-wide determination of drug localization; Methods114\u2013120/Results60\u201364/actualsameAMFig1PDFp14. PublishedfinaltitleGenome-wide localization of small molecules; nofullfinal/AMequivalence.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_si5",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2776/MediaObjects/41587_2014_BFnbt2776_MOESM5_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI5actualPDFp3 bio-JQ1(S/R) andbio-AT7519 synthesis/chemicalmarks; selectedpreparedbio-JQ1capturehandleclass only. Compoundfactory/othercomparativeSIresults notmerged.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-42",
+      "reviewer": "round42_multi_owner",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Twoactualpreparationoriginalsread plusoneconservativefailedpublished-mainidentityslot, within10min/3identitycombinedcap. Sourcepassclosedbeforeimplementation.",
+      "locations": "Publishedtitle/DOIidentityfromselectedledger andfailedmainidentity/bodyattempt only; notchemistryauthority.; AssociatedAMPMC4189815/NIHMS616754 titleGenome-wide determination of drug localization; Methods114\u2013120/Results60\u201364/actualsameAMFig1PDFp14. PublishedfinaltitleGenome-wide localization of small molecules; nofullfinal/AMequivalence.; PublishedSI5actualPDFp3 bio-JQ1(S/R) andbio-AT7519 synthesis/chemicalmarks; selectedpreparedbio-JQ1capturehandleclass only. Compoundfactory/othercomparativeSIresults notmerged.",
+      "findings": "ActualAMJQ1in-vivo/in-vitrocapturebranches sourcequalified; publishedSIprobehandlecomponentverified. Distinctcovalentbiotinlinkage/noncovalentdrugtarget/FAproteinDNA/streptavidinaffinity relations, sourceBSA/blockedbeads/retainedeluate/residuals explicit. No genericChIPNGSrecipe/fullfinalequivalence inherited.",
+      "deferred": [
+        "ActualfullpublishedmainPDFneededforversionverification; operationalrecipequalifiedtoassociatedAMonly.",
+        "AMsupplementNIHMS616754-supplement-1, citedDNApurification34/sequencing33/vendor/predecessor originalsordinaryunread.",
+        "ExactoccupiedDNA/ligand/proteincomplexes/crosslinkatommap/recovery/yield andhistoricalNGSlibraryadapters/PCR/platform/readgeometryunassembled.",
+        "AT7519/psoralen/photoreversal/inactiveenantiomer/vehicle/antibodyChIPcomparisons remainseparate, no branchparametermerging."
+      ],
+      "oligo_scraper": "Mandatorywholebundle /tmp/ngs42-chem-scraper.log:0sequencehits/0hitfiles, despiteactualdownloadedoriginals present. Notasequenceabsenceclaim.",
+      "verification": "19focusedchecksPASS sourceAMidentity/literal10percentSDS/2x10^8cells/200uMbeadloading andactualprobe/BSA/capture/eluate/stockfates. Guard0exactchecked/0failed/noexactsourceoligorepresented; defaultgraph17steps/17unresolved/0contradictory. Note/refbuilt/schemaPASS; independentselectedpeerpending. Noabsencepass2/fullchemicalaudit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Citedpurification/sequencingoriginals33/34ordinaryunread, notinventeddisclosuretargets. FullfinalmainactualfailedneededURL retained; no acceptedabsence.",
+    "deferred_targets": [
+      "ActualfullpublishedmainPDFneededforversionverification; operationalrecipequalifiedtoassociatedAMonly.",
+      "AMsupplementNIHMS616754-supplement-1, citedDNApurification34/sequencing33/vendor/predecessor originalsordinaryunread.",
+      "ExactoccupiedDNA/ligand/proteincomplexes/crosslinkatommap/recovery/yield andhistoricalNGSlibraryadapters/PCR/platform/readgeometryunassembled.",
+      "AT7519/psoralen/photoreversal/inactiveenantiomer/vehicle/antibodyChIPcomparisons remainseparate, no branchparametermerging."
+    ]
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.nature.com/articles/nbt.2776.pdf",
+      "why": "ActualdeclaredpublishedmainPDFreturnedHTMLnotPDF; fullfinal/associatedAMpreparationequivalenceunverified."
+    }
+  ],
+  "conclusion": "SourcequalifiedassociatedAMJQ1chemicalcapturepreparationcollectedasprivatepartialgraph; historicalDNApurification/NGSfinishing/fullmoleculesunassembled.",
+  "independent_implementation_recheck": {
+    "reviewer": "dna_peer_round42",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Same associatedAM PMC4189815/NIHMS616754 Methods114\u2013120 and actualFig1originalPDFp14; same publishedSI5 actualp3 synthesis scheme. No finalmain/predecessor/vendor/neworiginal opened.",
+    "findings": [
+      "Verified simultaneous in-vivo5uMbio-JQ1/1%FA20min versus separate in-vitro preloadedbead route. ActualPEG-amide-biotin smallmolecule and noncovalentBETtargetbinding remain distinct from nucleotide identifiers and protein/DNAformaldehyde classes.",
+      "ActualBSA-blockedT1stock/sourceinvitro200uM6hpreloading andfourwashfractions precede capture; no fictitious invivo freshprobe loading orpreblockwash. Actualclearedsonicatesupernatant, captureunboundfraction, source10%SDS65C15mineluate/residualbeadfate andovernightreversecrosslink/RNase/PK order agree with selectedAM.",
+      "PurifiedDNAallocation/NGSfinishing is explicitly boundedopaqueinterface, not borrowedAT7519Illumina/PCRrecipe orwholepurportedcompleteDNAproduct. Publishedtitle/AMtitle distinction preserved; finalbodyequivalence unresolved. No complete source/chemical/absence audit."
+    ],
+    "verification": "Independently reran19focusedPASS; defaultsourceguard0exact0failed scoped to no declaredoligoorders; defaultchemistry17steps/17unresolved/0contradictory. Same2original criticalimplementationreview closed."
+  }
+}

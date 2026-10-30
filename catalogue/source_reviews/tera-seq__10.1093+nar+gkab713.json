@@ -1,0 +1,135 @@
+{
+  "dir": "tera-seq__10.1093+nar+gkab713",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/(duplicate) PMC8599856_PMC8599856.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/PMC8599856.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; version and chemistry not inspected",
+      "reason": "Unreviewed original, not judged irrelevant; article PDF (PMC Cloud); same source URL already saved as nar_gkab713_PMC8599856.pdf",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/(duplicate) PMC8599856_PMC8599856.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/PMC8599856.1.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; version and chemistry not inspected",
+      "reason": "Unreviewed original, not judged irrelevant; full-text JATS XML (PMC Cloud); same source URL already saved as nar_gkab713_PMC8599856.xml",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/nar_gkab713_PMC8599856.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/PMC8599856.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; version and chemistry not inspected",
+      "reason": "Unreviewed original, not judged irrelevant; article PDF (PMC Cloud)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/nar_gkab713_PMC8599856.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/PMC8599856.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published final article PMC8599856",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/nar_gkab713_supp_gkab713_supplemental_files_Supplement_TERA-Seq.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/gkab713_supplemental_files.zip#Supplement_TERA-Seq.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published supplementary information",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/nar_gkab713_supp_gkab713_supplemental_files_Supplementary_Table_1-Updated3.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/gkab713_supplemental_files.zip#Supplementary_Table 1-Updated3.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SupplementaryTable1",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tera-seq__10.1093+nar+gkab713/nar_gkab713_supp_gkab713_supplemental_files_Supplementary_Table_2_Updated_with_CTRL.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8599856.1/gkab713_supplemental_files.zip#Supplementary_Table 2_Updated_with CTRL.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; version and chemistry not inspected",
+      "reason": "Unreviewed original, not judged irrelevant; supplementary file (PMC Cloud) (from the zip)",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "HistoricalSQK-RNA001/SQK-RNA002 originals and corresponding motor/RTA details; exact product/version applicability unreviewed.",
+      "scope": "Actual cited/deferred component or open assignment; no claimed missing disclosure document."
+    },
+    {
+      "locator": "Published reference9/43 antisense-probe subtraction component originals; source main establishes retained unbound fraction, not full probe chemistry.",
+      "scope": "Actual cited/deferred component or open assignment; no claimed missing disclosure document."
+    },
+    {
+      "locator": "SupplementaryTable2 and supplementaryFigures1\u20136 remain unreviewed; no absence or independent irrelevance conclusion.",
+      "scope": "Actual cited/deferred component or open assignment; no claimed missing disclosure document."
+    }
+  ],
+  "conclusion": "Source-positive private incomplete model with published version and actual branches retained. No full source review, public promotion or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-22",
+      "reviewer": "round22_RNA_source_reader",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Capped10min/three-original investigation including administrative source identities; no recursive followup. Implementation consistency verified separately.",
+      "locations": "Methods59\u201373 and Results147/163: RNApreparation, sixend-selectionroutes, kit/acquisition and actual retainedfractions.; Whole adapter table; raw XLSX underlined rich-text runs examined for RTA bottom binding arm.; Identity/contents and SupplementaryNote firsttwo pages only; adapter-detection thresholds are computational, not chemistry.",
+      "findings": "Positive method-specific preparation boundaries and source-qualified oligos recorded in note; no unreviewed-source absence inferred.",
+      "deferred": [
+        "HistoricalSQK-RNA001/SQK-RNA002 originals and corresponding motor/RTA details; exact product/version applicability unreviewed.",
+        "Published reference9/43 antisense-probe subtraction component originals; source main establishes retained unbound fraction, not full probe chemistry.",
+        "SupplementaryTable2 and supplementaryFigures1\u20136 remain unreviewed; no absence or independent irrelevance conclusion."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle scrape completed. Used sequences verified in originals; circTableS1p2rendered,TERAXLSXunderlining directly inspected. Scraper hits never source facts by themselves.",
+      "verification": "31focusedchecks (TERA12/circ12/Yu7);6exactsourceinputs/0failed/0exempt/9unassembled;1narrowduplexrelation55unresolved0contradictory chemistryclaims. Independentcriticalimplementationreviewsclosed;notfullsource/absenceaudits."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent round22 DNA implementation reader",
+    "date": "2026-10-30",
+    "scope": "TERApublishedmain59\u201373/wholeTableS1; circpublishedmain150\u2013160/SupplementaryMethod1\u201312/TableS1originalp2rendered;Yupublishedmain77\u201399/126\u2013130/299. Criticalsource/order/fate review, not independent full original/linked audit.",
+    "finding": "31focusedchecks pass; nativeRNA/RNA-DNAadapters/actualTERAbranchcapture, circdiversityoffset/sampleindex/parallelPCR, and YuScriptSeqversusSMARTer branches preserved. CircRNAcircle has no inventedadapter. ParallelPCRreferences enzyme alreadyinmastermix ratherthannewstocks. Yu\u221280Cstorageexplicit and no globalPNKabsenceclaim. No consequential defect remains in selected reviewed scope."
+  }
+}

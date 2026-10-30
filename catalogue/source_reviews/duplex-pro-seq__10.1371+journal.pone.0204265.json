@@ -1,0 +1,91 @@
+{
+  "dir": "duplex-pro-seq__10.1371+journal.pone.0204265",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/duplex-pro-seq__10.1371+journal.pone.0204265/journal.pone.0204265_PMC6168144.xml.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6168144/",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published PLoSONE2018 PMC6168144 main Results70\u201399/Methods194\u2013226 and S2Fig caption284\u2013286. DNA Pro-Seq, not RNA run-on PRO-seq. S1/S2/S3workbook headers administratively inspected; four-original cap overrun recorded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "workbook_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/duplex-pro-seq__10.1371+journal.pone.0204265/journal.pone.0204265_supp_pone.0204265.s001.xlsx.txt",
+      "original": "https://journals.plos.org/plosone/article/file?type=supplementary&id=10.1371/journal.pone.0204265.s001",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published workbook header inspected administratively; no full chemistry/irrelevance audit; counts toward cap",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "workbook_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/duplex-pro-seq__10.1371+journal.pone.0204265/journal.pone.0204265_supp_pone.0204265.s002.xlsx.txt",
+      "original": "https://journals.plos.org/plosone/article/file?type=supplementary&id=10.1371/journal.pone.0204265.s002",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published workbook header inspected administratively; no full chemistry/irrelevance audit; counts toward cap",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "workbook_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/duplex-pro-seq__10.1371+journal.pone.0204265/journal.pone.0204265_supp_pone.0204265.s003.xlsx.txt",
+      "original": "https://journals.plos.org/plosone/article/file?type=supplementary&id=10.1371/journal.pone.0204265.s003",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published workbook header inspected administratively; no full chemistry/irrelevance audit; counts toward cap",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_s2figure",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6168144/bin/pone.0204265.s005.tif",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6168144/bin/pone.0204265.s005.tif",
+      "availability": "unavailable",
+      "reason": "Standard source fetcher returned gated PMC download; original TIFF not inspected.",
+      "relevance": "relevant",
+      "source_version": "Published S2Fig PCR/sequencing architecture; caption in already-read main only",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive published preparation; private partial graph. No full-source, missing-information or public-promotion claim. Actual needed original architecture/oligo supplement has a recorded access barrier; source-positive selected preparation remains counted, no absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "dna_round23",
+      "date": "2026-10-30",
+      "documents": 4,
+      "scope": "FOUR ORIGINALS: cap overrun from main plus three workbook headers; stopped further investigation. Not strict-capped completion.",
+      "locations": "Published PLoSONE2018 PMC6168144 main Results70\u201399/Methods194\u2013226 and S2Fig caption284\u2013286. DNA Pro-Seq, not RNA run-on PRO-seq. S1/S2/S3workbook headers administratively inspected; four-original cap overrun recorded.",
+      "findings": "Duplex Proximity Sequencing \u2014 targeted droplet route",
+      "deferred": [
+        "Published S2Fig original TIFF gated; actual gene-specific primer and custom read-primer identities/whole PEG complex geometry unassembled. No additional source acquisition after administrative four-original overrun."
+      ],
+      "oligo_scraper": "Mandatory scraper run and relevant main-source literals verified; not absence evidence.",
+      "verification": "25focusedchecks across3DNAgraphs pass; sourceguard7exact0failed8unassembled; chemistry0established0conditional65unresolved0contradictory. Independent selected-source critical review closed; no complete molecular validation."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna23_reader",
+    "date": "2026-10-30",
+    "scope": "Selected published main critical implementation review; not full linked-source or absence audit.",
+    "finding": "Publishedmain194\u2013226:non-denaturedDNA/dropletPCR/PEGtwoarm-senseuncertainty/T7+RecJcleanup/customMiSeqindex timing correct; source NaOH\u2192PhiX\u2192HCl/HT1 order corrected after independent review."
+  }
+}

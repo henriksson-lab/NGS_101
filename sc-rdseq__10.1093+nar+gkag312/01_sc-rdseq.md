@@ -1,0 +1,41 @@
+# sc-rDSeq
+
+[Sun et al., sc-rDSeq: a robust and cost-effective full-length total RNA sequencing method for single cells reveals multilayered heterogeneity in drug-resistant lung cancer cells](https://doi.org/10.1093/nar/gkag312), Nucleic Acids Research2026.
+
+🟢 Closed three-original source pass: published PMC13076218 Introduction70–76/Methods98–142; published supplementary_data.pdf, actual FigureS1p2 and TableS1p20; published nested SupplementaryFile2 barcode-primer archive member `rDS_220.xlsx`, first-sheet header/rows1–6 only. Its first ordering is rDS1 `TGC GCA NNN`, with printed complement `NNN TGC GCA`. Other barcode XLS files, cost workbook, later Biomethods protocol, vendor and predecessor originals were not opened. Mandatory bundle-scraper pointers were verified against the selected originals. This is a private partial model.
+
+## Preparation boundary
+
+🟢 The defining article explicitly builds on inDrops, modifying capture-primer design and preparation. A selected220-member rDS pool and polyT5C8N are installed at4:1 onto three-round split-pool hydrogel primers. Two barcode rounds precede mixed capture-primer extension; UV release and ramped droplet RT capture RNA beyond poly(A) termini. Source IVT amplification feeds fragmented-aRNA/random-primed second RT and indexed PCR. This physical capture/factory/library boundary supports a distinct method beyond the lung-cancer application. The complete inDrops route between first RT and IVT remains delegated and unassembled. Main reference18 (lines416–420) identifies Zilionis et al.2017, [Single-cell barcoding and sequencing using droplet microfluidics](https://doi.org/10.1038/nprot.2016.154), locally registered as inDrop v2. This is a source-documented method-development/delegated-stage relationship only; no complete primer factory, readout or molecular constructor is inherited.
+
+🟢 TableS1 gives acrydite primer `/5ACryd/iSpPC/CGATGACGTAATACGACTCACTATAGGGATACCACCATGGCTCTTTCCCTACACGACGCTCTTC`. Acrydite supplies hydrogel attachment and iSpPC is the photocleavable spacer; neither is an appended DNA nucleotide. FigureS1 shows T7-promoter/PE1 regions and three extension rounds. Star notation means **reverse complement**, not phosphorothioate. Main4:1 agrees with FigureS1's80%/20%. Complete barcode assignments and assembled bead molecules remain unassembled.
+
+## Hydrogel primer factory
+
+🟢 Begin with polymerized acrydite-primer hydrogels, prepared by cited methods, kept dark/UV-filtered. For each of the first two rounds, distribute6µl bead mixture with2.5×isothermal buffer/0.85mM dNTP into384 wells, approximately40,000beads/well. Add9µl50µM unique BC1 or BC2 primer;85°C2min/60°C20min. Add5µl extension mix carrying1.8U DNA polymerase/0.3mM dNTP in1×buffer;60°C60min. Add20µl stop buffer (100mMKCl/10mMTris8/50mMEDTA/0.1%Tween), room temperature10min. Before washing each round, save0.5µl beads in9.5µl water for QC. Collect/wash for single-stranded material as delegated, then perform the next split-pool round. Third-round priming uses the common50µM rDS/polyT5C8N mixture4:1 with otherwise similar operations.
+
+🟢 Collect beads, wash twice with10mMTris8/0.1mMEDTA/0.1%Tween; apply0.25U/µl ExoI/1×buffer37°C60min/dark. Add10ml stop buffer/ice10min, wash and filter twice through70µm strainers. Source describes removing failed-extension material; the model does not assume perfect digestion specificity or pure completed primers. QC aliquots are UV-exposed10min and run on2%agarose. Production and destructive analytical fractions are distinct. Full polymerization, extension and pool compositions remain unassembled.
+
+## Droplet capture and first amplification
+
+🟢 Cells enter at300,000/ml in PBS/10%OptiPrep. Pellet100–150µl beads1500rcf2min and aspirate residual buffer before loading. The source150µl RT/lysis stock contains30µl10×StellarScript buffer,15µl200U/µl enzyme,10µl inhibitor,15µl1MTris8,10µl0.1MDTT,9µl10%IGEPAL,6µl25mM dNTP and55µl water. These are copresent components of one specified prepared stock; bead primers are not freshly added at RT. Carrier oil is3mlHFE7500/2%fluorosurfactant. Selected sc-rDSeq collection wells contain50µl carrier oil and receive20µl mineral oil after collection. Feed stocks, actual aliquots and remainders remain separate.
+
+🟢 Generate1–3nl droplets, UV-expose collected emulsions365nm/6.5Jcm−2 on ice10min, then perform20cycles8°C12s/15°C45s/20°C45s/30°C30s/50°C15s. These are ramped-RT cycles. Combine2–3actual wells per tube, source1,000–3,000cells/sample. The subsequent route through IVT is explicitly delegated to inDrops reference18. The graph preserves an opaque inherited boundary with droplet breaking, second-strand, reagents and IVT details unassembled. Selective priming and computational rRNA filtering do not establish perfect physical rRNA depletion.
+
+## aRNA finishing and source volume trace
+
+🟢 After IVT,1.3×AMPure purification/elution20µl. Save9µl at−80°C; use9µl for fragmentation, leaving nominal2µl unassigned. Add1µl fragmentation reagent70°C1min/ice, then40µl stop mix (5µl stop solution/35µl10mMTris). Purify1.3×AMPure and elute10µl.
+
+🟢 The next sentence specifies12µl RNA for second RT, with2µl100µM PE2-N6-v2,1µl10mM dNTP,2µl10×StellarScript buffer,1µlDTT,1µl inhibitor and1µl enzyme,20µl total. The preceding10µl eluate and this12µl RNA input have an unreconciled stock/allocation trace: unassembled dilution or another stock origin remains possible. Both values are retained without inventing a2µl top-up or declaring an author error. This20µl second RT is distinct from the150µl first-droplet feed stock. PE2-N6-v2 is `AGACGTGTGCTCTTCCGATCTNNNNNN`; N6 is random priming, not a UMI.
+
+🟢 Incubate25°C10min/50°C60min/80°C10min, add20µl water to40µl, save20µl at−80°C, and purify remaining production material1.2×AMPure/elute11.5µl. PCR contains11.5µl cDNA,12.5µl2×KAPAHiFiHotStartReadyMix and1µl25µM PE1/PE2 index-primer mix. ReadyMix components are copresent, not fresh duplicate additions. Program98°C2min;2cycles98°C20s/55°C30s/72°C40s;8cycles98°C20s/65°C30s/72°C40s;72°C10min. Purify0.7×AMPure/elute20µl water. TapeStation QC uses a separate aliquot; actual loading is separated from retained stock.
+
+🟢 TableS1 specifies PE1 and PE2 primers with separate8nt sample-index windows. Barcode rounds assign cell barcodes and UMI regions; capture ends and random primers are distinct. Exact combined UMI identities, acquired feature spans, selected barcode/index members and complete final strands remain unassembled. Source NovaSeq6000 S1 kit label is100cycles and separately reported sc-rDSeq cycles are50/70/8/8 for R1/R2/i1/i2; both values are retained without an unsupported kit-error claim. Bulk controls55/65/8/8 are separate. Barcode correction, UMI deduplication, trimming and rRNA mapping filters are computational operations.
+
+## Remaining scope
+
+One narrow external-input text-matching exception covers TableS1's `[8bp_Barcode2]` notation, whose width the generic scraper does not preserve. The PE1/PE2 oligos are produced components of one actual1µl25µM primer mix; they are not two fresh stocks and are outside the external-input-only guard. Their `[8bp_Index1]` and `[8bp_Index2]` windows remain verified by whole-source fixtures. Local checks verify each complete printed ordering against the selected SI; originalTableS1p20 was visually inspected. The model keeps exactly8 unknown positions in each window. These formatting exceptions do not validate whole molecular products, selected index identities or missing source information, and the shared parser is unchanged.
+
+🟡 Complete factory/capture molecules, all220rDS members, barcode-plate choices, physical versus copied primer fates, imperfect cleanup, inherited pre-IVT operations,10/12µl stock reconciliation and sequencing-primer landing remain unfinished. Whole-oligo transcription does not validate all reactions. Later Biomethods protocol was not opened or assumed revision-equivalent. No missing-information claim, source-absence pass2 or completed schematic is asserted.
+
+Physical well pooling explicitly allocates one selected collected well plus the other actual1–2 selected wells from the first-RT collection, then pools them. Exact identities, volumes and any unselected collection material remain unassigned; the graph does not force three fixed wells or a positive stock remainder.

@@ -1,0 +1,59 @@
+{
+  "dir": "chor-seq__10.1016+j.molcel.2018.08.010",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6202308.1/PMC6202308.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain381–399, selectedH3K4me3EdU/qChORpool-beforeclick protocol. ManifestCCBY/authormanuscriptFalse; samearticleheaderincombinedmmc2PDFonlyalternativepublishedrepresentation.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6202308.1/mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1actualrenderedFigS1p2(timepoints/biotindUTPcontrast) andFigS2p3(Bioanalyzercaption); SItextglyphfailuresnotuncheckedsourcefacts.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "dna_owner_round35",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedselectedEdU/qChORH3K4me3representativetimepoint andpre-clickindexedtimecoursepool.",
+      "locations": "Publishedmain381–399, selectedH3K4me3EdU/qChORpool-beforeclick protocol. ManifestCCBY/authormanuscriptFalse; samearticleheaderincombinedmmc2PDFonlyalternativepublishedrepresentation.; PublishedSI1actualrenderedFigS1p2(timepoints/biotindUTPcontrast) andFigS2p3(Bioanalyzercaption); SItextglyphfailuresnotuncheckedsourcefacts.",
+      "findings": "HistoneChIP→purifiedDNAindexing→indexedtimecoursepool→EdUclick/T1→onbeadPCR→actualPCRsupernatant. Directbiotin-dUTPchromatinpull-down distinct.",
+      "deferred": [
+        "Wholeindexedadapter/end/primergeometry",
+        "Actualtimepoint/spike-indexpoolquantities andper-runmask",
+        "Directbiotin-dUTP/H3K27/parental-inputbranches notmodeled",
+        "DirectlylinkedChIP/click/vendororiginals"
+      ],
+      "oligo_scraper": "Mandatorywholebundle runs; promoter/probehitsnotadopted asIPODlibraryoligos. EmptyCalling/ChORhitsnotabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "PublishedmainSTARMethods andactualSI1figuresread; latermethods/vendorsoutsidecaps."
+  },
+  "missing_claims": [],
+  "conclusion": "sourcepositiveprivatepartial fromselectedoriginals; no complete reaction/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round35",
+    "date": "2026-10-30",
+    "scope": "Same two published originals only: mainPMC6202308 Methods381–399 and actualSI1 renderedFigS1p2/FigS2p3. Main is publishedCCBY, not author manuscript; no later ChOR/SCAR protocol or otheroriginals opened.",
+    "findings": "Verified selectedH3K4me3T0EdU pulse, actualS2referencechromatin beforeChIP, BSA-preblocked bead capture, ChIPDNA purification/indexedligation before physicaltimecoursepool and200ngclick, actualbiotinTEGazide/Cu mixture, T1capture/onbeadPCR and postPCRsupernatant cleanup. Whole indexedadapter geometry remains unassembled while sourceknown substrate3A is drawn. DirectbiotindUTP/noS2control and parentalChIP routes remain separately qualified; no chemicalEdU-to-T or UMI inference. No critical implementation defect found.",
+    "verification": "11focused checks independently rerunPASS. OriginalSIfigures independently viewed. No full molecular/source/absence audit."
+  }
+}

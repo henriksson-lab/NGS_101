@@ -1,0 +1,52 @@
+{
+  "dir": "pairseq__10.1126+scitranslmed.aac5624",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://doi.org/10.1126/scitranslmed.aac5624",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Standard DOI routes found no open full text; indexed corrected-main mirror returned404. No original read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "erratum",
+      "role": "other",
+      "locator": "https://www.science.org/doi/full/10.1126/scitranslmed.aad5480",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual published erratum page returned HTTP403; correction scope unread.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "coordinator_round30",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Source acquisition and identity pointers only; no article/supplement/correction body opened.",
+      "locations": "External MANIFEST.tsv for the defining DOI, published erratum and indexed corrected-main mirror.",
+      "findings": "No preparative facts available in this pass; registration remains uncollected. No diagram or confirmed absence inferred from retrieval failure.",
+      "deferred": [
+        "Actual defining article and its chemistry-relevant source-indexed supplements",
+        "Actual erratum correction scope",
+        "Preparation boundary versus existing TCR-pairing protocols"
+      ],
+      "oligo_scraper": "Mandatory run on empty bundle; no original text/hits, not absence evidence.",
+      "verification": "Source schema checked separately; no chemistry/model test applicable."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Only actual defining article and erratum identities established. Supplement identities and preparation boundary remain open questions, not invented unavailable documents."
+  },
+  "missing_claims": [],
+  "conclusion": "Uncollected source-blocked identity; no accepted absence or complete source review."
+}

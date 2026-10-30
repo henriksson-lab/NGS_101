@@ -1,0 +1,89 @@
+{
+  "dir": "methyl-seq-brunner__10.1101+gr.088773.108",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "target_0",
+      "role": "defining",
+      "locator": "https://genome.cshlp.org/content/19/6/1044.full.pdf",
+      "original": "https://genome.cshlp.org/content/19/6/1044.full.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining published Methyl-seq original identified by primary index; why: Exact publisher PDF;standard bounded request only,respect host cooldown.; HTTP 403",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "target_1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC2694474.",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC2694474.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Explicit identified original in official public PMC Cloud dataset; why: Discovery independently identified PMCID;metadata/fullTextXML failure prevented ordinary route. Validate original identity/licence;not a challenge workaround.; no usable file returned; obtain the original through another route",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "target_2",
+      "role": "defining",
+      "locator": "https://doi.org/10.1101/gr.088773.108",
+      "original": "https://doi.org/10.1101/gr.088773.108",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "journal article; no open full text found (publisher page only)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "target_3",
+      "role": "defining",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2694474/",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2694474/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Shared challengecooldown;notrequested",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "target_4",
+      "role": "defining",
+      "locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2694474/fullTextXML",
+      "original": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2694474/fullTextXML",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "full-text JATS XML (Europe PMC); HTTP 500",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round17",
+      "date": "2026-10-29",
+      "locations": "No chemistry original obtained; actual failed targets above.",
+      "finding": "Actualaccessbarriers/deferredoriginalsrecorded;noabsenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-qualified private incomplete model where source supports;otherwise identity/accessonly. No full-sourceorabsenceaudit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "dna_round17",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Atmost10min/3originals;publishedfirst,no recursivechasing.",
+      "locations": "No chemistry original obtained; actual failed targets above.",
+      "findings": "Physicalmodifications/fragments/fractionsdistinctfromcomputationalcalls;noanalogousmethodrecipeimport.",
+      "deferred": [
+        "DefiningfullmainMethodsandpublishedchemistrySIwhereunavailable;sourcehistoricalreagent/adapter/PCR/rungeometryremainingunreviewed."
+      ],
+      "oligo_scraper": "DLO15candidates/1SIfile;others0hits/0files. OriginalimageinspectionforDLOFigS2/Table1;noemptyextractionabsenceclaim.",
+      "verification": "Mandatoryscraper0hits/0filesrecordsavailabilityonly. No model/test/chemistry-validation or collected-protocol claim."
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "dir": "cappable-seq__10.1186+s12864-016-2539-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cappable-seq__10.1186+s12864-016-2539-z/(manual) 034785_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/034785v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Superseded preprint excluded; identity only, not chemistry authority.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cappable-seq__10.1186+s12864-016-2539-z/(manual) 034785_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/034785v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Superseded preprint excluded; identity only, not chemistry authority.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cappable-seq__10.1186+s12864-016-2539-z/s12864-016-2539-z_PMC4782308.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4782308.1/PMC4782308.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "article PDF (PMC Cloud)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cappable-seq__10.1186+s12864-016-2539-z/s12864-016-2539-z_PMC4782308.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4782308.1/PMC4782308.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original, selected scope",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cappable-seq__10.1186+s12864-016-2539-z/s12864-016-2539-z_supp_12864_2016_2539_MOESM1_ESM.gtf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4782308.1/12864_2016_2539_MOESM1_ESM.gtf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "supplementary file (PMC Cloud)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cappable-seq__10.1186+s12864-016-2539-z/s12864-016-2539-z_supp_12864_2016_2539_MOESM2_ESM_Supplemental_text.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4782308.1/12864_2016_2539_MOESM2_ESM.zip#Supplemental text.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original, selected scope",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Historical NEBNext Small RNA kit original, exact adapters, RT/PCR primers and complete molecular endpoints remain unreviewed.",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    },
+    {
+      "locator": "Remaining published SI notes, figures and linked method originals are available/unreviewed within the cap.",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    }
+  ],
+  "conclusion": "Capped positive source scope only; no full original/linked or accepted absence audit. Source-qualified private partial graph; no public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "round23_RNA_source_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Capped10min/three-original investigation including administrative identity; selected defining sources first across batch.",
+      "locations": "Published main Methods150–190 and Results44–70; published SI Note A opening only. Actual E.coli preparation; mouse route not reconstructed.",
+      "findings": "Actual preparation/components recorded with source version and physical fates; unread sources do not establish absence.",
+      "deferred": [
+        "Historical NEBNext Small RNA kit original, exact adapters, RT/PCR primers and complete molecular endpoints remain unreviewed.",
+        "Remaining published SI notes, figures and linked method originals are available/unreviewed within the cap."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle scraper completed; source pointers read, no hit or abstract used as absence evidence.",
+      "verification": "20focusedchecks across Cappable/Rend (10each);0exactsourceinputs/0failed/0exempt/6unassembled across2graphs;40unresolved0contradictory chemistryclaims. NADcomponentnotesonly/noNGSgraph. IndependentcriticalselectedAM/mainimplementationreviewsclosed;notfullsourceorabsenceaudits."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent round23 DNA implementation reader",
+    "date": "2026-10-30",
+    "scope": "Selected main source operations, order and physical fates; Rend inherited same-article chemistry. Not a complete independent original/linked audit.",
+    "finding": "Cappable bead-preparation order corrected; actual postbinding physical washes explicit. Rend inherited postcircle precipitation retained and actual Rend instruments explicit. Other selected order/allocations/branch distinctions checked. Focused checks rerun after fixes."
+  }
+}

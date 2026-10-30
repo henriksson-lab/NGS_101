@@ -1,0 +1,55 @@
+{
+  "dir": "tam-seq__10.1126+scitranslmed.3003726",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://s3-us-west-1.amazonaws.com/ptab-filings%2FIPR2025-01434%2F1010#final-article",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Printed finaltitle/DOI/date; main extracted421\u2013439 preparation paragraphs"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://s3-us-west-1.amazonaws.com/ptab-filings%2FIPR2025-01434%2F1010#supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "SIpp2\u20133;FigS1PDFp20 andTableS2PDFp26 original renders;TableS1handle definitions;firstFLD0001row"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Capped selected-original chemistry pass; ordinary unread scope remains; not absence audit",
+      "locations": "Printed finaltitle/DOI/date; main extracted421\u2013439 preparation paragraphs; SIpp2\u20133;FigS1PDFp20 andTableS2PDFp26 original renders;TableS1handle definitions;firstFLD0001row",
+      "findings": "Actual source-qualified wet preparation positive; private incomplete local graph retains physical fractions, analytical aliquots, source alternatives and unassembled geometry.",
+      "deferred": [
+        "Full final-version molecular/end/read geometry and remaining source scopes",
+        "Source-linked predecessor and exact historical vendor originals, depth one only"
+      ],
+      "verification": "25focusedchecks (9MAESTRO/9TAm/7CAPP) pass;sourceguard0exact/0fail/0exempt/26unassembledinputs across3graphs;chemistry58unresolved/0contradictory. Exact separate inventories have source fixtures; no fullreactionvalidation.",
+      "oligo_scraper": "Mandatory final bundle scrapers:MAESTRO208candidates/3files,TAm18/1,CAPP20/2. Selectedoriginalpointers andmodifiedprobeverified;notabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct source-linked component ancestry scoped in note; originals/vendor details ordinary unread; no recursive followup or accepted missing information."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full final main comparison where only associated main read",
+    "Full historical kit/adapter/probe/end/read geometry and sample assignments",
+    "Other originals/sections explicitly outside this capped pass"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round21",
+    "date": "2026-10-30",
+    "scope": "Independent selected original Methods and private model critical review only; not complete source review or two-reader absence audit",
+    "finding": "MAESTRO AM163\u2013205 selectedcapture/versionboundaries;TAm main420\u2013439/SI2590\u20132663 andoriginal renderedTableS2/FigS1,sourcePE/index/cycleconflicts preserved;CAPPAM125\u2013150 andassociatedSI A3/A4sourcebranch/optimization consistent. TAmharvest1ulthen99ulwater once corrected. MAESTROconditionalextraPCRKAPAprimersnotimplicitlyassignedtopostcapturePCR. Fullgeometryunassembled."
+  }
+}

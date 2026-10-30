@@ -1,0 +1,104 @@
+{
+  "dir": "gbs__10.1371+journal.pone.0019379",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gbs__10.1371+journal.pone.0019379/journal.pone.0019379_PMC3087801.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3087801.1/PMC3087801.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original;not author manuscript",
+      "pass_1": {
+        "reviewer": "round16_coordinator",
+        "date": "2026-10-29",
+        "locations": "Published mainMethods79\u2013109/Fig1/2captions,Discussion195\u2013203",
+        "finding": "Positive source preparation/component facts;no whole-source absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "text_s1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gbs__10.1371+journal.pone.0019379/journal.pone.0019379_supp_pone.0019379.s001.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3087801.1/pone.0019379.s001.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original;not author manuscript",
+      "pass_1": {
+        "reviewer": "round16_coordinator",
+        "date": "2026-10-29",
+        "locations": "PublishedTextS1 optimization/titration sections;kept separate from selected main multiplex route",
+        "finding": "Positive source preparation/component facts;no whole-source absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gbs__10.1371+journal.pone.0019379/journal.pone.0019379_supp_pone.0019379.s004.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3087801.1/pone.0019379.s004.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original;not author manuscript",
+      "pass_1": {
+        "reviewer": "round16_coordinator",
+        "date": "2026-10-29",
+        "locations": "PublishedTableS1 complete96barcode list;selectedCTCCmember,not an assigned study well",
+        "finding": "Positive source preparation/component facts;no whole-source absence conclusion."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round16_coordinator",
+      "date": "2026-10-29",
+      "locations": "Main71/191;source-cited RAD and historical sequencing/product pointers",
+      "finding": "Scoped source development only;direct originals/versions and full molecular geometry remain deferred."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nature07517",
+      "scope": "Source Bentley2008 sequencing predecessor;historical acquired primer/flowcell behavior not reconstructed"
+    },
+    {
+      "locator": "Source historical Qiagen/NEB/Illumina product guides,main96\u2013109",
+      "scope": "Exact historical versions/chemistry deferred,no fabricated revision"
+    }
+  ],
+  "open_questions": [
+    "Whole nicked-template/selected-copy/end/flowcell geometry and recovery fractions.",
+    "Main105QIAquick versus Fig2size-exclusion wording;not proven same cartridge or publication-wide error.",
+    "CTCC/CAG selected component equations are source-defined representatives,not unique study molecule/assignment."
+  ],
+  "conclusion": "Capped source-read private incomplete graph and selected nicked/copy classes;no publication completion or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "round16_coordinator",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "At most10minutes/three originals source investigation;no recursive chase",
+      "locations": "Published mainMethods79\u2013109/Fig1/2captions,Discussion195\u2013203;PublishedTextS1 optimization/titration sections;kept separate from selected main multiplex route;PublishedTableS1 complete96barcode list;selectedCTCCmember,not an assigned study well",
+      "findings": "Unphosphorylated source adapters leave nicks;selected new copies preserve end classes,physical aliquots/QC kept separate;no source-derived yield prediction.",
+      "deferred": [
+        "Historical source-cited sequencing/product originals",
+        "UninspectedFigureS1/S2aliases after standard retrieval failures"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scan27hits/3files at initial pass;original component equations/5OH/TableS1 verified;generic matcher exemptions explicitly scoped to composition/IUPAC member.",
+      "verification": "11focused checks/build/pairing pass;3exact inputs/0failed/3source-defined component-expansion exemptions independently verified against main/TableS1.6established narrow component relations/18unresolved claims/0contradictory. Independent critical review closed,not absence audit."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent_dna_reader",
+    "date": "2026-10-29",
+    "locations": "Published main83/96\u2013109/195\u2013203,TextS1,TableS1",
+    "finding": "Whole component equations/CTCC/CAG membership/common strands/PCRA/B independently verified;source unphosphorylated/nicked/copy/order/fate/QC distinctions consistent.11checks pass;not absence audit."
+  }
+}

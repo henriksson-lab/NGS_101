@@ -1,0 +1,67 @@
+{
+  "dir": "g4access__10.1038+s41588-023-01437-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main_preview",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41588-023-01437-4",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published2023 subscription preview/abstract/Fig1heading and supplementary-map only; full Methods unread. OfficialPDF response HTML-notPDF; direct page identity redirect.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "reporting_summary",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-023-01437-4/MediaObjects/41588_2023_1437_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Actual PDFp1 reporting-summary identity/update23Jan2023/statistics/software only, not preparation evidence; image rendered and inspected. Other pages unreviewed.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "round41_multi_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Capped source-positive identity/abstract/reporting-summary pass closed with unused third slot; no defining preparation Methods read.",
+      "locations": "Published main preview/abstract/Fig1heading; MOESM1 original actualp1 only.",
+      "findings": "Abstract supports physical nuclease-enrichment boundary but not a production graph; official declared main PDF standard response is HTML, not PDF. Reporting summary is not chemistry SI. No exclusiveG4 capture or later-source equivalence claimed.",
+      "deferred": [
+        "Full defining published main Methods/actual fullPDF needed.",
+        "MOESM2 peer review, MOESM3 synthesis workbook, sourcegel/software and main-linked GEO/cited methods ordinary unread; no source-absence inference.",
+        "Exact preparation, physical allocations, ends/oligos/library/read geometry unassembled."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle /tmp/ngs41-g4access-scraper.log:200 sequence-like hits in MOESM3 workbook; pointers only, original workbook not inspected/adopted.",
+      "verification": "Notes/reference/source-review only; no molecular graph or selftest justified."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Published main needed; downloaded supplemental identity/links do not establish inspected chemistry. Directly linked GSE187007 and cited methods ordinary unread, no absence claim."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.nature.com/articles/s41588-023-01437-4.pdf",
+      "why": "Exact official defining main PDF returned HTML-notPDF through standard declared source; full preparation Methods remain unread."
+    }
+  ],
+  "conclusion": "Uncollected source-retrieval hold; identity/abstract scope only, no complete preparation or accepted absence.",
+  "independent_implementation_recheck": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "dna_independent_round41",
+      "date": "2026-10-30",
+      "scope": "SAME2selectedoriginals: publishedNature2023title/DOI/abstract/Fig1headingandsupplementrolemapatindexedpreviewscope; actualMOESM1ReportingSummaryPDFp1/renderdate23Jan2023/statistics/software. ManifestexactofficialmainPDFHTML-notPDFfailureverified, no neworiginalfetch/retry.",
+      "findings": "Narrowcriticalsource-scope/blockerreviewCLOSED. FullpreparativeMethods/librarychemistryunread, nosource-localgraphandcollectedfalsecorrect. ReporterSummaryp1notamethodsreplacement; workbook/scraperpointersnotadoptedassourceoligos. ActualabstractdefinesnucleaseenrichmentboundarywithoutprovingexclusivefoldedG4recovery. No extraoriginals/model/tests/recipe orabsenceclaim. ReviewJSONschemaPASS."
+    }
+  ]
+}

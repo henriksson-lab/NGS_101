@@ -1,0 +1,66 @@
+{
+  "dir": "tamc-seq__10.1038+ncomms2527",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tamc-seq__10.1038+ncomms2527/ncomms2527_PMC3679896.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3679896.1/PMC3679896.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated manuscriptNIHMS465884 identity, Methods136–156/Fig1: genomicpreblock/coupledoxidationtrap/library/acquisition; syntheticassays and enzymepreparation kept separate.",
+      "pass_1": {
+        "reviewer": "dna_round16",
+        "date": "2026-10-29",
+        "locations": "Associated manuscriptNIHMS465884 identity, Methods136–156/Fig1: genomicpreblock/coupledoxidationtrap/library/acquisition; syntheticassays and enzymepreparation kept separate.",
+        "finding": "Positive scoped originalidentity/chemicalsteps; no complete source review or missing-information acceptance."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tamc-seq__10.1038+ncomms2527/ncomms2527_41467_2013_BFncomms2527_MOESM327_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fncomms2527/MediaObjects/41467_2013_BFncomms2527_MOESM327_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI matchingDOI/title association: FigS3one-potversussequentialscope and S14Methods481–493 directclick/capture/DTT/recovery.",
+      "pass_1": {
+        "reviewer": "dna_round16",
+        "date": "2026-10-29",
+        "locations": "PublishedSI matchingDOI/title association: FigS3one-potversussequentialscope and S14Methods481–493 directclick/capture/DTT/recovery.",
+        "finding": "Positive scoped originalidentity/chemicalsteps; no complete source review or missing-information acceptance."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "dna_round16",
+      "date": "2026-10-29",
+      "locations": "Exactselectedscopes anddirectpendingoriginals innotes",
+      "finding": "Knownphysicaloperations throughacquisition preserved withhistoricalgeometry limits, nofamilyrecipeimport."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Private source-qualified incomplete molecular/operational graph andnotes; no full review, public promotion or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "dna_round16",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "At most10minutes/3originals; main+chemistrySI first, no recursive retrieval.",
+      "locations": "Associated manuscriptNIHMS465884 identity, Methods136–156/Fig1: genomicpreblock/coupledoxidationtrap/library/acquisition; syntheticassays and enzymepreparation kept separate.; PublishedSI matchingDOI/title association: FigS3one-potversussequentialscope and S14Methods481–493 directclick/capture/DTT/recovery.",
+      "findings": "Native/installedmodifications/copies and physicalfraction/workup identity are distinct; unreviewedkit geometry remains explicit.",
+      "deferred": [
+        "Directly named historicalkit/capture/primer/A3Aconditions andexactcompletegeometrytargets innote."
+      ],
+      "oligo_scraper": "Mandatory bundle scans: DM15hits (copyv2Table1 originalp2rendered),TAmCzero,Circulomezero text hits. Empty/partialconversionsnotabsenceevidence.",
+      "verification": "25 focused local checks pass across DNA16 (9 DM,8 TAmC,8 Circulome); exact-source guard1checked0failed0exempt across3graphs with8unassembled inputs; literal /5mC/ parser alias independently reviewed against original Table1. Chemistry50unresolved0contradictory; source-review schema3in_progress0blocked; all6 note/ref pages built. This is scoped implementation verification, not a complete chemistry or missing-information review."
+    }
+  ]
+}

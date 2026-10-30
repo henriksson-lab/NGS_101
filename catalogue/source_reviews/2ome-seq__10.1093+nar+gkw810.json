@@ -1,0 +1,52 @@
+{
+  "dir": "2ome-seq__10.1093+nar+gkw810",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5388417.1/PMC5388417.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation."
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5388417.1/gkw810_supplementary_data.zip#nar-01760-r-2016-File006.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedsupplementFile006 Method2lines215\u2013277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation.; PublishedsupplementFile006 Method2lines215\u2013277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1.",
+      "locations": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation.; PublishedsupplementFile006 Method2lines215\u2013277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1.",
+      "findings": "Published random-primed AMV high/low-dNTP libraries recover RT-termination cDNA and ligate a source-known 5prime-phosphorylated, 3prime-C3-blocked DNA adapter using CircLigaseII; Method1 remains separate from the fragmented Method2.",
+      "deferred": [
+        "Wholeend/read/productgeometryanddirectlylinkedhistoricalvendor/precursorsremainunreviewed."
+      ],
+      "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation.",
+      "oligo_scraper": "Mandatorybundle runs:NJU351candidates/10files(one16MBresulttableskippednormalcap),2OMe54/3,Rho14/1. Onlyselectedoriginalpointersweresourceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Sourcequalifiedcappedpassonly;ordinarylinkedoriginalsandknownactualSIbarriersremainopen.No absenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round29",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Narrowselectedsource/modelcriticalreviewonly;notcompleteall-source,linked-informationorabsenceaudit.",
+    "finding": "Coordinator independently read publishedMethods70andearlierpublishedSIFile006Method2boundary. Method1high/lowdNTPmolecularsubstratesseparatefromAMV;source5P/3C3adapterandcDNA3OHinterfaceknown;actualnormalizedpoolaliquots/untransferredPCRstocksnowexplicit. NoMethod2fragmentation/windows/eighteencyclemerge.",
+    "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation."
+  }
+}

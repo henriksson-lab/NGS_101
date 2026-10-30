@@ -1,0 +1,68 @@
+{
+  "dir": "esega__10.1038+s41467-024-48408-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/esega__10.1038+s41467-024-48408-9/s41467-024-48408-9_PMC11094070.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11094070.1/PMC11094070.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main129\u2013145/233\u2013251/277\u2013295: selectedssZP1, differentialdeamination/five-triphosphatePCR, actualpreparation/transfers/workup andgenericpremixvsResults bookkeeping.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/esega__10.1038+s41467-024-48408-9/s41467-024-48408-9_supp_41467_2024_48408_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11094070.1/41467_2024_48408_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI Table1 originalp5 includingcompleteZP1/A1/B1/fivebarcodedfamiliesandred8ntannotations; Table2p6 identity/text; selectedscope245\u2013404/515\u2013518. OriginalTable1 renderedandread.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Historicalsource-specifickit/service/UDIoriginalsandwholemoleculegeometry remain deferred reading; individualstudyvalues unassigned, not invented inaccessible documents."
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-positive private partial preparation, no complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "dna_round28",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Source-positive selectedssZP1/deaminated/five-triphosphate route; syntheticZ/Pchemicalstatespreserved, wholeproductsunassembled; same2originalscombinedowner/root.",
+      "locations": "Published main129\u2013145/233\u2013251/277\u2013295: selectedssZP1, differentialdeamination/five-triphosphatePCR, actualpreparation/transfers/workup andgenericpremixvsResults bookkeeping.; Published SI Table1 originalp5 includingcompleteZP1/A1/B1/fivebarcodedfamiliesandred8ntannotations; Table2p6 identity/text; selectedscope245\u2013404/515\u2013518. OriginalTable1 renderedandread.",
+      "findings": "Source-owned private partial ZP1 graph: APOBEC/directheatalternative, explicitfive-nucleotidepoolwithoutdPTP,10cyclelengthPCR/5of50transfer/barcoded12\u201320cyclePCR,analyticalPAGEvsphysicalagaroseextraction,opaquehistoricalAmplicon-EZfinish. Z/Pnotnormalized; genericpremix/supplementbookkeepingunassigned.",
+      "deferred": [
+        "Whole source-specific molecular/reaction/read paths and linked historical originals unassembled; no recursivechase."
+      ],
+      "oligo_scraper": "MandatoryESEGA19hits/4representations;fiveletter8hits/3representations;MEDUSAemptybundle. Pointers checkedagainstselectedoriginals, zerohitsnotabsence.",
+      "verification": "46focusedchecks(25ESEGA/21five-six)pass; sourceguard6exact0fail0exempt2unassembledinputstates. Chemistry(default5branch)2narrowestablished2conditional37unresolved0contradictory;6branch additionallytested, no fullreactionvalidation.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round28-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      }
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round28",
+    "date": "2026-10-30",
+    "scope": "Publishedmain129\u2013145/277\u2013295; samepublishedSIactualTable1p5render. Same2selectedoriginals; no neworiginals/kit/vendor/sourceabsenceaudit.",
+    "finding": "RawZ/PandwholeZP1preserved. WholecorrectedA1-100andB1/orderings andbarcodefamiliescheckedoriginalTable1. Five-triphosphateResults mechanismdistinctfrommain279genericpremix; supplementbookkeepingunassigned,nodPTP/newDNAalphabetnormalization. 5of50ultransfer/rest, analyticalPAGEvsphysicalagarose/servicefinishingboundariesretained. ExpectedC/U/Z/P readoutnotasserteddeterministicconversion. Selectedcriticalscopeclosed."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "dir": "methylcap-seq__10.1016+j.ymeth.2010.06.012",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "defining",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/abs/pii/S1046202310001660",
+      "original": "https://www.sciencedirect.com/science/article/abs/pii/S1046202310001660",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "StandardgenericDOIroutefoundnoopenfulltext; exactpublisherPIIstandardfetchHTTP403. Indexedpublisherpreview exposesabstract/introductiononly,notMethods. PubMedopen429notretried; boundedauthor-repositorysearchdidnotidentifyanoriginal,andisnotproofnoneexists.",
+      "source_version": "Published2010definingoriginal;identity/overviewonly,fullMethodsunread",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Identity/accessonly;nofakegraphorchemistrycollectedcount. Actualdefiningoriginalaccessbarrier,notacceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "dna_round20",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Boundedatmost10min/3originals;definingoriginalattempted,no recursivechase/substitutedrecipe.",
+      "locations": "https://www.sciencedirect.com/science/article/abs/pii/S1046202310001660 identity/abstractoverviewonly;canonicalmanifestexactfailedroutes",
+      "findings": "Primarypublisherabstract/introduction explicitly describes MeCP2-MBDcapture followed by stepwise salt-gradient physical elution fractions sequenced by Illumina. This source boundary differs from MiGS MBD2-conjugate/protease release. It is not permission to copy MiGS, a later Diagenode kit or the separately cited MethylCap-BS branch into a2010 preparation. Actual capture/gradient/workup/libraryMethods remain unread.",
+      "deferred": [
+        "Fullpublished2010articleMethods anditsactualchemistryattachmentsifany; specificattachmentsnotidentifiedso no fabricatedunavailablefile."
+      ],
+      "oligo_scraper": "0cachedoriginals/0files; mandatoryscraper0hits. Publishedpublisherpreviewabstract/introductionreadviaindexedprimarysearchonly,notfullchemistry.",
+      "verification": "HELP12checks pass/guard6literalstrands0fail0exempt1unassembledRTprimer;chemistry19unresolved0contradictory. Other2identity/accessonlynogr\u00adaphs(notcollected).3reviewschemasvalid1in_progress2blocked;6note/refpagesbuilt. IndependentcriticalHELPimplementationreviewclosed,notabsenceaudit."
+    }
+  ]
+}

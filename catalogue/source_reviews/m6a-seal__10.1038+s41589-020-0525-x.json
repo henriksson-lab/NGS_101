@@ -1,0 +1,68 @@
+{
+  "dir": "m6a-seal__10.1038+s41589-020-0525-x",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41589-020-0525-x",
+      "original": "https://www.nature.com/articles/s41589-020-0525-x",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round27",
+        "date": "2026-10-30",
+        "locations": "HTML607abstract/identity; fullMethods inaccessible",
+        "finding": "Subscriptionpreviewonly;actualfullarticleaccessbarrier."
+      },
+      "pass_2": null,
+      "reason": "Standard fetch saved a subscription preview; full published main/Methods requires access."
+    },
+    {
+      "id": "si1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-020-0525-x/MediaObjects/41589_2020_525_MOESM1_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-020-0525-x/MediaObjects/41589_2020_525_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round27",
+        "date": "2026-10-30",
+        "locations": "Table1/selectedTable2/figures1\u201319captions/Note3",
+        "finding": "Positive chemical-labeling/spike-in preparation; not a complete library recipe."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "coordinator_round27",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Main subscription-preview identity/abstract only; actual published SI Table1,Table2 selected roles,Figures1\u201319 captions andNote3. No full main/graph claim. Original selection recorded before content reading.",
+      "locations": "SI43\u201344/120/156\u2013193/388\u2013486/583\u2013617",
+      "findings": "Positive source chemical-labeling and spike/control preparation; actual main Methods access barrier prevents full preparation model. No operational adapter absence inferred.",
+      "oligo_scraper": "Run twice after fetching; 41hits in2sourcefiles. Analytical qPCR/SELECT roles distinguished from sequencing oligos.",
+      "deferred": [
+        "Published full main/Methods",
+        "Remaining SI originals and directly identified control-kit originals"
+      ],
+      "verification": "Notes-only selectedcriticalreviewclosed against originalSI; no graph/fullsource/absenceaudit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "SI Note3 names HiScribe T7 and EpiMark control-kit originals, unreviewed not access-blocked. Preprint superseded and excluded. Full main necessary before complete linked-material enumeration."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive limited preparation notes. Full defining Methods blocked by subscription preview; no graph, full audit or missing-information acceptance.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round27",
+    "date": "2026-10-30",
+    "scope": "Already-selected publishedSI MOESM1original only:Table1 43\u201344/120,Fig1 388\u2013391,Fig7\u201315 417\u2013466,Note3 583\u2013617; mainfullMethodsunavailable. Before-openpeerrecord/tmp/round27-targeted-peer-original-counts.tsv. Noadditionaloriginal.",
+    "finding": "Notes distinguishmodel-RNAFTO/DTToptimization,biologicalpoly(A)+conditionsandcontrolIVT/spikeallocation. PE150HiSeq-XtenandSR75NextSeq500supported. No corecapture/libraryrecipeoradapterinferredfromqPCR/SELECT. Selectedscopeclosed,nocriticaldefect;notfullsource/absenceaudit."
+  }
+}

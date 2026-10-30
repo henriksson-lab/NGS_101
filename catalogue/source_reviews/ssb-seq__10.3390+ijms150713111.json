@@ -1,0 +1,59 @@
+{
+  "dir": "ssb-seq__10.3390+ijms150713111",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4139894.1/PMC4139894.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain54\u201372/94\u2013120:2.1\u20132.3/3.1\u20133.3/3.5/3.7; sameoriginalPDFp3Figure1a.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "identity",
+      "role": "defining",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/25056547/",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Administrativeidentity/DOI/PMCIDonly; nocurrentchemistryfactsfromPubMed.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "coordinator_round33",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published2014SSBDIGbranch only; DSBroute boundaryread notregistered.",
+      "locations": "Main54\u201372/94\u2013120; actualPDFp3Figure1a, PubMedidentity.",
+      "findings": "PolI/DIG/ddNTPpatchlabel precedesshearing/antiDIG/ProteinG; explicitstocks/aliquots/workups/known3A andwholeFw/Rvsourceprimers. Main20minvsFig5caption5minretained. Historicalwholeadapter/readlandingunassembled.",
+      "deferred": [
+        "HistoricalmanufacturerENDRepair/adaptor/polymeraseinstructions",
+        "Fullterminatorprocessedproducts/adaptergeometry/readmask",
+        "Later2018chapter andfullcorrection/linkedsourceaudit"
+      ],
+      "oligo_scraper": "Mandatorywholebundlescraper4representations/2wholeprimerorders; verifiedmainExperimentalSection."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Historicalvendororiginalsandlater2018chapterunread; DSBpredecessorref24belongsotherroute, notimportedintoSSB. NoSI/absenceclaimaccepted."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialSSBpreparation; fullchemicalproduct/sourceabsenceauditnotcomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round33",
+    "date": "2026-10-30",
+    "documents": 1,
+    "scope": "Same publishedPMC4139894main54\u201372/94\u2013120 andactualFigure1aPDFp3. CoordinatorPubMedidentity original not re-opened; combined2originalcounter unchanged. Narrow implementation/source-limit recheck only, not pass2 or full linked-source/absenceaudit.",
+    "finding": "DIG/dideoxy-terminatedPolInicktranslation precedes physicalshear; actual antibody\u2192ProteinGcapture/wash/PKrelease order retained. Source500ugaliquot/QC, two distinctPKextraction additions, ENDRepairactualNT/ATP\u21923Aprimerend\u2192historicaladapter\u2192gel/PCR/gel/loadingstocks match. WholeFw/Rv exactoriginals checked including23ntRvterminalC; source20minMethods versus5minFig5 remains qualified. Local3A belongs to substrate; unknownhistoricaladapter end not silently replaced. Narrow concentration-label fix removes unsourced each for printed200uMdATP/dGTP/dCTPand117uMddATP/ddGTP/ddCTP, leavingper-base/total conventionunassigned. No blocking issue in selected DIG branch; DSBroute unmerged.",
+    "verification": "10focusedPASS after label clarification."
+  }
+}

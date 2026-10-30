@@ -1,0 +1,66 @@
+{
+  "dir": "sns-seq__10.1101+gr.124644.111",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sns-seq__10.1101+gr.124644.111/gr.124644.111_PMC3205567.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "Published PMC fullarticle; Resultsinitialoverview and Methods1364\u20131380 Nascentstrandabundanceassay",
+        "finding": "NativeRNA-primer/lambdaexonuclease enrichment, duplexconversion andGAII acquisition. HTML original cached after XMLrouteHTTP500; no sourceversion substitution."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "https://doi.org/10.1101/gr.124644.111",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "Main footnotes1411\u20131413 citeSupplementalMethods/Table1 andDataAnalysis at publisheroriginal",
+        "finding": "Exact supplementalfile identity not recovered by standardfetcher; publisherweb request returned403. Chemistry-relevant supplement remains unresolved, not confirmed absent."
+      },
+      "reason": "Exact supplementalfile identity not recovered by standardfetcher; publisherweb request returned403. Chemistry-relevant supplement remains unresolved, not confirmed absent."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round12",
+      "date": "2026-10-29",
+      "locations": "Exact actual originals and linked original identities in note/checklist",
+      "finding": "Named historical guides/linked methods remain deferred; gatedSI or unresolved actualoriginal identity distinguished from ordinaryunreviewed reading. No absenceacceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped sourcequalified privategraph throughknownoperations/acquisition; complete physicalends/library/readgeometry and independentlinkedsourceaudit unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "expansion_dna_round12",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first boundedpass; associatedmainidentities explicit; no morethan3originals/protocol.",
+      "locations": "Published PMC fullarticle; Resultsinitialoverview and Methods1364\u20131380 Nascentstrandabundanceassay; Main footnotes1411\u20131413 citeSupplementalMethods/Table1 andDataAnalysis at publisheroriginal",
+      "findings": "Knownsourceoperationorder, chemicalmarkers versusreportedbases and physicalfractionfates retained; no familyrecipe import.",
+      "deferred": [
+        "Direct actual originals/kit versions and accessbarriers in researchnote; no recursivechase."
+      ],
+      "oligo_scraper": "/tmp/sns12-oligos.log; mandatory wholebundle scan returned0hits; no sequenceabsenceconclusion.",
+      "verification": "21localchecks(6eSPAN/7SNS/8Pu)passed;3privatebuilds/scopeddocs and pairing0problems. Sourceguard0checked/0failed,3Puinputswithout exactstates;notexactoligovalidation. Chemistry0established/30unresolved/0contradictory. Fourfetchsessions35603/79241/9946/66750 terminalexit0; externalcachepreserved; noacquisitionrunning."
+    }
+  ],
+  "implementation_review": {
+    "scope": "Published selected Methods1368\u20131380 versus model;not full linked-source/absence pass.",
+    "finding": "Pre-addition carrier aliquot corrected;original source splits before adding plasmid. Separately sequenced sheared-genomic control now explicitly outside selected graph.",
+    "checks": 8,
+    "result": "pass"
+  }
+}

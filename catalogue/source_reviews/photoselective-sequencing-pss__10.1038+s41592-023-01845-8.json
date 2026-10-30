@@ -1,0 +1,53 @@
+{
+  "dir": "photoselective-sequencing-pss__10.1038+s41592-023-01845-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41592-023-01845-8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmainidentity/abstract and sourceavailability: subscriptionpreview, actualcoreMethodsnotreceived",
+      "reason": "PublishedHTMLpreview/abstractread; actualcoreMethodsnotreceivedthroughsubscriptionpreview."
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-023-01845-8/MediaObjects/41592_2023_1845_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI p2 wholeoligoTable, ExtendedDataFig1Acaption and Methods156\u2013405 selectedpurification/photoselection/controlsections"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Publishedmainidentity/abstract and sourceavailability: subscriptionpreview, actualcoreMethodsnotreceived; PublishedSI p2 wholeoligoTable, ExtendedDataFig1Acaption and Methods156\u2013405 selectedpurification/photoselection/controlsections",
+      "findings": "Photocleavable genomic-library adapters gate spatial selection; published supplementary oligo inventory includes blocked short mosaic ends and splinted ligation handles. Core preparation Methods remain behind the received subscription preview, so only private source-component helpers are provided.",
+      "deferred": [
+        "Full linked-source review and molecular/read geometry; no absence conclusions."
+      ],
+      "oligo_scraper": "Mandatory source-bundle scraper executed; only selected original source pointers were evidence. All used modifications/orderings checked against selected originals.",
+      "locations": "Publishedmainidentity/abstract and sourceavailability: subscriptionpreview, actualcoreMethodsnotreceived; PublishedSI p2 wholeoligoTable, ExtendedDataFig1Acaption and Methods156\u2013405 selectedpurification/photoselection/controlsections",
+      "verification": "44focusedchecks(PHOTON12/PSS16/PBA16);sourceguard9exact0failed0exceptions2unassembledover2graphs;scopedchemistry2established/57unresolved/0contradictory. PSS helper-only; complete products/read geometry unassembled."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Cited precursor/vendor and additional source details not recursively pursued; selected capped pass only."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "https://www.nature.com/articles/s41592-023-01845-8.pdf"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round27",
+    "date": "2026-10-30",
+    "scope": "PublishedSIactualTable2p2renderonly; mainpreviewbarrierretained. Samealready-selectedSIoriginal,no neworiginal orcoreMethodsreading.",
+    "finding": "All9wholemodifiedorderings/knownbarcodeBcaptionconsistent. ShortME15basepairingandP5/P7splintselectedcomplementarityhelpersderivefromsource; terminalddCretainedoutsidetestedarms, nofullfold/occupancyassertion. No fullcoregraphinvented; publishedmainstillneeded. Selectedcriticalscopeclosed,notabsenceaudit."
+  }
+}

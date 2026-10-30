@@ -1,0 +1,82 @@
+{
+  "dir": "lm-seq__10.1038+srep09570",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4381617.1/PMC4381617.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published ScientificReports2015 main, PMC4381617",
+      "inspection_scope": "Main55/73/83\u201395 and actual mainFigure1PDFp2; selected100ng/polyA/SmartScribe/overnight/SE51 route, source-modified oligos and caption discrepancy.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4381617.1/srep09570-s1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main-associated SI",
+      "inspection_scope": "SupplementalMethodssteps1\u20138/PDFp2\u20134, originalPDFp3/4 rendered tables/program, Table2first index orderings.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "round35_lm_implementation_worker",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main55/73/83\u201395 and original Figure1PDFp2; published SI SupplementalMethodssteps1\u20138/PDFp2\u20134 and Table2first index orderings. Two alreadyselected originals only; investigation closed, no new source acquisition.",
+      "locations": "Main55/73/83\u201395/Figure1originalPDFp2; SI Methods1\u20138/PDFp2\u20134 andTable2firstordering source480.",
+      "findings": "Actual EPF primer carryover6.5ul toRT; RNaseA/H/11ul/AMPure/transfers; physical appendedddC34nt donor, separate source5prime-caption conflict and inferred intended3OH substrate; exact fullPCRprimers/N10sampleidentifier with unknown chosenindex; nominal60ul-on60.1ul postPCRworkup, QC aliquots, actualindexedpool/<48cleanup/loading/remainders. Wholeproducts/end/readgeometry unassembled.",
+      "deferred": [
+        "Historical NEBNextpolyA isolation kit original/revision and delegated binding/incubation steps: ordinary unread, not an access failure or absence claim.",
+        "Complete occupied RNA/priming/cDNA ends and actual intended donor-to-cDNA junction; resolve published Figure1caption5prime versus source donor5P/3ddC-derived3OH acceptor without assuming a correction.",
+        "Complete PCR strand/primer landing, chosen Table2indexes and sample/pool membership, exact sequencing-primer identity and acquired index orientation.",
+        "Source low-input/alternative RT, proposed paired-end/rRNA-depletion and short ligation comparison branches; not inherited into selected route."
+      ],
+      "oligo_scraper": "Mandatory wholebundle scrape /tmp/ngs35-lm-scraper.log runbycoordinator;9sequences across3representations. Worker verified adopted main91/si480 source pointers and actualFigure1/SIMethods tables. No sequence inferred from scraper alone.",
+      "verification": "22localchecks pass; sourceguard3wholeinputschecked/0failed/1narrowHZG885terminalddC-parserexception/0unrepresented; chemistry26steps/27unresolved/0contradictory. Exception preserves physical34ntdonor and verifies exact rawmodifiedsourceordering, not a source/chemistry waiver."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "MainMethods delegates detailed polyA capture to historical kit; mainDiscussion mentions optional rRNAdepletion/PE adaptation and predecessor comparison. These remain ordinary unread targets, no new original opened in closed2-original pass. No exact sequence/reaction inheritance from them.",
+    "deferred_targets": [
+      "Historical NEBNextpolyA isolation kit original/revision and delegated binding/incubation steps: ordinary unread, not an access failure or absence claim.",
+      "Complete occupied RNA/priming/cDNA ends and actual intended donor-to-cDNA junction; resolve published Figure1caption5prime versus source donor5P/3ddC-derived3OH acceptor without assuming a correction.",
+      "Complete PCR strand/primer landing, chosen Table2indexes and sample/pool membership, exact sequencing-primer identity and acquired index orientation.",
+      "Source low-input/alternative RT, proposed paired-end/rRNA-depletion and short ligation comparison branches; not inherited into selected route."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive privatepartial selectedLMSeq preparation with published ligation-direction discrepancy visible in note and graphSourceItem. No fullsource/reaction or acceptedabsenceaudit; no public schematic promotion.",
+  "source_transcription_exception": {
+    "input": "hzg885",
+    "reason": "Shared scraper strips terminalddC physical nucleotide; model correctly retains appendedC as34th nucleotide. MainMethods91 whole modified /5phos/...ddC checked directly by localselftest; canonical33ntbody not substituted for complete physicaldonor.",
+    "scope": "Narrow local text-formatting exception only; threeother exact wholegraphinputoligos remain strictlychecked. No sharedparseredit.",
+    "source": "PublishedPMC4381617 Methods91; physicaldonor described inResults55 and actualFig1PDFp2 caption discrepancy separately retained."
+  },
+  "implementation_review": {
+    "reviewer": "coordinator_round35_critical_review",
+    "date": "2026-10-30",
+    "scope": "Same two alreadyselected published originals and local implementation; no source acquisition, no full source/absence audit.",
+    "findings": "Source ends, explicit publishedcaption5prime versus Methods-derived3OH conflict, appended34thddC-C and transferredreaction/PCRdirection limits checked. Requested fixes applied: unassignedN10sampleindex now placeholder; actual30ulPremixE is one physicalpreparedstock decomposed into nucleotide/buffer components, water/enzyme separate actualadditions; SI1a15ulbead prewash2x100ul2xbindingbuffer/resuspend50ul stated explicitly. N6remains source randomprimingpopulation with noUMIfeature.",
+    "verification": "Existing22checks rerunpass; guard3checked/0failed/1narrowddCexception/0unrepresented; chemistry26steps/27unresolved/0contradictory. No new originals or scope expansion.",
+    "absence_pass_2": false
+  },
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round35",
+    "date": "2026-10-30",
+    "scope": "Same publishedmain55/73/83\u201395 and actualFig1PDFp2; samepublishedSIsteps1\u20138/p2\u20134, actualPCRbracket/poolingoptionsp4. Two combined originals, no newvendor/predecessor source or absencepass2.",
+    "findings": "Verified whole27ntRTprimer/34ntphysical5PdonorwithappendedddC andsourceLC056/index10 orderings. Fig1caption5primeversusderived3OH retained; templateendsinferredbyconstructor/wholeproductsunassembled. Reviewfixedunassignedindexplaceholderproperty, onePremixEstock\u2192NT/buffercomponents (nofreshduplicateNTs), andexplicitknownbeadprewash/resuspension. Source10/12,20/22transfers/60.1PCR/nominal60beads/QC/actualpool fractions consistent. Rawmodifieddonorfixture backs narrowsharedparserddCexception; notachemistryexemption. No blocker propagated to copiedDNA.",
+    "verification": "22focusedchecks independently rerunPASS;3strictsourceinputs/0failed/1narrowddCformattingexception/0unassembledintroducedinputs. No complete product/readlanding/sourceabsenceaudit."
+  }
+}

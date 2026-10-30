@@ -1,0 +1,68 @@
+{
+  "dir": "pt-seq-platinum__10.1126+sciadv.adx6809",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pt-seq-platinum__10.1126+sciadv.adx6809/sciadv.adx6809_PMC12571083.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12571083.1/PMC12571083.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedmainResults111\u2013113/Methods193\u2013205",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pt-seq-platinum__10.1126+sciadv.adx6809/sciadv.adx6809_supp_sciadv.adx6809_sm.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12571083.1/sciadv.adx6809_sm.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI FigS1originalpage2 rendered;nootherSIchemistryadopted",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pt-seq-platinum__10.1126+sciadv.adx6809/sciadv.adx6809_supp_sciadv.adx6809_tables_s1_to_s5_adx6809_tables_s1_to_s5.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12571083.1/sciadv.adx6809_tables_s1_to_s5.zip#adx6809_tables_s1_to_s5.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedTableS1 originalA5:C11 read;otherTableS1/model/qPCR/targetsheetsunreviewed",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Selectedsource-qualifiedprivatepartialgraph;no complete linked-original/absenceaudit orpublicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-22",
+      "reviewer": "dna_round22",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Atmost10minutesandthreeoriginalsincludingadministrativeidentities;sourceinvestigationclosed;consistencyworkcontinued.",
+      "locations": "PublishedmainResults111\u2013113/Methods193\u2013205;PublishedSI FigS1originalpage2 rendered;nootherSIchemistryadopted;PublishedTableS1 originalA5:C11 read;otherTableS1/model/qPCR/targetsheetsunreviewed",
+      "findings": "Actualprotected/restriction-siteadapterinventory andtwophysicalSbfIdigestions/orderedPCR;modelspike/inputcontrol/QC separate;no inferredUMI.",
+      "deferred": [
+        "Historical source-specific kit/adapter/primer/read geometry and source-cited precursor originals identified in note;ordinaryunread,notacceptedabsence."
+      ],
+      "oligo_scraper": "38candidates/2sequencepositivefiles;actual7libraryoligorowsTableS1A5:C11checkedinoriginalandFigS1p2rendered.",
+      "verification": "15localchecks pass;independentcriticalimplementationreviewclosed. Two-DNAcombinedsourceguard7exact0failed0exempt0unassembled;chemistry1narrowcorepairrelation/60unresolved0contradictory;notcompletechemicalvalidation."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna22_reader",
+    "date": "2026-10-30",
+    "scope": "Selected original sources and critical implementation;notfullsource/absenceaudit.",
+    "finding": "Publishedmain193\u2013205/SIoriginalFigS1p2viewed/TableS1sevenrows vsgraph:PSbondpositions/3NH2C7/5P/sampleindexdistinctfromNN6nonassignedUMI;inputcontrolstored/RecJfexoI/Q5/exoI/ssligation/2PCR/SbfI/6\u20138PCR/SbfI/cleanup/QC/PE150match. No consequential defect found within selected scope."
+  }
+}

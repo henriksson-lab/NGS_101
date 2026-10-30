@@ -1,0 +1,71 @@
+{
+  "dir": "rna-bind-n-seq__10.1016+j.molcel.2014.04.016",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4142047.1/PMC4142047.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated accepted manuscript overview54\u201358/ExperimentalProcedures149\u2013155;protein tag,IVT-RNA/binding/capture/elution/extraction/RT/PCR;not established final-version equivalence"
+    },
+    {
+      "id": "blocked1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4142047/bin/NIHMS598961-supplement-01.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;actual standard retrieval failed or source-hostcooldown",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested)"
+    },
+    {
+      "id": "blocked2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4142047/bin/NIHMS598961-supplement-02.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;actual standard retrieval failed or source-hostcooldown",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "blocked3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4142047/bin/NIHMS598961-supplement-03.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;actual standard retrieval failed or source-hostcooldown",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded published-first selected originals;associatedMS explicit,source-limited private models only,no abstract-only fullgraph or absenceaudit",
+      "locations": "Associated accepted manuscript overview54\u201358/ExperimentalProcedures149\u2013155;protein tag,IVT-RNA/binding/capture/elution/extraction/RT/PCR;not established final-version equivalence",
+      "findings": "Positive source operational/physical fraction scopes preserved;unknown whole molecular geometry/source coverage not promoted.",
+      "deferred": [
+        "Actual named chemistry supplementary01PDF (gated):IVT/RT/primer/library preparation and complete run geometry",
+        "Associated supplements02XLSX/03PDF original scopes and source identities versus final published supplements;actual primary linked documents,not invented missing-disclosure files",
+        "Final published main Methods/version applicability of associated accepted manuscript",
+        "Source prepared-input workup/sourcecontrol library continuation,full protein/primer/conjugate/end geometry,all post-PCR cleanup/adapters/acquisition operations"
+      ],
+      "verification": "Combined16 focused localchecks(8+8),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt8unassembled inputs (not sequence validation);chemistry0established22unresolved0contradictory. No fullchemistry/sourcevalidation claimed.",
+      "oligo_scraper": "Mandatory fullbundle scraper run;sourcepointers checked in selected scopes. Zero hits/retrievedfiles do not establish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct relevant source targets/questions listed;no recursive source chase or complete missing-information audit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Actual named chemistry supplementary01PDF (gated):IVT/RT/primer/library preparation and complete run geometry",
+    "Associated supplements02XLSX/03PDF original scopes and source identities versus final published supplements;actual primary linked documents,not invented missing-disclosure files",
+    "Final published main Methods/version applicability of associated accepted manuscript",
+    "Source prepared-input workup/sourcecontrol library continuation,full protein/primer/conjugate/end geometry,all post-PCR cleanup/adapters/acquisition operations"
+  ]
+}

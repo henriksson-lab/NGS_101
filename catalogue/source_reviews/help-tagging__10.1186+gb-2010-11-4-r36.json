@@ -1,0 +1,58 @@
+{
+  "dir": "help-tagging__10.1186+gb-2010-11-4-r36",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/help-tagging__10.1186+gb-2010-11-4-r36/gb-2010-11-4-r36_PMC2884539.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2884539.1/PMC2884539.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedmainMethods103\u2013111/Results37\u201351/Fig1, not acceptedmanuscript",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/help-tagging__10.1186+gb-2010-11-4-r36/gb-2010-11-4-r36_supp_gb-2010-11-4-r36-S1.PDF.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2884539.1/gb-2010-11-4-r36-S1.PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedAdditionalfile1TableS9 source107474\u2013107501,originalp218rendered forwholeoligos/case/PSbond/phosphates",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "PrivateincompleteoperationalgraphfrompublishedmainandchemistrySI;noacceptedabsence/fullsourceaudit/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "dna_round20",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Atmost10min/3originals,publisheddefining+chemistrySIbeforelinkedfollowups;sourceinvestigationclosed.",
+      "locations": "PublishedmainMethods103\u2013111/Results37\u201351/Fig1;Additionalfile1TableS9 source107474\u2013107501/originalp218rendered.",
+      "findings": "ActualEcoP15I/AE-T7IVT\u2192RNeasy\u2192SSIIIRT\u219218cyclePCRselectiondiffersfromMSCC;knownlateroperationsandactualmodifiedoligosretained;fullRT/PCR/backbonegeometryunassembled.",
+      "deferred": [
+        "HistoricalMEGAshortscript/SuperScriptIII/end-repair/T7startandRTprimergeometryoriginalsunreviewed;otherlargeSIresulttables/validationprimersnotexhaustivelyinspected.",
+        "Main35\u201337/Results47\u201351explicitMSCCpredecessorconcept:adapter-distalcuttertagcounting;HELPchangesEcoP15I/T7IVT/RT,nowholechemistryequivalenceorrecipeimport."
+      ],
+      "oligo_scraper": "Mandatory37candidates/2sequencepositivefiles;actualTableS9originalp218renderedandwholeoligos/modificationsread.",
+      "verification": "HELP12checks pass/guard6literalstrands0fail0exempt1unassembledRTprimer;chemistry19unresolved0contradictory. Other2identity/accessonlynogr\u00adaphs(notcollected).3reviewschemasvalid1in_progress2blocked;6note/refpagesbuilt. IndependentcriticalHELPimplementationreviewclosed,notabsenceaudit."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna20_reader",
+    "date": "2026-10-29",
+    "scope": "CachedpublishedmainMethods103\u2013111/publishedSITableS9 source107474\u2013107501; selected critical implementationreview,notabsenceaudit.",
+    "finding": "12checks pass,no consequentialdefect. ActualAE/ASorder/phosphates/AS1terminalPSbondT,retainedEcoP15Idaughters,NEWRNAIVTwithoutinstantDNA/AS-ASdiscard andnoinventedRNAhydrolysis;RT/PCRgeometryunassembled."
+  }
+}

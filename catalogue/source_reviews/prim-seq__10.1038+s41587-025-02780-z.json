@@ -1,0 +1,72 @@
+{
+  "dir": "prim-seq__10.1038+s41587-025-02780-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main_preview",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41587-025-02780-z",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published2025/issue2026indexedpreviewidentity/abstract/ED1\u20132captions/supplementmaponly; fulldefiningbody/Methodsunread. Directpageidentityredirect; officialPDFreturnedHTMLnotPDF.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_si1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-025-02780-z/MediaObjects/41587_2025_2780_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1contents/Fig9actualPDFp13printed12/extracted958\u20131006: whole44ntbottomprinted3to5/5App/internalbiotinmarkand44nt5Phostop/RNA-linkerannealingcomponent. Table6RNA-PLAprobeidentityonlynotcorePRIMoligos.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "round40_multi_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Publishedversionfirst; two-originalsourcepassclosedwithunusedthirdslot. ActualchemistrylimitedtoSI1RNA-linkercomponent, notfullNGSpreparation.",
+      "locations": "Published2025/issue2026indexedpreviewidentity/abstract/ED1\u20132captions/supplementmaponly; fulldefiningbody/Methodsunread. Directpageidentityredirect; officialPDFreturnedHTMLnotPDF.; PublishedSI1contents/Fig9actualPDFp13printed12/extracted958\u20131006: whole44ntbottomprinted3to5/5App/internalbiotinmarkand44nt5Phostop/RNA-linkerannealingcomponent. Table6RNA-PLAprobeidentityonlynotcorePRIMoligos.",
+      "findings": "Source5AppisbottomDNA5enddespite3to5printing; reverse44ntbottomorder/44nt5Phostopcomputes41bpduplex+3nt5overhangs. RNArecipient/intended3OHviewinferreddefault. JoinedpartialviewdoesnotretainactivationApp; releasedAMPremainscopresentmixture/unassignedfate. NoSMART-display/REILISorNGSfinishinginvented; collectedfalse.",
+      "deferred": [
+        "Actualpublishedmainbody/Methodsneeded forSMART-display/REILISpreparation/actualstocks/samples/pools/aliquots/NGSfinishing.",
+        "DirectlylinkedGEOGSE270010single-sampledeposition/applicabilityunreviewed; noseries/samplefanoutorversionequivalence.",
+        "Exactinternalbiotinatomattachment, wholeoccupiedRNA/protein-DNA/chimericlibrarygeometry/endprocessing/readlandingunassembled.",
+        "SupersededpreprintPMC11398515/10.1101/2024.09.04.611288notopened/adopted; automaticallyacquiredReportingSummary/SourceDataunread; ordinarycomparisonRIP/RNA-PLAbranchesnotmerged."
+      ],
+      "oligo_scraper": "Mandatorybundle10sequences/1file /tmp/ngs40-prim-scraper.log. Fig9actualp13render /tmp/prim40-si13.png independentlyread; source5DNAadenylationcaptionoverridesorientation-blindscraper3Appannotation. No sharedparserchange.",
+      "verification": "11componentchecksPASS; sourceguard2exactchecked/0failed/0exceptions/0unrepresented; chemicalclaims3steps1localestablished3unresolved0contradictory. ComponentterminalUNRESOLVED/noNGSendpoint; collectedfalse. Note/refrender/schemaPASS; same2closedpublishedoriginals, independentcomponentpeerpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourcepositivecomponentonly; actualdefiningmainneeded, no sourceabsenceorfictitiousdisclosuredocument.",
+    "deferred_targets": [
+      "Actualpublishedmainbody/Methodsneeded forSMART-display/REILISpreparation/actualstocks/samples/pools/aliquots/NGSfinishing.",
+      "DirectlylinkedGEOGSE270010single-sampledeposition/applicabilityunreviewed; noseries/samplefanoutorversionequivalence.",
+      "Exactinternalbiotinatomattachment, wholeoccupiedRNA/protein-DNA/chimericlibrarygeometry/endprocessing/readlandingunassembled.",
+      "SupersededpreprintPMC11398515/10.1101/2024.09.04.611288notopened/adopted; automaticallyacquiredReportingSummary/SourceDataunread; ordinarycomparisonRIP/RNA-PLAbranchesnotmerged."
+    ]
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.nature.com/articles/s41587-025-02780-z.pdf",
+      "why": "ActualofficialpublishedmainPDFstandardattemptreturnedHTMLnotPDF; full2025Methods/recipeunread, no supersededpreprintsubstitution."
+    }
+  ],
+  "conclusion": "Uncollectedfullpreparation; sourcepositivepublishedSIcomponentonly privatepartialgraph. No completechemistry/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round40",
+    "date": "2026-10-30",
+    "scope": "SamepublishedSI1actualFig9p13/printed12render/wholeorders; mainfailedPDFmanifest; fullmainMethodsunread. Notabsencepass2.",
+    "findings": "Verifiedbottom3to5reverse(no complement),5App/internalbiotinmark,top5Phos,41bpstem/3nttails. RNArecipientinferreddefault; AMPleavesdonor/remainscopresent(nofakeworkup).11PASS. ComponentterminalUNRESOLVED/noinventedNGS; wholeprotocoluncollected/actualmainrequestappropriate.",
+    "absence_pass_2": false
+  }
+}

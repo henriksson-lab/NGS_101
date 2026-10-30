@@ -1,0 +1,60 @@
+{
+  "dir": "scartrace__10.1038+nature25969",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scartrace__10.1038+nature25969/vanOudenaarden_Key_2018_Alemany_Whole-organism-clone-tracing-using-single-cell-sequencing.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published institutional mirror identity/title/DOI;Methods1385\u20131402 andFig1d:RT/secondstrand beforeproteinaseK/nestedGFP PCR,wellpool/oilseparation/split,SORT-seq andadapterPCR,PE75NextSeq. Fig1d labelsIVT transcriptomebranch."
+    },
+    {
+      "id": "rna_primers",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scartrace__10.1038+nature25969/nature25969_41586_2018_BFnature25969_MOESM6_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryTable1 firstCELSeq2-BC-001 row andtablecolumnidentity;fullRToligo,8Nsegment,8ntcellbarcode,25T+VNanchor."
+    },
+    {
+      "id": "scar_primers",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scartrace__10.1038+nature25969/nature25969_41586_2018_BFnature25969_MOESM7_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryTable2 first384sheetrow;sourceT7-eGFPprimercomponent,GTCACCGGwellbarcode andAGGACGACGGCAACTACAAGGFParm. Wholeprimerjunctionunassembled,notinventedfromadjacentcolumns."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Source-local operational graphs and selected molecular interfaces;private partial models,no source-absence acceptance.",
+      "locations": "Published institutional mirror identity/title/DOI;Methods1385\u20131402 andFig1d:RT/secondstrand beforeproteinaseK/nestedGFP PCR,wellpool/oilseparation/split,SORT-seq andadapterPCR,PE75NextSeq. Fig1d labelsIVT transcriptomebranch.; PublishedSupplementaryTable1 firstCELSeq2-BC-001 row andtablecolumnidentity;fullRToligo,8Nsegment,8ntcellbarcode,25T+VNanchor.; PublishedSupplementaryTable2 first384sheetrow;sourceT7-eGFPprimercomponent,GTCACCGGwellbarcode andAGGACGACGGCAACTACAAGGFParm. Wholeprimerjunctionunassembled,notinventedfromadjacentcolumns.",
+      "findings": "\ud83d\udfe2 Published Methods: DAPI-negative live single cells are sorted into384wellplates containing mineral oil,uniquely barcoded RT primers,dNTPs,spike-ins and RNase inhibitor. Plates are spun/storedminus80\u00b0C;cells lyse65\u00b0C5min. RT42\u00b0C and second-strand synthesis16\u00b0C precede proteinaseK access to genomicDNA and nestedGFP PCR. The secondPCR introduces separate scarwellbarcodes. Original gDNA-only branch omits step1 (RT/secondstrand).\n\n\ud83d\udfe2 All wells are physically pooled,aqueous material is separated from oil,and the recovered mixture is allocated to scar and transcriptome libraries. This is an aliquot split,not DNA/RNA purification. Transcriptomes follow SORT-seq;Fig1d explicitly labelsIVT on pooledcDNA. Exact linked SORT-seq operational continuation remains unreviewed. Scar adapterPCR introduces IlluminaTruSeqadapters;source reports paired-end75bp NextSeq. No new cleanups invented between these stated operations.\n\n\ud83d\udfe2 PublishedTable1 first RTprimer is `GCCGGTAATACGACTCACTATAGGCCTTGGCACCCGAGAATTCCANNNNNNNNCGTCTAATTTTTTTTTTTTTTTTTTTTTTTTTTVN`;the explicit Barcode column is `CGTCTAAT`. Main transcriptomeanalysis identifiesRead1cellbarcode/UMI andRead2biological information. The8Nsegment is assigned UMI semantics with that source context;the25T+VNanchor is not another identifier. Table2 first scarbarcode `GTCACCGG` is separate from RNAbarcode and inherited GFPscar;its fixed GFP arm is `AGGACGACGGCAACTACAAG`. The adjacent Table2 pieces are not silently joined into a validated wholeprimer.\n\n\ud83d\udfe2 Histone-GFP recorder scars can occur in multiple transgene copies per cell. The local lineage feature describes inherited allele information,not a unique currentcell identifier,randommolecule UMI or a predicted indel string. Recorder creation remains upstream of actual NGS recovery. Computational clone filtering does not physically remove molecules in the graph.\n\nAncestry: published Methods expressly directs the transcriptome branch to SORT-seq (reference18) and gives a detailed Single-cellScarTrace ProtocolExchange original (reference33,10.1038/protex.2018.017). This is branch-specific operational inheritance,not identity with LINNAEUS/scGESTALT. Both directly linked recipes remain deferred under the three-original cap.",
+      "deferred": [
+        "Direct detailed Single-cell ScarTrace original https://doi.org/10.1038/protex.2018.017",
+        "Cited SORT-seq source reference18 and exact transcriptome continuation",
+        "Full nestedPCR/adapterPCR oligos,Table2 component junctions and product/read geometry",
+        "Remaining supplements and independent source review"
+      ],
+      "oligo_scraper": "/tmp/round11-scartrace-hits.log;selectedoligoscheckedagainstorignalpointers;SPOTSmodifiedoligosrenderedoriginalp21.",
+      "verification": "SPOTS8+ScarTrace8+DNATypewriter6=22localchecks pass;3privatebuilds pass;defaultsourceguard7checked0failed/0exemptions/1unassembledsourceprimerinventory;pairing0problems;scopedchemistry0established40unresolved0contradictory;3in_progressreviewrecords valid. SPOTSactualblockerstrandretains3primeinverteddTmodificationandvisiblephysicalnotation. ScarTraceTable2componentsremainoneunassembledprimerreagent;independentsourcetranscriptioncheckcoverscomponentswithoutjoining. Checks establishselectedtranscription/orderfacts,notcompletechemistry/sourcecoverage."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Directly linked chemistry original identities and actual unreviewedtargets kept explicit;not absence evidence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Direct detailed Single-cell ScarTrace original https://doi.org/10.1038/protex.2018.017",
+    "Cited SORT-seq source reference18 and exact transcriptome continuation",
+    "Full nestedPCR/adapterPCR oligos,Table2 component junctions and product/read geometry",
+    "Remaining supplements and independent source review"
+  ]
+}

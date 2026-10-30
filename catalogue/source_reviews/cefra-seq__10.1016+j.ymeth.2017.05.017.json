@@ -1,0 +1,70 @@
+{
+  "dir": "cefra-seq__10.1016+j.ymeth.2017.05.017",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1016/j.ymeth.2017.05.017",
+      "original": "https://doi.org/10.1016/j.ymeth.2017.05.017",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "publisher_article",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S1046202316304066",
+      "original": "https://www.sciencedirect.com/science/article/pii/S1046202316304066",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Normal web open returnedHTTP403. Earlier publisher-index/PubMed title/abstract/limited outline read only at discovery; actual original chemistry not obtained.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source sections above and protocol note; none chemistry-read for CeFra",
+      "finding": "Identity-only/source-blocked, not chemistry-collected. No acquired chemical original, no molecular protocol graph; abstract/index overview not promoted to a complete preparation. No independent second/absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://www.sciencedirect.com/science/article/pii/S1046202316304066",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    },
+    {
+      "locator": "Potential same-method later companion10.1261/rna.063172.117 /PMC5733575; not read/fetched or assumed2017version equivalent",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Original chemical adduct/end/strand/full-library geometry and source-linked procedure/readout remain unassembled; no missing-information claim."
+  ],
+  "conclusion": "Identity-only/source-blocked, not chemistry-collected. No acquired chemical original, no molecular protocol graph; abstract/index overview not promoted to a complete preparation. Notes status only; no finished schematic or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Defining/chemistry originals first; no recursive chase. Identity-only/uncollected if original blocked.",
+      "locations": "Discovery title/abstract only; chemistry original unavailable",
+      "findings": "Identity-only/source-blocked, not chemistry-collected. No acquired chemical original, no molecular protocol graph; abstract/index overview not promoted to a complete preparation.",
+      "deferred": [
+        "https://www.sciencedirect.com/science/article/pii/S1046202316304066",
+        "Potential same-method later companion10.1261/rna.063172.117 /PMC5733575; not read/fetched or assumed2017version equivalent"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scan; selected original contexts inspected. Proximity/CAP large-file skips explicit; empty CeFra/TRIBE hits do not establish absence.",
+      "verification": "18localbehaviorchecks pass across3chemistrymodels, sourceguard0checked0failed6unassembledinputs, chemistry46unresolved0contradictory. CeFra has no graph/tests and is not chemistry-collected."
+    }
+  ]
+}

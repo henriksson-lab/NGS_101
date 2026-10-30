@@ -1,0 +1,52 @@
+{
+  "dir": "silent-cptm-phage-encoding__10.1021+jacs.5b10390",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "blocked1",
+      "role": "supplement",
+      "locator": "https://pubs.acs.org/doi/suppl/10.1021/jacs.5b10390/suppl_file/ja5b10390_si_004.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;standard retrieval failed or sourcehostcooldown",
+      "reason": "Published procedures Supporting Information identified by primary ACS index; why: Source index names exact ja5b10390_si_004.pdf;verify returned original identity and procedures before use;main no open full text.; HTTP 403"
+    },
+    {
+      "id": "blocked2",
+      "role": "defining",
+      "locator": "https://doi.org/10.1021/jacs.5b10390",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;standard retrieval failed or sourcehostcooldown",
+      "reason": "journal article; no open full text found (publisher page only)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Published-first bounded selected-source pass;associatedMSNGGM explicit,no abstract-only fullgraph,no absenceaudit",
+      "locations": "Primary published identity/abstract and actual source-tool manifest failures only",
+      "findings": "Selected physicalclasses/operations and limitations in protocol note;ordinary unread targets deferred,actualgates blocksourcecoverage.",
+      "deferred": [
+        "Defining published main fullMethods beyond primary abstract",
+        "Identified published proceduresSI ja5b10390_si_004.pdf,TablesS1/S2/FigsS1\u2013S10 (actualHTTP403)",
+        "Chemical conjugate structures,phage genomic tags/exact oligos,reagent/order/physical selections,libraryPCR/adapters/readlayout and source-linked predecessors"
+      ],
+      "verification": "Focusedlocaltests,sourceguard,chemistry,schema,build/pairing results reported tocoordinator;no full chemistryvalidation.",
+      "oligo_scraper": "Mandatory standard bundle scraper run;relevant selectedoriginal pointers checked;zeroNGGMhits/cPTMretrievedfiles doesnotestablish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Pendingdirectoriginals listed;no recursive source chase or complete absence review."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Defining published main fullMethods beyond primary abstract",
+    "Identified published proceduresSI ja5b10390_si_004.pdf,TablesS1/S2/FigsS1\u2013S10 (actualHTTP403)",
+    "Chemical conjugate structures,phage genomic tags/exact oligos,reagent/order/physical selections,libraryPCR/adapters/readlayout and source-linked predecessors"
+  ]
+}

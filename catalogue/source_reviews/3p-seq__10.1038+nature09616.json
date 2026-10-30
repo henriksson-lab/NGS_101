@@ -1,0 +1,306 @@
+{
+  "dir": "3p-seq__10.1038+nature09616",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/(manual) nature09616_41586_2011_BFnature09616_MOESM40_ESM_nature09616-s4.html",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM40_ESM.zip#nature09616-s4.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file (from the zip); no article content (73 characters of text)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/(manual) nature09616_supp_NIHMS249209-supplement-3.html",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3057491.1/NIHMS249209-supplement-3.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); no article content (73 characters of text); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/(manual) nature09616_supp_NIHMS249209-supplement-3__7615c76bc32c.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3057491/bin/NIHMS249209-supplement-3.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/(manual) nature09616_supp_NIHMS249209-supplement-4.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3057491/bin/NIHMS249209-supplement-4.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/(manual) nature09616_supp_NIHMS249209-supplement-5.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3057491/bin/NIHMS249209-supplement-5.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/(manual) source_pdf_2ec4d404230727ff132a.pdf",
+      "original": "https://bartellab.wi.mit.edu/publication_reprints/Jan_Nature_2011.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Published3P-seq original in author first-party repository; why: Verify printed final title/DOI before selected applicability comparison; no recipe merge across versions.; curl error 60"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM33_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM33_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM34_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM34_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM35_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM35_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM36_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM36_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM37_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM37_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "Publishedsupplementkeywordinspectionforlibrarychemistryandselectedcaptioncontextonly;fullfigures/datauninspected.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM38_ESM.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM38_ESM.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM39_ESM.zip",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM39_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM39_ESM_2010-09-12124B-SupplementaryDataset2.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM39_ESM.zip#nature09616-s3/2010-09-12124B-SupplementaryDataset2.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM39_ESM_supplementalDataset2_revised.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM39_ESM.zip#nature09616-s3/supplementalDataset2_revised.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_41586_2011_BFnature09616_MOESM40_ESM.zip",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature09616/MediaObjects/41586_2011_BFnature09616_MOESM40_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_17",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_PMC3057491.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3057491.1/PMC3057491.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "AssociatedAMoractualmanifesttarget;exactreadidentityspecifiedinpass_1",
+      "reason": "article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_18",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_PMC3057491.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3057491.1/PMC3057491.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "AssociatedAMoverview38\u201342/Methods3P-SeqLibraries84\u201386;explicitrecipe,notfinalversionequivalence.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "AssociatedAMoractualmanifesttarget;exactreadidentityspecifiedinpass_1",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_supp_NIHMS249209-supplement-1.doc",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3057491.1/NIHMS249209-supplement-1.doc",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "AssociatedAMsupplementcontentsinventoryonly,noadoptedchemicalclaims.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3p-seq__10.1038+nature09616/nature09616_supp_NIHMS249209-supplement-2.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3057491.1/NIHMS249209-supplement-2.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round19_source_reader",
+      "date": "2026-10-29",
+      "locations": "AssociatedAMoverview38\u201342/Methods3P-SeqLibraries84\u201386;explicitrecipe,notfinalversionequivalence.; AssociatedAMsupplementcontentsinventoryonly,noadoptedchemicalclaims.; Publishedsupplementkeywordinspectionforlibrarychemistryandselectedcaptioncontextonly;fullfigures/datauninspected.",
+      "finding": "Actualdirecttargets/readinglimitsenumerated,noacceptedabsence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://bartellab.wi.mit.edu/publication_reprints/Jan_Nature_2011.pdf",
+      "scope": "Identifiedfinalpublishedfirst-partyPDFstandardretrievalcurl60;notretried/bypassed."
+    },
+    {
+      "locator": "Citedstrand-specificmRNAseqprotocol31 and historicaldetailed3Pprotocol",
+      "scope": "Directlinkedchemistryfollow-updeferred;currentV2versionnotassumedorimported."
+    }
+  ],
+  "conclusion": "Source-positiveprivateincompleteoperationalmodel;actualmodifications/fractions/copyingremainexplicit,nopublicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "round19_source_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Capped10min/3originalssourcereading,publishedfirst,versionsnotmerged.",
+      "locations": "AssociatedAMoverview38\u201342/Methods3P-SeqLibraries84\u201386;explicitrecipe,notfinalversionequivalence.; AssociatedAMsupplementcontentsinventoryonly,noadoptedchemicalclaims.; Publishedsupplementkeywordinspectionforlibrarychemistryandselectedcaptioncontextonly;fullfigures/datauninspected.",
+      "findings": "Actualsourceknownoperationscontinuedthroughsequencinginterface;unknownhistoricalkitinternalsandfullprimerlandingunassembled.",
+      "deferred": [
+        "https://bartellab.wi.mit.edu/publication_reprints/Jan_Nature_2011.pdf",
+        "Citedstrand-specificmRNAseqprotocol31 and historicaldetailed3Pprotocol"
+      ],
+      "oligo_scraper": "Mandatoryfullbundle scraper;modifiedadoptedoligosverifiedinoriginaltextandpublishedTable1renderwhereapplicable.",
+      "verification": "Term8/3P9/3READS12localchecks29totalpass;chemistry47steps49unresolved0contradictory. Sourceguard9checked0failed1independentlyapprovedcapturemacroexemption/5unassembled."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent DNA implementation reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached originals only: TermpublishedMethods1531\u20131668,3PAM84\u201386,3READSAM129\u2013141andpublishedTable1originalp10. No new acquisition or absence audit.",
+    "finding": "29localchecks8/9/12pass. No consequential defect found in selected physical/copying/fraction/sugar/modification scopes;completehistoricalRT/PCRlanding remains unassembled."
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "dir": "m1a-seq__10.1038+nature16998",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4842015/bin/NIHMS778531-supplement-1.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4842015/bin/NIHMS778531-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM112_ESM.ppt.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM112_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM113_ESM.ppt.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM113_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM114_ESM.ppt.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM114_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM115_ESM.ppt.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM115_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM116_ESM.ppt.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM116_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM117_ESM.ppt.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM117_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM118_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM118_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Notes1\u20133pp1\u20132; especially Note2competitive elution and partial alkaline rearrangement beforeRT",
+        "finding": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV."
+      },
+      "pass_2": null,
+      "source_version": "Published SI"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM119_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM119_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM120_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM120_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM121_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM121_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM122_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM122_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM123_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM123_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM124_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM124_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM125_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM125_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_41586_2016_BFnature16998_MOESM126_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature16998/MediaObjects/41586_2016_BFnature16998_MOESM126_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_17",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-seq__10.1038+nature16998/nature16998_PMC4842015.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4842015.1/PMC4842015.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance72, Methods144/160 and mismatchanalysis184",
+        "finding": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript NIHMS778531; final-VOR procedural applicability unverified"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "locations": "Selected exact source sections above and protocol notes",
+      "finding": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV. Directly named originals deferred at source cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nature16998",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    },
+    {
+      "locator": "Published SI Note2cited originalm6A-seq procedure (reference50); associated AMMethods160cited predecessor51",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    },
+    {
+      "locator": "Historical NEBNextUltraRNA and TruSeqSRv3 manufacturer originals named in associatedAMMethods160",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Final-VOR main procedure applicability, predecessor scope/edition, exact historical library/primer/index/run geometry. No recipe import."
+  ],
+  "conclusion": "Notes-only capped first source/implementation pass. No full chemical/readout/source completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining/chemistry originals first, no recursive source chase",
+      "locations": "Notes1\u20133pp1\u20132; especially Note2competitive elution and partial alkaline rearrangement beforeRT; Provenance72, Methods144/160 and mismatchanalysis184",
+      "findings": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV.",
+      "deferred": [
+        "https://doi.org/10.1038/nature16998",
+        "Published SI Note2cited originalm6A-seq procedure (reference50); associated AMMethods160cited predecessor51",
+        "Historical NEBNextUltraRNA and TruSeqSRv3 manufacturer originals named in associatedAMMethods160"
+      ],
+      "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
+      "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

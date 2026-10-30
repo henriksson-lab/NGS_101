@@ -1,0 +1,68 @@
+{
+  "dir": "etip-seq__10.1038+s41598-020-75004-w",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7596052.1/PMC7596052.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published mainPMC7596052 Introduction/Results/Fig1/Fig3preparation; Methods164–176 and mapping188–190. Actual originalFig3PDFp5 and wholemodifiedadaptorordersMethodsp11 rendered/read. PublisherHTML/PDF andPMCCloudXML are representations ofsameoriginal.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_si6",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7596052.1/41598_2020_75004_MOESM6_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI6notesmethodologyactualPDFp1 andFigS1/captionp2: P1/P2physicalfractions/resealedGcontamination/limitedshearing/485ng each. OtherSIanalyses/modelcomparisons/controlrecipes unreviewed.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "round41_multi_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Capped sourcepositive pass closed before implementation; two published originals only, no linkedpredecessor/vendor/controlrecipe expansion.",
+      "locations": "Published mainPMC7596052 Introduction/Results/Fig1/Fig3preparation; Methods164–176 and mapping188–190. Actual originalFig3PDFp5 and wholemodifiedadaptorordersMethodsp11 rendered/read. PublisherHTML/PDF andPMCCloudXML are representations ofsameoriginal.; PublishedSI6notesmethodologyactualPDFp1 andFigS1/captionp2: P1/P2physicalfractions/resealedGcontamination/limitedshearing/485ng each. OtherSIanalyses/modelcomparisons/controlrecipes unreviewed.",
+      "findings": "PositiveeTIPa/bseparateactualpreparations modeled locally. KnownphysicalBio-dTbackbone17nt/paired17bp/3T/5GGCC geometryretained; source5PNKclass/terminalbiotinremovalnotfullatommap. P2includesresealedG, notpureT. Sourceactualsupplies/remainders/QC/PE100 distinct fromcomputationalfilters; nofakea/bIPsplit orlibrarypool. Peer-requested preservation of exactadaptorstock state/wholemodifiedmetadata through actualligationallocationandremainder applied; genomic-boundPNKendviews remainpartial.",
+      "deferred": [
+        "Cited earlier eTIP microarray procedure and historicalTruSeq/NEBNext/Illumina kit originals ordinaryunread, not inherited or absence-blocked.",
+        "Actualstartingcell/stockvolumes, intermediateallocations, physicalrecovery/conversion/occupancy, fresh versuscopresentnonselectedclasses andallwholegenomic/adaptor/chimeric/PCRproducts unassembled.",
+        "Exacthistoricaladapter/primer/indexbodies, actualrunindexcycles/landing, terminalbiotinprocessingbackbone/byproducts andsourceFig3anonymous5P/5OHmarkassignmenttoorderedfreeoligos unassembled.",
+        "OtherbranchesSP120ChIP/FAIRE/mRNAseq/imaging andSIresults/coordinateworkbooks not merged; eTIPa/b remain one method."
+      ],
+      "oligo_scraper": "Mandatorywholebundle /tmp/ngs41-etip-scraper.log:2collapsedsequencehits inmainXML; toptruncatedatBio-dT. Exactmain174/PDFp11wholemodifiedordering read andphysicalTrestoredwithnarrowlocalguardexception/fixture, no sharedparserchange.",
+      "verification": "26focusedchecksPASS including2wholemodifiedsourceorderfixtures, physicalBio-dT restoration, source17bpcore/3T/5GGCC,actualPNKcopresentjoiningends/P1P2/kitstock/QCfates. Sourceguard1exactchecked/0failed/1narrowphysicalBio-dTformattingexception/0unrepresentedexternaloligos; producedunknownhistoricalkitoligoclassesoutsideinputguard. DefaultBchemistry31steps/5localestablished/32unresolved/0contradictory; complementaryA27steps/27unresolved/0contradictory. Note/refbuilt; source-review schema validation below. IndependentselectedDNApeerclosed after knownadaptorstockstate/modifiedmetadata preservationfix; same2originals, notcompletechemical/sourceaudit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Same2publishedoriginals only; sourceprototype/kitdocuments andotherSI/controlbranches ordinaryunread. Questionsareunassignedmodelvalues, notinventedunavailableoriginals orabsenceclaims.",
+    "deferred_targets": [
+      "Cited earlier eTIP microarray procedure and historicalTruSeq/NEBNext/Illumina kit originals ordinaryunread, not inherited or absence-blocked.",
+      "Actualstartingcell/stockvolumes, intermediateallocations, physicalrecovery/conversion/occupancy, fresh versuscopresentnonselectedclasses andallwholegenomic/adaptor/chimeric/PCRproducts unassembled.",
+      "Exacthistoricaladapter/primer/indexbodies, actualrunindexcycles/landing, terminalbiotinprocessingbackbone/byproducts andsourceFig3anonymous5P/5OHmarkassignmenttoorderedfreeoligos unassembled.",
+      "OtherbranchesSP120ChIP/FAIRE/mRNAseq/imaging andSIresults/coordinateworkbooks not merged; eTIPa/b remain one method."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Capped sourcepositive partialeTIPb/default andcomplementaryeTIPa graphs collected; no fullmolecular/endoccupancy/source/absence audit.",
+  "independent_implementation_recheck": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "dna_independent_round41",
+      "date": "2026-10-30",
+      "scope": "Same2selectedpublishedoriginalsonly: PMC7596052mainMethods164–176 andactualFig3PDFp5/modifiedordersPDFp11; publishedSI6NotesMethodologyp1/FigS1originalp2. No additionalpredecessor/vendor/sourceopens/retrieval.",
+      "findings": "CriticalimplementationreviewCLOSED afterownerfixedknownadaptorstockstate/wholemodificationmetadata propagation toactualpreparedduplex/ligationaliquot/remainder. Actualtop17ntwithphysicalBio-dT13zeroindex/bottom22nt/17bpcore/3T/5GGCC andsourcePNK-after-firstligation, samecopresentjoiningendinventory, terminalbiotinprocessingbeforeCovaris/capture, source15PCR/exactpreparedmaster/primercocktail classes verified. A/Bseparateactualpreparations; A P1retained/P2released includesresealedG,485ngeach notperfectspeciespurity/nofakea-bpool. Independently26focusedPASS;guard1exact0failed1narrowphysicalBio-dTnotationexception/0unknownexternal; selectedB31steps5duplicatednarrowadapterpairingclaimsestablished/32unresolved0contradictory; A27unresolved0contradictory. Fullgenomicproducts/historicalkitgeometryunassembled, noacceptedabsence/pass2/fullchemicalaudit."
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "dir": "proximity-clip__10.1038+s41592-018-0220-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM3_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM3_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round11_reader",
+        "date": "2026-10-29",
+        "locations": "Labeling steps and steps33\u2013109; source499\u2013880: capture/split/T1/CIP/PNK/PK/workup/intactRNAkit/footprintadapters/RT/PCR/size selection",
+        "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled. Implementation review correction: step46/source533\u2013534 saved50\u00b5l radioactive first-wash Urea-PAGE marker preserved as separate QC material, remaining washes discarded without a perfect molecular partition."
+      },
+      "pass_2": null,
+      "source_version": "Published publisher protocol original, active operational authority"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM4_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM4_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM5_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM6_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM7_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM8_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_41592_2018_220_MOESM9_ESM.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0220-y/MediaObjects/41592_2018_220_MOESM9_ESM.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_9",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_PMC6289640.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6289640.1/PMC6289640.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_10",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_PMC6289640.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6289640.1/PMC6289640.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round11_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance22; overview32\u201348; acquisition/analysis184",
+        "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript; main final-VOR applicability unverified"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_supp_NIHMS1508063-supplement-1.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6289640.1/NIHMS1508063-supplement-1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_supp_NIHMS1508063-supplement-2.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6289640.1/NIHMS1508063-supplement-2.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round11_reader",
+        "date": "2026-10-29",
+        "locations": "Source154\u2013196/209\u2013307 selected preparation/library sections; not assumed whole-version equivalent",
+        "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Associated-manuscript protocol, preliminary/history only; active order subsequently based on published protocol"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_supp_NIHMS1508063-supplement-3.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6289640.1/NIHMS1508063-supplement-3.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-clip__10.1038+s41592-018-0220-y/s41592-018-0220-y_supp_NIHMS1508063-supplement-4.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6289640.1/NIHMS1508063-supplement-4.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source sections above and protocol note; none chemistry-read for CeFra",
+      "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled. No independent second/absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published oligoTable1 in MOESM1; available but unreviewed at three-original cap",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    },
+    {
+      "locator": "Published protocol cites APEX2proteomics10.1038/nprot.2016.018 and PAR-CLIP/streamlined library10.1016/j.ymeth.2016.11.009; actual precursor originals unreviewed",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    },
+    {
+      "locator": "Historical NEBNextUltraRNA kit and complete acquired primer/run geometry",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Original chemical adduct/end/strand/full-library geometry and source-linked procedure/readout remain unassembled; no missing-information claim."
+  ],
+  "conclusion": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled. Notes status only; no finished schematic or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining/chemistry originals first; no recursive chase. Identity-only/uncollected if original blocked.",
+      "locations": "Provenance22; overview32\u201348; acquisition/analysis184; Source154\u2013196/209\u2013307 selected preparation/library sections; not assumed whole-version equivalent; Labeling steps and steps33\u2013109; source499\u2013880: capture/split/T1/CIP/PNK/PK/workup/intactRNAkit/footprintadapters/RT/PCR/size selection",
+      "findings": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled.",
+      "deferred": [
+        "Published oligoTable1 in MOESM1; available but unreviewed at three-original cap",
+        "Published protocol cites APEX2proteomics10.1038/nprot.2016.018 and PAR-CLIP/streamlined library10.1016/j.ymeth.2016.11.009; actual precursor originals unreviewed",
+        "Historical NEBNextUltraRNA kit and complete acquired primer/run geometry"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scan; selected original contexts inspected. Proximity/CAP large-file skips explicit; empty CeFra/TRIBE hits do not establish absence.",
+      "verification": "Proximity-CLIP affected suite8checks pass after published step46 QC-fate correction; sourceguard0checked0failed0bundlesskipped5inputswithout exactstates1graph. Other-protocol checks unchanged."
+    }
+  ]
+}

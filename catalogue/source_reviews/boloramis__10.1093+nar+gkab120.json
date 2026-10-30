@@ -1,0 +1,77 @@
+{
+  "dir": "boloramis__10.1093+nar+gkab120",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8191787.1/PMC8191787.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC8191787main181/227/237/239/selectedResults295; directRNAprobe closure, actualpool, sourcechemistry/timing andreference21identity.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "tables",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8191787.1/gkab120_supplemental_files.zip#Supplementary_Tables_Final.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "OriginalworkbookidentitiesS1/S3; S1selectedgeneralprobeorders; S3C3/C4/C6\u2013C9/C12 sevenwholemodifiedorders originalZIP/XML; actualA1component andcopiedcode meaning. Otherpoolordersavailable/unexpanded, notabsent.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8191787.1/gkab120_supplemental_files.zip#BOLORAMIS_NAR_template_Supplementary_Materials_2021-02-08.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSIselectedS8caption/actualPDFp12diagram18+4+23+8+7probe/\u00b1nonamerends/dyes/eightcycles. OtherSIsectionsordinaryunread.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "targeted_owner_round43",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "ActualmultiplexBOLORAMIS co-culture withselectedACTN1A1 DNApadlock/RNA-splintconditionalgeometry\u2192source5Pclosure\u2192Phi29RCA+AA-dUTP\u2192BSPEG9/proteinanchoring\u2192eightnonamerSBLrounds. Otheractualpoolmemberscopresent/unexpanded; nofakesingleplex.",
+      "locations": "PublishedPMC8191787main181/227/237/239/selectedResults295; directRNAprobe closure, actualpool, sourcechemistry/timing andreference21identity.; OriginalworkbookidentitiesS1/S3; S1selectedgeneralprobeorders; S3C3/C4/C6\u2013C9/C12 sevenwholemodifiedorders originalZIP/XML; actualA1component andcopiedcode meaning. Otherpoolordersavailable/unexpanded, notabsent.; PublishedSIselectedS8caption/actualPDFp12diagram18+4+23+8+7probe/\u00b1nonamerends/dyes/eightcycles. OtherSIsectionsordinaryunread.",
+      "findings": "DirectRNA-splinted5PpadlockligationavoidsRT; exactselected60ntgene-codeprobe/RCA/\u00b1anchors andRCA/dye-ligationreadout retained, physicallydistinctfromcDNAFISSEQ andtwo-probeSNAIL.",
+      "deferred": [
+        "Source21polonysequencing10.1126/science.1117389ordinaryunread; fullnonamerpatterns/cycleoffsets/chemistrynotinherited.",
+        "OtherpublishedpoolprobeordersavailablebutunexpandedoutsidechosenACTN1component; noabsenceclaim.",
+        "CompleteoccupiedRNAs/probecomplexes,ligaseyield,AA-dUsubstitution/BSPEG9adducts/readmask/sealedSBLjunctionsunassembled."
+      ],
+      "oligo_scraper": "Mandatorywholebundle200displayedhits/1representation, originalS3sevenwholeorders andactualSIp12diagramverified; notblindlyfromscraper. Otherworkbookrowsnotcompleteabsenceaudit.",
+      "verification": "25focusedPASSincluding7wholeoriginalmodifiedorderingfixtures andprimarybiologicalprovenance; guard35exact0failed0exemptions/1otherpanelinventorywhole-unexpanded. Eightproducednonamerinventorieswholepatternsuncuratedoutsideexternalguard; exactretainedpadlock/RCAprimersalsoverified. Chemistry79steps18established2conditional77unresolved0contradictory. IndependentselectedcriticalpeerCLOSEDsame3publishedoriginals."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Cappedselectedsourcepassonly. Source21polonysequencing10.1126/science.1117389ordinaryunread; fullnonamerpatterns/cycleoffsets/chemistrynotinherited. OtherpublishedpoolprobeordersavailablebutunexpandedoutsidechosenACTN1component; noabsenceclaim. CompleteoccupiedRNAs/probecomplexes,ligaseyield,AA-dUsubstitution/BSPEG9adducts/readmask/sealedSBLjunctionsunassembled."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialpreparation; completechemistry/source/absenceauditnotachieved.",
+  "independent_implementation_recheck": {
+    "reviewer": "dna_peer_round43",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "SamepublishedNARmainPMC8191787 identity/181/227/237/239/295, sameSupplementaryTablesFinalworkbookactualS3B3/C3/B4/C4/B6\u2013C9/A12\u2013C12 ZIP/XML, samepublishedSIactualFigS8p12 renderedoriginal. No predecessor/vendor/neworiginal opened.",
+    "findings": [
+      "Independently verified sevenwholemodifiedS3orders/name-to-cellmapping, source60nt5Ppadlock,18+4+23+8+7layout andduplicated4base geneidentitycode. Exactconditional25ntRNA remains inferredbydefault; known5P/3OHcirclebackbone andprimer-derivedRCAcopy relations do notestablishactualRNAidentity/occupancy, ligationyield orwholecell chemistry.",
+      "Actual957mRNA+77miRNA multiplexpool remains copresent aroundselectedACTN1successfulcomponent. No singlespecies/singleplexsource invented; miRNAprimer/plus-minusanchors retainwholeorders andsourceasteriskinRCAname isnotmisreadasPSmodification. Targetbarcodes aregeneidentifiers, notcellbarcode/UMI.",
+      "ActualRCA mix decomposesAA-dUTP/BSA/Phi29/NT/buffer fromsamephysicalstock; retainedsurroundingproteinclass derivesfromsourcecells. SourceBSPEG9initial180ul/15min then20ulborate/total30min retained. AminoallyldUoccupancy/crosslinkedadducts andallothermolecularclasses remainunassembled; establishedchecks are onlystatedlocalbackbone/interface relations.",
+      "OriginalS8plus/minusanchor/nonamerpolarities anddyeends agreewithknownpartialsplintedgeometry. Eightactualfreshchemistry/imagingrounds andseveninter-roundstrips operateonthesamefixedsample, nofakeDNAQCaliquot/Illuminaloading. Exact9merpatterns/cycleoffset/dye-to-template/readmask remainunassembled, not inheritedfromunreadpolonypredecessor.",
+      "Requestedandverifiedprimary=Trueforactualinitialbiologicalsource, withmeaningfulendpointprovenanceregression; no source or molecularorder change. No completechemical/source/absenceaudit."
+    ],
+    "verification": "25focusedPASS independentlyrerun (including7wholeoriginalS3orderfixtures); sourceguard35exact0failed1wholeexternalotherpanelunexpanded. Chemistry79steps18localestablished2conditional77unresolved0contradictory. Same3originalselectedcriticalimplementationreviewCLOSED."
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "dir": "rap-rna__10.1016+j.cell.2014.08.018",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-1.docx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-1.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-10.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-10.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-2.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-3.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-4.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-5.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-6.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-6.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-7.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-7.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-8.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-8.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/(manual) j.cell.2014.08.018_supp_NIHMS625961-supplement-9.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-9.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_11",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-rna__10.1016+j.cell.2014.08.018/j.cell.2014.08.018_PMC4177037.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4177037.1/PMC4177037.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round16_source_reader",
+        "date": "2026-10-29",
+        "locations": "AssociatedacceptedmanuscriptPMC4177037 overview69\u201391/Methods137\u2013163/Fig1caption403; AMTversusFA/FA-DSGphysicalorder, probes andcDNAstop/readout. Finalpublishedapplicabilityunverified.",
+        "finding": "Selectedpositiveoriginalscopeonly, notfull sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscript; finalequivalenceunverified",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round16_source_reader",
+      "date": "2026-10-29",
+      "locations": "AssociatedacceptedmanuscriptPMC4177037 overview69\u201391/Methods137\u2013163/Fig1caption403; AMTversusFA/FA-DSGphysicalorder, probes andcDNAstop/readout. Finalpublishedapplicabilityunverified.",
+      "finding": "Actualdirecttargets enumerated; deferatcap orrecordactualaccessbarrier. No absenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-1.docx",
+      "scope": "ActualnamedSupplementalExperimentalProcedures routecooldown/PMCgate; notrequestedagain orsubstituted."
+    },
+    {
+      "locator": "PublishedfinalDOI10.1016/j.cell.2014.08.018 andactualTablesS4/S5",
+      "scope": "Sourcefinalversion applicability andexactprobe/librarychemistryunreviewed; allactualgatedattachmentURLs retainedinchecklist."
+    },
+    {
+      "locator": "http://www.lncrna.caltech.edu/RAP",
+      "scope": "DirectauthorsdetailedRAPprotocolcitedMethods139, uninspectedwithincap."
+    },
+    {
+      "locator": "Engreitz2013RAPpredecessor citedMethods147/151",
+      "scope": "Explicitcomponentancestor, originalnotfollowed/imported."
+    }
+  ],
+  "open_questions": [
+    "Fullpublishedversion/end/primer/index/readgeometry andexactphysicalfractions remainunassembled."
+  ],
+  "conclusion": "Sourcequalifiedprivateincompletegraph; nofinishedpublication oracceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "round16_source_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded10min/3originals, publishedfirst; acceptedmanuscriptlabelsexplicit, norecursivechase.",
+      "locations": "AssociatedacceptedmanuscriptPMC4177037 overview69\u201391/Methods137\u2013163/Fig1caption403; AMTversusFA/FA-DSGphysicalorder, probes andcDNAstop/readout. Finalpublishedapplicabilityunverified.",
+      "findings": "Actualsourceaccess/positivechemistryscope recorded; RPF/RNA/cDNAandphysicalfractions separatewheremodelled.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-1.docx",
+        "PublishedfinalDOI10.1016/j.cell.2014.08.018 andactualTablesS4/S5",
+        "http://www.lncrna.caltech.edu/RAP",
+        "Engreitz2013RAPpredecessor citedMethods147/151"
+      ],
+      "oligo_scraper": "Mandatoryfullcache scraper; RiboITP21MBMOESM7datatable skippedbymandatorysizelimit, actualadoptedoligosverifiedinoriginalworkbook.",
+      "verification": "8 local checks pass; combined source guard2checked/0failed/0exemptions/5unassembled inputs across2graphs; chemistry30unresolved/0contradictory; schema3pass, notes build and whitespace check pass. This is not full molecular/source review or a second absence audit."
+    }
+  ]
+}

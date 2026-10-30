@@ -1,0 +1,63 @@
+{
+  "dir": "constellation-seq__10.1016+j.isci.2021.102147",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7900351.1/PMC7900351.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Results91/97/111 and supplemental-role list283\u2013289; selected targeted-linear-amplification boundary.",
+      "cached_original": "j.isci.2021.102147_PMC7900351.xml"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7900351.1/mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published transparentMethods761\u2013813: primer design; no-TSO Drop-seq branch and standard comparator separated; 10X branch824\u2013831 read only as alternate scope.",
+      "cached_original": "j.isci.2021.102147_supp_mmc1.pdf"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7900351.1/mmc3.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS2 CDS52 actual whole source rows4\u201355; original workbook cells and extracted orderings checked.",
+      "cached_original": "j.isci.2021.102147_supp_mmc3.xlsx"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-32",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Selected Drop-seq branch only; prior bead/RT chemistry remains an explicit prepared-stock boundary. TableS2 whole row inventory is locally owned, including duplicate table entries.",
+      "locations": "Published main Results91/97/111 and supplemental-role list283\u2013289; selected targeted-linear-amplification boundary.; Published transparentMethods761\u2013813: primer design; no-TSO Drop-seq branch and standard comparator separated; 10X branch824\u2013831 read only as alternate scope.; Published TableS2 CDS52 actual whole source rows4\u201355; original workbook cells and extracted orderings checked.",
+      "findings": "Published no-TSO Drop-seq cDNA-bead branch with hybrid target-specific primers for20rounds of single-primer linear extension, then standard PCR/tagmentation; separate10X alternative not merged.",
+      "deferred": [
+        "Cited historical Drop-seq original and associated historical kit/complete bead/RT/PCR/tagmentation/read structures ordinary unreviewed. No whole predecessor constructor inherited.",
+        "Published TableS1/mmc2 and TableS3/mmc4 ordinary unreviewed; selected TableS2 only. Source general design ranges are not enforced on the literal table orderings.",
+        "Automatically fetched superseded10.1101/800631 excluded as chemistry authority; no preprint values merged."
+      ],
+      "verification": "88 focused checks pass (Constellation58/scG2P9/RoCK21); source guard58exact/0failed/0exceptions/2unassembledinputs; chemistry67unresolved/0contradictory, not full validation.",
+      "oligo_scraper": "Mandatory bundle scrapers run; Constellation336candidates/5representations,scG2P3/1,RoCK66/4at selected read time; source originals independently verified, no negative inference from hits."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Only selected source-positive scope; directly cited detailed protocols/vendor predecessors remain unreviewed as stated, not absent."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "dna_round32",
+    "date": "2026-10-30",
+    "scope": "Same published main91/97/111; published mmc1 TransparentMethods761\u2013813; actual original mmc3 workbook CDS52 rows4\u201355 independently decoded via ZIP/XML.",
+    "finding": "Selected source/model critical review closed. All52 original whole gene/orderings agree including literal repeated rows. No-TSO prepared-bead boundary, actual2000bead aliquot, one KAPA ReadyMix enzyme/NT/buffer component representation, single-primer20-round60C linear extension before opaque standardPCR, twoAMPure/QC/tagmentation and20x50 run match selected scope. Separate10X/predecessor whole recipes not inherited.58checks independently rerunPASS. No extra originals, fullsource/wholegeometry validation or absence audit claimed."
+  }
+}

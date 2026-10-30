@@ -1,0 +1,53 @@
+{
+  "dir": "cats__10.4161+rna.29304",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4179956.1/PMC4179956.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainselectedMethods and oligos"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4179956.1/rna-11-817-s01.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI selected TSO8/anchoredprimer/FigS4 customsequencingprimer and alternative-control identities"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedPMC4179956 main68–82/154–166 and publishedSI FigS1–S4 selected oligo/modification patterns;twooriginals. RNA/DNA alternatives belong to one method,notjointmultiomics.",
+      "locations": "PublishedPMC4179956 main68–82/154–166 and publishedSI FigS1–S4 selected oligo/modification patterns;twooriginals. RNA/DNA alternatives belong to one method,notjointmultiomics.",
+      "findings": "Source-positive distinctwetpreparation withprivatepartialgraph; knownoligos/modifications/physicalstates sourcequalified, no wholefamilyconstructor inheritance.",
+      "deferred": [
+        "Complete intermediate/end/primer/read geometry and actualchosen sample assignments",
+        "Actualunreadlinkedhistoricalkit/componentoriginals; no recursivechase"
+      ],
+      "verification": "23focusedchecks(9CATS/8SeqScopeX/6SPACECAT)pass. Defaultsourceguard5exact0failed0exempt4unassembled across3graphs; explicitSeqScopeXproteinbranchsourceguard5exact0failed(sharedanchorcountedagain). Chemistry0established/52unresolved/0contradictory,notcompletevalidation.",
+      "oligo_scraper": "MandatoryscrapersCATS31candidates/3textfiles(same-mainPDF/XML),SeqScopeX10/2,SPACECAT0/0sequence-positivefiles. Actualselectedsourceliteralsverified; zerohitsnotabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Explicitactualtargets/versionorconfiguredsizelimitsabove; otherkits/parentoriginals remainordinaryunreviewedscope. No completeabsenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Fullmolecular/linkedsource review remainsuncompleted scope."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round25",
+    "date": "2026-10-30",
+    "scope": "Selectedoriginal/modelcriticalreviewonly; no complete source/linked-material absenceaudit.",
+    "finding": "Coordinator independentlyreadpublishedmain154/158/162/166 andSI FigS4customprimer/TSO8vs8ACA(twooriginals). PAPvsTdT, delayed5primeBiotin+rG3TSO,1/10ulaliquot/physicalworkup andkit50/run77limits consistent. Requiredpersistentcatalystfixmade: oneexternalSmartScribestock becomesexplicitco-retainedsame-tube catalystoutput, consumedatswitch;9checks pass."
+  }
+}

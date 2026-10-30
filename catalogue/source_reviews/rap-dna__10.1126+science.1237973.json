@@ -1,0 +1,99 @@
+{
+  "dir": "rap-dna__10.1126+science.1237973",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-dna__10.1126+science.1237973/(manual) science.1237973_supp_NIHMS504267-supplement-Supplementary_Material.doc",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3778663/bin/NIHMS504267-supplement-Supplementary_Material.doc",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested)"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-dna__10.1126+science.1237973/science.1237973_PMC3778663.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3778663.1/PMC3778663.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round17_source_reader",
+        "date": "2026-10-29",
+        "locations": "Associatedacceptedmanuscript overview76\u201378/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.",
+        "finding": "Positive selectedoriginalscopeonly; notfullpublication/sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Associatedacceptedmanuscriptselectedcomparisononly; finalpublishedPDFcontrols",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rap-dna__10.1126+science.1237973/source_pdf_61caebc669c26ad8bbc5.pdf",
+      "original": "https://guttmanlab.caltech.edu/wp-content/uploads/2021/08/1237973.full_.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round17_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655\u2013699 spanningprintedpp5\u20136andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
+        "finding": "Positive selectedoriginalscopeonly; notfullpublication/sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "First-party lab-hosted defining published RAP-DNA original; why: Primary lab original identified during discovery;verify printed title/DOI/version before treating as published chemistry."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round17_source_reader",
+      "date": "2026-10-29",
+      "locations": "Associatedacceptedmanuscript overview76\u201378/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.; PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655\u2013699 spanningprintedpp5\u20136andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
+      "finding": "Directnamedvendor/predecessor/source targets enumerated; cap/accessbarriersremain, noabsenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3778663/bin/NIHMS504267-supplement-Supplementary_Material.doc",
+      "scope": "ActualnamedSupplementaryMaterialfile gatedbyexistingPMCcooldown; notbypassed."
+    },
+    {
+      "locator": "PublishedScienceSupplementaryMaterials DOI10.1126/science.1237973/DC1 andauthorslncRNA.caltech.edu/RAP",
+      "scope": "Exactlinkedmaterialuninspected; finalPDFsupportsselectedmainonly, notsupplementequivalence."
+    },
+    {
+      "locator": "HistoricalIlluminaDNA-libraryoriginalsandprobeproductiondetails",
+      "scope": "Actualspecificoriginalkit/revisionidentitynotestablishedfromshortmain; remainopenquestions,nofabricatedunavailableguide."
+    }
+  ],
+  "open_questions": [
+    "Fullmodifiedmolecule/oligo/end/index/readgeometry andexactphysicalfractionfatesremainunassembled."
+  ],
+  "conclusion": "Publishedsourcequalifiedprivateincompletegraphthroughknownacquisition; nofullpublication/acceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "round17_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Boundedmax10min/3originals, publishedfirst; associatedMSandfinalsourcesseparate, norecursivechase.",
+      "locations": "Associatedacceptedmanuscript overview76\u201378/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.; PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655\u2013699 spanningprintedpp5\u20136andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
+      "findings": "Physicalnascentprotein/RNA/RPF/capturedDNA/probeidentitiesandfractionfatesdistinctwhereoperationalmodeljustified.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/3778663/bin/NIHMS504267-supplement-Supplementary_Material.doc",
+        "PublishedScienceSupplementaryMaterials DOI10.1126/science.1237973/DC1 andauthorslncRNA.caltech.edu/RAP",
+        "HistoricalIlluminaDNA-libraryoriginalsandprobeproductiondetails"
+      ],
+      "oligo_scraper": "Mandatoryfullcache scraper ran; AHARIBO93MBproteomicstabletextskippedbysizelimit. Scrapedvalidationsequencesnotlibraryinputs; noadoptedexactsequencepolymerclaim.",
+      "verification": "18 local checks pass (AHARIBO10 after reviewed RPF fork fix, RAP8); independent selected-source implementation review closed, not a second absence audit. Sourceguard0eligible/0failed/0exemptions/2unassembled inputs across2graphs; default chemistry29steps/30unresolved/0contradictory. Schema3pass, notes build and whitespace check pass; no exact library oligotranscription coverage claimed."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "dir": "fcab-seq__10.1016+j.cell.2013.04.001",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fcab-seq__10.1016+j.cell.2013.04.001/j.cell.2013.04.001_PMC3657391.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "Associated manuscript NIHMS463944; base-resolutionResults, Methods140\u2013148 and Fig6",
+        "finding": "EtONH2 chemistry, comparison/ampliconNGS and distinctChIP-fCAB/fC-Seal branches established."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3657391/bin/NIHMS463944-supplement-01.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "ActualassociatedSI01/ExtendedExperimentalProcedures",
+        "finding": "StandardfetcherPreparing-downloadgate; source notread."
+      },
+      "reason": "StandardfetcherPreparing-downloadgate; source notread."
+    },
+    {
+      "id": "original_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3657391/bin/NIHMS463944-supplement-02.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "ActualassociatedSI02",
+        "finding": "StandardfetcherPMCdownloadgate/notinCloudlicenceTDM; source notread, noabsenceconclusion."
+      },
+      "reason": "StandardfetcherPMCdownloadgate/notinCloudlicenceTDM; source notread, noabsenceconclusion."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round13",
+      "date": "2026-10-29",
+      "locations": "Selected originals/actuallinkedtargets innotes",
+      "finding": "ActualgatedSI distinguishedfromordinaryhistoricalkit/TELP/publishedversiondeferredreading; noabsenceacceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Knownoperations/acquisitionretainedwithsourcequalifiedpartialmolecularstates; completehistoricalpolymers/end/readgeometryunreviewed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "expansion_dna_round13",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Max3originals; definingmainandchemistrySI beforelinkedreferences; norecursivechase.",
+      "locations": "Associated manuscript NIHMS463944; base-resolutionResults, Methods140\u2013148 and Fig6; ActualassociatedSI01/ExtendedExperimentalProcedures; ActualassociatedSI02",
+      "findings": "Sourceorder/physicalfractions/chemicaladductversusreportedbases retained; publisherupdateidentifiedonlyasaffiliationcorrection.",
+      "deferred": [
+        "ActualgatedSIandnamedhistoricalkit/directpredecessortargets inresearchnote; noabsenceconclusion."
+      ],
+      "oligo_scraper": "/tmp/fcab13-oligos.log; mandatorywholebundle scan,0MINCE/0fCAB/57fCCETinitialhits; sourcecontrol/modelprimersnotnativeNGSadapters.",
+      "verification": "21localchecks(6MINCE/7fCAB/8fC-CET)passed;3privatebuilds/scopeddocs/pairing0problems andsource-reviewschema passed. Chemistry0established/56unresolved/0contradictory;sourceguard0checked/0failed with6fC-CETprimerinputswithout exactstates,notexactoligovalidation. Retrieval83354/30671completedexit0; externalcachepreserved/noacquisitionrunning."
+    }
+  ]
+}

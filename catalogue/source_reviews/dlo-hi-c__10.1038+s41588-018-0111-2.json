@@ -1,0 +1,73 @@
+{
+  "dir": "dlo-hi-c__10.1038+s41588-018-0111-2",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "target_0",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41588-018-0111-2",
+      "original": "https://doi.org/10.1038/s41588-018-0111-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "journal article; no open full text found (publisher page only)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dlo-hi-c__10.1038+s41588-018-0111-2/s41588-018-0111-2_41588_2018_111_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-018-0111-2/MediaObjects/41588_2018_111_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2018SI exactDOI/title",
+      "pass_1": {
+        "reviewer": "dna_round17",
+        "date": "2026-10-29",
+        "locations": "FigS1–5,Table1–2;FigS2originalp3/Table1p11/FigS5p6rendered",
+        "finding": "SelectedK562HindIIIphosphorylatedhalflinkers,40bplinkercore,20bptags,two-base3primeNNsequencingadapteroverhang/sourceknownoperationorder. ExactA/Ballocation/mainconditions andfulladapter/PCR/readgeometryunassembled."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "main_full_methods",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dlo-hi-c__10.1038+s41588-018-0111-2/s41588-018-0111-2.html.txt",
+      "original": "https://www.nature.com/articles/s41588-018-0111-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Publishedpublisheridentity/abstract/figurepreviewonly",
+      "reason": "ActualHTMLdownload386835bytesvalidarticlepagebutonlyabstract/figurepreview;fullmainMethodsnotpresentintheservedpage. No fulltext chemistryread.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round17",
+      "date": "2026-10-29",
+      "locations": "PublishedSI FigS1–5/Table1–2;renderedp3/p6/p11. MainHTMLidentity/previewclassificationonly.",
+      "finding": "Actualaccessbarriers/deferredoriginalsrecorded;noabsenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-qualified private incomplete model where source supports;otherwise identity/accessonly. No full-sourceorabsenceaudit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "dna_round17",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Atmost10min/3originals;publishedfirst,no recursivechasing.",
+      "locations": "PublishedSI FigS1–5/Table1–2;renderedp3/p6/p11. MainHTMLidentity/previewclassificationonly.",
+      "findings": "Physicalmodifications/fragments/fractionsdistinctfromcomputationalcalls;noanalogousmethodrecipeimport.",
+      "deferred": [
+        "DefiningfullmainMethodsandpublishedchemistrySIwhereunavailable;sourcehistoricalreagent/adapter/PCR/rungeometryremainingunreviewed."
+      ],
+      "oligo_scraper": "DLO15candidates/1SIfile;others0hits/0files. OriginalimageinspectionforDLOFigS2/Table1;noemptyextractionabsenceclaim.",
+      "verification": "8localcheckspass;sourceguard4checked0failed0exempt,3unassembledinputs,1graph. No publicpromotion/acceptedabsence. Chemistry2established14unresolved0contradictory;3reviewrecordsvalidateblockedagainstactualbarriers;6note/refpagesbuilt;pairing0problems(noteonly,noschematic);scopeddiffwhitespaceclean. All3sourcefetchsessionsterminalexit0."
+    }
+  ]
+}

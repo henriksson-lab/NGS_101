@@ -1,0 +1,99 @@
+{
+  "dir": "methylrad__10.1098+rsob.150130",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4680569.1/PMC4680569.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain overview2.1/XML70, Fig1caption74/actualPDFp3, introduction60/2bRADancestry, Methods5.1\u20135.3/XML368\u2013382. XML/PDFsamepublishedwork, notAM.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4680569.1/rsob150130supp1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualrenderedTableS5PDFp6 whole9uniqueorderingenvelopes/mod3Amine/indexX6; extractedrows362\u2013402 and supplementalfigure/table captions. Notmergedrowsfromscraper.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "results2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4680569.1/rsob150130supp2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Fetched resultstable; notinspectedaschemistryauthority; ordinaryunread.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "results3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4680569.1/rsob150130supp3.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Incidentalmandatoryscraperpointers toresulttagrowsencountered, notoriginalworkbookchemistryinspection/adoptedtemplate.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nmeth.2023",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Identifiedfromdefiningpublishedmainreference13; predecessororiginalnotopened thispass.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Developmentalrelationship doesnotauthorizewholeSOLiDrecipe/conditions/ends/readoutinheritance."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "coordinator_methylrad_owner",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Twoactualpublishedchemistryoriginals plusoneconservativelycountedincidentalresultsworkbookscraperidentity; nooriginalworkbookchemistryread. Sourceinvestigationclosedbeforeimplementation within10minutes; combinedpeeruses same2originals only.",
+      "locations": "PublishedmainXML60/70/74/368\u2013382/actualFig1PDFp3; publishedSI1actualS5PDFp6/extracted362\u2013402.",
+      "findings": "SourcepositiveFspEIstandardNNNNlibrary; all9uniquewholeorderingenvelopes/physical3Amine retained; knownterminalpairedcore/5NNNNadapterend contrasts publishedFig1caption3wording. Actual5of15ulQC/10ulmastercomponents/7ulPCR/gel/25ngindex/templateandpoolloadingfates; sourceSE36doesnotassignindexmask.",
+      "deferred": [
+        "Directlycited2bRAD predecessor10.1038/nmeth.2023 ordinaryunread; no inheritedrecipe orabsenceclaim.",
+        "HistoricalFspEI/ligase/Phusion/QIAquick formulations andreactiveendphosphorylationunassembled; noidentifiedmissingdisclosuredocumentinvented.",
+        "ActualsampleindexX6assignment/acquisitioncycles/orientation, genomiccuts/occupancy/productenddistributions andwholePCRproduct/primerlandingunassembled.",
+        "SelectiveRTRandalternativeMrrenzymes notmerged intochosenstandardbranch; resultsworkbooks ordinaryunread."
+      ],
+      "oligo_scraper": "Mandatorybundle /tmp/ngs41-methylrad-scraper.log; mergedTableS5hitswerecheckedagainstactualrenderedp6, nojoinedoligosadopted. Resultsworkbookhitsremainunadoptedpointers.",
+      "verification": "27focusedPASS; sourceguard4PCRprimerenvelopeschecked/0failed/0exceptions/0unrepresentedexternalinputs. Producedadaptercomponentsoutsideguardhavewholeorderfixtures. Chemistry4narrowduplicatedadapterpairingrelationsestablished/17unresolved/0contradictory; notwholeligationvalidation. Independentimplementationrecheckpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Exactidentifiedoriginalslisted; ordinaryunreadpredecessor/vendorfollowupsnotabsenceevidence.",
+    "deferred_targets": [
+      "Directlycited2bRAD predecessor10.1038/nmeth.2023 ordinaryunread; no inheritedrecipe orabsenceclaim.",
+      "HistoricalFspEI/ligase/Phusion/QIAquick formulations andreactiveendphosphorylationunassembled; noidentifiedmissingdisclosuredocumentinvented.",
+      "ActualsampleindexX6assignment/acquisitioncycles/orientation, genomiccuts/occupancy/productenddistributions andwholePCRproduct/primerlandingunassembled.",
+      "SelectiveRTRandalternativeMrrenzymes notmerged intochosenstandardbranch; resultsworkbooks ordinaryunread."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialstandardMethylRADpreparation; nofinishedschematic/completechemistry/sourceabsenceaudit.",
+  "independent_implementation_recheck": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "dna_independent_round41",
+      "date": "2026-10-30",
+      "scope": "SameTWOselectedactualchemistryoriginals only: publishedPMC4680569mainoverview70/Fig1caption74/Methods376 andoriginalFig1PDFp3; publishedSI1actualTableS5PDFp6 whole9orderingclasses. Noextraoriginals/retrieval orunselectedworkbookadoption.",
+      "findings": "Criticalsource/modelreviewCLOSED withoutmodelchanges. SourceNNNN5adapterend/local13bpScene pairing/physical3AminoC6blocker checkedagainstactualTableS5; main5overhangversuscaption3wordingretained withgenomicendsunassembled. Actual5of15ulanalyticalremoval\u219210ulactualcopresentligationmastercomponents\u21927ulPCR1\u2192gel/waterrecovery\u219225ngindexPCR\u2192selectedpool/loadingfates verified. SE36only; sourceX6sampleindexenvelopeunassignedacquisition/identity preserved. Independently27focusedPASS;guard4exact0failed0unassembled/0exempt;chemistry4narrowlocalduplexrelationsestablished/17unresolved0contradictory. Narrowimplementationrecheck, notabsencepass2/fullchemicalaudit."
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "dir": "ribolace__10.1016+j.celrep.2018.09.084",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribolace__10.1016+j.celrep.2018.09.084/(manual) 179671_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/179671v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Excluded supersededpreprint; notactiveauthority",
+      "reason": "supplementary page; HTTP 0"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribolace__10.1016+j.celrep.2018.09.084/(manual) 179671_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/179671v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Excluded supersededpreprint; notactiveauthority",
+      "reason": "biorxiv full text, v1; host cool-down after HTTP 429 (3.2 h left; not requested)"
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribolace__10.1016+j.celrep.2018.09.084/(manual) j.celrep.2018.09.084 full text",
+      "original": "https://doi.org/10.1016/j.celrep.2018.09.084",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_4",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribolace__10.1016+j.celrep.2018.09.084/(manual) source_pdf_ac6eb7df3bf62749fe43.pdf",
+      "original": "https://www.cell.com/article/S2211124718315444/pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Defining published RiboLace original identified by primary publisher index; why: Discovery identified exact article PDF endpoint;verify returned title/DOI/version before chemistry reading. No open main from generic DOI route.; HTTP 403"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round16_source_reader",
+      "date": "2026-10-29",
+      "locations": "Nooriginalobtained; discoveryprimaryabstractidentityretainedashistoryonly.",
+      "finding": "Actualdirecttargets enumerated; deferatcap orrecordactualaccessbarrier. No absenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://www.cell.com/article/S2211124718315444/pdf",
+      "scope": "Exact primary-index original PDF returnedHTTP403; no mainchemistryread. DOIroutealso noopenfulltext. PublishedchemistrySI identity notyetinspected."
+    },
+    {
+      "locator": "PublishedRiboLaceMethods andchemistrySupportingInformation",
+      "scope": "Originalreagents, molecularcapture/selection/library/end/readlayout uninspected; no recipefromabstract."
+    }
+  ],
+  "open_questions": [
+    "Fullpublishedversion/end/primer/index/readgeometry andexactphysicalfractions remainunassembled."
+  ],
+  "conclusion": "Identity/accessonly; uncollectedchemistry, nograph.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "round16_source_reader",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Bounded10min/3originals, publishedfirst; acceptedmanuscriptlabelsexplicit, norecursivechase.",
+      "locations": "Nooriginalobtained; discoveryprimaryabstractidentityretainedashistoryonly.",
+      "findings": "Actualsourceaccess/positivechemistryscope recorded; RPF/RNA/cDNAandphysicalfractions separatewheremodelled.",
+      "deferred": [
+        "https://www.cell.com/article/S2211124718315444/pdf",
+        "PublishedRiboLaceMethods andchemistrySupportingInformation"
+      ],
+      "oligo_scraper": "Mandatoryfullcache scraper; RiboITP21MBMOESM7datatable skippedbymandatorysizelimit, actualadoptedoligosverifiedinoriginalworkbook.",
+      "verification": "Localchecks/guard/schema reportedafterfinalrun; nosecondabsenceaudit."
+    }
+  ]
+}

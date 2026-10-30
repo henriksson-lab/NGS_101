@@ -1,0 +1,90 @@
+{
+  "dir": "histone-h4s47c-chemical-mapping__10.1038+nature11142",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/histone-h4s47c-chemical-mapping__10.1038+nature11142/nature11142_PMC3786739.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3786739.1/PMC3786739.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated main Results30\u201340/Methods75\u201377",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/histone-h4s47c-chemical-mapping__10.1038+nature11142/nature11142_supp_NIHMS370046-supplement-3.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3786739.1/NIHMS370046-supplement-3.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedSI sections1\u20134;superseded for modeled choices by final SI",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/histone-h4s47c-chemical-mapping__10.1038+nature11142/nature11142_41586_2012_BFnature11142_MOESM262_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature11142/MediaObjects/41586_2012_BFnature11142_MOESM262_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSIsections1\u20134/source24\u2013112 controls chemistry",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/histone-h4s47c-chemical-mapping__10.1038+nature11142/nature11142_supp_NIHMS370046-supplement-1.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3786739.1/NIHMS370046-supplement-1.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Administrative revision summary identified;not recipe authority",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/histone-h4s47c-chemical-mapping__10.1038+nature11142/nature11142_supp_NIHMS370046-supplement-2.doc.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3786739.1/NIHMS370046-supplement-2.doc",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Administrative SI guide identified;not recipe authority",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified private incomplete graph;no full linked source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "dna_round21",
+      "date": "2026-10-30",
+      "documents": 5,
+      "scope": "Bounded defining/chemistry review;no recursive linked-source chase. H4 source sorting exceededthree-originalcap including two administrative identities;recorded explicitly.",
+      "locations": "Associated main Results30\u201340/Methods75\u201377;AssociatedSI sections1\u20134;superseded for modeled choices by final SI;PublishedSIsections1\u20134/source24\u2013112 controls chemistry;Administrative revision summary identified;not recipe authority;Administrative SI guide identified;not recipe authority",
+      "findings": "Histone-tethered Cu chemical cleavage and ordered Klenow/end-phosphorylation/SOLiD preparation;source higherMW followup separate.",
+      "deferred": [
+        "Final defining published article;historical named kit/protocol originals and source-linked predecessors;remaining SI sections."
+      ],
+      "oligo_scraper": "Mandatory scraper0sequence-positive files;not absence evidence. H4 large genomic-position Table3 skipped by scan limit.",
+      "verification": "11localchecks pass"
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna21_reader",
+    "date": "2026-10-30",
+    "scope": "Selected associatedmain Methods75\u201377/SI21\u2013108 versusgraph;notabsenceaudit.",
+    "finding": "ActualCu/wash/MPA/peroxide/quench/gel/Klenow/Terminator/SOLiDordering andopaquehigherMWcomponent retained;proteinlabel role corrected tostructural afterreview.11checks pass. PublishedSI sourcequalified inownread."
+  }
+}

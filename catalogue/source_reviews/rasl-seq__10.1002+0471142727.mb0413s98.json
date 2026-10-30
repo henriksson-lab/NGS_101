@@ -1,0 +1,42 @@
+{
+  "dir": "rasl-seq__10.1002+0471142727.mb0413s98",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3325489.1/PMC3325489.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedauthorMS PMC3325489.1/NIHMS368182 identity/planning45\u201347/materials63\u201385/basicprotocol95\u2013197;finalpublishedbodyequivalencenotverified."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedauthorMS PMC3325489.1/NIHMS368182 identity/planning45\u201347/materials63\u201385/basicprotocol95\u2013197;finalpublishedbodyequivalencenotverified.",
+      "locations": "AssociatedauthorMS PMC3325489.1/NIHMS368182 identity/planning45\u201347/materials63\u201385/basicprotocol95\u2013197;finalpublishedbodyequivalencenotverified.",
+      "findings": "RNA-templated ligation of adjacent DNA probes after bead-based poly(A) capture; indexed limited PCR and pooled historical Solexa readout. Associated-manuscript-qualified selected purified-RNA route; no reverse transcription, target sequences or modern kit endpoints invented.",
+      "deferred": [
+        "Wholeprobe/ligation/readgeometryandlinkedprecursor/vendorversionreviewremainopen."
+      ],
+      "oligo_scraper": "Mandatorysourcebundle scraper run;RASL4candidates/1main;PhoTag1candidate/1SI,sourceoligorolesnotinferredfromhitabsence.",
+      "verification": "29focusedchecks(SPACE14/RASL15)pass;4localwhole-orderingchecksagainstselectedoriginaltextincluded. Standardinput-onlysourceguard0exact/0failed/0exceptions/2unassembledover2graphs(bulkprimercomponentsareproducedmaterials). Chemistry0established/48unresolved/0contradictory;notcompletevalidation."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Selectedcappedpassonly;uninspectedlinkedchemistryoriginalsnotacceptedabsence."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round28",
+    "date": "2026-10-30",
+    "scope": "AssociatedAM PMC3325489.1/NIHMS368182 planning43\u201348/materials79\u201388/basicprotocol95\u2013197, same1selectedoriginal. No final-body/linked-vendor/everytargetprobeaudit.",
+    "finding": "RNA-templatedadjacentDNAprobe5Pdonor/source20ntarms,purifiedRNAroute(noRT),actualcocktailcomponents, retainedprobe/5ultransfer/backupplate, source23ntP5/22ntP7prefixand7ntbarcodeprimer/indexarmverified. Otherphysicalpoolmembersand40ntthenindexreadretained. Sourcegene-specificwholeprobe/junctionsremainunassembled,ordinaryunverifiedfinalequivalenceisnotaccessblock. Selectedcriticalscopeclosed."
+  }
+}

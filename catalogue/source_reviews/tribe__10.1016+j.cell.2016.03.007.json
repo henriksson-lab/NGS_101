@@ -1,0 +1,207 @@
+{
+  "dir": "tribe__10.1016+j.cell.2016.03.007",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S1.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S2.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S3.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S4.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S5.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S6.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S7.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Figure_S7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Procedures.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Procedures.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S1.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S2.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S3.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S4.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S5.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Table_S5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_14",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tribe__10.1016+j.cell.2016.03.007/j.cell.2016.03.007_PMC5027142.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5027142.1/PMC5027142.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round11_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance24; intro36\u201342; limits126\u2013132; Methods140\u2013150",
+        "finding": "RNA A-to-I chemical editing versus selected complementary cDNA/RNA-orientedG report; source S2/nascentRNA/neuron branches remain separate and named library/predecessor chemistry opaque."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript; final-VOR/detailedProcedures applicability unresolved"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source sections above and protocol note; none chemistry-read for CeFra",
+      "finding": "RNA A-to-I chemical editing versus selected complementary cDNA/RNA-orientedG report; source S2/nascentRNA/neuron branches remain separate and named library/predecessor chemistry opaque. No independent second/absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Procedures.pdf",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    },
+    {
+      "locator": "MainMethods142\u2013148cited Khodor2011/Pennington2013/Abruzzi2015 and historicalIlluminaTruSeq originals; no whole-recipe inheritance",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Original chemical adduct/end/strand/full-library geometry and source-linked procedure/readout remain unassembled; no missing-information claim."
+  ],
+  "conclusion": "RNA A-to-I chemical editing versus selected complementary cDNA/RNA-orientedG report; source S2/nascentRNA/neuron branches remain separate and named library/predecessor chemistry opaque. Notes status only; no finished schematic or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining/chemistry originals first; no recursive chase. Identity-only/uncollected if original blocked.",
+      "locations": "Provenance24; intro36\u201342; limits126\u2013132; Methods140\u2013150",
+      "findings": "RNA A-to-I chemical editing versus selected complementary cDNA/RNA-orientedG report; source S2/nascentRNA/neuron branches remain separate and named library/predecessor chemistry opaque.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Procedures.pdf",
+        "MainMethods142\u2013148cited Khodor2011/Pennington2013/Abruzzi2015 and historicalIlluminaTruSeq originals; no whole-recipe inheritance"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scan; selected original contexts inspected. Proximity/CAP large-file skips explicit; empty CeFra/TRIBE hits do not establish absence.",
+      "verification": "18localbehaviorchecks pass across3chemistrymodels, sourceguard0checked0failed6unassembledinputs, chemistry46unresolved0contradictory. CeFra has no graph/tests and is not chemistry-collected."
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "dir": "nome-hic__10.1186+s13059-023-02889-x",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nome-hic__10.1186+s13059-023-02889-x/s13059-023-02889-x_PMC10018866.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10018866.1/PMC10018866.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifestinventory; originalnotchemistryread",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nome-hic__10.1186+s13059-023-02889-x/s13059-023-02889-x_PMC10018866.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10018866.1/PMC10018866.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedoriginal selectedsections only",
+      "pass_1": {
+        "reviewer": "round15_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedVORPMC10018866 overview85\u201393/mainMethods153, computationalanalysis155\u2013163/175; targetedvalidation187 separatedfrommainlibrary.",
+        "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
+      },
+      "pass_2": null,
+      "reason": "Sourcecurrentselectedpass; duplicatePDF/XML are oneoriginalarticle."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nome-hic__10.1186+s13059-023-02889-x/s13059-023-02889-x_supp_13059_2023_2889_MOESM1_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10018866.1/13059_2023_2889_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedoriginal selectedsections only",
+      "pass_1": {
+        "reviewer": "round15_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedAdditionalfile1 SupplementaryMethodspp2\u20136/text48\u2013145; sourceRNA/DNA branches, actual physical separations and downstreamlibraryacquisition. Originalp3 rendered verifies300ulRNA/1200ulDNA; sourceallocationdoesnotestablishnuclei-number homogeneity.",
+        "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
+      },
+      "pass_2": null,
+      "reason": "Sourcecurrentselectedpass; duplicatePDF/XML are oneoriginalarticle."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nome-hic__10.1186+s13059-023-02889-x/s13059-023-02889-x_supp_13059_2023_2889_MOESM2_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10018866.1/13059_2023_2889_MOESM2_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifestinventory; originalnotchemistryread",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nome-hic__10.1186+s13059-023-02889-x/s13059-023-02889-x_supp_13059_2023_2889_MOESM3_ESM.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10018866.1/13059_2023_2889_MOESM3_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifestinventory; originalnotchemistryread",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "supplementary file (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round15_source_reader",
+      "date": "2026-10-29",
+      "locations": "PublishedVORPMC10018866 overview85\u201393/mainMethods153, computationalanalysis155\u2013163/175; targetedvalidation187 separatedfrommainlibrary.; PublishedAdditionalfile1 SupplementaryMethodspp2\u20136/text48\u2013145; sourceRNA/DNA branches, actual physical separations and downstreamlibraryacquisition. Originalp3 rendered verifies300ulRNA/1200ulDNA; sourceallocationdoesnotestablishnuclei-number homogeneity.",
+      "finding": "Direct named linkedpredecessors/vendors deferred at cap; no recursion or accepted absence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Main85references5and14 originalNOMe-seq/MethylHiC",
+      "scope": "Specific componentpredecessors unreviewed; no importedwhole recipe."
+    },
+    {
+      "locator": "SIpp3\u20136MagMAXA31881/SMARTer634413/IDTstubby/TruSeq/ZymoD5006/KAPA originals",
+      "scope": "Historical kit/oligo/end/acquisitiongeometry unreviewed; sourceprinted procedure controls localbranches."
+    },
+    {
+      "locator": "PublishedAdditionalfile2TableS1andAdditionalfile3reviewhistory",
+      "scope": "Available but uninspected originaldata/review documents; outside selectedchemicalreadingcap, no irrelevant-source verdict."
+    }
+  ],
+  "open_questions": [
+    "Fullstrand/end/primer/index/readgeometry and unreviewedhistoricalkit details remain unassembled, not confirmed absent."
+  ],
+  "conclusion": "Publishedsource-qualified notes and incomplete local graph through sourceknownacquisition only; no fullpublication/sourcecoverage claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "round15_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Bounded max10min/3originals; selectedoriginals only; samearticlePDF/XML oneoriginal.",
+      "locations": "PublishedVORPMC10018866 overview85\u201393/mainMethods153, computationalanalysis155\u2013163/175; targetedvalidation187 separatedfrommainlibrary.; PublishedAdditionalfile1 SupplementaryMethodspp2\u20136/text48\u2013145; sourceRNA/DNA branches, actual physical separations and downstreamlibraryacquisition. Originalp3 rendered verifies300ulRNA/1200ulDNA; sourceallocationdoesnotestablishnuclei-number homogeneity.",
+      "findings": "Physicalmodification/copy/readout andphysicalfraction distinctions retained; deferredgeometry explicit. Independent implementation review corrected recapture inventory to retain original Silane beads and add binding buffer/isopropanol only; no fresh beads.",
+      "deferred": [
+        "Main85references5and14 originalNOMe-seq/MethylHiC",
+        "SIpp3\u20136MagMAXA31881/SMARTer634413/IDTstubby/TruSeq/ZymoD5006/KAPA originals",
+        "PublishedAdditionalfile2TableS1andAdditionalfile3reviewhistory"
+      ],
+      "oligo_scraper": "Mandatoryscraper fullcache; pointers independentlychecked in originalselectedMethods/SI; emptyhits are not absence.",
+      "verification": "9 local behavior/transcription checks pass. Combined three-protocol source guard4checked/0failed/0exemptions/8unassembled inputs; chemistry71unresolved/0contradictory; schema3pass, notes build and diff whitespace check pass. Independent selected-source implementation review is not a second missing-information audit."
+    }
+  ]
+}

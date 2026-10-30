@@ -1,0 +1,68 @@
+{
+  "dir": "mc-4c__10.1038+s41588-018-0161-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://www.hubrecht.eu/app/uploads/2020/11/DeLaat_2018_Key_Allahyar_Enhancer-hubs-and-loop-collisions-identified-from-single-allele-topologies.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Printedpublishedmainidentity/Methods1602–1653/1670–1682 source3C/Cas9/96inversePCR/1mlselection/Pippin/ONTvariants.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-018-0161-5/MediaObjects/41588_2018_161_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1S1captioncomputationalreadfilter;S5actualPDFp12/captionp13 primary/secondaryligationreadclasses, no newwetcleanup.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "oligos",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-018-0161-5/MediaObjects/41588_2018_161_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryTable2originalZIP/XMLHS2rowC4:G4, actual5DNAprimerorders; notwholefunctionalguideRNAs.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "dna_owner_round39",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Publishedsource selected preparation only, no earlier/updatedrecipeinheritance.",
+      "locations": "Printedpublishedmainidentity/Methods1602–1653/1670–1682 source3C/Cas9/96inversePCR/1mlselection/Pippin/ONTvariants.; PublishedSI1S1captioncomputationalreadfilter;S5actualPDFp12/captionp13 primary/secondaryligationreadclasses, no newwetcleanup.; PublishedSupplementaryTable2originalZIP/XMLHS2rowC4:G4, actual5DNAprimerorders; notwholefunctionalguideRNAs.",
+      "findings": "Positiveorderedphysicalstocks/fractions/oligos; completechemicalproducts/readgeometryunassembled.",
+      "deferred": [
+        "Citedregular4C/NakayamaRNAguidePCRtemplate/historicalONTvendor originals ordinaryunread; no inheritedrecipe.",
+        "WholeRNAguidebody/targetcleavageends/PCRproducts/actualkit-flowcellmapping andreadgeometryunassembled, notabsence.",
+        "PublishedSI2reportingsummary/otherworkbookTable1 notread; no chemistry irrelevance or complete versionaudit asserted."
+      ],
+      "oligo_scraper": "Mandatorywholebundle scan; selectedsourcewholeoligos followedtoactualoriginaltable/PDF/ZIPXML. No scraperabsence inference."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Citedregular4C/NakayamaRNAguidePCRtemplate/historicalONTvendor originals ordinaryunread; no inheritedrecipe.; WholeRNAguidebody/targetcleavageends/PCRproducts/actualkit-flowcellmapping andreadgeometryunassembled, notabsence.; PublishedSI2reportingsummary/otherworkbookTable1 notread; no chemistry irrelevance or complete versionaudit asserted."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveboundedprivatepartial, notcompletechemistry/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round39",
+    "date": "2026-10-30",
+    "scope": "Same three selected published originals only: institute-mirrored published main PDF Methods1602–1653/1670–1682; published SI1 S1 computational-filter caption and actual S5 originalp12 render; published Table2 MOESM4 originalZIP/XML header/context and HS2 C4:G4 wholeorders. No delegated regular4C, Nakayama or historical vendor original read.",
+    "findings": "Verified selected fetal-liver DpnII500ul→firstligation2ml→crosslink reversal/Pbeads→HindIII/low-concentration circularization and purification before allocated20ug Cas9 input. Whole HS2 inverse-PCR primers and three DNA guide-template-forward orders match original cells; incomplete overlap reverse and full transcribed RNA guides remain explicitly unassembled. Three separately prepared600ngRNA/15pmolCas9/300ul RNPs precede DNA cleavage/SDS/inactivation. Source96separate100ng templates/25ul PCRs are physically allocated, then all96 pooled before selected1ml cleanup/.6xAMPure/Pippin1.5–8kb. Historical ONT kits/flowcells remain alternatives rather than invented per-run pairings. SI1 far-cis/trans genomic fingerprints/PCR-duplicate filters remain computational and are not synthetic barcode/UMI additions. No whole previous4C constructor imported.",
+    "verification": "Independently reran15focused checks PASS including5whole original DNA ordering fixtures. External-input source guard0exact0failed0exempt0unknown reflects produced inventory components rather than complete oligo coverage; full RNA guides/overlap-reverse bodies remain unassembled. Scoped chemistry329unresolved0contradictory. Selected implementation closure only, not full molecular/source or accepted absence audit."
+  }
+}

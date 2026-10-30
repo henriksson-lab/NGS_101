@@ -1,0 +1,88 @@
+{
+  "dir": "scope-seq__10.1186+s13059-018-1607-x",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scope-seq__10.1186+s13059-018-1607-x/s13059-018-1607-x_PMC6305572.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6305572.1/PMC6305572.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2018main39\u201361: dualbarcodefactory/lookupDNAvsRNA/cellbarcodelength12/opticaldecoding/batchscope. NoSCOPE2sourceused.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scope-seq__10.1186+s13059-018-1607-x/s13059-018-1607-x_supp_13059_2018_1607_MOESM1_ESM.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6305572.1/13059_2018_1607_MOESM1_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedAdditionalFile1 SupplementaryMethods3\u20138actualbeadfactory/bothlibrarypreparations;97analysisidentifiers;99optical12cycles. FullhistoricalDropseqbead/TSObody/wholelookupcellmappingunassembled.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scope-seq__10.1186+s13059-018-1607-x/s13059-018-1607-x_supp_13059_2018_1607_MOESM4_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6305572.1/13059_2018_1607_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedAdditionalFile4 originalTableS2 whole12OBO/Cy5probeorderings andselectedwholeP7primer1/universalP5/NexterapolyA/SMRTpcr/customRead1. TableS1GOheaderidentityonly. Full128indexwellassignmentunassembled.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "SourcecommercialChemGenesMacosko-2011-10(V+)capturebeadwholeconstruct/TSO/UMIlength/covalentjunction/readlandingunassembled; noimportedDropseq/SCOPE2recipe.",
+    "64wellcombinations/128lookupindexassignments/10regionindicesactualchoicesunassigned; no prematureDNAtemplatepooling.",
+    "Unlabeledprotectionoligos bindingtargetspositive; exactwholebodiesnotestablishedbyCy5probeorderings.",
+    "Directcitedmicrowell/beadpredecessorsandhistoricalvendor originalsremainuninspectedat3originalcap, notclaimedunavailable.",
+    "Sp18non-nucleotidespacer wholebackbone3D/endchemistryunassembled; typedorderinginventorynotfullmolecularproof."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpublishedpreparativepass, twoactualphysicalDNA/RNAtechnicalbranches; no secondbiologicalmodality/artificialprotocolcount. Fullsource/wholegeometryandabsencegateunfinished.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "targeted_source_then_dna_implementation",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Original2018SCOPE-seq source-specificfactory/lookup/optical/cellularRNAprep; source-definedquantities/fates maintained.",
+      "locations": "Published2018main39\u201361: dualbarcodefactory/lookupDNAvsRNA/cellbarcodelength12/opticaldecoding/batchscope. NoSCOPE2sourceused.; PublishedAdditionalFile1 SupplementaryMethods3\u20138actualbeadfactory/bothlibrarypreparations;97analysisidentifiers;99optical12cycles. FullhistoricalDropseqbead/TSObody/wholelookupcellmappingunassembled.; PublishedAdditionalFile4 originalTableS2 whole12OBO/Cy5probeorderings andselectedwholeP7primer1/universalP5/NexterapolyA/SMRTpcr/customRead1. TableS1GOheaderidentityonly. Full128indexwellassignmentunassembled.",
+      "deferred": [
+        "SourcecommercialChemGenesMacosko-2011-10(V+)capturebeadwholeconstruct/TSO/UMIlength/covalentjunction/readlandingunassembled; noimportedDropseq/SCOPE2recipe.",
+        "64wellcombinations/128lookupindexassignments/10regionindicesactualchoicesunassigned; no prematureDNAtemplatepooling.",
+        "Unlabeledprotectionoligos bindingtargetspositive; exactwholebodiesnotestablishedbyCy5probeorderings.",
+        "Directcitedmicrowell/beadpredecessorsandhistoricalvendor originalsremainuninspectedat3originalcap, notclaimedunavailable.",
+        "Sp18non-nucleotidespacer wholebackbone3D/endchemistryunassembled; typedorderinginventorynotfullmolecularproof."
+      ],
+      "findings": "RetainedbeadRNAcapturevsreleasedDNAlookup; modifiedSp18/U/additionalddCinventory; actualsourcealiquotremainders/perwell-beforepool/perregionPCR/indexing/opticalprobewashes/40vs20PhiX; exactwholeprotectedcapturemoleculesunassembled.",
+      "cap": {
+        "originals_read": 3,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round31-targeted-original-counts.tsv",
+        "source_investigation_closed": true,
+        "ownership_transfer": "Initialtargetedreader3originals/notes; DNAimplementationreaderusesSAME3selectedoriginals/sections only. No additionaloriginal or SCOPE2/vendor/predecessorread."
+      },
+      "oligo_scraper": "Mandatoryscraper25candidates1representation runbyinitialowner; source-linepointersverifiedinselectedoriginals, nozero-hitabsenceclaims.",
+      "verification": "46focusedchecksPASS;sourceguard16exact0fail0exempt15unassembledinputs (2typedOBOroundstockinventorieswithnon-nucleotideSp18/extraC;wholeTSO;12unlabeledprotectionbodiesunassigned). Whole12modifiedOBO+12Cy5+5selectedprimerfixturesPASS. Chemistry0established0conditional86unresolved0contradictory; privatepartialgraph only, no fullmolecular/source/absenceaudit. Independent selected-source/model recheck closed after gel-staining order and protection-body scope fixes."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_round31",
+    "date": "2026-10-30",
+    "scope": "Same three published 2018 originals: main39\u201361, AdditionalFile1 SupplementaryMethods3\u20138/97/99 and original AdditionalFile4 TableS2 whole12OBO/Cy5/selected primers. No new originals.",
+    "finding": "Selected critical source/model review closed after gel-run\u2192SYBRGold stain\u2192band extraction fix and unassigned full unlabeled-protection bodies. Factory separated supernatant plates, per-well5/4/5 aliquots and other127 indexed pool; retained-bead cellularRNA, 12 optical cycles,10 regions/twoPCRs/.6ngXT/P5 replacingi5 and physical40vs20PhiX verified. All46checks independently rerunPASS; no whole-chemistry/final products/absence audit or SCOPE2/vendor inheritance."
+  }
+}

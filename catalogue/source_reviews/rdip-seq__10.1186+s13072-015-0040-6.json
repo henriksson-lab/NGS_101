@@ -1,0 +1,107 @@
+{
+  "dir": "rdip-seq__10.1186+s13072-015-0040-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rdip-seq__10.1186+s13072-015-0040-6/s13072-015-0040-6_PMC4647656.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4647656.1/PMC4647656.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2015original",
+      "pass_1": {
+        "reviewer": "round11_coordinator",
+        "date": "2026-10-29",
+        "locations": "Published identity/ResultsRDIPoverview and Methods202\u2013216;not immunofluorescence/FISH or separate whole-transcriptome experiment.",
+        "finding": "Positive selected-scope source facts verified;not full original/linked-material review."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si_methods",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rdip-seq__10.1186+s13072-015-0040-6/s13072-015-0040-6_supp_13072_2015_40_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4647656.1/13072_2015_40_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2015original",
+      "pass_1": {
+        "reviewer": "round11_coordinator",
+        "date": "2026-10-29",
+        "locations": "Directional hybrid full protocolpp19\u201324/text480\u2013778;RNA-seq recipe only contrasted with separate RDIP steps;originalpp20/23 rendered to verify reagent text.",
+        "finding": "Positive selected-scope source facts verified;not full original/linked-material review."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si_tables",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rdip-seq__10.1186+s13072-015-0040-6/s13072-015-0040-6_supp_13072_2015_40_MOESM2_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4647656.1/13072_2015_40_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2015original",
+      "pass_1": {
+        "reviewer": "round11_coordinator",
+        "date": "2026-10-29",
+        "locations": "OriginalTableS4 four printed sample/index rows188\u2013193;TablesS3/S5 validation-primer contexts;other result tables unreviewed.",
+        "finding": "Positive selected-scope source facts verified;not full original/linked-material review."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "items": [
+      {
+        "locator": "https://doi.org/10.1093/nar/gkp596",
+        "scope": "Mainref49 directional-RNA predecessor;not followed under three-original cap."
+      },
+      {
+        "locator": "Source named historical enzymes/buffers/TruSeqadaptors",
+        "scope": "Historical kit identities/complete polymer geometry remain unreviewed;no unavailable document invented for unassigned quantities."
+      }
+    ],
+    "pass_1": {
+      "reviewer": "round11_coordinator",
+      "date": "2026-10-29",
+      "locations": "MainMethods/sourceSIchemistry sections",
+      "finding": "Directly linked precursor identified but deferred;no recursive chase or absence claim."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "open_questions": [
+    "Printedlysis/sonication/ATPquantity ambiguities;full molecular products and run geometry.",
+    "ActualdUTP formulation,UNG/heat strand distribution and residual recovery.",
+    "Complete original/linkedmaterial review and independent absence gate remain open."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "round11_coordinator",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Publishedmain+chemistrySI+originalworkbook;stop beforelinkedoriginals.",
+      "locations": "Exactsections in sourcechecklist",
+      "findings": "Nativehybrid RNaseH-primed replacement and dUTPmarking;sourceorder/realcleanup boundaries;no ordinaryRNAseqRT or automaticstranddisposal.",
+      "deferred": [
+        "Historicalfulladapter/primer/readgeometry",
+        "Linkedprecursorandremainingfigures/results"
+      ],
+      "oligo_scraper": "18hits in publishedworkbook;TableS3qPCR/S5bisulfite validation contexts inspected;not NGS adapters. TableS4 preserves parentheticalseventhbases."
+    }
+  ],
+  "superseded_sources": [
+    {
+      "doi": "10.1101/020545",
+      "disposition": "Automatically fetchedv3/preprintattachmentroutesexcluded;publishedoriginalsavailable."
+    }
+  ],
+  "conclusion": "Cappedsource-readprivateincompletegraph;noacceptedmissinginformation.",
+  "local_validation": {
+    "selftest_checks": 10,
+    "result": "pass"
+  }
+}

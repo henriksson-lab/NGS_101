@@ -1,0 +1,58 @@
+{
+  "dir": "cat-atac__10.1016+j.crmeth.2025.101222",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12859477.1/PMC12859477.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain122/379–425/486: reagentorderings/ATAC-beforeRT/readaout; finaloriginalnotAM.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12859477.1/mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedDocumentS1MethodS1originalp16–20, actualrenderedp16/19 forGEMstock/thermocycling/wholemodifiedorderings; partialRTsplint and3librarybranches.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "dna_owner_round34",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedCAT-ATACMethodsandactualSIorderedcapture/libraryconstruction only.",
+      "locations": "Publishedmain122/379–425/486: reagentorderings/ATAC-beforeRT/readaout; finaloriginalnotAM.; PublishedDocumentS1MethodS1originalp16–20, actualrenderedp16/19 forGEMstock/thermocycling/wholemodifiedorderings; partialRTsplint and3librarybranches.",
+      "findings": "Source5P/N12UMI/5LNAbases/3P/local15bpinterface,25→53→25programme, actualstocks/CRISPRPCRaliquots/QC/separateGEXversus5:1ATACCRISPRpoolretained.",
+      "deferred": [
+        "LinkedIDTannealing/historicalMultiomeoriginals",
+        "Fullbeadarms/occupiedgRNA/ligation/TSO/PCRproducts/LNATm",
+        "Actualindexchoice/ratio basis andcompletewhole-libraryprimerlanding"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; selectedoriginalsourcepointers verified; DSBPDFp9 andCATSIp16/p19 visuallyinspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "SourceIDT/Historical10xmanuals directlylinked butunread; comparisonconstructsnotinherited."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveprivatepartial preparation only; selectedscope not a complete reaction/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round34",
+    "date": "2026-10-30",
+    "scope": "Same two published originals: PMC12859477 main122/oligo rows379–425/Methods486 and DocumentS1 MethodS1 actualp16–20. Independently viewed actual oligo tablep19 and read ordered GEM/PCR/QC workflow, no linked historical manuals opened.",
+    "findings": "Verified complete source 5P/N12 RT ordering, five LNA residues and3P splint, computed local15bp pairing, whole PCR primers and six index choices. Source64ul GEM stock with one HiT4 addition follows25/53/25 programme. Capture40ul stock/5ul PCR selections, sequential SPRI supernatant, analytical QCs, standard ATAC/GEX boundaries and actual two-library5:1 ATAC:CRISPR pool are preserved. Whole bead/guide junctions/products/read landings remain unassembled; no critical defect found.",
+    "verification": "28 focused checks independently rerun PASS. Selected implementation review only; no complete reaction/source review or missing-information absence audit."
+  }
+}

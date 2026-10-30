@@ -1,0 +1,19 @@
+# aa-tRNA-seq
+
+[Defining publication](https://doi.org/10.1038/s41467-025-62545-9).
+
+🟢 Two publishedoriginals: mainPMC12368100Methods220–246 andactivation182, plusSI1actualSupplementaryTable2originalp2 andchemical-bridge/FigS3captioncontext. Selected biologicalyeastRNAbranch, notsyntheticFlexizyme/hairpinorall-RNA5′adaptervalidation. FullBenchlingprotocol is directlylinked but ordinaryunread withincap; no current-exportequivalence claimed.
+
+🟢 Nativeaminoacylester onterminaltRNA ispreserved; HEI-catalyzedcoupling adds **phosphoramidate N–P** connection fromaminoacidamino group toactivated5′adapterphosphate. Aminoacid remains a **non-nucleotidebridge**, not aDNA/RNAbase or inferredG/Csubstitution. Exactester2′/3′register, residueidentities/siteoccupancy andfullsealedtRNAproducts areunassembled. Latercurrent-signal/basecaller classification doesnotbyitself changechemicaltRNAsequenceorproteinidentity.
+
+🟢 Yeastpelletcold400µlAES(10mMNaOAc4.5/1mMEDTA/.5%SDS)+400µlacidPCI,vortex15s/ice20minwith5minvortexintervals; retainaqueousphase. **PublishedoriginalmainPDFp11 literallystates18,000×g10minat40°C**. ThisisnotOCR; retainedwithout silentlysubstituting4°C, intendedtemperatureunresolved. Select100µlaqueousphase,.4×AMPure2minRT, **retainsupernatant**, select100µgforR1018smallRNApurificationusingacidicNaOAcnotwater,elute30µl10mMNaOAc4.5.
+
+🟢 Gel-purified3′chargedadapteractivatedby500×molarimidazole+EDC2h25°C;coldacetone/perchlorateprecip/dryice20min/4°Cspin/acetone-etherwashes,200µMstockin10mMimidazole7.0. Source15–50pmolsmallRNA withfivefoldexcessactivatedcharged3′adapter and5′splint,100mMMES5.5/2.5mMMgCl2/50mMHEI6.5,25°C30min.10%TBUGEL70–150ntregion retainsmixedcharged/unchargedRNAclasses,crushsoak4°Covernight/ethanol/**GlycoBluecarrier**/NaOAc4.5. Do nottreatgelcutas a purechargedtRNAselection.
+
+🟢 Selected20pmolfromfirstligation→20µlRNL2reaction:10%PEG/1µlRNaseinhibitor/9pmoluncharged3′adapter/**fresh9pmol5′splint**/1×RNL2buffer/2µlhomemadeRNL2.74mgml,25°C30min. This enzymaticallycapturesdeacylatedtRNA andjoins5′adaptertoalleligibleRNA; sourcefresh5′splintaddition is realinaddition to anyresidualfirststepstock.1.8×tRNAbeads/ice4min/80%ethanol/elute13µl. Select12.5µlRNA+1.5µlRTA/.5µlinhibitor/4µlT4DNAligasebuffer/1.5µl600UµlT4DNAligase25°C30min;1.35×tRNAbeads/elute26µl. AnalyticalQubitdsDNAHS/TapeStationHS-DNA1000 sourceassays retainedasreported, not “corrected”toRNAassays. Select50–400fmolin23µl for6µlRLA/8µlbuffer/3µl600Uµlligase25°C30min,1.8×AMPure/ONTWSBwashes; PromethIONP2Solo/P2RNAflowcell.
+
+🟢 Actualwholemixed-sugarTableS2orderings aremodeledsource-locally: universal5′splint DNA`CCTAAGAGCAAGAAGAAGC`+`rCrUrGrGrN`; charged3′adapter5P rNbodyending`...rCrCrArArCrCrUrUrGrCrCrUrU`+DNA A10; uncharged3′adapter5PdifferentinternalRNAbodyending`...rArUrGrGrArArGrGrUrArGrGrC`+DNA A10. Fixeddistinctadapterinternalcodesidentifycaptureclass, not moleculeUMIs orsampleindexes. Sugarboundaries/terminalNclass and5P→imidazolideactivation are preserved; no syntheticadaptersequence silentlysubstituted.
+
+🟡 WholeONT RTA/RLAstrands/readlanding andBenchlingrevision remainunassembled. ActualnamedSourceDataZIP overconfigured120MBdownloadcap isnotautomaticallychemistry-needed; noadditionalrequestbasedonitsabsence. No source-absence or completechemistryclaim.
+
+The private model retains whole raw modified oligos plus structured RNA/DNA sugar blocks; displayed RNA bases use T for source U only as an explicit drawing-alphabet convention. Charged and uncharged adapter arms carry fixed capture-class identifiers, not molecule or sample identities. The narrow source-text guard exceptions for the two wrapped biological adapter rows are backed by whole modified ordering fixtures and original TableS2 image inspection. The aminoacid bridge descriptor validates only the stated qualitative relation, not whole RNA geometry or an atom-balanced reaction.

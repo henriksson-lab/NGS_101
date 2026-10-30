@@ -1,0 +1,219 @@
+{
+  "dir": "nad-captureseq__10.1038+nature14020",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/(manual) nature14020 full text",
+      "original": "https://doi.org/10.1038/nature14020",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "journal article; no open full text found (publisher page only)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/(manual) nprot.2016.163 full text",
+      "original": "https://doi.org/10.1038/nprot.2016.163",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "journal article; no open full text found (publisher page only)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM17_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM17_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM18_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM18_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM19_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM19_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM20_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM20_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM21_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM21_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM22_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM22_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM23_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM23_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM24_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM24_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original, selected scope",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM25_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM25_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM26_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM26_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nature14020_41586_2015_BFnature14020_MOESM27_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14020/MediaObjects/41586_2015_BFnature14020_MOESM27_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "Springer supplementary file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nad-captureseq__10.1038+nature14020/nprot.2016.163_41596_2017_BFnprot2016163_MOESM470_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2016.163/MediaObjects/41596_2017_BFnprot2016163_MOESM470_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original, selected scope",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Defining Nature2015 full main/chemistry Methods inaccessible through standard routes: https://doi.org/10.1038/nature14020 .",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    },
+    {
+      "locator": "Same-method detailed NatureProtocols2017 full main inaccessible through standard routes: https://doi.org/10.1038/nprot.2016.163 .",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    },
+    {
+      "locator": "Rendered 2015 oligo table, remaining published source bundle and linked originals unreviewed at cap; exact sample barcode choices/meaning of adapterB N5 are unassigned.",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    }
+  ],
+  "conclusion": "Capped positive source scope only; no full original/linked or accepted absence audit. Component-only notes; central NAD preparation remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "round23_RNA_source_reader",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Capped10min/three-original investigation including administrative identity; selected defining sources first across batch.",
+      "locations": "2015 published Supplementary Table1 opening oligos in extracted text; 2017 published SI Fig1/3 component benchmark captions and cycle-calculation Note; 2017 publisher identity/abstract page only (third original/admin). Fig2 schematic original not inspected.",
+      "findings": "Actual preparation/components recorded with source version and physical fates; unread sources do not establish absence.",
+      "deferred": [
+        "Defining Nature2015 full main/chemistry Methods inaccessible through standard routes: https://doi.org/10.1038/nature14020 .",
+        "Same-method detailed NatureProtocols2017 full main inaccessible through standard routes: https://doi.org/10.1038/nprot.2016.163 .",
+        "Rendered 2015 oligo table, remaining published source bundle and linked originals unreviewed at cap; exact sample barcode choices/meaning of adapterB N5 are unassigned."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle scraper completed; source pointers read, no hit or abstract used as absence evidence.",
+      "verification": "20focusedchecks across Cappable/Rend (10each);0exactsourceinputs/0failed/0exempt/6unassembled across2graphs;40unresolved0contradictory chemistryclaims. NADcomponentnotesonly/noNGSgraph. IndependentcriticalselectedAM/mainimplementationreviewsclosed;notfullsourceorabsenceaudits."
+    }
+  ],
+  "independent_component_recheck": {
+    "reviewer": "coordinator_round23",
+    "date": "2026-10-30",
+    "scope": "Published2017SI/MOESM470 Fig1and3 text1\u201339 andoriginalPDFp1/p3rendered;sourcecomponentonly,notNADcore/full2015or2017recipe orabsenceaudit.",
+    "finding": "ActualFastAP/RNL1/RNL2trP-adapter+App-adapter/C3benchmark andTdT/riboCTP/GTP/cDNAanchor2or3baseoverhang experiments verified. No dCTP substitution, syntheticNADcoreprocedure orfullNGSgraph. Supportslimitedsource-readcomponentnote entry,notcompleteprotocolchemistry."
+  }
+}

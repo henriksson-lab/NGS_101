@@ -1,0 +1,222 @@
+{
+  "dir": "halo-seq__10.1093+nar+gkab1185",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/2021.06.08.447604_media-1.txt",
+      "original": "https://www.biorxiv.org/content/biorxiv/early/2021/06/10/2021.06.08.447604/DC1/embed/media-1.txt?download=true",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/2021.06.08.447604_media-2.txt",
+      "original": "https://www.biorxiv.org/content/biorxiv/early/2021/06/10/2021.06.08.447604/DC2/embed/media-2.txt?download=true",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/2021.06.08.447604_media-3.txt",
+      "original": "https://www.biorxiv.org/content/biorxiv/early/2021/06/10/2021.06.08.447604/DC3/embed/media-3.txt?download=true",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/2021.06.08.447604_media-4.txt",
+      "original": "https://www.biorxiv.org/content/biorxiv/early/2021/06/10/2021.06.08.447604/DC4/embed/media-4.txt?download=true",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_5",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/2021.06.08.447604_v2.full.pdf.txt",
+      "original": "https://www.biorxiv.org/content/10.1101/2021.06.08.447604v2.full.pdf",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_PMC8887463.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/PMC8887463.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_7",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_PMC8887463.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/PMC8887463.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round10_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance49; Methods83\u2013115; Results159\u2013165;7mincomparison145 distinct from5minRNAseq",
+        "finding": "Source HaloDBF/greenlight/PA RNAalkynylation then extractedRNA clickbiotin and streptavidin/trizol release; rRNA-depletedKAPA library and14PCR/PE150. Adduct/site structure and historical kit internals unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published non-manuscript original"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files.zip.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_SUPPLEMENTARY_DATA_LEGENDS.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip#SUPPLEMENTARY DATA LEGENDS.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round10_reader",
+        "date": "2026-10-29",
+        "locations": "TableS1\u20134 identities and FigS1\u2013S4 legends; validation/control context, no libraryadapter assignments",
+        "finding": "Source HaloDBF/greenlight/PA RNAalkynylation then extractedRNA clickbiotin and streptavidin/trizol release; rRNA-depletedKAPA library and14PCR/PE150. Adduct/site structure and historical kit internals unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published SI legends original"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_SupplementaryFigures.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip#SupplementaryFigures.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round10_reader",
+        "date": "2026-10-29",
+        "locations": "FigS1\u2013S4 extracted panel/axis labels, no visual image chemistry interpretation; legend read separately",
+        "finding": "Source HaloDBF/greenlight/PA RNAalkynylation then extractedRNA clickbiotin and streptavidin/trizol release; rRNA-depletedKAPA library and14PCR/PE150. Adduct/site structure and historical kit internals unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published SI original; extracted labels only"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_TableS1.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip#TableS1.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_TableS2.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip#TableS2.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_TableS3.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip#TableS3.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_TableS4.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8887463.1/gkab1185_supplemental_files.zip#TableS4.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round10_reader",
+      "date": "2026-10-29",
+      "locations": "Exact selected sections in source_checklist and protocol notes",
+      "finding": "Source HaloDBF/greenlight/PA RNAalkynylation then extractedRNA clickbiotin and streptavidin/trizol release; rRNA-depletedKAPA library and14PCR/PE150. Adduct/site structure and historical kit internals unassembled. Directly linked originals deferred at cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "MainResults161 explicitly cited photochemistry predecessors refs20/21; exact component/version unreviewed",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    },
+    {
+      "locator": "Named historical KAPA/RocheRNAHyperPrep and DirectZol originals",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    },
+    {
+      "locator": "Later detailed Halo protocol not substituted for defining source",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    }
+  ],
+  "open_questions": [
+    "Exact full molecular adduct, strand/end/library/run geometry and named historical kit/predecessor scope remain unassembled; no absence claim."
+  ],
+  "conclusion": "Capped source-qualified notes/local model only. No finished schematic, complete source review, full molecular/readout validation or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "rna_round10_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining and chemistry originals first; no recursive predecessor chase",
+      "locations": "Provenance49; Methods83\u2013115; Results159\u2013165;7mincomparison145 distinct from5minRNAseq; TableS1\u20134 identities and FigS1\u2013S4 legends; validation/control context, no libraryadapter assignments; FigS1\u2013S4 extracted panel/axis labels, no visual image chemistry interpretation; legend read separately",
+      "findings": "Source HaloDBF/greenlight/PA RNAalkynylation then extractedRNA clickbiotin and streptavidin/trizol release; rRNA-depletedKAPA library and14PCR/PE150. Adduct/site structure and historical kit internals unassembled.",
+      "deferred": [
+        "MainResults161 explicitly cited photochemistry predecessors refs20/21; exact component/version unreviewed",
+        "Named historical KAPA/RocheRNAHyperPrep and DirectZol originals",
+        "Later detailed Halo protocol not substituted for defining source"
+      ],
+      "oligo_scraper": "Mandatory acquired-bundle scan; source contexts/modifications inspected where relevant. Superseded preprint hits excluded; APEX-RIP two large dataworkbooks unscanned by default, no absence conclusion.",
+      "verification": "17localbehaviorchecks pass across3models; sourceguard0exactchecked0failed2unassembledinputs; chemistry45unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

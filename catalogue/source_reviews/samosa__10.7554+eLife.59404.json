@@ -1,0 +1,61 @@
+{
+  "dir": "samosa__10.7554+eLife.59404",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/samosa__10.7554+eLife.59404/eLife.59404_v2.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round11",
+        "date": "2026-10-29",
+        "locations": "Published VORv2 December14,2020 Methods260\u2013270; array244\u2013252 scope overview",
+        "finding": "K562 soluble-chromatin marking\u2192native SMRTbell acquisition; separate in-vitro arrays/variantMNase routes."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/samosa__10.7554+eLife.59404/eLife.59404_elife-59404-transrepform-v2.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round11",
+        "date": "2026-10-29",
+        "locations": "Reporting-form header/administrative identity only",
+        "finding": "Not a chemical recipe source; substantive chemistry not reviewed."
+      },
+      "reason": "Reporting-form identity/administrative header, not selected chemistry; not used for missing-information conclusions."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round11",
+      "date": "2026-10-29",
+      "locations": "Selected originals listed above; directly named historical kit/version targets in note",
+      "finding": "Capped source pass; kit geometry/version targets remain unreviewed. No missing-information acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Private source-qualified model through source-known downstream preparation/acquisition; original-version and historical kit assembly remain incomplete.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "expansion_dna_round11",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published-first bounded pass; associated manuscript and excluded-source identities explicit.",
+      "locations": "Published VORv2 December14,2020 Methods260\u2013270; array244\u2013252 scope overview; Reporting-form header/administrative identity only",
+      "findings": "Source operations/physical remnant distinctions/readout preserved; full end/library geometry unassembled.",
+      "deferred": [
+        "Directly named historical kit guide/version and original assembly targets in research note; no recursive source chase."
+      ],
+      "oligo_scraper": "/tmp/samosa11-oligos.log; whole-bundle scan run, relevant hits read in sources; no absence conclusions.",
+      "verification": "32localchecks(7nanoNOMe/10NSCR/7D-NAscent/8SAMOSA) passed;4privatebuilds and scopeddocs/pairing/schema passed. Chemistry0established/59unresolved/0contradictory. Sourceguard0checked/0failed,3historicaladapterinputs without exactstates, not exactoligovalidation. Root independentlyspotreviewed nanoNOMe/SAMOSA; multi reviewedNSCR/D-NAscent, identifiedsavedRcontrol/Ccollection omissions now fixed with regressions. These implementation reviews are not independent absence-audit passes. Retrievalsessions42535 interruptedgracefullyexit130/cachepreserved and2412completedexit0; finalscrapers66705completedexit0. No retrievalrunning."
+    }
+  ],
+  "work_status_reason": "Next action is ordinary reading/retrieval of identified historical kit/source scopes or independent review. The selected capped pass did not establish a specific access barrier; model geometry remains unresolved. No absence conclusion."
+}

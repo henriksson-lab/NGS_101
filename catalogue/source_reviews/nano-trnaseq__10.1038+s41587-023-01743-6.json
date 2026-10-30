@@ -1,0 +1,64 @@
+{
+  "dir": "nano-trnaseq__10.1038+s41587-023-01743-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10791586.1/PMC10791586.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedCCBYmain87/202/206/250 andExtendedData4caption300, actualFig1PDFp3; selectedmixedRNA/DNAdualpadding/MaximaRT/RNA002 route.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10791586.1/41587_2023_1743_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualTableS25 fullmodifiedoligo orders and context within publishedMOESM3 originalworkbook; other analytical tables not read as chemistry.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "targeted_owner_round39",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published selected originals only; source investigation closed before implementation, not a complete chemistry/source/absence audit.",
+      "locations": "PublishedCCBYmain87/202/206/250 andExtendedData4caption300, actualFig1PDFp3; selectedmixedRNA/DNAdualpadding/MaximaRT/RNA002 route.; ActualTableS25 fullmodifiedoligo orders and context within publishedMOESM3 originalworkbook; other analytical tables not read as chemistry. Rootsameoriginal main194\u2013211/220\u2013239 scopedcontext confirms LCMS/RTtest are separate; originalrawsheet25A4:B9 independentlyinspected. OpeningtexttwinheaderalsoexposedTableS1\u20133firstrows, notadoptedchemistryauthority; sameworkbookoriginal,notnewdocuments.",
+      "findings": "Actual source-defined physical preparation and modified library oligo roles read; no source absence, precursor constructor or modern kit defaults inferred. See note for selectedbranch and source discrepancies. RootimplementscommercialtotalyeasttRNAbranch, wholemixedsugarorderings andcomputed20bpRNAadapter/RTAcores, sourceknown5Pdonorswithwholejoiningproductsunassembled. Actual200ngRNA/QC/stockremainders, oneactual25ulMaximaRTmasterfromcopresentcomponents anddistinctpostcleanupRMXligaseaddition; nofailedstrategyorLCMS/nucleosidedigestionmerge.",
+      "deferred": [
+        "Full occupied RNA/RTA/RMX/cDNA/motor molecules and read geometry; in-houseRnl2 production and historicalRNA002 vendor originals ordinary unread.",
+        "Actual computational threshold configuration versus differing main250/ED4caption300 descriptions; preserveboth without silently choosing physical size cutoff.",
+        "Excludedall-RNA/polyA/DNA-onlystrategies, IVTgeneconstructs and later native-tRNA predecessor92 not inherited."
+      ],
+      "oligo_scraper": "Mandatoryownerbundlelog/tmp/round39-nano-scraper.log plus rootrepeat/tmp/ngs39-nano-root-scraper.log. WholemodifiedTableS25rawXML andactualFig1bPDFp3viewed; RNAandDNAresiduesparsedwithoutlosingsugaridentity.",
+      "verification": "16focusedchecksPASS; externalinputoligoguard4checked/0failed/0exceptions/1RMXunrepresented; chemistry4localestablishedrelations/20unresolved/0contradictory. Independent critical implementation recheck closed16PASS/same2originals."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Directly linked source/vendor targets ordinary unread outside selected capped scope; no accepted absence claim.",
+    "deferred_targets": [
+      "Full occupied RNA/RTA/RMX/cDNA/motor molecules and read geometry; in-houseRnl2 production and historicalRNA002 vendor originals ordinary unread.",
+      "Actual computational threshold configuration versus differing main250/ED4caption300 descriptions; preserveboth without silently choosing physical size cutoff.",
+      "Excludedall-RNA/polyA/DNA-onlystrategies, IVTgeneconstructs and later native-tRNA predecessor92 not inherited."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-positive selected preparation only; full molecules/reactions/readout and directly linked depth-one follow-up remain unassembled. No accepted absence/pass2.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_round39_nano",
+    "date": "2026-10-30",
+    "scope": "Same published main87/202/206/250/300, actualFig1p3 render and originalMOESM3sheet25rawXMLA4:B9; selected implementation only, no absence pass2.",
+    "findings": "Verified all6wholeorders,24RNA5and30RNA+3DNA3 sugar tokens, NCCA-bindingrNnotUMI, computed20bpRNApadding/RTAcores and divergentYtails. Actual200ngproduction/QC/stockremainders, one25ulRTmasteraddedto15ulreaction andfresh1.5ulversuspostcleanup3ulligase preservephysicalcontributions. NativeRNAreadout retained. Main/ED4computationalthresholdconflictvisible, fulltRNA/RMX/polyAregisterunassembled.16checksPASS; guard4checked0fail1RMXunknown;4localestablishedrelations/20unresolved/0contradictory. No criticaldefect found withinselectedscope. Subsequent note-only projection crops divergentYarms fromplainpairedstemdisplay; wholeoligos/graphgeometryunchanged,16checksandtargetedduplexlintpass. Finalshared2088/fullsiteverificationpasses.",
+    "absence_pass_2": false
+  }
+}

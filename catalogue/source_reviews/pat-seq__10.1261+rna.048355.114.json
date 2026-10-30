@@ -1,0 +1,145 @@
+{
+  "dir": "pat-seq__10.1261+rna.048355.114",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/(manual) rna.048355.114_supp_supp_21_8_1502__index.html",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4509939.1/supp_21_8_1502__index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest original; revision/chemistry not inspected",
+      "reason": "Unreviewed original or failed route; no irrelevance/absence determination. supplementary file (PMC Cloud); no article content (475 characters of text)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/(manual) rna.048355.114_supp_supp_21_8_1502__index__83cd65f9e2c8.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4509939/bin/supp_21_8_1502__index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest original; revision/chemistry not inspected",
+      "reason": "Unreviewed original or failed route; no irrelevance/absence determination. PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.8 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (1.9 h left; not requested)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/rna.048355.114_PMC4509939.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4509939.1/PMC4509939.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; revision/chemistry not inspected",
+      "reason": "Unreviewed original or failed route; no irrelevance/absence determination. article PDF (PMC Cloud)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/rna.048355.114_PMC4509939.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4509939.1/PMC4509939.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published PMC4509939",
+      "reason": "Selected reading only; no full source/absence audit.",
+      "pass_1": {
+        "reviewer": "round21_RNA_source_reader",
+        "date": "2026-10-30",
+        "locations": "Results methodology lines64\u201378; Methods124\u2013134; cited predecessor Janicke2012 identified.",
+        "finding": "Source-positive selected chemistry; incomplete endpoint and source scope explicit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/rna.048355.114_supp_supp_048355.114_SuppFigures.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4509939.1/supp_048355.114_SuppFigures.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; revision/chemistry not inspected",
+      "reason": "Unreviewed original or failed route; no irrelevance/absence determination. supplementary file (PMC Cloud)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/rna.048355.114_supp_supp_048355.114_SuppFile3_DGE_wt_vs_dccr4.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4509939.1/supp_048355.114_SuppFile3_DGE_wt_vs_dccr4.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest original; revision/chemistry not inspected",
+      "reason": "Unreviewed original or failed route; no irrelevance/absence determination. supplementary file (PMC Cloud)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pat-seq__10.1261+rna.048355.114/rna.048355.114_supp_supp_048355.114_SuppMethods.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4509939.1/supp_048355.114_SuppMethods.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published detailed workflow",
+      "reason": "Selected reading only; no full source/absence audit.",
+      "pass_1": {
+        "reviewer": "round21_RNA_source_reader",
+        "date": "2026-10-30",
+        "locations": "Whole steps1\u20137 and reagent list lines1\u2013235; exact mixed-sugar oligos checked in original DOCX text.",
+        "finding": "Source-positive selected chemistry; incomplete endpoint and source scope explicit."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Janicke2012 ePAT predecessor original, cited by main Methods; exact DOI/version to verify before use.",
+      "scope": "Deferred original or explicitly unfinished source scope; not confirmed absence."
+    },
+    {
+      "locator": "ProtocolExchange1889 linked by supplementary PAGE step6; same-scope original not followed within cap.",
+      "scope": "Deferred original or explicitly unfinished source scope; not confirmed absence."
+    },
+    {
+      "locator": "Historical ScriptSeq indexed primer product/revision and selected indices; source selection not yet assigned.",
+      "scope": "Deferred original or explicitly unfinished source scope; not confirmed absence."
+    }
+  ],
+  "conclusion": "Private source-qualified partial model; no public promotion, complete source audit or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "round21_RNA_source_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Capped10min/three-original investigation; justified implementation consistency work separately verified.",
+      "locations": "Results methodology lines64\u201378; Methods124\u2013134; cited predecessor Janicke2012 identified.; Whole steps1\u20137 and reagent list lines1\u2013235; exact mixed-sugar oligos checked in original DOCX text.",
+      "findings": "Positive wet-preparation differences recorded in note, versions/discrepancies retained; private incomplete graph only.",
+      "deferred": [
+        "Janicke2012 ePAT predecessor original, cited by main Methods; exact DOI/version to verify before use.",
+        "ProtocolExchange1889 linked by supplementary PAGE step6; same-scope original not followed within cap.",
+        "Historical ScriptSeq indexed primer product/revision and selected indices; source selection not yet assigned."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper completed; hits are pointers only. Adopted PAT oligos verified in original text; no source absence inferred.",
+      "verification": "26focusedchecks pass (PAT11/Tfill7/cP8);3exactsourceinputs/0failed/0exempt/12unassembled;61unresolved/0contradictory chemistryclaims. Independentcriticalimplementationreview closed;notfullsource/absenceaudits."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent round21 DNA implementation reader",
+    "date": "2026-10-30",
+    "scope": "PAT publishedmain/SuppMethods steps1\u20137/reagents; Tfill main42\u201360; cP2016associatedAM Procedure28\u201359. Selected critical review, not two-reader full original/linked absence audit.",
+    "finding": "26localchecks pass; no consequential chemical/order defect in selected scope. Actual biotinDNA/RTprimer, physicalremainder/QC/pool/release, Tfilldualpolymerases and cP sequentialendselection/directreactiontransfers retained. Non-document manifest licence rows removed from checklist; actual originals kept."
+  }
+}

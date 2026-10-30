@@ -1,0 +1,70 @@
+{
+  "dir": "dip-cab-seq-5fc-5cac__10.1038+cr.2015.5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "read_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dip-cab-seq-5fc-5cac__10.1038+cr.2015.5/cr20155.html.txt",
+      "original": "https://www.nature.com/articles/cr20155",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Official published article preview, title/authors/identity and direct SI link only; not full chemistry reading",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "read_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dip-cab-seq-5fc-5cac__10.1038+cr.2015.5/source_pdf_49222db245fceaa530e3.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fcr.2015.5/MediaObjects/41422_2015_BFcr20155_MOESM75_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedMOESM75 SI printedtitle/authors1\u201317,Methods20\u201332/62\u2013114/164\u2013181,FigS1A223\u2013227/ref9",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "main_pdf",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/cr20155.pdf",
+      "original": "https://www.nature.com/articles/cr20155.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Standard declared exactpublisherPDF returnedHTMLnotPDF; officialarticleHTMLisfree-accountpreviewonly. XML500/PMCchallengecooldown/officialPMCCloudnousablefile; boundedsourcepassclosed without universalinaccessibility claim.",
+      "source_version": "Published2015fullarticle",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified private incomplete operational graph; no full source review, public promotion or accepted missing information.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "dna_round19",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Bounded breadth-first at most10min/3originals; defining/chemistry supplements before references, no recursive chasing.",
+      "locations": "PublishedSI Methods62\u2013114/164\u2013181 andFigS1A; fourIPrecoveries/halfCAB-halfBS and target-specific chemistry; actualHiScanSE100 acquisition.",
+      "findings": "Known source operations retained through acquisition with unresolved full geometry and physical carryover; source identity/conditions qualified, no recipe inheritance.",
+      "deferred": [
+        "Full publishedmain: exactPDFreturnedHTML,XML500,PMCchallengecooldown,officialPMCCloudnousablefile; no universalabsenceclaim.",
+        "HistoricalEpiGnome/MethylCode component originals, directlycitedLuJACS2013CABcompoundpreparation reference9 and SongCell2013 preparation component not followed aftercap; exactwholegeometry/degradation/recoveryunassembled."
+      ],
+      "oligo_scraper": "Mandatoryfinalbundle scraper14candidates/1file; sourceMethodsread,validationdotblot/qPCR/SangeroligosnotborrowedforNGS. Emptyearlierbundle notabsenceevidence.",
+      "verification": "33localchecks(10MSCC/11BL/12DIP)pass; sourceguard8literalstrands0failed0exempt,4unassembledMSCCinputs,3graphs;chemistry1established84unresolved0contradictory;3reviewschema2in_progress1blocked(actualDIPmainaccessbarrier);6note/refpagesbuilt,pairing0errors(notmolecularvalidation). Fetch31872/68773/73008terminalexit0,noactiveacquisition. Privategraph-only,nofinishedmarkers;independentreviewscopebelowisimplementationonly."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "coordinator_reader",
+    "date": "2026-10-29",
+    "scope": "ActualpublishedSI62\u2013114/164\u2013181/FigS1A223\u2013227 andbothlocaltargetbranches, report-only critical implementation review, not missing-information audit.",
+    "finding": "FourIP\u2192pool\u2192halfsplit\u2192targetprotection/BS\u219250ngallocation/opaquehistoricalkit/QC\u2192matchednon-IPcontrol/pooling source-consistent. ProteinaseK corrected from nuclease-typedDIGESTION toDEPROTEINIZATION;unusedcopiedligation/PCRscaffoldingremoved. No furtherconsequentialissue found in selectedscope."
+  }
+}

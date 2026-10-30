@@ -1,0 +1,66 @@
+{
+  "dir": "relacs__10.1038+s42003-018-0219-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6281648.1/PMC6281648.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainMethods145\u2013201; sourcehairpinstockunits/NEXSON/nucleiQC/swelling/CviKI1/barcoding/poolpelletrescue/ChIP/18of20DNA/USER-PCR/QC/PE75PhiX.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6281648.1/42003_2018_219_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1actualFig1PDFp1\u20132/caption3\u201323, Table2p22whole35modifiedorderings/extracted569\u2013603, Fig11p18UMIvariantcontext. ActualFig1/Table2renderread;20baselinebarcodehairpins+15separateUMIvariants.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "round40_relacs_handoff_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Same2publishedoriginalsclosedbeforeimplementationbyDNAowner; no extrasourceopens/fetch. SelectedHepG2baselinebarcodednuclei/pooledH3K27acChIPprivatepartialroute.",
+      "locations": "PublishedmainMethods145\u2013201; sourcehairpinstockunits/NEXSON/nucleiQC/swelling/CviKI1/barcoding/poolpelletrescue/ChIP/18of20DNA/USER-PCR/QC/PE75PhiX.; PublishedSI1actualFig1PDFp1\u20132/caption3\u201323, Table2p22whole35modifiedorderings/extracted569\u2013603, Fig11p18UMIvariantcontext. ActualFig1/Table2renderread;20baselinebarcodehairpins+15separateUMIvariants.",
+      "findings": "Source100mM/15mMhairpins5P/internalphysicaldU/PSbefore3T; all35raworders/20baselinebarcodes/15separateUMIvariantsretained. NEXSON/digestionQCaliquots separatefromproduction; sourceBSA/PICstocks; knownA/Tligationclass butwholechromatinunassembled. Actualfirstsupernatantrescued11000gandbothpelletspooled. ChIP18of20DNA\u2192same25ulPCRmaster/USER/primercomponentscarriedtoPCR, nofreshduplicateadditions. Qubit/FragmentQC/normalizedlibrarypool+10percentPhiX/HiSeqPE75physicalfatesexplicit.",
+      "deferred": [
+        "Mainlinkeddetailedprotocol10.1038/protex.2018.098ordinaryunread/notretrieved, notabsenceorfailedaccess.",
+        "Historicalkit/formulations/fullPCRprimer-indexbodies/wholeoccupiedgenomicbarcodedchromatin, ligationjunctions/USERopeningDNAendstates/maturePCRproducts andreadlandingunassembled.",
+        "Source100mMstock/15mMannealretained; intendedunitinterpretationunassignedwithoutpublicationerrorclaim.",
+        "Exactexperimentalnuclearbarcode/ChIPindex/samplecount/poolmolarcontributions andyieldsunassigned; UMIvariants/TFsaltbranch/traditionalChIPcomparatorsnotmerged."
+      ],
+      "oligo_scraper": "Mandatory /tmp/ngs40-relacs-scraper.log; actualTable2p22andFig1p1renderinspected. Whole35sourceorderfixtures; source-localleadingAbeforecanonicalNEBhairpinpreserved.",
+      "verification": "57focusedchecksPASS including35wholemodifiedTable2orders/sourceunits/wholebaselinepolymer/physicalQC-pelletrescue-aliquotandUSERcarrybehavior. Sourceguard1exactchecked/0failed/0exceptions/0unrepresentedexternaloligos; producedunknownPCRprimerclassesoutsideexternalinputguard. Chemistry45steps/46unresolved/0contradictory; note/refrender/schemaPASS. Same2closedoriginals; independentrootpeerpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Directlylinked2018protocol/kit/predecessororiginalsordinaryunread; noinheritanceorabsenceclaim.",
+    "deferred_targets": [
+      "Mainlinkeddetailedprotocol10.1038/protex.2018.098ordinaryunread/notretrieved, notabsenceorfailedaccess.",
+      "Historicalkit/formulations/fullPCRprimer-indexbodies/wholeoccupiedgenomicbarcodedchromatin, ligationjunctions/USERopeningDNAendstates/maturePCRproducts andreadlandingunassembled.",
+      "Source100mMstock/15mMannealretained; intendedunitinterpretationunassignedwithoutpublicationerrorclaim.",
+      "Exactexperimentalnuclearbarcode/ChIPindex/samplecount/poolmolarcontributions andyieldsunassigned; UMIvariants/TFsaltbranch/traditionalChIPcomparatorsnotmerged."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "SourcepositiveprivatepartialRELACSbarcodednuclei/ChIPpreparation; notcompletechemical/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round40",
+    "date": "2026-10-30",
+    "scope": "Same2publishedoriginals:mainMethods145\u2013201; actualSI1Table2p22render/wholemodifiedfamily/Bar1polymer; noabsencepass2.",
+    "findings": "Verifiedliteral100mM/15mM,5P/dU/PSbeforeterminalT/leadingcanonicalA andbaseline20populationbarcodesversus15UMIvariants. Actualinitial/digestionQC,25ulbarcodingstock,5000gfirstsupernatantrescue11000g/bothpelletspooled,18of20DNA andsameUSER/PCRcomponentcarry preservephysicalfates. RequestedstructuredRead1/Read2=75declarationnowadded; wholeprimerlanding/indexcyclesremainunassembled.57localchecksPASS;1externalexact/no failures; producedunknownPCRprimersoutsideguard. No fullmolecular/source/absenceaudit.",
+    "absence_pass_2": false
+  }
+}

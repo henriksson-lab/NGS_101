@@ -1,0 +1,60 @@
+{
+  "dir": "molseq__10.1038+s41598-026-41186-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13136315.1/PMC13136315.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain54\u201370/100\u2013110/124\u2013168; originalMethodsPDFp9 literal132nM; source150-cycle/150paired-end wording preserved.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41598-026-41186-y/MediaObjects/41598_2026_41186_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSIFig1/2/4,Table1actualp6\u20138; modifiedwholeoligoorderings andPCretained5Pclass; originalrenderedtablesviewed.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "coordinator_round31",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Publishedfixed-cellRNAseqroute andlocalPC/splintsemantics only; no preprint/AIPchemistry.",
+      "locations": "Main54\u201370/100\u2013110/124\u2013168; originalMethodsPDFp9;SIFig1/2/4 andTable1p6\u20138.",
+      "findings": "Typed non-nucleotide PC boundary preserves DNAcap/body and cleaved5Pclass. Exactlocal21/42interfaces do not establish whole in-situ schedule. Actualmolecularstocks/extractionresidue/PCRcomponents sourcequalified;132nM/run-description ambiguities unresolved.",
+      "deferred": [
+        "Complete spatial round schedule and occupied splint members",
+        "Whole PC-bearing cDNA, photoproduct chemistry and quantitative fates",
+        "Exact historical kit/index primer/run mask and read landing",
+        "Directly linked original chemistry/vendor and full correction/source audit"
+      ],
+      "oligo_scraper": "Mandatory completebundle run; relevant Table1 pointers verified in original renderedp6\u20138, not inferred from hits alone.",
+      "verification": "20focusedpass;1sourceexact/0failed/0exempt/4unassembledinputs;23unresolved/0contradictory. Selected independent implementation recheck closed, not complete source/reaction audit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Originalspacerphotochemistry references and historicalNexteraXT/TakaraSmartSeqV4guides unreviewed; no recipe inheritance. Supersededpreprint excluded. Unknown schedule/component specifications are open questions, not unavailable-document inventions."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive private partial model from two published originals; no complete reaction or accepted source-absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round31",
+    "date": "2026-10-30",
+    "scope": "Same publishedmain124\u2013168/54\u201370/100\u2013110 and sameSIFigs1/2/Table1actualp6\u20138; two combined originals, no extra document.",
+    "findings": "Verified four wholeT20/iSpPC/body orderings,RT5P/N20/T30,modifiedTSO,SmartSeq3/LD/enrichmentprimers and localSplint21/42interfaces. Non-nucleotidePC count/retained5P/capclasses and fullscheduleMAGIC, source retainedstocks/NTs/extractionresidue/threePCRs+cleanups consistent. Literal132nM/runambiguities correctlyretained. No newcriticaldefect, not fullPCphotoproduct or absence audit.",
+    "verification": "20focusedchecks independently rerunPASS."
+  }
+}

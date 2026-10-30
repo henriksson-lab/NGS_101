@@ -1,0 +1,58 @@
+{
+  "dir": "5pseq__10.1016+j.cell.2015.05.008",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4461875.1/PMC4461875.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated author manuscript identity/Methods native5PRNA ligation/fragmentation/randomRT/capture libraryorder versus PARE, SIroleassignment",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si_roles",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4461875/bin/NIHMS688997-supplement-6.docx",
+      "availability": "unavailable",
+      "reason": "ActualnamedDOCXstandardfetchTDMgate; rolemappingtoExtendedProceduresunverified, notclaimedbyextension. Main/JATSgeneric1\u20137mappingunresolved.",
+      "relevance": "relevant",
+      "inspection_scope": "Notread; actuallinkedfileidentity/chemistryrole needverification, noabsenceinference.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-37",
+      "reviewer": "targeted_owner_round37",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "SelectedphysicalNGSpreparationbranchonly; sourceinvestigationclosedbeforeimplementation.",
+      "locations": "Associated author manuscript identity/Methods native5PRNA ligation/fragmentation/randomRT/capture libraryorder versus PARE, SIroleassignment",
+      "findings": "Distinctphysicalpreparation/sourceorder/knownmods andactualstockfatesdocumented; wholeproducts/readlayoutunassembled, role/versionlimitsretained. Handoff implementationretains native5PsubsetoftotalRNA, directligation\u2192polyA\u2192RNAfragment/randomRT\u2192streptavidincapture\u2192unassembledIlluminafinish; noassignedbiotincarrier or barcodecoordinates. SeparatecapCIP/TAPandcompositeTAPstocks/fates;11focusedbehaviorchecksPASS/10unresolved0contradictory.",
+      "deferred": [
+        "Directlylinkedunreadsourceoriginals/vendorprotocols andunassembledmolecularproducts",
+        "Actualunavailable5PSeqSIroles/mappingwhereapplicable"
+      ],
+      "oligo_scraper": "Mandatoryvalidatedbundle scan and associatedmain51/135\u2013141/Fig1Acaption385 inspected. No inaccessibleSIwholeoligo/image/table inspected; genericJATSSI1\u20137rolesremainunverified."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourceversions/actualnamedlinkedmaterialretained; roleunresolvednotirrelevant, noinventeddisclosuredocumentorconfirmedmissinginformation."
+  },
+  "missing_claims": [],
+  "conclusion": "Positivequalifiedboundedpreparation; notcompletechemistry/sourceoracceptedabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round37",
+    "date": "2026-10-30",
+    "scope": "Sameonealready-selectedassociatedAMNIHMS688997/PMC4461875main51/135\u2013141/Fig1Acaption385 only; no neworiginal, publishedSI/table or retrieval. Final-version and actualSIrolemappinglimitsretained.",
+    "findings": "Verified directnative5Pligation on50\u2013100ugtotalRNA mixture before selectedpolyAenrichment, subsequentRNAfragmentation/randomRT and actualstreptavidincDNAcapture. Randommoleculebarcode meaningUMI is sourcepositive but itslength/body/sugar/biotinlocation/readspan remainunassigned; randomhexamerpriming isnotUMI. SeparatecapCIP\u2192TAP/compositeTAPcontrols notaddedtonativeproduction. NarrowedknownCIP/TAPstockroles tocatalysts and addedsourceNGSloadingaliquot/untransferredfinishedstock boundary; genericreviewtextnowaccuratelystatesmain/caption-onlyscope. No wholekit/adapter/capturebiotincarrier orPARE/HT5Precipeinferred.",
+    "verification": "12focusedchecks independentlyrerunPASS, sourceguard0exact0failed2unassembledoligoinputs0exemptions; chemistry11unresolved0contradictory. Selectedimplementationclosureonly, no complete molecular/source or acceptedabsenceaudit."
+  }
+}

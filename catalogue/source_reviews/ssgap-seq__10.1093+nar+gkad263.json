@@ -1,0 +1,74 @@
+{
+  "dir": "ssgap-seq__10.1093+nar+gkad263",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ssgap-seq__10.1093+nar+gkad263/nar_gkad263_PMC10287960.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10287960.1/PMC10287960.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2023OA main59\u201385: actualcrosslink/IP/non-denaturingbisulfite BEFOREreversecrosslink/Adaptase16PCR/PE150.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ssgap-seq__10.1093+nar+gkad263/nar_gkad263_supp_gkad263_supplemental_file.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10287960.1/gkad263_supplemental_file.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI sourceinventory1\u201345 andFigS1workflow47\u201397: actualoperationorder, fragment-size/RNaseamount differencesretained; othermutantgenomicresultfiguresnotabsenceauthority.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Wholehistoricalkitformulations/products/readprimerlanding andcitedchemistrypredecessorsunassembled; no publicationabsence conclusion.",
+    "Unopenedfetchedtable/resultoriginalsremaindeferred, notnegativeevidence.",
+    "MainvsSIfragment-size/RNaseamountdifferencesretained; antibody/speciesvariantsnotnewprotocols."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpublishedpreparativereading; privatepartialmodelwherejustified. Noabsence/fullmolecular/sourceaudit/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-32",
+      "reviewer": "dna_round32",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Selectedsource-specificpreparation; notes preservephysicalstocks/sourcevariants andunassembledboundaries.",
+      "locations": "Published2023OA main59\u201385: actualcrosslink/IP/non-denaturingbisulfite BEFOREreversecrosslink/Adaptase16PCR/PE150.; PublishedSI sourceinventory1\u201345 andFigS1workflow47\u201397: actualoperationorder, fragment-size/RNaseamount differencesretained; othermutantgenomicresultfiguresnotabsenceauthority.",
+      "deferred": [
+        "Wholehistoricalkitformulations/products/readprimerlanding andcitedchemistrypredecessorsunassembled; no publicationabsence conclusion.",
+        "Unopenedfetchedtable/resultoriginalsremaindeferred, notnegativeevidence.",
+        "MainvsSIfragment-size/RNaseamountdifferencesretained; antibody/speciesvariantsnotnewprotocols."
+      ],
+      "findings": "Actualsourcepreparativechemistrypositive; unknowncomponentsareunassembled,notconfirmedmissing.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round32-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      },
+      "oligo_scraper": "Mandatoryscraper1/2/8hits respectively; relevantpointersverifiedonlyinselectedoriginals; imageTableS1PADSEinspected.",
+      "verification": "46focusedchecks(SMAdd13/ssGap12/PADSE21)PASS;sourceguard8exact0fail0exempt0unassembledinputs/3graphs. Chemistry0established0conditional127unresolved0contradictory. Same-selected-originalindependentcriticalreviewsclosedfor3, nofullchemistry/absenceaudit/publicpromotion."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round32",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Same two selected originals: published nar_gkad263_PMC10287960.xml Methods59\u201385 and nar_gkad263_supp_gkad263_supplemental_file.pdf FigS1workflow47\u201397. Narrow implementation recheck only; combined two-original count unchanged, no new original/linked-source/absence audit.",
+    "finding": "Selected chickenantiRecA branch matches crosslink\u2192clarifiedlysate250ulaliquot\u2192antibody/PrecipHen\u2192two sequential250uleluates+pool\u2192crosslinkedchromatin bufferexchange\u2192NONdenaturingbisulfite/desulphonation/workup BEFORE RNaseA/PK/reversecrosslink. Published main200\u2013300bp versus SI300\u2013500bp and main10ugRNaseAaddition versus SI.2mg/ml remain qualified, not silently reconciled. Actual10of20ul libraryinput/remainder, historicalAdaptase no extra bisulfite, samePCRstock catalyst/NT/primercomponents, analytical QC/loading remainders preserved. No blocking critical issue in selected scope.",
+    "verification": "12 focused checks pass."
+  }
+}

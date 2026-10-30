@@ -1,0 +1,96 @@
+{
+  "dir": "hmc-seal__10.1038+nbt.1732",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hmc-seal__10.1038+nbt.1732/nbt.1732_PMC3107705.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3107705.1/PMC3107705.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated author manuscript NIHMS295550 identity, abstract73, Results79\u201395 and Fig1/2/4. Main delegates Methods to online publication.",
+      "pass_1": {
+        "reviewer": "dna_round14",
+        "date": "2026-10-29",
+        "locations": "Associated author manuscript NIHMS295550 identity, abstract73, Results79\u201395 and Fig1/2/4. Main delegates Methods to online publication.",
+        "finding": "Selective azido-glucose/cyclooctyne-biotin chemistry and actual mouse genomic deep sequencing; separate HeLaHRMS and streptavidin-stop validations."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hmc-seal__10.1038+nbt.1732/nbt.1732_41587_2011_BFnbt1732_MOESM6_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.1732/MediaObjects/41587_2011_BFnbt1732_MOESM6_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published supplement with DOI header; synthesis26\u2013137 and selected Fig5/7 captions180\u2013217. Long gene/data lists not chemically reviewed.",
+      "pass_1": {
+        "reviewer": "dna_round14",
+        "date": "2026-10-29",
+        "locations": "Published supplement with DOI header; synthesis26\u2013137 and selected Fig5/7 captions180\u2013217. Long gene/data lists not chemically reviewed.",
+        "finding": "Published supplement title differs slightly from final article title, but DOI/authors/figure identity match. Synthesis/controls inspected, not a genomic library recipe."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "access_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3107705/bin/NIHMS295550-supplement-data.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant Original alias not inspected/equated to available publisher supplement.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "access_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3107705/bin/NIHMS295550-supplement-supplement_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; the publisher's ESM files were fetched, so probably redundant Original alias not inspected/equated to available publisher supplement.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "final_online_methods",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nbt.1732",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Prior discovery browser request returned tool500 after identity-provider redirect to inaccessible idp.nature.com/authorize; actual finalonlineMethods not read. Currentstandardretrieval associatedmain106 delegates these. Availablepublishedsupplement alreadyread, no request for gatedaliases merely to establishbyteequivalence.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round14",
+      "date": "2026-10-29",
+      "locations": "Exact sections and direct pending originals in research note",
+      "finding": "Source-qualified capped pass only; no absence claim or imported family recipe."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Incomplete graph and source notes; molecular/read geometry limits remain explicit. No public promotion or accepted absence conclusion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-14",
+      "reviewer": "dna_round14",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "At most10min/3originals; originals/supplements first; no recursive reference acquisition.",
+      "locations": "Associated author manuscript NIHMS295550 identity, abstract73, Results79\u201395 and Fig1/2/4. Main delegates Methods to online publication.; Published supplement with DOI header; synthesis26\u2013137 and selected Fig5/7 captions180\u2013217. Long gene/data lists not chemically reviewed.",
+      "findings": "Known physical steps through acquisition represented; native chemical inventory distinguished from copying/kinetic computational calls.",
+      "deferred": [
+        "Exact directly named kit/predecessor/onlineMethods targets and actual barriers detailed in note."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper: TOP19hits, hmC-Seal0hits, chemical-labelSMRT13hits. Hits interpreted against originals; empty/partial extraction not absence evidence.",
+      "verification": "21local checks pass (TOP7/hmC-Seal5/SMRT9); exact-source guard2checked0failed0exempt with4TOPmodifiedprimerinputswithout exactstates;3graphs. Chemistry33unresolved0contradictory (not reaction completion). All6notes/refpages build; scoped source-review schema passes (2blocked/1in_progress); diffcheck clean. Graph-only/no page builders or duplex pages, so schematic build/pairing not applicable. Retrieval82569terminalexit0; no additional acquisition."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "dir": "circle-damage-seq__10.1126+sciadv.abi6508",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/circle-damage-seq__10.1126+sciadv.abi6508/sciadv.abi6508_PMC8324051.xml.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8324051/",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published Science Advances2021 PMC8324051 main Methods139\u2013185; original PDF p11 adapters inspected. Deaminated branch documented in note, not silently merged.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive published preparation; private partial graph. No full-source, missing-information or public-promotion claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "dna_round23",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Selected source sections only; investigation stopped before linked-source expansion.",
+      "locations": "Published Science Advances2021 PMC8324051 main Methods139\u2013185; original PDF p11 adapters inspected. Deaminated branch documented in note, not silently merged.",
+      "findings": "Circle-damage-seq \u2014 selected genomic CPD route",
+      "deferred": [
+        "Published supplementary materials not in fetched figure-only zip; historical NEB adapter/primer originals; deaminated CPD and E.coli DpnI pilot variants remain distinct."
+      ],
+      "oligo_scraper": "Mandatory scraper run and relevant main-source literals verified; not absence evidence.",
+      "verification": "25focusedchecks across3DNAgraphs pass; sourceguard7exact0failed8unassembled; chemistry0established0conditional65unresolved0contradictory. Independent selected-source critical review closed; no complete molecular validation."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna23_reader",
+    "date": "2026-10-30",
+    "scope": "Selected published main critical implementation review; not full linked-source or absence audit.",
+    "finding": "Publishedmain151\u2013169:circle\u2192PlasmidSafe\u2192PDG/APE\u2192photolyase\u2192S1\u2192dAtail\u2192adapter/USER\u2192PCR/QC correct; deaminated route remains separate. Printed adapter variants and source volume discrepancies retained."
+  }
+}

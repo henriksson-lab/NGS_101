@@ -1,0 +1,58 @@
+{
+  "dir": "inspiired__10.1016+j.omtm.2016.11.002",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5363316.1/PMC5363316.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain Methods177\u2013185 and biochemical-method overview"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5363316.1/mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedProtocolsteps1\u201310,TablesS9\u201312; originalS9p6rendered andchecked"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5363316.1/mmc2.xls",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedworkbook selectediSL1row only; source-specificfixedlinker/N12/commonbody"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Cappedselectedoriginalreading; noabsenceaudit; sourceblockedidentity-onlywhenactualchemistryoriginalunretrieved",
+      "locations": "Publishedmain Methods177\u2013185 and biochemical-method overview; PublishedProtocolsteps1\u201310,TablesS9\u201312; originalS9p6rendered andchecked; Publishedworkbook selectediSL1row only; source-specificfixedlinker/N12/commonbody",
+      "findings": "Publishedsource-localprep/physicalfatesmodeled incompletely TwoindependentreadersverifiedwholeHIVTableS9originalp6row/modificationlegend;only8identicalblockinginputstrandsource-format exceptionsapproved;fullmodifiedBLOCKsource testretained. Coordinatorcriticalreviewclosed2026-10-29: inspectedINSPIIREDwholeS9original,HIVmodifications,physicalQC/replicateallocation/poolingandprintedvolume/runlimits;LAMassociatedMethods105versus107positivelydistinguished,allmodeledLAMoperationsin107,conditionalend/site/fate/versionboundariesconsistent. No consequentialimplementationdefectfound;notabsencegateapproval.",
+      "deferred": [
+        "Remainingwholevector/linker/Golayprimers andallsourceworkbookrows; fullgenomic/library/readgeometry",
+        "Directlycitedintegration-sitepredecessors/historicalkitrevisions",
+        "ExactPCR1replicatevolumescaling andsourceMiSeqkit/cycleallocation applicability"
+      ],
+      "verification": "20localchecks9INSPIIRED/11LAM pass;2privatebuilds/schema/pairing0problems pass;sourceguard3checked0failed8BNAstrandexemptions23unassembledinputs,notfullsequencevalidation;chemistry1pairingrelationestablished46unresolved0contradictory. IndependentwholeHIVblockeroriginaltranscriptionapproved;Coordinatorindependentcriticalimplementationreviewclosed,noconsequentialdefect;notabsenceaudit.",
+      "oligo_scraper": "Mandatorybundle scraper run; selected originalpointersandmodificationsverified. Collapsedhits/zerofilesneverabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Directsourcequestionsandactualbarriersenumerated;no recursivechase oracceptedabsence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Remainingwholevector/linker/Golayprimers andallsourceworkbookrows; fullgenomic/library/readgeometry",
+    "Directlycitedintegration-sitepredecessors/historicalkitrevisions",
+    "ExactPCR1replicatevolumescaling andsourceMiSeqkit/cycleallocation applicability"
+  ]
+}

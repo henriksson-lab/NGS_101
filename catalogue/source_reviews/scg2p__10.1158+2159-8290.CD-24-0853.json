@@ -1,0 +1,55 @@
+{
+  "dir": "scg2p__10.1158+2159-8290.CD-24-0853",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12874418.1/PMC12874418.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated NIHMS2135808/PMC12874418.1 Methods189\u2013217/Results97/105; author-manuscript identity explicitly retained, final-body equivalence unverified.",
+      "cached_original": "2159-8290.CD-24-0853_PMC12874418.xml"
+    },
+    {
+      "id": "supplement_workbook",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/12874418/bin/NIHMS2135808-supplement-1.xlsx",
+      "availability": "unavailable",
+      "reason": "Standard acquisition: PMC download gate; workbook not in PMC Cloud TDM object set.",
+      "relevance": "relevant",
+      "inspection_scope": "Original workbook not opened; actual referenced supplementaryTable1/3 assignments cannot be verified from the generic label1."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-32",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated author manuscript only; targeted RNA-derived cDNA and genomic-DNA amplicons, not companion Visium/whole-transcriptome/PTA assays. No final published-body equivalence.",
+      "locations": "Associated NIHMS2135808/PMC12874418.1 Methods189\u2013217/Results97/105; author-manuscript identity explicitly retained, final-body equivalence unverified.",
+      "findings": "Associated-manuscript scG2P double-emulsion targeted RNA reverse transcription and DNA amplification, shared cell barcoding, post-PCR biotin-handle separation and separate entire-fraction index libraries.",
+      "deferred": [
+        "Full final published body unverified; associated author manuscript is the current recipe authority, not automatically equivalent.",
+        "Actual associated supplementary workbook NIHMS2135808-supplement-1.xlsx is gated/TDM; its sheet/table assignments cannot be established from a filename alone.",
+        "Source-linked MissionBio v2 vendor chemistry/whole barcode beads/indexes/custom RNA indices and whole target pools ordinary unreviewed; no newer kit replacement.",
+        "Source has repeated second-encapsulation paragraphs205/207; modeled once. Literal capture-buffer10MTris-HCl retained without silently changing units."
+      ],
+      "verification": "88 focused checks pass (Constellation58/scG2P9/RoCK21); source guard58exact/0failed/0exceptions/2unassembledinputs; chemistry67unresolved/0contradictory, not full validation.",
+      "oligo_scraper": "Mandatory bundle scrapers run; Constellation336candidates/5representations,scG2P3/1,RoCK66/4at selected read time; source originals independently verified, no negative inference from hits."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Only selected source-positive scope; directly cited detailed protocols/vendor predecessors remain unreviewed as stated, not absent."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "dna_round32",
+    "date": "2026-10-30",
+    "scope": "Same associated NIHMS2135808 main189\u2013217; whole modified capture ordering in215, no final/AM equivalence or additional original.",
+    "finding": "Selected source/model critical review closed after source stock was clarified to include co-present1%BSA/DPBS/RNaseinhibitor/DTT, with no fresh BSA addition. Actual firstRT/secondbarcoding emulsion, duplicate205/207 not repeated, same-emulsionPCR stocks, exact5BioTinTEG/reversehandle/3C6 capture, boundRNA-origin DNA vs supernatantDNA fractions, entire-fraction indexPCR andPE150 match. Literal10MTris not repaired.9checks independently rerunPASS. No extra originals, fullsource/wholegeometry validation or absence audit claimed."
+  }
+}

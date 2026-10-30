@@ -1,0 +1,68 @@
+{
+  "dir": "qti-seq__10.1038+nmeth.3208",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4344187.1/PMC4344187.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated main identity/Methods physical initiating protectedribosome preparation and oligo-source assignments",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3208/MediaObjects/41592_2015_BFnmeth3208_MOESM592_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI actualFig1 physical workflow/captions, other comparative figures scope",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nmeth.3208",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedNature main identity and availableMethods scope; noassumedAMequivalence Previewidentityread; fullpublishedMethodsblocked.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PublishedNaturepageisvalidatedsubscriptionpreview; fullMethodsnotavailableinthisbody."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-36",
+      "reviewer": "targeted_owner_round36",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Selectedsource-positivepreparationonly; sourceinvestigationclosedbeforemodelling.",
+      "locations": "Associated main identity/Methods physical initiating protectedribosome preparation and oligo-source assignments; Published SI actualFig1 physical workflow/captions, other comparative figures scope; PublishedNature main identity and availableMethods scope; noassumedAMequivalence Previewidentityread; fullpublishedMethodsblocked.",
+      "findings": "AssociatedAM-qualifiedculturedcellLTM/puromycinphysicalribosomepreparation, sucrosefractions/RNaseI/28ntPAGE/PNK/PAP, source5P/ØRTwholeorderingswithseparateDNAblocks, CircLigaseII/APE1/Phusion/PAGE/equalbarcodedpool. PublishedfullMethodsremainpreviewblocked; liverRiboTag/CHXcomparatorsnotmerged. Verification: 39focusedPASS(QTI16/HyPro12/PA11);guard1exact0failed1GA10source-notationexception0unassembledintroducedstates;0established70unresolved0contrad. WholeQTIØprimers/otherknownPCRoligoscheckedbylocaloriginalfixtures; guardexactmatchitselfcoverspartialleftblockonly. Independentselectedpeerreviewpending; nofullreaction/source/absenceaudit.",
+      "deferred": [
+        "Exactactualblockedfulloriginalswhereidentified",
+        "Directlylinkedhistoricalvendor/predecessororiginals andfullmolecularproducts/readlandings"
+      ],
+      "oligo_scraper": "Mandatorywholebundlerun QTI71/HyPro234/PA0hits; actualsourcepointersverified, QTIoriginalPDFp10modifiedorderingsviewed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourcequalifiednamedlinkedmaterial ordinaryunread/unavailableasstated; no inventeddisclosuredocument or sourceabsence conclusion."
+  },
+  "missing_claims": [],
+  "conclusion": "Positivequalifiedboundedpreparation, not completechemistry/sourceoracceptedmissing-informationaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "dna_peer_round36",
+    "date": "2026-10-30",
+    "round": "2026-10-30-ngs-expansion-36",
+    "scope": "Same3originals: associatedAM110–142 and actualAMp10renderwhole5P/Ø/anchoredTprimers; publishedSI592Fig1/2captions; Naturepublishedpreviewidentity. PhysicalPMY/gradient/RNaseI/PNKwithoutfreshATP/PAP/retainedexternalRTprimer/circle→APE1→PCR/pool verified; Ø remains unassignedchemicalidentity, no ordinaryDNAjoin or dedupUMI inferred.",
+    "findings": "Critical source/model/physicalfate/modified-end/identifier boundary recheck closed; no blocking defect found. Focused suites independently rerun QTI16/HyPro12/PA11=39PASS. Same selected originals only; no new retrieval and no accepted missing-information or pass2absence conclusion."
+  }
+}

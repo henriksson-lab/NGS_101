@@ -1,0 +1,48 @@
+{
+  "dir": "dsb-seq__10.3390+ijms150713111",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4139894.1/PMC4139894.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published2014main3.4DSB/3.5library/3.1sourceconditions/Fig1b/5caption/3.7; actualPDFp9literal200mL/FwRv verified.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "dna_owner_round34",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "DSB-specific2014TdT/biotin/S1route andlocal3.5preparationonly.",
+      "locations": "Published2014main3.4DSB/3.5library/3.1sourceconditions/Fig1b/5caption/3.7; actualPDFp9literal200mL/FwRv verified.",
+      "findings": "DistinctDSBTdT/biotinroute, actualnegativecontrol, source200mLPDFunit and20/5minETOdiscrepanciesretained; noSSBrecipeimport.",
+      "deferred": [
+        "Predecessor24/historicalvendorguides",
+        "WholeTdTtails/S1endproducts/historicaladapter/readlanding",
+        "Intended200mLunit andETOexposureperfigure"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; selectedoriginalsourcepointers verified; DSBPDFp9 andCATSIp16/p19 visuallyinspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourcepredecessor24/vendorguidesunread; common3.5declaredlocallyfromsamearticle."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveprivatepartial preparation only; selectedscope not a complete reaction/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round34",
+    "date": "2026-10-30",
+    "scope": "Same published 2014 PMC4139894 original: main3.4, common3.5, exposure3.1/Fig5 and3.7; independently viewed actual PDFp9 for literal units and whole primers. One combined original, no later chapter.",
+    "findings": "Verified TdT/dCTP/biotin-dUTP before physical sonication, streptavidin capture/washes/release before S1 and source common library preparation. Independent negative-label stock remains separate from production reads. Whole FW22/RV23, known local substrate3A, literal200mL and Methods20min versus Fig5caption5min are retained without repair or exact-end claims. No critical defect found.",
+    "verification": "12 focused checks independently rerun PASS. Selected implementation review only; no complete reaction/source review or missing-information absence audit."
+  }
+}

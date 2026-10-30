@@ -1,0 +1,58 @@
+{
+  "dir": "spatial-atac-hi-c__10.1038+s41592-026-03217-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13645645.1/PMC13645645.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main243–281; actual alternate same-originalPDFp15 source36ul10percentSDS andprewashcomponent wording; contactligation→Tn5→A/Bchannels→wholeROIrecovery→T1beads→PCR10ulaliquot→PE150.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13645645.1/41592_2026_3217_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 actualTable1PDFp11/Tn5/N501/N701–707 andTable2PDFp12–13 spatialA/B sequences; originals rendered/inspected; primer and localA1/B1 fixtures selected, no wholelinker inference.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-37",
+      "reviewer": "dna_owner_round37",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published source native section to spatialcontact/accessibilityjointlibrary partial; no incidental application counts.",
+      "locations": "Published main243–281; actual alternate same-originalPDFp15 source36ul10percentSDS andprewashcomponent wording; contactligation→Tn5→A/Bchannels→wholeROIrecovery→T1beads→PCR10ulaliquot→PE150.; PublishedSI1 actualTable1PDFp11/Tn5/N501/N701–707 andTable2PDFp12–13 spatialA/B sequences; originals rendered/inspected; primer and localA1/B1 fixtures selected, no wholelinker inference.",
+      "findings": "ContactligationBEFORETn5, actualA/Bchannel identities, wholeROIrecovery→T1boundDNA→10ulPCRaliquot/20ulremainder; same-library computationalATAC/HiC split, PE150. Source36ul10percentSDS verifiedactualPDF; prewash stocklist retained without inventedfinalcomposition. Oneactual25ulQ5physicalstock exposes copresentcatalyst/dNTP/buffer components feeding samePCR; nofreshindependentadditions or fullformulationclaim.",
+      "deferred": [
+        "Actual sourceDiagenodeTn5loadingmanual andcompletehistoricaltransposomegeometry",
+        "Wholeligationlinker1/2 contexts andrun-specificsampleassignments",
+        "Otheractualsupplementaryworkbooks/controls andcomplete source/reaction/absence audit"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; actualSI Tables1–2 rendered/read, sourcewholefixtures verified; largeworkbooks unscanned remain outside selected scope, notabsence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Source citedTn5manufacturerloadingguidelines/relatedDBiTmicrofabrication remain ordinaryunread; no biologicalrecipe inherited. Supplementarytables1–2 inspected, otherworkbooksdeferred."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveprivatepartial only; not complete chemistry or source absence review.",
+  "independent_implementation_recheck": {
+    "reviewer": "root_peer_round37",
+    "date": "2026-10-30",
+    "round": "2026-10-30-ngs-expansion-37",
+    "scope": "Same2publishedoriginals: PMC13645645main243–281/287 andactualsame-originalPDFp15; publishedSI1actualTables1–2PDFp11–13 rendered. Noadditionaloriginals orabsencepass2.",
+    "findings": "Root independently verified contactligationbeforeTn5/sourcewholemodifiedoligos/spatialAandBidentities/wholeROIwithoutphysicalpixelaliquots/10ulPCRinputand20ulbeadstockremainder/onephysicaljointlibrary andcomputationalreadsplit. Requiredoneactual25ulQ5stock nowexposes copresentpolymerase/dNTP/buffer components consumedoncebyPCR, nofreshindependentadditions. RootremovedunsupportedHSvariantlabel; sourceonlyQ5HighFidelitymastermix. ReinspectionACK18PASS; wholeligationlinkers/occupiedproducts/sampleindexassignment remainunassembled, notchemicalproof orsourceabsence."
+  }
+}

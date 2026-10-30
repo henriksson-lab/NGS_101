@@ -1,0 +1,83 @@
+{
+  "dir": "chip-bs-seq__10.1101+gr.133728.111",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chip-bs-seq__10.1101+gr.133728.111/gr.133728.111_PMC3371717.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3371717.1/PMC3371717.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main;manifest authorManuscript false",
+      "pass_1": {
+        "reviewer": "round14_coordinator",
+        "date": "2026-10-29",
+        "locations": "Published main identity;Results58\u201372/Fig1A;Methods140\u2013150;separate validation154",
+        "finding": "Positive preparative chemistry and separated low/high source branches;exact oligos/end/kit/read geometry remain unassembled. No absence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "publisher_supplements",
+      "role": "supplement",
+      "locator": "http://www.genome.org/cgi/doi/10.1101/gr.133728.111",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main pointer for supplemental material;attachment identity unresolved. Retrieved EuropePMC ZIP inventories only JPG/GIF main-figure aliases, not inspected SI. Candidate publisher supplement-index route HTTP403; no original filename guessed."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round14_coordinator",
+      "date": "2026-10-29",
+      "locations": "Published main identity;Results58\u201372/Fig1A;Methods140\u2013150;separate validation154",
+      "finding": "Positive preparative chemistry and separated low/high source branches;exact oligos/end/kit/read geometry remain unassembled. No absence claim."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "open_questions": [
+    "Exact methylated-adapter bodies and LPX primers;historical EpiTect edition and full polymer/strand/end/run geometry."
+  ],
+  "pending_linked_targets": [
+    {
+      "locator": "Denissov2007 original cited by published main140",
+      "scope": "ChIP precursor component,not yet reviewed"
+    },
+    {
+      "locator": "Smith2009 and Gu2010/2011 originals cited by main150",
+      "scope": "Library-preparation components,not yet reviewed"
+    },
+    {
+      "locator": "http://www.genome.org/cgi/doi/10.1101/gr.133728.111",
+      "scope": "Source-linked original supplemental-material identity"
+    }
+  ],
+  "conclusion": "Capped source-read notes and private incomplete graph. No full-publication,accepted absence or quantitative chemistry-validation claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-14",
+      "reviewer": "round14_coordinator",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded10minutes/three originals;no recursive reference chase",
+      "locations": "Published main identity;Results58\u201372/Fig1A;Methods140\u2013150;separate validation154",
+      "findings": "Positive preparative chemistry and separated low/high source branches;exact oligos/end/kit/read geometry remain unassembled. No absence claim.",
+      "oligo_scraper": "Mandatory actual-bundle scan after completed standard fetch;0hits does not establish absence. Supplement ZIP inventory inspected,not a chemistry original.",
+      "verification": "8focused checks/build/sourceguard pass;0exact inputs/0failed/5unassembled;27unresolved scoped claims/0contradictory. Independent critical implementation review checked original Methods140\u2013154 and found no consequential defect;not absence audit.",
+      "deferred": [
+        "Denissov2007 original cited by published main140",
+        "Smith2009 and Gu2010/2011 originals cited by main150",
+        "http://www.genome.org/cgi/doi/10.1101/gr.133728.111"
+      ]
+    }
+  ],
+  "implementation_review": {
+    "date": "2026-10-29",
+    "reviewer": "independent_dna_reader",
+    "scope": "Published Methods140\u2013154 versus local graph/note;low/high separation,carrier,diagnostic aliquots,storedbackup,templates versus PCRcopies,finalgel and computational read merging",
+    "finding": "No consequential defect;8checks rerun pass. No new source retrieval or absence pass."
+  }
+}

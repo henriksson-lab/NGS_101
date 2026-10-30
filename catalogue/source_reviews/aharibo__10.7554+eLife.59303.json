@@ -1,0 +1,375 @@
+{
+  "dir": "aharibo__10.7554+eLife.59303",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_PMC7932693.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/PMC7932693.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "article PDF (PMC Cloud); identical to eLife.59303_v2.pdf"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-fig1-data1.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-fig1-data1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-fig1-data1-v2.xlsx"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-fig1-data2.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-fig1-data2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-fig1-data2-v2.xlsx"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-fig2-data1.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-fig2-data1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-fig2-data1-v2.xlsx"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-fig2-data2.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-fig2-data2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-fig2-data2-v2.xlsx"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-fig3-data2.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-fig3-data2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-fig3-data2-v2.xlsx"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-fig4-data3.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-fig4-data3.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-fig4-data3-v2.xlsx"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(duplicate) eLife.59303_supp_elife-59303-transrepform.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/elife-59303-transrepform.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); identical to eLife.59303_elife-59303-transrepform-v2.docx"
+    },
+    {
+      "id": "source_9",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(manual) 2020.04.20.050062_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/2020.04.20.050062v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Excluded supersededpreprint; notactiveauthority",
+      "reason": "supplementary page; HTTP 0"
+    },
+    {
+      "id": "source_10",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(manual) 2020.04.20.050062_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/2020.04.20.050062v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Excluded supersededpreprint; notactiveauthority",
+      "reason": "biorxiv full text, v1; host cool-down after HTTP 429 (2.7 h left; not requested)"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(manual) eLife.59303_supp_elife-59303-fig3-data1.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7932693/bin/elife-59303-fig3-data1.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested)"
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(manual) eLife.59303_supp_elife-59303-fig4-data1.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7932693/bin/elife-59303-fig4-data1.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence CC BY)"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/(manual) eLife.59303_supp_elife-59303-fig4-data2.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7932693/bin/elife-59303-fig4-data2.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence CC BY)"
+    },
+    {
+      "id": "source_14",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_PMC7932693.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7932693.1/PMC7932693.1.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig1-data1-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig1-data1-v2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig1sdata1: A table with the relative abundance of AHARIBO-rC-isolated proteins."
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig1-data2-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig1-data2-v2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig1sdata2: Gene Ontology analysis data."
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig2-data1-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig2-data1-v2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig2sdata1: A table with the pulsed SILAC\u00a0(pSILAC) proteomic data."
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig2-data2-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig2-data2-v2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig2sdata2: A table with AHA-mediated\u00a0RIBOsome isolation\u00a0(AHARIBO) differentially expressed "
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig3-data1-v2.txt",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig3-data1-v2.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig3sdata1: A table with differentially expressed genes (DEGs) from RNA-seq data comprising "
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig3-data2-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig3-data2-v2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig3sdata2: A table with RNA and protein differentially expressed genes\u00a0(DEGs) from AHARIBO-"
+    },
+    {
+      "id": "source_21",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig4-data1-v2.txt",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig4-data1-v2.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig4sdata1: A table with the list of long non-coding RNAs\u00a0(lncRNAs) identified by RNA-seq by"
+    },
+    {
+      "id": "source_22",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig4-data2-v2.txt",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig4-data2-v2.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig4sdata2: A table with the list of long non-coding RNAs\u00a0(lncRNAs) identified by RIBO-seq i"
+    },
+    {
+      "id": "source_23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-fig4-data3-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-fig4-data3-v2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file fig4sdata3: A table with the list of matching peptides from AHA-mediated\u00a0RIBOsome isolation'"
+    },
+    {
+      "id": "source_24",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_elife-59303-transrepform-v2.docx",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-transrepform-v2.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife supplementary file transrepform: Transparent reporting form"
+    },
+    {
+      "id": "source_25",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_v2.pdf",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-v2.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife article PDF, v2"
+    },
+    {
+      "id": "source_26",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aharibo__10.7554+eLife.59303/eLife.59303_v2.xml",
+      "original": "https://cdn.elifesciences.org/articles/59303/elife-59303-v2.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round17_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedpublisherVORv2 main335\u2013365,405\u2013407,453\u2013465; selectedAHArC/RPFmetaboliclabel/capture/extraction/libraryacquisition; appendedreviewhistorynotoperativerecipe.",
+        "finding": "Positive selectedoriginalscopeonly; notfullpublication/sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "eLife JATS XML, v2"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round17_source_reader",
+      "date": "2026-10-29",
+      "locations": "PublishedpublisherVORv2 main335\u2013365,405\u2013407,453\u2013465; selectedAHArC/RPFmetaboliclabel/capture/extraction/libraryacquisition; appendedreviewhistorynotoperativerecipe.",
+      "finding": "Directnamedvendor/predecessor/source targets enumerated; cap/accessbarriersremain, noabsenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "SMART-SeqStranded634443 historicalguide",
+      "scope": "ActualnamedRNAseqkitinternaloligos/RT/PCR/index/readgeometryunreviewed."
+    },
+    {
+      "locator": "RiboLaceRL001_mod2 historicalguide andClamer2018original",
+      "scope": "Specificmodule2 namedforRPFfinish; no complete2018recipe/versionequivalenceorborrowedunreadchemistry."
+    },
+    {
+      "locator": "DBCO760749/sBlockRM8/eMagSi018-eMS-001 manufactureroriginals",
+      "scope": "Exactmodifiedmolecules/reagentformulationsunreviewed, noabsenceclaim."
+    },
+    {
+      "locator": "Publisheddata/transparentreporting/remainingfigureandproteomicssupplements",
+      "scope": "Availablebutuninspectedwithincap; largeproteomicsdata-tabletextnotfullyscraped."
+    }
+  ],
+  "open_questions": [
+    "Fullmodifiedmolecule/oligo/end/index/readgeometry andexactphysicalfractionfatesremainunassembled."
+  ],
+  "conclusion": "Publishedsourcequalifiedprivateincompletegraphthroughknownacquisition; nofullpublication/acceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "round17_source_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Boundedmax10min/3originals, publishedfirst; associatedMSandfinalsourcesseparate, norecursivechase.",
+      "locations": "PublishedpublisherVORv2 main335\u2013365,405\u2013407,453\u2013465; selectedAHArC/RPFmetaboliclabel/capture/extraction/libraryacquisition; appendedreviewhistorynotoperativerecipe.",
+      "findings": "Physicalnascentprotein/RNA/RPF/capturedDNA/probeidentitiesandfractionfatesdistinctwhereoperationalmodeljustified. Independent implementation review corrected RPF lysis fork to bypass unestablished common RNAseq cell washing/hypotonic DNaseI recipe and duplicate lysis; own RL001-1/clarified source boundary retained.",
+      "deferred": [
+        "SMART-SeqStranded634443 historicalguide",
+        "RiboLaceRL001_mod2 historicalguide andClamer2018original",
+        "DBCO760749/sBlockRM8/eMagSi018-eMS-001 manufactureroriginals",
+        "Publisheddata/transparentreporting/remainingfigureandproteomicssupplements"
+      ],
+      "oligo_scraper": "Mandatoryfullcache scraper ran; AHARIBO93MBproteomicstabletextskippedbysizelimit. Scrapedvalidationsequencesnotlibraryinputs; noadoptedexactsequencepolymerclaim.",
+      "verification": "18 local checks pass (AHARIBO10 after reviewed RPF fork fix, RAP8); independent selected-source implementation review closed, not a second absence audit. Sourceguard0eligible/0failed/0exemptions/2unassembled inputs across2graphs; default chemistry29steps/30unresolved/0contradictory. Schema3pass, notes build and whitespace check pass; no exact library oligotranscription coverage claimed."
+    }
+  ]
+}

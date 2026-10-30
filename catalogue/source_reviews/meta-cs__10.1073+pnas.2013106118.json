@@ -1,0 +1,68 @@
+{
+  "dir": "meta-cs__10.1073+pnas.2013106118",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/meta-cs__10.1073+pnas.2013106118/pnas.2013106118_PMC7923680.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7923680.1/PMC7923680.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2021 PMC7923680 main71/173\u2013195; DatasetS1wholeoligotable; SIAppendixFigS1\u2013S4captions. Three originals closed; no predecessor orDatasetS2 reading.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "original_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/meta-cs__10.1073+pnas.2013106118/pnas.2013106118_supp_pnas.2013106118.sd01.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7923680.1/pnas.2013106118.sd01.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2021 PMC7923680 main71/173\u2013195; DatasetS1wholeoligotable; SIAppendixFigS1\u2013S4captions. Three originals closed; no predecessor orDatasetS2 reading.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/meta-cs__10.1073+pnas.2013106118/pnas.2013106118_supp_pnas.2013106118.sapp.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7923680.1/pnas.2013106118.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2021 PMC7923680 main71/173\u2013195; DatasetS1wholeoligotable; SIAppendixFigS1\u2013S4captions. Three originals closed; no predecessor orDatasetS2 reading.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected preparation/private incomplete graph; no full linked-source or absence review/public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-24",
+      "reviewer": "dna_round24",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Counter recorded BEFORE every new original; original acquisition/reading closed at stated count, no further chemistry investigation.",
+      "locations": "Published2021 PMC7923680 main71/173\u2013195; DatasetS1wholeoligotable; SIAppendixFigS1\u2013S4captions. Three originals closed; no predecessor orDatasetS2 reading.",
+      "findings": "META-CS selected single-cell preparation",
+      "deferred": [
+        "DatasetS2 run allocation; source-specific full Tn5/genomic ends, exact historical NEB multiplex/index primers and read geometry; citedMETA/DipC/LIANTI components not blindly inherited."
+      ],
+      "oligo_scraper": "Mandatory scraper run; META8families/2files,Methyl5/1,Replicon0/0; originalMethylTableS1p9 visuallyinspected despitegarbledtext.",
+      "verification": "21focusedchecks across3DNAgraphs pass;sourceguard49exact0failed5unassembled;chemistry50unresolved0contradictory. Independent selected-source critical review closed; no complete molecular-validation or accepted-absence claim."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted24_reader",
+    "date": "2026-10-30",
+    "scope": "Publishedmain71/173\u2013195 and all48DatasetS1sequences/carrier, same selectedoriginals. Selectedcriticalimplementationreview only; not full linked-source orabsenceaudit.",
+    "finding": "49whole source matches; canonicalAdp2[2:] terminalT correct. Source reaction order, pool-before sequential fractions, PhiX and printed300nMNaCl retained. No consequential selected-scope defect."
+  }
+}

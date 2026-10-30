@@ -1,0 +1,50 @@
+{
+  "dir": "cast-seq__10.1016+j.stem.2021.02.002",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "doi",
+      "role": "defining",
+      "locator": "https://doi.org/10.1016/j.stem.2021.02.002",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Finalchemistryoriginalnotread; metadata/abstractidentityonly",
+      "reason": "Standardtoolnoopenfulltext"
+    },
+    {
+      "id": "publisher",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S1934590921000527",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Finalchemistryoriginalnotread; metadata/abstractidentityonly",
+      "reason": "ActualstandarddeclaredfetchHTTP403"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Cappedselectedoriginalreading; noabsenceaudit; sourceblockedidentity-onlywhenactualchemistryoriginalunretrieved",
+      "locations": "Finalchemistryoriginalnotread; metadata/abstractidentityonly; Finalchemistryoriginalnotread; metadata/abstractidentityonly",
+      "findings": "Actualfinalpublishedsource403; nofakegraph/collectedchemistrycount",
+      "deferred": [
+        "Publisheddefiningarticle/fullSTARMethods andidentifiedchemistrySI; finaldecoyarchitecturemustbeverifiedbeforecollection",
+        "No guessedSIfileidentity; supersededSSRNpreprint excluded"
+      ],
+      "verification": "Mandatoryscraper0files/0hits; noeligiblechemistrysuite/graph",
+      "oligo_scraper": "Mandatorybundle scraper run; selected originalpointersandmodificationsverified. Collapsedhits/zerofilesneverabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Directsourcequestionsandactualbarriersenumerated;no recursivechase oracceptedabsence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Publisheddefiningarticle/fullSTARMethods andidentifiedchemistrySI; finaldecoyarchitecturemustbeverifiedbeforecollection",
+    "No guessedSIfileidentity; supersededSSRNpreprint excluded"
+  ]
+}

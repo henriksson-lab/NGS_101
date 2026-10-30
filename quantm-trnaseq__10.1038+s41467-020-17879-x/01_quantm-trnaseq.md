@@ -1,0 +1,19 @@
+# QuantM-tRNAseq — source-qualified partial preparation
+
+Pinkard et al., *Quantitative tRNA-sequencing uncovers metazoan tissue-specific tRNA regulation*, [defining paper](https://doi.org/10.1038/s41467-020-17879-x).
+
+Three published originals were inspected: main PMC7428014 (59/189/193; actualFig1 PDFp4), SI1, and actual SupplementaryData1 MOESM5 library oligo rows. No source information is declared absent.
+
+🟢 The mature-CCA-compatible double-stranded adapter captures **both5′ and3′ tRNA termini**. Following SSIV, RNA hydrolysis and PAGE, truncated and full-length cDNAs enter ssDNA circularization and PCR (main59/Fig1). This combination of terminal capture and product-fate architecture distinguishes the method from YAMAT's full-length adapter-defined amplification and from DM/mim's different entry/substrate schemes. Circularization alone is not the admission boundary; neither tissue choice nor demethylase comparison is another method.
+
+🟢 Select untreated HEK293 totalRNA, deacylate37°C45min in20mMTris9 at1µg/µl; optional demethylase/IVTspike-in branches remain separate. Use1µg deacylatedRNA,10pmol3′adapter and10pmol total four-member5′adapter mix (2.5pmol each). Denature95°C2min; anneal37°C15min in5mMTris8/.5mMEDTA/10mMMgCl2; Rnl2 at5U/µl37°C60min/4°C60min. Ethanol/GlycoBlue/two75%washes;10µlwater. RTprimer10pmol/.5pmolµl:70°C2min then.1°Cs cooling37°C. SSIV55°C60min. Detailed nucleotide/enzyme supply packaging remains unassembled, not silently replaced with a kit default.
+
+🟢 HydrolyzeRNA with.1NNaOH98°C20min, precipitate/GlycoBlue/ethanolwashes/12µlwater. Run7Murea6%PAGE; stainSYBRGold15min, excise tRNA-derived cDNAs, crush into400µl300mMNaCl/10mMTris8/1mMEDTA, dryice30min thenRTnight; isopropanol/GlycoBlue/ethanolwashes/12µlwater. CircLigase.5Uµl60°C1h/80°C20min, ethanol/GlycoBlue/12.5µlwater. NEBNextUltraIIQ5PCR seven cycles for selectedHEK293; mouse7–9 differs. Purify100–250bp on2%agarose/EtBr, Qiaquick atRT, ethanol/GlycoBlue/10µlwater. Qubit/DNAHSBioanalyzer/qPCR-directed multiplexing thenNextSeq550v2.5 SE110. Actual normalized pool/loading aliquots and other libraries remain explicit without invented volumes. Mapping minimum10nt is computational, not physical10nt selection.
+
+🟢 Data1 library orders: 5′AD `TTCCAACTGGATACTGrGrA`, `TTCCAACTGGATACTGrGrG`, `TTCCAACTGGATACTGrGrU`, `TTCCAACTGGATACTGrGrC`;3′AD `/5'Phos/GTATCCAGTTGGAATTCTCGGGTGCCAAGG/3ddC/`;RT `/5'phos/NNGATCGTCGGACTGTAGAACTCTGAACGTGT/iSp18/CCTTGGCACCCGAGAATT`;PCR `AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA`;indexedPCR `CAAGCAGAAGACGGCATACGAGAT[BARCODE]GTGACTGGAGTTCCTTGGCACCCGAGA`.
+
+The terminalddC is a physical nucleotide, and iSp18 is a nonnucleotide spacer. PrefixNN purpose is unassigned; degeneracy alone does not establish a UMI. The PCR barcode is a sample index, with actual value/length unassigned in the inspected template. Main189 writes a variant endingrGrT while the corresponding Data1 RNA order endsrGrU. The model retains Data1's explicit order and both published notations; actual used ordering is not established by normalizing T/U. Quantitative ligation/selectivity claims are not validated by a local matching diagram.
+
+The95°C denaturation and37°C anneal consume the actual RNA together with all adapter oligos. A subsequent same-tube inventory decomposition supplies the retained RNA and adapter components to ligation; this does not assert physical separation, fresh adapter addition or a full occupied adapter/RNA state. The drawn local adapter geometry is a reference, not the whole reaction mixture.
+
+The main article cites Kurschat2005 (reference27, DOI10.1261/rna.2170705) for optimizing splinted ligation; YAMAT is reference25 and a comparator. This does not establish whole YAMAT ancestry or authorize importing its constructors. Neither predecessor original was opened in this pass.

@@ -1,0 +1,133 @@
+{
+  "dir": "term-seq__10.1126+science.aad9822",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/term-seq__10.1126+science.aad9822/(manual) science.aad9822_supp_NIHMS75525-supplement-SOM.docx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-SOM.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/term-seq__10.1126+science.aad9822/(manual) science.aad9822_supp_NIHMS75525-supplement-Table_S1.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-Table_S1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/term-seq__10.1126+science.aad9822/(manual) science.aad9822_supp_NIHMS75525-supplement-Table_S10.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-Table_S10.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/term-seq__10.1126+science.aad9822/(manual) science.aad9822_supp_NIHMS75525-supplement-Table_S2.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-Table_S2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_5",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/term-seq__10.1126+science.aad9822/science.aad9822_PMC5756622.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5756622.1/PMC5756622.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "AssociatedAMMethods124\u2013146;explicitisolation/library/acquisition,selectedcomparisononly.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "AssociatedAMoractualmanifesttarget;exactreadidentityspecifiedinpass_1",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/term-seq__10.1126+science.aad9822/source_pdf_9a78b21ecf9cf7bedd9a.pdf",
+      "original": "https://www.weizmann.ac.il/molgen/sorek/sites/molgen.sorek/files/2024-02/Dar%20et%20al%202016.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedfinalScience352aad9822;originalp1title/DOI/datechecked;selectedMethods1531\u20131668 controls.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Published Term-seq original in author first-party repository; why: Verify printed final title/DOI/version before chemistry use; associated manuscript only qualified fallback."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round19_source_reader",
+      "date": "2026-10-29",
+      "locations": "AssociatedAMMethods124\u2013146;explicitisolation/library/acquisition,selectedcomparisononly.; PublishedfinalScience352aad9822;originalp1title/DOI/datechecked;selectedMethods1531\u20131668 controls.",
+      "finding": "Actualdirecttargets/readinglimitsenumerated,noacceptedabsence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-SOM.docx",
+      "scope": "ActualnamedSOM/TableS9chemistryoligosgatedbyPMCcooldown;notbypassed."
+    },
+    {
+      "locator": "HistoricalRibo-ZeroMRZB12424/MICROBExpressAM1905/AffinityScript/KAPAoriginals",
+      "scope": "Namedsourcekitsremainunreviewed;noinventedmodernrecipe."
+    }
+  ],
+  "conclusion": "Source-positiveprivateincompleteoperationalmodel;actualmodifications/fractions/copyingremainexplicit,nopublicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "round19_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Capped10min/3originalssourcereading,publishedfirst,versionsnotmerged.",
+      "locations": "AssociatedAMMethods124\u2013146;explicitisolation/library/acquisition,selectedcomparisononly.; PublishedfinalScience352aad9822;originalp1title/DOI/datechecked;selectedMethods1531\u20131668 controls.",
+      "findings": "Actualsourceknownoperationscontinuedthroughsequencinginterface;unknownhistoricalkitinternalsandfullprimerlandingunassembled.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-SOM.docx",
+        "HistoricalRibo-ZeroMRZB12424/MICROBExpressAM1905/AffinityScript/KAPAoriginals"
+      ],
+      "oligo_scraper": "Mandatoryfullbundle scraper;modifiedadoptedoligosverifiedinoriginaltextandpublishedTable1renderwhereapplicable.",
+      "verification": "Term8/3P9/3READS12localchecks29totalpass;chemistry47steps49unresolved0contradictory. Sourceguard9checked0failed1independentlyapprovedcapturemacroexemption/5unassembled."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent DNA implementation reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached originals only: TermpublishedMethods1531\u20131668,3PAM84\u201386,3READSAM129\u2013141andpublishedTable1originalp10. No new acquisition or absence audit.",
+    "finding": "29localchecks8/9/12pass. No consequential defect found in selected physical/copying/fraction/sugar/modification scopes;completehistoricalRT/PCRlanding remains unassembled."
+  }
+}

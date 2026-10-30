@@ -1,0 +1,58 @@
+{
+  "dir": "replicon-seq__10.1016+j.molcel.2022.02.010",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/replicon-seq__10.1016+j.molcel.2022.02.010/j.molcel.2022.02.010_PMC8995386.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8995386.1/PMC8995386.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedauthorMSPMC8995386 Methods128\u2013144/limitations102;publishedfinalandSI/vendororiginals unreviewed. Oneoriginal;preprint excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8995386/bin/NIHMS1786144-supplement-1.docx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8995386/bin/NIHMS1786144-supplement-1.docx",
+      "availability": "unavailable",
+      "reason": "Standardfetcher PMCgate/cool-down; notinCloudTDMbucket.",
+      "relevance": "relevant",
+      "source_version": "Associatedmanuscript supplement, actualoriginalnotread",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive associated-source preparation supports private incomplete graph; relevant SI original is access-blocked. No confirmed absence, complete source review or final-version equivalence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-24",
+      "reviewer": "dna_round24",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Counter recorded BEFORE every new original; original acquisition/reading closed at stated count, no further chemistry investigation.",
+      "locations": "AssociatedauthorMSPMC8995386 Methods128\u2013144/limitations102;publishedfinalandSI/vendororiginals unreviewed. Oneoriginal;preprint excluded.",
+      "findings": "Replicon-seq selected Mcm4-MNase/BrdU route",
+      "deferred": [
+        "Published final version andsourceSI1docx (gated), historicalLSK109/110 originals, fusionconstruct/end/adapter geometry. Saleh2021citedChECcomponent notblindly inherited; noSNV/markcallingperformance guarantee."
+      ],
+      "oligo_scraper": "Mandatory scraper run; META8families/2files,Methyl5/1,Replicon0/0; originalMethylTableS1p9 visuallyinspected despitegarbledtext.",
+      "verification": "21focusedchecks across3DNAgraphs pass;sourceguard49exact0failed5unassembled;chemistry50unresolved0contradictory. Independent selected-source critical review closed; no complete molecular-validation or accepted-absence claim."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted24_reader",
+    "date": "2026-10-30",
+    "scope": "AssociatedAM102/128\u2013144; no claimed final-version equivalence. Selectedcriticalimplementationreview only; not full linked-source orabsenceaudit.",
+    "finding": "Source cell-associatedMNase/physicalRNA-PK/extraction/LSK boundaries consistent. Zymolyase corrected from nuclease digestion to permeabilization with explicit catalyst and buffer roles;8checks pass. No further consequential selected-scope defect."
+  }
+}

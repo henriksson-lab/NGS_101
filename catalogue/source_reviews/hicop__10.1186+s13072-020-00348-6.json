@@ -1,0 +1,68 @@
+{
+  "dir": "hicop__10.1186+s13072-020-00348-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7329539.1/PMC7329539.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published2020mainXMLMethods141\u2013143/Results67\u201371;actualsamepublishedPDFFig1p2/Fig3p5. CoP/FAIRE/precedingNGSsectionreadforbranchcontrast,notmergedHiCoPrecipe.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7329539.1/13072_2020_348_MOESM1_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedMOESM1originalDOCXFigureS1\u2013S3captions/rolemap only;CoPparameterexperimentsandPET/peaksroles,notnewHiCoPexactoligoauthority.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "multi_owner_round43",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "SourcequalifiedHiCoP10^7preparedcrosslinkedK562cells\u2192MboI/biotindCTP/T4ligation\u2192400ulsonicate40ulinput/360ulcolumn\u219240uleluate/RNaseA/PK/reverse\u219250uleluate/Qubit\u2192C1capture/washes\u2192end-repair/dA/adapter\u219213\u201319PCR\u21920.55\u20130.75xbeadselection/Qubit/NovaSeqPE150. Wholeends/kitrecipeunassembled.",
+      "locations": "Published2020mainXMLMethods141\u2013143/Results67\u201371;actualsamepublishedPDFFig1p2/Fig3p5. CoP/FAIRE/precedingNGSsectionreadforbranchcontrast,notmergedHiCoPrecipe.; PublishedMOESM1originalDOCXFigureS1\u2013S3captions/rolemap only;CoPparameterexperimentsandPET/peaksroles,notnewHiCoPexactoligoauthority.",
+      "findings": "ActualpublishedHiCoPprocedure/Fig3sourcephysicalsilica-columnselectionofcontactfragmentsandactualPE150NGSendpoint. DefiningmaincontrastsFAIRE-basedOCEAN-Cselection;notsequencer/applicationvariant. KnownintendeddA-tailedsubstrate3primeAclassretainedlocallywithdefaultinferredoccupiedcontext;wholeadapter/contactgeometryunassembledwithoutsource-absencewording.",
+      "deferred": [
+        "Citedin-situHiCref17andOCEAN-Cref22originalsordinaryunread;nospecificcomponentrecipeinherited.",
+        "HiCoPupstreamfixation/lysisallocationnotassignedCoP-only2percentormouse1percentrecipe.",
+        "Wholeadapters,primers,occupiedends/completecontacts/biotinattachmentatomandreadlandingunassembled.",
+        "ResearchSquarepreprintsnotread/adopted;manualURLsarenotneededpublishedrecipefailures."
+      ],
+      "oligo_scraper": "Mandatorywholebundle0sequence-likehits/0representations;actualsourcefigures/captionsverified. Zerohitsnotabsenceevidence;wholeprimers/kitinventoryunassembled.",
+      "verification": "24focusedPASS after localpositive-unassembledgeometry/intendedsource3Aview refinement;sourceguard0exact0failed0externalunknown,threeproducedwhole-unassembledadapter/PCRprimerclassesoutsideexternalguard. Chemistry28steps29unresolved0contradictory. Actualstock/control/QC/capturefatespreserved. Criticalpeerpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Capped positive-source pass only. Citedin-situHiCref17andOCEAN-Cref22originalsordinaryunread;nospecificcomponentrecipeinherited. HiCoPupstreamfixation/lysisallocationnotassignedCoP-only2percentormouse1percentrecipe. Wholeadapters,primers,occupiedends/completecontacts/biotinattachmentatomandreadlandingunassembled. ResearchSquarepreprintsnotread/adopted;manualURLsarenotneededpublishedrecipefailures."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive selected partial preparation; complete source/molecular/absence audit incomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_round43_peer",
+    "date": "2026-10-30",
+    "type": "same_selected_published_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "SamepublishedPMC7329539 mainHiCoPMethods143/Results67\u201371 andactualFig1PDFp2/Fig3p5; samepublishedMOESM1DOCXFigS1\u2013S3captions/roles. CoP-only/FAIRE/NGScontrast not adopted intoHiCoP; no neworiginal/predecessor/vendor acquisition.",
+    "findings": [
+      "ActualFig1/3andResults identify silica-column retention/elution ofprotein-free sonicatedcontactDNA BEFORE RNase/PK/reversecrosslink. SourceMboI\u2192biotindCTPfill\u2192T4contactjoin\u2192400ulsonication/40ulsavedinput versus360ulcolumn\u219240ulEB/decrosslink matchesmodel. Columnnonselectedmaterial andsavedinput physicalfates retained; no absoluteaccessibility/purityyield or importedCoP2percent/10min fixation asserted.",
+      "SourceRNaseA1ul100mgml37C30min\u2192PK5ul10mgml55C30min\u219265Covernight\u2192column50ulEB/Qubit\u2192actual5ulC1beadprewash/resuspend50ul2xbindingbuffer/15minRT\u2192repeat55CTWBwashfollows. ActualboundDNA continuesfinishing; nonselectedcapturefraction removed. SavedinputnotpooledwithselectedHiCoP, noCoP-onlyTn5/qPCR/HiSeqbranch imported.",
+      "Requiredgeometryclarityfixverified: manual unavailable contactgeometry has no defaultsource-absence labels; adapterligation includes sourcepositivedA-tail intended3Asubstrate-onlyScene withtyped3primeend/unknowncontext andinferredoccupiedview. Wholeadapter/body/junction remainunassembled, notclaimedunreported; no invented5P/cohesivepartner/canonicalIllumina library.",
+      "Actualsame-sourcefill/PCR/finishinginventorycomponents andcontactpartners representedwithoutnewfreshduplicateDNA/NTdoses. Wholeforward/reversePCRprimerclasses producedfromaggregateinventory/typedPCR,13\u201319cycles/0.55\u20130.75xVAHTS/Qubit/selectedloadingremainder andNovaSeqPE150 preserved. No imaginedequimolarpool, completeamplicon/productrelation or readlandingclaim.",
+      "PublishedSIcaptions concernCoPconditionvalidation andCoP/HiCoPcomparison; theydonotjustifyreplacingexplicitHiCoPsonication20minwithcommonCoP30min orcopying2percentfixation. No blockingdefect remains in selected implementation scope."
+    ],
+    "verification": "Independentfinalrerun24focusedchecksPASS(exit0), includingtypedintended3A/inferredviewregressions; mandatoryexistingwholebundlescraper0hits/0representations, notsourceabsenceevidence. Chemistry28steps29unresolved0contradictory perowner; sourceguard0exact0failed/threeproducedwhole-unassembledadapter/PCRclassesoutsideexternalguard. Same2originals only; notabsencepass2/fullchemistryaudit."
+  }
+}

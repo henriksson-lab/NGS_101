@@ -1,0 +1,61 @@
+{
+  "dir": "nm-mut-seq__10.1038+s41422-023-00836-w",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41422-023-00836-w/MediaObjects/41422_2023_836_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI2 libraryMethods4197\u20134254 and ExtendedDay2/3 originalPDF35\u201338/printed24\u201327, whole adapter orderings renderedPDF35/36."
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41422-023-00836-w",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Final main publisher excerpt599\u2013601 RT-screening context and supplement labels898\u2013902 read; complete main not available through selected excerpt.",
+      "reason": "Final main publisher excerpt599\u2013601 RT-screening context and supplement labels898\u2013902 read; complete main not available through selected excerpt."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published SI2 libraryMethods4197\u20134254 and ExtendedDay2/3 originalPDF35\u201338/printed24\u201327, whole adapter orderings renderedPDF35/36.; Final main publisher excerpt599\u2013601 RT-screening context and supplement labels898\u2013902 read; complete main not available through selected excerpt.",
+      "locations": "Published SI2 libraryMethods4197\u20134254 and ExtendedDay2/3 originalPDF35\u201338/printed24\u201327, whole adapter orderings renderedPDF35/36.; Final main publisher excerpt599\u2013601 RT-screening context and supplement labels898\u2013902 read; complete main not available through selected excerpt.",
+      "findings": "Published SI Extended protocol uses evolved RT41B4 with restrictive/permissive nucleotide mixtures, whole rApp/biotin and RNA adapters, actual QC/production aliquots and gel-selected NextSeq libraries.",
+      "deferred": [
+        "Published workbook unopened, not inaccessible; upstreamDay1 purification not modelled.",
+        "ShortMethods50ug\u2192100ug versus Extended50ug, Extended21ul/equal-halves/table10ul and PCR15/21 versus adjacent12\u201315 wordings retained.",
+        "Whole historical SR RT/PCR primers, N5purpose/read masks and sealed products unassembled.",
+        "Final main response exposes RT-screening excerpt only; complete final article needed for remaining main context. EuropePMCfullTextXML500 and PMC challenge/cooldown are actual fallback barriers; published detailed SI recipe available."
+      ],
+      "verification": "26focusedchecks(m7G9/m6Alabel6/NmMut11)pass;sourceguard1exact0failed0exceptions9unassembledinputs3graphs;scopedchemistry0established66unresolved0contradictory.Notcompletevalidation.",
+      "oligo_scraper": "Mandatorybundle runs m7G4candidates/1file,m6Alabel686/8,NmMut213/2. Only selected original scopes support facts; rendered NmMut adapter pages checked."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped selected-source review only; named deferred material and actual retrieval limitations retained. Not complete linked-source or absence audit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.nature.com/articles/s41422-023-00836-w",
+      "why": "Final main response exposes RT-screening excerpt only; complete final article needed for remaining main context. EuropePMCfullTextXML500 and PMC challenge/cooldown are actual fallback barriers; published detailed SI recipe available."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round30",
+    "date": "2026-10-30",
+    "documents": 1,
+    "scope": "Narrow selected source/implementation critical review only, not complete source or linked-information/absence review; no new originals and cap unchanged.",
+    "finding": "Coordinator independently viewed same published SI2 rendered originalPDF35/36: whole3rApp/N5/TTAGGC/biotin and RNA5N5 orderings, sequential PNK/extraATP, SRRTprimer before5ligation,21ul/table2x10ul wording, dNTP stock compositions and retained-primer provenance checked. Full primer/product/read geometry and source wording reconciliations remain unassembled.",
+    "verification": "26focusedchecks(m7G9/m6Alabel6/NmMut11)pass;sourceguard1exact0failed0exceptions9unassembledinputs3graphs;scopedchemistry0established66unresolved0contradictory.Notcompletevalidation."
+  }
+}

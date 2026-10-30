@@ -1,0 +1,76 @@
+{
+  "dir": "5hmc-chemical-label-smrt-sequencing__10.1038+nmeth.1779",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/5hmc-chemical-label-smrt-sequencing__10.1038+nmeth.1779/nmeth.1779_PMC3646335.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3646335.1/PMC3646335.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated manuscript NIHMS465877; Results40\u201354; OnlineMethods68\u201384/94.",
+      "pass_1": {
+        "reviewer": "dna_round14",
+        "date": "2026-10-29",
+        "locations": "Associated manuscript NIHMS465877; Results40\u201354; OnlineMethods68\u201384/94.",
+        "finding": "Actual genomic labeling/capture/disulfide reduction/workup and historical A-tailing SMRTbell/PacBioRS route; synthetic/control branches kept separate."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/5hmc-chemical-label-smrt-sequencing__10.1038+nmeth.1779/nmeth.1779_41592_2012_BFnmeth1779_MOESM18_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.1779/MediaObjects/41592_2012_BFnmeth1779_MOESM18_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309\u20138374/footnotes.",
+      "pass_1": {
+        "reviewer": "dna_round14",
+        "date": "2026-10-29",
+        "locations": "Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309\u20138374/footnotes.",
+        "finding": "Synthetic specificity/SMRTbell/validation sequences inspected in their named scopes; no assignment of synthetic hairpins/overhang recipe to genomic libraries."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "access_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3646335/bin/NIHMS465877-supplement-SI.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; reCAPTCHA challenge page; the publisher's ESM files were fetched, so probably redundant Original alias not inspected/equated to available publisher supplement.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "dna_round14",
+      "date": "2026-10-29",
+      "locations": "Exact sections and direct pending originals in research note",
+      "finding": "Source-qualified capped pass only; no absence claim or imported family recipe."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Incomplete graph and source notes; molecular/read geometry limits remain explicit. No public promotion or accepted absence conclusion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-14",
+      "reviewer": "dna_round14",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "At most10min/3originals; originals/supplements first; no recursive reference acquisition.",
+      "locations": "Associated manuscript NIHMS465877; Results40\u201354; OnlineMethods68\u201384/94.; Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309\u20138374/footnotes.",
+      "findings": "Known physical steps through acquisition represented; native chemical inventory distinguished from copying/kinetic computational calls.",
+      "deferred": [
+        "Exact directly named kit/predecessor/onlineMethods targets and actual barriers detailed in note."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper: TOP19hits, hmC-Seal0hits, chemical-labelSMRT13hits. Hits interpreted against originals; empty/partial extraction not absence evidence.",
+      "verification": "21local checks pass (TOP7/hmC-Seal5/SMRT9); exact-source guard2checked0failed0exempt with4TOPmodifiedprimerinputswithout exactstates;3graphs. Chemistry33unresolved0contradictory (not reaction completion). All6notes/refpages build; scoped source-review schema passes (2blocked/1in_progress); diffcheck clean. Graph-only/no page builders or duplex pages, so schematic build/pairing not applicable. Retrieval82569terminalexit0; no additional acquisition."
+    }
+  ]
+}

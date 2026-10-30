@@ -1,0 +1,52 @@
+{
+  "dir": "medusa__10.1093+clinchem+hvag046",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://academic.oup.com/clinchem/article/72/7/756/8708885",
+      "original": "https://academic.oup.com/clinchem/article/72/7/756/8708885",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Publishedidentity only;0usableoriginals/0preparationsections; DOIrouteandoneexactdeclaredOUPfallback403. Preprintsuperseded/unused.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Standard published-source routes and exact declared OUP article URL returned HTTP403; no published original received. Linked superseded preprint was not used."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "PublishedarticleactualURLblocked; actualsupplement identities requirethisoriginal,no filenameguess."
+  ],
+  "missing_claims": [],
+  "conclusion": "Published source blocked; no prep facts/graph/collection count. Not a source absence conclusion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "dna_round28",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Publishedidentity only;0usableoriginals/0preparationsections; DOIrouteandoneexactdeclaredOUPfallback403. Preprintsuperseded/unused.",
+      "locations": "Publishedidentity only;0usableoriginals/0preparationsections; DOIrouteandoneexactdeclaredOUPfallback403. Preprintsuperseded/unused.",
+      "findings": "Actualpublishedarticleaccessblocked; no preparationreading/graph or collectioncount; requestexactOUParticleURL, no guessedSI.",
+      "deferred": [
+        "Whole source-specific molecular/reaction/read paths and linked historical originals unassembled; no recursivechase."
+      ],
+      "oligo_scraper": "MandatoryESEGA19hits/4representations;fiveletter8hits/3representations;MEDUSAemptybundle. Pointers checkedagainstselectedoriginals, zerohitsnotabsence.",
+      "verification": "46focusedchecks(25ESEGA/21five-six)pass; sourceguard6exact0fail0exempt2unassembledinputstates. Chemistry(default5branch)2narrowestablished2conditional37unresolved0contradictory;6branch additionallytested, no fullreactionvalidation.",
+      "cap": {
+        "originals_read": 0,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round28-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      }
+    }
+  ]
+}

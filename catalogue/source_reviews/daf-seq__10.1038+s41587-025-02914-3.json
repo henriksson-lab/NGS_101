@@ -1,0 +1,80 @@
+{
+  "dir": "daf-seq__10.1038+s41587-025-02914-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/daf-seq__10.1038+s41587-025-02914-3/s41587-025-02914-3_PMC13063407.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13063407.1/PMC13063407.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedauthorMS main124/130\u2013168/178\u2013184/244\u2013250 andselectedvalidationcaptions282\u2013306; targetedLongAmp/bulkREPLI-G/customPTA explicitlyseparatefromselectedpublishedSIroute; nofinal-equivalenceclaim.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/daf-seq__10.1038+s41587-025-02914-3/s41587-025-02914-3.html.txt",
+      "original": "https://www.nature.com/articles/s41587-025-02914-3",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedfinalNaturepage identity/abstract/sourceattachmentmappingonly; Methodsnotreceived(subscriptionpreview). MapsMOESM1actualSupplementaryInfo,MOESM2reportingsummary,MOESM3Tables.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/daf-seq__10.1038+s41587-025-02914-3/s41587-025-02914-3_41587_2025_2914_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-025-02914-3/MediaObjects/41587_2025_2914_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI SupplementaryNote printedpp9\u201315/lines95\u2013260,selected100knuclei/hg38chr3coordinate/repliQa30cyclebenchmark. ActualphysicalPDFp15wholeprimersRclasses andp16continuationviewed. SourceSInamesSsDddAfamily; WTvsSsDddA5variantunassignedinselectedparagraph. NoSIworkbookopened.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "ActualfullfinalmainMethods(subscriptionpreview) leavesAMapplicabilityunverified; linkedhistoricalcomponents/wholegeometrydeferred."
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialpreparation; sourceaccess/versionbarriersqualifyselectedscope. No confirmedabsence/fullsourceaudit/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "dna_round29",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "AssociatedauthorMS main124/130\u2013168/178\u2013184/244\u2013250 andselectedvalidationcaptions282\u2013306; targetedLongAmp/bulkREPLI-G/customPTA explicitlyseparatefromselectedpublishedSIroute; nofinal-equivalenceclaim.; PublishedfinalNaturepage identity/abstract/sourceattachmentmappingonly; Methodsnotreceived(subscriptionpreview). MapsMOESM1actualSupplementaryInfo,MOESM2reportingsummary,MOESM3Tables.; PublishedSI SupplementaryNote printedpp9\u201315/lines95\u2013260,selected100knuclei/hg38chr3coordinate/repliQa30cyclebenchmark. ActualphysicalPDFp15wholeprimersRclasses andp16continuationviewed. SourceSInamesSsDddAfamily; WTvsSsDddA5variantunassignedinselectedparagraph. NoSIworkbookopened.",
+      "findings": "PublishedSIselected100knuclei4uM10min/SDS5percent/Monarch/chr3targetRprimer/repliQa30cycle/servicegraph. FamilySsDddAvariantunassigned; AMLongAmp35cycle/PTAbranchesnotimposed,finalMethodsnotreceived.",
+      "cap": {
+        "originals_read": 3,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round29-dna-original-counts.tsv",
+        "source_investigation_closed": true,
+        "scope_note": "Neworiginalinvestigationclosed; subsequentliteral/model/peerconsistencychecksuseonlysamealreadyreadsections. Noarchitecture/fetcherorrecursivechase."
+      },
+      "oligo_scraper": "MandatoryPADD7hits/3representations,Paireddefault0hits/2largefilesexcludedthen39exacttargetedhandlelocations,DAF28hits/2representations. Hitscheckedagainstselectedoriginals;nomissingclaimfromzeros.",
+      "verification": "62focusedchecks(20PADD/30Paired/12DAF)pass;genericguard11exact0fail0exempt19unassembledinputstates. Narrowpair/endclaimsestablished9/conditional0/unresolved122/contradictory0;fullreaction/sourcevalidationnotclaimed.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/daf-seq__10.1038+s41587-025-02914-3/s41587-025-02914-3_PMC13063407.xml.txt \u2014 AssociatedauthorMS main124/130\u2013168/178\u2013184/244\u2013250 andselectedvalidationcaptions282\u2013306; targetedLongAmp/bulkREPLI-G/customPTA explicitlyseparatefromselectedpublishedSIroute; nofinal-equivalenceclaim.; /husky/henriksson/NGS101_papers/sources/daf-seq__10.1038+s41587-025-02914-3/s41587-025-02914-3.html.txt \u2014 PublishedfinalNaturepage identity/abstract/sourceattachmentmappingonly; Methodsnotreceived(subscriptionpreview). MapsMOESM1actualSupplementaryInfo,MOESM2reportingsummary,MOESM3Tables.; /husky/henriksson/NGS101_papers/sources/daf-seq__10.1038+s41587-025-02914-3/s41587-025-02914-3_41587_2025_2914_MOESM1_ESM.pdf.txt \u2014 PublishedSI SupplementaryNote printedpp9\u201315/lines95\u2013260,selected100knuclei/hg38chr3coordinate/repliQa30cyclebenchmark. ActualphysicalPDFp15wholeprimersRclasses andp16continuationviewed. SourceSInamesSsDddAfamily; WTvsSsDddA5variantunassignedinselectedparagraph. NoSIworkbookopened.",
+      "deferred": [
+        "ActualfullfinalmainMethods(subscriptionpreview) leavesAMapplicabilityunverified; linkedhistoricalcomponents/wholegeometrydeferred."
+      ]
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round29",
+    "date": "2026-10-30",
+    "scope": "SamepublishedSIphysicalp15/p16selectedrecipe/wholeprimers,sourceSIfamilyscope;noadditionaloriginal.",
+    "finding": "Narrowcriticalsource/modelcheckclosed;sourceorder/physicalfractions/stockaliquots/modifiedwholeorderingsverified. Fullsource/reaction/absenceauditnotclaimed."
+  }
+}

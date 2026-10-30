@@ -1,0 +1,60 @@
+{
+  "dir": "s1-seq__10.1126+science.aak9704",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/s1-seq__10.1126+science.aak9704/science.aak9704_PMC5234563.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5234563.1/PMC5234563.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36\u201338 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
+      "pass_1": {
+        "reviewer": "dna_round15",
+        "date": "2026-10-29",
+        "locations": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36\u201338 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
+        "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "chemistry_si",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5234563/bin/NIHMS841208-supplement-Supplemental_material.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round15",
+      "date": "2026-10-29",
+      "locations": "Exact inspected scopes and direct pending originals in note",
+      "finding": "Known operations through acquisition; historical geometry/deferred originals remain explicit, no recipe inheritance."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified incomplete graph/notes; no public promotion or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "dna_round15",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "At most10min/3originals; published-first, no recursive source chase. CIDER scope analytical extractedDNA only.",
+      "locations": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36\u201338 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
+      "findings": "Source physical reactions, retained debris/fractions and computational/native DNA distinctions explicit.",
+      "deferred": [
+        "Exact historicalkit/primer/end/readgeometry and directly named originals in note; S1 actualchemistrySI gated."
+      ],
+      "oligo_scraper": "Mandatory wholebundle scans: mTAG14hits/2files, CIDER4hits/1file, S1zero; pointers read in their actual assay/chemistry scopes.",
+      "verification": "22localchecks pass (mTAG7/CIDER9/S1six), including independent CIDER QCprovenance correction: analyticalaliquot isQCterminal, retainedproductionlibrary alonefeedsP6. Sourceguard0eligibleexactstrands/0failed/9inputswithout exactstates/3graphs; notsequencecompletion. Chemistry42unresolved0contradictory; sixnotes/refbuilds,pairing0problems,source-review schema2in_progress/1blocked,diffcheck clean. No finishedpages. Retrieval18717/39123terminalexit0."
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "dir": "carlin__10.1016+j.cell.2020.04.048",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/carlin__10.1016+j.cell.2020.04.048/j.cell.2020.04.048_PMC7529102.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Accepted manuscript Methods 193\u2013203 recorder/guide design, 232\u2013236 bulk DNA/RNA, 238\u2013244 single-cell library operations. JATS media explicitly identifies Table S1 as NIHMS1594358-supplement-8.xlsx, not supplement-7.docx."
+    },
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S0092867420305547",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual standard fetch HTTP 403; final published main unread.",
+      "reason": "Actual standard fetch HTTP 403; final published main unread."
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7529102/bin/NIHMS1594358-supplement-8.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual PMC download gate, TDM. The accepted article identifies this as Table S1 primers/construct sequences. Prefetched superseded preprint SI is excluded.",
+      "reason": "Actual PMC download gate, TDM. The accepted article identifies this as Table S1 primers/construct sequences. Prefetched superseded preprint SI is excluded."
+    },
+    {
+      "id": "chromium_v2",
+      "role": "vendor",
+      "locator": "https://bit.ly/2OUeaUj",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual source-cited historical v2 guide link. Retrieval/read deferred by cap; export identity/version unresolved, not an observed access failure.",
+      "reason": "Actual source-cited historical v2 guide link. Retrieval/read deferred by cap; export identity/version unresolved, not an observed access failure."
+    },
+    {
+      "id": "chromium_v3",
+      "role": "vendor",
+      "locator": "https://bit.ly/2YP9Lol",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual source-cited historical v3 guide link. Retrieval/read deferred by cap; export identity/version unresolved, not an observed access failure.",
+      "reason": "Actual source-cited historical v3 guide link. Retrieval/read deferred by cap; export identity/version unresolved, not an observed access failure."
+    },
+    {
+      "id": "gestalt_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aaf7907",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "CARLIN explicitly preserves six guide designs and cites GESTALT single-extension tagging; exact predecessor Methods/table blocked in the paired pass.",
+      "reason": "Exact guide/primer/reagent inheritance remains unassembled; no constructor imported."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Five conditional accepted-manuscript recovery variants: single-cell v2/v3, genomic DNA, in-vitro bulk RNA and in-vivo bulk RNA. Recorder engineering is upstream context, not caused by library PCR.",
+      "locations": "Accepted manuscript Methods 193\u2013203 recorder/guide design, 232\u2013236 bulk DNA/RNA, 238\u2013244 single-cell library operations. JATS media explicitly identifies Table S1 as NIHMS1594358-supplement-8.xlsx, not supplement-7.docx.",
+      "findings": "Biotin is represented on the actual source primer and its derived strand; attachment position is unknown, not assigned to every new copy. Capture 3 h, half-bead nested PCR, magnet removal, SPRI and one-tenth indexing are preserved. Bulk DNA five anneal/extend ramps have no repeated denaturation. Bulk RNA Platinum-Taq 35-cycle and Q5 15+15-cycle routes remain separate. Source guide subset and UMI-strategy ancestry do not import a full GESTALT recipe.",
+      "deferred": [
+        "Final published main, actual Table S1 workbook and other final-era supplements",
+        "Accepted/final applicability and full recorder/modified-primer/product/end geometry",
+        "Cited historical Chromium v2/v3 export identities and chemistry",
+        "Exact sample-index/primer binding/read spans, directly linked originals and independent review"
+      ],
+      "verification": "Local GESTALT 6 + LINNAEUS 12 + CARLIN 12 = 30 checks pass; three private builds pass; default source guard 3 exact primers checked, 0 failed/exemptions, 9 unassembled inputs; pairing 0; scoped chemistry 0 established, 29 unresolved, 0 contradictory. These checks do not establish complete source or molecular coverage.",
+      "oligo_scraper": "/tmp/round10-carlin-hits.log: 91 hits are from superseded preprint SI, excluded from active chemistry evidence. Actual final-era Table S1 was not retrieved; no absence conclusion."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actual source identities, versions and access limitations enumerated. Final chemistry is not supplied by superseded preprints, a platform name or related-method defaults."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Final published main, actual Table S1 workbook and other final-era supplements",
+    "Accepted/final applicability and full recorder/modified-primer/product/end geometry",
+    "Cited historical Chromium v2/v3 export identities and chemistry",
+    "Exact sample-index/primer binding/read spans, directly linked originals and independent review"
+  ]
+}

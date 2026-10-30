@@ -1,0 +1,67 @@
+{
+  "dir": "dna-barcoded-pmhc-multimers__10.1038+nbt.3662",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3662/MediaObjects/41587_2016_BFnbt3662_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI FigS1 caption2\u201326 and Table1 lines119\u2013193; rendered original p11 checked for Biotin/primer/6N/25nt/annealing color boundaries"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3662/MediaObjects/41587_2016_BFnbt3662_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Table2 workbook header and B1\u2013B24, exact B1 body and named component roles"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3662/MediaObjects/41587_2016_BFnbt3662_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Table3 F1 and R1 whole primer strings and all source named columns; F1 rich-text XML inspected, no unsupported fine linker/sample boundary inferred"
+    },
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nbt.3662",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Identity known; full Methods not inspected",
+      "reason": "Standard fetch returned no open full text; source manifest manual row."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-14",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Published-first bounded source-local partial model; no absence audit or whole-version equivalence claim",
+      "locations": "Published SI FigS1 caption2\u201326 and Table1 lines119\u2013193; rendered original p11 checked for Biotin/primer/6N/25nt/annealing color boundaries; Published Table2 workbook header and B1\u2013B24, exact B1 body and named component roles; Published Table3 F1 and R1 whole primer strings and all source named columns; F1 rich-text XML inspected, no unsupported fine linker/sample boundary inferred",
+      "findings": "Positive selected-source operations/components retained; unknown exact molecular geometry and linked-source coverage remain explicit.",
+      "deferred": [
+        "Defining published main Online Methods: reporter extension/assembly, staining, recovery, all library PCR/cleanup/acquisition order",
+        "Full barcode duplex extension geometry and exact sample-ID/linker sub-boundaries in primer F1",
+        "Other published SI validation figures and library experiment scope; source-linked manufacturing/predecessor documents"
+      ],
+      "verification": "Local 7 behavioral/transcription checks and private build pass. Combined three-protocol guard:7 checked,0failed,1explicit A1 table-extraction exemption,3unassembled ProteinSeq inputs. Pairing0problems;chemistry0established41unresolved0contradictory. Schema check passes. A1 whole strand independently rendered-original checked by two readers;not absence audit.",
+      "oligo_scraper": "Mandatory full bundle scraper completed; relevant original pointers verified, uninspected hits not adopted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped pass stops at selected originals; direct source targets listed in pending_sources. No accepted absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Defining published main Online Methods: reporter extension/assembly, staining, recovery, all library PCR/cleanup/acquisition order",
+    "Full barcode duplex extension geometry and exact sample-ID/linker sub-boundaries in primer F1",
+    "Other published SI validation figures and library experiment scope; source-linked manufacturing/predecessor documents"
+  ]
+}

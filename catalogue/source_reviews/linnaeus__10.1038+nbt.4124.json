@@ -1,0 +1,69 @@
+{
+  "dir": "linnaeus__10.1038+nbt.4124",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/linnaeus__10.1038+nbt.4124/nbt.4124_PMC5942543.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Accepted manuscript recorder overview and Methods 82\u201390: bulk DNA, bulk RNA, Chromium capture, cDNA split, nested scar PCR and reported runs."
+    },
+    {
+      "id": "published_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/linnaeus__10.1038+nbt.4124/nbt.4124_41587_2018_BFnbt4124_MOESM11_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI Table 1, rendered original PDF p. 41: RFP forward 1/2, single-cell reverse, bulk reverse and bulk forward members 1/2. sgRNA-synthesis primers distinguished from library primers."
+    },
+    {
+      "id": "published_preview",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/linnaeus__10.1038+nbt.4124/nbt.4124.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Final publisher identity/abstract and explicit subscription-preview status inspected; full final Methods not accessible here."
+    },
+    {
+      "id": "final_methods",
+      "role": "other",
+      "locator": "https://www.nature.com/articles/nbt.4124",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Downloaded HTML is a validated subscription preview. Final Methods remain unread; this is not a failed HTML download.",
+      "reason": "Downloaded HTML is a validated subscription preview. Final Methods remain unread; this is not a failed HTML download."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Conditional accepted-manuscript operational routes with separately qualified published SI primer inventory: single-cell transcriptome/scar split and independent bulk DNA/RNA scar library routes. Historical kit chemistry is unassembled.",
+      "locations": "Accepted manuscript recorder overview and Methods 82\u201390: bulk DNA, bulk RNA, Chromium capture, cDNA split, nested scar PCR and reported runs.; Published SI Table 1, rendered original PDF p. 41: RFP forward 1/2, single-cell reverse, bulk reverse and bulk forward members 1/2. sgRNA-synthesis primers distinguished from library primers.; Final publisher identity/abstract and explicit subscription-preview status inspected; full final Methods not accessible here.",
+      "findings": "Distributed RFP scars are lineage barcodes, not unique current-cell IDs. Half of the whole cDNA mixture is fragmented for expression; the other half remains unfragmented for nested RFP PCR. Bulk sample tags are fixed eight-base inline barcodes. No kit cell/UMI widths or computational 75 nt truncation are turned into physical preparation facts.",
+      "deferred": [
+        "Full final published Methods and accepted-manuscript applicability",
+        "Historical Chromium PN-120233 guide identity, capture/library polymers and primer geometry",
+        "Complete recorder/duplex/ligation/read geometry and bulk adapter-PCR oligos",
+        "Remaining SI, linked chemistry sources and independent review"
+      ],
+      "verification": "Local GESTALT 6 + LINNAEUS 12 + CARLIN 12 = 30 checks pass; three private builds pass; default source guard 3 exact primers checked, 0 failed/exemptions, 9 unassembled inputs; pairing 0; scoped chemistry 0 established, 29 unresolved, 0 contradictory. These checks do not establish complete source or molecular coverage.",
+      "oligo_scraper": "/tmp/round10-linnaeus-final-hits.log: 14 hits across four files; selected primer strings checked in rendered published SI Table 1, PDF p. 41. Preprint/MS SI not substituted for published SI."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actual source identities, versions and access limitations enumerated. Final chemistry is not supplied by superseded preprints, a platform name or related-method defaults."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full final published Methods and accepted-manuscript applicability",
+    "Historical Chromium PN-120233 guide identity, capture/library polymers and primer geometry",
+    "Complete recorder/duplex/ligation/read geometry and bulk adapter-PCR oligos",
+    "Remaining SI, linked chemistry sources and independent review"
+  ]
+}

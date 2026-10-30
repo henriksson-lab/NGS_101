@@ -1,0 +1,67 @@
+{
+  "dir": "incite-seq__10.1038+s41592-021-01278-1",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8532076.1/PMC8532076.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedNIHMS1745895identity; selectedMethods173\u2013209, TotalSeq-Aformat197, directnuclearstaining/capture/physicallibraryfractions.",
+      "cached_original": "s41592-021-01278-1_PMC8532076.xml"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01278-1/MediaObjects/41592_2021_1278_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published reporting-summary identity/study/antibody/flowcytometryscope. Verified reportingsummary, NOTan oligotable or central chemistryrecipe.",
+      "cached_original": "s41592-021-01278-1_41592_2021_1278_MOESM1_ESM.pdf"
+    },
+    {
+      "id": "source3",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41592-021-01278-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Published finalNatureidentity/abstract/EDcaptions read; actualfullMethods notexposed: subscriptionpreview.",
+      "cached_original": "s41592-021-01278-1.html",
+      "reason": "ActualfinalarticleHTML is subscriptionpreview; fullMethods unavailable throughthis response. Identity/abstractscope stillread/countedasoriginal."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "AssociatedNIHMS1745895/PMC8532076.1 Methods173\u2013209; publishedMOESM1reportingsummarycontext only; finalNaturemain subscriptionpreview, no finalrecipeequivalence.",
+      "locations": "AssociatedNIHMS1745895identity; selectedMethods173\u2013209, TotalSeq-Aformat197, directnuclearstaining/capture/physicallibraryfractions.; Published reporting-summary identity/study/antibody/flowcytometryscope. Verified reportingsummary, NOTan oligotable or central chemistryrecipe.; Published finalNatureidentity/abstract/EDcaptions read; actualfullMethods notexposed: subscriptionpreview.",
+      "findings": "Associated inCITE-seq fixed/permeabilized nuclei with dextran/BSA/FcXblocking and TotalSeq-Aprotein/hash reporters, historicalv3GEM/RNA-DNAtagcopying, actualWTA40\u219210/30ul andtags24\u21926/6/12ul branches\u2192threeNGSlibraries.",
+      "deferred": [
+        "FinalNaturefullMethods blockedbysubscriptionpreview; associatedAMrecipe notautomaticallyequivalent.",
+        "Actualhistorical10X3primev3manufacturerprotocol/TotalSeq-Aformat/fullHTO-ADTprimerstockorderings ordinaryunreviewed; no modernwholeconstruct substitution.",
+        "Publishedreportingsummary and auto-fetcheddataworkbooks do not establish full primerorderings; hugeMOESM7 normallyscraper-size-skipped. Supersededpreprint excluded."
+      ],
+      "verification": "Repair9/inCITE12focusedchecksPASS; two-graphsourceguard0exact/0failed/0exceptions/1unassembledinput. Chemistry51unresolved0contradictory; not complete validation. ProximIDno model/notcollected.",
+      "oligo_scraper": "Mandatoryscrapers:Repair1candidate/1representation atselectedreadtime;inCITE1200/6 withactualMOESM7normal10MBscan-size-skip;ProximID0/0. No sourceabsenceinferredfromhits."
+    }
+  ],
+  "pass_1": null,
+  "pass_2": null,
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actualdeferredlinkedsources/componentsstated; capped passnotfullsource/absenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round33",
+    "date": "2026-10-30",
+    "scope": "SameassociatedNIHMS1745895/PMC8532076Methods173\u2013209; samepublishedMOESM1reportingsummaryidentity andfinalpublisherpreview;3originalcombinedscope.",
+    "findings": "Verified literalFA-NTstockaddition/glycine, actualBSA/FcXblocking andfreshstainstocks, TotalSeq-A/nucleushashintranuclearbranch,20kHeLapool,53Creversecrosslink/RT,0.6SPRIWTA/tagpartition, actual10of40WTA and6+6of24tagaliquots/remainders, separateindexPCRs/libraries/physicalpool. Preserves75cyclekitversus28/8/55description withoutnormalization; no fullfinal/AMequivalence or modernkitrecipeinheritance. No criticaldefect found.",
+    "verification": "12focusedchecks independently rerunPASS; selectedcriticalcheckonly, notfullsource/reaction/absenceaudit."
+  }
+}

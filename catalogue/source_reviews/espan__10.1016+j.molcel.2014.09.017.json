@@ -1,0 +1,73 @@
+{
+  "dir": "espan__10.1016+j.molcel.2014.09.017",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/espan__10.1016+j.molcel.2014.09.017/j.molcel.2014.09.017_PMC4362665.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "Associated author manuscript NIHMS667987; Methods144\u2013156, Results/Fig1A and limitations",
+        "finding": "Source serialproteinChIP\u2192proteindigestion\u2192DNAdenaturation\u2192BrdU-IP\u2192citedssDNA library\u2192HiSeq2000/2500pairedend. Exact finalpublishedversion applicability unreviewed."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4362665/bin/NIHMS667987-supplement-supplement_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "Source SupplementalExperimentalProcedures/sevenfigures/twotables, actualmanifest gate",
+        "finding": "Standardfetcher obtained preparing-to-downloadgate; actual chemistryoriginal notread, no absence conclusion."
+      },
+      "reason": "Standardfetcher obtained preparing-to-downloadgate; actual chemistryoriginal notread, no absence conclusion."
+    },
+    {
+      "id": "original_3",
+      "role": "other",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/25449133/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "Original PubMed Erratum-in pointer:MolCell2014Nov20;56(4):609",
+        "finding": "Erratum exists in primaryindex, but precise original identity/content unresolved. CandidateDOI2014.11.007 not accepted as proven correctionidentity; institutional metadata conflates originalpages551\u2013563."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round12",
+      "date": "2026-10-29",
+      "locations": "Exact actual originals and linked original identities in note/checklist",
+      "finding": "Named historical guides/linked methods remain deferred; gatedSI or unresolved actualoriginal identity distinguished from ordinaryunreviewed reading. No absenceacceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped sourcequalified privategraph throughknownoperations/acquisition; complete physicalends/library/readgeometry and independentlinkedsourceaudit unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "expansion_dna_round12",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first boundedpass; associatedmainidentities explicit; no morethan3originals/protocol.",
+      "locations": "Associated author manuscript NIHMS667987; Methods144\u2013156, Results/Fig1A and limitations; Source SupplementalExperimentalProcedures/sevenfigures/twotables, actualmanifest gate; Original PubMed Erratum-in pointer:MolCell2014Nov20;56(4):609",
+      "findings": "Knownsourceoperationorder, chemicalmarkers versusreportedbases and physicalfractionfates retained; no familyrecipe import.",
+      "deferred": [
+        "Direct actual originals/kit versions and accessbarriers in researchnote; no recursivechase."
+      ],
+      "oligo_scraper": "/tmp/espan12-oligos.log; mandatory wholebundle scan returned0hits; no sequenceabsenceconclusion.",
+      "verification": "21localchecks(6eSPAN/7SNS/8Pu)passed;3privatebuilds/scopeddocs and pairing0problems. Sourceguard0checked/0failed,3Puinputswithout exactstates;notexactoligovalidation. Chemistry0established/30unresolved/0contradictory. Fourfetchsessions35603/79241/9946/66750 terminalexit0; externalcachepreserved; noacquisitionrunning."
+    }
+  ]
+}

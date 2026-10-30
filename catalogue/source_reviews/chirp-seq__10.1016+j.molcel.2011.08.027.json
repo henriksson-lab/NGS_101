@@ -1,0 +1,142 @@
+{
+  "dir": "chirp-seq__10.1016+j.molcel.2011.08.027",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/(manual) j.molcel.2011.08.027_supp_NIHMS340672-supplement-01.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-01.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/(manual) j.molcel.2011.08.027_supp_NIHMS340672-supplement-02.zip",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-02.zip",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/(manual) j.molcel.2011.08.027_supp_NIHMS340672-supplement-03.zip",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-03.zip",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/(manual) j.molcel.2011.08.027_supp_NIHMS340672-supplement-04.zip",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-04.zip",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/(manual) j.molcel.2011.08.027_supp_NIHMS340672-supplement-05.xls",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-05.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/j.molcel.2011.08.027_PMC3249421.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3249421.1/PMC3249421.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round18_source_reader",
+        "date": "2026-10-29",
+        "locations": "Associated accepted manuscript, Methods86\u2013124/overview; selected comparison only, subsequently obtained final PDF controls.",
+        "finding": "Selected positive original reading only; no complete-publication or absence audit."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript; selected comparison only",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_7",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chirp-seq__10.1016+j.molcel.2011.08.027/source_pdf_87b24b6fe07e40b97170.pdf",
+      "original": "https://qulab.ustc.edu.cn/wp-content/uploads/2017/06/Genomic-Maps-of-Long-Noncoding-RNA-Occupancy-Reveal-Principles-of-RNA-Chromatin-Interactions.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round18_source_reader",
+        "date": "2026-10-29",
+        "locations": "Published Molecular Cell44,667\u2013678,18 November2011; rendered originalp1 title/DOI/date checked; Methods text1143\u20131275, probe design1148\u20131165, DNAelution1251\u20131263/library1271\u20131275.",
+        "finding": "Selected positive original reading only; no complete-publication or absence audit."
+      },
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "Author-lab hosted defining ChIRP original; why: Verify printed final publication identity before chemistry use; associated manuscript remains version qualified."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round18_source_reader",
+      "date": "2026-10-29",
+      "locations": "Associated accepted manuscript, Methods86\u2013124/overview; selected comparison only, subsequently obtained final PDF controls.; Published Molecular Cell44,667\u2013678,18 November2011; rendered originalp1 title/DOI/date checked; Methods text1143\u20131275, probe design1148\u20131165, DNAelution1251\u20131263/library1271\u20131275.",
+      "finding": "Actual linked targets and uninspected scope enumerated; no accepted absence claim."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-01.pdf",
+      "scope": "Actual supplement gated by existing PMC host cooldown; probe sequence TableS4 applicability uninspected."
+    },
+    {
+      "locator": "Johnson et al.2007 ChIP-seq library method cited in final Methods",
+      "scope": "Direct predecessor not followed within cap; specific adapter/index/primer/read geometry unassembled."
+    }
+  ],
+  "open_questions": [
+    "Unassembled exact end/index/primer/read geometry and uninspected downstream vendor/predecessor details remain explicit."
+  ],
+  "conclusion": "Source-positive private incomplete operational graph through selected source-known acquisition; notes status, no public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "round18_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Capped ten minutes/three originals, published first; exact selected scope only.",
+      "locations": "Associated accepted manuscript, Methods86\u2013124/overview; selected comparison only, subsequently obtained final PDF controls.; Published Molecular Cell44,667\u2013678,18 November2011; rendered originalp1 title/DOI/date checked; Methods text1143\u20131275, probe design1148\u20131165, DNAelution1251\u20131263/library1271\u20131275.",
+      "findings": "Physical substrates, modified oligos and separable product/companion fractions retained; chemical state distinguished from sequencing readout.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-01.pdf",
+        "Johnson et al.2007 ChIP-seq library method cited in final Methods"
+      ],
+      "oligo_scraper": "Mandatory scraper run on source bundle; relevant adopted sequences and modifications verified in originals, no absence conclusion.",
+      "verification": "Final ChIRP7/PARE7/cyPhy19 local checks pass(33total); sourceguard5checked/0failed/1independentlyapprovedfamilyexemption/7unassembled; defaultchemistry43steps/46unresolved/0contradictory. Independent critical implementation review found no consequential issue in this selected source scope; not a second source/absence pass."
+    }
+  ]
+}

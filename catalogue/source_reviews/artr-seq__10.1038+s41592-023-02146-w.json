@@ -1,0 +1,66 @@
+{
+  "dir": "artr-seq__10.1038+s41592-023-02146-w",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10864177.1/PMC10864177.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC10864177mainstrategy/Methods186\u2013246 plusExtendedData1selectedfusion/biotincontext; actualPDFp2. StandardPTBP1branch, not lowinput/tissue/controlrecipe merger.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10864177.1/41592_2023_2146_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "SupplementaryFig1/Tables1\u20133; actualoriginalPDFp3 Table1qPCR/Table2siRNA roles/wholevisibleorders andTable3samplecontext; not NGSprimerbodies.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "targeted_owner_round41",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "SelectedpublishedstandardPTBP1preparation; sourceinvestigationclosed2originals, implementationseparate. No completechemistry/source/absenceaudit.",
+      "locations": "MainMethods186\u2013246/Strategydevelopment/ExtendedData1selectedRTaseandbiotindNTPscope; actualmainPDFp2 andSI1originalPDFp3 Tables1\u20133.",
+      "findings": "Antibody-boundpAGRTase/biotinNTinventory and source2whole modifiedlibraryoligos verified; N10priming versus adapterN8UMI; physicalblockingDNA/tRNA/BSA/imagingmolecules andsame-stockenzyme provenance retained.",
+      "deferred": [
+        "ReportingSummary/source-dataoriginals ordinaryunread; no source-absence conclusions.",
+        "HistoricalexampleNEBE7335S/kitwholeprimers/indexsequences andfullRNA/cDNA/ligation/productgeometry unassembled.",
+        "Other lowinput/tissue/knockdown/strongRNase/inputcontrol branches source-qualified but not merged into standardrecipe."
+      ],
+      "oligo_scraper": "Mandatorywholebundle16hits/3representations. Mainwhole2modifiedlibraryoligos verified from originalJATS/PDF; actualSI1Table1/2 imageheaders/rows checked as analyticalqPCR/siRNA, not libraryPCRprimers.",
+      "verification": "21focusedPASS/2wholemodifiedsourceoligos; externalguard2exact0fail0exceptions0unknownexternalinputs, TWOproducedforward/reversePCRclasseswholebodiesunassembledoutsideexternalguard. Chemistry37unresolved0contradictory. Selectedindependentcriticalpeerclosed/same2publishedoriginals afterPCRfunctionalprimerclasses/typedPCR andsource50ulbufferreferent refinements."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Publishedmain/SI1read; ReportingSummary/source data automaticallyavailablebutordinaryunread. Vendor/proteinexpression predecessors not substituted for currentselectedrecipe. No acceptedabsence."
+  },
+  "missing_claims": [],
+  "conclusion": "Positivecappedpublishedselectedpreparation; complete molecular/source/absenceaudit incomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round41_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "SameclosedpublishedPMC10864177mainStrategy/Methods186\u2013246 andactualmainPDFp2, selectedExtendedData1fusion/biotincontext; publishedSI1MOESM1Fig1/Tables1\u20133actualPDFp3. No new originals, reporting-summary/sourceData/vendor/predecessor/tissue/controlrecipe investigation.",
+    "findings": [
+      "Sourceantibody-targetedpAG-engineeredMMLV25\u2013497/30aa linker alreadylocalizedandwashed beforeRT; producedretainedcatalystcomponentconsumedbyRT, notfreshfusionaddition. Direct/indirectproximityscope retained; preparedproteinconstruction/purificationoutsidegraph. Standard40kHepG2/PTBP1 branch distinctfrom4percentPFA/barcodedlowinput/tissue/cellpooling variants.",
+      "ActualRTprimerwholeordering/N10randompriming versuscDNAadapter5P/N8UMI/3SpC3 rolesverified. Biotin-16-dUTP/dCTP are deoxynucleotideclasseswithregularNTs, notRNAUTP orassumedmodifiedPCRcopies. ActualsourceRTmixturepreparedin50ulbuffer; requestedwordingfixleavesfinal-volumeconvention/individualstockvolumesunassigned withoutcallingpublicationdiscrepancy.",
+      "KnownBSA/RNaseOUTantibodydiluents, imagingantibody/Hoechstcontributions, PK\u2192phenol/ethanol\u2192RNAseH/AT1, actualBSA/salmonDNA/yeasttRNA-preblockedC1/10ulallocation, sourceadapterligation andformamideheatedrelease/residualbeadfraction matchselectedmain. No unstatedpreblockwash/perfectpurification/fullmolecule claim.",
+      "RequestedPCRinventoryfixapplied: actualaggregateprimerinventorywithunknownpackaging/stockcount producesforward/reversefunctionalOLIGOclasses, consumedbytypedPCRwithunavailablewholegeometry. ActualQ5masterco-componentscopresent, all10ulcDNAusedin40ul/13cycles. E7335Sremainsexample, SIqPCR/siRNAordersnotNGSprimers. Gelband/stock/loadingphysicalfates andunknownrunlengths/wholeprimerlanding retained. No blocking defect remains in selected scope."
+    ],
+    "verification": "Reran21focusedchecksPASS includingwholeoriginalRT/modifiedadapter andsamephysicalRT/primercomponentprovenance; sourceguard2exactchecked/0failed/0exceptions/0unknownexternalinputs. Two producedunknownPCRprimerfunctionalclasses outsideexternalinputguard. Chemistry36steps/37unresolved/0contradictory. Narrow implementation recheck, notabsencepass2/fullchemicalaudit."
+  }
+}

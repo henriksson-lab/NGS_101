@@ -101,10 +101,20 @@ linked only in that metadata. A PDF with no attachment annotation is therefore n
 evidence that the named workbook is inaccessible; do not substitute a newer protocol
 revision without checking its identity.
 
-What is still out of reach: Science / Cell / most publisher PDFs and supplements behind
-Cloudflare or a paywall — get those by hand (the manifest has the URL) and drop them in
-the same directory; `--revalidate` then checks them like any download. Do not work around a
-challenge (no browser-fingerprint spoofing, headless challenge solving or proxy rotation).
+**Interactive browser downloads are permitted (user authorization, 2026-10-30).**
+When standard fetchers cannot retrieve an article or supplement, use an interactive
+browser to follow publisher links, complete ordinary browser verification checks and
+download through access available to the user. This includes ordinary interactive
+verification on publisher sites. Browser-fingerprint spoofing, headless challenge
+solving and proxy rotation remain outside this permission.
+
+Save browser downloads in the same external source directory, record the exact original
+URL and source identity/version in `MANIFEST.tsv`, and run `--revalidate` before using
+them. If interactive access still fails, retain the actual URL for manual retrieval.
+Papers and supplements must remain outside the checkout.
+
+Automated fetcher throttling and host cool-downs remain in place; do not clear or disable
+their markers to retry the same automated route.
 `tools/fetchers/base.py` spaces requests per host across all fetcher processes (8 s for
 publishers) and stops requesting a host for six hours once it serves a challenge or HTTP 429;
 the cool-down markers are under `$CHEM_DATA/sources/.cache/ratelimit/`. The scraper

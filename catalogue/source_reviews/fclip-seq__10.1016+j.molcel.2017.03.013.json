@@ -1,0 +1,55 @@
+{
+  "dir": "fclip-seq__10.1016+j.molcel.2017.03.013",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://www.cell.com/article/S1097276517302034/pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actualofficial2017mainPDFstandardextra-sourceattemptHTTP403; definingMethods/chemistrybodyunread. DirectScienceDirect2017pagealso403.",
+      "reason": "StandardgenericDOIroutefoundnoopenfulltext; standarddeclaredofficialPDFreturnedHTTP403. No challengebypass orrecipeequivalence substitution.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "round40_multi_owner",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "OneadministrativeOpenAlexW2607127956indexedmetadata/OAURLrecordread; zeroactualdefining2017chemistryoriginals. Sourceinvestigationclosedwithunusedbudget.",
+      "locations": "Administrativeidentity/OAURLonly; primaryScienceDirect403/CellPDF403unread. No2019Methodsoriginalopened.",
+      "findings": "No justifieddefiningpreparationgraphorcollectedstatusfromidentity/discoveryabstract alone. Actualfailed2017mainURLretained; nofictitiousSIorabsenceclaim.",
+      "deferred": [
+        "Actualdefining2017mainbody/Methods and genuinechemistrysupplementlinksafterretrieval.",
+        "2019Methods10.1016/j.ymeth.2018.06.004ordinaryunread/notassumed2017equivalent."
+      ],
+      "oligo_scraper": "Mandatorybundle /tmp/ngs40-fclip-scraper.log:0sequences/0files, notabsenceevidence.",
+      "verification": "Identity/retrievalnotesonly; no molecularmodelorselftestsjustified. Note/refbuild/schema validation only."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Actualmainretrievalneeded; SIidentityunresolvedwithoutoriginal, nosyntheticdisclosuretarget. Supporting2019protocolordinaryunread, notdefaultauthority."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.cell.com/article/S1097276517302034/pdf",
+      "why": "Actualofficialdefining2017mainPDFreturnedHTTP403 throughstandarddeclaredsource; actualpreparationandlinkedchemistrySIunread."
+    }
+  ],
+  "conclusion": "Uncollectedsource-retrievalhold/privateidentitynotes; no completepreparation/source/absenceclaim.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round40",
+    "date": "2026-10-30",
+    "scope": "ActuallocalMANIFEST/closedownercounter only; zero2017chemistryoriginalsread. Notabsencepass2.",
+    "findings": "OfficialPDF403/genericDOInoopenbodyverified. OwneradministrativeOpenAlexidentitynotchemistry. Uncollected/noinventedgraphor2019equivalence appropriate. NeededactualmainURLretained, noabsenceclaim.",
+    "absence_pass_2": false
+  }
+}

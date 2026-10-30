@@ -1,0 +1,90 @@
+{
+  "dir": "sif-seq__10.1038+nmeth.2886",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nmeth.2886.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "OfficialdeclaredPDFstandardfallbackreturnedHTMLnotPDF; publisherpagerequiredidentityendpoint. Fullfinalbodyunread, nobypass.",
+      "inspection_scope": "PublishedDOI/titleidentityfromselectedledger andfailedmainidentity/bodyattempt only; notpreparationauthority.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "associated_am",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4008384.1/PMC4008384.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAMPMC4008384/EMS57097 Methods113\u2013145/Results82\u201386; BACcloning/Hprtcelllibrary/FACS/5PCRpool/PacBioRSactualendpoint. Nofullpublishedfinal/AMequivalence.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_si19",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.2886/MediaObjects/41592_2014_BFnmeth2886_MOESM19_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI19actualFigS1p2/TableS2p9firstsixwholemodifiedorders androles; technicalNotep10\u201312 vectorrole/H19insulatorcontext, fullH19sequencepresenceidentityonly (notfullbase-mapconstruction). Actualp3Sall1resultfigureseenbutnotusedaslibraryrecipe.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-42",
+      "reviewer": "round42_multi_owner",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Twoactualpreparationoriginalsread plusoneconservativefailedpublished-mainidentityslot, within10min/3identitycombinedcap. Sourcepassclosedbeforeimplementation.",
+      "locations": "PublishedDOI/titleidentityfromselectedledger andfailedmainidentity/bodyattempt only; notpreparationauthority.; AssociatedAMPMC4008384/EMS57097 Methods113\u2013145/Results82\u201386; BACcloning/Hprtcelllibrary/FACS/5PCRpool/PacBioRSactualendpoint. Nofullpublishedfinal/AMequivalence.; PublishedSI19actualFigS1p2/TableS2p9firstsixwholemodifiedorders androles; technicalNotep10\u201312 vectorrole/H19insulatorcontext, fullH19sequencepresenceidentityonly (notfullbase-mapconstruction). Actualp3Sall1resultfigureseenbutnotusedaslibraryrecipe.",
+      "findings": "SourceBAC\u2192PS/5PYadaptor\u2192PCR\u2192actualBP10of15/LR1ul\u2192bacterialplasmidfactory\u219210actualEStransfections/HAT/HT/pool\u2192FACSplusunsortedcontrol\u21925actualgDNAPCRs/sample/pool\u2192reportedPacBioRS. ActualDNAtemplatesallocatedBEFOREreplicatearrays, notfakeoneproductrelabel. Knownsourceoligo/reagentstatescarriedthroughaliquots; fullinitialY/PCR/genomic/NGSgeometrynotinvented.",
+      "deferred": [
+        "ActualfullpublishedmainPDFneededforversionverification; operationalrecipequalifiedtoassociatedAM.",
+        "AssociatedAMsupplement, ZIP20, Addgene51291/51292/vendor/Gateway/PacBio/differentiation/validation originals ordinaryunread, notdefaultrecipeauthority.",
+        "FullH19vectorsequenceispresentinselectedSIbutnotwholecoordinatevalidated; actualBACfragmentsequences, Gateway/genomicjunctions, initialPCRcyclecompletiongeometry/offproducts andcellcopyoccupanciesunassembled.",
+        "PreciseSMRTfinishing/SMRTbelladapter/endmodifications, sequencingprimer/polymerasedoses/index/readlength andrecoveryquantitiesunassembled; nosyntheticdisclosureURLorabsenceclaim."
+      ],
+      "oligo_scraper": "Mandatorywholebundle /tmp/ngs42-sif-scraper.log; actualpublishedSI19Table2firstsixwholemodifiedordersverifiedagainstoriginalrenderp9. Longvector/validation/AMsupplementhitspointersnotadoptedautomatically.",
+      "verification": "38focusedchecksPASS including6wholepublishedTableS2orders/PS5P/14bpcore/29ntprimers/inferredreferenceconstructors, actualBP10of15/LR1ul/10independenttransfections/2x5independentPCRs/templateallocations/pools/remainders/actualPacBioendpoint. Sourceguard4exactchecked/0failed/0exceptions/0unrepresentedexternaloligos. Chemistry108steps/4localestablished/119unresolved/0contradictory afterpreventingfalseinitialYfilledduplexassumption; sourceYcoreandconditionalcompleted-referenceprimerlandingsretainedlocally. Note/refbuilt; reviewschemaPASS; independentselectedpeerpending, notfullchemical/sourceaudit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Actualrelevantcitedvendor/Addgene/Gateway/PacBio/differentiationsources ordinaryunread; knownfullH19sequencepresenceexplicit, notabsence. MainfinalneededURLisactualfailedoriginal, no guessedSMRTdisclosuretarget.",
+    "deferred_targets": [
+      "ActualfullpublishedmainPDFneededforversionverification; operationalrecipequalifiedtoassociatedAM.",
+      "AssociatedAMsupplement, ZIP20, Addgene51291/51292/vendor/Gateway/PacBio/differentiation/validation originals ordinaryunread, notdefaultrecipeauthority.",
+      "FullH19vectorsequenceispresentinselectedSIbutnotwholecoordinatevalidated; actualBACfragmentsequences, Gateway/genomicjunctions, initialPCRcyclecompletiongeometry/offproducts andcellcopyoccupanciesunassembled.",
+      "PreciseSMRTfinishing/SMRTbelladapter/endmodifications, sequencingprimer/polymerasedoses/index/readlength andrecoveryquantitiesunassembled; nosyntheticdisclosureURLorabsenceclaim."
+    ]
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.nature.com/articles/nmeth.2886.pdf",
+      "why": "ExactofficialpublishedmainPDFreturnedHTMLnotPDF; fullfinal/associatedAMpreparationequivalenceunverified."
+    }
+  ],
+  "conclusion": "SourcequalifiedassociatedAM/publishedSI mNanogSIFconstruct-selection-DNArecovery preparationcollectedasprivatepartialgraph; actualPacBioRSsequencingpositive, fullmolecular/SMRTgeometryunassembled.",
+  "independent_implementation_recheck": {
+    "reviewer": "dna_peer_round42",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Same associatedAM PMC4008384/EMS57097 Methods113\u2013145; samepublishedSI19 actualFigS1p2/TableS2p9 firstsixwholeorders and SupplementaryNote1 vectorrolesp10\u201312. No finalmain/predecessor/vendor/neworiginal opened.",
+    "findings": [
+      "Verified original43/42ntY-adaptor wholeorders,14bpduplexcore, two28ntunpairedarms, physicalterminal3T/precedingphosphorothioate and opposing5P. SourceA-tail/adapterligation interfaces remain local; initialYarms nottreatedascompletePCRduplex. ComputedattB2Rlocalbinding and defaultinferredcompletedPCRreference are separated from actualinitialPCRsubstrate.",
+      "Verified actualBACshear/size/end-repair/A-tail/Yligation\u2192PCR\u2192BP/LR/plasmidpreparation\u2192tenseparatelyallocatedlinearDNA/celltransfections\u2192HAT/HTselectedpopulations\u2192physicalpool\u2192pre-sortinputallocation versusYFPFACS. HATselection is not perfectsingle-copygenotyping; no source-unsupportedDNAbarcodes/UMIs or differentiatedPFA branch imported.",
+      "Verified actual10of15ulBPtransfer,1ulLRtransformation, mNanog/H19route, two distinct five-reactiongDNA arrays pooled onlywithinownsample afterPCR. Sameknownoligoorders/modifications preserved on actual stockallocations; PCRcopies notassumedtoinheritoriginalPS. PacBioRSpositivefinishing stays explicitunassembledinterface, not modernSMRTbell or an inventedcompleteNGSproduct; input/sortedlibraries notphysicallycombined.",
+      "AM/sourceSIidentity and literal0.4umstrainer retained without silentrepair orfullfinal/AMequivalence. No sourceabsenceclaim orcompletechemicalaudit."
+    ],
+    "verification": "Independently reran38focusedPASS including6wholeoriginalTableS2orderingfixtures; sourceguard4exact0failed/0exempt; chemistry108steps4localrelationsestablished119unresolved0contradictory. Same2originalselectedcriticalimplementationreview closed."
+  }
+}

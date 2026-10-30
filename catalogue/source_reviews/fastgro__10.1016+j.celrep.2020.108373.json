@@ -1,0 +1,77 @@
+{
+  "dir": "fastgro__10.1016+j.celrep.2020.108373",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7702699.1/NIHMS1645786-supplement-2.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publisher CellReports33,108373/10Nov2020/title/DOI/copyright verified, published Methods2218\u20132240/actualPDFp16e3 rendered units; appended SupplementaryTable2 RT-qPCR role/whole extracted row list, not library oligos. PublishedResults492\u2013508explicitHPDPreversibledisulfideclass/reductiverelease; wholeatommap/occupancyunassembled.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "am",
+      "role": "other",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7702699.1/PMC7702699.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAMNIHMS1645786 Methods108\u2013141/standard129/LI133/spike137/141; subordinate to recovered published article, no complete equivalence claimed.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "protocol",
+      "role": "detailed_protocol",
+      "locator": "https://www.protocols.io/view/fastgro-yxmvmxe4ol3p.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Exact cited DOI protocol export ID32136/printed Oct2020 identity and selected standard full16page recipe; actualPDFp15 column DNase order independently rendered. LI export uninspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-42",
+      "reviewer": "targeted_owner_round42",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published standard HPDP route: nuclei\u2192equal-volume4sUTP run-on\u2192TRIzol/precip\u2192selected150ugRNA+preparedRNAspike\u2192sonication\u2192HPDPbiotin\u2192M280boundwash\u2192DTTrelease\u2192in-columnDNase\u2192opaqueNEBNextUltraIIDirectional\u2192NextSeq500. Detailed export differences retained, not merged.",
+      "locations": "Publisher CellReports33,108373/10Nov2020/title/DOI/copyright verified, published Methods2218\u20132240/actualPDFp16e3 rendered units; appended SupplementaryTable2 RT-qPCR role/whole extracted row list, not library oligos.; AssociatedAMNIHMS1645786 Methods108\u2013141/standard129/LI133/spike137/141; subordinate to recovered published article, no complete equivalence claimed.; Exact cited DOI protocol export ID32136/printed Oct2020 identity and selected standard full16page recipe; actualPDFp15 column DNase order independently rendered. LI export uninspected.",
+      "findings": "4sUTP nuclear-run-on RNA is chemically HPDP-biotinylated after extraction/fragmentation, captured on streptavidin and released byDTT; physical chemistry differs from biotin-NTP run-on/base-conversion workflows, beyond speed/input change.",
+      "deferred": [
+        "LI protocol export and separate supplement1 ordinaryunread, no merged route.",
+        "Superseded preprint excluded; published article recovered so blockedScienceDirectduplicate is not requested.",
+        "Wholekitoligos/indexvalues/internalRT-PCRrecipe/readlanding and fullchemicalproducts unassembled."
+      ],
+      "oligo_scraper": "Mandatorywholebundle2hits/2representations, follow-upwithinselectedpublishedPDFidentifiesRT-qPCRTable2, not NGSkitprimers; sourceactualp16unitsrendered.",
+      "verification": "19focusedPASS; sourceguard0exact0fail0unknownexternaloligos; ONEproducedwhole-unassembledkitoligoinventoryoutsideexternalguard withstructuredunknownsample_index. Chemistry34unresolved0contradictory. IndependentselectedcriticalpeerCLOSEDsame3originals afterexplicitHPDPdisulfide/DTT-releasedthiolRNAstatefix.",
+      "counter_recording_issue": "First6-lineAMidentityheaderreadbeforecounterentry; bodyreads followed recordedentry; all3uniqueoriginalscounted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Capped selected sources only. LI protocol export and separate supplement1 ordinaryunread, no merged route. Superseded preprint excluded; published article recovered so blockedScienceDirectduplicate is not requested. Wholekitoligos/indexvalues/internalRT-PCRrecipe/readlanding and fullchemicalproducts unassembled."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive selected partial preparation; complete molecular/source/absence audit incomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "multi_peer_round42",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same associatedAM PMC7702699 identity/version comparison; exact cited protocols.io PDF printedID32136 selected standard-route differences; actual supplement2 printed publishedCellReports33,1083732020 VOR Results492\u2013508 and Methods2218\u20132240/actualPDFp16. No neworiginal/vendor/LI branch opened.",
+    "findings": [
+      "Published VOR controls standardHPDP route; differing protocol24C/10Tris1EDTA/isopropanol/nuclei-stock values remain explicitly distinguished rather than merged. Literal sourceEDTA notation and50mM4sU spike retained with limits.",
+      "Verified resident nuclear polymerase rather than fresh enzyme addition, same actual added NRO buffer components, RNA spike, RNA/QC allocations, prepared M280 capture, excluded supernatant, DTT eluate and residualbeads, columnDNase, and loading remainder.",
+      "Requested and verified narrow source-positive chemical-state refinement: HPDP makes reversible RNA-base\u2013disulfide\u2013biotin class; DTT reductively removes biotin adduct and releases thiol-labelledRNA. Neither streptavidin-biotin bond cleavage nor conversion to unmodifiedU is asserted; atommap/occupancy remain unassembled.",
+      "Actual kit oligo inventory/sample-index class is explicit while bodies, primer roles and whole endpoint remain unassembled; no vendor factory/default recipe or readlayout inherited."
+    ],
+    "verification": "Independently19focusedPASS after requestedchemical-state refinement; sourceguard0exact0failed0externalunknown (one produced whole-unassembled kitoligo inventory outside external-input guard); chemistry34unresolved0contradictory. Selected same3original implementation review closed."
+  }
+}

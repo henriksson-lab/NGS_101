@@ -1,0 +1,89 @@
+{
+  "dir": "endoviper-seq__10.1021+jacs.9b13406",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "associated_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7286354.1/PMC7286354.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated author manuscript NIHMS1587417 main43–56/Methods76/96/100; selected cellular mRNA sequencing route, synthetic assays and gene-specific validation separated. Final publication applicability unverified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si_figures",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7286354/bin/NIHMS1587417-supplement-Supplementary_Figures.pdf",
+      "availability": "unavailable",
+      "reason": "Standard fetch PMC host cooldown; no rejected page read.",
+      "relevance": "relevant",
+      "inspection_scope": "Not read. Actual main-linked supplementary file; no inferred whole oligo or missing-information claim.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si_tables",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7286354/bin/NIHMS1587417-supplement-Supplementary_tables.xlsx",
+      "availability": "unavailable",
+      "reason": "Standard fetch PMC TDM download gate; not in Cloud bucket.",
+      "relevance": "relevant",
+      "inspection_scope": "Not read; actual main-linked workbook. No complete oligo coverage claim.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pubs.acs.org/doi/10.1021/jacs.9b13406",
+      "availability": "unavailable",
+      "reason": "Declared exact published ACS main standard fetch returned HTTP403; full final body not read, associated-AM equivalence unverified.",
+      "relevance": "relevant",
+      "inspection_scope": "Not read; publisher access failure, not source absence.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "targeted_owner_round38",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated author manuscript NIHMS1587417 main43–56/Methods76/96/100; selected cellular mRNA sequencing route, synthetic assays and gene-specific validation separated. Final publication applicability unverified.",
+      "locations": "Associated main Methods76/96/100; identity1–28; Results43–56.",
+      "findings": "Source-positive glyoxal modification, Ca-supported eEndoV–MBP affinity rather than cleavage, selected500ng replicate allocations, BSA buffer component, discarded unbound supernatant and retained elution supernatant, deprotection,8ng kit allocation and computational read2 crop. No validation primers or kit constructor imported. Associated manuscript Results52 approximately4ng versus detailed Methods96 8ng is retained in a graph source item/note; model uses detailed Methods, actual/final wording unverified.",
+      "deferred": [
+        "Declared exact published ACS main standard fetch returned HTTP403; full final body not read, associated-AM equivalence unverified.",
+        "Actual Supplementary Figures PDF and Supplementary tables workbook gates; full historical kit oligos/read geometry and published applicability unverified.",
+        "Exact glyoxal adduct occupancies/atom maps and deprotection outcomes; heterogeneous full RNA/library molecules, whole historical PicoV2 oligos, primers/index values, detailed RT/PCR/complete sequencing read landing.",
+        "Other replicate and frozen-comparator downstream preparations; no unsupported pooling or inherited kit recipe."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper4 hits/1 representation; main92 whole analytical primers read but not assigned to sequencing library; no unavailable SI original inspected.",
+      "verification": "14 focused checks PASS; source guard0exact0failed0exceptions0external oligo inputs; two explicit produced kit oligo components have unassembled bodies (outside external-input guard count). Chemistry23unresolved0contradictory. Independent selected root implementation recheck CLOSED."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Published final applicability and actual main-linked supplements deferred; superseded522029 preprint not active chemistry authority. No recursive predecessor or modern kit replacement.",
+    "deferred_targets": [
+      "Declared exact published ACS main standard fetch returned HTTP403; full final body not read, associated-AM equivalence unverified.",
+      "Actual Supplementary Figures PDF and Supplementary tables workbook gates; full historical kit oligos/read geometry and published applicability unverified.",
+      "Exact glyoxal adduct occupancies/atom maps and deprotection outcomes; heterogeneous full RNA/library molecules, whole historical PicoV2 oligos, primers/index values, detailed RT/PCR/complete sequencing read landing.",
+      "Other replicate and frozen-comparator downstream preparations; no unsupported pooling or inherited kit recipe."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified associated-AM private partial preparation; no complete chemistry, final-version equivalence or accepted absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_root_reader_round38",
+    "date": "2026-10-30",
+    "scope": "Same one associated manuscript NIHMS1587417/PMC7286354 only: Results43–56/52 and Methods76/96/100; no new original, final published body or unavailable SI read.",
+    "findings": "Source order, calcium1mM noncleaving eEndoV–MBP binding, source BSA/buffer inventory, bead preparation/selected allocation, captured/unbound/eluted fractions and subsequent deprotection consistent. Retained associated Results52 approximately4ng versus detailed Methods96 8ng discrepancy, with detailed Methods selected and final/actual value unresolved. Corrected explicit source i5/i7 molecular inventory components without claiming a premix/extra fresh stocks; complete orderings unassigned. Frozen500ng/30ul/-80C comparator fates now STORED; other replicate/remainders remain outside selected trace.",
+    "verification": "14 focused checks PASS after narrow fixes; external-input guard0exact0failed0exempt0unknown, plus2 explicit produced unassembled oligo components;23 unresolved0contradictory chemistry. Selected implementation closure only, not complete final-source/molecular validation or accepted absence audit."
+  }
+}

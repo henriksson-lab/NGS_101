@@ -1,0 +1,91 @@
+{
+  "dir": "sissor__10.1073+pnas.1707609114",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sissor__10.1073+pnas.1707609114/pnas.1707609114_PMC5703283.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5703283.1/PMC5703283.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedPNAS2017original",
+      "pass_1": {
+        "reviewer": "round10_coordinator",
+        "date": "2026-10-29",
+        "locations": "Publishedidentity/mainResults64–74/Fig1,Methods164,mapping168;originalPDFp6rendered",
+        "finding": "Alkalinepaired-strandseparation/random24chamberpartition/separateMDA/indexedlibrarypooling;source3′phosphorylatedhexamerwordingretained,notreinterpreted."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sissor__10.1073+pnas.1707609114/pnas.1707609114_supp_pnas.1707609114.sapp.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5703283.1/pnas.1707609114.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedPNAS2017original",
+      "pass_1": {
+        "reviewer": "round10_coordinator",
+        "date": "2026-10-29",
+        "locations": "PublishedSIAppendixI.1–I.5;I.7–I.8overview;QCprimercontextsTableS9/text1761–1767",
+        "finding": "DistinctCoRECell3/transposonCell2libraryoperationroutesandrunoptionssource-qualified;notinventedCell1same-chambersplit."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round10_coordinator",
+      "date": "2026-10-29",
+      "locations": "MainRefs18/22 andSI I.3/I.4",
+      "finding": "Historicalmethod/kitidentitiesandchemicalendgeometryremainunreviewed;noindependentfullsourceorabsencepass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Peters etal2012Nature487:190–195,mainRef18/SIRef1",
+      "scope": "ActualCoRE/librarypredecessor;notentiremethodinheritance."
+    },
+    {
+      "locator": "Adey etal2010GenomeBiology11:R119,mainRef22",
+      "scope": "Actualtagmentationpredecessor;historicalpolymer/primerandversionunreviewed."
+    }
+  ],
+  "open_questions": [
+    "HistoricalMDApriming/endnotationandformulation,notassumedordinary3′OH/PS.",
+    "Fullsourcegenomic/fragment/adapter/index/PCR/rungeometry.",
+    "Remainingresulttablesandindependentoriginal/linked-materialreview."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "round10_coordinator",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "DefiningpublishedmainandSIbeforelinkedmethods;no recursivechase.",
+      "locations": "Exactscopedsourcesectionsabove",
+      "findings": "DistinctsourceSISSORpartitionandtwooperationalindexedlibraryroutes;no deterministicrecovery/purity/consensus-errorclaims.",
+      "deferred": [
+        "Historicalmethod/kitandfullmoleculargeometry",
+        "Independentcompleteoriginal/linkedmaterialreview"
+      ],
+      "oligo_scraper": "Wholebundle8hits;4publishedQCprimerhitsand4supersededpreprintsupplementhits. PublishedQCcontextschecked;preprintnotused;notabsenceevidence."
+    }
+  ],
+  "superseded_sources": [
+    {
+      "doi": "10.1101/135384",
+      "disposition": "Automaticallyfetchedpreprintv1/supplementexcluded;publishedoriginalsavailable. No chemical equivalence assumed."
+    }
+  ],
+  "conclusion": "Cappedpublished-sourcepass,privateincompletegraphs;noacceptedmissinginformationorfullchemicalvalidation.",
+  "local_validation": {
+    "selftest_checks": 11,
+    "result": "pass"
+  }
+}

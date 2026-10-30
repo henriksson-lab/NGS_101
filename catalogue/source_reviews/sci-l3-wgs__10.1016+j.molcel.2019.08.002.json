@@ -1,0 +1,69 @@
+{
+  "dir": "sci-l3-wgs__10.1016+j.molcel.2019.08.002",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-l3-wgs__10.1016+j.molcel.2019.08.002/j.molcel.2019.08.002_PMC6874760.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6874760.1/PMC6874760.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedAMPMC6874760 main276\u2013298/Fig1Bcaption764/Fig2caption770;1original. Finalpublished/SI/TableS5oligowhitelistsunreviewed/gated. RNA-DNAcoassayandtargetedbranchseparate.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "table_s5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6874760/bin/NIHMS1537467-supplement-5.xls",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6874760/bin/NIHMS1537467-supplement-5.xls",
+      "availability": "unavailable",
+      "reason": "Standardfetcher PMC download gate/hostcooldown; notavailableinTDMCloudbucket.",
+      "relevance": "relevant",
+      "source_version": "Associatedmain explicitTableS5 oligos; actualworkbookunread",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph. No complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "dna_round25",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Before-open original counter /tmp/round25-dna-original-counts.tsv; source investigation closed2/1/2, no overrun.",
+      "locations": "AssociatedAMPMC6874760 main276\u2013298/Fig1Bcaption764/Fig2caption770;1original. Finalpublished/SI/TableS5oligowhitelistsunreviewed/gated. RNA-DNAcoassayandtargetedbranchseparate.",
+      "findings": "sci-L3-WGS selected cultured-cell DNA route",
+      "deferred": [
+        "Publishedfinal/associatedSI/TableS5original andhistoricalkitfinish;bc1widthgarbledasxrefXXinJATS, notinvented. RNAprimer/foldbackRT andone-versus-two-sidedligation remain explicit unassembledsubstrateclasses."
+      ],
+      "oligo_scraper": "MandatoryscrapersSMM6/2,Sci13/1,Methyl18/1; originalSMMp4 andMethylSITablep4inspected.",
+      "verification": "39focusedchecks pass across3graphs;guard9wholetextmatches0failed8independentlyverifiedformattingexemptions5unassembledinputs;chemistry81unresolved0contradictory. No complete molecularvalidation oracceptedabsence claim."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted25_reader",
+    "date": "2026-10-30",
+    "scope": "AssociatedAM276\u2013298 including numberedhairpin/SSSpatterns andRNAprimerorder; finalversionunreviewed. Selected critical implementation and all8text-formattingexceptions independentlyverified; notfull linked-source orabsenceaudit.",
+    "finding": "Both whole-format exceptions match all fixed source components and variable-window meanings. External RNA primer is introduced once before annealing; a produced same-tube retained oligo component is then consumed as STRUCTURAL at RT, without asserting intramolecular geometry. Source cell-barcode/IVT-transcript UMI and one/two-sided ligation limits preserved; 15 checks pass."
+  },
+  "text_matching_exceptions": {
+    "bc2_ligate_oligo_0": "Allsix numberedsourcecomponents/variablebc2windows verified inAM288.",
+    "sss_oligo_0": "Fullsourcepattern N4UMI/Z6bc3/sp2 verified inAM296; concretecellcodesunassigned."
+  },
+  "implementation_followup": {
+    "reviewer": "root_round25_reader",
+    "scope": "External RNA primer provenance and InputRole semantics only; no new originals.",
+    "finding": "Replaced inappropriate SELF_PRIMER role with explicit produced co-retained K.OLIGO component, consumed as STRUCTURAL; template component separately excludes primer. Two meaningful role/provenance regressions pass.",
+    "independent_reviewer": "independent_targeted25_reader",
+    "independent_finding": "Narrow final fix inspected: same-tube template and retained K.OLIGO RNA primer preserve source RNA inventory and chemical state; RT consumes produced retained primer as STRUCTURAL, with no SELF_PRIMER or second stock addition. Foldback geometry remains unassembled. All 15 checks independently rerun pass; no additional originals read or absence audit."
+  }
+}

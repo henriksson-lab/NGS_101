@@ -1,0 +1,92 @@
+{
+  "dir": "m6a-orl-seq__10.1039+d2sc03181g",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/PMC9600483.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main-associated original; no preprint recipe adopted",
+      "inspection_scope": "PublishedmainFig1actualPDFp2/Methods73\u2013121; reactionsequence/RNA-specificdoses, twoDTTeluates, N10versushexamer andPE150 source.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "esi",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/SC-013-D2SC03181G-s002.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main-associated original; no preprint recipe adopted",
+      "inspection_scope": "PublishedESIpart10S20\u2013S22/originalPDFp20/21 operative tables/program, TableS1FP/RP wholeoligos; no reagent-synthesis procedure adopted.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "workbook",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/SC-013-D2SC03181G-s001.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main-associated original; no preprint recipe adopted",
+      "inspection_scope": "FirstsheetMeRIP_1header andinitialcoordinate rows only; analyticaldataidentity, notchemistryfacts.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Analytical workbook identity relevant to source inventory; only firstsheetmetadata inspected, no claim about all chemistry relevance or contents."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-36",
+      "reviewer": "round36_orl_implementation_worker",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedmainFig1actualPDFp2/Methods73\u2013121; publishedESI10S20\u2013S22(actualPDFp20/21layoutandTableS1wholeoligos); thirdXLSX-s001 firstMeRIP_1sheetheader/coordinate-rowidentityonly. Closed3-original source pass, no vendor/predecessor/reagent-synthesis originals.",
+      "locations": "MainFig1PDFp2/Methods73\u2013121; ESI10S20\u2013S22/PDF20\u201322 andTableS1wholeoligos; workbookfirstsheetheader/coordinate-rowidentityonly.",
+      "findings": "PreparedNO/TDO/BA molecularreactants andRCCorder; Bm6AtoTm6ADTTdisulfidecleavage retainsRNAthiolatedadduct, actualtwoeluates/pooledRNA distinctresidualbeads; carrieraddedafterchemistry;50ngRNAselection/QC/remainders; ATP-notlistedPNK withnoRNA5Pcreationclaim;19nt5rApp/3non-nucleotideC3linker and20ntRTprimer19bppair/5Aoverhang; deAdthenRecJf;32ntDNA5adaptorN10randominlinefragmentbarcodeonly; sourceN10/N6andtemperaturewordingremainvisible; actual3ulqPCRand23ulproduction/4ulremainder; onephysicalQ5masterstock; fullNEBprimers/readlandingunassembled.",
+      "deferred": [
+        "Complete atom-resolved RNA/BA/disulfide products and occupied transcript/end distributions; qualitative residue-marker path only, no RNA yield transferred from free nucleosides.",
+        "Historical RNA purification/polyA/PNK/NEB library kit originals and predecessor reference9; ordinary unread, no absence conclusion or claimed access failure.",
+        "Whole RNA3/cDNA ligation substrates, end heterogeneity, all unreacted/off-product populations and complete adapter/PCR/library strand geometry.",
+        "Named NEB universal/index primer whole bodies/selected index identities and exact acquired index/read-primer landing; not supplied by apparent kit resemblance.",
+        "Resolve source main119N10decamer-versus-hexamer preprocessing wording and ESI10c42/52CRTprogram-versus-immediatelyfollowing37Chandlingwarning without silent repair.",
+        "Other totalRNA/modelRNA/MeRIP/SELECT/comparative synthesis/library branches remain outside selected5ug293TpolyA preparation."
+      ],
+      "oligo_scraper": "Mandatorywholebundlerun /tmp/ngs36-orl-scraper.log bycoordinator; workerverified adopted ESIpart10modifiedwholelinkers/RT/TableS1FP-RP sourcepointers andactualoriginal tables. Model/HEXoligosnotadoptedaslibraryreagents.",
+      "verification": "25localchecks pass;5sourceguardwholeinputschecked/0failed/0exempt/2unassembledNEBprimerinputs;39steps/40unresolved/0contradictory chemistry. Rootcriticalinventoryreview requestedfixes applied and rechecked; same3originalcapclosed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Historicalkit/predecessor originalsfollowup deferred. Thirdanalyticalworkbook was inspected foridentityonly, notjudged globally irrelevant. Reagentmanufacture andcomparisonbranches excluded from selected graph, not claims of absent source information.",
+    "deferred_targets": [
+      "Complete atom-resolved RNA/BA/disulfide products and occupied transcript/end distributions; qualitative residue-marker path only, no RNA yield transferred from free nucleosides.",
+      "Historical RNA purification/polyA/PNK/NEB library kit originals and predecessor reference9; ordinary unread, no absence conclusion or claimed access failure.",
+      "Whole RNA3/cDNA ligation substrates, end heterogeneity, all unreacted/off-product populations and complete adapter/PCR/library strand geometry.",
+      "Named NEB universal/index primer whole bodies/selected index identities and exact acquired index/read-primer landing; not supplied by apparent kit resemblance.",
+      "Resolve source main119N10decamer-versus-hexamer preprocessing wording and ESI10c42/52CRTprogram-versus-immediatelyfollowing37Chandlingwarning without silent repair.",
+      "Other totalRNA/modelRNA/MeRIP/SELECT/comparative synthesis/library branches remain outside selected5ug293TpolyA preparation."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive privatepartial operational preparation with sourcequalifiedqualitativemarker/release/knownnarrowdonorends/localRTpairing. WholeRNA/chemical/PCR/readgeometry andconflictingwordingremainexplicit; notcomplete source/reaction validation oracceptedabsenceaudit.",
+  "implementation_review": {
+    "reviewer": "coordinator_round36_critical_review",
+    "date": "2026-10-30",
+    "scope": "Same three selected originals only; critical source/inventory and local implementation review, not a full source or second absence audit.",
+    "findings": "Root confirmed selected chemistry, source donorends, N10/PNKnoATP andtwoDTTeluates. Requested inventory fixes applied: removed unsupported finalDNAQCalicot, retained actualRNAQubit/cycleqPCR; one5ulSYBRmasterstock decomposes to copresentenzyme/nucleotide/dye/buffercomponents consumedbyQC; released activationAMP is copresent inRNA3ligation/deAd/RecJfmixture throughOCCworkup withunassignedpartition/fates, no imaginedphysicalAMPbranch; RTbindingscene nowusespartialpostligationRNA+knownDNA19/3SpC3template withno5rApp,19bppair andunpaired5A.",
+    "verification": "25localchecks rerunpass; sourceguard5wholeinputschecked/0failed/0exempt/2unassembledNEBprimerinputs;39steps/40unresolved/0contradictory chemistry. Notes/ref render checked after changes.",
+    "absence_pass_2": false
+  },
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round36",
+    "date": "2026-10-30",
+    "scope": "Same selected main/ESI originals, including rendered ESI S20/S21 tables and code inventory; selected critical implementation review only, not absence pass_2.",
+    "findings": "Verified donor 5rApp/3SpC3 and 5P/N10/3SpC3 ordering, RT 19bp/5A duplex after activation release, actual qPCR versus production aliquots. Confirmed removal of unsupported final QC, one physical SYBR stock components and copresent AMP until workup. Whole substrates/read geometry and named NEB primers remain unassembled; source wording discrepancies retained.",
+    "absence_pass_2": false
+  }
+}

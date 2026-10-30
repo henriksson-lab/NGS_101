@@ -1,0 +1,67 @@
+{
+  "dir": "time-chip__10.7554+eLife.15316",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://cdn.elifesciences.org/articles/15316/elife-15316-v2.xml",
+      "original": "https://cdn.elifesciences.org/articles/15316/elife-15316-v2.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round27",
+        "date": "2026-10-30",
+        "locations": "Methods343\u2013355/383\u2013385;PDFp18;Bowmanreferenceidentity",
+        "finding": "Positivepublishedprep/control/readoutevidence;selectedscopeonly."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "s5",
+      "role": "supplement",
+      "locator": "https://cdn.elifesciences.org/articles/15316/elife-15316-supp5-v2.xlsx",
+      "original": "https://cdn.elifesciences.org/articles/15316/elife-15316-supp5-v2.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round27",
+        "date": "2026-10-30",
+        "locations": "OriginalwholeS5workbookSheet1controlsandemptySheet2/3",
+        "finding": "Positivepublishedprep/control/readoutevidence;selectedscopeonly."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "coordinator_round27",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main349\u2013355/385 and referenceBowmanidentity; S5wholecontrols. Sourceidentityselectionrecordedbeforeopens. Mainembeddedreviewcorrespondenceappearedinindexingbutunusedaschemistry. Sourceinvestigationclosedwithin10minutes, correction/modelverificationafterward.",
+      "locations": "Publishedmain343\u2013355/383\u2013385,referenceBowman;actualPDFp18,S5Sheet1andemptySheet2/3",
+      "findings": "Positive SNAPpulse/cohort/nativeMNase/capture/librarydelegation/readout. Literal500MNaClapparentuniterrornotnormalized; actualPDFfixesmu-extractionartifacts. Controls physicallyjoinlibrarythroughSPIKE_IN.",
+      "oligo_scraper": "Mandatory17hits/2files: S5controlsverifiedagainstoriginalXLSX; S6analyticaltargetprimerhitsnotdeclaredaslibraryprimers.",
+      "deferred": [
+        "DirectlycitedBowman2013main/chemistrySI",
+        "Othermain/supplement/temporal-armdetails andnucleiextraction"
+      ],
+      "verification": "6focused;0exactoligoinputs/0failed/0unknownoligoinputs;5molecularcontrolstrandsindependentlyXLSXchecked;23unresolved/0contradictory narrowchemistryclaims. Independentselectedcriticalreviewpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Bowman2013 DOI10.1186/1471-2164-14-466 actualdelegatedlibraryoriginalunread; cell-lineandcomparatorassayreferencesnotfollowed. S6originalunread. Notfullsource/absenceaudit."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive partialprivate0hrgraph. Twoavailableoriginals;ordinaryunassembledlibraryboundary, no sourceabsence/accessblockinvented.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round27",
+    "date": "2026-10-30",
+    "scope": "Publishedv2main349\u2013355/385, sameoriginalPDFp18render, wholeS5originalXLSX. Same2originals; noBowman/vendor/remaininglinked-sourceaudit.",
+    "finding": "CP-biotinstructuralproteinlabeling/medium,0hrone-fifth/retainedfuturecohort,400ulallocation,nativeMNase/capture/washes/SDS-RNaseAelutioncorrect. Literal500MNaCl/50mgBSAandrealmu-unitsverifiedoriginalPDF. All5whole150basecontrolstrandsmatchindependentXLSX;equimolarpool/fixed0hrDNA/10000spikeandunassignedphysicalends/stage retained. PE50HiSeq2500andopaqueunreadBowmanboundaryconsistent;6focusedpass. No criticalselectedscopeissue,notfullreaction/source/absenceaudit."
+  }
+}

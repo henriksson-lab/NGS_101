@@ -1,0 +1,47 @@
+{
+  "dir": "glass-seq__10.1016+j.bios.2026.118973",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "needed0",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S0956566326006056",
+      "availability": "unavailable",
+      "reason": "ActualdeclaredpublishedmainstandardfallbackHTTP403; centralpreparation andactualchemistrySIlinksneeded. No validatedoriginal/sourcebody.",
+      "relevance": "relevant",
+      "inspection_scope": "No validatedoriginalopened; no sourceabsenceconclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "No validatedoriginalopened; sourceMANIFEST/acquisitionresults only, notarticlechemistry.",
+      "locations": "ActualstandardMANIFESTdeclaredpublishedmainHTTP403/zero validatedfiles; no originalread.",
+      "findings": "Registered GLASS-seq discovery identity; standarddeclaredpublishedmain403 andzero validatedoriginals leavecentralgel-anchoredreporterpreparationunreviewed. No graph orcountablechemistrycuration.",
+      "deferred": [
+        "Actualfullpublishedmain andits chemistrySI mustberead; exactSIidentitynotverified, notguessed.",
+        "NoHybriSeq/otherreporterconstructor inherited fromdiscoveryname/similarity. No sourceabsencefromemptybundle."
+      ],
+      "verification": "47focusedPASS(Perturb22/EP25);two-graphguard6exact0fail0exceptions0unassembledintroducedinputs;6established128unresolved0contradictory. FullsourcefixturescheckadditionalproducedPCRinventory; notcompletechemicalvalidation. GLASSuncollected/nograph.",
+      "oligo_scraper": "MandatoryscrapersPerturb205candidates/2representations;EP9/2;GLASS0/0emptybundle. Originalwholeoligosindependentlyverified, nonegativeinferencefromscraper."
+    }
+  ],
+  "pass_1": null,
+  "pass_2": null,
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Namedordinaryunread/actualunavailablesourcesandunassembledmodelvaluesretained; cappedpassnotabsencegate."
+  },
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round34",
+    "date": "2026-10-30",
+    "scope": "Exactexistingvalidatedbundle/manifest andprivateaccess-boundarynote only; zero actualoriginals acquired/read, no blockedhostretrieval retried.",
+    "findings": "Independentlyconfirmedmanifest has only manual DOI/fullmain rows and no validatedarticle/chemistryoriginal orprotocolmodule. Uncollected/no-graphdisposition justified; SIidentityunassigned andnotguessed. Empty scraper notabsenceproof; no predecessorrecipe inherited.",
+    "verification": "Sourceaccess/modelboundarycheck closed; no fabricatedchemistryorabsencepass2."
+  }
+}

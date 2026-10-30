@@ -1,0 +1,240 @@
+{
+  "dir": "rg4-seq__10.1038+nmeth.3965",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth.3965",
+      "original": "https://doi.org/10.1038/nmeth.3965",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM352_ESM.xls.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM352_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM353_ESM.xls.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM353_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM354_ESM.xls.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM354_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM355_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM355_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Fig1/2workflow/copydirection; Notes2/3in-vitro and coverage limits",
+        "finding": "Exact modified adapters and source-known preparation order through PCR/NGS; separate condition graphs, no sequence-based fold/activity guarantees. Full main blocked."
+      },
+      "pass_2": null,
+      "source_version": "Published SI"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM356_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM356_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Library3adapter/RTprimer/5adapter/PCRrows, exact5rApp/5phosphate/3C3modifications; controlRNArows only as assay context",
+        "finding": "Exact modified adapters and source-known preparation order through PCR/NGS; separate condition graphs, no sequence-based fold/activity guarantees. Full main blocked."
+      },
+      "pass_2": null,
+      "source_version": "Published oligoTable1 original"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM357_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM357_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM358_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM358_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM359_ESM.xls.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM359_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM360_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM360_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM.zip.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM_script_RNAstructure_analysis.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip#Supplementary_Software/script_RNAstructure_analysis.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM_script_RTSscoring_minus_4reps_inds_seq.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip#Supplementary_Software/script_RTSscoring_minus_4reps_inds_seq.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM_script_RTSscoring_plus_4reps_inds_seq.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip#Supplementary_Software/script_RTSscoring_plus_4reps_inds_seq.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM_script_feature_distance.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip#Supplementary_Software/script_feature_distance.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM_script_rG4s_motif_analysis.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip#Supplementary_Software/script_rG4s_motif_analysis.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM361_ESM_script_utr_plots.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM361_ESM.zip#Supplementary_Software/script_utr_plots.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "locations": "Selected exact source sections above and protocol notes",
+      "finding": "Exact modified adapters and source-known preparation order through PCR/NGS; separate condition graphs, no sequence-based fold/activity guarantees. Full main blocked. Directly named originals deferred at source cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nmeth.3965",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Exact main preparation/workups, enzyme conditions/strand/end assembly and acquisition/run geometry. Later2.0oroptimization procedures not substituted."
+  ],
+  "conclusion": "Notes-only capped first source/implementation pass. No full chemical/readout/source completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining/chemistry originals first, no recursive source chase",
+      "locations": "Fig1/2workflow/copydirection; Notes2/3in-vitro and coverage limits; Library3adapter/RTprimer/5adapter/PCRrows, exact5rApp/5phosphate/3C3modifications; controlRNArows only as assay context",
+      "findings": "Exact modified adapters and source-known preparation order through PCR/NGS; separate condition graphs, no sequence-based fold/activity guarantees. Full main blocked.",
+      "deferred": [
+        "https://doi.org/10.1038/nmeth.3965"
+      ],
+      "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
+      "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

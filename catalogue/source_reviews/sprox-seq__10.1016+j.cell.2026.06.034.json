@@ -1,0 +1,42 @@
+{
+  "dir": "sprox-seq__10.1016+j.cell.2026.06.034",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S0092867426007543",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "ActualpublishedmainretrievalHTTP403; no fullpreparationoriginalreceived/read; mandatoryscraper0readablefiles.",
+      "reason": "Actual exact published-main URL returned HTTP403; full source not received."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "ActualpublishedmainretrievalHTTP403; no fullpreparationoriginalreceived/read; mandatoryscraper0readablefiles.",
+      "locations": "ActualpublishedmainretrievalHTTP403; no fullpreparationoriginalreceived/read; mandatoryscraper0readablefiles.",
+      "findings": "Published-source retrieval blocked; registered identity alone is not counted as a collected preparation.",
+      "deferred": [
+        "Publisheddefiningmain403;actualpreparationandchemistrySIlinksneeded."
+      ],
+      "oligo_scraper": "Mandatorybundle run: SPACE9candidates/1main;Sprox0/0,Bridge0/0. Onlyselectedreadoriginalwasauthority.",
+      "verification": "29focusedchecks(SPACE14/RASL15)pass;4localwhole-orderingchecksagainstselectedoriginaltextincluded. Standardinput-onlysourceguard0exact/0failed/0exceptions/2unassembledover2graphs(bulkprimercomponentsareproducedmaterials). Chemistry0established/48unresolved/0contradictory;notcompletevalidation."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Relevantunreadoriginalsremainopen;no full linked-source or absence review."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S0092867426007543",
+      "why": "Publisheddefiningmain403;actualpreparationandchemistrySIlinksneeded."
+    }
+  ]
+}

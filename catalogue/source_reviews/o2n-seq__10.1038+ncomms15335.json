@@ -1,0 +1,57 @@
+{
+  "dir": "o2n-seq__10.1038+ncomms15335",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/o2n-seq__10.1038+ncomms15335/ncomms15335_PMC5458117.xml.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5458117/",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published NatureCommunications2017 PMC5458117 main Methods121\u2013151/Results65\u201367/analysis165\u2013172; published SI Fig1 caption read. Full SI graphical geometry deferred rather than inferred from caption.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/o2n-seq__10.1038+ncomms15335/ncomms15335_supp_ncomms15335-s1.pdf.txt",
+      "original": "https://www.nature.com/articles/ncomms15335#Sec22",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published supplementary Fig1 caption and remaining figure captions; original graphical layout deferred",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive published preparation; private partial graph. No full-source, missing-information or public-promotion claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "dna_round23",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Selected source sections only; investigation stopped before linked-source expansion.",
+      "locations": "Published NatureCommunications2017 PMC5458117 main Methods121\u2013151/Results65\u201367/analysis165\u2013172; published SI Fig1 caption read. Full SI graphical geometry deferred rather than inferred from caption.",
+      "findings": "o2n-seq \u2014 nick-controlled single-strand circle copying",
+      "deferred": [
+        "Published SI Fig1 original graphical layout; exact second-strand primer/o2n-blocker and NEXTflex514102 historical primer/adapter geometry; third-party vendor originals; optional0.42MbRoche capture is separate from selected uncaptured route."
+      ],
+      "oligo_scraper": "Mandatory scraper run and relevant main-source literals verified; not absence evidence.",
+      "verification": "25focusedchecks across3DNAgraphs pass; sourceguard7exact0failed8unassembled; chemistry0established0conditional65unresolved0contradictory. Independent selected-source critical review closed; no complete molecular validation."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna23_reader",
+    "date": "2026-10-30",
+    "scope": "Selected published main critical implementation review; not full linked-source or absence audit.",
+    "finding": "Publishedmain121\u2013147: first adapter\u2192sscircle\u2192ExoI/III/Fpg\u2192T4secondstrand\u2192USER\u2192Bst\u2192separateNGSadapter/PCR correct; comparatorPhi29Cir-seq not imported."
+  }
+}

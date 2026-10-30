@@ -1,0 +1,66 @@
+{
+  "dir": "smash__10.1101+gr.201491.115",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4889966.1/PMC4889966.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC4889966identity/Results36\u201350/Methods112\u2013120;actualFig1originalPDFp2andMethodsPDFp7. InitialSSCsonication/restrictionroute, notSMASH2.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "actual_supplement_landing",
+      "role": "supplement",
+      "locator": "http://genome.cshlp.org/lookup/suppl/doi:10.1101/gr.201491.115/-/DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "ActualJATS-linkedDC1route attemptedoncethroughdeclaredstandardfetcher; nooriginalreturned.",
+      "reason": "Actualcurl47redirectfailure; genericdownloadedsupplementaryZIPonlymainfigureimages. Notabsence.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "dna_owner_round41",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "CappedpublishedinitialSSCpreparationonly; sourceinvestigationclosed, implementation/testingseparate.",
+      "locations": "PublishedPMC4889966identity/Results36\u201350/Methods112\u2013120;actualFig1originalPDFp2andMethodsPDFp7. InitialSSCsonication/restrictionroute, notSMASH2.",
+      "findings": "Physicalshortfragmentconcatenation/actualAMPuresupernatantthenbeadfractions/8PCR/SSCPE101 supported. Fig1caption250\u2013700versusMethods300\u2013700 andliteralKlenowexo(no minus) preservedwithoutdefaultrepair. Wholeadapters/primers/genomicjunctionsunassembled. Sourcepositive3A substrate-onlypartialScene/typedendretainedwithoutadapterabsencewording; actualPCRaggregateforward/reverseclasses andunassembledtypedPCRbindinggeometry exposed.",
+      "deferred": [
+        "DirectlycitedIossifov2012DOI10.1016/j.neuron.2012.04.009adapteroriginalordinaryunread; nosequenceinheritance.",
+        "ActualSupplementalMethods/DC1inaccessiblewithredirectfailure; no guessedattachment.",
+        "Historicalvendorreagentmanuals andSMASH2fragmentasebranchordinaryunread beyondmainoverview; notadditionalcountedmethod."
+      ],
+      "oligo_scraper": "Mandatorywholeavailablebundle10hits/1file; no sourcewholeadapterassignedfromnohit orcanonicalendpoint. Actualmainfiguresinspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "DC1actualsupplementroutefailed; citedIossifov2012andhistoricalreagentsordinaryunread. Noabsenceorcompleteversionaudit."
+  },
+  "missing_claims": [],
+  "conclusion": "SourcepositiveprivatepartialinitialSSCpreparation; same1publishedoriginalcriticalimplementationpeerCLOSED. Sourcepositive3Asubstrate-onlyinterface andaggregatefunctionalPCRprimerclassesretained; unreadadapterpredecessor/wholejunctionsremainunassembled, noacceptedabsence/fullchemicalaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round41",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 1,
+    "scope": "Same ONE published gr.201491.115_PMC4889966.xml(.txt), Methods120/Results36\u201350 plus actualFigure1PDFp2/MethodsPDFp7. No DC1 supplement, Iossifov2012 or other source original opened.",
+    "findings": [
+      "Verified source2.5xshort-fragment removal RETAINS supernatant, followed by actualshortfragmentpolish/randomintermolecularconcatligation/cleanup/secondpolish/A-tail/adapterligation. Final0.6xbeadstep also RETAINSsupernatant, then8ul additionalbeads are0.16xORIGINAL50ul and sourceDNAis recovered from bead-bound fraction; no reversedfractionorwrongdenominator inherited.",
+      "Known source intended3A substrate class is now drawn in partial substrate-onlyScene with a typed substrate3primeend, while adapter/occupiedjunction geometry stays manually unavailable/unassembled. Removed default overhang-not-reported absence wording; citedIossifovadapter and actualSI remain unreviewed.",
+      "ActualPhusionHFmaster supplies copresentenzyme/NT/buffer; oneaggregatePCRprimerinventory exposes forward/reversefunctionalclasses with wholebodies/speciescounts/packaging unassigned. TypedPCR retains unavailablebindinggeometry, no fabricated canonicalprimer or historicaladapter recipe. Analyticalfractions/samplepool/loadingaliquotsanduntransferredstocks remainseparate.",
+      "OriginalFigure1caption250\u2013700bp versusResults/Methods300\u2013700bp bothreadandretained without claimingperfectbeadcutoffs. OriginalPDFp7 printsKlenow3prime\u21925primeexo withoutminus; enzymeform and fullendpolish/A-tailformulations remainunassembled, not silentlychangedtoexo-minus or provedpublicationerror. SSCPE101branch distinctfromSKBR3PE150; computationalchimeramapping notphysicalDNAcutting."
+    ],
+    "verification": "18focusedPASS; sourceguard0exact0fail0exceptions/1unassembledexternaladapter plus2producedunknownPCRprimerclassesoutsideexternalguard; chemistry30unresolved0contradictory. Selectedimplementationreviewclosed, not complete chemistry/source/absenceaudit."
+  }
+}

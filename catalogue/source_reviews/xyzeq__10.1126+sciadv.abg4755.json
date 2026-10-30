@@ -1,0 +1,78 @@
+{
+  "dir": "xyzeq__10.1126+sciadv.abg4755",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8059935.1/PMC8059935.1.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8059935.1/PMC8059935.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round24",
+        "date": "2026-10-30",
+        "locations": "PublishedResults136/Fig1A-B renderedPDFp3,Methods210\u2013222/238,same-originalreferences17/18.",
+        "finding": "Actual source preparation and two oligo patterns verified; full cocktail/end/read geometry unassembled."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "http://advances.sciencemag.org/cgi/content/full/7/17/eabg4755/DC1",
+      "original": "http://advances.sciencemag.org/cgi/content/full/7/17/eabg4755/DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact printed SI index returnedHTTP403. Fetched ePMCZIP contains only mainfigureimages; filenames of actual SI originals unassigned.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null,
+    "deferred_originals": [
+      {
+        "locator": "https://doi.org/10.1126/science.aam8940",
+        "role": "predecessor",
+        "availability": "not_assessed",
+        "sections_inspected": "None in this pass",
+        "disposition": "Main credits combinatorialindexing; whole chemistry inheritance not established."
+      },
+      {
+        "locator": "https://doi.org/10.1126/science.aam8999",
+        "role": "predecessor",
+        "availability": "not_assessed",
+        "sections_inspected": "None in this pass",
+        "disposition": "Main strategy citation only; no constructor inheritance."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Positive prep notes/private incompletegraph; actualSI blocker, not acceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-24",
+      "reviewer": "coordinator_round24",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "One published original inXML/PDF render; no additional original read. Bounded source inspection closed before modelling.",
+      "locations": "PublishedResults136;Methods210\u2013222/238;same-mainrefs17/18;Fig1A/B originalPDFp3.",
+      "findings": "SpatialRT and subsequent secondRT/PCRwelli5,sourceoligos/UMIspatialroles/readcycles checked. Full cocktails/loadedNexteraends and separate-inputpoolgeometryunassembled.",
+      "oligo_scraper": "Mandatory6candidates acrossPDF/XMLtwins; relevantactualoriginal pointersverified, notabsenceevidence.",
+      "deferred": [
+        "Actual publishedSI methods andchemistry/oligotables fromprintedindex",
+        "Whole molecular/readgeometry and directlycitedmethodcomponents"
+      ],
+      "verification": "7focusedchecks;1exactsourceinput/0failed/0exempt/6unassembledinputs;17unresolved/0contradictory. Independentcriticalreviewpending."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round24",
+    "date": "2026-10-30",
+    "scope": "Same publishedmain136/210\u2013222 and renderedFig1A/Bp3; one original; note/graph/sevenfocusedchecks. NoSI/predecessor/fullabsenceaudit.",
+    "finding": "No consequential issue. Whole oligo patterns, spatial16/UMI10/PCRwelli5cell meaning, physical order and source limitations agree. Exact duplex/readbinding geometry not asserted."
+  }
+}

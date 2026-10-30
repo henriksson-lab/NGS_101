@@ -1,0 +1,115 @@
+{
+  "dir": "cap-seq-long-read-microbiome__10.1101+2024.09.10.612220",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-long-read-microbiome__10.1101+2024.09.10.612220/2024.09.10.612220_v3.full.pdf.txt",
+      "original": "https://www.biorxiv.org/content/10.1101/2024.09.10.612220v3.full.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "bioRxivv3,13October2025",
+      "pass_1": {
+        "reviewer": "round09_coordinator",
+        "date": "2026-10-29",
+        "locations": "Printedv3header;Methodspp19–23/text711–887;analysis893–901;Fig1b/SuppFig1captions1297–1330;sourcep22rendered;finalPDFpp52–54rendered",
+        "finding": "OperationalcapsuleDNA/barcoding/ONT route;mix348µLvscomponent372µLverified;hardwarelabelsunreconciled;no actualfullprimerinventory."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "supplement_index",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-long-read-microbiome__10.1101+2024.09.10.612220/2024.09.10.612220v3.supplementary-material",
+      "original": "https://www.biorxiv.org/content/10.1101/2024.09.10.612220v3.supplementary-material",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "bioRxivv3,13October2025",
+      "pass_1": {
+        "reviewer": "round09_coordinator",
+        "date": "2026-10-29",
+        "locations": "HTMLtitleandanchorlinkinventory,exactrevisionpath",
+        "finding": "Indexavailable;noTable1originallocatedthispass;notabsenceaccepted."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "table1",
+      "role": "supplement",
+      "locator": "Actual SupplementaryTable1 explicitly cited in bioRxivv3Methods887",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Originaltableidentity/locationunresolved;cappedpassdidnotlocateit;noinventedURLorconfirmedabsence.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "historical_vendor",
+      "role": "vendor",
+      "locator": "Source Methods878–886, SQK-LSK114/SQK-NBD114.24 and generic nanoporetech.com/products/prepare/dna-library-preparation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exacthistoricalprotocolrevisionunidentified/unreviewed;currentpagecannotestablishversionequivalence.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round09_coordinator",
+      "date": "2026-10-29",
+      "locations": "Sourcev3Methods/materialandbeadreferences12/13/20/32;SupplementaryTable1andvendorhandoff",
+      "finding": "Actualdirectlinkedtargetsidentified,notrecursivelyread;tableandhistoricalvendoridentityunresolved."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Sourcev3SupplementaryTable1",
+      "scope": "Identifyactualprimeroriginal;desiredprimercomponentsnotinventedasdisclosuredocument."
+    },
+    {
+      "locator": "Li2022AdvSci9:2203652 andLi2024AnalChem96:20465–20474,sourceRefs12–13",
+      "scope": "Sourcecapsulematerial/permeabilitycharacterizationonly;noassumedNGSpredecessor."
+    },
+    {
+      "locator": "DelleyandAbate2021SciRep11:10857,sourceRef32",
+      "scope": "Barcodebeadfabrication;exactsourceprimerpolymerremainunassembled."
+    },
+    {
+      "locator": "SourceONTkitgenericmanufacturerURL",
+      "scope": "Actualhistoricalversionandhandofforderremainunassigned."
+    }
+  ],
+  "open_questions": [
+    "ActualTable1/fullprimers,MDAinitiation,tagmentation/capsulegeometry.",
+    "Mixquantitiesandhardwarelabels/publicationsuccessorqualification.",
+    "Independentfulloriginal/linkedmaterialreview."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "round09_coordinator",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Definingv3first;exactrevisionedsupplementindex;nocrossrevisionmergeorrecursivechase.",
+      "locations": "Exactselectedsectionsabove",
+      "findings": "Preprint-backedDNAcapsule/ONTmethoddistinctfromRNAandCXXCCAPmethods;sourceknownoperationsmodeledwithactualremainingblocks.",
+      "deferred": [
+        "ActualTable1",
+        "Historicalvendor/material/beadoriginals",
+        "Fullphysicalstrandgeometry",
+        "Independentreview"
+      ],
+      "oligo_scraper": "Onehitinmain:canonicalS7analysissearchmotif;notwholeprimerandnooligoabsenceclaim."
+    }
+  ],
+  "conclusion": "Cappedsource-readpreprintmodel,notes-only/private/incomplete;noabsentinformationorcompletedchemicalvalidationclaim.",
+  "local_validation": {
+    "selftest_checks": 7,
+    "result": "pass"
+  }
+}

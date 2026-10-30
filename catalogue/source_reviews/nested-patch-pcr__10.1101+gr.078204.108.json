@@ -1,0 +1,76 @@
+{
+  "dir": "nested-patch-pcr__10.1101+gr.078204.108",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "unretrieved_0",
+      "role": "defining",
+      "locator": "https://doi.org/10.1101/gr.078204.108",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Standardroute found no readablefulltext; publishedbodyunretrieved.",
+      "reason": "Standardroute found no readablefulltext; publishedbodyunretrieved.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "unretrieved_1",
+      "role": "defining",
+      "locator": "https://genome.cshlp.org/content/18/11/1844",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actualpublisher routecurl47redirectfailure; no bodyread.",
+      "reason": "Actualpublisher routecurl47redirectfailure; no bodyread.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "unretrieved_2",
+      "role": "other",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2577855/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Challengecooldown preserved; no usablePMCcloudobject/EuPMC500; no originalread.",
+      "reason": "Challengecooldown preserved; no usablePMCcloudobject/EuPMC500; no originalread.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "dna_owner_round43",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Capped sourceacquisition closed, no validatedoriginal/chemistrybodyread.",
+      "locations": "ExternalMANIFEST.tsv actualDOI/PMC/EuPMC/declaredpublisher/PMCCloudroutes only.",
+      "findings": "Zero validatedoriginals, not collected; no graph. Existingdiscovery/metadata not promoted topreparation evidence.",
+      "deferred": [
+        "Defining publishedmain and its actuallinkedchemistry supplements; attachmentidentityunresolved untilsourceindexretrieved.",
+        "Later2009protocol DOI10.1101/pdb.prot5252 ordinaryunread, same method notadditionalentry."
+      ],
+      "oligo_scraper": "Mandatoryavailablebundle0hits/0files; no sourceabsenceconclusion."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourceindexunretrieved; actualattachmentidentityunresolved, no fabricatedspecificationdocument."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourceaccessblocked/notcollected/no graph; selectedimplementation/bookkeeping peer pending. Noacceptedabsence.",
+  "independent_implementation_recheck": {
+    "reviewer": "multi_peer_round43",
+    "date": "2026-10-30",
+    "type": "same_available_manifest_bookkeeping_recheck_not_absence_pass_2",
+    "documents": 0,
+    "scope": "Read-only externalMANIFEST.tsv actualfailedDOI/publisher/PMCCloud/PMCcooldownroutes and localnote/ref/review/helper; bundlecontainsMANIFEST.tsvonly. No originalbody, neworiginal, retry/acquisitionorchemistryopened.",
+    "findings": [
+      "Confirmedstandardfailuremanifestrecordsactualpublishercurl47,PMCcooldownandPMCCloudnousablefile; no validatedarticle/supplementavailable.",
+      "No chem.py/privategraphorcollectedclaimintroduced; discoveryidentityandlater2009protocolnotpromotedtopreparationauthority.",
+      "Mandatoryindependentscraper0hits0files is availablebundlescope,notabsenceevidence. ActualneededpublishedmainURLsremainrealfailedtargets;unknownattachmentidentityisnotinventeddisclosuredocument."
+    ],
+    "verification": "Localmanifest/bookkeepingpeerclosed;originalsread0;no molecular audit orabsencepass2."
+  }
+}

@@ -1,0 +1,435 @@
+{
+  "dir": "stamp__10.1038+s41592-021-01128-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM10_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM10_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM11_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM11_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM12_ESM.zip",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM12_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM2_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM2_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM4_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM4_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM5_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM6_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM7_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM8_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM9_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM9_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/(manual) rs.3.rs-87224_v1",
+      "original": "https://doi.org/10.21203/rs.3.rs-87224/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Rendered-document OCR opening identity/date/reporting-scope only; no molecular facts assigned from unchecked OCR",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published author reporting summary updated2021-03-15"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_41592_2021_1128_MOESM3_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01128-0/MediaObjects/41592_2021_1128_MOESM3_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_14",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_PMC8148648.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/PMC8148648.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_15",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_PMC8148648.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/PMC8148648.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Identity/overview52\u201366; Methods124\u2013144, long-read172\u2013192 and single-cell202; eCLIP140 read only to exclude comparator recipe",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript, final-VOR procedural applicability unverified"
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Software_Zip_File.zip",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Software_Zip_File.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Software_Zip_File_knownResultsNull.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Software_Zip_File.zip#Yeo_STAMP_Nature_Methods/python_scripts/knownResultsNull.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Software_Zip_File_python2essential.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Software_Zip_File.zip#Yeo_STAMP_Nature_Methods/environments/python2essential.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Software_Zip_File_python3essential.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Software_Zip_File.zip#Yeo_STAMP_Nature_Methods/environments/python3essential.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_1.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_21",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_10.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_10.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "TableS11 header and cloning/capture insertion primer rows; these are source expression-construct oligos, not generic NGS library primers",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published TableS11 MOESM11 is manifestMD5-identical to this cached associated filename"
+    },
+    {
+      "id": "source_22",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_2.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_3.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_3.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_24",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_4.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_4.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_25",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_5.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_5.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_26",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_6.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_6.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_27",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_7.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_7.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_28",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_8.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_8.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_29",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/stamp__10.1038+s41592-021-01128-0/s41592-021-01128-0_supp_NIHMS1688158-supplement-Supplementary_Table_9.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/NIHMS1688158-supplement-Supplementary_Table_9.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_30",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41592-021-01128-0",
+      "original": "https://www.nature.com/articles/s41592-021-01128-0",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Defining final published full Methods/source-version applicability remains unreviewed"
+    },
+    {
+      "id": "source_31",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41592-019-0570-0",
+      "original": "https://doi.org/10.1038/s41592-019-0570-0",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "DART-seq enzyme-construct predecessor cited in original introduction/Methods; direct predecessor not reread; no whole-library inheritance"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round12_reader",
+      "date": "2026-10-29",
+      "locations": "Identity/overview52\u201366; Methods124\u2013144, long-read172\u2013192 and single-cell202; eCLIP140 read only to exclude comparator recipe; TableS11 header and cloning/capture insertion primer rows; these are source expression-construct oligos, not generic NGS library primers; Rendered-document OCR opening identity/date/reporting-scope only; no molecular facts assigned from unchecked OCR",
+      "finding": "Capped source pass; actual directly linked pending originals enumerated. No recursive linked-source reading or independent absence audit."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://www.nature.com/articles/s41592-021-01128-0",
+      "scope": "Defining final published full Methods/source-version applicability remains unreviewed"
+    },
+    {
+      "locator": "AssociatedMethods136/174\u2013202 named vendor originals",
+      "scope": "Historical TruSeqStrandedmRNA,KAPARiboErase,NEBE7490L,SQK-DCS109,IsoSeqExpress,SMRTbell2.0/BarcodedOverhangAdapterKit and Chromium3primev3 originals unreviewed at cap"
+    },
+    {
+      "locator": "https://doi.org/10.1038/s41592-019-0570-0",
+      "scope": "DART-seq enzyme-construct predecessor cited in original introduction/Methods; direct predecessor not reread; no whole-library inheritance"
+    }
+  ],
+  "open_questions": [
+    "Exact complete molecular library/end/primer geometry and source-version boundaries remain as described in note, not confirmed absent."
+  ],
+  "conclusion": "Source-qualified notes and incomplete protocol-local graph only. Ordinary deferred reading; no accepted absence claim or full-publication promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "rna_round12_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining article and chemical SI first; max10min/3originals, no recursive chase.",
+      "locations": "Identity/overview52\u201366; Methods124\u2013144, long-read172\u2013192 and single-cell202; eCLIP140 read only to exclude comparator recipe; TableS11 header and cloning/capture insertion primer rows; these are source expression-construct oligos, not generic NGS library primers; Rendered-document OCR opening identity/date/reporting-scope only; no molecular facts assigned from unchecked OCR",
+      "findings": "Physical RNA/modified residues versus complementary DNA/readout kept distinct; source-known operations reach acquisition with unresolved geometry.",
+      "deferred": [
+        "https://www.nature.com/articles/s41592-021-01128-0",
+        "AssociatedMethods136/174\u2013202 named vendor originals",
+        "https://doi.org/10.1038/s41592-019-0570-0"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scraper; original pointer contexts inspected. STAMP five large skipped files are unreviewed; no absence conclusion.",
+      "verification": "27 local behavior/source-transcription checks pass across3models (RNA Tagging8,LASER11,STAMP8); sourceguard5checked0failed0bundlesskipped3inputswithoutexactstates3graphs; chemistry35unresolved0contradictory. Notes-only, no preview or full endpoint/source/readout promotion."
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "dir": "3-reads__10.1038+nmeth.2288",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3-reads__10.1038+nmeth.2288/nmeth.2288_41592_2013_BFnmeth2288_MOESM157_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.2288/MediaObjects/41592_2013_BFnmeth2288_MOESM157_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedSITable1text839\u2013863,originalp10rendered;wholemodifiedoligos/N4/indexfootnotesread.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Springer supplementary file"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3-reads__10.1038+nmeth.2288/nmeth.2288_PMC3560312.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3560312.1/PMC3560312.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "AssociatedAMoractualmanifesttarget;exactreadidentityspecifiedinpass_1",
+      "reason": "article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3-reads__10.1038+nmeth.2288/nmeth.2288_PMC3560312.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3560312.1/PMC3560312.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_source_reader",
+        "date": "2026-10-29",
+        "locations": "AssociatedAMoverview73\u201379/Methods129\u2013141;preparation/acquisitionselectedscopeonly,finalmainapplicabilityunreviewed.",
+        "finding": "Selectedsourcepositivereadingonly;nofullpublicationorabsenceaudit."
+      },
+      "pass_2": null,
+      "source_version": "AssociatedAMoractualmanifesttarget;exactreadidentityspecifiedinpass_1",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/3-reads__10.1038+nmeth.2288/nmeth.2288_supp_NIHMS423049-supplement-1.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3560312.1/NIHMS423049-supplement-1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round19_source_reader",
+      "date": "2026-10-29",
+      "locations": "AssociatedAMoverview73\u201379/Methods129\u2013141;preparation/acquisitionselectedscopeonly,finalmainapplicabilityunreviewed.; PublishedSITable1text839\u2013863,originalp10rendered;wholemodifiedoligos/N4/indexfootnotesread.",
+      "finding": "Actualdirecttargets/readinglimitsenumerated,noacceptedabsence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Definingpublishedmainfinalversionapplicability",
+      "scope": "AssociatedAMselectedrecipeandpublishedSIinventoriesdistinct;ordinaryunreviewedversionapplicability,noassertedpublicationconflict."
+    },
+    {
+      "locator": "RemainingpublishedSIdiscussion/figures/dataandhistoricalnamedkitoriginals",
+      "scope": "Available/unfollowedwithinboundedpass,noabsenceclaims."
+    }
+  ],
+  "conclusion": "Source-positiveprivateincompleteoperationalmodel;actualmodifications/fractions/copyingremainexplicit,nopublicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "round19_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Capped10min/3originalssourcereading,publishedfirst,versionsnotmerged.",
+      "locations": "AssociatedAMoverview73\u201379/Methods129\u2013141;preparation/acquisitionselectedscopeonly,finalmainapplicabilityunreviewed.; PublishedSITable1text839\u2013863,originalp10rendered;wholemodifiedoligos/N4/indexfootnotesread.",
+      "findings": "Actualsourceknownoperationscontinuedthroughsequencinginterface;unknownhistoricalkitinternalsandfullprimerlandingunassembled.",
+      "deferred": [
+        "Definingpublishedmainfinalversionapplicability",
+        "RemainingpublishedSIdiscussion/figures/dataandhistoricalnamedkitoriginals"
+      ],
+      "oligo_scraper": "Mandatoryfullbundle scraper;modifiedadoptedoligosverifiedinoriginaltextandpublishedTable1renderwhereapplicable.",
+      "verification": "Term8/3P9/3READS12localchecks29totalpass;chemistry47steps49unresolved0contradictory. Sourceguard9checked0failed1independentlyapprovedcapturemacroexemption/5unassembled."
+    }
+  ],
+  "source_oligo_exemption_review": {
+    "input": "capture_oligo",
+    "scope": "OnlyCU5T45macro/prose expansion to actual5biotin-DNA45T-RNA5U;notother6inputs",
+    "original": "AssociatedAMPMC3560312 Results73/Methods131",
+    "approval": "Coordinator independent original descriptor review2026-10-29;wholeSource/have descriptor/5biotin check",
+    "limitation": "Not final-main equivalence, full source reading or absence audit;no sharedparserchange."
+  },
+  "implementation_review": {
+    "reviewer": "independent DNA implementation reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached originals only: TermpublishedMethods1531\u20131668,3PAM84\u201386,3READSAM129\u2013141andpublishedTable1originalp10. No new acquisition or absence audit.",
+    "finding": "29localchecks8/9/12pass. No consequential defect found in selected physical/copying/fraction/sugar/modification scopes;completehistoricalRT/PCRlanding remains unassembled."
+  }
+}

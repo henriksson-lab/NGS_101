@@ -1,6 +1,6 @@
-Outstanding document requests — updated 2026-10-28
+Outstanding document requests — updated 2026-10-29
 
-Scope: inverse-PCR/cloning additions and NGS expansion rounds 01–04. This list
+Scope: inverse-PCR/cloning additions and NGS expansion rounds 01–12. This list
 contains actual outstanding retrieval requests; available but unread originals and
 unattempted or unidentified sources remain review tasks, not download requests. Download the identified
 published original/revision, not a preprint or a substitute protocol revision.
@@ -416,3 +416,828 @@ or separately required version-of-record Methods available.
     they are not automatically requested as oligo disclosures. No absence claim or
     full independent source review is accepted. Main associated manuscript is available.
     Directory: perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038
+
+37. m1A-MAP — source-linked Methods S1
+    DOI: https://doi.org/10.1016/j.molcel.2017.10.019
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5722686/bin/NIHMS915125-supplement-2.pdf
+    Status: exact request reached a PMC download gate. The associated main
+    manuscript is available; this Methods S1 original remains unread. Other
+    result/targeted-validation tables are not assumed to be genome-library oligos.
+    Directory: m1a-map__10.1016+j.molcel.2017.10.019
+
+38. OG-seq — original supporting information
+    DOI: https://doi.org/10.1021/jacs.6b12604
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5440228/bin/NIHMS860150-supplement-Supporting_Information.docx
+    Status: exact request reached a Preparing-to-download gate. Associated main
+    manuscript is available. Detailed chemistry/oligo original remains uninspected.
+    Directory: og-seq__10.1021+jacs.6b12604
+
+39. TRAC-seq — defining supplemental methods and tables
+    DOI: https://doi.org/10.1016/j.molcel.2018.06.001
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-1.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-2.xlsx
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-3.xlsx
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-4.xlsx
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-5.xlsx
+    Status: exact original routes reached PMC download gates. Their identities are
+    printed in the main associated manuscript. Need original methods/tables to
+    inspect their actual scope; the workbooks are not presumed oligo disclosures.
+    Directory: trac-seq__10.1016+j.molcel.2018.06.001
+
+40. ClickTags — published defining main article
+    DOI: https://doi.org/10.1038/s41587-019-0372-z
+    https://www.nature.com/articles/s41587-019-0372-z.pdf
+    Status: publisher PDF route returned subscription HTML. Published SI/workbook
+    are available and not requested again. Caltech315333.full.pdf is an explicitly
+    submitted superseded preprint, not the defining published chemistry original.
+    Directory: clicktags-fixed-cell-original__10.1038+s41587-019-0372-z
+
+41. Mosaic-seq — published defining chemistry and method boundary
+    DOI: https://doi.org/10.1016/j.molcel.2017.03.007
+    http://www.cell.com/article/S1097276517301740/pdf
+    Status: exact publisher PDF request returned403. No preparative chemistry pass
+    or defensible distinct-method boundary is established; identity-only, uncollected.
+    Directory: mosaic-seq__10.1016+j.molcel.2017.03.007
+
+42. RAID — source-cited supplemental file F5 identity
+    Defining article: https://doi.org/10.1038/s41598-018-37977-7
+    Status: published SI page8 refers to supplemental file F5 for cell barcode
+    lists. Its original attachment identity remains unresolved. Please locate that
+    actual original; no attachment filename or historical kit revision is guessed.
+    Published main and SI are available and not requested again. The N8/cell8 versus
+    Read2 length14 issue remains unresolved; no missing-disclosure claim is accepted.
+    Directory: raid__10.1038+s41598-018-37977-7
+
+43. Original2009 Hi-C — source-linked chemistry supplements
+    DOI: https://doi.org/10.1126/science.1181369
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2858594/bin/NIHMS194459-supplement-Supplementary_text.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2858594/bin/NIHMS194459-supplement-Supplementary_Figures.pdf
+    Status: standard requests reached PMC Preparing-to-download gates. Associated
+    main manuscript is available and supports a scoped HindIII preparation only.
+    Needed: original chemistry/figure supplements for exact end, buffer, library
+    and run geometry; later in-situ Hi-C is not a replacement for this original.
+    Directory: hi-c-original__10.1126+science.1181369
+
+44. CRAC — original2009 supplemental information
+    DOI: https://doi.org/10.1073/pnas.0901997106
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/supp_106_24_9613__index.html
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/0901997106_0901997106SI.pdf
+    Status: source-linked index/PDF requests returned404. Published main is
+    available. Need original supplement, preserving its2009 identity; modified
+    Solexa/NGS linkers must not be replaced by the separate Sanger linker route.
+    Directory: crac__10.1073+pnas.0901997106
+
+45. RBS-seq — actual published correction
+    Defining article: https://doi.org/10.1073/pnas.1817334116
+    Correction: https://doi.org/10.1073/pnas.1905628116
+    https://www.pnas.org/doi/10.1073/pnas.1905628116
+    https://pmc.ncbi.nlm.nih.gov/articles/PMC6500115/
+    Identity: Correction for Khoddami et al., Transcriptome-wide profiling of
+    multiple RNA modifications simultaneously at single-base resolution;
+    PNAS2019 Apr30,116(18):9136; PMID31010919.
+    Status: linked PubMed/erratum identity verified, correction contents unread.
+    EBI fullTextXML returned500; PMC challenged; PNAS returned403. Published main
+    and SI are available and not requested again. Do not assume this correction
+    is immaterial or interpret any chemical model as a verified corrected recipe.
+    Directory: rbs-seq__10.1073+pnas.1817334116
+
+46. CAP-seq microbial long-read v3 — identify actual Supplementary Table1
+    Defining preprint: https://doi.org/10.1101/2024.09.10.612220
+    Exact selected revision/index:
+    https://www.biorxiv.org/content/10.1101/2024.09.10.612220v3.supplementary-material
+    Status: v3 main PDF (printed13October2025) and index are available. The index
+    link inventory did not locate the actual named primer table during the capped
+    pass. Please locate the original Supplementary Table1 cited in Methods; no
+    guessed file URL or confirmed absent disclosure. Earlier revisions and the
+    ResearchSquare manuscript are not interchangeable. Main is not requested again.
+    Directory: cap-seq-long-read-microbiome__10.1101+2024.09.10.612220
+
+47. m1A-ID-seq — defining published main article
+    https://doi.org/10.1038/nchembio.2040
+    https://www.nature.com/articles/nchembio.2040
+    Status: standard source retrieval found no open full text. The actual published
+    SI is available and supports only the inspected demethylation/AMV controls;
+    it is not a substitute for the main fragmentation, capture, library and read
+    recipe. No source-printed SI footer anomaly is used as chemistry evidence.
+    Directory: m1a-id-seq__10.1038+nchembio.2040
+
+48. rG4-seq — defining published main article
+    https://doi.org/10.1038/nmeth.3965
+    https://www.nature.com/articles/nmeth.3965
+    Status: standard source retrieval found no open main full text. Published SI,
+    including inspected workflow/Table1, is available and not requested again.
+    Need actual original main conditions/layout, not a later rG4-seq2.0 replacement.
+    Directory: rg4-seq__10.1038+nmeth.3965
+
+49. Bubble-seq — original supporting-information index and Supplemental Methods
+    https://doi.org/10.1101/gr.155218.113
+    https://genome.cshlp.org/content/suppl/2013/08/20/gr.155218.113.DC1
+    Status: published main is available. The retrieved EuropePMC zip contains only
+    article figures, not an inspected chemistry supplement. Web access could not
+    open the exact source index; this is not a confirmed HTTP absence or claim
+    that the supplement omits the methods. Original RI/trapping/cloning chemistry
+    remains blocked. Predecessor bubble-chip and adjacent RNA-seq recipes are not
+    replacements for the2013 genomic DNA NGS route.
+    Directory: bubble-seq__10.1101+gr.155218.113
+
+50. Stapleton synthetic long reads — source-relevant supplemental figures
+    https://doi.org/10.1371/journal.pone.0147229
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4720449/bin/pone.0147229.s002.png
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4720449/bin/pone.0147229.s003.png
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4720449/bin/pone.0147229.s012.png
+    Status: canonical requests reached PMC download gates. These are S2library
+    conversion, S3barcode pairing and S12RNA frontend originals. Main,S13oligo
+    table and S1Note are available and not requested again. Other gated result
+    graphics are not automatically requested as chemistry disclosures.
+    Directory: stapleton-synthetic-long-reads__10.1371+journal.pone.0147229
+
+51. APEX-seq — published-era primer table and labeling characterization
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-1.xlsx
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-7.pdf
+    Status: Actual PMC download gates. TableS1 is the named primer table; FigureS1 contains adduct/labeling characterization. Associated accepted manuscript is available but final-published applicability remains unverified. Other gated result supplements are not automatically chemistry requests; superseded preprint is excluded.
+    Directory: apex-seq__10.1016+j.cell.2019.05.027
+
+52. G4-seq — defining published main methods
+    https://www.nature.com/articles/nbt.3295
+    Status: No open main methods obtained by the standard route. Published figures/tables and XML scripts are available; scripts remain unreviewed, not download requests. Need the original2015 method, not later G4/rG4 adaptations.
+    Directory: g4-seq__10.1038+nbt.3295
+
+53. SMRF-seq — original supplementary files for library schematic and primer-table identity
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-1.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-12.xlsx
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-13.xlsx
+    Status: Actual PMC download gates. Main explicitly cites FigS1 for PacBio library and TableS2 for primers; returned JATS names numbered attachments without their table identities. Verify original contents before identifying12/13 as TableS1/S2. Both workbooks requested for identity, not asserted primer content. Accepted manuscript is available; final-version applicability unresolved.
+    Directory: smrf-seq__10.1016+j.jmb.2020.02.014
+
+54. ssDNA-Seq (permanganate) — Extended Experimental Procedures and supplemental workbook
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3684982/bin/NIHMS472536-supplement-01.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3684982/bin/NIHMS472536-supplement-02.xls
+    Status: Actual PMC download gates. Accepted manuscript describes the2013 chemical/enzymatic route; detailed source originals remain unread. Later S1-based protocols are not replacements.
+    Directory: ssdna-seq-permanganate__10.1016+j.cell.2013.04.033
+
+55. GESTALT genomic recovery — final main, supplemental Methods and tables
+    https://shendure-web.gs.washington.edu/documents/mckenna_science_2016.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4967023/bin/NIHMS789616-supplement-supplemental_figures_and_methods.docx
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4967023/bin/NIHMS789616-supplement-supplemental_tables.xlsx
+    Status: Main institutional-mirror URL returned HTML rather than PDF; PMC Methods DOCX/tables XLSX hit download gates. Accepted main has the UMI-extension overview but not detailed recovery Methods. No CARLIN or scGESTALT recipe substitution.
+    Directory: gestalt-genomic-recovery__10.1126+science.aaf7907
+
+56. LINNAEUS — final published main and Online Methods
+    https://www.nature.com/articles/nbt.4124
+    Status: Downloaded HTML is a valid subscription preview, not a failed HTML download. Accepted Online Methods and published SI Table1 are available; final published main/Methods remain unread. Do not re-request the available primer supplement.
+    Directory: linnaeus__10.1038+nbt.4124
+
+57. CARLIN — final published main and actual TableS1
+    https://www.sciencedirect.com/science/article/pii/S0092867420305547
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7529102/bin/NIHMS1594358-supplement-8.xlsx
+    Status: Published main returned403; actual TableS1 workbook hit PMC gate. The accepted JATS identifies TableS1 as supplement-8.xlsx, not supplement-7.docx. Accepted STARMethods is available; superseded preprint SI is excluded. Historical Chromium guide links deferred by cap are review tasks, not established download failures.
+    Directory: carlin__10.1016+j.cell.2020.04.048
+
+58. CeFra-seq — defining published preparation original
+    https://www.sciencedirect.com/science/article/pii/S1046202316304066
+    Status: Normal web access returnedHTTP403;standard source lookup obtained no full original. Identity/outline only is not chemistry-source collection. Need the2017defining original;2018companion is not silently substituted.
+    Directory: cefra-seq__10.1016+j.ymeth.2017.05.017
+
+59. CAP-seq (RNA proximity) — defining published main methods
+    https://doi.org/10.1038/s41589-019-0368-5
+    Status: Standard source lookup found no open main fulltext. Published SI workflow is available and not requested again. This is miniSOG RNAproximity CAP-seq,not genomic CXXC CAP-seq or capsule CapSeq.
+    Directory: cap-seq-rna-proximity__10.1038+s41589-019-0368-5
+
+60. TRIBE — actual detailed Supplemental Experimental Procedures
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5027142/bin/NIHMS767511-supplement-Procedures.pdf
+    Status: Actual PMC download gate;associated accepted manuscript available,finalpublished procedure applicability unverified. JATS explicitly names Procedures.pdf. GatedTableS1–S5 are target/results/count tables and are not automatically requested as oligo disclosure. Supersededpreprint is excluded.
+    Directory: tribe__10.1016+j.cell.2016.03.007
+
+61. SUGAR-seq — actual published supplementary-material index
+    http://advances.sciencemag.org/cgi/content/full/7/8/eabe3610/DC1
+    Status: The published JATS gives this exact DC1 index. A bounded standard request returnedHTTP403. The acquired PMC supplementary zip contains figures only, not inspected chemistry SI; no PDF filename is invented. Published main is available and not requested again.
+    Directory: sugar-seq__10.1126+sciadv.abe3610
+
+62. eSPAN — actual chemistry supplement and original erratum identity
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4362665/bin/NIHMS667987-supplement-supplement_1.pdf
+    https://pubmed.ncbi.nlm.nih.gov/25449133/
+    Status: Actual chemistry supplement hit a PMC preparing-download gate. The primary PubMed record points to an erratum at MolCell2014Nov20;56(4):609; its original identity/content still require verification. A candidate correction DOI is not asserted here. Associated manuscript is available; no correction effect on chemistry assumed.
+    Directory: espan__10.1016+j.molcel.2014.09.017
+
+63. SNS-seq — identify and retrieve the cited original supplements
+    https://doi.org/10.1101/gr.124644.111
+    Status: Published main PMC3205567 is available. Its supplement pointer leads to the publisher article; standard lookup did not resolve an actual SupplementalMethods/Table1/DataAnalysis file, and publisher web access returned403. Need the source-linked original identity, not a guessed attachment or later saturation/optimization protocol. This is not a claim that the supplement omits chemistry.
+    Directory: sns-seq__10.1101+gr.124644.111
+
+64. MINCE-seq — actual chemistry supplement and tables
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4855302/bin/NIHMS772603-supplement-Supp_Info_and_tables.docx
+    Status: Actual PMC download gate; accepted main is available and has been read. Need the named original supplement for historical library geometry, not another MNase method.
+    Directory: mince-seq__10.1016+j.cell.2016.02.062
+
+65. fCAB-seq — actual associated chemistry supplements
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3657391/bin/NIHMS463944-supplement-01.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3657391/bin/NIHMS463944-supplement-02.pdf
+    Status: Both actual PMC supplement targets hit preparing-download gates. Associated main is available; no modern EpiTect recipe or fC-Seal chemistry substitution.
+    Directory: fcab-seq__10.1016+j.cell.2013.04.001
+
+66. SHAPE-JuMP — actual supporting information and supporting datasets
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Information.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Datasets.zip
+    Status: Actual PMC download gates; relevant originals not available in Cloud TDM bucket. Accepted main is available; original SI/cassette and primer tables remain unread.
+    Directory: shape-jump__10.1021+acs.biochem.1c00270
+
+67. ClickSeq — actual TableS1 chemistry supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4523409/bin/NIHMS705616-supplement.docx
+    Status: Main JATS identifies this exact DOCX. Standard declared retrieval reached PMC preparing-download gate. Associated main is read; no generic click-ligation oligos or later protocol substituted.
+    Directory: clickseq__10.1016+j.jmb.2015.06.011
+
+68. TRAPS-seq — defining published main Methods
+    https://www.nature.com/articles/s41592-023-01841-y
+    Status: No open full main obtained; browser redirected to inaccessible publisher identity endpoint. Published SI reporters/coupling evidence is available and read, not requested again. Core capture/pulse/library order remains unread.
+    Directory: traps-seq__10.1038+s41592-023-01841-y
+
+69. Mod-seq — source-linked Supplemental Files identity and cached corrigendum original
+    https://doi.org/10.1261/rna.042218.113
+    https://rnajournal.cshlp.org/content/25/9/1226_1.full
+    Status: Main is available. Retrieved supplementary archive contains figures only; actual named chemistry Supplemental Files attachment identity remains unresolved, so no filename guessed. Official correction full paragraph was read through primary indexed text and its corrected sequence is known; normal original caching returned HTTP403 (other correction routes failed). This is a request for retrievable originals, not missing sequence evidence.
+    Directory: mod-seq__10.1261+rna.042218.113
+
+70. ChIP-BS-seq — source-linked original supplemental-material identity
+    http://www.genome.org/cgi/doi/10.1101/gr.133728.111
+    Status: Actual published main points here for supplemental material. Standard retrieval returned a ZIP containing only main-figure JPG/GIF aliases; candidate publisher supplement-index access returned403. Need original supplemental-material identity and original documents, not a guessed chemistry attachment. Published main Methods are available and read; no sequence/reagent absence claim.
+    Directory: chip-bs-seq__10.1101+gr.133728.111
+
+71. TOP-seq — actual chemistry/FigS1 supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5291818/bin/NIHMS838518-supplement-1.pdf
+    Status: Actual PMC preparing-download gate. Associated main is read and contains a leading-T alternative in tethered oligo Methods versus KeyResources; both are retained. Three gated XLSX originals have unresolved table mapping and are not all called chemistry disclosures. Do not guess a TableS2 workbook identity.
+    Directory: top-seq__10.1016+j.molcel.2016.12.012
+
+72. hmC-Seal — final published main and online Methods
+    https://www.nature.com/articles/nbt.1732
+    Status: Source associated main explicitly delegates online Methods. Normal final-main web access redirected to an inaccessible publisher identity endpoint; standard acquisition supplied associated main without those Methods. Published MOESM6 synthesis/figures supplement is available and read, so its gated PMC aliases are not requested again.
+    Directory: hmc-seal__10.1038+nbt.1732
+
+73. DNA-barcoded pMHC multimers — defining published main Online Methods
+    https://doi.org/10.1038/nbt.3662
+    Status: Standard retrieval found no open defining full text. Published SI reporter tables and IonTorrent primers are available and read, not requested again. Source-specific assembly/recovery/library order remains unreviewed; later TetTCR or current commercial methods are not substitutes.
+    Directory: dna-barcoded-pmhc-multimers__10.1038+nbt.3662
+
+74. S1-seq — actual defining chemistry supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5234563/bin/NIHMS841208-supplement-Supplemental_material.pdf
+    Status: Actual PMC download gate;associated main provides coarse source operation order. Later2018protocol is not silently substituted for the defining original.
+    Directory: s1-seq__10.1126+science.aak9704
+
+75. Silent cPTM phage encoding — defining main and named procedures SI
+    https://doi.org/10.1021/jacs.5b10390
+    https://pubs.acs.org/doi/suppl/10.1021/jacs.5b10390/suppl_file/ja5b10390_si_004.pdf
+    Status: Main standard route found no open full text;primary ACS index named exact procedures SI and declared standard retrieval returnedHTTP403. Identity/access notes only,no collected chemistry or fabricated graph.
+    Directory: silent-cptm-phage-encoding__10.1021+jacs.5b10390
+
+76. NGGM — actual associated chemistry supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/13016201/bin/NIHMS2148954-supplement-Supplemental_figures_and_tables.pdf
+    Status: Named relevant original deferred by standard host cooldown after challenge;not requested during cooldown or bypassed. Associated accepted main is available/read;final published applicability and exact code/primer geometry remain explicit limits.
+    Directory: nggm__10.1021+acs.analchem.9b01988
+
+77. RiboLace — defining published original
+    https://www.cell.com/article/S2211124718315444/pdf
+    Status: Exact primary-index-identified PDF returnedHTTP403 after declared standard retrieval;DOI route found no open main. Identity/access notes only,no chemistry collection or abstract-derived graph.
+    Directory: ribolace__10.1016+j.celrep.2018.09.084
+
+78. RAP-RNA — actual core supplementary original
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4177037/bin/NIHMS625961-supplement-1.docx
+    Status: Actual source-delegated core SI reached standard host cooldown;not bypassed. Associated manuscript positive preparation scope is explicit. Other named SI routes remain individually pending in the source checklist,not guessed chemistry disclosures.
+    Directory: rap-rna__10.1016+j.cell.2014.08.018
+
+79. RNA Bind-n-Seq — named supplemental methods original
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4142047/bin/NIHMS598961-supplement-01.pdf
+    Status: Actual named source-delegated chemistry original blocked by standard host cooldown after challenge. Associated main is available/read. Additional02.xlsx/03.pdf remain unreviewed without assigning invented disclosure roles.
+    Directory: rna-bind-n-seq__10.1016+j.molcel.2014.04.016
+
+80. Spec-seq — defining experimental original
+    https://academic.oup.com/genetics/article/198/3/1329/6065695
+    Status: Declared exact publisher original returnedHTTP403;EuropePMC XMLHTTP500 andPMC host cooldown left no chemistry original. Identity/access notes only,no fabricated graph or collection count;2015review is not the2014experimental original.
+    Directory: spec-seq__10.1534+genetics.114.170100
+
+81. CHART-seq — defining published original
+    https://doi.org/10.1073/pnas.1113536108
+    Status: No original obtained through standard PMC/EuropePMC/public Cloud routes; identity-only and uncollected.
+    Directory: chart-seq__10.1073+pnas.1113536108
+
+82. RAP-DNA — actual core supplementary original
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3778663/bin/NIHMS504267-supplement-Supplementary_Material.doc
+    Status: Actual source-linked SI remains gated. Final published main obtained from first-party Caltech repository; do not request that main again.
+    Directory: rap-dna__10.1126+science.1237973
+
+83. DLO Hi-C — full published Methods
+    https://www.nature.com/articles/s41588-018-0111-2
+    Status: Available HTML is abstract/figure preview only. Published SI obtained/read; main Methods remain inaccessible.
+    Directory: dlo-hi-c__10.1038+s41588-018-0111-2
+
+84. Methyl-seq Brunner — defining published original
+    https://genome.cshlp.org/content/19/6/1044.full.pdf
+    Status: Exact publisher PDF returned403; no original from declared official public Cloud route. Identity-only, not collected.
+    Directory: methyl-seq-brunner__10.1101+gr.088773.108
+
+85. DREAM — defining published original
+    https://www.tandfonline.com/doi/pdf/10.4161/epi.22552
+    Status: Exact publisher PDF returned403; no original from declared official public Cloud route. Identity-only, not collected.
+    Directory: dream__10.4161+epi.22552
+
+86. Multiplexed HT-SELEX — defining experimental original
+    https://genome.cshlp.org/content/20/6/861.full.pdf
+    Status: Exact declared publisher PDF returned403; no chemistry original acquired. Identity-only, not collected.
+    Directory: multiplexed-ht-selex__10.1101+gr.100552.109
+
+87. SMiLE-seq — full published main
+    https://doi.org/10.1038/nmeth.4143
+    Status: No open full main acquired; SI microfluidic preparation inspected. Downstream library chemistry remains unreviewed.
+    Directory: smile-seq__10.1038+nmeth.4143
+
+88. SEQRS — actual methods supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3375920/bin/NIHMS376327-supplement-supplement_1.pdf
+    Status: Actual source-delegated SI blocked by standard host cooldown; associated manuscript read with final applicability unresolved.
+    Directory: seqrs__10.1016+j.celrep.2012.04.003
+
+89. 2b-RAD — full published main
+    https://doi.org/10.1038/nmeth.2023
+    Status: Published chemistry SI available/read; main was not acquired. No request for available SI/software aliases.
+    Directory: 2b-rad__10.1038+nmeth.2023
+
+90. ChIRP-seq — actual methods supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3249421/bin/NIHMS340672-supplement-01.pdf
+    Status: Actual role-identified chemistry SI remains under standard host challenge cooldown. Final published main obtained from author laboratory. Other ZIP/XLS roles remain unassigned in review inventory, not guessed probe-table targets.
+    Directory: chirp-seq__10.1016+j.molcel.2011.08.027
+
+91. PARE — defining published main
+    https://doi.org/10.1038/nbt1417
+    Status: Standard route found no open main. Published SupplementaryFigure1 obtained/read; no request for available SI aliases.
+    Directory: pare__10.1038+nbt1417
+
+92. ChIP-exo — actual detailed chemistry supplement
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3243364/bin/NIHMS338311-supplement-01.doc
+    Status: Actual chemistry DOC remains under standard host challenge cooldown and was not in available public Cloud objects. Associated2011SOLiD manuscript scope explicit; no later Illumina recipe substitute.
+    Directory: chip-exo__10.1016+j.cell.2011.11.013
+
+93. TCC — final published main in author repository
+    https://kalhorlab.bme.jhu.edu/wp-content/uploads/2022/07/2012_Kalhor-et-al._Nature-biotechnology_Genome-architectures.pdf
+    Status: Exact declared published PDF returned403. Corrected3July2012 publishedSI obtained/read and controls the recipe; associated manuscript context remains qualified.
+    Directory: tcc__10.1038+nbt.2057
+
+94. epiGBS — defining full Methods
+    https://doi.org/10.1038/nmeth.3763
+    Status: Standard route found no open main; available published SI figures include image-only oligo table and nick repair, both inspected. Detailed main conditions/workup/run remain unreviewed.
+    Directory: epigbs__10.1038+nmeth.3763
+
+95. CAST-Seq — final published chemistry original
+    https://www.sciencedirect.com/science/article/pii/S1934590921000527
+    Status: Exact final publisher page returned403 and DOIroute found no open full text. No SSRN substitute, no guessed SI file identity, no chemistry collection.
+    Directory: cast-seq__10.1016+j.stem.2021.02.002
+
+96. Term-seq — actual chemistry SOM
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5756622/bin/NIHMS75525-supplement-SOM.docx
+    Status: Actual named SOM/TableS9 remains under standard challenge cooldown. Final published main obtained from first-party author repository; do not request it again.
+    Directory: term-seq__10.1126+science.aad9822
+
+97. 3P-seq — final published main in author repository
+    https://bartellab.wi.mit.edu/publication_reprints/Jan_Nature_2011.pdf
+    Status: Standard exact PDF retrieval failedcurl60 certificate validation; no TLS bypass. Associated manuscript supports qualified partial preparation; available SI aliases not requested.
+    Directory: 3p-seq__10.1038+nature09616
+
+98. DIP-CAB-seq — full2015published main
+    https://www.nature.com/articles/cr20155.pdf
+    Status: Exact linked mainPDF returnedHTML; publisherHTML is free-account preview. Actual directly linked2015chemistrySI obtained/read and must not be requested again.
+    Directory: dip-cab-seq-5fc-5cac__10.1038+cr.2015.5
+
+100. Methyl-MAPS — defining chemistry original
+    https://genome.cshlp.org/content/20/7/972.full.pdf
+    Status: Exact original publisher PDF returned403; XML500/official public Cloud no usable original. Identity only; no graph or source collection.
+    Directory: methyl-maps__10.1101+gr.101535.109
+
+101. MethylCap-seq — full2010Methods original
+    https://www.sciencedirect.com/science/article/abs/pii/S1046202310001660
+    Status: Exact standard publisher request returned403. Indexed abstract/intro is not full Methods and does not support chemistry collection; modern kit/MiGS/ChIPBS recipes excluded.
+    Directory: methylcap-seq__10.1016+j.ymeth.2010.06.012
+
+102. PAL-seq — final article in author repository
+    https://bartellab.wi.mit.edu/publication_reprints/Subtelny_Nature2014.pdf
+    Status: Exact first-party PDF failedcurl60 certificate verification; no bypass. Associated published-paper manuscript supports qualified preparation, final applicability unreviewed.
+    Directory: pal-seq__10.1038+nature13007
+
+103. FLAM-seq — defining final main
+    https://doi.org/10.1038/s41592-019-0503-y
+    Status: Final main no open full text/IDP redirect. Published supplementary protocol and SI were obtained/read; do not request these available originals.
+    Directory: flam-seq__10.1038+s41592-019-0503-y
+
+104. LACE-seq — published Methods and exact cited detailed protocol revision1
+    https://www.nature.com/articles/s41556-021-00696-9
+    https://doi.org/10.21203/rs.3.pex-1499/v1
+    Status: PublisherHTML retrieved but accessible body lacks Methods; exactcitedrevision1 standardResearchSquare route blockedbyCloudflare. Publishedsupplementaryworkbook obtained/read selectedS1/S10; do not request it again. No ordered recipe/collected count.
+    Directory: lace-seq__10.1038+s41556-021-00696-9
+
+105. MPE-seq — defining article, source-indexed chemistry SI and formal2019correction
+    https://doi.org/10.1073/pnas.1424804112
+    https://doi.org/10.1073/pnas.1916397116
+    Status: StandardePMC500/PMCchallengecooldown and officialCloudnoeligibleoriginal. Need actual originals, not indexedexcerpts; no graph or chemistry collection. SI exact file identity unresolved, no filename guessed.
+    Directory: mpe-seq__10.1073+pnas.1424804112
+
+106. cP-RNA-seq — defining2015article and its chemistry supplement
+    https://doi.org/10.1073/pnas.1510077112
+    Status: Actual2015original/SI inaccessible throughstandardroutes. Associated2016detailedprotocolPMC4852555 obtained/read as version-qualifiedsame-method scope, not a replacement2015recipe; do not request that available manuscript again.
+    Directory: cp-rna-seq__10.1073+pnas.1510077112
+107. DNA circle sequencing — source-printed SI index only
+    https://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1319590110/-/DCSupplemental
+    Status: Exact printed SI index returned403. Published2013 main obtained from UC repository and read; do not request it again. Need actual SI methods/primer/end/library detail; no filename guessed.
+    Directory: dna-circle-sequencing__10.1073+pnas.1319590110
+
+108. Duplex Pro-Seq — published S2 architecture TIFF
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6168144/bin/pone.0204265.s005.tif
+    Status: Main/S1/S2/S3workbook headers inspected; actual S2 architecture TIFF gated and not read. Source-sorting4-original cap overrun disclosed, no further chase.
+    Directory: duplex-pro-seq__10.1371+journal.pone.0204265
+
+109. NAD captureSeq — original2015 and detailed2017 full Methods
+    https://doi.org/10.1038/nature14020
+    https://doi.org/10.1038/nprot.2016.163
+    Status: Both full mains unavailable through standard routes. 2015Table1 and2017 SI benchmarks available/read selected sections; do not request those again. Component benchmarks do not establish central NAD-capture preparation or version equivalence; excluded from collected count.
+    Directory: nad-captureseq__10.1038+nature14020
+
+110. Rend-seq — published Table S4 oligos
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Table_S4.xlsx
+    Status: Published author-hosted main and associated AM obtained/read selected Methods; do not request them again. Actual linked oligo workbook remains behind PMC download gate.
+    Directory: rend-seq__10.1016+j.cell.2018.03.007
+
+111. DNA microscopy — published chemistry/oligo supplement collection
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-1.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-2.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-3.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-4.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-5.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-6.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-7.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-8.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-9.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-10.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-11.pdf
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-12.pdf
+    Status: Associated main obtained/read selected Methods; need relevant oligo TablesS1/S2/S5/S6. Actual JATS links have generic labels, so individual table-to-file mapping is unresolved; this is a collection request, not a claim that all12 files contain necessary chemistry. Standard PMC routes gated; no filenames guessed.
+    Directory: dna-microscopy__10.1016+j.cell.2019.05.019
+
+112. Replicon-seq — associated chemistry supplement; version to verify
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/8995386/bin/NIHMS1786144-supplement-1.docx
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Version: NIHMS-associated supplement identity and final-publication applicability require inspection; neither is presumed from the cached filename.
+    Directory: replicon-seq__10.1016+j.molcel.2022.02.010
+
+113. Rapture — needed published chemistry originals
+    https://www.genetics.org/lookup/suppl/doi%3A10.1534/genetics.115.183665/-/DC1/FileS1.xls
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Directory: rapture__10.1534+genetics.115.183665
+
+114. HyPR-seq — needed published chemistry originals
+    https://www.pnas.org/doi/suppl/10.1073/pnas.2010738117/suppl_file/pnas.2010738117.sapp.pdf
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Directory: hypr-seq__10.1073+pnas.2010738117
+
+115. XYZeq — needed published chemistry originals
+    http://advances.sciencemag.org/cgi/content/full/7/17/eabg4755/DC1
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Directory: xyzeq__10.1126+sciadv.abg4755
+
+116. sci-L3-WGS — associated Table S5 original; version to verify
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6874760/bin/NIHMS1537467-supplement-5.xls
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Version: NIHMS-associated XLS identity/final-publication applicability require inspection; the associated main is already available.
+    Directory: sci-l3-wgs__10.1016+j.molcel.2019.08.002
+
+117. Seq-Scope-eXpanded — corrected-version identity/body verification
+    https://www.nature.com/articles/s41467-026-69346-8
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Detail: Current PMC13000175.1 published main and SI are available. Its metadata has10Feb2026epub and no18Marcorrected-body stamp; actual Nature page returned500/identityredirect. Need verified corrected-version identity/body, not another unqualified copy or an invented separate correction document.
+    Directory: seq-scope-expanded__10.1038+s41467-026-69346-8
+
+118. SPACECAT — large published SI/Table1 beyond configured download cap
+    https://pmc-oa-opendata.s3.amazonaws.com/PMC8371137.1/41467_2021_25279_MOESM1_ESM.pdf
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Detail: Actual SI PDF exceeds the standard120MB configured download limit. This is a size-policy blocker, not a paywall or missing disclosure. Main and mandatory2021correction are available/read; correction addresses two white dots in Fig3C only.
+    Directory: spacecat__10.1038+s41467-021-25279-y
+
+119. adductSeq — needed published chemistry originals
+    https://www.pnas.org/doi/full/10.1073/pnas.1907860116
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Directory: adductseq__10.1073+pnas.1907860116
+
+120. Photoselective sequencing (PSS) — needed published chemistry originals
+    https://www.nature.com/articles/s41592-023-01845-8.pdf
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Directory: photoselective-sequencing-pss__10.1038+s41592-023-01845-8
+
+121. m6A-SEAL — needed published chemistry originals
+    https://www.nature.com/articles/s41589-020-0525-x
+    Status: Actual needed original(s) unavailable through standard source routes. Available defining/associated main scope and any obtained SI are retained in the source review; ordinary unread documents are not access blockers. No source absence claim.
+    Directory: m6a-seal__10.1038+s41589-020-0525-x
+
+122. MEDUSA — needed defining/chemistry originals
+    https://academic.oup.com/clinchem/article/72/7/756/8708885
+    Needed: Actual needed published original unavailable via standard source routes; available supplements retain their separately qualified evidence.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: medusa__10.1093+clinchem+hvag046
+
+123. Sprox-seq — needed defining/chemistry originals
+    https://www.sciencedirect.com/science/article/pii/S0092867426007543
+    Needed: Publisheddefiningmain403;actualpreparationandchemistrySIlinksneeded.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: sprox-seq__10.1016+j.cell.2026.06.034
+
+124. SPACE-seq — needed defining/chemistry originals
+    https://doi.org/10.1016/j.stem.2026.05.017
+    Needed: Finalpublishedbody/versionidentityneeded;availableoriginalisassociatedauthorMS.
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Supplementary_Figures.pdf
+    Needed: ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject.
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Table_S1.xlsx
+    Needed: ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: space-seq__10.1016+j.stem.2026.05.017
+
+125. Bridge Capture — needed defining/chemistry originals
+    https://www.sciencedirect.com/science/article/pii/S1525157825002491
+    Needed: Publisheddefiningmain403;actualpreparationandchemistrySIlinksneeded.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: bridge-capture__10.1016+j.jmoldx.2025.09.006
+
+126. PhoTag — needed defining/chemistry originals
+    https://www.nature.com/articles/s41589-022-01044-0.pdf
+    Needed: Actualpublishedcentralphotocatalytic/cellhandlingandRNA/protein/TCRlibraryMethodsneeded;receivedHTMLsubscriptionpreviewandselectedSIcaptionsdonotresolvefullpreparation.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: photag__10.1038+s41589-022-01044-0
+
+127. dRNA-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/nature08756
+    Needed: Actual needed published original unavailable via standard source routes; available supplements retain their separately qualified evidence.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: drna-seq__10.1038+nature08756
+
+128. Paired-Damage-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/s41592-025-02632-3
+    Needed: The published page provides a subscription preview only. Full final Methods are needed to assess applicability of the associated author manuscript; no absence claim is accepted.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: paired-damage-seq__10.1038+s41592-025-02632-3
+
+129. DAF-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/s41587-025-02914-3
+    Needed: The published page provides a subscription preview only. Full final Methods are needed to assess applicability of the associated author manuscript; no absence claim is accepted.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: daf-seq__10.1038+s41587-025-02914-3
+
+130. Rho-seq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/8792297/bin/NIHMS1756155-supplement-1.pdf
+    Needed: The linked associated-manuscript supplementary PDF is gated and unavailable through PMC Cloud TDM. Inspect its chemistry, figures and oligo roles; its disclosure scope has not been verified.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: rho-seq__10.1016+j.molcel.2021.11.003
+
+131. DPC-Seq (Tg enzyme trapping) — needed defining/chemistry originals
+    https://pubs.acs.org/doi/10.1021/jacs.1c10490
+    Needed: The published main page returned HTTP403. Applicability of the associated author manuscript to the complete final article is unverified.
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/8755629/bin/NIHMS1769268-supplement-Supporting_pdf.pdf
+    Needed: The actual linked supporting PDF/TableS1 is blocked by the PMC download gate. It remains unread; no oligo absence is claimed.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: dpc-seq-tg-enzyme-trapping__10.1021+jacs.1c10490
+
+132. DPC-seq (endogenous crosslinks) — needed defining/chemistry originals
+    https://doi.org/10.21203/rs.3.pex-2562/v1
+    Needed: Main reference80 cites this exact ProtocolExchange revisionv1. The standard handler encounters a Cloudflare barrier; the original revision remains unread and no alternate version was substituted.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: dpc-seq-endogenous-crosslinks__10.1038+s41556-024-01391-1
+
+133. m7G-seq (Zhang2019) — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/6588483/bin/NIHMS1526211-supplement-1.pdf
+    Needed: The cited MethodS1 detailed protocol is blocked by the PMC challenge/cooldown and unavailable through Cloud TDM. No disclosure scope or confirmed absence is inferred.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: m7g-seq-zhang2019__10.1016+j.molcel.2019.03.036
+
+134. m6A-label-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/s41589-020-0526-9
+    Needed: Actual published main response is subscription preview; full core preparation Methods needed. Published SI31 supplies positive workflow evidence, not enough for complete recipe.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: m6a-label-seq__10.1038+s41589-020-0526-9
+
+135. Nm-Mut-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/s41422-023-00836-w
+    Needed: Final main response exposes RT-screening excerpt only; complete final article needed for remaining main context. Europe PMC fullTextXML HTTP500 and PMC challenge/cooldown are actual fallback barriers; published detailed SI recipe available.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: nm-mut-seq__10.1038+s41422-023-00836-w
+
+136. pairSEQ — needed defining/chemistry originals
+    https://doi.org/10.1126/scitranslmed.aac5624
+    Needed: Actual defining original needed; standard routes found no open text and indexed corrected-main mirror returned404. Source-indexed chemistry supplement identities need the article, not guessed filenames.
+    https://www.science.org/doi/full/10.1126/scitranslmed.aad5480
+    Needed: Actual published erratum returned403. Its correction scope must be inspected; no corrected chemistry value adopted.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: pairseq__10.1126+scitranslmed.aac5624
+
+137. NICHE-seq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7234837/bin/EMS86422-supplement-Supplementary_Materials_incl_Figures.pdf
+    Needed: Actual Methods/figures supplement identified in main ref17; standard PMC host gate/cooldown and no accessible Cloud TDM object. Full physical and library preparation remains unassembled.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: niche-seq__10.1126+science.aao4277
+
+138. S1-END-seq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/9547894/bin/NIHMS1830397-supplement-Supplementary_Figures.pdf
+    Needed: Standard retrieval encountered the PMC download/reCAPTCHA gate. The host cooldown was respected.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: s1-end-seq__10.1016+j.molcel.2022.08.007
+
+139. scG2P — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/12874418/bin/NIHMS2135808-supplement-1.xlsx
+    Needed: Actual associated supplementary workbook gated/TDM; needed to inspect target/index orderings and table assignments, not proof of absence.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: scg2p__10.1158+2159-8290.CD-24-0853
+
+140. enTRAP-seq (oxidative DNA) — needed defining/chemistry originals
+    https://pubs.acs.org/doi/10.1021/acs.biochem.9b00782
+    Needed: Actual defining full article and named Materials/Methods supporting PDF needed; standard noopenfulltext/directpublisher403. Exact supplement download identity unverified, not guessed.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: entrap-seq-oxidative-dna__10.1021+acs.biochem.9b00782
+
+141. Repair-seq (neuronal synthesis) — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/9179101/bin/NIHMS1747554-supplement-Figs__S1-S20___Mat___Meth__Refs_.pdf
+    Needed: Actual associated MatMeth/Figs supplement explicitly named by main; PMC gated/TDM and absentCloud. Needed operative chemistry, not proof of missing publication information.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: repair-seq-neuronal-synthesis__10.1126+science.abb9032
+
+142. Repair-seq (CRISPR outcomes) — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/9074467/bin/NIHMS1750972-supplement-9.xlsx
+    Needed: ActualTableS2oligonucleotide/TaqManworkbook(mainlabels9/TableS2) neededforwholeUMIadapter/primerorderings; standardfetch gated/TDMnotCloudobject.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: repair-seq-crispr-outcomes__10.1016+j.cell.2021.10.002
+
+143. inCITE-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/s41592-021-01278-1
+    Needed: Actual finalpublishedmain contains subscriptionpreview only; fullMethods neededforfinal/AMversionequivalence and remainingprepcontext.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: incite-seq__10.1038+s41592-021-01278-1
+
+144. ProximID — needed defining/chemistry originals
+    https://www.nature.com/articles/s41592-018-0009-z
+    Needed: Actualpublishedmain responseissubscriptionpreview; centralphysicalpreparation/sequence-libraryMethods neededbeforecountingorgraphcuration.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: proximid__10.1038+s41592-018-0009-z
+
+145. Ucaps-seq — needed defining/chemistry originals
+    https://pubs.acs.org/doi/10.1021/jacs.1c11269
+    Needed: Need publishedmain/fullMethods andactuallylinkedchemistrySI. Standardrouteyieldednoreadableoriginal; primary403/mirror202. ExactSIURLunresolved,notguessed.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: ucaps-seq__10.1021+jacs.1c11269
+
+146. DAP-seq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4907330/bin/NIHMS790647-supplement-mmc1.pdf
+    Needed: ActuallinkedPDFgated/TDM; whetheritcontainsneededSupplementExperimentalProceduresunverified.
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4907330/bin/NIHMS790647-supplement-mmc5.pdf
+    Needed: ActuallinkedPDFgated/TDM; chemistry/documentroleunverified.
+    https://doi.org/10.1016/j.cell.2016.08.063
+    Needed: DeclaredstandardDOIretrievalfoundnoopenfulltext; correctiontext/scopeunread.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: dap-seq__10.1016+j.cell.2016.04.038
+
+147. GLASS-seq — needed defining/chemistry originals
+    https://www.sciencedirect.com/science/article/pii/S0956566326006056
+    Needed: ActualdeclaredpublishedmainstandardfallbackHTTP403; centralpreparation andactualchemistrySIlinksneeded. No validatedoriginal/sourcebody.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: glass-seq__10.1016+j.bios.2026.118973
+
+148. Calling Card-seq (genomic Ty5 recovery) — needed defining/chemistry originals
+    https://genome.cshlp.org/content/21/5/748
+    Needed: Actual defining publisher original fallback failedcurlerror47redirectlimit. EPMC500/PMCcooldown/publicCloudnouseablefile leave fullMethods andactualSIidentityunread; no guessedPDF/SIURL.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: calling-card-seq-genomic-ty5-recovery__10.1101+gr.114850.110
+
+149. Mint-ChIP — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4707994/bin/NIHMS745527-supplement-1.pdf
+    Needed: Actual linked TableS2 supplement gated by sourcehost cooldown/challenge; not read. Whole oligos remain open.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: mint-chip__10.1016+j.molcel.2015.11.003
+
+150. QTI-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/nmeth.3208
+    Needed: ActualvalidatedpublishedNaturemainissubscriptionpreview; fullMethodsbodyneededforfinal-versionverification, notassumedAMequivalent.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: qti-seq__10.1038+nmeth.3208
+
+151. PA-m6A-seq — needed defining/chemistry originals
+    https://onlinelibrary.wiley.com/doi/10.1002/anie.201410647
+    Needed: ActualstandarddeclaredpublishedEnglishmainHTTP403; finalbodyapplicability/fullMethodsunverified.
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4396828/bin/NIHMS676610-supplement-1.pdf
+    Needed: ActualnamedassociatedSIstandardfetchblockedbyexistingPMCchallengecooldown; originalnotread, detailedchemistry/wholeoligosunassembled.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: pa-m6a-seq__10.1002+anie.201410647
+
+152. CATCH-IT (NGS preparation) — needed defining/chemistry originals
+    https://linkinghub.elsevier.com/retrieve/pii/B9780123919380000070
+    Needed: Final exact PubMed-linked Elsevier original route returned no article content (11characters oftext); standard DOI route no open fulltext. No usable chapter original acquired.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: catch-it-ngs-preparation__10.1016+B978-0-12-391938-0.00007-0
+
+153. LAF-Seq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/PMC4645595/
+    Needed: Corrected-metadata standard DOI route yielded no open main; actualPMC4645595 EuropePMCfullTextXMLHTTP500; PMCarticlepage sourcehost challenge/cooldown; declaredPMCCloud fallback returned no usablefile. No readable original acquired.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: laf-seq__10.1074+jbc.M115.676296
+
+154. 5PSeq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4461875/bin/NIHMS688997-supplement-6.docx
+    Needed: ActualnamedDOCXstandardfetchTDMgate; rolemappingtoExtendedProcedures/primeroriginals unverified. Obtain or verify actualrole before adopting chemistry; noclaimallSI1–7 needed.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: 5pseq__10.1016+j.cell.2015.05.008
+
+155. Spatial Hi-C-RNA — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/13509204/bin/NIHMS2201910-supplement-8.xlsx
+    Needed: ActualsameJATS SD8 caption identifies TableS7 primers/ligationlinkers/DNAbarcodesequences; originalXLSX not acquired, sourcehostTDM/challengecooldown. Not an inspected table.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: spatial-hi-c-rna__10.1016+j.cell.2026.07.039
+
+156. Single-molecule nucleosome decoding with on-surface DNA sequencing — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/4904710/bin/NIHMS791916-supplement-1.docx
+    Needed: Actual linkedSI1 corresponding MaterialsMethods/FigsS1–14 index; originalDOCX TDM/challengecooldown blocked. No whole adapter sequence or figuretable inspected.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: single-molecule-nucleosome-decoding-with-on-surface-dna-sequencing__10.1126+science.aad7701
+
+157. iSeq — needed defining/chemistry originals
+    https://rnajournal.cshlp.org/content/19/2/257.full.html
+    Needed: Exact published main standard route HTTP403; needed to establish preparation and actual supplement identities.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: iseq__10.1261+rna.036202.112
+
+158. EndoVIPER-seq — needed defining/chemistry originals
+    https://pubs.acs.org/doi/10.1021/jacs.9b13406
+    Needed: Actual exact published main403; verify final body/preparation applicability rather than assume associated-AM equivalence.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: endoviper-seq__10.1021+jacs.9b13406
+
+159. PORE-cupine — needed defining/chemistry originals
+    https://www.nature.com/articles/s41587-020-0712-z
+    Needed: Actual fetched publishedmainHTML is subscriptionpreview with accessiblecaptions, not fullMethods; fullbody needed for complete cellular/library preparation.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: pore-cupine__10.1038+s41587-020-0712-z
+
+160. RedaC:T-seq — needed defining/chemistry originals
+    https://www.sciencedirect.com/science/article/pii/S109727652200483X
+    Needed: Actual needed original unavailable through standard source routes.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: redac-t-seq__10.1016+j.molcel.2022.05.016
+
+161. fCLIP-seq — needed defining/chemistry originals
+    https://www.cell.com/article/S1097276517302034/pdf
+    Needed: Actualofficialdefining2017mainPDFreturnedHTTP403 throughstandarddeclaredsource; actualpreparationandlinkedchemistrySIunread.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: fclip-seq__10.1016+j.molcel.2017.03.013
+
+162. PRIM-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/s41587-025-02780-z.pdf
+    Needed: ActualofficialpublishedmainPDFstandardattemptreturnedHTMLnotPDF; full2025Methods/recipeunread, no supersededpreprintsubstitution.
+    Status: See source review for exact received original/version and inspected chemistry. Available supplements or associated manuscripts do not establish final-version equivalence. Ordinary unread vendor/linked sources are not access failures; no source absence claim.
+    Directory: prim-seq__10.1038+s41587-025-02780-z
+
+163. SMASH — needed defining/chemistry originals
+    http://genome.cshlp.org/lookup/suppl/doi:10.1101/gr.201491.115/-/DC1
+    Needed: ActualpublishedSupplementalMethodslandingredirectfailure(curl47); noattachmentidentityinvented.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: smash__10.1101+gr.201491.115
+
+164. G4access — needed defining/chemistry originals
+    https://www.nature.com/articles/s41588-023-01437-4.pdf
+    Needed: Exact official defining main PDF returned HTML-notPDF through standard declared source; full preparation Methods remain unread.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: g4access__10.1038+s41588-023-01437-4
+
+165. TCP-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/nature18647
+    Needed: Selected publisher response contains subscriptionpreview/abstract/sourceindex, no full defining2016Methods. Need full published Methods; not a claimed source omission.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: tcp-seq__10.1038+nature18647
+
+166. Chem-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/nbt.2776.pdf
+    Needed: ActualdeclaredpublishedmainPDFreturnedHTMLnotPDF; fullfinal/associatedAMpreparationequivalenceunverified.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: chem-seq__10.1038+nbt.2776
+
+167. SIF-seq — needed defining/chemistry originals
+    https://www.nature.com/articles/nmeth.2886.pdf
+    Needed: ExactofficialpublishedmainPDFreturnedHTMLnotPDF; fullfinal/associatedAMpreparationequivalenceunverified.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: sif-seq__10.1038+nmeth.2886
+
+168. CoLa-seq — needed defining/chemistry originals
+    https://doi.org/10.1016/j.molcel.2022.11.004
+    Needed: Final published main and its actual source-indexed TablesS4/S5 are needed. ExactDOIroute403; associated acceptedtext is available, but whole probe/library-oligo tables and filename mapping remain unverified; no preprint substitution.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: cola-seq__10.1016+j.molcel.2022.11.004
+
+169. Nested Patch PCR — needed defining/chemistry originals
+    https://doi.org/10.1101/gr.078204.108
+    Needed: Defining publishedmain unretreived; needbodyandactualsupplementindex. No validoriginal via generic/declarationroutes.
+    https://genome.cshlp.org/content/18/11/1844
+    Needed: Actualpublishedmain exactroutecurl47; no challengeworkaround/retry.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: nested-patch-pcr__10.1101+gr.078204.108
+
+170. ExSeq — needed defining/chemistry originals
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7900882/bin/NIHMS1670746-supplement-Supp_Text_and_Figures.docx
+    Needed: ActualassociatedMethodsDOCXstandardroutePMCdownloadgate/noCloudTDM; detailedRNAanchoring/passivation/oligo/recoverymethodsnotread; finalpublishedapplicabilitymustbeverified.
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7900882/bin/NIHMS1670746-supplement-Supp_Tables.xlsx
+    Needed: ActualassociatedTablesXLSXstandardroutehostcooldown/downloadgatepreserved; wholeprimer/probeorderingunreviewed, noabsenceorfinalequivalenceclaim.
+    Status: Source-review record distinguishes actual inspected material and failed retrieval. Ordinary unread predecessor/vendor sources are not failed-download requests; no source absence claim.
+    Directory: exseq__10.1126+science.aax2656

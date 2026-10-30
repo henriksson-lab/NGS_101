@@ -1,0 +1,57 @@
+{
+  "dir": "methyl-codec__10.1093+nar+gkaf482",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-codec__10.1093+nar+gkaf482/nar_gkaf482_PMC12135180.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12135180.1/PMC12135180.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2025 PMC12135180 main75\u201399/111/141;publishedSI Methodsfirstpage andoriginalTableS1p9 inspected; originalp8FigS7 viewed while locating table, no chemistry adopted;2originals. No genericCODEC constructor inherited.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "original_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-codec__10.1093+nar+gkaf482/nar_gkaf482_supp_gkaf482_supplemental_file.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12135180.1/gkaf482_supplemental_file.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2025 PMC12135180 main75\u201399/111/141;publishedSI Methodsfirstpage andoriginalTableS1p9 inspected; originalp8FigS7 viewed while locating table, no chemistry adopted;2originals. No genericCODEC constructor inherited.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected preparation/private incomplete graph; no full linked-source or absence review/public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-24",
+      "reviewer": "dna_round24",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Counter recorded BEFORE every new original; original acquisition/reading closed at stated count, no further chemistry investigation.",
+      "locations": "Published2025 PMC12135180 main75\u201399/111/141;publishedSI Methodsfirstpage andoriginalTableS1p9 inspected; originalp8FigS7 viewed while locating table, no chemistry adopted;2originals. No genericCODEC constructor inherited.",
+      "findings": "Methyl-CODEC selected hydroxy-dCTP route",
+      "deferred": [
+        "Full12TableS1 oligo chemical orderings andquadruplex/USER/endgeometry unassembled although originaltablevisuallyread; source16ulpostconversioneluate vs20ulPCRinput unresolved; historicalkit andCODECprecursor originals notreviewed."
+      ],
+      "oligo_scraper": "Mandatory scraper run; META8families/2files,Methyl5/1,Replicon0/0; originalMethylTableS1p9 visuallyinspected despitegarbledtext.",
+      "verification": "21focusedchecks across3DNAgraphs pass;sourceguard49exact0failed5unassembled;chemistry50unresolved0contradictory. Independent selected-source critical review closed; no complete molecular-validation or accepted-absence claim."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted24_reader",
+    "date": "2026-10-30",
+    "scope": "Publishedmain75\u201399/141;SIp1Methods and rendered originalTableS1p9. Selectedcriticalimplementationreview only; not full linked-source orabsenceaudit.",
+    "finding": "mC/5Me-dC/5P/PS/DDD(A,G,T) known-unassembled inventory retained. USER/Phi29/protection/conversion/PCR order consistent; source DTTunit and16\u219220ulbridge explicit. No consequential selected-scope defect."
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "dir": "peptide-reverse-translation__10.1038+s41587-026-03061-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "0",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41587-026-03061-z",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published identity/abstract/dataavailability/changehistory25March2026; subscriptionpreview, mainchemistrybodyunavailable.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-026-03061-z/MediaObjects/41587_2026_3061_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1materials/synthesis; Fig4/6/13\u201317 andTable7 actualPDFp16/p38 rendered, controls vsselectedFig5 context.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-026-03061-z/MediaObjects/41587_2026_3061_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "OriginalTable2workbookZIP/XML nineteenwholemodifiedordersS24/28/29/31/33/41\u201354; sourcepurposecells.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "dna_owner_round40",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "SelectedFig5four-cycle sourcepositivepartialpreparation, notcompletechemistryaudit.",
+      "locations": "Published identity/abstract/dataavailability/changehistory25March2026; subscriptionpreview, mainchemistrybodyunavailable.; PublishedSI1materials/synthesis; Fig4/6/13\u201317 andTable7 actualPDFp16/p38 rendered, controls vsselectedFig5 context.; OriginalTable2workbookZIP/XML nineteenwholemodifiedordersS24/28/29/31/33/41\u201354; sourcepurposecells.",
+      "findings": "Publishedupdateispeer-reviewinformationamendment; modifiedDNAinventory, peptideUMI/antibodyidentity andseparateretainedpeptide/releasedreporterfates retained. Wholeoccupiedmolecules/productionformulationsunassembled.",
+      "deferred": [
+        "PublishedMOESM2SupplementaryMethods ordinaryunread undercap; selectedmainbodyunavailableinpreview.",
+        "OtherTable2controls/organicproductMS/NMR outside selectedscope; notjudgedchemicallyirrelevant."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescraper18hits/1file; followedselectedsourceorders toactualworkbookZIP/XML andSIoriginalTable7/Fig4. Noabsenceclaim."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Publishedmain linksSupplementaryMethodsMOESM2 (deferred), SI1andTable2(read), reportingsummary(unread); supersededpreprintexcluded. No complete linked-sourceaudit."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveboundedpartialpreparation; same3publishedoriginals independentcriticalimplementationpeerclosed withphysicalBiodTpolymerposition andaggregatepackagingfixes verified. Fulloccupiedchemicalproducts/readgeometryunassembled; noacceptedabsence/pass2 orcompletechemicalaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round40",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same three selected published originals only: main preview abstract623/changehistory917\u2013919; SI1Fig4/6/13\u201317 captions and actualTable7PDFp38/Fig4p16; actualTable2 originalXLSX ZIP/XML nineteen selected whole modified orderings/purpose cells. No full main chemistry, MOESM2, neworiginal or retrieval.",
+    "findings": [
+      "Selected four-cycle releasedDNA-amino-acid versus retainedshortenedpeptide branches, subsequent antibody-proximity reporting and sourcePCR-stagger orders match scoped positive original evidence; no perfect cleavage/yield or source-control conditions inherited as production.",
+      "Table7 Fig5 actual FWFWGGGX/N30 peptide moleculeUMI, GGGGGGX carrier, anti-PTC-F tag4 and anti-PTC-W tag2 checked in original rendered table. Whole source DNA tag orderings retain orientation independently of reported complementary barcode orientation; stagger N windows not assigned extraUMIs.",
+      "Caught repository model omission of actual source /BiodT/ nucleotide in S29. Owner now retains physical biotin-dT in a separate linker-connected DNA tract plus whole DNA body, with physical nucleotide ordering TGGCAACGGCATTTTC and internal-biotin nucleotide1 metadata. Non-nucleotide Sp18 boundaries explicit, no free-fragment or directT-body phosphodiester claim. Whole raw-order fixture alone was insufficient; three physical-position/polymer regressions added.",
+      "Actual prepared antibody conjugate stock exposes co-present DNA/protein components without new free oligo additions. Extension/PCR supplies now aggregate inventory with packaging/stock counts unassigned; no assumed premix. Main update concerns peer-review information only; no full main/SI version-equivalence or source-absence conclusion."
+    ],
+    "verification": "31focusedPASS including19whole original-order fixtures and3BiodT physical-polymer/position checks; guard23exact0fail/3narrowc7-N30normalizationexceptions/4noncontiguousS29states flagged unrepresented, with actual BiodT known; 8produced antibody-tag DNA components outside external-only guard. Chemistry31unresolved0contradictory. Narrow implementation review closed, not complete chemistry/source/absence audit.",
+    "clarification_followup": "2026-10-30: Inspected subsequent label/reason/note-only refinement: reporter_pool is explicitly a logical collection/opaque finishing interface with physical cycle-aliquot mixing unassigned. This correctly narrows the same selected abstract/SI reporter evidence; no biological ports, step kinds, source scope or terminal disposition changed. Endpoint remains UNRESOLVED, without an invented sequencing plan or library-readiness claim. No new originals opened."
+  }
+}

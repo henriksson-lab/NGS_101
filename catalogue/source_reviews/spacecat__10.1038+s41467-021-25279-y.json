@@ -1,0 +1,63 @@
+{
+  "dir": "spacecat__10.1038+s41467-021-25279-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8417131.1/PMC8417131.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Entiremandatorypublishercorrection;imageonly,noassertedrecipechange"
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8371137.1/PMC8371137.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedselectedstaining/tissue/SeqWell/readlayoutsections"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8371137.1/41467_2021_25279_MOESM1_ESM.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Notdownloaded:standard120MBcap;actualTable1needed,notmissingdisclosure",
+      "reason": "Notdownloaded:standard120MBcap;actualTable1needed,notmissingdisclosure"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "MandatoryformalcorrectionPMC8417131 readfirst(twoFig3Cwhitedots only), then publishedmainPMC8371137 staining258–262/tissue298–308/readprocessing312;twooriginals. ActualTable1SIexceedsconfigured120MBcap,notpublisherinaccessibility.",
+      "locations": "MandatoryformalcorrectionPMC8417131 readfirst(twoFig3Cwhitedots only), then publishedmainPMC8371137 staining258–262/tissue298–308/readprocessing312;twooriginals. ActualTable1SIexceedsconfigured120MBcap,notpublisherinaccessibility.",
+      "findings": "Source-positive distinctwetpreparation withprivatepartialgraph; knownoligos/modifications/physicalstates sourcequalified, no wholefamilyconstructor inheritance.",
+      "deferred": [
+        "Complete intermediate/end/primer/read geometry and actualchosen sample assignments",
+        "Actualunreadlinkedhistoricalkit/componentoriginals; no recursivechase"
+      ],
+      "verification": "23focusedchecks(9CATS/8SeqScopeX/6SPACECAT)pass. Defaultsourceguard5exact0failed0exempt4unassembled across3graphs; explicitSeqScopeXproteinbranchsourceguard5exact0failed(sharedanchorcountedagain). Chemistry0established/52unresolved/0contradictory,notcompletevalidation.",
+      "oligo_scraper": "MandatoryscrapersCATS31candidates/3textfiles(same-mainPDF/XML),SeqScopeX10/2,SPACECAT0/0sequence-positivefiles. Actualselectedsourceliteralsverified; zerohitsnotabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Explicitactualtargets/versionorconfiguredsizelimitsabove; otherkits/parentoriginals remainordinaryunreviewedscope. No completeabsenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "https://pmc-oa-opendata.s3.amazonaws.com/PMC8371137.1/41467_2021_25279_MOESM1_ESM.pdf",
+    "Fullmolecular/linkedsource review remainsuncompleted scope."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round25",
+    "date": "2026-10-30",
+    "scope": "Selectedoriginal/modelcriticalreviewonly; no complete source/linked-material absenceaudit.",
+    "finding": "Coordinator independentlyreadentiremandatorycorrection plusmainstaining/SeqWell304–312(twooriginals). Image-onlycorrectionlimit, dyevsDNAidentifier roles,sourceorder/physicalfraction accounting consistent. LargeTable1SI isconfigured120MBdownloadlimit,notpublisherinaccessibility orsourceabsence. No further blockingselected-scopeissue."
+  }
+}

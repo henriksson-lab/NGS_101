@@ -1,0 +1,78 @@
+{
+  "dir": "lace-seq__10.1038+s41556-021-00696-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lace-seq__10.1038+s41556-021-00696-9/s41556-021-00696-9.html.txt",
+      "original": "https://www.nature.com/articles/s41556-021-00696-9",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round21",
+        "date": "2026-10-30",
+        "locations": "Accessible abstract/reference/availability and selectedextendedcaptions only; fullMethods inaccessible",
+        "finding": "Positive inspected scope only; no complete chemistry or absence audit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "tables",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lace-seq__10.1038+s41556-021-00696-9/s41556-021-00696-9_41556_2021_696_MOESM2_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41556-021-00696-9/MediaObjects/41556_2021_696_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round21",
+        "date": "2026-10-30",
+        "locations": "TableS1 lines1\u201317;selectedTableS10 headers/rows33563\u201333670",
+        "finding": "Positive inspected scope only; no complete chemistry or absence audit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "protocol_v1",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.21203/rs.3.pex-1499/v1",
+      "original": "https://doi.org/10.21203/rs.3.pex-1499/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Standardfetch ResearchSquare Cloudflare barrier; no originalread"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive comparison-table preparation facts only; ordered library preparation inaccessible, no invented graph or collected count. No accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "coordinator_round21",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Defining publisher HTML and actual published supplementary workbook; exact directly cited protocol attempted as third original, inaccessible.",
+      "locations": "HTML686,984\u2013991,1369,1608\u20131622; workbookTableS1 lines1\u201317 and selectedTableS10 headers/rows33563\u201333670.",
+      "findings": "On-bead fragmentation/ligation,IVT,streptavidincDNApurification and duplicate randomers source-supported comparison-table facts; not a full ordered recipe. SELEX T7 primer not reassigned to LACE.",
+      "deferred": [
+        "Full published Methods",
+        "Exact cited Protocol Exchange revision1 original",
+        "Complete library oligo/end and read-layout inventory; other source data unreviewed"
+      ],
+      "oligo_scraper": "Mandatory rerun after all acquisition:96candidate hits/oneworkbook; selected source rows followed. No absence conclusion.",
+      "verification": "Notes/ref only; no fabricated molecular graph."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round21",
+    "date": "2026-10-30",
+    "scope": "Selected comparison TableS1 lines1\u201317 and TableS10 headers/SELEX rows; notes/access boundary only, not a full original/linked-source absence audit.",
+    "finding": "Positive table preparation facts consistent; no ordered recipe or LACE library oligo identity can be supplied by the separate SELEX primer. Keeping uncollected and without invented graph matches inspected scope."
+  }
+}

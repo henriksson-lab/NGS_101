@@ -1,0 +1,50 @@
+{
+  "dir": "rho-seq__10.1016+j.molcel.2021.11.003",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8792297.1/PMC8792297.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedauthorMS PMC8792297.1/NIHMS1756155 identity/Methods260/268/288,keyresources884\u2013886;nofinalbody/SIequivalence."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedauthorMS PMC8792297.1/NIHMS1756155 identity/Methods260/268/288,keyresources884\u2013886;nofinalbody/SIequivalence.",
+      "locations": "AssociatedauthorMS PMC8792297.1/NIHMS1756155 identity/Methods260/268/288,keyresources884\u2013886;nofinalbody/SIequivalence.",
+      "findings": "Associated-manuscript-qualified R+/R\u2212 endogenous-RNA preparation: borohydride versus mock followed by rhodamine in both arms, RNA-adapter/RT/DNA-adapter endpoint libraries, explicit source allocations and whole modified adapter inventory; study spike timing remains unassembled.",
+      "deferred": [
+        "Actuallinkedassociated-manuscriptSupplementaryPDFgated/notCloudTDMobject;needinspectactualchemistry/figure/oligoroles,notassumedprimerdisclosure."
+      ],
+      "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation.",
+      "oligo_scraper": "Mandatorybundle runs:NJU351candidates/10files(one16MBresulttableskippednormalcap),2OMe54/3,Rho14/1. Onlyselectedoriginalpointersweresourceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Sourcequalifiedcappedpassonly;ordinarylinkedoriginalsandknownactualSIbarriersremainopen.No absenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8792297/bin/NIHMS1756155-supplement-1.pdf",
+      "why": "Actuallinkedassociated-manuscriptSupplementaryPDFgated/notCloudTDMobject;needinspectactualchemistry/figure/oligoroles,notassumedprimerdisclosure."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round29",
+    "date": "2026-10-30",
+    "documents": 1,
+    "scope": "Narrowselectedsource/modelcriticalreviewonly;notcompleteall-source,linked-informationorabsenceaudit.",
+    "finding": "Coordinator independently read sameassociatedAM288/884/886andearlier260/268. BothRhodaminearms,productionstockallocations,same-stockretainedprimersandRTdNTPsubstratespreserved. WholeRNA/DNA-targetadapter5P/body/additionalterminalddCorderingsindependentlyverified;fourinputformattingexceptionsaretwouniqueorderings. AssociatedAMversionlimit,unassignedstudyspiketimingandsealedproducts/readgeometryremainexplicit. Follow-up code review separates same-PCR-bulk molecular dNTP substrate from buffer condition without a new stock addition; source cap unchanged.",
+    "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation.",
+    "molecular_input_followup": "Final coordinator check represents incorporated rhodamine110 as a molecular structural contribution to the chemical-conversion step, rather than a condition. Same source main260; no new original or reaction-product geometry asserted."
+  }
+}

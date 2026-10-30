@@ -1,0 +1,89 @@
+{
+  "dir": "clippr-seq__10.1093+nar+gkae058",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_pdf",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11014417.358/PMC11014417.358.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualprintedOUP/NAR2024publishedadvancearticlePDFidentity/Methods77\u2013122/ResultsmethodologyPDFp4/actualFigure1p5; sourceMethods254nMnotationandFigure254nmvaluespreserved.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "associated_si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11014417.358/EMS194846-supplement-Supplementary_material.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedEMSSupplementarymaterialactualPDFp1title/indexTableS1\u2013S8rolemap only. No fullpublished/AMsupplementequivalence claimed; rolemap doesnot supplykitrecipe.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "table_s8",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11014417.358/EMS194846-supplement-Table_S8.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedTableS8originalsheet1A1:C79headers/wholeordersrawZIPXML;PCR/qPCRvalidation,LNA/PSknockdown,biotinASOandreporterconstructionroles, notNGSkitadapterinheritance.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "am_identity",
+      "role": "other",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11014417.358/PMC11014417.358.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "DistinctUKPMCEMS194846AMfirstidentityheaderONLYreadlateafterthreeoriginals; noAMchemistryadopted, nofullfinal/AMequivalence. Conservativefourthidentityexposure/capoverrunrecorded.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "multi_owner_round43",
+      "date": "2026-10-30",
+      "documents": 4,
+      "scope": "PublishedPDFsource-qualifiedbetaTC6AMT/UV\u2192TRIzol/DNase\u219210ugpolyAcapture\u2192photoreversal\u2192actualhalvesRNaseR/untreated\u219210/25ngseparateCollibrilibraries/QC/NextSeq550SE150. Wholekitchemistry/oligos/productsunassembled.",
+      "locations": "ActualprintedOUP/NAR2024publishedadvancearticlePDFidentity/Methods77\u2013122/ResultsmethodologyPDFp4/actualFigure1p5; sourceMethods254nMnotationandFigure254nmvaluespreserved.; AssociatedEMSSupplementarymaterialactualPDFp1title/indexTableS1\u2013S8rolemap only. No fullpublished/AMsupplementequivalence claimed; rolemap doesnot supplykitrecipe.; AssociatedTableS8originalsheet1A1:C79headers/wholeordersrawZIPXML;PCR/qPCRvalidation,LNA/PSknockdown,biotinASOandreporterconstructionroles, notNGSkitadapterinheritance.; DistinctUKPMCEMS194846AMfirstidentityheaderONLYreadlateafterthreeoriginals; noAMchemistryadopted, nofullfinal/AMequivalence. Conservativefourthidentityexposure/capoverrunrecorded.",
+      "findings": "ActualpublishedMethods/Fig1reportRNAassociationcaptureandRNaseRenrichmentfollowedbyactualdeepsequencing; pairedcontrolisonepreparationmethod, not inferredchimericpartnerjoin.",
+      "deferred": [
+        "DetailedRNaseRrecipeinref20ordinaryunread;noinheritance.",
+        "Collibrikitfactory,wholeoligos/readlanding/occupiedRNA/wholelibrarymoleculesunassembled.",
+        "TableS8validation/knockdown/reporterbranchesnotmerged;largeresultworkbooksunread.",
+        "AMbodyordinaryunreadandexcludedfromchemistry;additionaladministrativeheaderexposureoverruncaprecorded."
+      ],
+      "oligo_scraper": "Mandatorywholebundle675sequence-likehits/4representations;three13MB/12MB/44MBresulttablesnot-scannedbydefaultsizeguard,notreadforchemistry. TableS8wholeorders/rawXMLrolesverified,notusedasNGSprimers.",
+      "verification": "21focusedPASS;sourceguard0exact0failed0externalunknown,threeproducedwhole-unassembledoligoclasses(polyAsupport+twofinishinginventories)outsideexternal-inputguard. Chemistry24steps24unresolved0contradictory. No exactNGSsequenceorwholemoleculeclaimed. Criticalpeerpending.",
+      "cap_exception": "PreselectedmainPDF/XMLassumedoneoriginal; PDFactualprintedpublishedOUPadvancearticle versusXMLUKPMCEMS194846AMidentityheaderproveddistinctversionlate. Conservative4identityslotsrecorded; no furtherreading, noAMchemistryadopted; capnotclaimedmet."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Capped positive-source pass only. DetailedRNaseRrecipeinref20ordinaryunread;noinheritance. Collibrikitfactory,wholeoligos/readlanding/occupiedRNA/wholelibrarymoleculesunassembled. TableS8validation/knockdown/reporterbranchesnotmerged;largeresultworkbooksunread. AMbodyordinaryunreadandexcludedfromchemistry;additionaladministrativeheaderexposureoverruncaprecorded."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive selected partial preparation; complete source/molecular/absence audit incomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_round43_peer",
+    "date": "2026-10-30",
+    "type": "same_selected_published_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Selected actualprintedpublishedOUP/NAR2024 PDF PMC11014417 Methods77\u2013122, Results284\u2013289 andactualFig1PDFp5; associatedSIroleindexp1; associatedTableS8 originalXLSXsheet1A1:C79wholeorderings/roles(plusexistingRT-PCR/qPCRheader). DistinctAMXMLidentityheader NOT reopened or used as chemistryauthority.",
+    "findings": [
+      "VerifiedactualpublishedMethodsAMT20ugml/37C30min/two365nm7miniceexposures, selectedTRIzolprecipitation/DNase, actual10ugpolyAisolation andQC thenphotoreversal. Figure1p5clearly shows254nm wavelength whileMethodsprints254nM; bothsourcevalues/locators retained, modelusesfigurewavelengthinterpretation withoutassertingcompletepublicationerroraudit.",
+      "SamepublishedResultsoverview284\u2013289explicitlyonehalftoRNaseR/otherhalfuntreatedCLiPP; selectedseparate10ng/25ngCollibrilibraries/TapeStation/NextSeq550SE150 matchactualproduction. Bothpreparedstockselection/loadingremainders explicit. No inventedphysicalpool, validation20ul/12ulRTaliquot or source-tableASO/LNA/reportersequence addedtoNGSpreparation.",
+      "ActualS8wholeoriginalrowsmap toRT-PCR/qPCRvalidatedtargets, LNA/PS controls, biotinASOpulldown andreportercloningorders. These are not automatically kitNGSoligos; trueproductionwholekitbodies/functionalpartition remainunassembled, notconfirmedabsent. Copresentcapture-supportoligodT andactualkitpriming/catalyst/nucleotideinventory representedwithoutfreshduplicateadditions.",
+      "Sourceproximity-ligationwordingdoesnotestablishphosphodiesterpartnerjoin. ModelretainspsoralenRNA-duplexcrosslinking/photoreversalclass andheterogeneousRNaseRenrichment; no pairedchimericRNAorjoinedpartner-readconstructed. BLAST/sequencecomplementarity andRT-PCRvalidation remainseparatefrommolecularproduction. No blocking defect found in selected scope.",
+      "Preserveownerrecordedcapexception: three selectedchemistryoriginals PLUS separateAMXMLidentityheader exposure = FOUR conservativeidentities, not a compliantthree-originalpass. Thisreviewusesonlythealreadyselectedthreeanddoesnotsanitizetheexception, re-openAMorclaimabsencepass2."
+    ],
+    "verification": "Independentlyreran21focusedchecksPASS(exit0) includingphysicalhalves/nojoin/noimaginedpool/sourceversions/readout. Mandatorywholeexistingbundlescraper executed; no new acquisition/originals. Guard0exact/0failed withthreeproducedwhole-unassembledoligoclassesoutsideexternalguard, chemistry24unresolved0contradictory perowner. Narrowimplementationrecheck only."
+  }
+}

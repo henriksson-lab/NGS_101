@@ -1,0 +1,66 @@
+{
+  "dir": "plato__10.1038+nbt.2539",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://arep.med.harvard.edu/pdf/Zhu_PLATO_13.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Printed published title/DOI,2013NatureBiotechnology main approach and RNA3\u2032 recovery workflow; source_pdf_a5d474dd04edc863d82f.pdf.txt43\u201365"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2539/MediaObjects/41587_2013_BFnbt2539_MOESM14_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI OnlineMethods: Ribosome display/ORFeome precipitation, mRNA preparation/Illumina sequencing/Analysis; txt100\u2013251; FigS2/S5captions for separate diagnostic scope"
+    },
+    {
+      "id": "source3",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4110636.1/PMC4110636.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated author-manuscript identity and selected Methods90\u2013100 encountered during retrieval; not model recipe authority, no whole-version equivalence claim"
+    },
+    {
+      "id": "deferred_table",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2539/MediaObjects/41587_2013_BFnbt2539_MOESM15_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Published primer Table4 workbook available but uninspected after three-original cap"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Capped published-first selected source reading and source-local private incomplete operational graph; no missing-information audit",
+      "locations": "Printed published title/DOI,2013NatureBiotechnology main approach and RNA3\u2032 recovery workflow; source_pdf_a5d474dd04edc863d82f.pdf.txt43\u201365; PublishedSI OnlineMethods: Ribosome display/ORFeome precipitation, mRNA preparation/Illumina sequencing/Analysis; txt100\u2013251; FigS2/S5captions for separate diagnostic scope; Associated author-manuscript identity and selected Methods90\u2013100 encountered during retrieval; not model recipe authority, no whole-version equivalence claim",
+      "findings": "Known source operations and physical fractions retained; incomplete geometry stays explicit. Independent selected-source critical review by coordinator closed after full corrected modified-oligo transcription checks; not absence-gate approval.",
+      "deferred": [
+        "PublishedTable4 whole primer sequences/modifications and read-primer landing; workbook available, not retrieval-blocked",
+        "Source-cited ribosome-display backbone original and exact pRD-DEST/vector/end geometry",
+        "Exact bait-specific upstream manufacturing recipes, original kit revisions and qPCR/input-reference sample allocation beyond selected representative route"
+      ],
+      "verification": "35localchecks9PLATO/10CFMS/16Click pass; sourceguard3exactchecked0failed0exempt26unassembledinputs. 3privatebuilds/schema/pairing0problems pass;chemistry0established138unresolved0contradictory. Independentcriticalreviewclosed,notabsenceaudit.",
+      "oligo_scraper": "Mandatory per-bundle scraper run: PLATO69/CFMS10/Click11candidates; original selected pointers/modifications checked. Collapsed hits are not manufactured oligos or sequence-absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct source links/component questions enumerated; no recursive retrieval or absent-disclosure claim."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "PublishedTable4 whole primer sequences/modifications and read-primer landing; workbook available, not retrieval-blocked",
+    "Source-cited ribosome-display backbone original and exact pRD-DEST/vector/end geometry",
+    "Exact bait-specific upstream manufacturing recipes, original kit revisions and qPCR/input-reference sample allocation beyond selected representative route"
+  ]
+}

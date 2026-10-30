@@ -1,0 +1,75 @@
+{
+  "dir": "s1-end-seq__10.1016+j.molcel.2022.08.007",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/s1-end-seq__10.1016+j.molcel.2022.08.007/j.molcel.2022.08.007_PMC9547894.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9547894.1/PMC9547894.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedAM main203/209/Fig1caption636 andwholemodifiedKeyResources821/823; publishedfinalequivalenceunverified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9547894/bin/NIHMS1830397-supplement-Supplementary_Figures.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9547894/bin/NIHMS1830397-supplement-Supplementary_Figures.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "AssociatedAM-linkedSupplementaryFiguresoriginal,notread.",
+      "reason": "StandardfetchreturnedPMCdownload/reCAPTCHAgate; hostcooldown respected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Wholehistoricalkitcomposition/aliquotbridges/wholePCR-indexproducts/readlandingunassembled; noclaimofpublicationabsence.",
+    "https://pmc.ncbi.nlm.nih.gov/articles/instance/9547894/bin/NIHMS1830397-supplement-Supplementary_Figures.pdf",
+    "DirectlycitedENDdetailedoriginalsCanela2016/Wong2021/Wu2021uninspected; no wholesaleconstructorinheritance.",
+    "Fullpublishedmainversionnotretrieved; AMscopeexplicit."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpreparativereading; privatepartialmodelonly.Noacceptedabsence/fullmolecularreview/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "dna_round31",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedAM main203/209/Fig1caption636 andwholemodifiedKeyResources821/823; publishedfinalequivalenceunverified.",
+      "locations": "AssociatedAM main203/209/Fig1caption636 andwholemodifiedKeyResources821/823; publishedfinalequivalenceunverified.",
+      "deferred": [
+        "Wholehistoricalkitcomposition/aliquotbridges/wholePCR-indexproducts/readlandingunassembled; noclaimofpublicationabsence.",
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/9547894/bin/NIHMS1830397-supplement-Supplementary_Figures.pdf",
+        "DirectlycitedENDdetailedoriginalsCanela2016/Wong2021/Wu2021uninspected; no wholesaleconstructorinheritance.",
+        "Fullpublishedmainversionnotretrieved; AMscopeexplicit."
+      ],
+      "findings": "Source-specificactualpreparationandmolecularboundariesretained; unknownmodeldataareunassembled,notconfirmedmissing.",
+      "cap": {
+        "originals_read": 1,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round31-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      },
+      "oligo_scraper": "Mandatorysource-scraperrun; pointersverifiedonlyforselectedactualoriginalscope.",
+      "verification": "40focusedchecks(CC18/Topo10/S1 12)pass; sourceguard3exact0fail3format-exemptstrands(2CCP5+1S1ad1)0unassembledinputs/3graphs; chemistry5narrowestablished0conditional69unresolved0contradictory. Selectedsame-originalpeercriticalreviewsclosed; notfullsource/wholegeometry/absencevalidation."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round31",
+    "date": "2026-10-30",
+    "scope": "SameassociatedAM205/209/636/821/823. Source200U100ulplugorderandwholeU/biotinT/PSorderingschecked; adapter1formattingexceptionverified. Ligationunknownendviewsnowshowknownadapter5P/modifiedinventoryalongsideunassembledsubstrateend; fullfold/ENDrecipe/readlandingunassembled.",
+    "finding": "Selectedcriticalsource/modelreviewclosedwithstatedfixes. Noneworiginal, fullreaction/final-AMequivalenceorabsenceauditclaimed."
+  }
+}

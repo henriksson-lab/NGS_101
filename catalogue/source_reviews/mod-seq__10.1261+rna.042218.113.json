@@ -1,0 +1,145 @@
+{
+  "dir": "mod-seq__10.1261+rna.042218.113",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mod-seq__10.1261+rna.042218.113/(manual) rna.072405.119 full text",
+      "original": "https://doi.org/10.1261/rna.072405.119",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mod-seq__10.1261+rna.042218.113/(manual) rna.072405.119_PMC6800519.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6800519/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mod-seq__10.1261+rna.042218.113/(manual) rna.072405.119_PMC6800519.xml",
+      "original": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6800519/fullTextXML",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_4",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mod-seq__10.1261+rna.042218.113/rna.042218.113_PMC3988572.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3988572.1/PMC3988572.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_5",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mod-seq__10.1261+rna.042218.113/rna.042218.113_PMC3988572.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3988572.1/PMC3988572.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round13_reader",
+        "date": "2026-10-29",
+        "locations": "Main identity24\u201327, Fig1/overview56\u201360; Methods98\u2013120 including all library operations106\u2013116, control treatment98; actual EuropePMC ZIP inventory checked separately, figure aliases only",
+        "finding": "Selected positive source chemistry/identity read with version/scope limitations in note. No accepted absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published archived original; Methods116 retains formally corrected old PCR arm"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mod-seq__10.1261+rna.042218.113/rna.042218.113_PMC3988572_supplementary.zip",
+      "original": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3988572/supplementaryFiles",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_7",
+      "role": "other",
+      "locator": "https://rnajournal.cshlp.org/content/25/9/1226_1.full",
+      "original": "https://doi.org/10.1261/rna.072405.119",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round13_reader",
+        "date": "2026-10-29",
+        "locations": "Complete correction paragraph as primary publisher indexed text; original PDF/JATS not obtained",
+        "finding": "Official correction substitutes GTGACTGG\u2026 for original TGTACTGG\u2026 in reversePCRprimer; exact old/new values preserved, corrected value used. Not original rendered-underlining inspection."
+      },
+      "pass_2": null,
+      "source_version": "Published2019formalcorrection; indexedprimarytext scope explicit"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round13_reader",
+      "date": "2026-10-29",
+      "locations": "Main identity24\u201327, Fig1/overview56\u201360; Methods98\u2013120 including all library operations106\u2013116, control treatment98; actual EuropePMC ZIP inventory checked separately, figure aliases only",
+      "finding": "Capped source pass; directly linked pending originals and actual access barriers in note. No recursive chase or second absence reader."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published main Supplemental Material / Supplemental Files; exact attachment identity unresolved",
+      "scope": "Actual Supplemental Files named by original; current JATS lacks attachment identity and retrieved EuropePMC supplemental ZIP contains only figure aliases. Attachment not obtained or chemistry-read; no guessed download URL asserted."
+    },
+    {
+      "locator": "https://doi.org/10.1261/rna.072405.119",
+      "scope": "Official corrigendum2019, indexed primary text read; full local JATS failedHTTP500, PMC HTML had no articlecontent and DOI route noopenfulltext."
+    },
+    {
+      "locator": "PublishedMethods108/112 Brar2012 and Lau2001; Zymo/MyOneC1/CircLigase historical guides",
+      "scope": "Actual named direct predecessors/vendor originals unreviewed; no whole recipe inherited from matching primer sequence."
+    }
+  ],
+  "open_questions": [
+    "Full source-linked molecular end/primer/read geometry and stated version boundaries remain unassembled, not confirmed absent."
+  ],
+  "conclusion": "Source-qualified notes and incomplete local graph only; no finished schematic, full source review or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "rna_round13_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Max10min/3originals source investigation. Mod-seq formalcorrection counts within cap; figure-only ZIP inventory not chemistrySI. No recursive chase.",
+      "locations": "Main identity24\u201327, Fig1/overview56\u201360; Methods98\u2013120 including all library operations106\u2013116, control treatment98; actual EuropePMC ZIP inventory checked separately, figure aliases only",
+      "findings": "Source-known operations through library/acquisition; physical RNA/crosslink identity distinct from conditional copiedDNA/readout; debris/control fractions preserved.",
+      "deferred": [
+        "Published main Supplemental Material / Supplemental Files; exact attachment identity unresolved",
+        "https://doi.org/10.1261/rna.072405.119",
+        "PublishedMethods108/112 Brar2012 and Lau2001; Zymo/MyOneC1/CircLigase historical guides"
+      ],
+      "oligo_scraper": "Mandatory bundle scraper and main original modification pointers inspected. SHARC2large source-data skips remain unreviewed. Empty SHAPE-JuMP hits do not imply absent SI sequences.",
+      "verification": "29 local checks pass (Mod9,SHAPE-JuMP7,SHARC13); sourceguard6checked0failed0bundlesskipped1explicit formal-corrected-primer exemption7unassembledinputs3graphs; chemistry65unresolved0contradictory. Canonical source-review schema passes (2in_progress,1blocked). Notes build and git diff --check pass; no preview/finished schematic."
+    }
+  ]
+}

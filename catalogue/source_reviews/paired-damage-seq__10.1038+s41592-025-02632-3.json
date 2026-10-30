@@ -1,0 +1,80 @@
+{
+  "dir": "paired-damage-seq__10.1038+s41592-025-02632-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paired-damage-seq__10.1038+s41592-025-02632-3/s41592-025-02632-3_PMC12182908.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12182908.1/PMC12182908.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedauthorMS main59/125\u2013185/223/227; actualjointrecipe/sourcecomponentattribution andcomputation; noentirefinal-equivalenceclaim.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paired-damage-seq__10.1038+s41592-025-02632-3/s41592-025-02632-3.html.txt",
+      "original": "https://www.nature.com/articles/s41592-025-02632-3",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedfinalNaturepage identity/abstractandattachmentmapping; actualMethodsnotreceived(subscriptionpreview). MapsMOESM3asTables1\u20135,notSourceData.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paired-damage-seq__10.1038+s41592-025-02632-3/s41592-025-02632-3_41592_2025_2632_MOESM3_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-025-02632-3/MediaObjects/41592_2025_2632_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedoriginalTable1_1B3:B29,Table1_2actualDNA/polyT/N6rows2\u201337,first18rowsTable1_3..6andall6Table1sheetidentities. WholepMENTsddC andselectedoligomodificationstringsverifieddirectlyinoriginalXML. Resulttabsnotchemistryauthority. Standardtexttwinconvertedexplicitlyforguard;targetedscraper39exactlocations.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "ActualfullfinalmainMethods(subscriptionpreview) leavesAMapplicabilityunverified; linkedhistoricalcomponents/wholegeometrydeferred."
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialpreparation; sourceaccess/versionbarriersqualifyselectedscope. No confirmedabsence/fullsourceaudit/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "dna_round29",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "AssociatedauthorMS main59/125\u2013185/223/227; actualjointrecipe/sourcecomponentattribution andcomputation; noentirefinal-equivalenceclaim.; PublishedfinalNaturepage identity/abstractandattachmentmapping; actualMethodsnotreceived(subscriptionpreview). MapsMOESM3asTables1\u20135,notSourceData.; PublishedoriginalTable1_1B3:B29,Table1_2actualDNA/polyT/N6rows2\u201337,first18rowsTable1_3..6andall6Table1sheetidentities. WholepMENTsddC andselectedoligomodificationstringsverifieddirectlyinoriginalXML. Resulttabsnotchemistryauthority. Standardtexttwinconvertedexplicitlyforguard;targetedscraper39exactlocations.",
+      "findings": "Version-qualifiedassociatedAMjointrecipe+publishedTable1wholeorderings;biotin-dUrepairlabel/oneactualR01loadedstockplusother11same-primaryparallelroute/R02R03jointbarcoding/physical17DNA17RNA1unused/bothmodalityfinishes. pMENTsadditional20thddCkeptunpairedoutside19bpMEcontact; sourceT16/P7N6remainliteral,exactUMI/readpathsunknown.",
+      "cap": {
+        "originals_read": 3,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round29-dna-original-counts.tsv",
+        "source_investigation_closed": true,
+        "scope_note": "Neworiginalinvestigationclosed; subsequentliteral/model/peerconsistencychecksuseonlysamealreadyreadsections. Noarchitecture/fetcherorrecursivechase."
+      },
+      "oligo_scraper": "MandatoryPADD7hits/3representations,Paireddefault0hits/2largefilesexcludedthen39exacttargetedhandlelocations,DAF28hits/2representations. Hitscheckedagainstselectedoriginals;nomissingclaimfromzeros.",
+      "verification": "62focusedchecks(20PADD/30Paired/12DAF)pass;genericguard11exact0fail0exempt19unassembledinputstates. Narrowpair/endclaimsestablished9/conditional0/unresolved122/contradictory0;fullreaction/sourcevalidationnotclaimed.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/paired-damage-seq__10.1038+s41592-025-02632-3/s41592-025-02632-3_PMC12182908.xml.txt \u2014 AssociatedauthorMS main59/125\u2013185/223/227; actualjointrecipe/sourcecomponentattribution andcomputation; noentirefinal-equivalenceclaim.; /husky/henriksson/NGS101_papers/sources/paired-damage-seq__10.1038+s41592-025-02632-3/s41592-025-02632-3.html.txt \u2014 PublishedfinalNaturepage identity/abstractandattachmentmapping; actualMethodsnotreceived(subscriptionpreview). MapsMOESM3asTables1\u20135,notSourceData.; /husky/henriksson/NGS101_papers/sources/paired-damage-seq__10.1038+s41592-025-02632-3/s41592-025-02632-3_41592_2025_2632_MOESM3_ESM.xlsx \u2014 PublishedoriginalTable1_1B3:B29,Table1_2actualDNA/polyT/N6rows2\u201337,first18rowsTable1_3..6andall6Table1sheetidentities. WholepMENTsddC andselectedoligomodificationstringsverifieddirectlyinoriginalXML. Resulttabsnotchemistryauthority. Standardtexttwinconvertedexplicitlyforguard;targetedscraper39exactlocations.",
+      "deferred": [
+        "ActualfullfinalmainMethods(subscriptionpreview) leavesAMapplicabilityunverified; linkedhistoricalcomponents/wholegeometrydeferred."
+      ]
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_round29",
+    "date": "2026-10-30",
+    "scope": "SamealreadyselectedassociatedAM125\u2013185 andpublishedoriginalSupplementaryTable1_1B3/whole relevantorderings,Table1_2C2/C14/C26;noadditionaloriginal.",
+    "finding": "Selectedcriticalsource/modelcheckclosedafterfixes: pMENTsadditional20thterminalddC retainedininput/loadedduplexoutsideasserted19ntMEpairing; singleloadedTn5stock/nofreereadditions; RT/anchorandfreshPCRmolecularnucleotideinputs;physical17+17mixedaliquots andmodalitydigest/PCR/indexingorderverified. Independent30localchecks pass. Fullfinal/AMequivalenceunverified; noabsenceorwholegeometryaudit."
+  }
+}

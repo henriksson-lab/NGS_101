@@ -1,0 +1,68 @@
+{
+  "dir": "volumetric-dna-microscopy__10.1038+s41587-025-02613-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12339006.2/PMC12339006.2.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC12339006.2 main40–76/190–240 end-to-endembryoRT/Tn5/anchoring/adapter/CIP/circles/RCA/UEI/USER-IVT/RT/4+2PCR/readout; distinctcontext32uMembryoRT versus32nMinitialculturedoptimization.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12339006.2/41587_2025_2613_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 captionsS1–S4 plus originalS2/S3/S4PDFp6–8 rendered: circleendpairing/samplebarcode6X/USER releasesdUnanoballs/RCA-UEI versusIVT-UEI.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12339006.2/41587_2025_2613_MOESM5_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryTable3 originalZIP/XML wholemodifiedorderings/assignedreagentroles; 5P/3P/phosphorothioate anddegenerateUMI/UEI/samplebarcode inventory inspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "dna_owner_round38",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PUBLISHED CC-BY-NC-ND PMC12339006.2 (not associatedAM); publishedSI1 andactualSupplementaryTable3MOESM5XLSX. Three originals. Superseded2023preprint and later companionprotocol are not recipe authorities. Modality is RNA through DNA/RNA intermediates.",
+      "locations": "PublishedPMC12339006.2 main40–76/190–240 end-to-endembryoRT/Tn5/anchoring/adapter/CIP/circles/RCA/UEI/USER-IVT/RT/4+2PCR/readout; distinctcontext32uMembryoRT versus32nMinitialculturedoptimization.; PublishedSI1 captionsS1–S4 plus originalS2/S3/S4PDFp6–8 rendered: circleendpairing/samplebarcode6X/USER releasesdUnanoballs/RCA-UEI versusIVT-UEI.; PublishedSupplementaryTable3 originalZIP/XML wholemodifiedorderings/assignedreagentroles; 5P/3P/phosphorothioate anddegenerateUMI/UEI/samplebarcode inventory inspected.",
+      "findings": "Sourcepositive ordered physicalpreparation andknownmodification/fate/identifier scopes retained; whole catalytic/end/read products remainunassembled.",
+      "deferred": [
+        "PublishedSupplementaryTable2reagentlist andreportingsummary notread; mainrecipesonly, no uninspectedvendorformulation imported.",
+        "WholeheterogeneousRNA/adapter/context andactual UMI/UEI/readlanding products unassembled; publication sourcealias24-versus21 bodies notassertedequivalent.",
+        "OriginalDNA microscopy/splint circularization predecessor/companionprotocols ordinaryunread, no recipeinheritance."
+      ],
+      "oligo_scraper": "Mandatorybundle scan. Firsttwo main0hits notabsence; actualgatedSI tablebodyunread. VolumetricactualTable3ZIP/XML modifiedwholeorders andoriginalSI1S2–S4 rendered/read."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "PublishedSupplementaryTable2reagentlist andreportingsummary notread; mainrecipesonly, no uninspectedvendorformulation imported.; WholeheterogeneousRNA/adapter/context andactual UMI/UEI/readlanding products unassembled; publication sourcealias24-versus21 bodies notassertedequivalent.; OriginalDNA microscopy/splint circularization predecessor/companionprotocols ordinaryunread, no recipeinheritance."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive boundedprivatepartial only, notcomplete reaction/source/absence review.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round38",
+    "date": "2026-10-30",
+    "scope": "Same three already-selected published originals only: PMC12339006.2 main40–76/190–240; published SI1 actual S2/S3/S4 original PDFp6–8 and their workflow scope; published Table3 MOESM5 original workbook ZIP/XML header/row purposes and all23 whole modified orderings. No new original, companion recipe or source retrieval.",
+    "findings": "Independently verified all23 full modified source orderings, PS and3P positions/classes, source typeI/II circle UMI versus UEI event and6-base sample identifiers, with RTN8 and adapterN6 retained as priming/binding degeneracy rather than UMIs. Checked enhanced preRCA before dU-containing RCA, source USER/T7/PEG compound IVT/release scope, actual DNase/RNA recovery followed by primers/NT-before-SSIII and ExoI. Four cDNA and two UEI PCRs consume separate allocations of one postRT stock;3P interference oligos are not PCR primers. Replicate workup/pooling/custom-SBS3B run allocations remain unassembled. Detailed embryo32uM aminoallyldUTP versus cultured-optimization32nM contexts and SI24/Workbook21 oligo labels remain qualified, not silently merged. Two narrow owner fixes preserve typed local adapter5P/N6 splinted ends with3P/PS unchanged and explicit actual Pronase catalytic input; whole occupiedRNA/junctions remain unassembled.",
+    "verification": "Independently reran37 focused checks PASS, including23 original workbook whole-ordering fixtures; source guard14exact0failed0exemptions/3 unrepresented external input states, without relabelling priming degeneracy as barcode to satisfy scanner. Scoped chemistry73unresolved0contradictory. Selected implementation closure only, not complete molecular/spatial fidelity validation or accepted source-absence review."
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "dir": "m1a-id-seq__10.1038+nchembio.2040",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nchembio.2040",
+      "original": "https://doi.org/10.1038/nchembio.2040",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-id-seq__10.1038+nchembio.2040/nchembio.2040_41589_2016_BFnchembio2040_MOESM157_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnchembio.2040/MediaObjects/41589_2016_BFnchembio2040_MOESM157_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Title/authors/Table1p2, Fig2\u20135pp4\u20137/source109\u2013169; originalp1render /tmp/rna09-m1aid-page1.png",
+        "finding": "Source SI establishes IP-RNA demethylation comparison and AMV optimization; full main Methods blocked. Abstract ALKBH3 biology is not assigned as exact library demethylase reagent."
+      },
+      "pass_2": null,
+      "source_version": "Published SI; original p1 footer/title visually inspected"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-id-seq__10.1038+nchembio.2040/nchembio.2040_41589_2016_BFnchembio2040_MOESM158_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnchembio.2040/MediaObjects/41589_2016_BFnchembio2040_MOESM158_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "published_preview",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nchembio.2040",
+      "original": "https://www.nature.com/articles/nchembio.2040",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published publisher preview only; not full main Methods",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Title/abstract/Fig1caption in discovery pass",
+        "finding": "Identity, antibody/RTstall/demethylation strategy; full Methods remain blocked."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "locations": "Selected exact source sections above and protocol notes",
+      "finding": "Source SI establishes IP-RNA demethylation comparison and AMV optimization; full main Methods blocked. Abstract ALKBH3 biology is not assigned as exact library demethylase reagent. Directly named originals deferred at source cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nchembio.2040",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Actual full main procedure, exact demethylase/cofactor/workup, complete library oligos/end/run geometry. No absence claim."
+  ],
+  "conclusion": "Notes-only capped first source/implementation pass. No full chemical/readout/source completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining/chemistry originals first, no recursive source chase",
+      "locations": "Title/authors/Table1p2, Fig2\u20135pp4\u20137/source109\u2013169; originalp1render /tmp/rna09-m1aid-page1.png",
+      "findings": "Source SI establishes IP-RNA demethylation comparison and AMV optimization; full main Methods blocked. Abstract ALKBH3 biology is not assigned as exact library demethylase reagent.",
+      "deferred": [
+        "https://doi.org/10.1038/nchembio.2040"
+      ],
+      "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
+      "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

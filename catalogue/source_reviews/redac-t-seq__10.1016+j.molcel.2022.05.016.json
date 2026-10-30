@@ -1,0 +1,84 @@
+{
+  "dir": "redac-t-seq__10.1016+j.molcel.2022.05.016",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9361928.1/PMC9361928.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAMNIHMS1809916/PMC9361928main95\u2013101/231 andkeyresources1081\u20131085; selectedNaBH4NGSpreparation, nottranslationreporter/riboprofiling.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9365200.1/PMC9365200.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualassociatedcorrectionNIHMS1822996/PMC9365200wholebody: cryo-EMFig7E/Fhydrogenbond2.1\u21922.1or2.7angstrom wording, notanassumedNGSrecipechange.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "final_main",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S109727652200483X",
+      "availability": "unavailable",
+      "reason": "ExactdeclaredpublisherstandardrouteactualHTTP403; finalbody notread.",
+      "relevance": "relevant",
+      "inspection_scope": "Notread; associatedAM/finalequivalenceunverified, notsourceabsence.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "targeted_owner_round40",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Selectedoriginals sourcepassclosedbeforeimplementation; source-qualifiedselectedbranch, notcompletechemistry/source/absenceaudit.",
+      "locations": "AssociatedAMNIHMS1809916/PMC9361928main95\u2013101/231 andkeyresources1081\u20131085; selectedNaBH4NGSpreparation, nottranslationreporter/riboprofiling.; ActualassociatedcorrectionNIHMS1822996/PMC9365200wholebody: cryo-EMFig7E/Fhydrogenbond2.1\u21922.1or2.7angstrom wording, notanassumedNGSrecipechange.",
+      "findings": "Positivephysicalpreparation andsource-version/identifier/catalog/correction distinctions retained; no similarmethod constructor or unsupportedabsence inherited. See detailednote.",
+      "deferred": [
+        "Exactfinalpublishedbody blocked at https://www.sciencedirect.com/science/article/pii/S109727652200483X; associatedAM/finalapplicabilityunverified.",
+        "Main231versusKeyResourceskitcatalogIDs; actualhistoricalkitoligos/enzymes/adapter/index/readgeometryunassembled.",
+        "Directly linkedSI originals gated; supportingSTARprotocol10.1016/j.xpro.2022.101858 ordinaryunread, no version-equivalenceclaim.",
+        "FullRNAmodificationoccupancies, tetrahydro-productstereochemistry/atommap, off-targetreactions/conversionyield andallcomplete molecules."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescancompleted; sourceprovidedwholeordersreadinselectedoriginals whereavailable. RedaCzero oligo-likehits doesnotmeanno sourcefiles/originals or confirmedabsence.",
+      "verification": "12focusedPASS; externalguard0exact0fail/0externaloligounassembled; twoexplicitproducedkitoligoinventorieswholebodiesunassembled. Chemistry21unresolved0contradictory. Selectedindependentcriticalpeerclosed/noabsencepass2."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Directlylinkedoriginals enumeratedwithactualgatesversusordinaryunread; no currentrevision/predecessor/fullrecipeequivalence.",
+    "deferred_targets": [
+      "Exactfinalpublishedbody blocked at https://www.sciencedirect.com/science/article/pii/S109727652200483X; associatedAM/finalapplicabilityunverified.",
+      "Main231versusKeyResourceskitcatalogIDs; actualhistoricalkitoligos/enzymes/adapter/index/readgeometryunassembled.",
+      "Directly linkedSI originals gated; supportingSTARprotocol10.1016/j.xpro.2022.101858 ordinaryunread, no version-equivalenceclaim.",
+      "FullRNAmodificationoccupancies, tetrahydro-productstereochemistry/atommap, off-targetreactions/conversionyield andallcomplete molecules."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-positive partialselectedpreparation only; no complete molecules, finalversionequivalence or acceptedabsence/pass2.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round40_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "SameclosedassociatedAMNIHMS1809916/PMC9361928main95\u2013101/231/KeyResources1081\u20131085 andactualassociatedcorrectionNIHMS1822996/PMC9365200wholebody. No neworiginals/network/finalpublisherbody/vendor/STAR/predecessorrecipe opened.",
+    "findings": [
+      "SourceNaBH4reductionproducesreactedtetrahydro-ac4Cclass, notliteralRNA C\u2192U conversion. C:Tsequencingmismatchisreadout; incompleteconversionandotherNaBH4-reactiveRNAclassesareexplicit. Noabsolute25percentmRNAconversion/stoichiometry orperfectchemicalselectioninferred.",
+      "IndependentWTandNAT10-nullTRIzolRNAstocks, separateDNase/1ugselections/ribodepletion/reduction, actual100mMNaBH4/20ul55Cdark1h/10minventing,15ugmllinearacrylamidecarrier/NaOAcethanol recovery andRT48Clibrarypreparation matchselectedmain231. NoMgfragmentation,acidicNaCNBH3/TGIRT orunassignedstockpackaginginherited.",
+      "Kitoligo/RT/nucleotideinventoryclassesexplicitwithwholebodies/formulations/stockcounts unassembled. Sourcebiologicalreplicatecontributions/multiplexing/loadinganduntransferredstocksareseparate; noexactpoolratiosorindexassignmentinvented.",
+      "Associatedmain231versusKeyResourcesrRNA/librarycatalogueIDsbothretainedwithoutcurrentkit-equivalenceclaim. Actualassociatedcorrectioniscryo-EMhydrogenbonddistance/figurelabelscope; noNGSrecipechangeassertedbeyondinspectedbody. Fullfinal/AMchemistryequivalenceremainsunverified. No blockingimplementationdefectfoundinselectedscope."
+    ],
+    "verification": "Reran12focusedchecksPASS; sourceguard0exactchecked/0failed/noexactsourceoligorepresented; chemistry21steps/21unresolved/0contradictory. Narrowimplementationrecheckonly; notabsencepass2orcompletechemical/sourceaudit."
+  }
+}

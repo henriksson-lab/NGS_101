@@ -1,0 +1,72 @@
+{
+  "dir": "nanostrand-seq__10.1038+s41421-024-00694-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nanostrand-seq__10.1038+s41421-024-00694-9/s41421-024-00694-9_PMC11231365.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11231365.1/PMC11231365.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main76/172\u2013194; selectedGM12878 and modifications/strandtagging/ONT finish.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nanostrand-seq__10.1038+s41421-024-00694-9/s41421-024-00694-9_supp_41421_2024_694_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11231365.1/41421_2024_694_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI FigS1caption; source preparation/comparison context only.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nanostrand-seq__10.1038+s41421-024-00694-9/s41421-024-00694-9_supp_41421_2024_694_MOESM2_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11231365.1/41421_2024_694_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "WholeTableS1 primer ordering/templates/barcode rows, original XLSX cells/headers/columns/sheets/no ancillary drawings or comments; other sheet identities checked. Main/SI apparent barcode conflict, no accepted missing claim.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph. No complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "dna_round26",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Three originals including administrative opens; source investigation closed. Before-open counter /tmp/round26-dna-original-counts.tsv. scEdU peer-review administrative glob open was immediately counted after opening; no fourth original or cap overrun.",
+      "locations": "Published main76/172\u2013194; selectedGM12878 and modifications/strandtagging/ONT finish.; Published SI FigS1caption; source preparation/comparison context only.; WholeTableS1 primer ordering/templates/barcode rows, original XLSX cells/headers/columns/sheets/no ancillary drawings or comments; other sheet identities checked. Main/SI apparent barcode conflict, no accepted missing claim.",
+      "findings": "Source-positive preparation; actual inventory/order/physical fractions retained with explicit unassembled historical geometry.",
+      "deferred": [
+        "Directly linked historical kit/predecessor originals and source-specific whole molecular/read geometry.",
+        "No recursive chase or further original opening in this pass."
+      ],
+      "oligo_scraper": "Mandatory completebundle scrape: scEdU12hits/4representations;Nano154hits/4representations;LABS4hits/2representations. Only exact originals/sections listed here were treated as read.",
+      "verification": "49focusedchecks(15scEdU/19Nano/15LABS)pass;guard9exact0fail0exemptions4unassembledinputs;chemistry84unresolved0contradictory. Selected implementation check, not complete molecular validation."
+    }
+  ],
+  "pending_linked_targets": [
+    "Historical vendor guides and cited component predecessors remain ordinary deferred source reading; no claimed source absence."
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted26_reader",
+    "date": "2026-10-30",
+    "scope": "Published main172\u2013194 and original wholeTableS1 workbook context: Primer/Sequence headers, all40barcode rows, neighboring ordering templates, allsheet identities/labels and auxiliary parts. Final stock fix checked against previously read main176; no independent SIfigure-caption or full absence-audit claim.",
+    "finding": "Apparent40identicalTableS1codes versus main188/190distinct24ntcode requirements independently confirmed; intended codes remain open, no accepted absence. MainME3NH2 retained; p-only table is annotation omission, not demonstrated contradictory chemistry. Fixed loaded-stock provenance: actual ME/S5anneal\u2192Tn5load\u21921:5000dilution\u2192selected1ul plus explicitremainder\u2192non-transforming same-stock enzyme/adaptercomponents consumed atTAG. No new free ME/S5 or enzyme addition at nucleus; branch precedes cell handling. All19 focused checks independently rerun pass. Selected critical implementation closure only."
+  }
+}

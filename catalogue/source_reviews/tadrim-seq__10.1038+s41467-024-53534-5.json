@@ -1,0 +1,54 @@
+{
+  "dir": "tadrim-seq__10.1038+s41467-024-53534-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11811046.1/PMC11811046.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main69\u201371/169\u2013193 selected mammaliancell/targetedDNAnuclei workflow; ChRDPET/CUTTag/RTTag/plant comparators not inherited."
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11811046.1/41467_2024_53534_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 SupplementaryNote1 originalPDF13\u201316 detailedstock/bridgeadenylation/downstream200ngrecipe; rendered13/14/16modifiedoligos/tables verified. Table1FISH/table2datasetidentities separated."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main69\u201371/169\u2013193 selected mammaliancell/targetedDNAnuclei workflow; ChRDPET/CUTTag/RTTag/plant comparators not inherited.; PublishedSI1 SupplementaryNote1 originalPDF13\u201316 detailedstock/bridgeadenylation/downstream200ngrecipe; rendered13/14/16modifiedoligos/tables verified. Table1FISH/table2datasetidentities separated.",
+      "locations": "Published main69\u201371/169\u2013193 selected mammaliancell/targetedDNAnuclei workflow; ChRDPET/CUTTag/RTTag/plant comparators not inherited.; PublishedSI1 SupplementaryNote1 originalPDF13\u201316 detailedstock/bridgeadenylation/downstream200ngrecipe; rendered13/14/16modifiedoligos/tables verified. Table1FISH/table2datasetidentities separated.",
+      "findings": "Published antibody-targeted loadedpG-Tn5 DNA marking plus biotinbridge RNA ligation/RT/proximityjoining yields RNA-DNA/RNA-RNA reporters, with source-owned whole modified oligos and explicitstockfates.",
+      "deferred": [
+        "Main gapfill1mMdNTP versusSI8ul10mMstock/100ulretained explicitly; no silent numeric repair or final concentration convention assumption.",
+        "WholehistoricalTruePrep/secondstrand/PCRorderings/priminggeometry/readlanding/sealedchimerasunassembled; directly citedcomparators/vendors notfollowed.",
+        "No full source/linked-information/absence audit; no assertion that contacts establish directbiologicalbinding."
+      ],
+      "verification": "32focusedchecks(Hybri16/TaDRIM16)pass;two-graphsourceguard8exact0failed0exceptions1unassembledinput;scopedchemistry9established1conditional65unresolved0contradictory.Narrowrelationsonly,notcomplete reactionvalidation.",
+      "oligo_scraper": "MandatoryHybribundle205candidates/4representations;TaDRIM45/4 plus2largefilesnormalcap-skipped. Only selectedoriginals verified as evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped selectedsource/implementationpass; deferred originals/component values do not establish absence. No full linked-source review."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round31",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Narrowselectedpublishedsource/modelcriticalreviewonly;combinedsourcecap2unchanged,notcompleteallsource,linked-information,chemistryorabsenceaudit.",
+    "finding": "Coordinator read same main183\u2013191 plus actualSI13/14/16renders. WholeA/B/F/R/internalbiotinT,5PtoApp,37.5ulTTE5ulaliquot+32.5remainder,18bpbridge/conditionalRNA3OH, retainedTTE/bridgeRTprimer,200ng/M280beforePCRsourceconsistent. Finalfollowupaddsactual2ulGlycoBluemolecularcarrierbeforeprecipitationwithcarryoverunassigned. PNK3endclassremainsconditional; sourcegapfillnumericwordingsretained; noextracorrectiveenzymestep.",
+    "verification": "32focusedchecks(Hybri16/TaDRIM16)pass;two-graphsourceguard8exact0failed0exceptions1unassembledinput;scopedchemistry9established1conditional65unresolved0contradictory.Narrowrelationsonly,notcomplete reactionvalidation."
+  }
+}

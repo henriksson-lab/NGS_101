@@ -34,13 +34,13 @@ FACETS = OrderedDict([
         "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
         "replication timing", "multiomic", "DNA construct assembly", "combinatorial genetic screening", "regulatory reporter assay"))),
     ("platform", ("Sequencing platform", (
-        "Illumina", "Ion Torrent", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry", "not applicable"))),
+        "Illumina", "Roche 454", "Ion Torrent", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry", "not applicable"))),
     ("partitioning", ("Partitioning", (
         "bulk", "plate / well", "droplet", "microwell", "combinatorial indexing",
         "single nucleus", "single cell", "spatial / in situ"))),
     ("starting_material", ("Starting material", (
         "genomic DNA", "total RNA", "poly(A) RNA", "small RNA", "chromatin",
-        "fixed cells / nuclei", "damaged DNA", "native RNA", "adapter-ligated library",
+        "fixed cells / nuclei", "cells / tissue", "damaged DNA", "native RNA", "adapter-ligated library",
         "amplicon", "pre-amplified cDNA", "synthetic DNA reporter", "microbial community DNA",
         "ribosome-protected RNA", "nascent RNA", "RNA-DNA hybrid",
         "immune-receptor RNA", "protein analyte", "cloned DNA parts", "synthetic DNA oligos"))),
@@ -78,9 +78,10 @@ FACETS = OrderedDict([
         "microscopy", "flow cytometry", "not applicable", "unassigned in model"))),
     ("selection", ("Selection or enrichment", (
         "poly(A) selection", "rRNA depletion", "size selection", "hybrid capture",
-        "restriction-site selection", "spatial capture", "affinity / antibody capture",
+        "restriction-site selection", "spatial capture", "FACS / cell sorting", "affinity / antibody capture",
+        "phase partitioning",
         "guide-specific enrichment", "circularization selection", "ribosome-footprint selection",
-        "cap selection", "constant-region enrichment", "clone selection", "none"))),
+        "cap selection", "constant-region enrichment", "clone selection", "topology enrichment", "none"))),
     ("conversion", ("Base conversion or marking", (
         "bisulfite", "enzymatic methyl conversion", "GpC methyltransferase",
         "adenine methyltransferase", "dUTP strand marking", "chemical conversion",

@@ -1,0 +1,68 @@
+{
+  "dir": "aa-trna-seq__10.1038+s41467-025-62545-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12368100.1/PMC12368100.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main identity/Methods chargedtRNAaminoacylbridge selectivechemicaladaptercoupling and directRNAreadout, actualSIroles",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12368100.1/41467_2025_62545_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 TableS2 fullmodifiedadapterorderings andFigS1chemicalbridge/controls, FigS3 hybrid5adapteralternative",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-37",
+      "reviewer": "targeted_owner_round37",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Two selected published originals, biologicalyeastRNA branch, source investigation closed before implementation; not complete source/reaction/absence review.",
+      "locations": "MainMethods220–246/activation182 plus originalPDFp11; SI1 originalTableS2p2/chemicalbridge/S3captions.",
+      "findings": "Retained nativeaminoacylester plus amino-N–adapter-P phosphoramidate class; source mixedRNA/DNA oligos and5Pactivation; actual savedstock allocations/fresh9pmolsplint; retainedsupernatant at.4xAMPure, sourceGlycoBluecarrier/quantitativealiquots and sourceDNAnamedQC assays; no RNA004 RT orwholeadapterbody invented.",
+      "deferred": [
+        "Historical Benchling RNA004 preparation https://benchling.com/protocols/1vXce4Gw/acylated-deacylated-trna-library-preparation-for-rna004-sequencing-final : ordinary unread; cited revision identity not independently verified, no current-export substitution.",
+        "Full occupied biological tRNA sequences, aminoacid identities, 2prime/3prime ester register, atom-resolved bridge/product populations and all off-products.",
+        "Whole ONT RTA/RLA/motor geometry and directRNA read landing; no kit bodies or reverse-transcription step inherited by name.",
+        "Intended extraction centrifugation temperature versus printed40C; source Qubit dsDNAHS/TapeStationHSDNA1000 assay names retained; no silent repair.",
+        "Other synthetic Flexizyme/hairpin/all-RNA validation and stress branches outside selected biological yeast preparation."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescan; relevantoriginalimage/tables independentlyverified. SourceDataheaders notchemistryauthority.",
+      "verification": "21 focused checks;0 exact source-text checked/0 failed/2 narrow wrapped-table exceptions backedby wholemodifiedsource fixtures/3 inputs without exact state;34 unresolved/0contradictory chemistry. Independent selected implementation recheck closed; see separate record."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Actual directlylinked Benchling target listed as ordinary unread with revision applicability unverified; no missing-information claim.",
+    "deferred_targets": [
+      "Historical Benchling RNA004 preparation https://benchling.com/protocols/1vXce4Gw/acylated-deacylated-trna-library-preparation-for-rna004-sequencing-final : ordinary unread; cited revision identity not independently verified, no current-export substitution.",
+      "Full occupied biological tRNA sequences, aminoacid identities, 2prime/3prime ester register, atom-resolved bridge/product populations and all off-products.",
+      "Whole ONT RTA/RLA/motor geometry and directRNA read landing; no kit bodies or reverse-transcription step inherited by name.",
+      "Intended extraction centrifugation temperature versus printed40C; source Qubit dsDNAHS/TapeStationHSDNA1000 assay names retained; no silent repair.",
+      "Other synthetic Flexizyme/hairpin/all-RNA validation and stress branches outside selected biological yeast preparation."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified partial biologicalyeastRNA preparation and qualitative aminoacid bridge relation; full molecules/atom map/wholeONTgeometry remainunassembled. No acceptedabsence/pass2.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round37",
+    "date": "2026-10-30",
+    "scope": "Same two already-selected published originals only: PMC12368100 main Methods220–246/activation182 and original PDF p11; published SI1 original TableS2 p2 and chemical-bridge/S3 contexts. No new originals, Benchling revision or retrieval.",
+    "findings": "Independently checked all three whole biological modified adapter orderings against original TableS2, preserving the mixed sugar blocks, terminal universal rN, distinct RNA capture arms and DNA A10 tails. The qualitative relation retains the aminoacyl ester and adds the amino-N–adapter-P phosphoramidate without treating amino acid as a nucleotide; rejected unactivated/deacylated inputs do not establish yield or full product identity. Verified actual activated-adapter/universal stock allocations, fresh 9pmol enzymatic splint, extraction and .4x AMPure retained supernatants, GlycoBlue contribution, subsequent RTA/RLA allocations and loading remainder. Printed 40C and DNA-named QC assays retained without repair; no synthetic-validation branch or assumed ONT reverse transcription imported.",
+    "verification": "Independently reran all 21 focused checks PASS; source guard 0 exact/0 failed/2 narrow wrapped-table exceptions with whole modified-ordering fixtures/3 inputs without exact states; chemistry 34 unresolved/0 contradictory. Selected implementation closure only, not complete molecular validation or source-absence audit."
+  }
+}

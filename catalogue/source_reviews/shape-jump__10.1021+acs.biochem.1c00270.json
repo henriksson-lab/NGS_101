@@ -1,0 +1,93 @@
+{
+  "dir": "shape-jump__10.1021+acs.biochem.1c00270",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-jump__10.1021+acs.biochem.1c00270/(manual) acs.biochem.1c00270_supp_NIHMS1716012-supplement-Supporting_Datasets.zip",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Datasets.zip",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-jump__10.1021+acs.biochem.1c00270/(manual) acs.biochem.1c00270_supp_NIHMS1716012-supplement-Supporting_Information.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-jump__10.1021+acs.biochem.1c00270/acs.biochem.1c00270_PMC8256721.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8256721.1/PMC8256721.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round13_reader",
+        "date": "2026-10-29",
+        "locations": "Identity/header; overview54\u201374, Fig1; Methods126\u2013142 synthetic RNA, main TBIA/IA/DMSO RT-C8 library route; enzyme-screen conditions138 read to avoid importing separate Marathon hydrolysis",
+        "finding": "Selected positive source chemistry/identity read with version/scope limitations in note. No accepted absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript; final-VOR procedural applicability unverified"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round13_reader",
+      "date": "2026-10-29",
+      "locations": "Identity/header; overview54\u201374, Fig1; Methods126\u2013142 synthetic RNA, main TBIA/IA/DMSO RT-C8 library route; enzyme-screen conditions138 read to avoid importing separate Marathon hydrolysis",
+      "finding": "Capped source pass; directly linked pending originals and actual access barriers in note. No recursive chase or second absence reader."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Information.pdf",
+      "scope": "Actual chemistry SupportingInformation/TableS1 download returned Preparing-to-download gate; not bypassed."
+    },
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Datasets.zip",
+      "scope": "Actual SupportingDatasets download gated, not in cloud bucket under TDM licence; original files unreviewed."
+    },
+    {
+      "locator": "https://doi.org/10.1021/acs.biochem.1c00270",
+      "scope": "Final published main applicability, source cassettes/ref5 and two-stepPCR predecessor ref52, RT-C8 refs14/15/51 remain unreviewed."
+    }
+  ],
+  "open_questions": [
+    "Full source-linked molecular end/primer/read geometry and stated version boundaries remain unassembled, not confirmed absent."
+  ],
+  "conclusion": "Source-qualified notes and incomplete local graph only; no finished schematic, full source review or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "rna_round13_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Max10min/3originals source investigation. Mod-seq formalcorrection counts within cap; figure-only ZIP inventory not chemistrySI. No recursive chase.",
+      "locations": "Identity/header; overview54\u201374, Fig1; Methods126\u2013142 synthetic RNA, main TBIA/IA/DMSO RT-C8 library route; enzyme-screen conditions138 read to avoid importing separate Marathon hydrolysis",
+      "findings": "Source-known operations through library/acquisition; physical RNA/crosslink identity distinct from conditional copiedDNA/readout; debris/control fractions preserved. Independent implementation review fixed probe product declarations by condition: only TBIA is crosslink-capable; IA declares monoadduct/unreactedRNA and DMSO no installed probe adduct. Background cDNA deletions stay separate.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Information.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/8256721/bin/NIHMS1716012-supplement-Supporting_Datasets.zip",
+        "https://doi.org/10.1021/acs.biochem.1c00270"
+      ],
+      "oligo_scraper": "Mandatory bundle scraper and main original modification pointers inspected. SHARC2large source-data skips remain unreviewed. Empty SHAPE-JuMP hits do not imply absent SI sequences.",
+      "verification": "29 local checks pass (Mod9,SHAPE-JuMP7,SHARC13); sourceguard6checked0failed0bundlesskipped1explicit formal-corrected-primer exemption7unassembledinputs3graphs; chemistry65unresolved0contradictory. Canonical source-review schema passes (2in_progress,1blocked). Notes build and git diff --check pass; no preview/finished schematic."
+    }
+  ]
+}

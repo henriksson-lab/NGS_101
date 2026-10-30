@@ -1,0 +1,135 @@
+{
+  "dir": "dash__10.1186+s13059-016-0904-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/031708_v2.full.pdf.txt",
+      "original": "https://www.biorxiv.org/content/10.1101/031708v2.full.pdf",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint excluded; no chemistry reading or version equivalence claim."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/s13059-016-0904-5_PMC4778327.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/s13059-016-0904-5_PMC4778327.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round08_reader",
+        "date": "2026-10-29",
+        "locations": "Published non-manuscript JATS provenance59; Fig1 and mitochondrial-rRNA rationale; Methods191\u2013211",
+        "finding": "DNA-library Cas9 cut and both products, RNA-seq-specific proteolysis/workup and full downstream library operations; full historical polymers remain unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published original; selected sections only"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/s13059-016-0904-5_supp_13059_2016_904_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/13059_2016_904_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round08_reader",
+        "date": "2026-10-29",
+        "locations": "Published Additionalfile1 guide-target table; mt-rRNA-1 full20base target",
+        "finding": "DNA-library Cas9 cut and both products, RNA-seq-specific proteolysis/workup and full downstream library operations; full historical polymers remain unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published original; selected sections only"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/s13059-016-0904-5_supp_13059_2016_904_MOESM2_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/13059_2016_904_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/s13059-016-0904-5_supp_13059_2016_904_MOESM3_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/13059_2016_904_MOESM3_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dash__10.1186+s13059-016-0904-5/s13059-016-0904-5_supp_13059_2016_904_MOESM4_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/13059_2016_904_MOESM4_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round08_reader",
+      "date": "2026-10-29",
+      "locations": "Selected source sections recorded above and in notes",
+      "finding": "DNA-library Cas9 cut and both products, RNA-seq-specific proteolysis/workup and full downstream library operations; full historical polymers remain unassembled. Linked/deferred originals not fully inspected; no independent absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "NuGEN Ovationv2 and Nextera historical input/primer editions",
+      "scope": "Directly cited/unreviewed original or exact historical edition; follow-up bounded review required"
+    },
+    {
+      "locator": "Published Methods197 cited optimized sgRNA scaffold/assembly predecessors refs47/48",
+      "scope": "Directly cited/unreviewed original or exact historical edition; follow-up bounded review required"
+    }
+  ],
+  "open_questions": [
+    "DNA-library Cas9 cut and both products, RNA-seq-specific proteolysis/workup and full downstream library operations; full historical polymers remain unassembled."
+  ],
+  "conclusion": "Capped first source/implementation pass only; notes status, no full publication or missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "rna_round08_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining and chemistry originals first; correction attempted but unread",
+      "locations": "Published non-manuscript JATS provenance59; Fig1 and mitochondrial-rRNA rationale; Methods191\u2013211; Published Additionalfile1 guide-target table; mt-rRNA-1 full20base target",
+      "findings": "DNA-library Cas9 cut and both products, RNA-seq-specific proteolysis/workup and full downstream library operations; full historical polymers remain unassembled.",
+      "deferred": [
+        "NuGEN Ovationv2 and Nextera historical input/primer editions",
+        "Published Methods197 cited optimized sgRNA scaffold/assembly predecessors refs47/48"
+      ],
+      "oligo_scraper": "Mandatory full downloaded bundle run; hits verified in source contexts. Empty output is not evidence of absence.",
+      "verification": "17 local behavioral/transcription checks pass across3models. Source guard0checked/0failed/13inputs without exact states; chemistry audit43unresolved/0contradictory. Not full chemical validation."
+    }
+  ]
+}

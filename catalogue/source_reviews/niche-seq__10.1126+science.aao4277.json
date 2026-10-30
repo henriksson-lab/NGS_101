@@ -1,0 +1,72 @@
+{
+  "dir": "niche-seq__10.1126+science.aao4277",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7234837.1/PMC7234837.1.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7234837.1/PMC7234837.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated AM PMC7234837/EMS86422 identity/main47/49/51,refs7/17,supplement identities; no full final-version equivalence.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supplementary_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7234837/bin/EMS86422-supplement-Supplementary_Materials_incl_Figures.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual linked Methods/figures PDF: PMC host gate/cooldown and no accessible Cloud TDM object.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "study_tables",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7234837/bin/EMS86422-supplement-Supplementary_Tables.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual linked workbook unavailable via standard routes; its chemistry role remains unreviewed, not asserted irrelevant or a primer table.",
+      "pass_1": null,
+      "pass_2": null,
+      "relevance_note": "Conservatively retained as potentially relevant until inspected; actual chemistry role unresolved, no confirmed absence or fabricated primer-table scope."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "coordinator_round30",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated manuscript selected naiveLN optical selection and physical isolation frontend only.",
+      "locations": "PMC7234837 identity/main47/49/51,refs7/17; actual supplement identities.",
+      "findings": "Protein-reporter activation and imaging are distinct from DNA barcoding; physical FACS precedes delegated MARS-seq. Detailed dissociation/library conditions unassembled, no inherited predecessor constructor.",
+      "deferred": [
+        "Detailed Supplementary Methods PDF linked as reference17",
+        "Actual Supplementary Tables chemistry relevance",
+        "Final published body applicability",
+        "Exact dissociation/FACS/library stocks, whole molecules and read layout"
+      ],
+      "oligo_scraper": "Mandatory source-bundle run after XML text conversion; zero hits used as no oligo evidence, never absence proof.",
+      "verification": "7 focused checks pass; source guard and chemistry checks separately recorded."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Main delegates MARS-seq to Jaitin2014 ref7; original unread, scope only, no inherited chemistry. Detailed Methods ref17 gated. No accepted absence."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive source-qualified private frontend graph; detailed Methods access blocked, no complete molecular or source review.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round30",
+    "date": "2026-10-30",
+    "scope": "Same exact associated manuscript science.aao4277_PMC7234837.xml main47/49/51 and ref7; one combined original, no further document opened.",
+    "findings": "Selected naiveLN prepared PA-GFP/landmark cells\u2192source activation/imaging wavelengths\u2192opaque dissociation\u2192physical PA-GFP FACS with unselected remainder\u2192opaque MARS molecular stocks matches inspected source. No DNA spatial barcode, whole MARS inheritance or read mask asserted. AM and gated SI scope explicit; no critical issue.",
+    "verification": "7 checks pass; not a full chemistry/source/absence audit."
+  }
+}

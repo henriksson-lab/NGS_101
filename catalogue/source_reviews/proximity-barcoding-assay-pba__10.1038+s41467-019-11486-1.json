@@ -1,0 +1,50 @@
+{
+  "dir": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6710248.1/PMC6710248.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainFig1/Methods163\u2013187 andtagmeaning/sourceanalysisoverview"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6710248.1/41467_2019_11486_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI Note1 andTable1 selectedwholeAb1/padlock/template/blockorderings; originalp11 resolvesfive2primeO-methylUblocker andalternativeSTV-onlystarredrows"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedmainFig1/Methods163\u2013187 andtagmeaning/sourceanalysisoverview; PublishedSI Note1 andTable1 selectedwholeAb1/padlock/template/blockorderings; originalp11 resolvesfive2primeO-methylUblocker andalternativeSTV-onlystarredrows",
+      "findings": "CTB-captured antibody-labelled exosomes recruit uracil-containing RCA bundles; T4-polymerase extension copies a shared complex tag onto reporters before combined UNG/PCR, aliquoted indexing and sequencing-library amplification. The method uses a single RCA identifier transfer, with no borrowed MPX second-pixel cycle.",
+      "deferred": [
+        "Full linked-source review and molecular/read geometry; no absence conclusions."
+      ],
+      "oligo_scraper": "Mandatory source-bundle scraper executed; only selected original source pointers were evidence. All used modifications/orderings checked against selected originals.",
+      "locations": "PublishedmainFig1/Methods163\u2013187 andtagmeaning/sourceanalysisoverview; PublishedSI Note1 andTable1 selectedwholeAb1/padlock/template/blockorderings; originalp11 resolvesfive2primeO-methylUblocker andalternativeSTV-onlystarredrows",
+      "verification": "44focusedchecks(PHOTON12/PSS16/PBA16);sourceguard9exact0failed0exceptions2unassembledover2graphs;scopedchemistry2established/57unresolved/0contradictory. PSS helper-only; complete products/read geometry unassembled."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Cited precursor/vendor and additional source details not recursively pursued; selected capped pass only."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round27",
+    "date": "2026-10-30",
+    "scope": "Publishedmain163\u2013187 andactualSITable1p11render. Same2selectedoriginals; nofullAOC/panel/kit/linked-sourceaudit.",
+    "finding": "LiteralpadlockU/orderingsand5terminal2primeO-methylUblockerchecked. Sourcecircle/RCAstock,CTBexosomecaptureandwash-beforeextensionretained. CriticalfirstUNG/Phusionmixnowhasexplicitstructuralprimercomponentsofsamebulkaddition; laterPCRdoesnotinventfreshpolymerasefromPhusionHFbuffername. Cotransferredpriorenzymeamount/activityandfullproducts remainunassigned. Selectedcriticalscopeclosed,notfullreactionvalidation."
+  }
+}

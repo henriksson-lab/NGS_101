@@ -1,0 +1,66 @@
+{
+  "dir": "single-molecule-nucleosome-decoding-with-on-surface-dna-sequencing__10.1126+science.aad7701",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4904710.1/PMC4904710.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAM35–59 andFig1Acaption211/Fig4Acaption229: MNasenucleosomepreparation/fluorescentbiotinadapter/glycerolgradient/surfacecapture/imaging/histoneeviction/USER/primer/singlemoleculeSBS; SIcontentindexMaterialsMethods/FigsS1–14.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4904710/bin/NIHMS791916-supplement-1.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual linkedSI1 corresponding MaterialsMethods/FigsS1–14 index; originalDOCX TDM/challengecooldown blocked. No whole adapter sequence or figuretable inspected.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actualstandard-source route TDM/challenge/cooldown blocked; original notacquired/read. No source-absence conclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "dna_owner_round38",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated author manuscript NIHMS791916/PMC4904710; one original. Publishedfinal/SI chemistry equivalence unverified.",
+      "locations": "AssociatedAM35–59 andFig1Acaption211/Fig4Acaption229: MNasenucleosomepreparation/fluorescentbiotinadapter/glycerolgradient/surfacecapture/imaging/histoneeviction/USER/primer/singlemoleculeSBS; SIcontentindexMaterialsMethods/FigsS1–14.; Actual linkedSI1 corresponding MaterialsMethods/FigsS1–14 index; originalDOCX TDM/challengecooldown blocked. No whole adapter sequence or figuretable inspected.",
+      "findings": "Sourcepositive ordered physicalpreparation andknownmodification/fate/identifier scopes retained; whole catalytic/end/read products remainunassembled.",
+      "deferred": [
+        "ActualMaterialsMethods/FigsS1–14 DOCX source needed; source index does not disclose wholeadapter table body.",
+        "Main citedsinglemoleculeSBSref22 original and complete surface/imaging/fluorophore-cleavage recipes ordinaryunread.",
+        "FullnativeDNAends/modifiedadapter/primersequence/capturestoichiometry/readgeometry remain unassembled."
+      ],
+      "oligo_scraper": "Mandatory bundle scan of selected associated main returned0sequencehits; actualMaterialsMethods/FigsS1–14 DOCXgated/unread, no inspectedwholeoligotable or sourceabsenceclaim."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "ActualMaterialsMethods/FigsS1–14 DOCX source needed; source index does not disclose wholeadapter table body.; Main citedsinglemoleculeSBSref22 original and complete surface/imaging/fluorophore-cleavage recipes ordinaryunread.; FullnativeDNAends/modifiedadapter/primersequence/capturestoichiometry/readgeometry remain unassembled."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive boundedprivatepartial only, notcomplete reaction/source/absence review.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round38_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 1,
+    "scope": "Same associated author manuscript NIHMS791916/PMC4904710 only: main35–59, actual complete Fig1A caption211 and Fig4A caption229 (headings209/227), and SI contents index67–75. No new originals, network, SI DOCX chemistry, predecessor/vendor recipe or final-publication equivalence inspection.",
+    "findings": [
+      "Source/model order agrees: MNase mononucleosomes receive fluorescent biotinylated adaptors, glycerol-gradient-selected ligated mononucleosomes bind PEG-streptavidin slides, initial adaptor imaging precedes adaptor-fluorophore cleavage and antibody imaging. Exact covalent dye/biotin positions and whole adaptor ends remain unassembled.",
+      "Salt eviction retains double-stranded nucleosomal DNA on the surface while histone octamers leave the sequencing substrate. USER acts on uracil-bearing NON-biotinylated adaptor strand; the model does not remove the biotin anchoring strand or substitute histones as sequencing input. The complementary sequencing primer follows USER exposure.",
+      "Same-flowcell x-y coordinates computationally join antibody observations and DNA sequence; they are not sequence UMIs. Direct single-molecule sequencing-by-synthesis remains distinct from invented PCR, soluble Illumina products, read masks or complete modified oligos. Heterogeneous molecular occupancy, cleavage products and workup fates stay unassembled.",
+      "Owner removed unrelated Volumetric scraper-scope text and corrected actual caption text locators before closure. One-original main scan zero hits is not a source-absence conclusion; gated MaterialsMethods DOCX remains unread and relevant. No further critical implementation defect found within selected scope."
+    ],
+    "verification": "All11 focused checks rerun PASS; source oligo guard0 checked/0 failed, with no exact whole oligo represented; chemistry12 steps/12 unresolved/0 contradictory. This is a narrow implementation recheck, not absence pass2, complete source review or complete chemical audit."
+  }
+}

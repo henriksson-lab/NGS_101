@@ -1,0 +1,59 @@
+{
+  "dir": "spatial-hi-c-rna__10.1016+j.cell.2026.07.039",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13509204.1/PMC13509204.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAM238–286 ordered tissueRT/contactligation/B-onlytransposome/spatialbarcodes/C1physicalpartition/separatefinishing and sourceS7mappingSD8.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13509204/bin/NIHMS2201910-supplement-8.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "ActualsameJATS SD8 caption identifies TableS7 primers/ligationlinkers/DNAbarcodesequences; originalXLSX not acquired, sourcehostTDM/challengecooldown. Not an inspected table.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actualstandard-source route TDM/challenge/cooldown blocked; original notacquired/read. No source-absence conclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "dna_owner_round38",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated author manuscript NIHMS2201910/PMC13509204, not final/published-body equivalence. One original; corrected-proof/discovery identity does not authorize merging another version.",
+      "locations": "AssociatedAM238–286 ordered tissueRT/contactligation/B-onlytransposome/spatialbarcodes/C1physicalpartition/separatefinishing and sourceS7mappingSD8.; ActualsameJATS SD8 caption identifies TableS7 primers/ligationlinkers/DNAbarcodesequences; originalXLSX not acquired, sourcehostTDM/challengecooldown. Not an inspected table.",
+      "findings": "Sourcepositive ordered physicalpreparation andknownmodification/fate/identifier scopes retained; whole catalytic/end/read products remainunassembled.",
+      "deferred": [
+        "Actual TableS7 SD8 oligo original remains gated; SI1PDF unknown chemistry relevance/body unread.",
+        "SourcecitedinsituHiC andDiagenodevendorloading originals ordinaryunread; no inherited chemistry.",
+        "Detailedwholeprimer/biotin/ligation/end geometry and per-tube pool/loading schedule unassembled, not absent."
+      ],
+      "oligo_scraper": "Mandatory bundle scan of selected associated main returned0sequencehits; actualTableS7SD8XLSXgated/unread, no inspectedoligotable or sourceabsenceclaim."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Actual TableS7 SD8 oligo original remains gated; SI1PDF unknown chemistry relevance/body unread.; SourcecitedinsituHiC andDiagenodevendorloading originals ordinaryunread; no inherited chemistry.; Detailedwholeprimer/biotin/ligation/end geometry and per-tube pool/loading schedule unassembled, not absent."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive boundedprivatepartial only, notcomplete reaction/source/absence review.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round38",
+    "date": "2026-10-30",
+    "scope": "Same one already-selected associated manuscript NIHMS2201910/PMC13509204, main238–286 only; no final-body equivalence or unavailable TableS7/SI originals read, no new retrieval.",
+    "findings": "Independently checked RT before restriction/contact chemistry, actual unlabelled-dNTP fill (no inferred biotin-dATP), B-only loaded transposome, orthogonal channel arrays with5.5ul prepared/4.5ul selected per inlet, whole-ROI lysis and actual C1-bound cDNA versus retained genomic-DNA supernatant. Distinct P5-splint/HiC and on-bead TSO/cDNA→XT finishes preserve physical source provenance, selected50ul from220ul PCR stock, PCR-product separation from beads before SYBR/qPCR and2ng XT input. Source200ul versus summed220ul TSO descriptors remain unresolved. Narrow owner fixes expose16 unassembled same-stock oligo inventory components, including RT/TSO/primer pairs/P5 pair, loaded MErev/ME-B and channel barcode/linker arrays, without fresh free additions, pooled channels or inferred whole oligo bodies. Source1percent BSA is a molecular component of its actual wash stock with carryover unassigned.",
+    "verification": "Independently reran20 focused checks PASS; external-input source guard0exact0failed0exempt0unknown, while16 produced oligo inventory components explicitly remain unassembled outside that guard coverage. Scoped chemistry67unresolved0contradictory. Selected implementation closure only, not a full source/reaction or accepted absence audit."
+  }
+}

@@ -1,0 +1,356 @@
+{
+  "dir": "ribo-itp__10.1038+s41586-023-06228-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM10_ESM.mov",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM10_ESM.mov",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM10_ESM.mov"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM1_ESM.docx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM1_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM1_ESM.docx"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM2_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM2_ESM.pdf"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM3_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM3_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM3_ESM.xlsx"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM4_ESM.csv",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM4_ESM.csv",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM4_ESM.csv"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM5_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM5_ESM.xlsx"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM6_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM6_ESM.xlsx"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM7_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM7_ESM.xlsx"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM8_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM8_ESM.xlsx"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(duplicate) s41586-023-06228-9_41586_2023_6228_MOESM9_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-06228-9/MediaObjects/41586_2023_6228_MOESM9_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "Springer supplementary file; identical to s41586-023-06228-9_supp_41586_2023_6228_MOESM9_ESM.xlsx"
+    },
+    {
+      "id": "source_11",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(manual) 2021.12.07.471408_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/2021.12.07.471408v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Excluded supersededpreprint; notactiveauthority",
+      "reason": "supplementary page; HTTP 0"
+    },
+    {
+      "id": "source_12",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/(manual) 2021.12.07.471408_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/2021.12.07.471408v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Excluded supersededpreprint; notactiveauthority",
+      "reason": "biorxiv full text, v1; host cool-down after HTTP 429 (3.2 h left; not requested)"
+    },
+    {
+      "id": "source_13",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_PMC10307641.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/PMC10307641.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_14",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_PMC10307641.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/PMC10307641.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round16_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedVORPMC10307641 overview70\u201390/Methods188\u2013248/processing256\u2013258; on-chipselection, sourceprepared/librarybranches andactualsavedfractions.",
+        "finding": "Selectedpositiveoriginalscopeonly, notfull sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM10_ESM.mov",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM10_ESM.mov",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM1_ESM.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM1_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM2_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round16_source_reader",
+        "date": "2026-10-29",
+        "locations": "Publishedreportingsummary selectedidentity/revision2023-04-17/data-collectionsection; OCRtextidentityonly, notchemistry-originalclaims.",
+        "finding": "Selectedpositiveoriginalscopeonly, notfull sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM3_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM3_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM4_ESM.csv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM4_ESM.csv",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM5_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_21",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM6_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_22",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM7_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud); not converted to text (21 MB: run tools/doctext.py on it if needed)"
+    },
+    {
+      "id": "source_23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM8_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_24",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-itp__10.1038+s41586-023-06228-9/s41586-023-06228-9_supp_41586_2023_6228_MOESM9_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/41586_2023_6228_MOESM9_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round16_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedoligoworkbookmainTableS7/headerTable5; allfiveoligorows inspected, activeDNAmarkers verifiedinoriginalXLSXsharedstrings andwholemodifiedform; notjustscraper.",
+        "finding": "Selectedpositiveoriginalscopeonly, notfull sourceaudit oracceptedabsence."
+      },
+      "pass_2": null,
+      "source_version": "Publishedoriginalidentity oruninspectedmanifesttarget",
+      "reason": "supplementary file (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round16_source_reader",
+      "date": "2026-10-29",
+      "locations": "PublishedVORPMC10307641 overview70\u201390/Methods188\u2013248/processing256\u2013258; on-chipselection, sourceprepared/librarybranches andactualsavedfractions.; Publishedreportingsummary selectedidentity/revision2023-04-17/data-collectionsection; OCRtextidentityonly, notchemistry-originalclaims.; PublishedoligoworkbookmainTableS7/headerTable5; allfiveoligorows inspected, activeDNAmarkers verifiedinoriginalXLSXsharedstrings andwholemodifiedform; notjustscraper.",
+      "finding": "Actualdirecttargets enumerated; deferatcap orrecordactualaccessbarrier. No absenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://ceniklab.github.io/ribo_itp",
+      "scope": "Actualauthorsonlineprotocolcitedmain72; revision/attachmentsuninspectedwithincap."
+    },
+    {
+      "locator": "PublishedTable6bufferworkbookMOESM8; MOESM1supplementaryfigures andotherSI",
+      "scope": "Availableoriginals uninspectedat3originalcap; fullinventoriesinmanifest, nosourceabsenceconclusion."
+    },
+    {
+      "locator": "HistoricalD-PlexC05030001 single/UDI moduleguides",
+      "scope": "Actualkitprimers/reagentgeometry/version/readlayoutunreviewed; no currentkitrecipe substituted."
+    }
+  ],
+  "open_questions": [
+    "Fullpublishedversion/end/primer/index/readgeometry andexactphysicalfractions remainunassembled."
+  ],
+  "conclusion": "Sourcequalifiedprivateincompletegraph; nofinishedpublication oracceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "round16_source_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Bounded10min/3originals, publishedfirst; acceptedmanuscriptlabelsexplicit, norecursivechase.",
+      "locations": "PublishedVORPMC10307641 overview70\u201390/Methods188\u2013248/processing256\u2013258; on-chipselection, sourceprepared/librarybranches andactualsavedfractions.; Publishedreportingsummary selectedidentity/revision2023-04-17/data-collectionsection; OCRtextidentityonly, notchemistry-originalclaims.; PublishedoligoworkbookmainTableS7/headerTable5; allfiveoligorows inspected, activeDNAmarkers verifiedinoriginalXLSXsharedstrings andwholemodifiedform; notjustscraper.",
+      "findings": "Actualsourceaccess/positivechemistryscope recorded; RPF/RNA/cDNAandphysicalfractions separatewheremodelled. Independent implementation review corrected physical pool provenance with other molecular DNA-library inputs and unassigned half-cDNA fate to UNRESOLVED (no storage instruction inferred).",
+      "deferred": [
+        "https://ceniklab.github.io/ribo_itp",
+        "PublishedTable6bufferworkbookMOESM8; MOESM1supplementaryfigures andotherSI",
+        "HistoricalD-PlexC05030001 single/UDI moduleguides"
+      ],
+      "oligo_scraper": "Mandatoryfullcache scraper; RiboITP21MBMOESM7datatable skippedbymandatorysizelimit, actualadoptedoligosverifiedinoriginalworkbook.",
+      "verification": "11 local checks pass after implementation review corrections; affected source guard/chemistry/schema/notes checks rerun. Not a second missing-information audit."
+    }
+  ]
+}

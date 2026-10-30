@@ -1,0 +1,50 @@
+{
+  "dir": "hyrad__10.1371+journal.pone.0151651",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4801390.1/PMC4801390.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain149–250/Table3actualPDFp7/p8; whole24orders/inosines/GTP/P2-15mM andprobe/shotgun/capturephysicalstocks.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "dna_owner_round39",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Publishedsource selected preparation only, no earlier/updatedrecipeinheritance.",
+      "locations": "Publishedmain149–250/Table3actualPDFp7/p8; whole24orders/inosines/GTP/P2-15mM andprobe/shotgun/capturephysicalstocks.",
+      "findings": "SourceRADdonorprobefactoryandseparatebutterflyintacttargetpreparationmodeledwithactualreferencealiquot/probestock,empiricalPCRreplicatepool, parallelsonicatedtargetremainder,20ulTdTmixcarriedinto10ulsecondmix/bluntBSA,40ulBst→10ulPCR, normalizedlibrarypools,30ulcaptureeluate→15ulPCR andtargetlibraryOFFprobes. SourceGTP/15mM/ILLPCR1/I6literalretained. Wholeoccupiedend/readproductsunassembled. Targetedpeerrequestedfixapplied: distincttemplateallocationsbeforeseparatePCRreactionclasses, actualQCaliquotsbeforepooling; noone-productreplicaterelabel.",
+      "deferred": [
+        "PublishedcitedRAD/degradedDNApredecessors/vendorBioNick instructions ordinaryunread; no inheritedrecipe.",
+        "Actualupdatedprotocol https://github.com/chiasto/hyRAD is explicitlyupdated, currentversionunread/notassumed2016equivalent.",
+        "ExacttailGTPsugar/P2concentrationinterpretation/ILLPCR1occupiedlanding andwholeheterogeneousproductsunassembled, notacceptedabsence."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescraper /tmp/ngs39-hyrad-scraper.log; selectedmainTable3whole24orderingscheckedagainstXMLandactualPDFp7; GTP/P2-15mMverifiedactualPDFp8. No ZIP/XLSX original inspected; no scraperabsence claim.",
+      "verification": "51focusedchecksPASS including24wholeTable3orders/sourceGTPand15mMliterals/adapterSceneorderingandphysicalallocationfates. Sourceguard4exactchecked/0failed/4narrowliteralx6formattingexceptions/2inosineblockersunrepresented; producedPCRcomponentsoutsideexternalinputguard. Chemistry66steps/2established/4conditional/70unresolved/0contradictory; note/refrenderpass. Same1closedpublishedoriginal; independenttargetedpeerpending.",
+      "implementation_owner": "round39_RNA_handoff_owner"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "PublishedcitedRAD/degradedDNApredecessors/vendorBioNick instructions ordinaryunread; no inheritedrecipe.; Actualupdatedprotocol https://github.com/chiasto/hyRAD is explicitlyupdated, currentversionunread/notassumed2016equivalent.; ExacttailGTPsugar/P2concentrationinterpretation/ILLPCR1occupiedlanding andwholeheterogeneousproductsunassembled, notacceptedabsence."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveboundedprivatepartial, notcompletechemistry/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round39",
+    "date": "2026-10-30",
+    "scope": "Same one selected published original only: PMC4801390 main149–250 and actual same-article Table3 original PDFp7/p8 independently rendered/viewed. No updated GitHub protocol, cited predecessor, BioNick/vendor or supplement original read.",
+    "findings": "Independently verified all24 whole Table3 orders and source6-position inline barcode notation/12PCR sample indexes/four blockers; sixI positions are physical inosines rather than random sample bases. Computed local SbfI3TGCA/MseI5TA and shotgun paired-blunt adapter classes retain whole source strands without invented chemical-end states/full sealed products. Probe-factory RAD library reference aliquot is distinct from remaining stock redigested/biotin nick-labelled for baits; target intact and sonicated aliquots remain physically separate. Preserved source4mMGTP wording and15mMP2stock without dGTP/uM repair, carried20ulTdTmix through second-strand synthesis, actual10ul of40ul Bst stock and15ul of30ul capture eluate, and target library release off biotin probes. Corrected actual empirical PCR replicate provenance: pre-PCR template is allocated into distinct representative/other-reaction classes, separately amplified and QC-allocated, then pooled; one PCR product is no longer relabelled as other reactions. Normalized target/capture pool contributions retain stock remainders and source-specific sequencing branches.",
+    "verification": "Independently reran51focused checks PASS including24whole published oligo fixtures and three adapter whole-strand reconstructions. Source guard4exact0failed/4narrow sourcex6-format exceptions/2 unrepresented physicalI6 blocker states; chemistry2established4conditional70unresolved0contradictory. Selected implementation closure only, not full molecular/source or accepted absence audit."
+  }
+}

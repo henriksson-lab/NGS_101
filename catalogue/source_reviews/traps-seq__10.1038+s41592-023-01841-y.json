@@ -1,0 +1,51 @@
+{
+  "dir": "traps-seq__10.1038+s41592-023-01841-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41592-023-01841-y",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Published identity/abstract screened at discovery;full coreMethods unread in boundedpass.",
+      "reason": "DirectpublisherrequestredirectedtoinaccessibleNatureIDP;completedstandardget_sourcesrecordsmanualdefiningfulltext https://doi.org/10.1038/s41592-023-01841-y:noopenfulltextfound(publisherpageonly). PublishedSIavailable;no challengebypass."
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/traps-seq__10.1038+s41592-023-01841-y/s41592-023-01841-y_41592_2023_1841_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SupplementaryMethods selected validation sections (CD45 stability/proliferation,cytokine supernatant,qPCR,FAM-polyT and on-array buffer-exchange/saturation controls), Table2 customoligos;rendered originalPDFp28 verifies fullwrapped reporter/5biotinTEG/twoPS notation. Validation assays not used as coreNGS recipe. Fig3 caption202\u2013203 independently checked: antibody covalently coupled to streptavidin before oligo association;exact coupling recipe unreviewed."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Selected source-local physical reporter interfaces and all known operational continuation steps;main-unread opaque boundaries explicit,not a complete method review.",
+      "locations": "Published SupplementaryMethods selected validation sections (CD45 stability/proliferation,cytokine supernatant,qPCR,FAM-polyT and on-array buffer-exchange/saturation controls), Table2 customoligos;rendered originalPDFp28 verifies fullwrapped reporter/5biotinTEG/twoPS notation. Validation assays not used as coreNGS recipe.;PublishedSI Fig3 caption202\u2013203 (text647\u2013651) verified during independent-review follow-up.",
+      "findings": "\ud83d\udfe2 The defining published abstract describes surface trapping of secreted proteins followed by oligonucleotide-antibody probing and joint sequencing with transcriptomes. That supports the broad interface,not a full library chemistry. The inspected published SI supplies validation experiments and custom reporters;the defining main's core conjugation,capture,pulse,copying and library Methods remain unread. The small local graph therefore uses explicit opaque source boundaries and remains private/incomplete.\n\n\ud83d\udfe2 SupplementaryTable2 antiIFN\u03b3 barcode1 is `CCTTGGCACCCGAGAATTCCAACGAGTAGCTCGAGACAAAAAAAAAAAAAAAAAAAAAAAAA*A*A`;barcode2 changes the16-base reporter window to `AGATCAAGAAGCTTCG`. Both are physically5\u2032Biotin-TEG modified and have two terminal phosphorothioate links. TheA27 tail is preserved as printed. Barcode1/2 are named source reporter identities;exact temporal pulse assignment is not reconstructed,and neither is assigned a per-RNA UMI meaning. Published SI Fig3 caption202\u2013203 explicitly states covalent antibody\u2013streptavidin coupling before oligo association;the graph preserves those source-supported stages. Exact coupling reagent/site/workup and stoichiometry remain unassembled;no direct covalent antibody\u2013DNA bond or ideal binding occupancy inferred.\n\n\ud83d\udfe2 The original table wraps barcode1 after its first11identity bases,and the intervening modification column prints5\u2032Biotin-TEG before continuation `GAGAC...`. The rendered original verifies the complete polymer;local transcription checks independently preserve both fragments and modifications. No synthetic source text or per-strand sourceguard exemption is used for this extraction limitation.\n\nThe SI qPCR/FAM-polyT standards,fluorescent saturation assays and cell-array validation establish their stated assay contexts. They do not disclose the missing core NGS reaction order in this pass. In particular,FAM-polyT extension/qPCR is not inserted as a transcriptome-library construction step;fluorescent antibody exchange is not silently converted into sequential DNA reporter pulses. SI Table2 additive/amplification primer names alone are not complete operations or a historical kit recipe.\n\nThe model distinguishes secreted protein,cell-surface capture complex,antibody-associated DNA reporter and cellular RNA. It does not convert protein into DNA,declare all unbound reporters removed,predict perfect same-cell secretion capture,or add an unreviewed kit default. Published joint sequencing is represented only as an unresolved source continuation with no invented read configuration.\n\nAccess scope: the defining paper identity/abstract was verified at candidate screening. Direct publisher access redirected to an inaccessible Nature identity endpoint;standard source acquisition supplied published SI but no defining main by the bounded inspection. Remaining source PDFs/tables are not promoted to a complete method review. No absence claim is accepted.\n\nComponent ancestry: no whole CITE-seq or SEC-seq inheritance is declared from endpoint similarity. Source-specific cell-surface trapping distinguishes this candidate from nanovialSEC-seq;actual core chemistry must be inspected before a stronger component ancestry edge or temporal barcode contract.",
+      "deferred": [
+        "Defining final published main and core capture/conjugation/pulse/library Methods https://www.nature.com/articles/s41592-023-01841-y",
+        "Source-specific exact library/index/cell identifier/copying geometry and operational order",
+        "Remaining published SI/originals and independent source review"
+      ],
+      "oligo_scraper": "/tmp/round13-traps-selected-si-hits.log;earlierwhole-bundlescancompleted1023hits/6files;redundantlaterall-datarescanstoppedbecausesource-dataworkbooksoutofinspection scope.",
+      "verification": "scGR8+TRAPS8+TetTCR12=28localchecks pass;3privatebuilds,pairing0problems. Sourceguard13checked0failed/0exemptions after narrowsharedoriginal-format fixes forTRAPSmodificationcolumnwrap andTetTCRbalancedNmanufacturingdirective. Chemistry0established45unresolved0contradictory;review2in_progress+1blocked valid. Independentselected-sourcecriticalreviewfoundnoconsequentialdefect;TRAPSFig3positivecovalentAb\u2013streptavidinthenoligoassociationrefinementretained. These checks establishonlytheirselectedscope,notfullchemistry/sourcecoverage."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Specific originals/source versions and pending linked targets separated from unassigned molecular questions. No missing-information gate acceptance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Defining final published main and core capture/conjugation/pulse/library Methods https://www.nature.com/articles/s41592-023-01841-y",
+    "Source-specific exact library/index/cell identifier/copying geometry and operational order",
+    "Remaining published SI/originals and independent source review"
+  ]
+}

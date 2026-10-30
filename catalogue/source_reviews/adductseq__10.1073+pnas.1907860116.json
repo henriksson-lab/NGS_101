@@ -1,0 +1,44 @@
+{
+  "dir": "adductseq__10.1073+pnas.1907860116",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://www.pnas.org/doi/full/10.1073/pnas.1907860116",
+      "original": "https://doi.org/10.1073/pnas.1907860116",
+      "availability": "unavailable",
+      "reason": "Standardfetch0originals; EuropePMC HTTP500,PMC host challengecooldown, DOI noopenfulltext. Existing officialCloudPMC6883822 fallback also0usablefiles. No claim that all legitimate article routes were exhausted.",
+      "relevance": "relevant",
+      "source_version": "Published2019 defining article identity only; no preparation sections read.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Published full article needed before any chemistry-supplement locator is asserted."
+  ],
+  "missing_claims": [],
+  "conclusion": "Source retrieval blocked; identity-only, uncollected and no fake graph.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "dna_round27",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Exact manifest-selected originals counted before opening in/tmp/round27-dna-original-counts.tsv; combined-reader cap MASD3/RADD2/adduct0, no overrun. No source glob/admin reads.",
+      "locations": "Published2019 defining article identity only; no preparation sections read.",
+      "findings": "No original/preparation read; specific retrieval failures only.",
+      "deferred": [
+        "Publishedmain acquisition and identification of any relevant supplement; no filename guesses."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper: MASD18hits/2representations;RADD0hits/0files;adduct0hits/emptybundle. Zero hits are not absence evidence.",
+      "verification": "38focusedchecks(21MASD/17RADD)pass;guard4exact0fail1independentlyverifiedmodifiedhairpinformattingexemption0unassembledinputstates;chemistry2narrowestablished2conditional46unresolved0contradictory. No adductgraph/fullvalidation."
+    }
+  ]
+}

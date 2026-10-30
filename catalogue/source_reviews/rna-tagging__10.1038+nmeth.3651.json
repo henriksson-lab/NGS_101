@@ -1,0 +1,135 @@
+{
+  "dir": "rna-tagging__10.1038+nmeth.3651",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rna-tagging__10.1038+nmeth.3651/nmeth.3651_41592_2015_BFnmeth3651_MOESM535_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3651/MediaObjects/41592_2015_BFnmeth3651_MOESM535_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Figure1E data-table identity/header and U-tag calibration summary only; not an oligo or library recipe",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published publisher workbook"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rna-tagging__10.1038+nmeth.3651/nmeth.3651_PMC4707952.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4707952.1/PMC4707952.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rna-tagging__10.1038+nmeth.3651/nmeth.3651_PMC4707952.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4707952.1/PMC4707952.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Identity/header, overview35\u201353; Methods119\u2013181; source processing187/191; separate comparisonRNAseq235\u2013241 excluded from active library",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript; final-VOR procedure applicability unverified"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rna-tagging__10.1038+nmeth.3651/nmeth.3651_supp_NIHMS729904-supplement-1.doc.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4707952.1/NIHMS729904-supplement-1.doc",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Figure1\u20132 captions identifying targeted assay versus synthetic U-tag standards; graphical oligos not transcribed from caption",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Associated-manuscript supplement; not substituted for full published SI"
+    },
+    {
+      "id": "source_5",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nmeth.3651",
+      "original": "https://www.nature.com/articles/nmeth.3651",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Defining published main full Methods and its source-version applicability; direct web open redirected to inaccessible Nature identity service, not an absence finding"
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth.3651",
+      "original": "https://doi.org/10.1038/nmeth.3651",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Remaining actual published supplementary originals not completed in interrupted retrieval; no substituted whole-version equivalence"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round12_reader",
+      "date": "2026-10-29",
+      "locations": "Identity/header, overview35\u201353; Methods119\u2013181; source processing187/191; separate comparisonRNAseq235\u2013241 excluded from active library; Figure1\u20132 captions identifying targeted assay versus synthetic U-tag standards; graphical oligos not transcribed from caption; Figure1E data-table identity/header and U-tag calibration summary only; not an oligo or library recipe",
+      "finding": "Capped source pass; actual directly linked pending originals enumerated. No recursive linked-source reading or independent absence audit."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://www.nature.com/articles/nmeth.3651",
+      "scope": "Defining published main full Methods and its source-version applicability; direct web open redirected to inaccessible Nature identity service, not an absence finding"
+    },
+    {
+      "locator": "https://doi.org/10.1038/nmeth.3651",
+      "scope": "Remaining actual published supplementary originals not completed in interrupted retrieval; no substituted whole-version equivalence"
+    },
+    {
+      "locator": "Methods119\u2013181 named GeneJetRNA/PCR, Dynabeads mRNA, yeast RiboZeroGold, RNA CleanXP manuals and source reference23 G-tailing method",
+      "scope": "Historical editions/procedure details unreviewed at cap; no asserted kit mechanism/remnant discard"
+    }
+  ],
+  "open_questions": [
+    "Exact complete molecular library/end/primer geometry and source-version boundaries remain as described in note, not confirmed absent."
+  ],
+  "conclusion": "Source-qualified notes and incomplete protocol-local graph only. Ordinary deferred reading; no accepted absence claim or full-publication promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "rna_round12_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining article and chemical SI first; max10min/3originals, no recursive chase.",
+      "locations": "Identity/header, overview35\u201353; Methods119\u2013181; source processing187/191; separate comparisonRNAseq235\u2013241 excluded from active library; Figure1\u20132 captions identifying targeted assay versus synthetic U-tag standards; graphical oligos not transcribed from caption; Figure1E data-table identity/header and U-tag calibration summary only; not an oligo or library recipe",
+      "findings": "Physical RNA/modified residues versus complementary DNA/readout kept distinct; source-known operations reach acquisition with unresolved geometry. Independent implementation review correction: selected U-select product retains primer-derived C9/AAA and copies upstreamRNA only, never reverse-transcribes the primer-covered G/I/U tail.",
+      "deferred": [
+        "https://www.nature.com/articles/nmeth.3651",
+        "https://doi.org/10.1038/nmeth.3651",
+        "Methods119\u2013181 named GeneJetRNA/PCR, Dynabeads mRNA, yeast RiboZeroGold, RNA CleanXP manuals and source reference23 G-tailing method"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scraper; original pointer contexts inspected. STAMP five large skipped files are unreviewed; no absence conclusion.",
+      "verification": "27 local behavior/source-transcription checks pass across3models (RNA Tagging8,LASER11,STAMP8); sourceguard5checked0failed0bundlesskipped3inputswithoutexactstates3graphs; chemistry35unresolved0contradictory. Notes-only, no preview or full endpoint/source/readout promotion."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "dir": "quantm-trnaseq__10.1038+s41467-020-17879-x",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7428014.1/PMC7428014.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main59/189/193 and actualFig1 originalPDFp4; matureCCA capture plus postRT truncated-product fate versusYAMAT/DM/mim.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7428014.1/41467_2020_17879_MOESM5_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualSupplementaryData1 fullQuantM library oligo rows plus analytical-probe/IVT-control boundaries, originalworkbook context.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7428014.1/41467_2020_17879_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 mapping/product comparison context; no extra workbook or predecessor opened.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "targeted_owner_round39",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published selected originals only; source investigation closed before implementation, not a complete chemistry/source/absence audit.",
+      "locations": "Published main59/189/193 and actualFig1 originalPDFp4; matureCCA capture plus postRT truncated-product fate versusYAMAT/DM/mim.; ActualSupplementaryData1 fullQuantM library oligo rows plus analytical-probe/IVT-control boundaries, originalworkbook context.; PublishedSI1 mapping/product comparison context; no extra workbook or predecessor opened.",
+      "findings": "Actual source-defined physical preparation and modified library oligo roles read; no source absence, precursor constructor or modern kit defaults inferred. See note for selectedbranch and source discrepancies.",
+      "deferred": [
+        "Full occupiedRNA/cDNA/circle/PCR products, off-products, exact used barcode and complete read landing.",
+        "Directly cited capture/predecessor27/YAMAT/DM and historical kit originals ordinary unread; no complete inherited constructors.",
+        "ActualrT-versusrU ordering used for the variant and full source discrepancy applicability."
+      ],
+      "oligo_scraper": "Mandatory bundle scan completed; source orderings verified against selected original library tables, unrelated analytical/alternative oligos not assigned to selected library.",
+      "verification": "18focusedPASS;actualRNAheat/annealprovenancecorrected andselectedindependentpeerclosed/same3originals. Externalguard5exact0fail1physicalddCexception2unrepresentedspacer/indexstates;1localestablishedrelation/25unresolved/0contradictory."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Directly linked source/vendor targets ordinary unread outside selected capped scope; no accepted absence claim.",
+    "deferred_targets": [
+      "Full occupiedRNA/cDNA/circle/PCR products, off-products, exact used barcode and complete read landing.",
+      "Directly cited capture/predecessor27/YAMAT/DM and historical kit originals ordinary unread; no complete inherited constructors.",
+      "ActualrT-versusrU ordering used for the variant and full source discrepancy applicability."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source-positive selected preparation only; full molecules/reactions/readout and directly linked depth-one follow-up remain unassembled. No accepted absence/pass2.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round39",
+    "date": "2026-10-30",
+    "scope": "Same3publishedoriginals: main59/189/193 andactualFig1p4; Data1rawXLSXsheet1A37:B44whole8modifiedorders; SI1actualcaption930\u2013940(sequencingmetrics/comparisoncontextonly). No absence pass2. Same main bibliography398\u2013423 checked for relation identity.",
+    "findings": "Verified matureCCAdual-endcapture and truncated/fullcDNAfates, rGrTmainversusrGrUordering retainedwithoutsilentnormalization,physicalterminalddCnucleotide/nonnucleotideiSp18, RTNNunassignedmeaning andsourcebarcodetemplateunknownwidth. Criticalfix:actualRNA nowparticipatesin95C/37Canneal, sourceactualmixedtubecontinuesintosame-tubecomponentinventoryandligation, avoidingbypassedRNA/duplicatefreshadapter. Localadaptergeometryisreferenceonly; occupiedwholecomplex/productunassembled. ActualRTprimer/masterstocks/QC/multiplexingfates sourcequalified.18focusedchecksPASS;guard5exact0fail1narrowddCexception2unrepresentedstates. No completewhole-reaction/sourceaudit. Main59splintstrategyref27 isKurschat2005(10.1261/rna.2170705); YAMATisref25/comparator. Do not inferYAMATancestry fromsharedCCAadapterarchitecture ormisassignref27; no predecessororiginalopened.",
+    "absence_pass_2": false
+  }
+}

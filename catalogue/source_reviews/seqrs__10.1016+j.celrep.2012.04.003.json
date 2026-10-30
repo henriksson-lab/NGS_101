@@ -1,0 +1,53 @@
+{
+  "dir": "seqrs__10.1016+j.celrep.2012.04.003",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3375920.1/PMC3375920.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated author manuscript Approach58\u201360/Methods132\u2013142/Fig1caption384\u2013390; actual initialIVT/DNase/GeneJET,selection/RTaliquot/roundsampling/libraryQC/HiSeq scope"
+    },
+    {
+      "id": "blocked1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3375920/bin/NIHMS376327-supplement-supplement_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original Methods/chemistry not inspected through this unavailable route",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Capped published-first original reading;associated manuscript explicit,actual source blockers unresolved,private source-local graphs only",
+      "locations": "Associated author manuscript Approach58\u201360/Methods132\u2013142/Fig1caption384\u2013390; actual initialIVT/DNase/GeneJET,selection/RTaliquot/roundsampling/libraryQC/HiSeq scope",
+      "findings": "Initial-library DNase/GeneJET applies only to initial input;later T7 regeneration workup remains opaque. Unassigned elution/final/batch remainders are UNRESOLVED. Physical aliquots/QC and uncertain batch membership retained. Independent critical review identified these two source-scope issues and recheck confirmed both corrections.",
+      "deferred": [
+        "Actual named supplement1PDF/TableS1 (gated): completeDNA/RNA/T7/RT/PCR/index/custom sequencing primer polymers and molecular geometry",
+        "Published final article Methods/version applicability of associated author manuscript; no complete equivalence established",
+        "Exact later-round template/RNA allocations and workups, individual source experimental barcode/round assignments and readcycles",
+        "Protein-partner/MBP mutant variants, precursorSELEX originals and other source-linked chemistry documents not followed in capped pass"
+      ],
+      "verification": "Combined21 local checks (7 SMiLE/14 SEQRS),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt27unassembled inputs (not sequence validation);chemistry0established74unresolved0contradictory. Independent selected-source review/recheck closed;not absence audit.",
+      "oligo_scraper": "Mandatory bundle scraper run;selected source pointers/modifications verified,ORFs not treated as libraryoligos,zero hits/files not absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct pending originals/questions listed;no recursive source chase or accepted absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Actual named supplement1PDF/TableS1 (gated): completeDNA/RNA/T7/RT/PCR/index/custom sequencing primer polymers and molecular geometry",
+    "Published final article Methods/version applicability of associated author manuscript; no complete equivalence established",
+    "Exact later-round template/RNA allocations and workups, individual source experimental barcode/round assignments and readcycles",
+    "Protein-partner/MBP mutant variants, precursorSELEX originals and other source-linked chemistry documents not followed in capped pass"
+  ]
+}

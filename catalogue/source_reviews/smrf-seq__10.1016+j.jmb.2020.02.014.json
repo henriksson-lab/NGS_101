@@ -1,0 +1,150 @@
+{
+  "dir": "smrf-seq__10.1016+j.jmb.2020.02.014",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "associated_manuscript",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smrf-seq__10.1016+j.jmb.2020.02.014/j.jmb.2020.02.014_PMC7669280.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round10",
+        "date": "2026-10-29",
+        "locations": "Methods122\u2013148/Results52\u201369/94",
+        "finding": "Associated accepted-manuscript identity explicit; selected molecular/order source scope read; finalVOR applicability not independently established."
+      }
+    },
+    {
+      "id": "supplement_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-8.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-9.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-10.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-11.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-12.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    },
+    {
+      "id": "supplement_13",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7669280/bin/NIHMS1568681-supplement-13.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC download gate; contents and detailed figure/table identity remain uninspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round10",
+      "date": "2026-10-29",
+      "locations": "Selected defining original/associated manuscript and chemistry supplements listed above",
+      "finding": "Named original/kit/script/version targets remain uninspected or unavailable within cap; no absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; full source/library/read geometry and independent linked-source review remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "expansion_dna_round10",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first source selection; associated manuscript identities explicit. No3original cap expansion, no recipe inheritance by resemblance.",
+      "locations": "Detailed inspected locations are recorded per original above.",
+      "findings": "Source-known operations retained, exact molecular end/read geometry deliberately incomplete; no accepted absence claim.",
+      "deferred": [
+        "Exact blocked originals and named kit/script/predecessor targets identified in notes."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scrapers run after fetch; G4seq95hits/5files, SMRF0hits, ssDNA0hits. Hits reviewed as pointers; no exact library oligo or absence claim derived.",
+      "verification": "22localchecks(6G4/9SMRF/7ssDNA)passed;3builds/pairing and source-review schema passed. Sourceguard0checked/0failed with2unrepresented SMRF locus-primer inputs; no exact oligo validation claimed. Chemistry0established/25unresolved/0contradictory, not full chemical validation. Independent implementation review found no critical molecular/fate/version defect; it was not an absence-audit pass. Fetch session10000completed exit0, no process running."
+    }
+  ]
+}

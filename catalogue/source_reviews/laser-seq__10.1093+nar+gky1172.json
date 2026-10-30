@@ -1,0 +1,144 @@
+{
+  "dir": "laser-seq__10.1093+nar+gky1172",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_PMC6326810.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/PMC6326810.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_PMC6326810.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/PMC6326810.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Introduction38\u201346/Fig1; Methods52\u201380 including treatment58\u201368 and complete library76, acquisition76 and processing80",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published VOR, PMC licence/identity explicitly not author manuscript"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_supp_gky1172_supplemental_files.zip",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/gky1172_supplemental_files.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_supp_gky1172_supplemental_files_180423_LASERseq_SuppInfo_Table_S1_Oligos.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/gky1172_supplemental_files.zip#180423_LASERseq_SuppInfo_Table_S1_Oligos.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Sheet1 rows2\u20135 full modifications and PCR family rows6\u201329; workbook-derived text inspected, exactRT/linker source transcription guarded",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Original published SI workbook from original supplement ZIP"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_supp_gky1172_supplemental_files_180831_LASER_SEQ_SuppInfo_.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/gky1172_supplemental_files.zip#180831_LASER_SEQ_SuppInfo_.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round12_reader",
+        "date": "2026-10-29",
+        "locations": "Title and FigureS1\u2013S8 captions; no additional preparation recipe inferred from plots",
+        "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Original published SI from same ZIP"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_supp_gky1172_supplemental_files_Table_S2_EFG_protections.tsv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/gky1172_supplemental_files.zip#Table_S2_EFG_protections.tsv",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/laser-seq__10.1093+nar+gky1172/nar_gky1172_supp_gky1172_supplemental_files_Table_S3_onc112_protections.tsv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6326810.1/gky1172_supplemental_files.zip#Table_S3_onc112_protections.tsv",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Uninspected original or manifest access barrier; no irrelevance or missing-information conclusion. Published supersession of any preprint pending identity check, never active chemistry authority."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round12_reader",
+      "date": "2026-10-29",
+      "locations": "Introduction38\u201346/Fig1; Methods52\u201380 including treatment58\u201368 and complete library76, acquisition76 and processing80; Sheet1 rows2\u20135 full modifications and PCR family rows6\u201329; workbook-derived text inspected, exactRT/linker source transcription guarded; Title and FigureS1\u2013S8 captions; no additional preparation recipe inferred from plots",
+      "finding": "Capped source pass; actual directly linked pending originals enumerated. No recursive linked-source reading or independent absence audit."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "MainMethods52/76 references8,22,23,31",
+      "scope": "Actual directly cited NAz synthesis/library predecessors unreviewed at three-original cap; circle-to-PCR spacer traversal/primer geometry remains unassembled"
+    },
+    {
+      "locator": "MainMethods64 ZymoDirectZol original manual",
+      "scope": "Historical edition unreviewed; K562 omits DNase per main, no contemporary default substituted"
+    }
+  ],
+  "open_questions": [
+    "Exact complete molecular library/end/primer geometry and source-version boundaries remain as described in note, not confirmed absent."
+  ],
+  "conclusion": "Source-qualified notes and incomplete protocol-local graph only. Ordinary deferred reading; no accepted absence claim or full-publication promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "rna_round12_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining article and chemical SI first; max10min/3originals, no recursive chase.",
+      "locations": "Introduction38\u201346/Fig1; Methods52\u201380 including treatment58\u201368 and complete library76, acquisition76 and processing80; Sheet1 rows2\u20135 full modifications and PCR family rows6\u201329; workbook-derived text inspected, exactRT/linker source transcription guarded; Title and FigureS1\u2013S8 captions; no additional preparation recipe inferred from plots",
+      "findings": "Physical RNA/modified residues versus complementary DNA/readout kept distinct; source-known operations reach acquisition with unresolved geometry. Independent implementation review correction: pre-NaOH RT material is a typed mixture retaining independent originalRNA and possible unextendedprimer/reagent companions alongside selected spacer-containing cDNA.",
+      "deferred": [
+        "MainMethods52/76 references8,22,23,31",
+        "MainMethods64 ZymoDirectZol original manual"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scraper; original pointer contexts inspected. STAMP five large skipped files are unreviewed; no absence conclusion.",
+      "verification": "27 local behavior/source-transcription checks pass across3models (RNA Tagging8,LASER11,STAMP8); sourceguard5checked0failed0bundlesskipped3inputswithoutexactstates3graphs; chemistry35unresolved0contradictory. Notes-only, no preview or full endpoint/source/readout promotion."
+    }
+  ]
+}

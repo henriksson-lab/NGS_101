@@ -1,0 +1,51 @@
+{
+  "dir": "iseq__10.1261+rna.036202.112",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://rnajournal.cshlp.org/content/19/2/257.full.html",
+      "availability": "unavailable",
+      "reason": "Exact declared publisher route actualHTTP403; no original read. EPMC XML500/PMC cooldown/declared Cloud no usable file; validated manifest file count0.",
+      "relevance": "relevant",
+      "inspection_scope": "Manifest/acquisition outcomes only; no main or supplement original read.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "targeted_owner_round38",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Blocked source acquisition after repaired metadata/authorized escalated standard retrieval; no chemistry original or rejected response read.",
+      "locations": "MANIFEST.tsv standard generic routes, declaredPMC3543087 Cloud and exact published RNA page outcomes; source fetch logs in /tmp.",
+      "findings": "Zero validated source files; no graph or current source-positive preparative collection. Discovery summary not promoted to chemistry authority; no substitute from deferredICE-seq or Slic-seq.",
+      "deferred": [
+        "Obtain actual published main https://rnajournal.cshlp.org/content/19/2/257.full.html before identifying needed chemistry supplements or assembling preparations."
+      ],
+      "oligo_scraper": "Mandatory scraper0sequences/0files, not evidence of source absence.",
+      "verification": "No model/test created; independent manifest-only scope recheck pending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Supplement identities/roles unresolved without actual main; no invented missing disclosure original.",
+    "deferred_targets": [
+      "Actual published main https://rnajournal.cshlp.org/content/19/2/257.full.html"
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-blocked and uncollected; no protocol graph or accepted absence claim.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round38",
+    "date": "2026-10-30",
+    "scope": "Existing MANIFEST/acquisition outcomes only; zero validated original files. No additional source retrieval or chemistry original read.",
+    "findings": "Confirmed actual publisher403, EuropePMC500/PMCcooldown and declaredexactCloudno usablefile. Discovery facts were not promoted to preparation collection; no graph or source-absence conclusion.",
+    "absence_pass_2": false
+  }
+}

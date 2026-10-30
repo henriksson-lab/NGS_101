@@ -1,0 +1,49 @@
+{
+  "dir": "entrap-seq-oxidative-dna__10.1021+acs.biochem.9b00782",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pubs.acs.org/doi/10.1021/acs.biochem.9b00782",
+      "availability": "unavailable",
+      "reason": "Standardfetch no openfulltext; directpublisher403. Indexedidentity/abstract/SIindex only, not complete chemistry original.",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedACSidentity/abstract/SIindex only; main403/no full article or exactSI file acquired.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "dna_owner_round33",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Identityonly/uncollected; no chemistrygraph.",
+      "locations": "PublishedACSidentity/abstract/SIindex only; main403/no full article or exactSI file acquired. Embedded SI contents preview on same primary index was also exposed; no exact original file acquired.",
+      "findings": "No full chemistryoriginal acquired; no source absence inferred.",
+      "deferred": [
+        "Publishedmain/fullMethods andactuallinkedSI identity",
+        "Directlylinkedpredecessor/vendororiginals"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; relevant TableS4 hits verified inoriginalZIP/XML forNAIL. Emptyentrap/Repair hits not absenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "PublishedindexnamesMatMethPDF/peakXLSX; exactSI URLunverified, notguessed; sourcechemistryunread."
+  },
+  "missing_claims": [],
+  "conclusion": "Identityonly/sourceblocked/uncollected; no fabricatedgraph.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round33",
+    "date": "2026-10-30",
+    "documents": 0,
+    "scope": "Notes/ref/review plus actualsourceMANIFESTmetadata only; no new ACSoriginal or blocked-host retry. Narrow implementation/source-limit recheck only, not pass2 or full linked-source/absenceaudit.",
+    "finding": "Actualmanifest has zero validatedoriginals and standard DOIroute noopenfulltext. Coordinator reported primary403 and indexedSIcontents; no exactcompleteSI downloadidentity is invented. Notes correctly keep enTRAP uncollected/nograph, distinguish componentdiscoveryfrom chemistryauthority, and make no sourceabsence claim. This recheck verifies recorded access/model-scope bookkeeping, not independent fulloriginalchemistry inspection.",
+    "verification": "No model or chemistryvalidation asserted; combined2discoveryidentities unchanged."
+  }
+}

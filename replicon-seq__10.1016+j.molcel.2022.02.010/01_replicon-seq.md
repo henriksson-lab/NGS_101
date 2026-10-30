@@ -1,0 +1,17 @@
+# Replicon-seq
+
+Single-molecule mapping of replisome progression. Molecular Cell (2022), [doi:10.1016/j.molcel.2022.02.010](https://doi.org/10.1016/j.molcel.2022.02.010).
+
+🟢 Source read: associated author manuscript PMC8995386, Methods128–144, limitations102. ONE original, counted before opening. Final published version, SI and historicalvendor originals remain unreviewed; applicability to the final publication is not silently certified. Mandatory scraper returned0hits; this establishes no absence. The main contains actual prep and supports a source-qualified private partial graph. Superseded2022preprint was not read.
+
+🟢 This is fork-tethered Mcm4-MNase excision of BrdU-marked replicons, not an alternative mark-calling algorithm or a generic Nanopore platform substitution. Unlabelled parental DNA can also sequence; DNAscent filtering is computational. Main102 warns that MNase cleavage may influence nascent ends in unanticipated ways; there is no model of perfectly defined fork coordinates or guaranteed nascent-specific cleavage.
+
+🟢 W303-derived yeast carries C-terminalMcm4-MNase separated by an8aa linker; an N-terminalCRISPR fusion route also exists and is not implicitly substituted. Cells growYPD25°C/OD6000.35;α-factor arrest2h45min uses hourly5/5/1µg/ml additions. BrdU400µg/ml is added30min before arrest ends. Wash3×prewarmedYPD and release30min25°C inYPD/400µg/mlBrdU.100mlculture is pelleted4000rpm1min, washed ice20mMEDTA/1mMEGTA, repelleted and frozen inliquidnitrogen.
+
+🟢 Thaw10min onice in1mlEDTA/EGTA;10000g30s. Wash3×1mlSolutionA(15mMTrispH7.5/80mMKCl/0.1mMEGTA/proteaseinhibitor/spermidine/spermine). Resuspend570µlA30°C1min;add30µl2%digitonin30°C5min;ice2min. AddCaCl2to2mM and digest onice10seconds with already-cell-associatedMcm4-MNase, not an added freeMNase stock. Stop with610µl2×buffer(400mMNaCl/20mMEDTA/8mMEGTA), pellet10000g20s. The main explicitly says this cleavage component was adapted from Saleh2021 ChEC-seq,10.1007/978-1-0716-1597-3_16; this supports only that component and not inheritance of a ChEC whole library.
+
+🟢 AddZymolyase100T5mg in250µl1Msorbitol/1mMEGTA/10mMβME/50mMTrispH7.5,30°C3min;wash2×Zymolyasebuffer then1×RNasebuffer. Resuspend500µlRNasebuffer,add10µlRNasecocktail37°C2h. AddSDS2%final/Chelex10050mg/ProteinaseK200µg,55°C1h. Two phenol-chloroform phase-lock extractions use gentleinversion/13000rpm5min and aqueouspourtransfer; ethanolprecipitate and resuspend overnight in40µlwater. RNA/protein digestion products remain until physical extraction; no implicit instantaneous purification.
+
+🟢1.2–1.8µgDNA goes toLSK109orLSK110 libraries. Source changes repair/endprep to10min20°C, A-tailing30minRT and AMPureelution30min37°C; kit-internal reagents/adaptergeometry and run-to-kit mapping remain unassembled.750ng–1µglibrary loadsMinIONFLO-MIN106R9 for>48h to poreexhaustion. Source≥0.5BrdUscore selection occurs in software; original nonnascent DNA is not physically affinity-purified. Separate4thiouracilnascentRNA/DSC109 control is not part of the DNA graph.
+
+Blocked relevant original: https://pmc.ncbi.nlm.nih.gov/articles/instance/8995386/bin/NIHMS1786144-supplement-1.docx (standard fetcher reports gated/cool-down; original unread). Supplement2/3PDFs are linked analysis scripts and not used as chemistry evidence. HistoricalLSK109/110 originals and published final remain ordinary deferred scope. No claim of absent sequence/disclosure, final-version equivalence or complete validation.

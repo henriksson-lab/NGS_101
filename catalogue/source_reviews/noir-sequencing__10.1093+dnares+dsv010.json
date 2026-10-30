@@ -1,0 +1,50 @@
+{
+  "dir": "noir-sequencing__10.1093+dnares+dsv010",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4535617.1/PMC4535617.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainMethods2.3/2.4,librarylinearcopyingversusconsensussoftware andIon/Illuminaacquisition"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4535617.1/supp_dsv010_dsv010supp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSIMethodspp1\u20132,TablesS2/S3/footnotes; originalTableS3p14render /tmp/noir20-table3.png verifies15basepattern/wholeILMadS00/sampleindexes; PS/biotinfootnotes keptscoped"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Cappedpublished-firstselectedoriginalreading;source-localprivateincompletegraph,notabsenceaudit",
+      "locations": "PublishedmainMethods2.3/2.4,librarylinearcopyingversusconsensussoftware andIon/Illuminaacquisition; PublishedSIMethodspp1\u20132,TablesS2/S3/footnotes; originalTableS3p14render /tmp/noir20-table3.png verifies15basepattern/wholeILMadS00/sampleindexes; PS/biotinfootnotes keptscoped",
+      "findings": "Distinctactualwetpreparationspositive; molecularbarcodes/sampleindexes/physicalfates/sourcevariantboundariesexplicit. Known lateroperationsretained,fullgeometryunassembled. Coordinatorcriticalreviewclosed: NOIRactualSIMethodspp1\u20132/TableS3originalconfirmed15basebarcodeandindependent5/6ntsampleindexes,physicalbeadremovalandDSreplacementbypass;SiMSenstem/sourcevariantcaveatsandCypherRCAcopy/primerbiotin/fractionsconsistent. Cypherupfrontnote/LIMITnowretainunassignedcloning/amplificationroute,withoutchangingactualgraph.",
+      "deferred": [
+        "Complete source-specific molecular/end/read geometry and allremainingtarget/indexmembers",
+        "Exact historicalkitanddirectlycitedcomponent/predecessororiginals;uncuratedoriginsremainunspecified",
+        "Source-specificbranch/allocation/workupquestionsdescribedinprotocolnote"
+      ],
+      "verification": "32localchecks11SiMSen/10NOIR/11Cypherpass;3privatebuilds/schema/pairing0problems pass;sourceguard7checked0failed0exempt12unassembledinputs,notfullsequencevalidation;chemistry0established73unresolved0contradictory. Coordinatorindependentcriticalreviewclosed2026-10-29;noconsequentialsourceflow/chemistrydefect,notabsenceaudit. Cypherupfrontcloningroutewordingcorrectedtoreflectunassignedroute;actualgraphunchanged.",
+      "oligo_scraper": "Mandatorybundle scraper:SiMSen76candidates/NOIR47/Cypher17; selectedoriginalpointersandmodificationsverified,notabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Directsource-linkedpredecessorsandhistoricalkitdetailsdeferredwithordinaryavailableunreadscope;no recursivechase oracceptedabsence. Sharedprimers/computedstem similaritydonotauthorizeancestryorrecipereuse."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Complete source-specific molecular/end/read geometry and allremainingtarget/indexmembers",
+    "Exact historicalkitanddirectlycitedcomponent/predecessororiginals;uncuratedoriginsremainunspecified",
+    "Source-specificbranch/allocation/workupquestionsdescribedinprotocolnote"
+  ]
+}

@@ -36,7 +36,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/nmeth.2639",
-          "locator": "Published 2013 article, introduction; local nmeth.2639.pdf.txt lines 166–178"
+          "locator": "Published 2013 article, introduction; local nmeth.2639.pdf.txt lines 166\u2013178"
         }
       ]
     },
@@ -58,7 +58,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41587-022-01311-4",
-          "locator": "Published article opening text; PMC9546772 JATS text line 28; optimization text lines 40–44"
+          "locator": "Published article opening text; PMC9546772 JATS text line 28; optimization text lines 40\u201344"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1186/s13059-016-0938-8",
-          "locator": "Published abstract and Results, PMC4848782 JATS text lines 45, 63–67"
+          "locator": "Published abstract and Results, PMC4848782 JATS text lines 45, 63\u201367"
         }
       ]
     },
@@ -80,7 +80,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41467-018-05347-6",
-          "locator": "Published abstract and Results, PMC6062574 JATS text lines 33–35 and 51"
+          "locator": "Published abstract and Results, PMC6062574 JATS text lines 33\u201335 and 51"
         }
       ]
     },
@@ -91,7 +91,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41587-020-0739-1",
-          "locator": "Published abstract and opening Results, PMC8606189 JATS text lines 49–57"
+          "locator": "Published abstract and opening Results, PMC8606189 JATS text lines 49\u201357"
         }
       ]
     },
@@ -124,7 +124,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1371/journal.pone.0241253",
-          "locator": "Published article, main text lines 83 and 220–226 in journal.pone.0241253_PMC8031414.xml.txt; current CaBagE source note"
+          "locator": "Published article, main text lines 83 and 220\u2013226 in journal.pone.0241253_PMC8031414.xml.txt; current CaBagE source note"
         }
       ]
     }
@@ -136,16 +136,16 @@
     "actual_chrome": "17 passed on assembled site after family layout update; /tmp/protocol-lineage-browser.json; screenshot /tmp/lineage-final.png",
     "javascript_syntax": "node --check passed",
     "whitespace": "git diff --check passed for owned edits",
-    "shared_suite": "1669checks passed",
-    "full_site": "490/490builders;443public schematics;all relative links resolve.",
+    "shared_suite": "1737checks passed",
+    "full_site": "511/511builders;443publicschematics;allrelative linksresolve.",
     "source_tools": "227 offline checks passed",
-    "latest_registry_semantics": "21checks passed with26registry relations;public counts unchanged."
+    "latest_registry_semantics": "21checks passed with42registry relations;public8unchanged."
   },
   "unresolved": [
     "Similarity is a sequence-component heuristic sensitive to exported coverage and nested parts; never interpreted as ancestry.",
     "CaBagE component relationship stays private while its catalogue status is notes.",
     "Standalone builder uses existing generated pages; normal site build is authoritative for success eligibility.",
-    "Private iCLIP→irCLIP inference uses associated accepted-manuscript strategy comparison; final published procedural identity remains pending, no publication-error claim."
+    "Private iCLIP\u2192irCLIP inference uses associated accepted-manuscript strategy comparison; final published procedural identity remains pending, no publication-error claim."
   ],
   "publication_counts_at_validation": {
     "protocols": 422,
@@ -156,7 +156,7 @@
     "similarities": 520
   },
   "no_staging_or_commit": false,
-  "registry_relations": 26,
+  "registry_relations": 56,
   "commit_policy": "Verified task files staged by coordinator; no commit or push.",
-  "subsequent_curation": "Round04 adds3private version-qualified component links:CITE→LIBRA,SAC→eTAM,CPT→SiC. Round05 adds5private scoped links:RRBS→redBS,Drop-seq→targetedDART,10x3primev2→TAP,CROP→TAP,and separateDrop-seq→TAP backend. No source-selecting recipe reuse or inferred shared ancestry between concurrent MazF methods. Round06 adds4private scoped adaptations:Smartseq2→SmartTotal,CLASH→hiCLIP,version-qualified2015emRibo companion→CPD,and publishedSI10xv2→MULTI. Public8links unchanged."
+  "subsequent_curation": "Round04 adds3private version-qualified component links:CITE\u2192LIBRA,SAC\u2192eTAM,CPT\u2192SiC. Round05 adds5private scoped links:RRBS\u2192redBS,Drop-seq\u2192targetedDART,10x3primev2\u2192TAP,CROP\u2192TAP,and separateDrop-seq\u2192TAP backend. No source-selecting recipe reuse or inferred shared ancestry between concurrent MazF methods. Round06 adds4private scoped adaptations:Smartseq2\u2192SmartTotal,CLASH\u2192hiCLIP,version-qualified2015emRibo companion\u2192CPD,and publishedSI10xv2\u2192MULTI. Public8links unchanged. Round07 adds4private scoped links:eCLIP\u2192m1AMAP,m1AMAP\u2192SAC,CELseq2\u2192RAID,MARS\u2192CRISP. Round08 adds6private links:DNA6mACE\u2192RNA6mACE,ID\u2192scID,BAsE\u2192Loop,CRAC\u2192CLASH,DASH\u2192SmartTotal,RBS\u2192BID. BroadLoop/RBSdetectionstrategy ancestry does not inherit exact chemistry;RBSactualcorrectionremainsunread. Public8links unchanged. Round09adds6privatescopedrelations:CUT&RUN\u2192MapR,MapR\u2192BisMapR,Smartseq2\u2192Stapleton,Stapleton\u2192Loop,m6Aseq\u2192m1Aseq,m1A-ID\u2192m1AMAP. Cited2018/2020/2014/2013companionversions andassociated-manuscriptsources remainexplicit;no biologicalrecipe reuse byedge. Round10 adds3private qualified links:APEX-RIP\u2192APEXseq(strategy inferred),originalDRIP\u2192SMRF(via cited2019component version),GESTALT\u2192CARLIN(genomic single-extension UMI recovery only). No exact cassette/kit/primer inheritance byedge;public8unchanged. Round11 adds5private component links:DRIP\u2192RDIP,Visium\u2192SPOTS,CROP\u2192DNATypewriter(vector only),PARCLIP\u2192ProximityCLIP(cited companion scope),NOMe\u2192nanoNOMe(marking only). No SORTseq\u2192CELseq2 edge forced without its own source review;public8unchanged. Round12 adds6private component links:DART\u2192STAMP(enzyme-expression construct),SHAPE-MaP/DMS-MaPseq\u2192LASER(group-level library adaptation),Dropseq\u2192Apt(local aptamer changes),CITE\u2192SUGAR(staining only),MultiomeRevA\u2192NEAT(operational continuation). Exact source versions,individual component attribution and unreviewed guides remain limited;public8unchanged."
 }

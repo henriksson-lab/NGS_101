@@ -1,0 +1,47 @@
+{
+  "dir": "t-scan__10.1016+j.cell.2019.07.009",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6939866.1/PMC6939866.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated author manuscript overview85 and NGS Methods289–295; selected custom-primer route, whole PCR primers/sample-index pattern/custom sequencing primer. Same-original reference673–677 identifies Xu2015 VirScan, not independently read."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Capped selected originals including administrative identity opens. Published-first; AM status explicit. Not complete source or absence audit.",
+      "locations": "Associated author manuscript overview85 and NGS Methods289–295; selected custom-primer route, whole PCR primers/sample-index pattern/custom sequencing primer. Same-original reference673–677 identifies Xu2015 VirScan, not independently read.",
+      "findings": "Positive distinct wet-preparation boundary and source-owned private partial graph. Physical workups, saved/unused aliquots, original substrates and source alternatives retained; no borrowed whole-chemistry constructor.",
+      "deferred": [
+        "Engineered stock construction, alternate human-genome screen, directly cited modified Xu2015 NGS and historical kit originals",
+        "Whole molecular/adapter-end/read geometry and actual sample-specific assignments"
+      ],
+      "verification": "21 focused checks pass (7 each); source guard5 exact strands checked,0failed,1 documented lowercase-x pattern exemption independently checked whole by local suite,12unassembled inputs across3graphs. Chemistry0established/46unresolved/0contradictory; not complete chemical validation. Notes render successfully.",
+      "oligo_scraper": "Mandatory source scraper: 29 candidates/one source file. Actual source pointers verified for selected facts; not absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Engineered stock construction, alternate human-genome screen, directly cited modified Xu2015 NGS and historical kit originals. Scoped component/adaptation evidence is in notes. No recursive follow-up or whole-recipe inheritance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Engineered stock construction, alternate human-genome screen, directly cited modified Xu2015 NGS and historical kit originals",
+    "Unreviewed remaining sections and final-main comparison where explicitly operating from AM"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round23",
+    "date": "2026-10-30",
+    "scope": "Independent selected-original/model critical review only; not full source or linked-information absence audit",
+    "finding": "Independently read qualified AM Methods289–295, including whole PCR primer bodies, custom sequencing primer, seven literal x sample-index pattern, carrier addition and small physical transfers. Source-pattern-to-placeholder exception approved with independent complete literal check. Selected scope consistent; no full source/linked-information or absence audit.",
+    "verification": "Affected DNA microscopy suite7pass; source guard across3graphs5exact strands checked/0fail/1approved lowercase-x literal-pattern exception/12unassembled inputs. Three source review records validate."
+  }
+}

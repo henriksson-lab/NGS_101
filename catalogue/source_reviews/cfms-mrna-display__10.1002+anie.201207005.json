@@ -1,0 +1,50 @@
+{
+  "dir": "cfms-mrna-display__10.1002+anie.201207005",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://bpb-us-w1.wpmucdn.com/sites.usc.edu/dist/0/60/files/2018/01/95949-veiv5s.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "CombinedPDF published main printedp12449\u201312453, Fig1/scaffold/NGS approach; title is through, not associated-MS via"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://bpb-us-w1.wpmucdn.com/sites.usc.edu/dist/0/60/files/2018/01/95949-veiv5s.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Same combinedPDF publishedSI FigS1/TableS1(PDFp21=SIp15) and DetailedMethods950\u20131054; original TableS1 rendered /tmp/cfms18-table21.png"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Capped published-first selected source reading and source-local private incomplete operational graph; no missing-information audit",
+      "locations": "CombinedPDF published main printedp12449\u201312453, Fig1/scaffold/NGS approach; title is through, not associated-MS via; Same combinedPDF publishedSI FigS1/TableS1(PDFp21=SIp15) and DetailedMethods950\u20131054; original TableS1 rendered /tmp/cfms18-table21.png",
+      "findings": "Known source operations and physical fractions retained; incomplete geometry stays explicit. Independent selected-source critical review by coordinator closed after full corrected modified-oligo transcription checks; not absence-gate approval.",
+      "deferred": [
+        "Directly cited Olson2011 naive fusion preparation/CFMS component original; exact pF30P/splint polymer/manufacturing geometry",
+        "Remaining TableS1 assembly oligos, cassette junction/end geometry and source fusion library full strands",
+        "Exact post-selection PCR-to-flowcell workup and input-reference amplification/allocation; source loading and PE42 are known"
+      ],
+      "verification": "35localchecks9PLATO/10CFMS/16Click pass; sourceguard3exactchecked0failed0exempt26unassembledinputs. 3privatebuilds/schema/pairing0problems pass;chemistry0established138unresolved0contradictory. Independentcriticalreviewclosed,notabsenceaudit.",
+      "oligo_scraper": "Mandatory per-bundle scraper run: PLATO69/CFMS10/Click11candidates; original selected pointers/modifications checked. Collapsed hits are not manufactured oligos or sequence-absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct source links/component questions enumerated; no recursive retrieval or absent-disclosure claim."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Directly cited Olson2011 naive fusion preparation/CFMS component original; exact pF30P/splint polymer/manufacturing geometry",
+    "Remaining TableS1 assembly oligos, cassette junction/end geometry and source fusion library full strands",
+    "Exact post-selection PCR-to-flowcell workup and input-reference amplification/allocation; source loading and PE42 are known"
+  ]
+}

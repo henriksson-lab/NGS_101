@@ -1,0 +1,75 @@
+{
+  "dir": "epi-decoder__10.1371+journal.pbio.2005542",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6059479.1/PMC6059479.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published PMC6059479 main Methods174/178/182, Results55/Fig1caption62 and actual Fig1 PDFp3.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "s7_oligos",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6059479.1/pbio.2005542.s012.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published S7Table s012 actual workbook cells: six whole PCR/custom-read orders; other qPCR/ADE2 orders not adopted.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "s1_layout",
+      "role": "supplement",
+      "locator": "https://journals.plos.org/plosbiology/article/file?id=10.1371%2Fjournal.pbio.2005542.s001&type=supplementary",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Actual published S1Fig s001 TIFF, U1/U2/D1/D2 and primer orientation; no allele bases inferred from schematic.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-42",
+      "reviewer": "dna_owner_round42",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "HO/KanMX input/TAP-ChIP barcode preparation; source investigation closed before implementation.",
+      "locations": "Published PMC6059479 main Methods174/178/182, Results55/Fig1caption62 and actual Fig1 PDFp3. Published S7Table s012 actual workbook cells: six whole PCR/custom-read orders; other qPCR/ADE2 orders not adopted. Actual published S1Fig s001 TIFF, U1/U2/D1/D2 and primer orientation; no allele bases inferred from schematic.",
+      "findings": "Positive four-PCR input/IP by UP/DN preparation, exact six whole oligos/custom read primers, six-base sample index and clone/protein reporter meaning; physical stock, pooling and loading remainders retained. Complete selected genomic products and PCR formulation unassembled.",
+      "deferred": [
+        "S1Table s006 strain/barcode lookup ordinary unread within cap.",
+        "Historical strain-construction/predecessor and PCR/vendor protocols ordinary unread; no borrowed component recipe.",
+        "ADE2 assay and non-library/qPCR oligos not adopted."
+      ],
+      "oligo_scraper": "Whole bundle40hits/2files; relevant whole source orders verified in actual S7 XLSX; actual S1 TIFF/Fig1 inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "S1Table/historical strain/PCR sources deferred within capped pass; no absence conclusion."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive private partial preparation; independent critical implementation review pending, not an absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_round42_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same three published originals: PMC6059479mainMethods174/178/182 andselectedResults/Fig1; S7Tables012originalXLSXsheet1rows6\u201311whole6library/readorders; actualS1Figures001TIFF U1/U2/D1/D2 orientations. No other barcode-lookup, ADE2, predecessor/vendor or newsource acquisition.",
+    "findings": [
+      "Independentlyverified whole6orderings mappedtonames fromoriginalXLSXcells, not onlystringmembership. ActualS1diagramUP/DNopposinggenomicorientations matcheswholeforward/readprimerrelations. Genomic20ntpairedreporters identifyclone-linkedprotein/locus, notUMI/cellbarcode; separate6ntsampleindex and actualvalues/wholeallele unassembled.",
+      "Sourceactual100ulINPUT and1mlIP remain distinctthroughdeproteinization/reversecrosslink/purification, eachthenallocatedtoUP/DN templates. AllfourPCRcategories useproduceddistincttemplates, wholemodified/sourceindexwindowbodies andexplicitcatalyst/nucleotideinventory; actualequimolarselectedcontributions retainuntransferredPCRstocks. Genotype/selectedbarcode/primerlandingandPCRformulationunknown ratherthan filledwithkitdefaults.",
+      "Requiredbeadprovenancefixverified: sourceIgGSepharose washedthreePBSBtimes BEFOREIP. ActualPBSBstockdecomposesBSA/PBS, prewashproduceswashedbeadsandremovedwashfraction. Onlyproducedwashedbeadsenterchromatincapture; nofreshPBSB/BSAadditionatcapture, residualBSAcarryoverunassigned.",
+      "SourceFixSolutionstock1percent/onetenthculturevolumeconvention retainedwithoutassumingfinal1percent. Crosslink/quench/lysis/sonication/IgGIP/100ulSDSelution andsourceRNaseA/PK/reversecrosslinkorder consistent. ActualfourPCRselectedpool\u2192100\u2013150bp\u2192samplemasterpool/loadingremainder; customUP/DNprimersandSE>50sourcebound preserved. Computationalnormalization/filteringnotwetchemistry. No blocking defect remains in selected scope."
+    ],
+    "verification": "Independently reran16focusedchecksPASS afterthreeprewashprovenance/fatechecks; whole6originalorderings verified fromoriginalZIP/XML. Sourceguard10exact/0failed/0unknownexternal; chemistry33steps37unresolved0contradictory perowner. Selectedimplementationrecheck only, notabsencepass2/fullsourceaudit."
+  }
+}

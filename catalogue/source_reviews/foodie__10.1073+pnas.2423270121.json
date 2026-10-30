@@ -1,0 +1,80 @@
+{
+  "dir": "foodie__10.1073+pnas.2423270121",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11670102.1/PMC11670102.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain184–188/282–300 bulkroute/chemicalreadout/singlecellboundaries; proteinproductionoutsidegraph.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11670102.1/pnas.2423270121.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSITableS2actualPDFp6/printed38, originalrenderedlocalTn5rows; othermatrix/readprimerassignmentsnotassembled.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "coordinator_round34",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "FreshbulkFOODIEgraph andseparatelocalcustomsinglecellTn5component only.",
+      "locations": "Main184–188/282–300; SITableS2PDFp6/printed38.",
+      "findings": "Actualtag→pellet→deaminate→UcopyPCR ordering; physicalqPCRaliquot/remainder/NTreuse. Cdepletedcustomtail/indexbutMEretainsC; local5Pduplexdoesnotestablishbulkstockidentity orfullintegration.",
+      "deferred": [
+        "WholebulkTn5oligos/primers/index/readlanding",
+        "Wholechromatin/deaminationoccupancy/productpopulations",
+        "Highthroughputfullprimerassignments/concentrationinterpretation/historicalvendororiginals",
+        "DirectlylinkedpublishedCommentIn10.1073/pnas.2425203122; originalcontent/effectunreviewed, notclassifiedirrelevant"
+      ],
+      "oligo_scraper": "Mandatorywholebundlerun; relevantpublishedSITableS2pointerscheckedinoriginalrenderedtable, no preprintoligosadopted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "HistoricalTn5/Q5U/Bst/vendororiginalsandpredecessorsordinaryunread; proteinproductionoutsidegraph. Supersededpreprintnotopened; linkedcommentnotadoptedasprotocol/correction. Noabsenceclaim.",
+    "deferred_originals": [
+      {
+        "locator": "https://doi.org/10.1073/pnas.2425203122",
+        "kind": "PublishedCommentIn identifiedduringdiscovery",
+        "disposition": "Ordinaryunreviewed directlylinkedoriginal; access/relevance/contentnotdetermined. Notanotherprotocol or assumedcorrection; noabsenceconclusion."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive privatepartialbulkpreparation pluslocalcustomadapterpairing, notfullreaction/sourceabsencevalidation.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_rna34_worker",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Independently compared local chem.py, 01_foodie.md and this review against the two already-selected published originals only: pnas.2423270121_PMC11670102.xml.txt main184–188/282–300 and published SI actualPDFp6/printed38 TableS2 first Tn5 rows, visually inspected using /tmp/foodie34-table-06.png. No network, preprint or CommentIn original opened.",
+    "findings": [
+      "Fresh bulk route retains source ordering Tn5 tagmentation, RSB/pellet workup, then prepared DddB deamination. Product description correctly distinguishes physical uracil from copied/reported thymine; protein production remains outside scope.",
+      "Bulk S111 loaded oligo identities remain unassembled; separately displayed custom single-cell TableS2 duplex is not assigned to bulk stock. Original first rows verify both custom tails, first 11nt barcode and opposing 5Phos mosaic-end complement; canonical ME retains cytosines while custom tails/barcode are cytosine-depleted.",
+      "Five-cycle preamplification precedes actual QC aliquot split; retained production remainder supplies copresent catalyst/primer/nucleotide components to continuation. Source 10–12 cycles is total production amplification, not an additional 10–12. Twenty-cycle qPCR is a QC measurement with whole mixture/volume left unassembled.",
+      "Pellet/supernatant and cleanup fates are physical workups with imperfect recovery retained; loading aliquot is separated from unresolved untransferred library stock. Whole occupied substrates, tagmentation integration, bulk PCR/index/read geometry and product distributions remain openly unassembled.",
+      "No critical source-transcription or implementation defect found within this limited scope; no module/note correction required. Directly linked CommentIn10.1073/pnas.2425203122 remains ordinary unread, relevance/content/effect unknown; no reclassification or absence claim."
+    ],
+    "validation": {
+      "local_selftest": "python3 foodie__10.1073+pnas.2423270121/tools/chem.py: all12 checks pass, including3 whole local adapter source-text matches.",
+      "source_guard": "python3 tools/selftest_source_oligos.py --details foodie__10.1073+pnas.2423270121: one graph,0 checked,0 failed,0 exempt,0 inputs without exact states. Separate local TableS2 components are not graph inputs; source guard does not validate their physical integration.",
+      "chemistry": "python3 tools/check_chemistry.py --details foodie__10.1073+pnas.2423270121:16steps,18unresolved scoped claims,0contradictory; no full chemistry validation.",
+      "wrapper": "tools/protocol.py test is inapplicable to this private notes-only chem.py without PAGE_FILE; direct module selftest used."
+    },
+    "absence_audit": false
+  }
+}

@@ -1,0 +1,3 @@
+# Source pointers
+
+Published original DOI https://doi.org/10.1371/journal.pone.0019379 , PMC3087801. Use `python3 tools/get_sources.py --slugs gbs__10.1371+journal.pone.0019379`. The external manifest validates main PDF/JATS, published TextS1 pone.0019379.s001.docx and TableS1 pone.0019379.s004.docx. Two electrophoresis-figure aliases remain unread after standard failures. No originals/text twins/images belong in this checkout. Notes and source-review JSON identify selected sections, original component equations and unresolved historical geometry. Source-dependent checks skip when those external originals are absent.

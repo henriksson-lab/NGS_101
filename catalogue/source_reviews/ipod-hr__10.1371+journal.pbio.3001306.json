@@ -1,0 +1,68 @@
+{
+  "dir": "ipod-hr__10.1371+journal.pbio.3001306",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8282354.1/PMC8282354.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain258–310 physicalculture/lysate/interface/RNAP/commonlibrary and326–328computationalfates.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "correction",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9045836.1/PMC9045836.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published2022correctionactualtext:169000xg inoriginalpre-interfaceclarification replacedby15900xg10min4C.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "sample_table",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8282354.1/pbio.3001306.s015.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedS5TableactualoriginalZIP/XML rows1–13 plusheaders:sampletype/readlayout/librarykitmetadata, no forcedsampleIDmapping.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "dna_owner_round35",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedIPODinterface/input/RNAP/commonDNAworkflowonly; correctedclarificationforce.",
+      "locations": "Publishedmain258–310 physicalculture/lysate/interface/RNAP/commonlibrary and326–328computationalfates.; Published2022correctionactualtext:169000xg inoriginalpre-interfaceclarification replacedby15900xg10min4C.; PublishedS5TableactualoriginalZIP/XML rows1–13 plusheaders:sampletype/readlayout/librarykitmetadata, no forcedsampleIDmapping.",
+      "findings": "Main169000xg replacedbypublished15900xg correction. Whiteinterfaceretained/input/RNAPseparate/commonrecovery; RNAPsignaladjustmentiscomputational.",
+      "deferred": [
+        "Wholecrosslinkedsubstrates/end/adapter/index/primergeometry",
+        "Actualper-samplekit/runmask/branchallocation",
+        "Historicalvendor/predecessororiginals"
+      ],
+      "oligo_scraper": "Mandatorywholebundle runs; promoter/probehitsnotadopted asIPODlibraryoligos. EmptyCalling/ChORhitsnotabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Publishedcorrectionactuallyread; historicalkit/protocoloriginalsordinaryunread. S5metadataonly, no forcedbiologicalreplicatemapping."
+  },
+  "missing_claims": [],
+  "conclusion": "sourcepositiveprivatepartial fromselectedoriginals; no complete reaction/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round35",
+    "date": "2026-10-30",
+    "scope": "Same three published originals only: mainPMC8282354 Methods258–310/326–328, actual correctionPMC9045836 paragraph19, S5originalXLSX ZIP/XML headers/cellsA1:F13. No additional source originals.",
+    "findings": "Verified white-interface retention versus removed aqueous/organic liquids, actual50ulinput and matched RNAP physical preparation, separate RNAcomparison before rifampin, DNase digestion, common reversal/RNase/PK and molecular GlycoBlue recovery. Published15900xg correction replaces original169000xg only at pre-interface clarification;21130xg phase spin retained. RNAP/input normalization is computational, not chemical subtraction. Historicalkit/readmask choices remain scoped and unassembled. No critical implementation defect found.",
+    "verification": "11focused checks independently rerunPASS. No complete source/reaction or missing-information absence audit."
+  }
+}

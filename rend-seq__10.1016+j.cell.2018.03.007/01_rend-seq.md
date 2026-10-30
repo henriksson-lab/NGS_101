@@ -1,0 +1,13 @@
+# Rend-seq
+
+🟢 Lalanne et al., 2018, [defining publication](https://doi.org/10.1016/j.cell.2018.03.007), Cell173,749–761.e1–e28. The final author-hosted PDF has the printed Cell citation/date/DOI; selected Methods1549–1568 and1966–1989 were read. Associated author manuscript PMC5978003 Methods150–156/294–306 was read first; the selected preparation agrees with the final. Two originals total.
+
+The preparation introduces sparse zinc-mediated RNA fragmentation and selects short15–45nt products, retaining original RNA termini more often than individual internal positions. That enrichment is a population property; the physical tube includes native-end fragments and internal fragments. It is not a computational removal of all internal RNA.
+
+🟢 The selected baseline extracts bacterial RNA after cold-methanol harvesting using RNAeasy/on-column DNase. MICROBExpress rRNA depletion occurs **before fragmentation**, followed by isopropanol precipitation into40µl Tris. A separate5′-monophosphate-sensitive Terminator branch instead treats7.5µg total RNA in20µl at30°C60min and precipitates; the paper expressly omits rRNA removal for these samples. These are branches of one method.
+
+🟢 RNA is preheated95°C2min, cooled≥1min on ice, receives4.4µl10×fragmentation buffer on ice and is fragmented at95°C25sec in the selected baseline. Five microlitres stop buffer and ice stop the reaction; isopropanol precipitation precedes15%TBE-urea PAGE selection of15–45nt RNA. The source's25/50/100/200sec titration and105sec deletion-strain condition are variants, not additional protocols.
+
+🟢 The source expressly inherits the remainder of its same-article ribosome-profiling preparation except rRNA removal timing: T4PNK20U,37°C1h for3′ dephosphorylation;3pmol RNA ligated to100pmol **5′-adenylated,3′-blocked DNA linker1** using truncated T4RNA ligase2K277Q,37°C2.5h/25%PEG8000;10%TBE-urea PAGE; SuperScriptIII/ocj485,50°C45min;10%TBE-urea cDNA PAGE; CircLigase100U initially plus100U after1h,60°C2h; inherited isopropanol cDNA precipitation; Phusion/o231/indexing primers6–10PCR cycles;8%TB PAGE. The circularized substrate is single-stranded **cDNA**, not RNA. No post-circularization rRNA capture is imported into Rend-seq. HiSeq2000 or NextSeq500 sequencing is explicitly stated in the Rend subsection; run length remains unassigned.
+
+🟡 The private graph preserves both actual front-end branches and physical cleanup fractions. TableS4 identities are referenced, not guessed from other ribosome-profiling models; exact oligos and full endpoint geometry remain unassembled. Biological end enrichment, RT non-template-addition handling and subsequent alignments are separate from chemical product claims. No accepted absence claim or public schematic.

@@ -1,0 +1,262 @@
+{
+  "dir": "spatial-vdj__10.1126+science.adf8486",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://doi.org/10.1126/science.adf8486",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Same ONE final published full article, browser-saved HTML; Methods1623\u20131669 and supplementary index1767\u20131782. Duplicate DOI/canonical URL identities, not separate originals."
+    },
+    {
+      "id": "published_user_url",
+      "role": "defining",
+      "locator": "https://www.science.org/doi/full/10.1126/science.adf8486",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Same ONE final published full article, browser-saved HTML; Methods1623\u20131669 and supplementary index1767\u20131782. Duplicate DOI/canonical URL identities, not separate originals."
+    },
+    {
+      "id": "publication_metadata",
+      "role": "defining",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/38060664/",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Primary final title/DOI/authors/date/method name and abstract only; not chemistry original"
+    },
+    {
+      "id": "accepted_author_consolidated",
+      "role": "defining",
+      "locator": "https://zenodo.org/api/records/13148082/files/adf8486_Accepted%20Version_Reduced.pdf/content",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Authoracceptedversionidentity; introduction107\u2013123; spatialGEX/capture/LR/SRMethods485\u2013714;LRanalysis843\u2013865;actualFig1graphicPDFp33/captionp30 andS1p46;DataS1separatecaption4214. NOTverifiedfinalpublishedversionequivalent.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_sm",
+      "role": "supplement",
+      "locator": "https://www.science.org/doi/suppl/10.1126/science.adf8486/suppl_file/science.adf8486_sm.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "User supplied final published PDF; title/DOI and Methods1\u201372 inspected. Distinct nonspatial V/C validation and enrichment-test28+150 library branches not substituted for selected SR-TRB."
+    },
+    {
+      "id": "published_data_s1_s5",
+      "role": "supplement",
+      "locator": "https://www.science.org/doi/suppl/10.1126/science.adf8486/suppl_file/science.adf8486_data_s1_to_s5.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "User supplied intact published ZIP; actual five XLSX member identities verified/extracted. Packaging index only: only Data S1 content inspected separately, Data S2\u2013S5 available but unread."
+    },
+    {
+      "id": "published_data_s1",
+      "role": "supplement",
+      "locator": "https://www.science.org/doi/suppl/10.1126/science.adf8486/suppl_file/science.adf8486_data_s1_to_s5.zip#science.adf8486_data_s1.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Actual worksheet/cell identities and full selected spatial PartRead1/TRBVinner/TRBVouter/captureprobe/blocker rows;62outer/62inner/194probe/2blocker/1PartRead1 source rows. Duplicate source rows retained; sequence-only cells do not establish end modifications. BulkSS3/TRA/nonspatialvalidation sheets not adopted."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19-user-priority",
+      "reviewer": "bounded-source-access-pass",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Explicit user priority, bounded published-first standard acquisition and primary identity verification; no accessible chemistry originals or absence audit",
+      "locations": "PrimaryPubMed38060664 title/DOI/publicationdate/abstract; canonicalmanifest DOI andexactSciencefullURLfailedroutes",
+      "findings": "Registration identity verified; finalpublished chemistry retrievalblocked byHTTP403/noopenroute. Supersededpreprint anddataarchives excluded; no substitutedplatformrecipe, fakegraph or collectedchemistry count.",
+      "deferred": [
+        "Defining final published article/fullMethods via exact userScienceURL",
+        "Actual source-indexedchemistry supplements; filenames/locators not yet established",
+        "Source-specificprobe/primer modifications,capture/amplification order,spatial/UMI meanings,branch-specificlibrary/acquisitiongeometry"
+      ],
+      "verification": "Standardretrievalterminal0with0validatedfiles; mandatoryoligoscraper0files/0hits (notabsenceevidence). No localmolecularsuite/build/chemistryguard because no source-supported graph. ReviewJSONschema andscopeddiff checks pass.",
+      "oligo_scraper": "Mandatorybundle scraper run after terminalpublishedroute attempt;0files/0hits,no inferredmissingoligos."
+    },
+    {
+      "round": "2026-10-30-user-priority-spatial-vdj-resumed",
+      "reviewer": "source_owner_spatialvdj",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Oneacceptedconsolidatedchemistryoriginal; priorPubMedadministrativeidentityalreadyread,separatehistoricalrecord. SelectedSRTRBfour-replicatepreparationonly. Sourceinvestigationclosedwithin10minutes; ensuingimplementation/testingseparate.",
+      "locations": "Acceptedintro107\u2013123;spatialMethods485\u2013714;LRanalysis843\u2013865;Fig1actualp33/captionp30;S1actualp46;DataS1caption4214.",
+      "findings": "Positivecommoncapture\u2192selected14cyclepostcapture\u2192fourTRBouter12/inner8\u219210ngeachpoolatindex\u2192index8/35+6+259readout. Actualvariablepreampreactionarray/ReadyMixcomponents/QCstockfates/IGTRtripledorder-equalvolumeratio preserved. Sourcepreamprepeat6/total5ambiguity unassigned, nofinalequivalenceclaim.",
+      "deferred": [
+        "FinalpublishedSciencearticle/fullMethods andpublishedSM remainunavailable; acceptedversionnotdeclared equivalent.",
+        "SeparatepublishedDataS1primer/probesequences remainsunavailable; captionnotcontents, noabsencefinding.",
+        "LinkedCG000239RevA/IDTxGenv4historicalvendororiginals ordinaryunread; no inheritedrecipe/wholeoligos."
+      ],
+      "oligo_scraper": "Mandatoryacceptedbundle9hits/1file; readsourcecontexts, most belongtoseparatebulkSS3validation. No spatialprimer copiedfromvalidation ornohitabsenceclaim."
+    },
+    {
+      "round": "2026-10-30-user-priority-spatial-vdj-final",
+      "reviewer": "final_article_owner",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "One final published full article; same DOI/canonical URL count once. Two actual linked supplements attempted but unavailable. Bounded source investigation closed; no new vendor/predecessor originals or preprint.",
+      "locations": "Final HTML Results1580 (constant-region probes), Methods1623\u20131669 and supplementary source index1767\u20131782.",
+      "findings": "Final Methods support selected variable10ng preamp reaction array, equal-volume triplicate-TR-order capture ratio,14-cycle postcapture branch, four TRB outer12/inner8 replicates,10ng each pooled at indexing8 and NovaSeq6000SP35/6/259. Final preamp repeat-six/total-five ambiguity retained. Whole oligos not disclosed in inspected main text; separate DataS1 unavailable, not confirmed absent.",
+      "deferred": [
+        "Published supplementary PDF",
+        "Actual Data S1\u2013S5 archive and its primer/probe table",
+        "Previously delegated historical vendor originals remain ordinary unread"
+      ],
+      "oligo_scraper": "Mandatory full source bundle scraper rerun after final article validation; sequence-like computational barcodes and distinct bulk-validation primers not adopted as spatial oligos.",
+      "verification": "25 focused checks pass independently for owner and final-article reader; source guard0exact/0failed/22unknown inputs;66unresolved/0contradictory claims. No absence pass2 or whole-version equivalence."
+    },
+    {
+      "round": "2026-10-30-user-supplied-spatial-vdj-supplements",
+      "reviewer": "supplied_sources_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Two chemistry originals selected before reading: final SM PDF and Data S1 workbook inside actual supplied ZIP. Archive directory inspected only for identity, other four workbooks not read as chemistry. No new vendor/predecessor originals.",
+      "locations": "SM title/DOI/Methods1\u201372; DataS1 spatial worksheets with raw workbook sheet identities and extracted lines1\u20134/55\u2013119/171\u2013435.",
+      "findings": "321 selected source rows now declared: wholePartRead1/62outer/62inner/194probe/2blocker patterns. Whole inner order equals explicitly supplied handle+target columns; canonical components reused only under that relation. Source duplicates and OuterTRAV interior caption in outerTRBV worksheet retained. Degenerate blocker82nt pattern known but not concrete sequence; end chemistry unassigned. Source-defined four-replicate order unchanged, outer/inner PCR typed with unavailable transcript geometry.",
+      "deferred": [
+        "Historical cDNA primer preparations and selected index-primer orders",
+        "Full captured transcript and occupied PCR/capture geometry",
+        "Delegated historical vendor originals; no claim of published absence"
+      ],
+      "oligo_scraper": "Mandatory bundle scraper rerun after validated PDF/ZIP extraction; inspected selected original workbook rows and branch context, not scraper-only evidence.",
+      "verification": "36 focused checks pass;678 exact source-matched strand checks/0 failures/4 inputs without exact states;74 scoped chemistry claims unresolved/0 contradictory. Independent supplied-original reader compared all321 source-row fixtures against original workbook XML with0 mismatches; implementation review closed;36 checks pass independently, no remaining critical defect in inspected scope."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Final main/SM/DataS1 now obtained. DataS2\u2013S5 available but not inspected as chemistry. Historical vendor originals remain ordinary unread; whole cDNA/index primer questions stay open and are not invented unavailable documents. No absent-information conclusion."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Historical Visium CG000239 Rev A and IDT xGen v4 delegated originals; ordinary unread, not failed downloads"
+  ],
+  "historical_checkpoints": [
+    {
+      "user_deferred": {
+        "date": "2026-10-29",
+        "reason": "User will provide the Science paper later; request remains recorded, no further retrieval/chemistry work for now."
+      },
+      "disposition": "Historicaldefermentresumed2026-10-30afterlegitimateauthoracceptedPDFwasretrieved; notactiveuserblock."
+    }
+  ],
+  "conclusion": "Final published main, supplied SM and actual Data S1 support selected SR-TRB preparation and declared spatial oligo inventories. Source-backed whole primer/probe bodies replace prior unknowns; cDNA/index primer preparations, terminal chemistry, transcript geometry and full products remain unresolved. No accepted missing-information claim or complete protocol/source audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_spatialvdj_resumed",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 1,
+    "scope": "Same ONE author-deposited accepted consolidated original zenodo13148082_adf8486_accepted_reduced.pdf(.txt), counted before read in /tmp/spatialvdj-original-counts.tsv. Independently inspected spatial Methods435\u2013714, relevant introduction107\u2013123, actualFigure1PDFp33 andFigureS1PDFp46, LRanalysis843\u2013865 and separateDataS1caption4214. No new originals, final Science body/SI/DataS1, vendor guides or predecessor recipes opened. Historical PubMed identity was not reread as chemistry authority.",
+    "findings": [
+      "Selected SR-TRB preparation is source-positive: full-length prefragmentation spatial cDNA,10ul selection/variable10ng preamp reactions, IG/TR cohybridization, selected14-cycle postcapture branch, four distinctTRB outer12/inner8 replicates,5ng inner inputs,10ng each pooled at same-index PCR8, and NovaSeq6000SP35/6/259 read lengths. TRAouter14/LRSMRTbell/bulkSS3validation/FigS1F barcode-losing V/Cscreen are separate scopes, not borrowed chemistry.",
+      "IG:TR1:3 probe content is achieved through triplicate TR sequence ordering with equal IG/TR pool volumes, not threefold TR pool volume. The accepted preamp repeat-six/total-five wording and inner72C30s programme are retained without silent correction or assumed final-version publication error. Source100uM\u219240x\u21922.5uM dilution wording does not establish final PCR reaction concentration convention.",
+      "Owner fixed variable preamplification inventory to aggregate actual per-reaction25ul ReadyMix/7.5ul primer allocations across an unassigned reaction count; no one-PCR product cloning or premature physical template pooling. NamedReadyMix enzyme/NT/buffer are same-source components, while indexPCR aggregate supplies, component labels and reason leave packaging/identities/stockcount unassigned.",
+      "Four source replicate templates/products remain distinct through outer/inner workups and analytical fractions; only the selected10ng inner-product contributions enter the indexing pool. Sample contribution and final pooled-library loading allocation both retain separate untransferred stocks. QC fractions do not re-enter production.",
+      "All22 spatial primer/probe/blocker inputs remain whole-ordering-unassembled; no Visium/TruSeq constructor, inherited whole oligo, bait modification, source-vendor capture ligand or guessed full amplicon geometry introduced. LRanalysis anchor patterns and16/12 barcode/UMI metadata remain analysis-scoped, not complete primer/read-landing proof. Final published/accepted manuscript and separate DataS1 equivalence remain unverified."
+    ],
+    "verification": "Independently reran25focusedchecksPASS; sourceguard0exact0failed0exceptions/22inputs without exact states; chemistry66unresolved0contradictory. Mandatory peer bundle scraper9hits/1representation, with selected spatial contexts distinguished from bulkSS3 oligo hits. Narrow implementation recheck closed; no complete source/reaction or absence audit/pass2."
+  },
+  "independent_final_article_recheck": {
+    "protocol": "spatial-vdj__10.1126+science.adf8486",
+    "reviewer": "independent_targeted_final_publication_recheck",
+    "date": "2026-10-30",
+    "type": "final_published_selected_implementation_recheck_not_absence_pass_2",
+    "originals_read": 1,
+    "cap": {
+      "limit": 3,
+      "selected_original": "science_adf8486_final_browser.html",
+      "source_investigation_closed": true,
+      "new_acquisition": false
+    },
+    "source": {
+      "file": "/husky/henriksson/NGS101_papers/sources/spatial-vdj__10.1126+science.adf8486/science_adf8486_final_browser.html.txt",
+      "locator": "https://www.science.org/doi/full/10.1126/science.adf8486",
+      "version": "Final published full article, authorized validated browser HTML supplied by coordinator; no global final/accepted/SI equivalence inferred.",
+      "locations": "Methods1623\u20131669 and supplementary index1767\u20131782; same-original Results1580 paragraph added explicitly by coordinator for constant-region capture scope."
+    },
+    "result": "closed_no_remaining_critical_defect_in_selected_scope",
+    "findings": [
+      {
+        "location": "FinalResults1580; Methods1625\u20131642",
+        "finding": "Final explicitly establishes TR/IG constant-region capture with spatial barcode/UMI retention; co-capture IG/TR pools, adapter blockers, IDTxGen kit1080584/v4 AppendixA thenPlate13/16h, selected1:3 ratio from triplicated TR bait order/equal pool volumes match model. Initial10ul\u2192variable10ng PCR collection with per-reaction25ulReadyMix/7.5ulprimers/17.5ulsample-water, physical post-PCR pool/0.6x/40ulEB and selected14cyclepostcapture branch consistent."
+      },
+      {
+        "location": "FinalMethods1627\u20131633",
+        "finding": "Published final retains literal six repeats versus total five cycles in preamplification wording. Model keeps executed count unresolved; no silent correction. The comparison found no substantive final-versus-selected-accepted workflow change at these inspected boundaries; this is not complete revision-equivalence evidence."
+      },
+      {
+        "location": "FinalMethods1645\u20131669",
+        "finding": "Selected SR TRB is source-positive, distinct from TRA14cycle and LR/PacBio branches: four actual outer2.5\u20135ngTRB12cycle replicates, qPCR calibration/0.6x/80percentEtOH/EB37C15min/QubitBioanalyzer, each5nginner8cycle, each10ng pooled before same-index8cycle, cleanup/QC/other-indexed-sample pool/loading aliquot. Index enzyme/NT/buffer packaging remains aggregate/unassigned because final index paragraph does not name freshKAPA. No invented canonical Visium/TruSeq oligo body or full primer landing. SourceNovaSeq6000SP35/6/259 read plan is correctly separate from construct validation."
+      },
+      {
+        "location": "FinalMethods1642; localselftest",
+        "finding": "Initial rerun24of25 passed; sole failure was an accepted-text punctuation fixture that did not match final wording. Coordinator corrected to actual final sentence one PCR reaction as described above, but with14cycles; independent rerun25PASS. Repository fixture correction is not a published biological discrepancy."
+      },
+      {
+        "location": "Local source chemical_state/historical_analysis_metadata SourceItem",
+        "finding": "16ntspatialbarcode/12ntUMI came from earlier accepted-manuscript LRanalysis843\u2013865, outside selected final Methods scope. Coordinator now explicitly labels those metadata accepted-analysis-only/not finalverified, retaining historical evidence rather than globally upgrading authority. Constant-region probe class separately confirmed by actual finalResults1580."
+      },
+      {
+        "location": "Finalsupplementindex1767\u20131782",
+        "finding": "Final index identifies one SM PDF containing MaterialsMethods/FigsS1\u2013S28/Refs59\u201366, separate MDAR PDF, and DataS1\u2013S5 ZIP archive. Index identity does not establish their content, successful retrieval, whole DataS1primer/bait/blocker orders or absence; these contents remain uninspected here."
+      }
+    ],
+    "verification": {
+      "focused_checks": "Independent final rerun25PASS, directchem.py suite exit0; log/tmp/spatial-final-peer-tests.log",
+      "mandatory_scraper": "Whole existing source bundle scan completed13hits/2representations; log/tmp/spatial-final-peer-scraper.log. No additional original fetched or inspected solely from these pointers. Scraper is not absence evidence.",
+      "scope_limit": "Narrow same-final-original implementation review only. No full occupied molecules/sealed products/whole chemistry/source completeness or absence gate validated."
+    },
+    "deferred": [
+      "PublishedSM/DataS1\u2013S5 archive actual contents remain access/uninspected boundary; do not treat index as inspected chemistry.",
+      "Whole primer/bait/blocker sequences, full Visium capture construct/end geometry and complete reaction products remain unassembled.",
+      "Historical accepted-only review preserved; no replacement of pass_2/sourceabsence records."
+    ]
+  },
+  "independent_supplied_supplement_recheck": {
+    "protocol": "spatial-vdj__10.1126+science.adf8486",
+    "reviewer": "independent_multi_user_supplement_peer",
+    "date": "2026-10-30",
+    "type": "same_supplied_originals_selected_implementation_recheck_not_absence_pass_2",
+    "source_started": "2026-10-30T13:41:19.355609+00:00",
+    "originals_selected_before_read": [
+      {
+        "identity": "science.adf8486_sm.pdf",
+        "scope": "selectedSRTRBworkflow/oligoroles/capture/readlayout andactualfigures"
+      },
+      {
+        "identity": "science.adf8486_data_s1.xlsx",
+        "scope": "wholePartRead1/outerTRBV62/innerTRBV62/Ig174+TCR20probes/twoblockers;otherTRAV/bulkSS3/validationnotselected"
+      }
+    ],
+    "originals_read": 2,
+    "new_acquisition": false,
+    "source_investigation_closed": true,
+    "source_closed": "2026-10-30T13:42:43.709216+00:00",
+    "source_scope": "PublishedSMidentity/selectedtarget-enrichmenttestMethods57\u201367/FigS2caption315\u2013329/actualPDFp10; sourcepreparationandsequencingnonspatialV-CampliconMethods18\u201354readforbranchcontrastonly. DataS1rawZIPXMLwholePartRead1/62innerTRBV/62outerTRBV/174Ig+20TCRprobes/twoblockers andheaders. OtherTRAV/bulkSS3/validationnotadopted.",
+    "findings": {
+      "part_read1": "22ntwholeCTACACGACGCTCTTCCGATCT",
+      "inner_trbv": "62rows/62unique59\u201366nt; allwholecolumnB=34nthandleD3+targetcolumnC exactly",
+      "outer_trbv": "62rows/58uniquebodies26\u201331nt; worksheetTRBV+individualIDsversusinteriorA1OuterTRAVpreserved",
+      "probes": "174Igrows169uniquebodies+20TCRrows20unique;all120ntDNAletters;duplicateoriginalrowsretainedasrowprovenance,notadditionaluniquespecies",
+      "blockers": "Read1+polyT82nt=PartRead122+N28+T30+VN;28Ndegenerateblockerwindownotsyntheticreagentbarcode/UMI. TSOwhole30nt. Plaincelltextdoesnotestablishterminalmodifications.",
+      "source_roles": "SMnonspatialV-Camplicon2x150/spatialbarcodelossnotmergedintoSRTRB;capturetestGEX28+150istestbranch,notautomaticallySRVDJwholegeometry."
+    },
+    "verification": "Independent36focusedPASS and321directraworiginalworkbookcomparisons0mismatch; rootguard678exact0failed4unassembledinputs,74unresolved0contradictory. Narrow same2 suppliedoriginalimplementation reviewclosed; notabsencepass2orcompleteprotocolreview.",
+    "implementation_checks": {
+      "focused_checks": 36,
+      "focused_failed": 0,
+      "independent_raw_workbook_comparisons": 321,
+      "independent_raw_workbook_mismatches": 0,
+      "scope": "Rootstablechem.py+oligos_spatial_vdj.py only; exactwholebodies/provenance/knownpoolinventory/typedouter-innerunavailablegeometry/degenerateblockermeaning/wholeproductlimits. Existingmainworkflowregressionsrunwithoutnewsourceinvestigation.",
+      "requested_refinement": "Rootappliedsourceinventoryrowsincludingrepeatedsequences wording; distinctspecies/molarity notasserted.",
+      "source_guard": "Rootcompletedterminal0:678exactmatchedstrandinstances/0failed/4inputswithoutexactstates. Unknowncomponentinventoryremainsunassembled.",
+      "chemistry": "Rootcompleted74unresolved0contradictory; eightadditionalPCRgeometryclaimsdo notrepresentmorecompletewholemolecules."
+    },
+    "implementation_review_closed": true
+  }
+}

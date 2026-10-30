@@ -1,0 +1,74 @@
+{
+  "dir": "drap3r__10.1038+s41467-025-68230-1",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12775064.1/PMC12775064.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published identity and Methods DRAP3R selectiveRNAadapter/protection/digestion/readout orderedpreparation and sourceSIassignments",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12775064.1/41467_2025_68230_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI1 FigS1a/b full modified A ordering plus partial B stem/end and protection diagram; remaining B tail unassembled",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12775064.1/41467_2025_68230_MOESM8_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SourceData workbook Figure1/S1 headers only; notTable4 and notchemistryauthority; originalidentitycheckconsumedthirdslot",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-37",
+      "reviewer": "targeted_owner_round37",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "SelectedphysicalNGSpreparationbranchonly; sourceinvestigationclosedbeforeimplementation.",
+      "locations": "Published identity and Methods DRAP3R selectiveRNAadapter/protection/digestion/readout orderedpreparation and sourceSIassignments; Published SI1 FigS1a/b full modified A ordering plus partial B stem/end and protection diagram; remaining B tail unassembled; Published SourceData workbook Figure1/S1 headers only; notTable4 and notchemistryauthority; originalidentitycheckconsumedthirdslot",
+      "findings": "PublishedDRAP3RpolyA-firstsupernatant/rRNAdepletion→selected500ngRNA→custom5PRTA/20bpstem/3AAAANNBknownpartialinterface→SSIIIprotectivecDNA→RNaseA43ugml/.4MNaCl→PK→opaquehistoricalRLA/2XAMPure→RAflowcellMinION24h. RCSomitted; readretention20ntcomputational, wholeB5tail/sealedproducts/vendorrevisionunassembled. 12focusedPASS;sourceguard0exact0fail1image-onlyAexception1partialBunassembledintroducedinput;chemistry2established1conditional20unresolved0contrad. Independentpeerpending; modifiedlocaladapterendclassnotcompleteRNAproduct orreadgeometryproof.",
+      "deferred": [
+        "Directlylinkedunreadsourceoriginals/vendorprotocols andunassembledmolecularproducts"
+      ],
+      "oligo_scraper": "Mandatorywholebundlescraper51hits/3representations. ActualSI1FigS1a wholeA5P/body and partialBstem/3end visuallyread; no completeTable4/bodyverificationclaimed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourceversions/actualnamedlinkedmaterialretained; roleunresolvednotirrelevant, noinventeddisclosuredocumentorconfirmedmissinginformation."
+  },
+  "missing_claims": [],
+  "conclusion": "Positivequalifiedboundedpreparation; notcompletechemistry/sourceoracceptedabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round37_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same three closed originals only: publishedPMC12775064 mainMethods204/Results84–94; publishedMOESM1 actualFigS1a p1 and suppliedcustomrender; MOESM8SourceData firstFigure1header/rows only. No network, new original, predecessor/vendor source, or additional workbook chemistry inspection.",
+    "findings": [
+      "Independently inspected actualSI1p1/customrender: wholeA5Phos/30ntGGCTTCTTCTTGCTCTTAGGTAGTAGGTTC is consistent with modeledA; first20ntstem/bottomwritten3to5 complement andB3extension3primeNNAAAA5prime correspond to modeled5primeAAAANN3prime. This verifies the narrow image-onlyA text-match exception. WholeB5tail remainsunassembled; no fullB/sourceabsence claim.",
+      "ConditionalRNA3OH/polyUinterface is inferred; BcopresentRTprimer assignment is markedinferred anddoes notaddfreshB. Knownpartialadaptergeometry/localpairing doesnotestablish wholeligationproducts orreadlanding. No unassembledtailwas silentlyfilled.",
+      "ActualfirstpolyA-depletion supernatant/ethanolrecovery,10ugRiboMinus and500nglibraryaliquots, QubitQC andstockremainders, omissionofRCS, SSIII→RNaseA43ugml/.4MNaCl37C15min→PK37C15min70C15min order match selectedmain. RNA passespore; protectivecDNA is notsubstitutedasreadout.20ntreadretention/qscore changesarecomputational, notphysicalsize-selection.",
+      "Requestedownerfixes appliedandverified: first-ligation/SSIII supplygroups nowaggregateinventory bookkeeping withactualpackaging/additionscheduleunassigned; componentdecomposition doesnotassert onepreparedmasterstock. ReviewSI scope narrowedtofullA/partialB; unrelated5PSeqdeferredtargetremoved.",
+      "HistoricalRLA/intermediateAMPure placements/vendorrevision/fullRNAproducts remain explicitunassembledboundaries. No furthercriticaldefectfound withinselectedscope; completekit/source/chemistry validation notclaimed."
+    ],
+    "verification": "All12focusedchecks rerunpass afterownerfixes; sourceguard0exactchecked/0failed/1independentlyimageverifiedAexception/1partialBunrepresented; chemistry20steps/2established/1conditional/20unresolved/0contradictory. No absencepass2 orfullsourceaudit."
+  }
+}

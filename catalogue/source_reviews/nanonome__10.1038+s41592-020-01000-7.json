@@ -1,0 +1,73 @@
+{
+  "dir": "nanonome__10.1038+s41592-020-01000-7",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nanonome__10.1038+s41592-020-01000-7/s41592-020-01000-7_PMC7704922.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round11",
+        "date": "2026-10-29",
+        "locations": "Associated manuscript NIHMS1638772; main71/Methods139\u2013145",
+        "finding": "Native GpC labeling, nuclear handling, extraction,10kbLSK-SQK108 library preparation and native acquisition. FinalVOR method applicability not established."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nanonome__10.1038+s41592-020-01000-7/s41592-020-01000-7_supp_NIHMS1638772-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round11",
+        "date": "2026-10-29",
+        "locations": "Associated SI Figure1/call-context scope",
+        "finding": "Associated manuscript SI identity retained; not merged wholesale with publisher SI."
+      }
+    },
+    {
+      "id": "original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nanonome__10.1038+s41592-020-01000-7/s41592-020-01000-7_41592_2020_1000_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round11",
+        "date": "2026-10-29",
+        "locations": "Published SI cover/TOC/Figure1",
+        "finding": "Published call interpretation scope; other source result datasets not chemically reviewed."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round11",
+      "date": "2026-10-29",
+      "locations": "Selected originals listed above; directly named historical kit/version targets in note",
+      "finding": "Capped source pass; kit geometry/version targets remain unreviewed. No missing-information acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Private source-qualified model through source-known downstream preparation/acquisition; original-version and historical kit assembly remain incomplete.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "expansion_dna_round11",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Published-first bounded pass; associated manuscript and excluded-source identities explicit.",
+      "locations": "Associated manuscript NIHMS1638772; main71/Methods139\u2013145; Associated SI Figure1/call-context scope; Published SI cover/TOC/Figure1",
+      "findings": "Source operations/physical remnant distinctions/readout preserved; full end/library geometry unassembled.",
+      "deferred": [
+        "Directly named historical kit guide/version and original assembly targets in research note; no recursive source chase."
+      ],
+      "oligo_scraper": "/tmp/nanonome11-oligos.log; whole-bundle scan run, relevant hits read in sources; no absence conclusions.",
+      "verification": "32localchecks(7nanoNOMe/10NSCR/7D-NAscent/8SAMOSA) passed;4privatebuilds and scopeddocs/pairing/schema passed. Chemistry0established/59unresolved/0contradictory. Sourceguard0checked/0failed,3historicaladapterinputs without exactstates, not exactoligovalidation. Root independentlyspotreviewed nanoNOMe/SAMOSA; multi reviewedNSCR/D-NAscent, identifiedsavedRcontrol/Ccollection omissions now fixed with regressions. These implementation reviews are not independent absence-audit passes. Retrievalsessions42535 interruptedgracefullyexit130/cachepreserved and2412completedexit0; finalscrapers66705completedexit0. No retrievalrunning."
+    }
+  ],
+  "work_status_reason": "Next action is ordinary reading/retrieval of identified historical kit/source scopes or independent review. The selected capped pass did not establish a specific access barrier; model geometry remains unresolved. No absence conclusion."
+}

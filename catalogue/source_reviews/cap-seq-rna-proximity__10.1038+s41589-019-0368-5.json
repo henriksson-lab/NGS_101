@@ -1,0 +1,157 @@
+{
+  "dir": "cap-seq-rna-proximity__10.1038+s41589-019-0368-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41589-019-0368-5",
+      "original": "https://doi.org/10.1038/s41589-019-0368-5",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM15_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM15_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round11_reader",
+        "date": "2026-10-29",
+        "locations": "Title/identity, reagent/construct inventories; Fig1\u20137chemistry,Fig13\u201318RNAcontext, especiallyFig16ordering",
+        "finding": "Published SI-supported RNA photo-oxidation/PA/click with fragmentation BEFORE click and95%formamide release; no Halo/APEX backend import. Main Methods and full exact library/read geometry blocked."
+      },
+      "pass_2": null,
+      "source_version": "Published SI original"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM16_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM16_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM17_ESM.docx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM17_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round11_reader",
+        "date": "2026-10-29",
+        "locations": "Opening scheme and compound6/7/Btn-An/Btn-ONH2 synthesis; no whole library procedure inferred",
+        "finding": "Published SI-supported RNA photo-oxidation/PA/click with fragmentation BEFORE click and95%formamide release; no Halo/APEX backend import. Main Methods and full exact library/read geometry blocked."
+      },
+      "pass_2": null,
+      "source_version": "Published synthetic-note original; selected probe synthesis only"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM18_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM18_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM19_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM19_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM20_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM20_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM21_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM21_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq-rna-proximity__10.1038+s41589-019-0368-5/s41589-019-0368-5_41589_2019_368_MOESM22_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-019-0368-5/MediaObjects/41589_2019_368_MOESM22_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original not inspected in capped pass; no absence/irrelevance conclusion. Large data/associated supplements skipped by default scanner remain unreviewed."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source sections above and protocol note; none chemistry-read for CeFra",
+      "finding": "Published SI-supported RNA photo-oxidation/PA/click with fragmentation BEFORE click and95%formamide release; no Halo/APEX backend import. Main Methods and full exact library/read geometry blocked. No independent second/absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/s41589-019-0368-5",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    },
+    {
+      "locator": "Published main detailed preparation/oligo/readout sections; actual fulltext unavailable in standard retrieval",
+      "scope": "Actual named/cited original or source-version boundary; not a fictional disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Original chemical adduct/end/strand/full-library geometry and source-linked procedure/readout remain unassembled; no missing-information claim."
+  ],
+  "conclusion": "Published SI-supported RNA photo-oxidation/PA/click with fragmentation BEFORE click and95%formamide release; no Halo/APEX backend import. Main Methods and full exact library/read geometry blocked. Notes status only; no finished schematic or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-11",
+      "reviewer": "rna_round11_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining/chemistry originals first; no recursive chase. Identity-only/uncollected if original blocked.",
+      "locations": "Title/identity, reagent/construct inventories; Fig1\u20137chemistry,Fig13\u201318RNAcontext, especiallyFig16ordering; Opening scheme and compound6/7/Btn-An/Btn-ONH2 synthesis; no whole library procedure inferred",
+      "findings": "Published SI-supported RNA photo-oxidation/PA/click with fragmentation BEFORE click and95%formamide release; no Halo/APEX backend import. Main Methods and full exact library/read geometry blocked.",
+      "deferred": [
+        "https://doi.org/10.1038/s41589-019-0368-5",
+        "Published main detailed preparation/oligo/readout sections; actual fulltext unavailable in standard retrieval"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scan; selected original contexts inspected. Proximity/CAP large-file skips explicit; empty CeFra/TRIBE hits do not establish absence.",
+      "verification": "18localbehaviorchecks pass across3chemistrymodels, sourceguard0checked0failed6unassembledinputs, chemistry46unresolved0contradictory. CeFra has no graph/tests and is not chemistry-collected."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "dir": "mint-chip__10.1016+j.molcel.2015.11.003",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4707994.1/PMC4707994.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAM70–86/134–170, adapter/C3/index identities and complete local procedure order; no final-version equivalence.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4707994/bin/NIHMS745527-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual linked TableS2 supplement gated by sourcehost cooldown/challenge; not read. Whole oligos remain open.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Standard declaredPMC supplementary route blocked by sourcehost challenge/cooldown; no original downloaded or table read."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-36",
+      "reviewer": "dna_owner_round36",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated author manuscript PMC4707994 main70–86/134–170; one original. Published-final equivalence not established.",
+      "locations": "AssociatedAM70–86/134–170, adapter/C3/index identities and complete local procedure order; no final-version equivalence.; Actual linked TableS2 supplement gated by sourcehost cooldown/challenge; not read. Whole oligos remain open.",
+      "findings": "Sample indexing before pooledChIP; separate unlabeled carrier and four antibody assays; IVT/DNase/RT and second assay index retained.",
+      "deferred": [
+        "Historical EndIt/FastLink/HiScribe/SSIII/PfuUltra original vendor recipes unread at bounded limit; kit names do not authorize whole component inheritance."
+      ],
+      "oligo_scraper": "Mandatory wholebundle scraper; Mint/CUT0hits notabsence. ChIPselectedhit verified actualSIp26 and originalworkbookZIP/XML, nonselectedSI2 unopened."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Historical EndIt/FastLink/HiScribe/SSIII/PfuUltra original vendor recipes unread at bounded limit; kit names do not authorize whole component inheritance."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive source-qualified notes/private partial graph; complete molecular inventory/whole products/linked source and absence audit remain unfinished.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round36",
+    "date": "2026-10-30",
+    "scope": "Same one associated manuscript PMC4707994 main70–86/134–170 only; final-equivalence and gatedTableS2 limits retained. No new originals.",
+    "findings": "Verified sampleindex1 before low-MNase chromatin pool, independent unligatedcarrier preparation, four actual antibody-assay allocations, ChIP/IVT→DNase→RT sequence and assayindex2 versus randomhexamer priming. Requested and inspected finalpoolselectedaliquots with untransferredpostQCstockremainders, preserving actual4waypool without implicitwholestockconsumption. Source5C3block retained while fulladapter/ligatedend geometry unassembled.",
+    "verification": "11focused checks independently rerunPASS after source-fate correction. Selected implementation closure only, not full reaction/source or missing-information audit."
+  }
+}

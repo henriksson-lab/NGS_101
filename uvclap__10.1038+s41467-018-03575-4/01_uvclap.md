@@ -1,0 +1,24 @@
+# uvCLAP: source-qualified private model
+
+Maticzka, Ilik, Aktas, Backofen and Akhtar (2018), **uvCLAP is a fast and non-radioactive method to identify in vivo targets of RNA-binding proteins**, Nature Communications9,1142. [Defining method article](https://doi.org/10.1038/s41467-018-03575-4).
+
+Positive preparation: stringent tagged-protein tandem affinity purification replaces antibody-specific isolation/membrane selection; adapter-tagged RNA is copied with barcoded RT primers, relevant cDNAs are pooled before gel fractionation, circularized, restriction-linearized and jointly amplified. This combination differs from merely changing a CLIP target or computational normalization. Earlier2017roX2 experiments cited in this article used uvCLAP; they do not create a second counted method or permission to import an unreviewed recipe.
+
+Two originals inspected: final published PMC5861125 Results45–53/Methods171 and183–201; publishedSI/MOESM1 FigS1 originalPDFp2 and Table7originalp12, both rendered. MainXML/PDF describe the same original; source-text primer hits were followed to main187. Scraper reports5candidate hits/3files, including the same published main in two formats and Table7's concatenated tags. It is not evidence that other oligos are unpublished. Other figures, tables, peer-review material, linked studies and vendor protocols remain unreviewed. No directly linked original was chased in this pass.
+
+🟢 The selected human-cell path begins with a source tagged RBP, whose upstream cell-line construction is unassembled. Main171 prints UV-C~254nm with **0.15mJ/cm²**; the model retains that unit rather than substituting0.15J/cm². Source harvest/pellet/snap-freeze/thaw and0.5mlHislysis/mildsonication precede HisTagDynabead10min capture. Imidazole250mM releases material before MyONEC1streptavidin capture and stringentSDS/NaCl/LiDS/LiCl washes. FLAG capture1h/peptide-elution is an alternative path, not silently mixed into the selected His path. Biotin is on the tagged protein, not a molecular DNA barcode.
+
+🟢 NDB/TURBODNase/RNaseI37°C3min followed by immediate cooling trims RNA. T4PNK in MESpH6.0/NaCl/MgCl₂/Tween/RNasin treats cyclic-phosphate ends37°C20min. FigS1 explicitly names pre-adenylated3′linkers; main names T4RNAligase1. Full source oligo/end/junction geometry is not assigned, and no modern ligase-kit recipe is substituted. Excess-adapter washing precedes proteinaseKrelease and ZymoDNA CleanandConcentrator purification. Complete free/partly processed RNA and reagent classes remain unresolved in the mixture; a wash is not a perfect background classifier.
+
+🟢 SSIII/barcodedRT produces cDNA. Relevant condition/replicate/control cDNAs physically pool before6percent/6MureaPAA size fractionation. CircLigase circularization and restriction linearization precede joint PCR. Exact circle/RT/linker/cut-site geometry, enzyme identity for restriction, PCRcycles/catalyst, fraction/run assignments and complete final library remain unassembled. Paired-end sequencing is the declared default; no exact cycle count is inferred from genomic analysis. Background peak rejection and UMI deduplication are computational, not chemical destruction of template DNA.
+
+🟢 Three tagging levels are distinct. Main183–193: custom5′condition tags, semi-random3′replicate patterns, and ScriptSeqPCRindexes identifying size fractions. The first source Table7condition tag is `AGTCA`; source pattern is `NNN[T1T2T3T4T5]NN`. The two separated random blocks are one logical UMI group with distinct segment identities. Replicate patterns `DRYYR` and `DYRRY` specify replicate classes, while variation within a class also increases molecule discrimination. The local `TagLayout.replicate_meanings` declares both meanings; complete shared read-span/rendering support for overlapping meanings is not claimed. Caller-selected prototype windows default to inferred and never assign an actual specimen or complete oligo.
+
+Whole publishedPCRpatterns,5′→3′:
+
+- Forward: `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`.
+- Indexed reverse: `CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`.
+
+The model imports canonical Illumina bodies and marks the six-positionPCRsampleindex placeholder as a fixed sample identifier whose actual value is unassigned, not a UMI. Main187's line-wrap spaces were removed for comparison, not interpreted as extra bases. Source-verifiedPCRpatterns alone do not establish RT/circle/PCR landing geometry. The single displayed condition-tag prototype likewise does not complete the full barcode/UMI/read plan.
+
+The private graph preserves actual captured/unbound/matrix/gel fractions and source joint pooling. Source details beyond the selected outline, the full original-linked methods/vendor inventory and exact operational oligos remain ordinary unreviewed targets, not confirmed absent disclosures. No public schematic, complete-source review or two-reader absence claim is made.

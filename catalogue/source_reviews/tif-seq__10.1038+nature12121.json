@@ -1,0 +1,402 @@
+{
+  "dir": "tif-seq__10.1038+nature12121",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-10.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-10.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-11.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-11.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-4.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-4.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-5.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-5.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-6.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-6.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-7.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-7.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-8.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-8.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.6 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.8 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/(manual) nature12121_supp_NIHMS460779-supplement-9.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3705217/bin/NIHMS460779-supplement-9.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM94_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM94_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM95_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM95_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM96_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM96_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM97_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM97_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM98_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM98_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round20_RNA_source_reader",
+        "date": "2026-10-29",
+        "locations": "Overview23446\u201323545 and Table2 originalp38 rendered; exactDNA/RNAcapping/internalbiotin/primertranscriptions. Othersectionsnotreviewed. Final Fig1caption originalp1/source180\u2013183 intermolecular wording checked separately from detailedintramolecular path; ordinary AM/final pool-orderdifference explicit.",
+        "finding": "Source-positive private selected AM-qualified main preparation plus published SI exact oligos; final-main applicability/full end/primer/barcode-feature geometry unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published publisher supplementary information",
+      "reason": "Selected positive reading only; no full disclosure/absence audit."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM.zip",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_10.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 10.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_3.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 3.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_5.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 5.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_6.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 6.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_7.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 7.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_8.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 8.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_21",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_Data_9.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary Data 9.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_22",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_41586_2013_BFnature12121_MOESM99_ESM_Supplementary_data_4.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature12121/MediaObjects/41586_2013_BFnature12121_MOESM99_ESM.zip#nature12121-s2/Supplementary data 4.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file (from the zip)"
+    },
+    {
+      "id": "source_23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_PMC3705217.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3705217.1/PMC3705217.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_24",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_PMC3705217.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3705217.1/PMC3705217.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round20_RNA_source_reader",
+        "date": "2026-10-29",
+        "locations": "Methods217\u2013290 selected preparation/acquisition; no final-main-version equivalence.",
+        "finding": "Source-positive private selected AM-qualified main preparation plus published SI exact oligos; final-main applicability/full end/primer/barcode-feature geometry unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript PMC3705217",
+      "reason": "Selected positive reading only; no full disclosure/absence audit."
+    },
+    {
+      "id": "source_25",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_supp_NIHMS460779-supplement-1.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3705217.1/NIHMS460779-supplement-1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round20_RNA_source_reader",
+        "date": "2026-10-29",
+        "locations": "Selected overview23518\u201323599 and TableS2 originalp39; sourcefirstorientationonly; laterpublisherselectedtable/overviewchecked.",
+        "finding": "Source-positive private selected AM-qualified main preparation plus published SI exact oligos; final-main applicability/full end/primer/barcode-feature geometry unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted-manuscript supplement",
+      "reason": "Selected positive reading only; no full disclosure/absence audit."
+    },
+    {
+      "id": "source_26",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_supp_NIHMS460779-supplement-2.zip",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3705217.1/NIHMS460779-supplement-2.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_27",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_supp_NIHMS460779-supplement-3.zip",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3705217.1/NIHMS460779-supplement-3.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_28",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tif-seq__10.1038+nature12121/nature12121_supp_NIHMS460779-supplement-3_S2_tcd_mTIFAnno.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3705217.1/NIHMS460779-supplement-3.zip#S2_tcd_mTIFAnno.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. supplementary file (PMC Cloud) (from the zip)"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round20_RNA_source_reader",
+      "date": "2026-10-29",
+      "locations": "Selected overview23518\u201323599 and TableS2 originalp39; sourcefirstorientationonly; laterpublisherselectedtable/overviewchecked.; Methods217\u2013290 selected preparation/acquisition; no final-main-version equivalence.; Overview23446\u201323545 and Table2 originalp38 rendered; exactDNA/RNAcapping/internalbiotin/primertranscriptions. Othersectionsnotreviewed.",
+      "finding": "Selected chemistry-positive reading; actual deferred links and versions remain explicit, no accepted absence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nature12121",
+      "scope": "Published final main original not inspected; selected AM main retains explicit version qualification."
+    },
+    {
+      "locator": "TIF-seq original reference29 oligo-capping predecessor and reference38 multiplexed library preparation",
+      "scope": "Direct cited method originals deferred; no inherited full chemistry."
+    }
+  ],
+  "conclusion": "Source-positive private selected AM-qualified main preparation plus published SI exact oligos; final-main applicability/full end/primer/barcode-feature geometry unassembled. Capped scope unfinished, not an actual failed final-original retrieval; status in_progress.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "round20_RNA_source_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Capped10min/3originals source investigation, publishedfirst; associatedmanuscript main explicitly versionqualified where final originalnotobtained. Later implementation consistency work does not claim additional source investigation.",
+      "locations": "Selected overview23518\u201323599 and TableS2 originalp39; sourcefirstorientationonly; laterpublisherselectedtable/overviewchecked.; Methods217\u2013290 selected preparation/acquisition; no final-main-version equivalence.; Overview23446\u201323545 and Table2 originalp38 rendered; exactDNA/RNAcapping/internalbiotin/primertranscriptions. Othersectionsnotreviewed.",
+      "findings": "Source-positive private selected AM-qualified main preparation plus published SI exact oligos; final-main applicability/full end/primer/barcode-feature geometry unassembled.",
+      "deferred": [
+        "https://doi.org/10.1038/nature12121 \u2014 Published final main original not inspected; selected AM main retains explicit version qualification.",
+        "TIF-seq original reference29 oligo-capping predecessor and reference38 multiplexed library preparation \u2014 Direct cited method originals deferred; no inherited full chemistry."
+      ],
+      "oligo_scraper": "Mandatorywholebundle scraper; adoptedmodifiedoligosverifiedintext and renderedoriginals. Noemptyhitabsence claim.",
+      "verification": "31localchecks TIF10/FLAM11/PAL10pass. Sourceguard10exactchecked0failed1independentlyapproved iso_tso-onlytextmatchingexemption/9unassembledinputs across3graphs. Chemistry77steps/81unresolved0contradictory; scoped partial declarations only."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent DNA implementation reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached originals only; no additional acquisition or full source/absence audit. TIF associatedmain217\u2013290/publishedSIoverview/Table2; FLAMpublishedprotocol allpreparative/setupsections/originalp2; PALassociatedAM425\u2013482/originalp8.",
+    "finding": "31localchecks10+11+10pass. Corrected FLAM primer conditioning/addition temperatures and independentinternalcontrol physicalloadingpool; TIF SAP operation typeddephosphorylation. FixedTSO ACATtranscription and independentlyapproved iso_tso-only macro-normalizationtextmatchexemption; actualnoncanonicalbasesandterminalRNAretained. TIF fixedA/Binlinecontrolfeaturecoordinatesexplicitlyunassembled, actualwholeoligoskept. No consequential remaining defect in selected scope; no accepted absence. Final TIFpublishedSI NotI-beforepool order adopted; AMpool-beforeNotIdifference retained as versionqualification, exactintermediateconditions/workupunassembled."
+  }
+}

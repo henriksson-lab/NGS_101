@@ -1,0 +1,239 @@
+{
+  "dir": "apex-seq__10.1016+j.cell.2019.05.027",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-1.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-10.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-10.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-11.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-11.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-12.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-12.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-13.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-13.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-2.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-3.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-4.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-5.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-6.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-6.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-7.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-8.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-8.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-9.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6786773/bin/NIHMS1531987-supplement-9.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "source_14",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-seq__10.1016+j.cell.2019.05.027/454470_454470-1.pdf.txt",
+      "original": "https://www.biorxiv.org/highwire/filestream/137434/field_highwire_adjunct_files/0/454470-1.pdf",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_15",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-seq__10.1016+j.cell.2019.05.027/454470_v2.full.pdf.txt",
+      "original": "https://www.biorxiv.org/content/10.1101/454470v2.full.pdf",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_16",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-seq__10.1016+j.cell.2019.05.027/j.cell.2019.05.027_PMC6786773.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6786773.1/PMC6786773.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round10_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance71; Results93\u201399; Methods223/229/245/249",
+        "finding": "Direct RNA labeling and source-known RNA extraction/capture/proteinase/cleanup/TruSeq/PE75 route; not APEX-RIP protein-label capture. Actual chemical adduct and full final-VOR/supplement/kit geometry unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript NIHMS1531987; final-VOR applicability unverified"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round10_reader",
+      "date": "2026-10-29",
+      "locations": "Exact selected sections in source_checklist and protocol notes",
+      "finding": "Direct RNA labeling and source-known RNA extraction/capture/proteinase/cleanup/TruSeq/PE75 route; not APEX-RIP protein-label capture. Actual chemical adduct and full final-VOR/supplement/kit geometry unassembled. Directly linked originals deferred at cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1016/j.cell.2019.05.027",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    },
+    {
+      "locator": "Actual gated NIHMS chemistry supplements listed in source_checklist; final-published applicability unresolved",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    },
+    {
+      "locator": "Named historical RNeasyPlusMini/RNA Clean&Concentrator-5/TruSeqstrandedmRNA originals",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    },
+    {
+      "locator": "Source Results99/Methods291 cites original APEX-RIP10.7554/eLife.29224 as a comparison, not whole-recipe inheritance",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    }
+  ],
+  "open_questions": [
+    "Exact full molecular adduct, strand/end/library/run geometry and named historical kit/predecessor scope remain unassembled; no absence claim."
+  ],
+  "conclusion": "Capped source-qualified notes/local model only. No finished schematic, complete source review, full molecular/readout validation or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "rna_round10_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining and chemistry originals first; no recursive predecessor chase",
+      "locations": "Provenance71; Results93\u201399; Methods223/229/245/249",
+      "findings": "Direct RNA labeling and source-known RNA extraction/capture/proteinase/cleanup/TruSeq/PE75 route; not APEX-RIP protein-label capture. Actual chemical adduct and full final-VOR/supplement/kit geometry unassembled.",
+      "deferred": [
+        "https://doi.org/10.1016/j.cell.2019.05.027",
+        "Actual gated NIHMS chemistry supplements listed in source_checklist; final-published applicability unresolved",
+        "Named historical RNeasyPlusMini/RNA Clean&Concentrator-5/TruSeqstrandedmRNA originals",
+        "Source Results99/Methods291 cites original APEX-RIP10.7554/eLife.29224 as a comparison, not whole-recipe inheritance"
+      ],
+      "oligo_scraper": "Mandatory acquired-bundle scan; source contexts/modifications inspected where relevant. Superseded preprint hits excluded; APEX-RIP two large dataworkbooks unscanned by default, no absence conclusion.",
+      "verification": "17localbehaviorchecks pass across3models; sourceguard0exactchecked0failed2unassembledinputs; chemistry45unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

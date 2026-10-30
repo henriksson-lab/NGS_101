@@ -1,0 +1,53 @@
+{
+  "dir": "nggm__10.1021+acs.analchem.9b01988",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13016201.1/PMC13016201.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated accepted manuscript Methods103\u2013126;identity/header checked,not established final-VOR equivalence"
+    },
+    {
+      "id": "blocked1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13016201/bin/NIHMS2148954-supplement-Supplemental_figures_and_tables.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;standard retrieval failed or sourcehostcooldown",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first bounded selected-source pass;associatedMSNGGM explicit,no abstract-only fullgraph,no absenceaudit",
+      "locations": "Associated accepted manuscript Methods103\u2013126;identity/header checked,not established final-VOR equivalence",
+      "findings": "Selected physicalclasses/operations and limitations in protocol note;ordinary unread targets deferred,actualgates blocksourcecoverage.",
+      "deferred": [
+        "Actual named associated Supplemental_figures_and_tables.pdf (gated): DNA code sequences,primer/index/NGS adapter identities and supplementary experiments",
+        "Published article final Methods/version applicability of associated manuscript;published SI identity/version reconciliation",
+        "Shotgun library manufacturing and additional serum/application branches outside selected defined lectin/antibody/bacteria graph scopes",
+        "Exact18+20+18 DNA polymers,5\u2032azide chemistry/covalent junctions,physical PCRproducts and actual instrument/read geometry"
+      ],
+      "verification": "Combined 20 local checks (9 NGGM / 11 ProtSeq), two private builds, schema and pairing (zero problems) pass; sourceguard: three checked, zero failed, zero exemptions, 14 unrepresented inputs; chemistry: zero established, 60 unresolved, zero contradictory. No complete chemistry/source validation claimed.",
+      "oligo_scraper": "Mandatory standard bundle scraper run;relevant selectedoriginal pointers checked;zeroNGGMhits/cPTMretrievedfiles doesnotestablish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Pendingdirectoriginals listed;no recursive source chase or complete absence review."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Actual named associated Supplemental_figures_and_tables.pdf (gated): DNA code sequences,primer/index/NGS adapter identities and supplementary experiments",
+    "Published article final Methods/version applicability of associated manuscript;published SI identity/version reconciliation",
+    "Shotgun library manufacturing and additional serum/application branches outside selected defined lectin/antibody/bacteria graph scopes",
+    "Exact18+20+18 DNA polymers,5\u2032azide chemistry/covalent junctions,physical PCRproducts and actual instrument/read geometry"
+  ]
+}

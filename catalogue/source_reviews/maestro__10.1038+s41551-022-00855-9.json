@@ -1,0 +1,63 @@
+{
+  "dir": "maestro__10.1038+s41551-022-00855-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9089460.1/PMC9089460.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Author manuscript Methods163\u2013205; title/version identity verified; full final main not compared"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9089460.1/NIHMS1775951-supplement-Probe_Sequences_File.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "First438SNVpanel header/first rows and exact first probe/coordinates"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9089460.1/NIHMS1775951-supplement-Supplementary_Figures.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Selected probe-extension explanation around extractedline297; remaining figures not audited"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Capped selected-original chemistry pass; ordinary unread scope remains; not absence audit",
+      "locations": "Author manuscript Methods163\u2013205; title/version identity verified; full final main not compared; First438SNVpanel header/first rows and exact first probe/coordinates; Selected probe-extension explanation around extractedline297; remaining figures not audited",
+      "findings": "Actual source-qualified wet preparation positive; private incomplete local graph retains physical fractions, analytical aliquots, source alternatives and unassembled geometry.",
+      "deferred": [
+        "Full final-version molecular/end/read geometry and remaining source scopes",
+        "Source-linked predecessor and exact historical vendor originals, depth one only"
+      ],
+      "verification": "25focusedchecks (9MAESTRO/9TAm/7CAPP) pass;sourceguard0exact/0fail/0exempt/26unassembledinputs across3graphs;chemistry58unresolved/0contradictory. Exact separate inventories have source fixtures; no fullreactionvalidation.",
+      "oligo_scraper": "Mandatory final bundle scrapers:MAESTRO208candidates/3files,TAm18/1,CAPP20/2. Selectedoriginalpointers andmodifiedprobeverified;notabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct source-linked component ancestry scoped in note; originals/vendor details ordinary unread; no recursive followup or accepted missing information."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full final main comparison where only associated main read",
+    "Full historical kit/adapter/probe/end/read geometry and sample assignments",
+    "Other originals/sections explicitly outside this capped pass"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round21",
+    "date": "2026-10-30",
+    "scope": "Independent selected original Methods and private model critical review only; not complete source review or two-reader absence audit",
+    "finding": "MAESTRO AM163\u2013205 selectedcapture/versionboundaries;TAm main420\u2013439/SI2590\u20132663 andoriginal renderedTableS2/FigS1,sourcePE/index/cycleconflicts preserved;CAPPAM125\u2013150 andassociatedSI A3/A4sourcebranch/optimization consistent. TAmharvest1ulthen99ulwater once corrected. MAESTROconditionalextraPCRKAPAprimersnotimplicitlyassignedtopostcapturePCR. Fullgeometryunassembled."
+  }
+}

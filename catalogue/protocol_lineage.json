@@ -11,7 +11,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/nmeth.2639",
-          "locator": "Published 2013 article, introduction; local nmeth.2639.pdf.txt lines 166–178"
+          "locator": "Published 2013 article, introduction; local nmeth.2639.pdf.txt lines 166\u2013178"
         }
       ],
       "rationale": "The original introduces Smart-seq2 as an improved continuation of the authors' Smart-seq workflow.",
@@ -43,7 +43,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41587-022-01311-4",
-          "locator": "Published article opening text; PMC9546772 JATS text line 28; optimization text lines 40–44"
+          "locator": "Published article opening text; PMC9546772 JATS text line 28; optimization text lines 40\u201344"
         }
       ],
       "rationale": "The source explicitly states that Smart-seq3xpress is based on Smart-seq3.",
@@ -59,7 +59,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1186/s13059-016-0938-8",
-          "locator": "Published abstract and Results, PMC4848782 JATS text lines 45, 63–67"
+          "locator": "Published abstract and Results, PMC4848782 JATS text lines 45, 63\u201367"
         }
       ],
       "rationale": "The abstract explicitly calls CEL-Seq2 a modified version of CEL-Seq and identifies changed protocol steps.",
@@ -75,7 +75,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41467-018-05347-6",
-          "locator": "Published abstract and Results, PMC6062574 JATS text lines 33–35 and 51"
+          "locator": "Published abstract and Results, PMC6062574 JATS text lines 33\u201335 and 51"
         }
       ],
       "rationale": "The original systematically optimizes SCRB-seq and names the resulting protocol mcSCRB-seq.",
@@ -91,7 +91,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41587-020-0739-1",
-          "locator": "Published abstract and opening Results, PMC8606189 JATS text lines 49–57"
+          "locator": "Published abstract and opening Results, PMC8606189 JATS text lines 49\u201357"
         }
       ],
       "rationale": "The source identifies the earlier Slide-seq and describes the changes defining Slide-seqV2.",
@@ -139,7 +139,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1371/journal.pone.0241253",
-          "locator": "Published article, main text lines 83 and 220–226 in journal.pone.0241253_PMC8031414.xml.txt; current CaBagE source note"
+          "locator": "Published article, main text lines 83 and 220\u2013226 in journal.pone.0241253_PMC8031414.xml.txt; current CaBagE source note"
         }
       ],
       "rationale": "The source starts the ONT library preparation at the adapter-ligation step of the Cas-mediated PCR-free protocol developed for nCATS.",
@@ -155,7 +155,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/nbt.3973",
-          "locator": "Published Supplementary Information MOESM5: Supplementary Discussion lines1–21 and Figure3 caption lines233–248; curated REAP source note"
+          "locator": "Published Supplementary Information MOESM5: Supplementary Discussion lines1\u201321 and Figure3 caption lines233\u2013248; curated REAP source note"
         }
       ],
       "rationale": "The published supplement explicitly describes adapting the 10x Chromium v1 workflow for simultaneous protein reporters and RNA.",
@@ -171,7 +171,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/nmeth.3840",
-          "locator": "Associated accepted manuscript PMC5477425 JATS lines37–45; final publisher procedural text not reconciled in capped pass"
+          "locator": "Associated accepted manuscript PMC5477425 JATS lines37\u201345; final publisher procedural text not reconciled in capped pass"
         }
       ],
       "rationale": "The inspected manuscript discusses evaluating and improving iCLIP library construction, then incorporating the changes into irCLIP. The relationship is retained as an inference pending final-publication verification.",
@@ -219,7 +219,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41467-021-21810-3",
-          "locator": "Published Results72–80; reference23 identifies Shahi2017"
+          "locator": "Published Results72\u201380; reference23 identifies Shahi2017"
         }
       ],
       "rationale": "The authors explicitly modify the Tapestri workflow to support their earlier Abseq method.",
@@ -283,7 +283,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/nchem.1893",
-          "locator": "Associated accepted manuscript PMC4188980 Results JATS57; reference24 JATS245–247 resolves to Meissner2008 DOI10.1038/nature07107"
+          "locator": "Associated accepted manuscript PMC4188980 Results JATS57; reference24 JATS245\u2013247 resolves to Meissner2008 DOI10.1038/nature07107"
         }
       ],
       "rationale": "The child explicitly chooses the cited2008 reduced-representation bisulfite method for MspI-based CpG enrichment.",
@@ -315,7 +315,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41592-020-0837-5",
-          "locator": "Associated accepted manuscript PMC7610614 Methods JATS185–189: optimized using3prime reagentkitv2; Cell barcoding and reverse transcription"
+          "locator": "Associated accepted manuscript PMC7610614 Methods JATS185\u2013189: optimized using3prime reagentkitv2; Cell barcoding and reverse transcription"
         }
       ],
       "rationale": "The source explicitly uses10x3primev2 guidelines with omission of its template-switch oligo before targeted PCR.",
@@ -331,7 +331,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41592-020-0837-5",
-          "locator": "Associated accepted manuscript PMC7610614 Results JATS57 and Methods111–117: original CROPseq-Puro, modified F+E tracrRNA and targeted guide transcripts"
+          "locator": "Associated accepted manuscript PMC7610614 Results JATS57 and Methods111\u2013117: original CROPseq-Puro, modified F+E tracrRNA and targeted guide transcripts"
         }
       ],
       "rationale": "Source explicitly targets the CROP-seq vector transcript alongside genes, using a locally modified CROPseq-Puro-F+E construct.",
@@ -379,7 +379,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/nature14280",
-          "locator": "Associated accepted manuscript PMC4376666 Introduction JATS46–48, references8–9 and SupplementaryNote"
+          "locator": "Associated accepted manuscript PMC4376666 Introduction JATS46\u201348, references8\u20139 and SupplementaryNote"
         }
       ],
       "rationale": "The source explicitly contrasts CLASH direct ligation with hiCLIP adapter bridging for control and unambiguous arm boundaries.",
@@ -395,7 +395,7 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1073/pnas.1606667113",
-          "locator": "Published PMC4987812 Methods HTMLtext1268 and reference19 at1387: DOI10.1038/nprot.2015.099; inline SI1289–1297 gives CPD-local preparation"
+          "locator": "Published PMC4987812 Methods HTMLtext1268 and reference19 at1387: DOI10.1038/nprot.2015.099; inline SI1289\u20131297 gives CPD-local preparation"
         }
       ],
       "rationale": "The child explicitly states adoption of emRiboSeq with CPD-specific enzymatic cleavage that generates ligatable3primeOH ends.",
@@ -411,12 +411,1324 @@
       "evidence": [
         {
           "url": "https://doi.org/10.1038/s41592-019-0433-8",
-          "locator": "Published SupplementaryInformation MOESM1 protocol pp32–35, text2089–2192; independent implementation spot review confirms retained bead/supernatant fractions"
+          "locator": "Published SupplementaryInformation MOESM1 protocol pp32\u201335, text2089\u20132192; independent implementation spot review confirms retained bead/supernatant fractions"
         }
       ],
       "rationale": "The published SI explicitly prepares MULTI-seq libraries through the10xv2 workflow before separating endogenous and barcode products.",
       "limits": "Current local graph follows the published SI; accepted-manuscript anchor/additive-primer interface is a separate version. This edge supplies no historical full bead/RT geometry and does not establish v3/NextGEM equivalence or membrane-tag chemistry inheritance.",
       "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "eclip__10.1038+nmeth.3810",
+      "child": "m1a-map__10.1016+j.molcel.2017.10.019",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Library construction adaptation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.molcel.2017.10.019",
+          "locator": "Associated accepted manuscript PMC5722686 Methods180, Van Nostrand2016 reference563\u2013564"
+        }
+      ],
+      "rationale": "The source explicitly states that library construction follows eCLIP with several modifications.",
+      "limits": "Only the cited library subroute is linked; TGIRT, RNA preparation and modifications are locally specified. Full predecessor version/applicability and strand geometry remain unreviewed.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "m1a-map__10.1016+j.molcel.2017.10.019",
+      "child": "m6a-sac-seq__10.1038+s41587-022-01243-z",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Modified RNA-adapter/RT library strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01243-z",
+          "locator": "Associated manuscript PMC9378555 Methods215, reference53"
+        }
+      ],
+      "rationale": "The source explicitly modifies m1A-MAP library construction.",
+      "limits": "No inheritance of modification chemistry, purification conditions or full product geometry; all molecular declarations remain protocol-local.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "cel-seq2__10.1186+s13059-016-0938-8",
+      "child": "raid__10.1038+s41598-018-37977-7",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Modified plate-based RNA library preparation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41598-018-37977-7",
+          "locator": "Published PMC6365588 Methods90, references23\u201324"
+        }
+      ],
+      "rationale": "RAID explicitly bases its library preparation on SORT-seq/CEL-seq2 with adaptations.",
+      "limits": "This component link does not assert exact RT-primer/window equivalence. Published SI N8/cell8 versus main Read2 length14 remains unresolved; reporter UMI15 is separate.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "mars-seq__10.1126+science.1247651",
+      "child": "crisp-seq__10.1016+j.cell.2016.11.039",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "MARS-seq RNA frontend and modified UGI library branch",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2016.11.039",
+          "locator": "Published Cell institutional PDF CELL2016.pdf.txt2624\u20132638, CRISP-seq library preparation"
+        }
+      ],
+      "rationale": "The source specifies MARS-seq barcoding, IVT, cleanup and final library steps, with a separate unfragmented UGI route.",
+      "limits": "UGI adapter, RT primer and extra pool-barcode PCR are local adaptations. The historical MARS recipe is not imported as a verified molecular constructor.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "6mace-seq__10.1093+nar+gky1104",
+      "child": "m6ace-seq__10.1038+s41467-019-13561-z",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Antibody photo-crosslink and exonuclease-protection strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41467-019-13561-z",
+          "locator": "Published PMC6904561 Results39/Figure1a and reference31"
+        }
+      ],
+      "rationale": "The RNA method explicitly capitalises on the authors\u2019 earlier DNA6mA-sequencing method.",
+      "limits": "Only the protection strategy is linked. RNA XRN1, DNA Lambda/RecJ/Phi29, adapters and molecular substrates are not interchangeable or inherited by this edge.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "id-seq__10.1038+s41467-018-04761-0",
+      "child": "scid-seq__10.1016+j.isci.2018.11.009",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Downstream antibody/well/plate barcode sequence scheme",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.isci.2018.11.009",
+          "locator": "Published TransparentMethods j.isci.2018.11.009_supp_mmc1.pdf.txt135\u2013185, barcoding and library preparation"
+        }
+      ],
+      "rationale": "The source explicitly says that barcoding uses the same sequences as ID-seq.",
+      "limits": "The later single-cell method adds a15cycle initial unbarcoded preamplification and has different polymerase/staging; this edge imports no whole recipe or manufactured reporter-end geometry.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "base-seq__10.1186+s13059-014-0517-9",
+      "child": "loopseq__10.1186+s40168-021-01072-3",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Broad synthetic-long-read method development from molecule-barcoding work",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s40168-021-01072-3",
+          "locator": "Published PMC8179091 Introduction64;reference20 identifies Hong2014BAsE-Seq"
+        }
+      ],
+      "rationale": "The source explicitly says the evaluated technology builds upon earlier academic work and cites BAsE-Seq.",
+      "limits": "Method-development ancestry only. No particular LoopSeq kit component, ExoIII/SbfI, circularization mechanism, barcode sequence or adapter geometry is established by that attribution.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "crac__10.1073+pnas.0901997106",
+      "child": "clash__10.1073+pnas.1017386108",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "CRAC RNP purification and library-preparation predecessor",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.1017386108",
+          "locator": "Published PMC3116431 Methods1218\u20131220 and ref2"
+        }
+      ],
+      "rationale": "CLASH explicitly cites the CRAC original for HTP-tagged protein/RNA purification and describes locally modified joining conditions.",
+      "limits": "Only the purification/library strategy is linked. Exact Solexa adapters and local RNA\u2013RNA chimera ligation are not declared inherited; source-specific versions remain local.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "dash__10.1186+s13059-016-0904-5",
+      "child": "smart-seq-total__10.1073+pnas.2113568118",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Post-library guide/Cas9 depletion of abundant DNA sequences",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.2113568118",
+          "locator": "Published PMC8713755 Methods131,ref23"
+        }
+      ],
+      "rationale": "Smart-seq-total explicitly applies DASH to pooled indexed sequencing libraries.",
+      "limits": "Library DNA, not native cellular RNA, is the substrate. Child guides,1hincubation,proteinaseK50\u00b0C and cleanup differ from the original DASH selected route; no whole-recipe inheritance.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "rbs-seq__10.1073+pnas.1817334116",
+      "child": "bid-seq__10.1038+s41587-022-01505-w",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Bisulfite\u2013pseudouridine-adduct/RT-deletion detection principle",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01505-w",
+          "locator": "Published PMC10017504 Results87\u2013103,ref16;explicit testing of prior RBS-seq conditions at97"
+        }
+      ],
+      "rationale": "BID-seq follows the RBS-seq observation, tests its published condition and develops new selective bisulfite chemistry and RT conditions.",
+      "limits": "Detection-principle development only; cytosine conversion, pH, enzyme conditions and library recipes remain distinct. The actual RBS-seq correction contents remain unread; no verified corrected RBS recipe is supplied by this edge.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "cut-run__10.7554+eLife.21856",
+      "child": "mapr__10.1016+j.celrep.2019.09.052",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Immobilization/permeabilization and targeted-MNase release framework",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.celrep.2019.09.052",
+          "locator": "Associated main58/Methods162;actual cited detailed2018protocol10.1038/nprot.2018.015,refs469\u2013473"
+        }
+      ],
+      "rationale": "MapR explicitly adapts the CUT&RUN framework and source buffer/time procedures.",
+      "limits": "The parent represents CUT&RUN method ancestry;the child directly cites the2018detailed companion,unreviewed here. RNaseH-recognition fusion replaces antibody/pA-MNase;no substrate,exactbuffer,adapter or product equivalence is inferred.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "mapr__10.1016+j.celrep.2019.09.052",
+      "child": "bismapr__10.7554+eLife.65146",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "MapR release frontend followed by a new strand-specific chemical library route",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.7554/eLife.65146",
+          "locator": "Published Methods144/Results52/Figure1;2019MapR plus2020detailed10.1002/cpmb.113 version"
+        }
+      ],
+      "rationale": "BisMapR explicitly begins with MapR-derived release while omitting RNaseA,then adds non-denaturing bisulfite and dUTP/UDG strand selection.",
+      "limits": "Exact historical MapR/detailed2020 versions remain source-qualified;RNAretention and all later chemical/library steps are local. No whole-recipe/identical-product assertion.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "smart-seq2__10.1038+nmeth.2639",
+      "child": "stapleton-synthetic-long-reads__10.1371+journal.pone.0147229",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "RNA frontend RT/second-strand strategy with replaced barcoding primers",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1371/journal.pone.0147229",
+          "locator": "Published PMC4720449 Results139/ref27 andMethods204/ref36;detailed2014protocol10.1038/nprot.2014.006"
+        }
+      ],
+      "rationale": "The source explicitly modifies Smart-seq2 and replaces oligo-dT/TSO with its Oligos12/13.",
+      "limits": "RNAbranch only. Detailed predecessor reagent/version not independently read;no complete template-switching efficiency,exact mixture or full product equivalence is supplied.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "stapleton-synthetic-long-reads__10.1371+journal.pone.0147229",
+      "child": "loopseq__10.1186+s40168-021-01072-3",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Broad synthetic-long-read method development",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s40168-021-01072-3",
+          "locator": "Published PMC8179091 Introduction64 andref36at472"
+        }
+      ],
+      "rationale": "LoopSeq explicitly builds upon earlier academic SLR work and cites Stapleton2016.",
+      "limits": "Broadmethod ancestry only;no shared kit polymer,barcode,USER/circularization mechanism or adapter geometry is established.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "m6a-seq__10.1038+nature11112",
+      "child": "m1a-seq__10.1038+nature16998",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Immunocapture/competitive-elution strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nature16998",
+          "locator": "Published SI Note2;associatedAMPMC4842015Methods160/ref51cites detailed2013m6A-seq10.1038/nprot.2012.148"
+        }
+      ],
+      "rationale": "Published SI explicitly models m1A-seq after the m6A-seq enrichment strategy.",
+      "limits": "Method-level parent with precise2013companion cited in child. That version is unreviewed and main details remain AM-qualified;no equality to full2012parent oligos,kit,end geometry or products is inferred.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "m1a-id-seq__10.1038+nchembio.2040",
+      "child": "m1a-map__10.1016+j.molcel.2017.10.019",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Prior m1A immunoprecipitation component",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.molcel.2017.10.019",
+          "locator": "Associated manuscript PMC5722686Methods178,Li2016a prior-IP citation;exact definingDOI10.1038/nchembio.2040"
+        }
+      ],
+      "rationale": "The child explicitly performs m1A enrichment as previously described in Li2016a.",
+      "limits": "Only the cited IP strategy is linked. Parent main is blocked and child final-VOR applicability unestablished;neither parent AMV chemistry nor later AlkB/TGIRT/eCLIP steps are imported by this link.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "apex-rip__10.7554+eLife.29224",
+      "child": "apex-seq__10.1016+j.cell.2019.05.027",
+      "relation": "derived_from",
+      "basis": "inferred",
+      "scope": "Development of proximity RNA localization strategy, replacing protein crosslink capture with direct RNA labeling",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2019.05.027",
+          "locator": "Associated accepted manuscript PMC6786773 Results93\u201399; source explicitly contrasts prior APEX-RIP with bypassing crosslinking."
+        }
+      ],
+      "rationale": "Same authors describe moving from APEX-RIP toward direct RNA tagging; this is a strategy-development inference, not shared library chemistry.",
+      "limits": "Final published-version applicability is unverified; no inherited protein-crosslinking, RNA-adduct, primer, wash or library recipe.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "drip-seq__10.1016+j.molcel.2012.01.017",
+      "child": "smrf-seq__10.1016+j.jmb.2020.02.014",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "DRIP extraction and optional S9.6 immunoprecipitation component, as specified through the later2019 detailed DRIP method",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.jmb.2020.02.014",
+          "locator": "Associated accepted manuscript PMC7669280 Methods130 and reference38:10.1038/s41596-019-0159-1."
+        }
+      ],
+      "rationale": "SMRF explicitly uses standard DRIP extraction with a shortened2h proteinaseK incubation and optional S9.6 capture before bisulfite footprinting.",
+      "limits": "Registry parent identifies the original DRIP method only. Child cites a later2019 version; this edge does not establish exact2012 recipe identity, mandatory IP, shared readout or molecular constructor reuse.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "gestalt-genomic-recovery__10.1126+science.aaf7907",
+      "child": "carlin__10.1016+j.cell.2020.04.048",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Genomic recovery strategy: single-extension UMI tagging before target amplification",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2020.04.048",
+          "locator": "Associated accepted manuscript PMC7529102 Methods234 cites McKenna2016 for genomic DNA UMI-tagging approach."
+        }
+      ],
+      "rationale": "CARLIN explicitly attributes its genomic single-extension UMI recovery approach to GESTALT.",
+      "limits": "Exact primers, reagents, timings and source-version equivalence unverified. GESTALT graph selects v1 genomic recovery; CARLIN recorder design also discusses v6/v7 but that does not imply v1 cassette identity. Final published-version applicability remains qualified.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "drip-seq__10.1016+j.molcel.2012.01.017",
+      "child": "rdip-seq__10.1186+s13072-015-0040-6",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Redesigned hybrid enrichment and directional native-hybrid library",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13072-015-0040-6",
+          "locator": "Published main ResultsRDIPoverview and reference16 explicitly identify Ginno2012 as DRIP precursor."
+        }
+      ],
+      "rationale": "Authors explicitly describe RNaseI pretreatment,sonication and directional recovery as changes to DRIP.",
+      "limits": "No restriction-digest,non-directional library,antibody specificity or full original recipe equivalence inferred.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "10x-visium-spatial-gene-expression",
+      "child": "spots__10.1038+s41587-022-01536-3",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Spatial capture array and source-specified library continuation with local RNA/ADT changes",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01536-3",
+          "locator": "PublishedSIMOESM1 LibraryPreparationpp14\u201321 names VisiumSpatialGeneExpressionUserGuide with local modifications."
+        }
+      ],
+      "rationale": "SPOTS explicitly continues Visium library operations with locally specified antibody-compatible preparation and separate ADT branch.",
+      "limits": "Exact guide original unreviewed;no whole current Visium recipe/edition or ADT inheritance imposed.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "crop-seq__10.1038+nmeth.4177",
+      "child": "dna-typewriter__10.1038+s41586-022-04922-8",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Lenti-TargetBC\u2013Tape\u2013pegRNA vector design component only",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41586-022-04922-8",
+          "locator": "PublishedMethods200 explicitly uses CROP-seq vector Addgene86708 with local modifications."
+        }
+      ],
+      "rationale": "DNATypewriter attributes this vector backbone/design to CROP-seq.",
+      "limits": "No whole recorder allele,genomic/singlecell library,guide recovery chemistry or kit inheritance supplied.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "par-clip__10.1016+j.cell.2010.03.009",
+      "child": "proximity-clip__10.1038+s41592-018-0220-y",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Photo-crosslink and streamlined footprint-library component strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-018-0220-y",
+          "locator": "PublishedMOESM3 protocol introduction/steps explicitly cite PAR-CLIP and streamlined library10.1016/j.ymeth.2016.11.009."
+        }
+      ],
+      "rationale": "The published Proximity-CLIP protocol attributes this component strategy to PAR-CLIP.",
+      "limits": "Cited later companion version remains explicit;no exact predecessor oligo/end/enzyme identity or APEX capture/library equivalence supplied.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "nome-seq-bulk__10.1101+gr.143008.112",
+      "child": "nanonome__10.1038+s41592-020-01000-7",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "GpC methyltransferase accessibility marking and context interpretation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-020-01000-7",
+          "locator": "AssociatedPMC7704922 main71 adapts NOMe-seq3 to nanopore;Methods141 and ref3 (361\u2013367) identify Kelly2012 DOI10.1101/gr.143008.112."
+        }
+      ],
+      "rationale": "nanoNOMe explicitly adapts NOMe marking to native nanopore sequencing with its own local preparation.",
+      "limits": "No bisulfite chemistry,exact older enzyme conditions,ONT adapters or acquisition inherited;associated-main finalVOR applicability remains unverified.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "dart-seq__10.1038+s41592-019-0570-0",
+      "child": "stamp__10.1038+s41592-021-01128-0",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Enzyme-expression construct strategy: remove YTH and replace with an RBP",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-021-01128-0",
+          "locator": "AssociatedPMC8148648 introduction56/cloningMethods124 identifies APOBEC1-YTH gift construct and replacement."
+        }
+      ],
+      "rationale": "STAMP explicitly starts from the cited enzyme-expression construct.",
+      "limits": "Accepted-main finalVOR applicability unverified;no full DART library,antibody/target or methylation-detection chemistry inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "shape-map__10.1038+nmeth.3029",
+      "child": "laser-seq__10.1093+nar+gky1172",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Group-level RNA-library preparation adaptation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1093/nar/gky1172",
+          "locator": "PublishedMethods76 adapts library prep from refs22/23/31;published bibliography326\u2013342 identifies SHAPE-MaP and DMS-MaPseq."
+        }
+      ],
+      "rationale": "LASER explicitly attributes its library-preparation strategy to the cited group of methods.",
+      "limits": "No particular LASER enzyme,oligo,circle or spacer assigned to an individual parent;exact component linkage unreviewed.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "dms-mapseq__10.1038+nmeth.4057",
+      "child": "laser-seq__10.1093+nar+gky1172",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Group-level RNA-library preparation adaptation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1093/nar/gky1172",
+          "locator": "PublishedMethods76 and refs22/23/31;source bibliography326\u2013342."
+        }
+      ],
+      "rationale": "LASER explicitly attributes its library-preparation strategy to the cited method group.",
+      "limits": "No DMS chemical lesion or whole library recipe inferred;exact individual component attribution unreviewed.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "drop-seq__10.1016+j.cell.2015.05.002",
+      "child": "apt-seq__10.1038+s41598-018-21153-y",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Bead/capture and downstream library continuation with local aptamer-specific changes",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41598-018-21153-y",
+          "locator": "PublishedMethods99 and reference13/online70 explicitly identify Drop-seq continuation."
+        }
+      ],
+      "rationale": "Apt-seq modifies Drop-seq capture/library processing to recover affinity aptamers with transcripts.",
+      "limits": "Exact predecessor guide not reread;DNA aptamer copying and local Nextera-tailed PCR do not inherit an RNA-only substrate or whole Drop-seq recipe.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "cite-seq__10.1038+nmeth.4380",
+      "child": "sugar-seq__10.1126+sciadv.abe3610",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Antibody-staining component strategy only",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1126/sciadv.abe3610",
+          "locator": "PublishedMethods162 refers to CITE-seq staining."
+        }
+      ],
+      "rationale": "SUGAR explicitly cites the staining approach.",
+      "limits": "No3prime CITE library continuation imported;SUGAR source uses historical5primeVDJ/feature workflow and glycan reporter complex.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "10x-chromium-single-cell-multiome-atac-gene-expression",
+      "child": "neat-seq__10.1038+s41592-022-01461-y",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Source Multiome RevA operational continuation with local reporter changes",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-022-01461-y",
+          "locator": "PublishedSI protocolv1.0 step10 names source MultiomeRevA continuation;local preamp/reporters in subsequent steps."
+        }
+      ],
+      "rationale": "NEAT explicitly continues the named Multiome workflow after its source nuclear staining/transposition.",
+      "limits": "Exact historical guide unreviewed;no current-version kit,TEA/DOGMA recipe,or antibody/SSB chemistry filled from the parent.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "ramda-seq__10.1038+s41467-018-02866-0",
+      "child": "scgr-seq__10.1016+j.isci.2021.102882",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Same-cell RNA branch source referral to GenNext RamDA-seq and Hayashi2018",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.isci.2021.102882",
+          "locator": "Published PMC8349903 Methods350; Results160 and discussion222"
+        }
+      ],
+      "rationale": "The published main explicitly employs RamDA-seq and directs the RNA branch to the named kit and Hayashi2018.",
+      "limits": "Branch-specific source referral only; historical kit revision and detailed molecular equivalence remain unreviewed. No recipe or chemistry declarations inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "hmc-seal__10.1038+nbt.1732",
+      "child": "5hmc-chemical-label-smrt-sequencing__10.1038+nmeth.1779",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Earlier beta-glucosyltransferase/azido-glucose5hmC-labeling component",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.1779",
+          "locator": "Associated PMC3646335 main40/46 and Methods68/94;ref5 Song2011 DOI10.1038/nbt.1732"
+        }
+      ],
+      "rationale": "The associated original explicitly attributes the5hmC-labeling component to the earlier Song method.",
+      "limits": "Accepted-manuscript scope; no whole-version equivalence or complete parent recipe asserted. Child disulfide tagging/reductive recovery and SMRT acquisition remain source-local.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "omni-atac__10.1038+nmeth.4396",
+      "child": "methyl-atac-seq__10.1101+gr.245399.118",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Local modified-Omni lysis,inactivation and size-selection components",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1101/gr.245399.118",
+          "locator": "Published Methods108/112"
+        }
+      ],
+      "rationale": "The source explicitly reuses those modified-Omni components;ATAC-comparator Q5 PCR is not assigned to the methyl-ATAC branch.",
+      "limits": "Component-scoped source referral only;direct parent original/version equivalence and complete chemistry are not established by this edge. Molecular declarations are not inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "nome-seq-bulk__10.1101+gr.143008.112",
+      "child": "nome-hic__10.1186+s13059-023-02889-x",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "GpC accessibility-footprinting strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13059-023-02889-x",
+          "locator": "Published main85;reference5"
+        }
+      ],
+      "rationale": "The main explicitly builds on earlier NOMe-seq;reaction order,physical split and kit geometry remain source-local.",
+      "limits": "Component-scoped source referral only;direct parent original/version equivalence and complete chemistry are not established by this edge. Molecular declarations are not inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "methyl-hic__10.1038+s41592-019-0502-z",
+      "child": "nome-hic__10.1186+s13059-023-02889-x",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Contact-linked bisulfite strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13059-023-02889-x",
+          "locator": "Published main85;reference14"
+        }
+      ],
+      "rationale": "The source explicitly builds on Methyl-HiC;no complete recipe or protocol-version equivalence asserted.",
+      "limits": "Component-scoped source referral only;direct parent original/version equivalence and complete chemistry are not established by this edge. Molecular declarations are not inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "mtag-seq__10.1038+ncomms3190",
+      "child": "top-seq__10.1016+j.molcel.2016.12.012",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Engineered M.SssI/Ado6azide tagging component",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.molcel.2016.12.012",
+          "locator": "Associated mainDesign64/Methods157;Kriukiene2013 DOI10.1038/ncomms3190"
+        }
+      ],
+      "rationale": "The source explicitly attributes the mTAG component;TOP tethered priming and earlier capture are distinct source-local continuations.",
+      "limits": "Component-scoped source referral only;direct parent original/version equivalence and complete chemistry are not established by this edge. Molecular declarations are not inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "hmc-seal__10.1038+nbt.1732",
+      "child": "tamc-seq__10.1038+ncomms2527",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "BetaGT/azido-glucose/click component",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/ncomms2527",
+          "locator": "Published mainMethods/ref26 Song2011 DOI10.1038/nbt.1732"
+        }
+      ],
+      "rationale": "The source explicitly attributes the earlier component;blocking of original5hmC,coupled TET trapping and childDTT recovery remain locally declared.",
+      "limits": "Component/development relationship only;no complete source-version equivalence or inherited molecular declarations.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "rad-seq__10.1371+journal.pone.0003376",
+      "child": "gbs__10.1371+journal.pone.0019379",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Restriction-associated sample-barcode development",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1371/journal.pone.0019379",
+          "locator": "Published main71 andDiscussion191;reference20 Baird2008"
+        }
+      ],
+      "rationale": "The original explicitly develops the earlier RAD barcoding strategy while removing random shearing,size excision and divergentY handling;no whole molecular recipe inherited.",
+      "limits": "Component/development relationship only;no complete source-version equivalence or inherited molecular declarations.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "rap-dna__10.1126+science.1237973",
+      "child": "rap-rna__10.1016+j.cell.2014.08.018",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Antisense capture and probe-production strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2014.08.018",
+          "locator": "Associated manuscript overview83 and Methods147/151 explicitly attribute prior RAP strategy"
+        }
+      ],
+      "rationale": "The child explicitly adapts prior capture/probe-production strategy. The 2013 biotin-UTP RNA probes and proteinase release are distinct from child probe and release branches.",
+      "limits": "Component strategy only; no complete recipe or source-version equivalence, and no molecular constructor inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "gbs__10.1371+journal.pone.0019379",
+      "child": "epigbs__10.1038+nmeth.3763",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Adapter-design component",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.3763",
+          "locator": "Published MOESM158 FigS1captionp1\u20132/reference1 Elshire2011"
+        }
+      ],
+      "rationale": "Source explicitly attributes GBS adapter design, while child B barcodes, methylated oligos, PstI ends and nick translation stay locally defined.",
+      "limits": "Component strategy only; no complete recipe/source-version equivalence or inherited molecular declarations.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "iclip__10.1038+nsmb.1838",
+      "child": "chip-nexus__10.1038+nbt.3121",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Selected ssDNA circularization and cut-oligo library strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nbt.3121",
+          "locator": "Published MOESM434 SupplementaryProtocol1 intro43\u201344/PartE;reference2 Koenig2010"
+        }
+      ],
+      "rationale": "The source explicitly adopts the iCLIP library strategy. Child DNA substrates and chemistry stay local; no RNA or RT substrate is inherited.",
+      "limits": "Component strategy only; no complete recipe/source-version equivalence or inherited molecular declarations.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "chip-exo__10.1016+j.cell.2011.11.013",
+      "child": "chip-nexus__10.1038+nbt.3121",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "ChIP-exo strategy through cited2012 detailed protocol",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nbt.3121",
+          "locator": "Published MOESM434 SupplementaryProtocol1 PartC204 and reference1 Rhee/Pugh2012 CurrProtocMolBiol Chapter21Unit21.24"
+        }
+      ],
+      "rationale": "The child explicitly calls the preparation based on the ChIP-exo protocol, with its own Illumina adapter-ligation modification. This documents the strategy relationship, not exact molecular recipe inheritance.",
+      "limits": "Parent node is indexed by its original2011 defining paper; the child cites the2012 detailed version, which remains unread in this capped pass. No equality to the original SOLiD chemistry, full source-version equivalence or molecular constructor import is claimed.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "dash__10.1186+s13059-016-0904-5",
+      "child": "mad-dash__10.1093+nar+gkz425",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Targeted cleavage of unwanted sequencing-library molecules",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1093/nar/gkz425",
+          "locator": "PublishedmainIntroduction/overview and publishedSI1097\u20131101 explicitly nameGu2016DASH"
+        }
+      ],
+      "rationale": "The child explicitly adapts DASH to smallRNA libraries, adding its own limitedPCR/dimer-adapter design/proteolysis/secondPCR workflow.",
+      "limits": "Strategy only; no complete parental or child source-version/recipe equivalence and no constructor import.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "mscc__10.1038+nbt.1533",
+      "child": "help-tagging__10.1186+gb-2010-11-4-r36",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Restriction-end/distal-cutter tag-counting strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/gb-2010-11-4-r36",
+          "locator": "Published main35\u201337/Results47\u201351/Fig1 explicitly compare/develop MSCC"
+        }
+      ],
+      "rationale": "HELP changes EcoP15I tag length and adds AE-T7IVT/RT; no complete adapter/reaction inheritance.",
+      "limits": "Source-scoped component relationship only; no complete recipe/version equivalence, parental constructor import or source-gap filling.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "3p-seq__10.1038+nature09616",
+      "child": "pal-seq__10.1038+nature13007",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Partial RNaseT1 digestion component",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nature13007",
+          "locator": "Associated PAL manuscript Methods437\u2013438/reference39 Jan2011"
+        }
+      ],
+      "rationale": "PAL explicitly invokes the earlier digestion component. Its retained-tail adapter/RT/library strategy remains distinct; original conditions not reread in this pass.",
+      "limits": "Source-scoped component relationship only; no complete recipe/version equivalence, parental constructor import or source-gap filling.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "nome-seq-bulk__10.1101+gr.143008.112",
+      "child": "smac-seq__10.1038+s41592-019-0730-2",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Conceptual accessible-DNA methylation strategy",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7968351/",
+          "locator": "Associated manuscript Results58 explicitly states conceptual foundations of NOMe-seq/dSMF; reference10 at388\u2013393 identifies Kelly2012 defining NOMe-seq DOI10.1101/gr.143008.112."
+        }
+      ],
+      "rationale": "Source explicitly credits the conceptual accessibility-marking foundation. SMAC adds/combinesEcoGII and nativeONTreadout; human/yeast routes differ.",
+      "limits": "Conceptual method-development relationship only; no complete recipe, source-version equivalence, kit inheritance or constructor import.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "drip-seq__10.1016+j.molcel.2012.01.017",
+      "child": "bisdrip-seq__10.7554+eLife.28306",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "S9.6 RNA-DNAhybrid immunoprecipitation strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.7554/eLife.28306",
+          "locator": "PublishedMethods538/referenceGinno2012at930\u2013932"
+        }
+      ],
+      "rationale": "Defining source explicitly describes the scoped method-development relationship.",
+      "limits": "Nativebisulfiteinlysis/endselection/libraryworkup remain local;no entireDRIPrecipeinheritance. No parental recipe/version equality,constructor import orsource-gap filling.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "paired-seq__10.1038+s41594-019-0323-x",
+      "child": "pt-seq-platinum__10.1126+sciadv.adx6809",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Restriction-site library-dedication design inspiration",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1126/sciadv.adx6809",
+          "locator": "PublishedResults113 explicitlycreditsrefs17/18;actualJATSR17 DOIverified"
+        }
+      ],
+      "rationale": "Defining source explicitly describes the scoped method-development relationship.",
+      "limits": "Documenteddesigninspirationonly,not equalbiologicalinputs/ends/capture orwholelibraryrecipe. No parental recipe/version equality,constructor import orsource-gap filling.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "pairedtag__10.1038+s41592-021-01060-3",
+      "child": "pt-seq-platinum__10.1126+sciadv.adx6809",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Restriction-site library-dedication design inspiration",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1126/sciadv.adx6809",
+          "locator": "PublishedResults113 explicitlycreditsrefs17/18;actualJATSR18 DOIverified"
+        }
+      ],
+      "rationale": "Defining source explicitly describes the scoped method-development relationship.",
+      "limits": "Documenteddesigninspirationonly;platinumadductselectivity/localoligos/endprocessing independentlydeclared. No parental recipe/version equality,constructor import orsource-gap filling.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "duplex-sequencing__10.1073+pnas.1208715109",
+      "child": "crispr-ds__10.1101+gr.235291.118",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Duplex molecular-tagging/primer strategy via named2014detailedprotocol",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1101/gr.235291.118",
+          "locator": "PublishedMethodsAtailing/ligation/PCR explicitlyciteSchmitt2012 andKennedy2014 DOI10.1038/nprot.2014.170"
+        }
+      ],
+      "rationale": "Defining source explicitly describes the scoped method-development relationship.",
+      "limits": "Commercial10bpprototypeversusold12bp/conserved5bp ends differs;Cas9front/onecapturelocal,no original2012constructor import. No parental recipe/version equality,constructor import orsource-gap filling.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "nanoseq__10.1038+s41586-021-03477-4",
+      "child": "hidef-seq__10.1038+s41586-024-07532-8",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Klenow/ddBTP nativeDNA end-processing component",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11216816/",
+          "locator": "AssociatedMethodsKlenowparagraph334 explicitlyasref8;within-mainref8 identifiesAbascal2021 definingDOI"
+        }
+      ],
+      "rationale": "Defining source explicitly describes the scoped method-development relationship.",
+      "limits": "Associatedsource-qualifiedcomponentonly,notwholeNanoSeq library;nickseal/nonAtailed hairpin branches local. No parental recipe/version equality,constructor import orsource-gap filling.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "t-scan__10.1016+j.cell.2019.07.009",
+      "child": "tcr-map__10.1038+s41587-024-02248-6",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Cited NGS preparation strategy following functional cell selection",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11994455/",
+          "locator": "Published NGS preparation Methods280 explicitly cites T-Scan2019/ref13 and T-ScanII2023/ref15; cited identities verified within same main."
+        }
+      ],
+      "rationale": "Defining TCR-MAP source explicitly credits this scoped precursor method.",
+      "limits": "TCR-MAP uses standard Illumina primers; T-Scan custom primer architecture is not imported. T-ScanII original remains unread/unregistered; no whole recipe, stock or primer equality is established.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "dip-c__10.1126+science.aat5641",
+      "child": "meta-cs__10.1073+pnas.2013106118",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Previous multiplexed-endtaggingWGA/METAtransposonDNApreparation; source16tag/strand-tagging adaptation local. NoDip-Cchromatincontact recipe inheritance.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.2013106118",
+          "locator": "Publishedmain71/177+ref8"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "lianti__10.1126+science.aak9787",
+      "child": "meta-cs__10.1073+pnas.2013106118",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Carrier ssDNA TCAGGTTTTCCTGAA explicitlysameasLIANTI; noLIANTI T7/WGA inheritance.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.2013106118",
+          "locator": "Publishedmain181"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "codec__10.1038+s41588-023-01376-0",
+      "child": "methyl-codec__10.1093+nar+gkaf482",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "CODECquadruplex/strand-displacing linkage adapted with conversion-resistant cytosines followedbyEM-seq; exactnewadapter/ligationgeometryunassembled and no wholesaleCODEC constructor import.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1093/nar/gkaf482",
+          "locator": "Publishedmain141/ref17"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "sci-rna-seq__10.1126+science.aam8940",
+      "child": "xyzeq__10.1126+sciadv.abg4755",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Combinatorial indexing strategy citation, not whole RT/adapter/cell chemistry.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1126/sciadv.abg4755",
+          "locator": "Publishedmain136/ref17"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "split-seq__10.1126+science.aam8999",
+      "child": "xyzeq__10.1126+sciadv.abg4755",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Combinatorial indexing strategy citation; no SPLiT ligation/RT recipe inherited.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1126/sciadv.abg4755",
+          "locator": "Publishedmain136/ref18"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "rad-seq__10.1371+journal.pone.0003376",
+      "child": "rapture__10.1534+genetics.115.183665",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Documented development relative to traditional Baird2008 RAD; actual biotin/release and final kit chemistry independently local, not inherited constructor.",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4788223/",
+          "locator": "Results145\u2013147 contrasts traditional RAD refsBaird2008/Miller2012 with physicaltagisolation; NewRAD270\u2013278 and Fig1caption151\u2013152 define changedroute; primary reference303 identifies Baird DOI."
+        }
+      ],
+      "rationale": "Defining source explicitly identifies scoped method development/component adaptation.",
+      "limits": "Local source inputs, reagents, chemistry and geometry remain independent; no whole recipe/version equality or constructor inheritance.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "cel-seq2__10.1186+s13059-016-0938-8",
+      "child": "pic__10.1038+s41467-021-24691-8",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Explicit CEL-seq2 second-strand/linear-amplification component adaptation; PIC adds source-local cagedODNs and UV gate. No whole constructor import.",
+      "evidence": [
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8292322.1/PMC8292322.1.xml",
+          "locator": "Overview56 explicitly names CEL-seq2/ref24;64 describes DNApolI secondstrand fromCELseq2; Methods162\u2013172 specifies actualreagents/order."
+        }
+      ],
+      "rationale": "Defining source explicitly identifies scoped method development/component adaptation.",
+      "limits": "Local source inputs, reagents, chemistry and geometry remain independent; no whole recipe/version equality or constructor inheritance.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "sci-seq__10.1038+nmeth.4154",
+      "child": "sci-l3-wgs__10.1016+j.molcel.2019.08.002",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "xSDSnucleosome-depletioncomponent explicitlyadapted with alteredlysisbuffer; nowholeSCI-seqlibraryinheritance orfinalversionequivalence.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.molcel.2019.08.002",
+          "locator": "Associatedmain278 citesVitak2017"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "lianti__10.1126+science.aak9787",
+      "child": "sci-l3-wgs__10.1016+j.molcel.2019.08.002",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "LIANTI-compatiblelysisbuffer andloopedT7/RTdesigninfluence; localbc2ligation+bc3SSS/sourceRNAprimer differ, noimportedcompleteLIANTIrecipe.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.molcel.2019.08.002",
+          "locator": "Associatedmain278/284/288 citesChen2017"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "saferseqs__10.1038+s41587-021-00900-z",
+      "child": "methylsaferseqs__10.1073+pnas.2220704120",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "SaferSeqSbase chosen;customadaptorsequencesdeclaredidenticalexcept5mCsubstitution, followedbynewcopy/physicalLA-LMpartition. Baseendconditioning/ligationgeometry stillunreviewed, notblindlyinherited.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.2220704120",
+          "locator": "Publishedmain250/400 andref1"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "strand-seq__10.1038+nmeth.2206",
+      "child": "nanostrand-seq__10.1038+s41421-024-00694-9",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Documented parental-template BrdU/Hoechst/UVA strand-selection principle; not inheritance of Strand-seq MNase/Y-adapter chemistry or historical library ends.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41421-024-00694-9",
+          "locator": "Published main76 explicitly says similar to Strand-seq and describes deliberate Tn5/tagging changes"
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "photoselective-sequencing-pss__10.1038+s41592-023-01845-8",
+      "child": "photon__10.1038+s41467-025-59801-3",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Imaging-guided laser-targeting/photoselection design adaptation only, not inherited Tn5/RT oligos, enzyme route or complete chemistry. Exact cited-parent mapping can be verified by coordinator in same main original.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41467-025-59801-3",
+          "locator": "PublishedPMC12078482 main62 explicitly draws from previous DNA photoselection work17 and same imaging setup; main170 callsPSS17 compatible future modality."
+        }
+      ],
+      "rationale": "Defining original explicitly credits the scoped earlier strategy/component.",
+      "limits": "Selected source scope only; no whole recipe/version equality or constructor inheritance. Unread parental components cannot fill source gaps.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "five-six-letter-epigenetic-sequencing__10.1038+s41587-022-01652-0",
+      "child": "masd-seq__10.1038+s44321-026-00509-2",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "UvrD-assisted enzymatic protection/deamination strategy adapted from five-letter sequencing, with MASD-specific original-Watson/Crick linkage, hairpin+Y reagents and CpG premethylation; not original-plus-copy identity.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s44321-026-00509-2",
+          "locator": "Published main90/98 explicitly modified from five-letter sequencing and follows its UvrD-assisted EM-seq protocol; read in round27. Parent published main193/195 read in round28."
+        }
+      ],
+      "rationale": "Published MASD original explicitly credits the scoped predecessor strategy; the parent is now registered with source-qualified preparation notes.",
+      "limits": "No whole-recipe/version equality or constructor inheritance. Distinct source substrates, methylation branches, adapter identities and reaction conditions remain protocol-owned.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "slide-seqv2__10.1038+s41587-020-0739-1",
+      "child": "space-seq__10.1016+j.stem.2026.05.017",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Slide-seqV2puck/transcriptomebackendadaptationonly;customDARLINcapture/targetPCRlocal,noconstructorinheritance. Finalpublicationidentityunverified.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.stem.2026.05.017",
+          "locator": "AssociatedMS246/250/252delegatepuckpreparation,secondstrandandtranscriptomefinishingtoreference23;exactparentversionmappingforcoordinator."
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "damage-seq__10.1073+pnas.1614430113",
+      "child": "padd-seq__10.1093+nar+gkad008",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "DocumentedDamage-seqdamageIP/stalled-extensioncomponent adaptedafterproteinChIP; detailedhistoricalpredecessororiginalunread,noconstructorinheritance/fullrecipeequality.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1093/nar/gkad008",
+          "locator": "Publishedmain77/99 explicitlymodifiedDamage-seq (references23/24),SIprotocol253\u2013413actualselectedCPDcomponent."
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "pairedtag__10.1038+s41592-021-01060-3",
+      "child": "paired-damage-seq__10.1038+s41592-025-02632-3",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Version-qualifieddocumentedcomponentadaptation; sourceaddslesionrepairlabel/anti-biotintargeting, noentirefinal-equivalenceorconstructorequality.",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12182908/",
+          "locator": "AssociatedAM main125/131/157/177\u2013181 explicitlyadoptsPaired-Tagbarcode/transposomeandamplificationcomponents."
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "simple-seq__10.1038+s41587-024-02148-9",
+      "child": "paired-damage-seq__10.1038+s41592-025-02632-3",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Version-qualifiedfixednuclei/depletioncomponentonly; no methylationchemistryinheritance orclaimedfinalequivalence.",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12182908/",
+          "locator": "AssociatedAM main157 explicitlyadoptsfixation/nucleosomedepletionfromPaired-TagandSIMPLE-seq."
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "mars-seq__10.1126+science.1247651",
+      "child": "niche-seq__10.1126+science.aao4277",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Explicitly delegated MARS-seq library component after optical/FACS niche selection; associated manuscript only, no final-equivalence claim or imported recipe.",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7234837/",
+          "locator": "Associated AM main47/51 and reference7 identifies Jaitin2014."
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "end-seq__10.1016+j.molcel.2016.06.034",
+      "child": "s1-end-seq__10.1016+j.molcel.2022.08.007",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "ExplicitstandardEND-seqprocessing follows thissource-specific200US1plugfrontend; sourcehairpinadapterinventoryandcaptureoutlineonly. DetailedCanela/Wong/Wuoriginalsuninspected; no wholeconstructorinheritance/finalAMequivalenceclaim.",
+      "evidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9547894/",
+          "locator": "AssociatedAMPMC9547894 main203/Fig1caption636/KeyResources821,823"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "drop-seq__10.1016+j.cell.2015.05.002",
+      "child": "scope-seq__10.1186+s13059-018-1607-x",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "ExplicitcommercialDrop-seq-derivedmRNAcapturebeadcomponent(ChemGenesMacosko-2011-10(V+))adaptedbyopticalOBOligation/releasedDNAlookup. Wholecaptureoligo/TSO/modernDrop-seqrecipeNOTinherited.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13059-018-1607-x",
+          "locator": "PublishedPMC6305572main41; AdditionalFile1SupplementaryMethods4"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "drop-seq__10.1016+j.cell.2015.05.002",
+      "child": "constellation-seq__10.1016+j.isci.2021.102147",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Explicit adaptation of Drop-seq extracted-bead/cDNA route by omitting TSO and adding targeted single-primer amplification before standard library preparation; no whole recipe inherited.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.isci.2021.102147",
+          "locator": "Published main111 and transparentMethods801\u2013813"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "cite-seq__10.1038+nmeth.4380",
+      "child": "incite-seq__10.1038+s41592-021-01278-1",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Explicit intranuclear adaptation of joint antibody-DNA/transcript capture usingTotalSeq-Aformat andnuclearblocking/fixation. No whole originalCITE or contemporary3primekit molecularconstructor inherited.",
+      "evidence": [
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8532076.1/PMC8532076.1.xml",
+          "locator": "AssociatedPMC8532076main63/69 and refs13; Methods197\u2013207"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "10x-chromium-single-cell-multiome-atac-gene-expression",
+      "child": "cat-atac__10.1016+j.crmeth.2025.101222",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Explicit adaptation of Multiome nuclei/tagmentation/dual-capture GEM andATAC/GEXroutes, adding5P/N12gRNART/LNAsplint and25Cpreligation\u219253CRT\u219225Cprogramme plusCRISPRlibraryPCR. Exact historicalkitrevision/wholebeadchemistryunassembled; no constructor or full recipe inheritance.",
+      "evidence": [
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12859477.1/PMC12859477.1.xml",
+          "locator": "PublishedPMC12859477main122/Methods486 andDocumentS1MethodS1p16"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "dbit-seq__10.1016+j.cell.2020.10.026",
+      "child": "perturb-dbit__10.1038+s41587-026-03127-y",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "AdaptationoforthogonalA/BmicrofluidicRNAbarcoding withPACpolyadenylation/gRNAco-captureanddifferentlibraryrouting; localfullsourceoligosownedindependently. No wholepredecessorconstructor/ends/kitrecipeinherited.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-026-03127-y",
+          "locator": "PublishedNaturemain1002/1091\u20131107 and citedDBiTmicrofluidicbarcodingrefs42/43"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "smart-seq2__10.1038+nmeth.2639",
+      "child": "smart-3seq__10.1101+gr.234807.118",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Explicit combines-aspects conceptualRT/template-switching adaptation, not completepredecessorconstructor/recipeinheritance.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1101/gr.234807.118",
+          "locator": "PublishedSupplementalFile2p1abstract citesPicelliNatMethods2013Smart-seq2"
+        }
+      ],
+      "rationale": "Inspected source explicitly delegates the scoped predecessor component.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "par-clip__10.1016+j.cell.2010.03.009",
+      "child": "pa-m6a-seq__10.1002+anie.201410647",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Documentedconceptualadaptationof4SU/365nmphoto-crosslinkingtoanti-m6A-boundRNA; doesnotestablishcompletePAR-CLIPrecipeoradapterinheritance.",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1002/anie.201410647",
+          "locator": "AssociatedEnglishAMPMC4396828paragraph132\u2013139 explicit InspiredbyPAR-CLIP statement/ref10"
+        }
+      ],
+      "rationale": "Inspected associated manuscript explicitly states inspiration from PAR-CLIP for the scoped photo-crosslinking approach; no procedural delegation or complete recipe inheritance is established.",
+      "limits": "Inspected document/version only; associated-author-manuscript evidence does not establish final-body equivalence. No whole-recipe equality, shared constructor or inherited source conclusions.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "indrop-v2__10.1038+nprot.2016.154",
+      "child": "sc-rdseq__10.1093+nar+gkag312",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Method development and explicitly delegated post-first-RT through IVT stages only",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1093/nar/gkag312",
+          "locator": "PublishedPMC13076218 main70\u201376/98\u2013118, bibliographyref18 at416\u2013420"
+        }
+      ],
+      "rationale": "Defining article describes inDrops-based development and delegates post-firstRT through IVT to ref18; same-source bibliography identifies Zilionis2017.",
+      "limits": "Predecessor original unread; no complete hydrogel factory, capture primer, readout, version equivalence or molecular-constructor inheritance established.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "iclip__10.1038+nsmb.1838",
+      "child": "miclip-nsun2-m5c__10.1016+j.celrep.2013.06.029",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Method development/delegated iCLIP processing adapted to covalent NSUN2-mutant capture",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.celrep.2013.06.029",
+          "locator": "Publishedmain84\u201390/134/158; bibliography270\u2013272 identifiesK\u00f6nig2010"
+        }
+      ],
+      "rationale": "DefiningarticleexplicitlydescribesmodifiediCLIPanddelegatesprocessingtoK\u00f6nig2010.",
+      "limits": "2013N5differsfrom2010N3+two-experiment; no wholeprimer/reagent/cycle/readout equality orconstructorinheritance. Previous2010mainnotopened.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "2b-rad__10.1038+nmeth.2023",
+      "child": "methylrad__10.1098+rsob.150130",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Method-development inspiration and adjustable adapter-end strategy; not inherited recipe",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1098/rsob.150130",
+          "locator": "PublishedintroductionXML60 andreference13/DOI10.1038/nmeth.2023"
+        }
+      ],
+      "rationale": "Definingarticleexplicitlydescribes2bRAD-inspiredMethylRADdevelopment.",
+      "limits": "Parentoriginalnotopenedthispass; noSOLiDadapter/enzyme/molecularproduct/readoutorwholecomponent equivalence established.",
+      "reviewed": "2026-10-30"
+    },
+    {
+      "parent": "fisseq__10.1126+science.1250212",
+      "child": "exseq__10.1126+science.aax2656",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "FISSEQ in situ RT/amplification component adapted to expanded and re-embedded tissue",
+      "evidence": [
+        {
+          "url": "https://www.alonlab.org/_files/ugd/3a64da_132e82c78d884323a15c487cb07fbf01.pdf",
+          "locator": "Final published ExSeq Results224\u2013240/Fig1 and reference22; source identity verified from printed final Science PDF"
+        }
+      ],
+      "rationale": "The published source explicitly adapts expansion chemistry to enable FISSEQ within expanded tissues.",
+      "limits": "PublishedResults224\u2013240 explicitlyadaptsExMchemistrytoenableFISSEQ; Fig1in-situRT/amplification andref22DOIscience.1250212. Documentedcomponent-methodancestryonly, noautomaticwholeFISSEQrecipe/constructinheritance.",
+      "reviewed": "2026-10-30"
     }
   ]
 }

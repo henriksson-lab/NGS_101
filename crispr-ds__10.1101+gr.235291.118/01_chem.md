@@ -1,0 +1,25 @@
+# CRISPR-DS: bounded source-qualified chemistry
+
+[Defining DOI](https://doi.org/10.1101/gr.235291.118).
+
+Nachmanson et al. (2018), **Targeted genome fragmentation with CRISPR/Cas9 enables fast and efficient enrichment of small genomic regions and ultra-accurate sequencing with low DNA input (CRISPR-DS)**, Genome Research28,1589–1599. Published PMC6169890 main is the source; no preprint is used.
+
+This is a positive preparative boundary beyond a TP53 panel change: Cas9-directed fragments are physically enriched by negative size selection before the duplex-tagging library, reducing the target-capture requirement. The commercial adapter prototype also differs from the older Duplex Sequencing adapter, so the existing source constructor is not inherited.
+
+Bounded originals inspected: published main Methods140–172, Fig1C original PDFp3 rendered and read; Supplemental Tables first crRNA/PAM and capture-table inventories (TablesS1/S2; result table not chemistry-audited); Supplemental Materials contents only (third administrative original). DataS1/S2, detailed supplement figures/code and cited predecessor/vendor originals remain unread. Mandatory bundle primer scraper was run and rerun after acquisition,155candidates/4files; selected main oligo strings were checked verbatim. An unsuccessful supplement-index alias does not make the obtained tables absent.
+
+🟢 GenomicDNA extraction uses QIAamp with source caution against heating beyond56°C. QubitHS andTapeStation/DIN are diagnostic material. Selected high-integrity input10–250ng has no genomic reference/cut coordinates invented in the graph. Source12crRNAs target seven TP53 fragments; TableS1 lists sequences **plus PAM**, not full synthesized crRNA scaffolds. Synthetic gBlock tests, optional BluePippin highMW preselection and no-/two-capture comparisons are separate experiments, not defaults imported into the selected one-capture case.
+
+🟢 crRNA/tracrRNA assembly95°C5min; about30nM guideRNA andCas9 in23–27ul,25°C10min; addDNA to30ul,37°Covernight then70°C10min. Individual versus pooled guide complexing is source-alternative preparation, not an assumed unique stock recipe. All guideRNA/protein and cut/uncut DNA remain physical material until workup.
+
+🟢 Negative selection is0.5xAMPure,3min: highMWDNA binds beads; **the supernatant is retained**, followed by1.8xAMPurepurification into50ulTELow. NEBNextUltraIIERAT20°C30min/65°C30min is used for convenient A-tailing although the source says end repair is unnecessary for Cas9 blunt ends. Ligation adds NEB master mix and2.5ul15uM commercialDS adapters,20°C15min;0.8xAMPure gives23ulwater.
+
+🟢 The prototype has10bp random complementary molecular tags and a3′dT overhang, replacing the old12bp tag and conserved3′five-base segment. Fig1C was read directly. The full proprietary/arrangement oligo, sample-index sequence and exact operational junctions remain unassembled. Main Methods says “5′-dA-tailed” DNA, while explicitly specifying3′dT on the adapter. That source polarity wording is retained unresolved rather than silently rewritten to3′dA; the generic A-tailing operation does not assign the disputed end. This is a source-wording question, not proof that a manufacturer's actual chemistry differed. A future public page must display the unresolved wording.
+
+Source firstPCR primers5′→3′: MWS13 `AATGATACGGCGACCACCGAG`; MWS20 `GTGACTGGAGTTCAGACGTGTGC`. KAPA real-timePCR,50ul/2uMprimers, stops atFluorescentStandard3, typically6–8cycles, then0.8xAMPure/40ulwater. This is not a fixed8cycle assignment to every sample.
+
+Capture uses21TP53xGenLockdown probes organized into seven fragment pools; source exon7 andexons8–9 groups have40percent/90percent representation before the0.75pmol/ul final pool. HistoricalIDT capture is modified with75ulM270streptavidin beads and actual blockers MWS60 `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTIIIIIIIIIIIITGACT`; source spelling MSW61 `GTCAIIIIIIIIIIIIAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC`. Both contain literal inosines. They are not normalized to ten positions because the adapter has a10bp UMI. Their chemical inventories retain the source strings, but exact Scene rendering is unassembled because its DNA alphabet does not represent inosine. No I→N substitution or false placeholder molecule is made.
+
+🟢 PostcapturePCR uses MWS13 and indexedMWS21 at0.8uM, KAPAHiFiHotStart,20cycles, then0.8xAMPure. QubitHS→dilution/physicalpool→TapeStationpoolQC→KAPAquantification→MiSeqv3600cyclekit, about1percent independentPhiXcontrolDNA. The cycle kit is not an invented exact acquisition mask. Consensus making/end clipping removes observations computationally, not DNA through a preparative reaction.
+
+Ancestry is explicit but bounded: molecular tagging/primers/capture are adapted from Schmitt2012 and Kennedy2014 DOI10.1038/nprot.2014.170; the new commercial prototype and one-capture/Cas9 front end remain local. Krimmel2016 supplies a cited capture predecessor. These directly cited originals are ordinary unread depth-one targets; no whole recipe import. Full end/read/kit/component state remains open, no accepted missing-information claim.

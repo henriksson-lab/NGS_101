@@ -1,0 +1,15 @@
+# SMAC-seq: source-qualified private model
+
+Shipony et al. (2020), **Long-range single-molecule mapping of chromatin accessibility in eukaryotes**, Nature Methods. [Defining paper](https://doi.org/10.1038/s41592-019-0730-2).
+
+Sources read: associated manuscript PMC7968351 Results58–68 and Methods134–168; published supplementary PDF MOESM1 cover and Table1. The associated manuscript is explicitly qualified; the final article has not been inspected in this pass. Published SI identifies actual nanopore datasets, controls and GM12878 m6A-SMAC; its remaining figures are not exhaustively reviewed. No preprint or later2022 detailed protocol was merged. Mandatory scraper:0 sequences in0 sequence-positive files. This does not establish oligo absence.
+
+🟢 The yeast method adds both m6A and5mC accessibility marks before native long-DNA readout: M.CviPI plus EcoGII exposure, reagent replenishment, then M.SssI. This combined chemical-mark preparation, not just the ONT platform choice, distinguishes the entry. Results explicitly identify NOMe-seq/dSMF as conceptual predecessors; inheritance is limited to accessibility methylation strategy, never the whole library recipe.
+
+🟢 Yeast: cells are harvested/washed, spheroplasted with Zymolase/DTT, washed, lysed on ice and nuclei pelleted/washed. Initial200U M.CviPI plus200U EcoGII/SAM0.6mM/sucrose300mM reacts30°C7.5min. Then128pmolSAM and “another100U of enzymes” are added and incubation repeats. The split of those100U between the two enzymes remains unassigned. Subsequent60U M.SssI/128pmolSAM/10mMMgCl2 reacts30°C7.5min. Equal-volume stop stock precedes MagAttract HMW DNA extraction. Buffers and carryover are retained in graph mixtures until actual source separation.
+
+🟢 Human GM12878 is a separate source route: nuclei preparation, EcoGII only200U/SAM0.6mM inCutSmart/sucrose,37°C10min,0.2%SDS stop and HMW isolation. Do not add the yeast CpG/GpC treatment to it. Naked-DNA controls are separate preparations at half reaction volume and enzyme amounts; the current graph does not silently pool controls with chromatin.
+
+🟢 Source HMW DNA goes through historical SQK-LSK108 Ligation Sequencing Kit1D, followed by R9.4MinION sequencing for up to48h. Exact historical kit originals, adapter ends, ligation junctions and operational read geometry are unassembled. The kit remains an opaque component. The ONT route is not converted to bisulfite/PCR merely because the paper also includes separate PBAT comparator experiments. Albacore/Tombo processing is computational and does not destroy unwanted DNA in the preparation graph.
+
+🟡 `SelectedModifiedStrand` stores caller-selected m6A/5mC coordinates without changing ordinary DNA bases; it rejects wrong substrate bases, defaults to inferred and does not predict accessibility, marking efficiency, enzyme specificity or endogenous/exogenous origin. Marks do not establish that every nucleotide was accessible or modified. Full reaction validation and a two-reader absence audit remain open. No public schematic is promoted.

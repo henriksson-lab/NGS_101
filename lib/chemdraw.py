@@ -135,6 +135,7 @@ FEATURE_ROLES = (
     "feature_barcode",
     "spatial_barcode",
     "guide_barcode",
+    "lineage_barcode",  # inherited recorder/scar; not a unique cell or molecule ID
     "linked_read_barcode",
     "molecular_complex_barcode",
     "inline_barcode",

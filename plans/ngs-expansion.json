@@ -33,7 +33,41 @@
   "discovery_ledgers": [
     "catalogue/curation_rounds/2026-10-28-expansion-discovery-rna.tsv",
     "catalogue/curation_rounds/2026-10-28-expansion-discovery-dna.tsv",
-    "catalogue/curation_rounds/2026-10-28-expansion-discovery-multi.tsv"
+    "catalogue/curation_rounds/2026-10-28-expansion-discovery-multi.tsv",
+    "catalogue/curation_rounds/2026-10-29-expansion-discovery-root.tsv",
+    "catalogue/curation_rounds/2026-10-29-expansion-discovery-rna20.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-22.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-rna.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-2.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-rna-2.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-2.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-3.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-3.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-4.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-4.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-5.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-5.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-6.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-6.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-7.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-7.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-dna-8.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-8.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-9.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-future-targeted-10.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna34.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna35.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-37.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna37.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-dna38.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna38.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna39.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-multi39.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-dna39b.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-dna42.tsv",
+    "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna42.tsv"
   ],
   "selected_rounds": [
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-01.tsv",
@@ -42,7 +76,43 @@
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-04.tsv",
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-05.tsv",
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-06.tsv",
-    "catalogue/curation_rounds/2026-10-29-ngs-expansion-07.tsv"
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-07.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-08.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-09.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-10.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-11.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-12.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-13.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-14.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-15.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-16.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-17.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-18.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-19.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-20.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-21.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-22.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-23.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-24.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-25.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-26.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-27.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-28.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-29.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-30.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-31.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-32.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-33.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-34.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-35.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-36.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-37.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-38.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-39.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-40.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-41.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-42.tsv",
+    "catalogue/curation_rounds/2026-10-30-ngs-expansion-43.tsv"
   ],
   "model_gaps": [
     {
@@ -129,6 +199,46 @@
       "protocol": "gel-seq__10.1039+c7lc00430c",
       "gap": "RT-before-separation and independent gel-retained genomic versus transcript-derived fractions",
       "status": "Local gel fraction states separate genomic protease/concentration from cDNA PCR/AMPure; evaporation removes water rather than protein/DNA contamination. Historical libraries unassembled."
+    },
+    {
+      "protocol": "base-seq__10.1186+s13059-014-0517-9",
+      "gap": "Internal modified-dT and phosphorothioate bond identity on source physical primers",
+      "status": "Protocol-local ModifiedPrimer preserves biotin residue index and PS bonds with valid adjacent-base coordinates;not assigned to copied strands. Full modified-primer/product geometry remains unassembled."
+    },
+    {
+      "protocol": "cap-seq-long-read-microbiome__10.1101+2024.09.10.612220",
+      "gap": "Separate DTT-sensitive barcode bead/droplet/CAP/bulk DNA states and possible dissolved-polymer carryover",
+      "status": "Protocol-local Preparation preserves reported barcodeclasses through beadrelease,CAPrecovery,NaOHcapsuledissolution andneutralization;no exact400bp sieve,occupancy,purity orbarcodewidth prediction. HistoricalONTandTable1stillunassembled."
+    },
+    {
+      "protocol": "gestalt-genomic-recovery__10.1126+science.aaf7907;linnaeus__10.1038+nbt.4124;carlin__10.1016+j.cell.2020.04.048",
+      "gap": "Inherited recorder identity must remain distinct from cell/UMI/sample identity",
+      "status": "New lineage_barcode role preserves complement and read-span semantics. Round10 arrays are scoped local components; existing scGESTALT cassette metadata followup remains deferred, never applied to whole-population placeholder."
+    },
+    {
+      "protocol": "record-seq__10.1038+s41586-018-0569-1",
+      "gap": "RNA-compatible CRISPR recording with possible DNA origins;conditional parental/expanded array primer eligibility",
+      "status": "Protocol-local regional source-reference classes and computed donor duplex;not a generic digest/yield/temporal-history predictor. Full template/end geometry unresolved."
+    },
+    {
+      "protocol": "rna-tagging__10.1038+nmeth.3651;laser-seq__10.1093+nar+gky1172;neat-seq__10.1038+s41592-022-01461-y",
+      "gap": "Actual primer register,ordered non-DNA linkers,terminal blocks and protein-associated modifiedDNA without invented copying or fates",
+      "status": "Source-owned U-select register/upstream copying,orderedC18 nodes and blockedC/PS-DNA association classes retained. Independent reviewers checked focused corrections;full reaction geometry remains unresolved."
+    },
+    {
+      "protocol": "esega__10.1038+s41467-024-48408-9",
+      "gap": "Synthetic Z/P six-letter DNA and source-dependent five-triphosphate transliteration",
+      "status": "Local raw source chemical_state preserves ACGTZP input and supplied five-triphosphate pool; intended readout distinguished from incomplete conversion and surviving original templates. Whole expanded-base primer/product pairing and copying validation remain explicitly unresolved; never normalize source Z/P into ordinary ACGT."
+    },
+    {
+      "protocol": "molseq__10.1038+s41598-026-41186-y",
+      "gap": "Photocleavable non-nucleotide DNA backbones and exact spatial-round product assembly",
+      "status": "Protocol-owned typed DNAcap/iSpPC/body class preserves whole source ordering, nucleotide-only length and retained5P cleaved class with identifier metadata. Exact local21/42Scene interfaces are conditional supplied-component relations; whole PC-bearing cDNA/photoproduct chemistry/rendering/spatial schedules remain unassembled. No linker-to-N conversion or generic inherited photocleavage recipe."
+    },
+    {
+      "protocol": "lm-seq__10.1038+srep09570",
+      "gap": "Terminal ddC text normalization versus physical appended nucleotide",
+      "status": "Protocol-owned PhysicalDonor retains source33ntbody+appendedddC-C=34nt and blocked3OH. Sharedscraper reports33ntbody/stripsddC; narrowhzg885source-text exception backedbyrawwholemodifiedordering andphysicalendfixture. No globalparsermigrationor chemistryexemption claimed."
     }
   ],
   "deferred": [
@@ -146,24 +256,65 @@
     }
   ],
   "progress": {
-    "new_collected": 69,
+    "new_collected": 342,
     "new_finished": 3,
     "candidate_discovery_in_progress": false,
     "next_batch_selected": 0,
-    "current_ngs_entries_including_wip": 487,
-    "current_published_ngs_entries": 486,
+    "current_ngs_entries_including_wip": 801,
+    "current_published_ngs_entries": 800,
     "current_finished_published_ngs": 411,
-    "new_notes_only": 66,
-    "staging": "Rounds01–07 and pause checkpoint staged;124files total;no commit/push.",
-    "evidence_collected_ngs_entries_including_wip": 483,
-    "evidence_collected_published_ngs_entries": 482,
+    "new_notes_only": 339,
+    "staging": "All1358 changed files staged; final docs/index checks pass, no unstaged or untracked files. No commit or push.",
+    "evidence_collected_ngs_entries_including_wip": 756,
+    "evidence_collected_published_ngs_entries": 755,
     "uncollected_registered": [
       "dntr-seq__10.1016+j.molcel.2020.09.025",
       "flep-seq__10.1038+s41477-020-0688-1",
       "click-code-seq__10.1021+jacs.8b03715",
-      "mosaic-seq__10.1016+j.molcel.2017.03.007"
+      "mosaic-seq__10.1016+j.molcel.2017.03.007",
+      "cefra-seq__10.1016+j.ymeth.2017.05.017",
+      "comrades__10.1038+s41592-018-0121-0",
+      "rnp-map__10.1038+s41587-020-0709-7",
+      "spidr__10.1016+j.cell.2025.06.042",
+      "silent-cptm-phage-encoding__10.1021+jacs.5b10390",
+      "ribolace__10.1016+j.celrep.2018.09.084",
+      "spec-seq__10.1534+genetics.114.170100",
+      "chart-seq__10.1073+pnas.1113536108",
+      "methyl-seq-brunner__10.1101+gr.088773.108",
+      "dream__10.4161+epi.22552",
+      "multiplexed-ht-selex__10.1101+gr.100552.109",
+      "cast-seq__10.1016+j.stem.2021.02.002",
+      "methyl-maps__10.1101+gr.101535.109",
+      "methylcap-seq__10.1016+j.ymeth.2010.06.012",
+      "lace-seq__10.1038+s41556-021-00696-9",
+      "mpe-seq__10.1073+pnas.1424804112",
+      "nad-captureseq__10.1038+nature14020",
+      "send-seq__10.1038+s41564-019-0500-z",
+      "capzyme-seq__10.1016+j.molcel.2018.03.014",
+      "bacs__10.1038+s41592-024-02439-8",
+      "m7g-map-seq__10.1093+nar+gkz736",
+      "ice-seq__10.1101+gr.162537.113",
+      "rna-bs-seq-squires2012__10.1093+nar+gks144",
+      "adductseq__10.1073+pnas.1907860116",
+      "medusa__10.1093+clinchem+hvag046",
+      "sprox-seq__10.1016+j.cell.2026.06.034",
+      "bridge-capture__10.1016+j.jmoldx.2025.09.006",
+      "photag__10.1038+s41589-022-01044-0",
+      "pairseq__10.1126+scitranslmed.aac5624",
+      "entrap-seq-oxidative-dna__10.1021+acs.biochem.9b00782",
+      "proximid__10.1038+s41592-018-0009-z",
+      "ucaps-seq__10.1021+jacs.1c11269",
+      "glass-seq__10.1016+j.bios.2026.118973",
+      "calling-card-seq-genomic-ty5-recovery__10.1101+gr.114850.110",
+      "catch-it-ngs-preparation__10.1016+B978-0-12-391938-0.00007-0",
+      "laf-seq__10.1074+jbc.M115.676296",
+      "iseq__10.1261+rna.036202.112",
+      "fclip-seq__10.1016+j.molcel.2017.03.013",
+      "prim-seq__10.1038+s41587-025-02780-z",
+      "g4access__10.1038+s41588-023-01437-4",
+      "nested-patch-pcr__10.1101+gr.078204.108"
     ],
-    "registered_new_notes_including_identity_only": 70
+    "registered_new_notes_including_identity_only": 384
   },
   "stop_rule": "Reaching the cap or documented candidate exhaustion completes the goal. Source gates, a capped pass, or a large queue do not imply chemistry completeness or global exhaustion.",
   "parallel_workstreams": [
@@ -173,33 +324,211 @@
       "registry": "catalogue/protocol_lineage.json",
       "status": "Implemented and verified: 21 semantic and 17 Chrome checks; full assembled-site integration passes.",
       "rule": "Curated directed lineage, inferred lineage and undirected sequence similarity stay separate; multiple component-scoped parents supported; curate alongside protocol sources.",
-      "registry_relations": 26
+      "registry_relations": 108
     }
   ],
   "verification": {
-    "shared_suite": "1691 checks passed",
-    "catalogue": "84 checks passed",
-    "source_tools": "227 checks passed",
-    "lineage_semantics": "21 checks passed",
+    "shared_suite": "2137 shared checks pass, including25 neutral RNA-lariat topology/geometry/checker checks. New notes are additionally expanded and checked by the full site build.",
+    "catalogue": "84 checks pass after final metadata integration.",
+    "source_tools": "227 offline checks pass.",
+    "lineage_semantics": "21 checks pass;108 registry relations,8 eligible public relations; new ExSeq/FISSEQ component ancestry is scoped and notes-only.",
     "lineage_chrome": "17 checks passed",
     "source_reviews": {
-      "in_progress": 60,
-      "blocked": 13
+      "blocked": 102,
+      "in_progress": 276
     },
-    "final_full_site": "498/498 builders;443finished published schematics;411/411NGS completeness contracts;all relative links resolve. Eight new private previews,four graph-only notes,one blocked identity remain unpublished.",
+    "final_full_site": "Checkpoint build_site.py --no-checks:560/560 builders;443 public schematics;411/411 NGS contracts; all relative links resolve. Affected models, shared suite and catalogue/source/lineage checks ran separately; unchanged public self-test suites were not rerun in this build.",
     "round03_oligos": "14 exact inputs checked across7new graphs,0failures,9 inputs without exact states; irCLIP followup3checked0failed2unrepresented.",
     "irclip_spacers": "24 local checks;unique feature IDs with common multipart group survive copying and form a valid Construct without erasing C18.",
     "round04_oligos": "22exact inputs checked across12new graphs,0failures,1narrow source-notation exemption backed by local transcription,21inputs without exact states.",
     "round05_oligos": "15exact graph inputs checked,0failed,0exemptions,34inputs without exact states across14graphs.",
     "round05_chemistry": "8established narrow pairing relations,166unresolved molecular claims,0contradictory; no full protocol validation claim.",
     "round05_local": "All14 local suites pass; independent implementation reviews corrected thermal order and blocker/wash bookkeeping.",
-    "docs": "1011 note outputs current.",
+    "docs": "All1639 outputs (1638notes+notes.html) current; final build_docs.py --check passes.",
     "round06_local": "85focused checks across11source-read models pass;two identity-only entries have no fabricated chemistry suites.",
     "round06_oligos": "18exact graph inputs checked,0failures,1narrow CPD source-notation exemption backed by full original/local transcription,13inputs without exact states;11graphs.",
     "round06_chemistry": "6established narrow pairing relations,134unresolved claims,0contradictory. Not full reaction/source validation.",
     "round07_local": "84 focused checks pass across12 chemistry-source models; identity-only Mosaic has no fabricated suite.",
     "round07_oligos": "28 exact inputs checked;0failed,0exemptions,5inputs without exact states;12graphs.",
-    "round07_chemistry": "2established narrow relations,178unresolved claims,0contradictory. Not complete protocol validation."
+    "round07_chemistry": "2established narrow relations,178unresolved claims,0contradictory. Not complete protocol validation.",
+    "round08_local": "68focused checks pass across9models (DNA19,RNA17,Multi22,BAsE10);independent critical implementation reviews completed. Allnotes-only.",
+    "round08_oligos": "7exact graph inputs checked,0failed,0exemptions,17inputs without exactstates across9graphs. Local source transcriptions also check full modifiedBAsEprimers and DNA6mACEPG160\u2013164;Sceneinventories are not automatically covered.",
+    "round08_chemistry": "0established,170unresolved,0contradictory;explicit source/assembly gaps,not full reaction validation.",
+    "round08_pairing": "Sixnewprivatepreviews lint clean;Source Scenes enforce their declared pairing relations.",
+    "source_download_helper": "10 checks passed;63 request groups.",
+    "round09_local": "85focused checks:DNA23,RNA22,Subassembly12,Stapleton21,CAP7. Independent critical reviews complete;G4RPkitfates andMapRPKlabel fixed.",
+    "round09_oligos": "23exactgraph inputs checked,0failed,0exemptions,15unassembled inputs across11defaultgraphs. AdditionalStapletonRNA/DNAsingle-tube variants18checked,0failed/0skipped/0unrepresented. S13Indexwidth parsed andbothactualmodelwidthscomparedtodefinition.",
+    "round09_chemistry": "6established narrowadapter-pairing relations,208unresolved claims,0contradictory. No complete reaction/protocol validation claim.",
+    "round09_pairing": "Sevennewprivatepreviews lintclean (0problemduplexes). SourceScenes verifydeclaredbindingrelations.",
+    "round09_previous_gap_protocols": "DAb-seq,QuRIE-seq,TAP:10sourcegraphinputschecked,0failed,0exemptions;9unassembled inputs. Narrowerwhole-gapped-strandguard preservesactualearliercases.",
+    "shared": "1795 checks passed",
+    "round10_local": "80checks across10 source-read models; independent critical spot-reviews pass. All notes-only.",
+    "round10_oligos": "3exact default graph inputs checked,0failed,0exemptions,17unassembled inputs across10graphs. Six additional LINNAEUS bulk strands checked by worker. Source-transcription tests remain separately scoped.",
+    "round10_chemistry": "0established,0conditional,116unresolved,0contradictory. Operational models are not full chemical validation.",
+    "round10_integration": "Source-backed finder facets, catalogue descriptions,3qualified ancestry edges and7actual document-request groups; no promotion or accepted missing claims.",
+    "round10_pairing": "Seven private previews;0problemduplexes.",
+    "round11_local": "84checks:RNA20,DNA32,Multi22,RDIP10. All critical implementation reviews closed after source-fate/modification fixes.",
+    "round11_oligos": "7exact default graph inputs checked,0failed,0exemptions,13unassembled inputs across11graphs. ScarTrace incomplete-primer component transcription separately checked locally.",
+    "round11_chemistry": "0established,0conditional,169unresolved,0contradictory. Explicit operational/molecular limits;not full reaction validation.",
+    "round11_pairing": "Eight new private previews;0problemduplexes.",
+    "round12_local": "89 checks:RNA27,DNA22,Multi29,Record11. Independent critical implementation review closed after fixes;not missing-information audit.",
+    "round12_oligos": "27 exact default graph inputs checked;0failed/0skipped/0exemptions;9 inputs without exact states across10graphs. Source-modification/transcription tests remain separately scoped.",
+    "round12_chemistry": "1 established narrow adapter-annealing relation;0conditional/142unresolved/0contradictory. Not complete biochemical validation.",
+    "round12_pairing": "Seven private previews;0problem duplexes.",
+    "round13_local": "86checks pass;critical implementation review complete;not absence audit.",
+    "round13_oligos": "19checked/0failed/1correction-backed exemption/17unassembled inputs;10graphs.",
+    "round13_chemistry": "174unresolved/0contradictory;no complete validation claim.",
+    "round14_local": "54focused checks pass;independent critical implementation reviews closed,not absence audits.",
+    "round14_oligos": "9exact inputs checked/0failed/1independently rendered-original-verified exemption/12unassembled inputs;7graphs.",
+    "round14_chemistry": "101unresolved scoped molecular claims/0contradictory;not complete chemical validation.",
+    "round15_local": "75focused checks pass;critical reviews corrected NOMeHiC existing-bead reuse and CIDER QC aliquot,not absence audits.",
+    "round15_oligos": "11checked/0failed/2RAD P1strands exempt from generic lowercase-x matcher but whole-source independently verified/31unassembled inputs;9graphs.",
+    "round15_chemistry": "2conditional narrow component checks/191unresolved/0contradictory;not whole chemistry validation.",
+    "round16_local": "71focused checks pass;critical reviews fixed RiboITP physical pool membership and unresolved remainder;not absence audits.",
+    "round16_oligos": "6exact inputs/0failed/3independently reviewed GBScomponent expansions/21unassembled inputs;8graphs.",
+    "round16_chemistry": "6established narrow component relations/120unresolved/0contradictory;not complete chemistry validation.",
+    "round17_local": "63focused checks across6source-read models;four identity-only registrations have no fabricated chemistry.",
+    "round17_oligos": "9exact inputs/0failed/1independently transcribed2b-RADp4familyexemption/34unassembled inputs across6graphs.",
+    "round17_chemistry": "2established narrow component relations/131unresolved/0contradictory;not full biological validation.",
+    "round18_local": "104focused checks across10source-read models;independent critical implementation reviews closed after optional cyPhy spike-in provenance and Nexus70percent wash corrections.",
+    "round18_oligos": "17exact inputs/0failed/3independently approved source-format strand exemptions/41unassembled inputs across10graphs. CyPhy whole original Index row/6width checked;epiGBSall6original rows inspected,onlyB2strands exempt.",
+    "round18_chemistry": "6established narrow pairing relations/338unresolved/0contradictory;not complete reaction validation.",
+    "round19_local": "95focusedchecks across9source-read graphs;criticalreviewsclosed,ProteinaseKtypeddeproteinization ratherthannuclease digestion.",
+    "round19_oligos": "30exactinputs/0failed/9narrowindependentlyapprovedsource-formatstrand exemptions/32unassembledinputs across9graphs;8sameBNAblockeraliquots andone45T/5Ucapturemacro.",
+    "round19_chemistry": "2established narrow pairing relations/200unresolved/0contradictory;notfullreactionvalidation.",
+    "round20_local": "90focusedchecks across8source-read models;independentcriticalreviewsclosed after source-order/temperature/QC corrections.",
+    "round20_oligos": "29exactinputs/0failed/1narrowindependentlyapprovedisoTSOfamilystrand exemption/22unassembledinputs across8graphs;actualisoC/G/C andterminalRNAretained,notcanonicalized.",
+    "round20_chemistry": "0established/196unresolved/0contradictory;localconstructorrelations are not full reaction validation.",
+    "round21_local": "71focusedchecks across8source-read private models;independentcriticalimplementationreviewsclosed. H4 source sorting5originalsover3cap explicitlyrecorded,notstrictcappedpass.",
+    "round21_oligos": "3exactinputs/0failed/0exempt/39unassembledinputs across8graphs.",
+    "round21_chemistry": "0established/152unresolved/0contradictory;notfullreactionvalidation.",
+    "source_fetchers": "227 offline checks passed.",
+    "citation_snapshot": "763 resolved defining DOIs;zero unresolved; all756 previous records and retrieval dates preserved.",
+    "round22_local": "109focusedchecks across10privateincomplete source-positive models;independentselectedcriticalreviewsclosed. Allsourcepassesatmost3originalsincludingadmin.",
+    "round22_oligos": "37exactsourceinputs/0failed/0exempt/21unassembledinputs across10graphs;exactinputs include separate aliquots,not37distinctsequences.",
+    "round22_chemistry": "4narrowpairingrelations/231unresolved/0contradictory;notfullreactionvalidation.",
+    "round23_discovery": "23 additional primary identity/overview candidates in three disjoint ledgers; exact DOI overlap checked against ours and saved plan; not registered or counted.",
+    "round23_local": "75 focused checks across9 private incomplete source-positive models;selected independent critical reviews closed. NAD component notes have no graph and are excluded from collected count. Pro4-original cap overrun disclosed.",
+    "round23_oligos": "12 exact source inputs/0failed/1 narrow seven-lowercase-x pattern exemption/27unassembled inputs across9graphs.",
+    "round23_chemistry": "0established/160unresolved/0contradictory;not full reaction validation.",
+    "round24_discovery": "16method leads across15newDOIs;8DNA/8targeted. SSB-Seq/DSB-Seq share one paper with proposed distinct tagging/capture fronts, requiring actual boundary review before counting. No new registrations/collection.",
+    "round24_local": "45focused checks pass across7private incomplete models;2source-dependent groups skipped because local originals unavailable. Independentselectedcriticalreviewsclosed, HyPRindependentreviewlimitedtomodelbecauseoriginalunavailabletocoordinator. Allownerpassesatmost3originals,includingadmin.",
+    "round24_oligos": "54exactinputs/0failed/2sourcebundles skipped/0exempt/15unassembled inputs across7graphs;not54distinctoligos.",
+    "round24_chemistry": "0established/133unresolved/0contradictory;notfullreactionvalidation.",
+    "round25_discovery": "12 distinct published identity/overview leads:5DNA/7targeted. Exact DOI/name overlaps checked; weak enzyme/panel/software candidates rejected rather than filling quota. Not registered or counted.",
+    "round25_local": "70focusedchecks across7privateincomplete models. All8formattingexceptions independentlyoriginal-verified. Criticalfixes closed: CATSretainedenzyme,SeqScopeXP5fixedbody,sci retainedRNAprimerrole/provenance;RIMSunknowngeometrylabel. No fullsource/absenceaudit.",
+    "round25_oligos": "Default7graphs:14exactinputs/0failed/0skippedbundles/8narrowindependentlyverifiedformattingexemptions/12unassembledinputs. SeparateSeqScopeXproteinbranch5exact/0failed;inputcountsnotdistinctoligos.",
+    "round25_chemistry": "Default7graphs0established/145unresolved/0contradictory;separateSeqScopeXproteinbranch20unresolved/0contradictory. Notfullreactionvalidation.",
+    "round26_discovery": "12 distinct published identity/overview leads:6DNA/6targeted. Exact DOI/name overlaps checked; weak enzyme/panel/software candidates rejected rather than filling quota. Not registered or counted.",
+    "round26_local": "110focusedchecks across7privatepartialmodels;allselectedcriticalreviewsclosed. LABScombined4-original administrativeoverrun(own3+peeraccidentalMOESM4)recorded;notstrictcappedpass.",
+    "round26_oligos": "27exactinputs/0failed/0skippedbundles/1narrowPCLsourceformattingexception independentlyoriginal-verified/17unassembledinputs/7graphs;not27distinctoligos.",
+    "round26_chemistry": "7narrowpair/endgeometryrelations established/214unresolved/0contradictory. Notfullreactionvalidation.",
+    "round27_local": "88focusedchecks across5privatepartialgraphs+PSScomponenthelpers. m6Apositivepreparationnotesonly;adductsourceblocked. Allselectedcriticalreviewsclosed; nofullsource/absenceaudit.",
+    "round27_oligos": "13exactinputs/0failed/0skipped/1narrowMASDhairpinformattingexception(originalAppendix208/TableEV1B6 independentlyverified)/2unassembledinputs/5graphs. PSSwhole9sourceorderingsandtime5S5molecularstrands checkedseparately;notcountedintoololigoinputtotal.",
+    "round27_chemistry": "4narrowpair/endgeometryrelationsestablished/2conditional/126unresolved/0contradictory;notfullreactionvalidation.",
+    "round28_discovery": "12publishedprimaryidentity/workflowleads:6DNA/6targeted. No registrations/collectioncounts. ExactDOI/alias/boundarychecks; IPOD-HRactualcorrection mustremainpaired; weakvariantsrejected. DNAworkerterminalcapacityerrorafterledgerwrite; verifiedwritten6rows, not treated as a source failure or repeatedtask.",
+    "round28_metadata_addition": "Added source-backed Roche454 platform vocabulary for original2010 dRNA-seq; not mislabeled as Illumina. Actual9protocolmetadata rows/source/review distinctions retained.",
+    "round28_local": "84focusedchecks across5privatepartialmodels,includingbothfive/six-letterbranches. No fullsource/reaction/absenceaudit.",
+    "round28_oligos": "6exactinputchecks/0failed/0skipped/0exempt/12unassembledinputs/5graphs. RASLthreewholehistoricalprimerpatterns andSPACEwholeprintedbead source-checkedseparately;notcountedasexternaloligoinputs.",
+    "round28_chemistry": "Defaultscope2narrowestablished/2conditional/111unresolved/0contradictory. Separatealternativesix-lettergraph2established/2conditional/26unresolved/0contradictory,notaddedtodefaulttotals.",
+    "round28_review_gate": "All722existingreviewrecordsvalid. Strictall731registeredprotocolreviewcheckstillfails9earlierplatform-deferredmissingreviewfiles;unchanged/uncollected,notretried. Current9selectedscopes3inprogress/6blocked, noacceptedabsence.",
+    "round29_local": "110 focused checks across seven private partial models; selected independent critical reviews closed. No complete source/reaction/absence audit.",
+    "round29_oligos": "Source oligos: 15 checked, 0 failed, 0 source bundles skipped, 4 strands exempted from text matching, 29 inputs without exact states, 7 graphs",
+    "round29_review_gate": "All 729 existing review records valid. Nine earlier platform-deferred registrations still lack review files and remain uncollected; not retried or filled with fake reviews.",
+    "round29_chemistry": "Total claims: established=9, conditional=0, unresolved=267, contradictory=0",
+    "round29_final_followup": "Rho incorporated rhodamine represented as molecular structural material with separate retained reaction conditions; 17 focused checks, source guard and unchanged71 unresolved/0 contradictory chemistry pass after this final local change. Its source review validates. Other batch checks remain applicable.",
+    "round30_local": "82 focused checks across seven private partial models; seven selected independent implementation rechecks closed. PairSEQ uncollected/no model. No complete source/reaction/absence audit.",
+    "round30_oligos": "Source oligos: 4 checked, 0 failed, 0 source bundles skipped, 0 strands exempted from text matching, 13 inputs without exact states, 7 graphs",
+    "round30_chemistry": "Total claims: established=6, conditional=0, unresolved=163, contradictory=0",
+    "round30_review_gate": "All737 existing source-review records validate; same9 earlier platform-deferred registrations still lack reviews and remain uncollected, not retried or fabricated.",
+    "round30_discovery": "Eight unregistered/uncollected primary identity/overview leads in two dedicated ledgers:3DNA/5targeted. Exact DOI/name/physical-preparation overlap screened; full chemistry/version/correction source audits remain pending. PORE-cupine mandatory two correction bodies unavailable; successor comparison not a second count.",
+    "round30_final_publication_check": "Final source-downloads page regenerated from readable request text and refreshed in _site; full link and publication audit passes after that refresh. Dead404 noncanonical pairSEQ mirror removed from recurring fetch configuration; failed attempt retained in external manifest and reference history.",
+    "round31_local": "138 focused checks across seven private partial models; seven selected independent implementation rechecks closed. No complete source/reaction/absence audit.",
+    "round31_oligos": "Source oligos: 28 checked, 0 failed, 0 source bundles skipped, 3 strands exempted from text matching, 20 inputs without exact states, 7 graphs",
+    "round31_chemistry": "Total claims: established=14, conditional=1, unresolved=243, contradictory=0",
+    "round31_review_gate": "All744 existing source-review records validate; same9 earlier platform-deferred registrations still lack reviews and remain uncollected, not retried or fabricated.",
+    "round31_discovery": "Five unregistered/uncollected primary identity/overview leads in two ledgers:2DNA/3targeted. Physical-preparation boundaries and published/preprint overlaps screened; full chemistry/version/correction/absence audits pending.",
+    "round31_final_publication_check": "Full site560/560builders/411NGScontracts passed. Final source-downloads page refreshed from readable request text, followed by whole-site link and publication audit. Associated S1 lineage evidence links to actually read manuscript.",
+    "round32_local": "151 focused checks across seven private partial models; selected independent implementation rechecks closed, not complete reaction/source/absence audits.",
+    "round32_oligos": "Source oligos: 68 checked, 0 failed, 0 source bundles skipped, 0 strands exempted from text matching, 3 inputs without exact states, 7 graphs",
+    "round32_chemistry": "Total claims: established=0, conditional=0, unresolved=216, contradictory=0",
+    "round32_review_gate": "All751 existing source-review records validate. Same9 earlier platform-deferred registrations lack reviews and remain uncollected; no reviews fabricated.",
+    "round32_discovery": "Three unregistered/uncollected primary overview leads:RAG-seq/sc-rDSeq/Smart-3SEQ. Actual preparation boundaries, same-method aliases/companion papers and discovery-only identity limits recorded; no full chemistry/correction audit. Smart-3SEQ four exposed search-result identities are explicitly not a strict3original curation pass.",
+    "round33_local": "57 focused checks across five private partial models; eight selected implementation rechecks closed, including source-limited notes. No complete reaction/source/absence audit.",
+    "round33_oligos": "Source oligos: 4 checked, 0 failed, 0 source bundles skipped, 0 strands exempted from text matching, 6 inputs without exact states, 5 graphs",
+    "round33_chemistry": "Total claims: established=8, conditional=1, unresolved=114, contradictory=0",
+    "round33_review_gate": "All759 existing source-review records validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No reviews fabricated.",
+    "round33_discovery": "2 unregistered/uncollected primary overview leads in dedicated targeted10 ledger; limits recorded, no full chemistry/absence audit.",
+    "round34_local": "107 focused checks across six private partial models; seven selected implementation rechecks closed including blocked identity notes, not complete reaction/source/absence audits.",
+    "round34_oligos": "Source oligos: 8 checked, 0 failed, 0 source bundles skipped, 0 strands exempted from text matching, 3 inputs without exact states, 6 graphs",
+    "round34_chemistry": "Total claims: established=7, conditional=1, unresolved=220, contradictory=0",
+    "round34_review_gate": "All766 existing source-review records validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No reviews fabricated.",
+    "round34_discovery": "Three unregistered/uncollected primary overview leads:QTI-seq/m6A-ORL-Seq/PA-m6A-seq. Actual physical selection/reporting boundaries and <=3original/admin scopes recorded; no full Methods/oligo/version/correction audit. RibOxi-seq withheld because distinction from existing Nm-seq was insufficiently established.",
+    "round35_local": "87 focused checks across six private partial models; seven selected implementation rechecks closed including blocked identity notes, not complete reaction/source/absence audits.",
+    "round35_oligos": "Source oligos: 10 checked, 0 failed, 0 source bundles skipped, 1 strands exempted from text matching, 3 inputs without exact states, 6 graphs",
+    "round35_chemistry": "Total claims: established=1, conditional=1, unresolved=194, contradictory=0",
+    "round35_review_gate": "All773 existing source-review records validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No reviews fabricated.",
+    "round35_discovery": "Four unregistered/uncollected primary overview leads:iSeq/EndoVIPER-seq/Slic-seq/5PSeq. Actual selection/reporting boundaries and limited source scopes recorded; no full Methods/oligo/version/correction audit. CLAM-Cap-seq separately held after search-result administrative-record fanout, not an access/missing-information blocker or an exhausted candidate.",
+    "round36_local": "96 focused checks across seven private partial models; selected independent implementation rechecks, not complete source/reaction/absence audits.",
+    "round36_oligos": "Source oligos: 7 checked, 0 failed, 0 source bundles skipped, 1 strands exempted from text matching, 2 inputs without exact states, 7 graphs",
+    "round36_chemistry": "Total claims: established=0, conditional=0, unresolved=248, contradictory=0",
+    "round36_review_gate": "All780 existing reviews validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No fabricated absence coverage.",
+    "round37_discovery": "Seven unregistered/uncollected primary overview leads: FLASH RNA-protein, RedaC:T, RELACS,fCLIP,QuantM-tRNAseq,MSR-seq,Nano-tRNAseq. Actual original-reader scopes recorded; incidental unopened search identities not counted as originals. EvolvedRT m1A andMeTH separate boundary holds, not sourceblock/exhaustion.",
+    "round37_metadata_repair": "Initial restricted metadata run could not resolve hosts(curl6); escalated standard refresh terminal0 restored7newDOI identities,873rows/794protocols/821titledDOIs. Environment failures were not classified as source blockers; existing sourcejobs observed terminal before standard reruns.",
+    "round37_local": "86 focused checks across five private partial models; seven selected independent implementation rechecks, including two blocked identities. Not complete source/reaction/absence audits.",
+    "round37_oligos": "Source oligos: 8 checked, 0 failed, 0 source bundles skipped, 3 strands exempted from text matching, 8 inputs without exact states, 5 graphs",
+    "round37_chemistry": "Total claims: established=2, conditional=1, unresolved=119, contradictory=0",
+    "round37_review_gate": "All787 existing reviews validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No invented absence coverage.",
+    "round38_discovery": "Six unregistered/uncollected primary-overview leads: hyRAD,MC-4C,HiCuT,Nano-C,NSUN2-m5C-miCLIP,FICC-Seq. Explicit physical preparation/trapping boundaries and source/version limits; same-name methods and registered TCC distinguished. No full Methods/SI/oligo or absence audit.",
+    "round38_local": "114 focused checks across six private partial models; seven selected independent implementation rechecks including blocked iSeq. Not complete source/reaction/absence audits.",
+    "round38_oligos": "Source oligos: 16 checked, 0 failed, 0 source bundles skipped, 1 strands exempted from text matching, 5 inputs without exact states, 6 graphs",
+    "round38_chemistry": "Total claims: established=0, conditional=0, unresolved=228, contradictory=0",
+    "round38_review_gate": "All794 existing reviews validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No invented absence coverage.",
+    "round39_local": "172 focused checks across seven private partial models; seven selected independent implementation rechecks. Not complete source/reaction/absence audits.",
+    "round39_oligos": "Source oligos: 16 checked, 0 failed, 0 source bundles skipped, 7 strands exempted from text matching, 7 inputs without exact states, 7 graphs",
+    "round39_chemistry": "Total claims: established=7, conditional=4, unresolved=547, contradictory=0",
+    "round39_review_gate": "All801 existing reviews validate; same9 earlier platform-deferred registrations lack reviews and remain uncollected. No invented absence coverage.",
+    "round40_local": "155 focused checks across six private partial models; seven independent implementation rechecks. PRT reporter preparation is not an NGS-ready library; PRIM remains component-only and uncollected.",
+    "round40_oligos": "Source oligos: 30 checked, 0 failed, 0 source bundles skipped, 3 strands exempted from text matching, 9 inputs without exact states, 6 graphs",
+    "round40_chemistry": "Total claims: established=1, conditional=0, unresolved=160, contradictory=0",
+    "round40_review_gate": "All808 existing reviews validate; seven independent implementation rechecks, not absence audits; no new accepted absence claims.",
+    "round40_discovery": "Nine overview-only leads retained from DNA/multi/RNA ledgers; unregistered/uncollected. No next batch selected while Science priority is active.",
+    "spatial_vdj_priority": "Final main article plus supplied finalSM/DataS1 support selected SR-TRB preparation and321 selected source rows.36focusedPASS independently,321 originalXML comparisons0mismatch;678source-matched strands/0failures/4inputs without exactstates;74unresolved/0contradictory. Whole cDNA/index preparations/terminal chemistry/occupied products remain unresolved. All requested Science downloads obtained and geturl99 removed.",
+    "round41_local": "137 focused checks across six default private partial preparation models; all seven independent implementation rechecks closed, including G4access source hold. No complete source/reaction/absence audit.",
+    "round41_oligos": "Source oligos: 16 checked, 0 failed, 0 source bundles skipped, 1 strands exempted from text matching, 2 inputs without exact states, 6 graphs",
+    "round41_chemistry": "Total claims: established=17, conditional=0, unresolved=186, contradictory=0",
+    "round41_alternate": "eTIP-A separately checked:27 unresolved claims/zero contradictions; source guard and default CLI summary cover B, not this alternate.",
+    "round41_review_gate": "All815 existing records schema-valid; selected7 implementation rechecks, no new accepted missing claims or absence pass2; same9 old platform-deferred registrations lack reviews and remain uncollected.",
+    "round41_discovery": {
+      "new_unregistered_leads": [
+        "TELP",
+        "SALP / SALP-seq",
+        "LASSO multiplex DNA capture",
+        "isoCirc",
+        "circFL-seq",
+        "circNick-LRS",
+        "RIPPLiT",
+        "RICC-seq",
+        "RADICL-seq",
+        "HiChIRP",
+        "nanoPARE"
+      ],
+      "ledgers": [
+        "catalogue/curation_rounds/2026-10-30-expansion-discovery-dna41.tsv",
+        "catalogue/curation_rounds/2026-10-30-expansion-discovery-rna41.tsv",
+        "catalogue/curation_rounds/2026-10-30-expansion-discovery-multi41.tsv",
+        "catalogue/curation_rounds/2026-10-30-expansion-discovery-root41.tsv"
+      ],
+      "limits": "Primary overview only; no new acquisition/registration/collection. POINT branch alias was an existing protocol and excluded; PEARL-seq boundary hold."
+    },
+    "round42_local": "208 focused checks across7 private partial models, independent selected source/implementation rechecks closed. Neutral RNA-lariat helper adds25 checks separately; invented example does not prove real CoLa chemistry.",
+    "round42_oligos": "68 source-matched whole strand instances,0failures,14 inputs without exact states across7graphs.",
+    "round42_chemistry": "10established narrow relations/392unresolved/0contradictory; separate invented RNA example has1 declared-connectivity relation, not a real reaction.",
+    "round42_review_gate": "All7 selected independent implementation rechecks closed; no new accepted absence claims or absence pass2.",
+    "round43_local": "168 focused checks across6 private partial models; blocked Nested Patch has no fabricated model. All7 selected independent implementation/bookkeeping rechecks closed.",
+    "round43_oligos": "37 source-matched whole strand instances,0failures,38 inputs without exact states across6graphs; produced functional oligo classes remain separately unassembled.",
+    "round43_chemistry": "22established narrow relations/2conditional/738unresolved/0contradictory. No full reaction validation or finished-schematic promotion.",
+    "round43_review_gate": "All829 existing records validate; same9 old platform-deferred registrations lack reviews and remain uncollected.276new in_progress/102blocked; no new accepted absence claims."
   },
   "tool_fixes": [
     {
@@ -213,11 +542,33 @@
       "reason": "Published TAP TableS6 uses quantified [X]8 for an eight-base sample barcode; original matcher treated the suffix incorrectly.",
       "change": "Normalize only inline quantified X bracket variables between nucleotide flanks to their exact N width, preserving strict fixed bases and preventing concrete-barcode inference. Source scans cached after normalization.",
       "validation": "Seven semantic regressions including width/flank/member negatives; actual TAP4checked0failed0exemptions;full shared1647 and source227 checks pass."
+    },
+    {
+      "file": "tools/scrape_primers.py",
+      "reason": "StapletonpublishedS13 prints (Index) inline between nucleotideflanks;oldscanner split wholePCRoligos.",
+      "change": "Normalizeonlynamedparenthesizedidentifiers with\u22656uppercase nucleotidebases oneachsame-lineflank asunknownwidth windows;sourceguard stillanchorswholeoligos andpermitsgaps onlyatmodelNs. Unknown-width matches from substringsearch are rejected;fullparsedsourceoligos establish allfixedflanks.",
+      "validation": "Eightsemanticregressions;actualdefault21+additionalvariant18strands matchwithoutfailuresorexemptions;S13index6width independentlytranscriptioncheckedlocally. EarlierDAb/QuRIE/TAP10exactinputs stillpass;both actualmodelindexwidths are compared to the parsedS13definition.",
+      "files": [
+        "tools/scrape_primers.py",
+        "tools/source_oligo_check.py"
+      ]
+    },
+    {
+      "file": "tools/scrape_primers.py",
+      "reason": "DMpublishedTable1literal5mCtoken was omitted from nucleotidebody/misclassified2primeOMe.",
+      "change": "Exact /5mC/ alias emits oneC,retains fullsource span and5-methyl-C marks;sugar remains source-contextual.No generic digit-prefix expansion.",
+      "validation": "8focused positive/negative regressions plus full1873shared/227source-tool suites pass;actualDM+methylATAC+SHARC5checked0failed0exempt."
     }
   ],
   "turn_progress": {
-    "previous_goal_turn": "Progress:11source-read models and2excluded identities;source-qualified lineage/cache/version distinctions;1669shared/490builders;staged.",
-    "current_goal_turn": "User paused after round07 implementation and review; stabilization/staging only."
+    "previous_goal_turn": "Progress:final Science main retrieved and independently verified; subsequent user-supplied published SM/DataS1 incorporated,13source-positive preparations fromrounds42/43 integrated.",
+    "current_goal_turn": "User-requested pause checkpoint:756 source-positive includingWIP/755published;45registered source holds,411finishedNGS;allcurrent work reviewed/verified. Fullsite passes; staging then goal pause.25 unregistered later leads remain, goal not complete.",
+    "round39_ownership": {
+      "round33_dna": "hyRAD andMC-4C implementations; peerQuantM/MSR",
+      "round21_targeted": "QuantM/MSR implementations; peerhyRAD/MC-4C/HiCuT",
+      "discovery_rna34": "HiCuT implementation after explicitDNAhandoff; Nano peerclosed",
+      "coordinator": "Nano-C/Nano-tRNAseq models/reviews/helpersclosed; sharedintegration/verification/staging"
+    }
   },
   "source_request_queue": {
     "ledger": "geturl.txt",
@@ -251,173 +602,665 @@
         "OriginalPerturb selected method/construct FigureS1/FigureS5/TableS1"
       ],
       "rule": "Available main articles/SI, superseded versions, unassigned kit revisions and caption-described result matrices not automatically requested as missing oligo disclosure."
+    },
+    "round07": {
+      "new_request_groups": 6,
+      "old_requests_removed": 0,
+      "targets": [
+        "m1A-MAPMethodsS1",
+        "OG-seqSupportingInformation",
+        "TRACoriginalSI/tables",
+        "ClickTagspublishedmain",
+        "Mosaicpublishedmain/boundary",
+        "RAIDsource-citedF5identity"
+      ],
+      "rule": "AvailableSI and supersededpreprints excluded;actualunresolvedattachmentidentity notguessed."
+    },
+    "round08": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "targets": [
+        "OriginalHiCsupplementarytext/figures",
+        "CRAC2009SI",
+        "ActualpublishedRBScorrection"
+      ],
+      "rule": "Known actual failed originals only;RBSmain/SI available;no presumption the unreadcorrection is immaterial."
+    },
+    "round09": {
+      "new_request_groups": 5,
+      "old_requests_removed": 0,
+      "targets": [
+        "ActualCAPmicrobialv3SupplementaryTable1identity",
+        "m1A-IDpublishedmain",
+        "rG4publishedmain",
+        "BubblepublishedSIindex/Methods",
+        "StapletonS2/S3/S12chemistryfigures"
+      ],
+      "rule": "AvailablepublishedSI andsupersededpreprintsnotrequestedagain;unknownactualattachmentidentitynotguessed;webtoolindexfailureisnotHTTPabsence."
+    },
+    "round10": {
+      "new_request_groups": 7,
+      "old_requests_removed": 0,
+      "rule": "Only actual gated relevant originals requested; available/unread scripts, deferred historical guide links, result-only supplements and superseded preprints excluded. SMRF two workbooks request identity verification before table assignment."
+    },
+    "round11": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "rule": "CeFra defining2017main, CAP RNA fullmain, TRIBE actualProcedures requested after failed standard routes. TRIBE result tables not mislabeled primer sources; available but unread manuals/scripts excluded."
+    },
+    "round12": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "targets": [
+        "SUGAR publishedDC1 index",
+        "eSPAN actualSI and originalerratum identity/content",
+        "SNS source-linked supplement identity"
+      ],
+      "rule": "No guessed filenames/correction DOI. Available Record-seq university main is not a new manual request;unread historical guides and superseded versions excluded."
+    },
+    "round13": {
+      "new_request_groups": 6,
+      "old_requests_removed": 0,
+      "rule": "Actual failed relevant originals only. Mod correction is positively read; cached original retrieval remains blocked. Supplemental Files identity not guessed."
+    },
+    "round14": {
+      "new_request_groups": 4,
+      "old_requests_removed": 0,
+      "targets": [
+        "ChIP-BS actualsupplement identity",
+        "TOPactualchemistryPDF",
+        "hmC finalonlineMethods",
+        "pMHC finalmain"
+      ],
+      "rule": "No requests for available publishedSI aliases or guessed TOPworkbook mapping;ordinary deferred LiGAreading not declared inaccessible."
+    },
+    "round15": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "targets": [
+        "S1 actualSupplemental_material",
+        "SilentcPTMmain/proceduresSI",
+        "NGGMactualSI"
+      ],
+      "rule": "Available published chemistrySI,failed index mirrors and supersededpreprints not requested;RADgenericarchive failure does not identify an absent chemistry disclosure."
+    },
+    "round16": {
+      "new_request_groups": 4,
+      "old_requests_removed": 0,
+      "targets": [
+        "RiboLace exactPDF",
+        "RAP-RNA actualcoreSI",
+        "RNA-Bind-n-Seq namedmethodsPDF",
+        "Spec exactexperimentaloriginal"
+      ],
+      "rule": "No source inferred from abstract;availableoriginals or other unreviewed supplements not assigned guesseddisclosures."
+    },
+    "round17": {
+      "new_request_groups": 9,
+      "old_requests_removed": 0,
+      "rule": "Actual failed relevant originals only; available SI/software/reporting aliases excluded. Final RAP-DNA main obtained, request only actual SI."
+    },
+    "round18": {
+      "new_request_groups": 5,
+      "old_requests_removed": 0,
+      "rule": "Role-identified actual failed originals only; available counterparts and unassigned ChIRP ZIP/XLS roles not automatically requested. Nexus final applicability ordinary deferred,not an invented blocked-main claim."
+    },
+    "round19": {
+      "new_request_groups": 5,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed originals only; obtainedTermmain andDIPSI not requested. No SpatialSI filename guessed, preprints/data archives excluded."
+    },
+    "round20": {
+      "new_request_groups": 4,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only; obtainedFLAMprotocol/SI andsource-indexaliases not requested. TIF finalmain ordinary unread within3originalcap,not inventedblocked request. User-deferredSpatialVDJ remains untouched."
+    },
+    "round21": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only; availableTAmcompleteexhibit/publishedSI/2016cPAM not requested. Ordinaryunreadfinals not invented accessblockers;SpatialVDJ remainsuserdeferred."
+    },
+    "round22": {
+      "new_request_groups": 0,
+      "old_requests_removed": 0,
+      "rule": "Needed definingchemistryoriginals obtained;failedstubindexaliases not manualrequests. Ordinaryunreadhistorical/manual/versioncomparisons not fabricated blockers. SpatialVDJ remainsuserdeferred."
+    },
+    "round23": {
+      "new_request_groups": 5,
+      "old_requests_removed": 0,
+      "rule": "Needed inaccessible originals only; available mains and benchmark SI not requested again. Ordinary unread originals are not fabricated blockers. SpatialVDJ remains user-deferred."
+    },
+    "round24": {
+      "new_request_groups": 4,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only; available mains/SI and ordinary unread sources not requested again. SpatialVDJ remains user-deferred;three RNA registrations platform-deferred without fabricated source blockers."
+    },
+    "round25": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only; available mains/SI and ordinary unread sources not requested again. SpatialVDJ remains user-deferred;three RNA registrations platform-deferred without fabricated source blockers."
+    },
+    "round26": {
+      "new_request_groups": 0,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only; available mains/SI and ordinary unread sources not requested again. SpatialVDJ remains user-deferred;Earlier platform-deferred registrations remain unchanged; no new deferrals in this round."
+    },
+    "round27": {
+      "new_request_groups": 3,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only; available mains/SI and ordinary unread sources not requested again. SpatialVDJ remains user-deferred;Earlier platform-deferred registrations remain unchanged; one actual source-blocked registration; no new platform deferrals this round."
+    },
+    "round28": {
+      "new_request_groups": 6,
+      "new_urls": 8,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round29": {
+      "new_request_groups": 3,
+      "new_urls": 3,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round30": {
+      "new_request_groups": 7,
+      "new_urls": 9,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round31": {
+      "new_request_groups": 1,
+      "new_urls": 1,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round32": {
+      "new_request_groups": 1,
+      "new_urls": 1,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round33": {
+      "new_request_groups": 6,
+      "new_urls": 6,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round34": {
+      "new_request_groups": 2,
+      "new_urls": 4,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round35": {
+      "new_request_groups": 1,
+      "new_urls": 1,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round36": {
+      "new_request_groups": 5,
+      "new_urls": 5,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round39": {
+      "new_request_groups": 0,
+      "new_urls": 0,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round40": {
+      "new_request_groups": 3,
+      "new_urls": 3,
+      "old_requests_removed": 0,
+      "rule": "Actual failed needed defining/chemistry originals only. Available SI/associatedMS retained with identity limits; no ordinary unread kit sources requested. SpatialVDJ remains user-deferred; priorplatformfailures unchanged."
+    },
+    "round41": {
+      "new_request_groups": 2,
+      "new_urls": 2,
+      "old_requests_removed": 0,
+      "rule": "Actual needed failed originals only: G4access main PDF and SMASH published supplemental landing. Earlier platform holds remain deferred. Spatial VDJ accepted-version preparation reviewed; its final publication/DataS1 requests retained."
+    },
+    "round42": {
+      "new_request_groups": 4,
+      "new_urls": 4,
+      "old_requests_removed": 0,
+      "rule": "Actual needed originals only: TCP2016 fullMethods, Chem-seq and SIF final main PDFs, CoLa final main/source-indexed TablesS4/S5. FastGRO VOR recovered as a manuscript supplemental PDF; its failed duplicate route is not requested. Earlier platform holds remain deferred. Spatial VDJ accepted-version preparation reviewed; its final publication/DataS1 requests retained."
+    },
+    "spatial_vdj_user_supplied_resolution": "Both actual SM/DataS1\u2013S5 requested downloads supplied, validated and stored externally; geturl99 removed. No repeated request for obtained originals.",
+    "round43": {
+      "new_request_groups": 2,
+      "new_urls": 4,
+      "old_requests_removed": 1,
+      "rule": "Actual needed Nested Patch defining main and ExSeq associated Methods/oligo originals only. Supplied Spatial VDJ main/SM/DataS1\u2013S5 now obtained, formergeturl99 removed; no repeated request. Ordinary unread vendor detail is not a failed-download request."
     }
   },
   "previous_pause_checkpoint": {
     "requested_by_user": true,
-    "date": "2026-10-28",
-    "catalogue_state": "Verified round05:498total entries,461registeredNGS,460source-read includingWIP. Thirteen provisional round06 registrations/citation additions rolled back to index; no unfinished notes admitted.",
-    "selected_ledger": "catalogue/curation_rounds/2026-10-28-ngs-expansion-06.tsv",
-    "selected_registrations": [
-      {
-        "dir": "flep-seq__10.1038+s41477-020-0688-1",
-        "protocol": "FLEP-seq",
-        "doi": "10.1038/s41477-020-0688-1",
-        "status": "notes",
-        "section": "published",
-        "modality": "RNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "clash__10.1073+pnas.1017386108",
-        "protocol": "CLASH",
-        "doi": "10.1073/pnas.1017386108",
-        "status": "notes",
-        "section": "published",
-        "modality": "RNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "hiclip__10.1038+nature14280",
-        "protocol": "hiCLIP",
-        "doi": "10.1038/nature14280",
-        "status": "notes",
-        "section": "published",
-        "modality": "RNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "smart-seq-total__10.1073+pnas.2113568118",
-        "protocol": "Smart-seq-total",
-        "doi": "10.1073/pnas.2113568118",
-        "status": "notes",
-        "section": "published",
-        "modality": "RNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "dnase-hi-c__10.1038+nmeth.3205",
-        "protocol": "DNase Hi-C",
-        "doi": "10.1038/nmeth.3205",
-        "status": "notes",
-        "section": "published",
-        "modality": "DNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "excision-seq__10.1101+gr.174052.114",
-        "protocol": "Excision-seq",
-        "doi": "10.1101/gr.174052.114",
-        "status": "notes",
-        "section": "published",
-        "modality": "DNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "cpd-seq__10.1073+pnas.1606667113",
-        "protocol": "CPD-seq",
-        "doi": "10.1073/pnas.1606667113",
-        "status": "notes",
-        "section": "published",
-        "modality": "DNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "click-code-seq__10.1021+jacs.8b03715",
-        "protocol": "Click-code-seq",
-        "doi": "10.1021/jacs.8b03715",
-        "status": "notes",
-        "section": "published",
-        "modality": "DNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "nome-seq-bulk__10.1101+gr.143008.112",
-        "protocol": "NOMe-seq (bulk)",
-        "doi": "10.1101/gr.143008.112",
-        "status": "notes",
-        "section": "published",
-        "modality": "DNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "xdrop__10.1002+humu.24063",
-        "protocol": "Xdrop",
-        "doi": "10.1002/humu.24063",
-        "status": "notes",
-        "section": "published",
-        "modality": "DNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
-        "protocol": "Perturb-seq (original barcode proxy)",
-        "doi": "10.1016/j.cell.2016.11.038",
-        "status": "notes",
-        "section": "published",
-        "modality": "RNA",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "gel-seq__10.1039+c7lc00430c",
-        "protocol": "Gel-seq",
-        "doi": "10.1039/c7lc00430c",
-        "status": "notes",
-        "section": "published",
-        "modality": "multi",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      },
-      {
-        "dir": "multi-seq__10.1038+s41592-019-0433-8",
-        "protocol": "MULTI-seq",
-        "doi": "10.1038/s41592-019-0433-8",
-        "status": "notes",
-        "section": "published",
-        "modality": "multi",
-        "representation": "published_instance",
-        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
-      }
-    ],
-    "registered": true,
-    "source_reading_complete": false,
-    "source_fetches": "All known root/worker processes terminal. NOMe and citation refresh completed; other workers stopped their outstanding fetches, preserving external caches. Smart-seq-total retrieval not reached.",
-    "partial_reading": {
-      "flep-seq__10.1038+s41477-020-0688-1": "Preliminary only: publisher SI title/DOI and processing/polyA caption pointers; oligo workbook first headers/false-hit contexts; main abstract/identity, full Methods gated. Scraper scratch /tmp/rna06-flep-scrape. No chemistry conclusions/model.",
-      "clash__10.1073+pnas.1017386108": "Preliminary published PMC3116431 abstract/Results1121–1151 and library overview1218–1220; supplementary PDF/XLS gated. Scraper scratch /tmp/rna06-clash-scrape. No model or completed source review.",
-      "dnase-hi-c__10.1038+nmeth.3205": "Preliminary associated-supplement NIHMS641840-supplement-1.pdf.txt line searches7819–7980 and manifest URLs only. Defining article chemistry not read; mandatory scraper not yet run."
+    "date": "2026-10-29",
+    "selected_ledger": "catalogue/curation_rounds/2026-10-29-ngs-expansion-13.tsv",
+    "catalogue_state": "586 registrations;549 NGS including WIP;548 published NGS;411 finished published NGS. Last fully integrated chemistry-source count534 including WIP. Ten additional source-read drafts remain pending coordinator integration and are not included in534.",
+    "resume_rule": "Wait for explicit user resumption. No acquisition or protocol expansion while paused.",
+    "remaining_integration": [],
+    "review": "Independent critical implementation reviews completed, with SHAPE control-branch labels, TRAPS coupling order and ClickSeq source/run scope corrected. These reviews are not two-pass missing-information audits.",
+    "processes": "All workers and pause validation processes terminal; no source acquisition or expansion running.",
+    "verification": "86 local, 1,825 shared and 227 source-tool checks pass. All 540 diagram builders pass; 443 finished public schematics included; all 411 NGS completeness contracts pass; every relative link resolves. All 1,135 note outputs are current. Source guard: 19 exact inputs, zero failures, one correction-backed exemption, 17 unassembled inputs across ten graphs. Scoped chemistry: 174 unresolved claims, zero contradictory. All build and worker processes are terminal.",
+    "source_reviews": {
+      "in_progress": 108,
+      "blocked": 27
     },
-    "source_cache_followup": "Xdrop has MANIFEST.tsv.part beside its canonical manifest after interrupted atomic write. Both retained externally; on resumption validate manifest/cache identity before reuse. No original read or fact established by cached filenames.",
-    "resume_rule": "Wait for explicit user resumption. Re-register selected13 and refresh catalogue/citations before source fetches; finish bounded originals/scrapers/notes before any collected count. No current chemistry conclusions from preliminary checks.",
-    "verification": "84catalogue checks pass;all959 note pages current;498verified catalogue entries;all13selected round06 IDs absent from live catalogue and no protocol dirs created. Prior1647shared/482builders/link-clean round05 validation retained;no public model/code change during pause cleanup.",
-    "resumed": "2026-10-29: user explicitly reactivated the goal; selected13 re-registered for bounded source review.",
-    "resume_rule_satisfied": true
+    "resumed": "User explicitly resumed toward1000 protocols;29October2026.",
+    "resume_rule_satisfied": true,
+    "resumed_integration_complete": "Round13 ten source-read drafts admitted; positive facets, source-request queue and qualified lineage integrated after explicit resumption."
   },
   "pause_checkpoint": {
     "requested_by_user": true,
-    "date": "2026-10-29",
-    "selected_ledger": "catalogue/curation_rounds/2026-10-29-ngs-expansion-07.tsv",
-    "catalogue_state": "524 registrations;487NGS includingWIP;483chemistry-source-collected;411finished publishedNGS. Round07 adds12source-read notes and1blocked identity,all notes-only.",
-    "resume_rule": "Wait for explicit user resumption. No further acquisition or protocol expansion while paused.",
-    "remaining_integration": [
-      "Curate positive properties: round07 retains pending_source_review profiles intentionally.",
-      "Curate source-qualified round07 lineage edges; registry remains26 relations.",
-      "Transfer exact failed round07 source requests into geturl.txt; current per-protocol notes/review checklists retain URLs.",
-      "Continue only after explicit resumption; global candidate exhaustion not established."
+    "date": "2026-10-30",
+    "selected_ledgers": [
+      "catalogue/curation_rounds/2026-10-30-ngs-expansion-42.tsv",
+      "catalogue/curation_rounds/2026-10-30-ngs-expansion-43.tsv",
+      "catalogue/curation_rounds/2026-10-30-priority-spatial-vdj.tsv"
     ],
-    "review": "Independent implementation spot-reviews completed, not independent missing-information passes. Fixed ac4C false source-absence geometry text; RAID/CRISP physical geometry and RNA identity fixes retained; m1A Read2 barcode processing now recorded.",
-    "verification": "84focused,1691shared,84catalogue,227source-tool checks pass;1011note outputs current;duplex lint0problems. 498/498 builders;443finished published schematics;411/411NGS completeness contracts;all relative links resolve. Eight new private previews,four graph-only notes,one blocked identity remain unpublished.",
-    "processes": "All delegated workers finished and full-site build exited0. No source acquisition remains running."
-  }
+    "catalogue_state": "838 total;801 registeredNGS includingWIP/800published;756 source-positive includingWIP/755published;45uncollected;411finishedpublishedNGS.",
+    "resume_rule": "Wait for explicit user resumption. No source acquisition, discovery or protocol expansion while paused.",
+    "remaining_integration": [],
+    "review": "Selected independent critical implementation reviews closed, including supplied Science originals; these are not complete source/absence audits. CLiPPR conservative source-identity cap exception is explicitly recorded.",
+    "processes": "All workers, source jobs, fullsite and verification processes terminal; task-owned browser closed. Files staged and worktree clean before goal pause.",
+    "verification": "208round42+168round43+36Science focused checks;2137shared/227source-tools/84catalogue/21lineage checks pass. Fullsite560/560builders,443publicschematics,411NGScontracts/alllinks pass.",
+    "source_reviews": {
+      "blocked": 102,
+      "in_progress": 276
+    },
+    "remaining_candidates": 25
+  },
+  "next_discovery_leads": [],
+  "next_discovery_limits": [
+    "Silent cPTM main/SI source-blocked;identity only,not collected.",
+    "COMRADES/RNP-MaP/SPIDR source work deferred after platform restriction;do not retry/rephrase.",
+    "Selected next leads require bounded defining-original chemistry review and exact duplicate/boundary checks before collection.",
+    "GBS original differs from RAD random shearing/Y path and ddRAD;do not count enzyme/organism or later routine modifications as separate methods.",
+    "RNA-MaP andHiTS-RAP deferred as NGS-associated fluorescence assays: distinct core NGS-template preparation not independently established at discovery scope;excluded from core count,not an absence claim.",
+    "PEARL-seq10.1021/acschembio.0c00357 retained as boundary-comparison hold against queuedChem-CLIP-MaP-Seq; no newcount without an actual preparation distinction.",
+    "isoCirc admission requires actual nuclease/cDNA-circle construction comparison with R2C2; circular-RNA target class alone is insufficient.",
+    "LASSO requires source-specific NGS-capture versus construct/MIP boundary review; no later variants counted."
+  ],
+  "platform_deferred_round14": {
+    "protocols": [
+      "comrades__10.1038+s41592-018-0121-0",
+      "rnp-map__10.1038+s41587-020-0709-7",
+      "spidr__10.1016+j.cell.2025.06.042"
+    ],
+    "reason": "Worker ended with platform biological-risk content restriction. Not retried or rephrased. No original chemistry inspected; no collected count. Partial COMRADES cache external only; retrieval stopped terminal130."
+  },
+  "goal_service_state_at_resume": "get_goal still reports historical paused status despite explicit user resumption. Resume control question asked asynchronously;no answer so far. Current work remains authorized by explicit user instruction. Tool exposes no resume action;do not infer a new user pause from the stale service status.",
+  "later_discovery_leads": [
+    {
+      "protocol": "PT-seq (phosphorothioate)",
+      "doi": "10.1101/2024.06.03.597111",
+      "modality": "DNA",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11185561/",
+      "status": "Hold version identity before registration;2024preprint and2025Microbiome10.1186/s40168-025-02071-4 are different titles. Published2025Methods explicitly uses/cites2024method;no proven supersession and no two entries forsame method."
+    },
+    {
+      "protocol": "scSTAMP-seq",
+      "doi": "10.1038/s41587-026-03328-5",
+      "modality": "multi",
+      "source_url": "https://www.nature.com/articles/s41587-026-03328-5",
+      "boundary": "Membrane-associated photolabile oligos carry separately capturable inner/outer tags; cleavage-dependent tag retention is read through dedicated libraries alongside cellular assays. Published Extended Data1 specifies distinct inner/outer amplification and separation from endogenous cDNA, establishing a probe/library boundary beyond optical resolution alone; compare Zip-seq during curation.",
+      "evidence_scope": "Published Nature Biotechnology25Sep2026 identity and primary indexed Extended Data1/2/7 inspected. Direct article open redirected to inaccessible Nature identity endpoint; indexed original overview remains readable. Full Methods/oligo workbook not inspected; superseded2025 preprint not recipe authority.",
+      "status": "Unregistered/uncollected primary identity/overview discovery only; actual distinct preparation boundary needs curation. No registration or collection before actual source-boundary review."
+    },
+    {
+      "protocol": "POND-seq",
+      "doi": "10.1016/j.molcel.2026.06.007",
+      "modality": "RNA",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S1097276526003783",
+      "boundary": "RBP-fused EPN24 nanocages package selected cellular RNAs into secreted particles; clarified culture-supernatant recovery feeds sequencing without destroying the source cell population. Engineered secretion and physical extracellular RNA recovery distinguish this preparation from CLIP/RIP or intracellular RNA-editing tagging; individual RBP or cell-type applications remain one method.",
+      "evidence_scope": "Published Molecular Cell2026 identity/summary, Design andFig1A\u2013B workflow accessible in indexed primary publisher text;16Jul2026issue86:2871\u20132887.e8. Primary PubMed42349405 and author BioProjectPRJNA1247426 support identity/overview. No full Methods/SI, construct sequence or correction/version-comparison audit; no secondary highlight used as chemistry authority.",
+      "status": "Unregistered/uncollected primary identity/workflow discovery only; distinct actual preparation and original version/correction review pending."
+    },
+    {
+      "protocol": "CCI-seq",
+      "doi": "10.1038/s41592-026-03237-0",
+      "modality": "RNA",
+      "source_url": "https://www.nature.com/articles/s41592-026-03237-0",
+      "boundary": "Partially dissociated native cell clumps receive membrane-anchored oligos and three split-pool ligation rounds before complete dissociation and droplet RNA/index-library capture. Physical clump-level molecular indexing precedes single-cell indexing, unlike ProximID paired-cell sorting, routine sample hashing or computational interaction prediction.",
+      "evidence_scope": "Published Nature Methods5Oct2026 identity, abstract and Results Accurate identification of cell\u2013cell interactions by CCI-seq/Fig1 overview verified in primary indexed article. Author OMIX016046 confirms same-work identity; not counted separately. No whole Methods/SI, primer transcription or correction audit; predecessor component/version review remains pending.",
+      "status": "Unregistered/uncollected primary identity/workflow discovery only; distinct actual preparation and original version/correction review pending."
+    },
+    {
+      "protocol": "SL-Smart-seq3xpress",
+      "doi": "10.1038/s41586-025-08720-w",
+      "title": "Genomic determinants of antigen expression hierarchy in African trypanosomes",
+      "source_url": "https://www.nature.com/articles/s41586-025-08720-w",
+      "modality": "RNA",
+      "boundary": "Direct spliced-leader-specific priming supplies the native common transcript end instead of template-switching or C-tailing, followed by single-cell full-length cDNA amplification/tagmentation. This changes the molecular capture/end-installation route beyond merely applying Smart-seq3xpress to a different organism.",
+      "evidence_scope": "Published Nature12Mar2025 identity/abstract verified; primary publishedPMC12137147 Implementation and ExtendedData2 workflow overview inspected in indexed text. Same-method NatureProtocols2026 DOI10.1038/s41596-026-01373-7 abstract confirms SL targeting; not a second entry. Supersededpreprint10.1101/2024.03.22.586247 identity checked/local overlap empty. No full chemistry/SI or correction audit.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "TimeVault",
+      "doi": "10.1126/science.adz9353",
+      "title": "A genetically encoded device for transcriptome storage in mammalian cells",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/41538410/",
+      "modality": "RNA",
+      "boundary": "Engineered intracellular vault particles capture poly(A)-bound messenger RNA for later transcriptome readout. This is a physical intracellular RNA-storage/enrichment boundary, distinct from ordinary terminal scRNA-seq, secreted EPN24/RBP particles in POND-seq and mitochondrial membrane-anchored recordanelles. Recovery chemistry and full NGS continuation require the defining Methods.",
+      "evidence_scope": "Published Science26Mar2026 exact identity and complete primary PubMed41538410 abstract243\u2013244 read; author Chen-lab publication listing supports final article identity. No preparative facts taken from secondary highlights, including their RNase-isolation details. No full main/SI, complete library recipe, exhaustive preprint-identity or correction audit; discovery-only candidate, not collected.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "Recordanelles",
+      "doi": "10.1038/s41587-026-03327-6",
+      "title": "Recordanelles for transcriptome-wide single-cell RNA recording in human cells",
+      "source_url": "https://www.nature.com/articles/s41587-026-03327-6",
+      "modality": "RNA",
+      "boundary": "A mitochondrial membrane anchor, condensate assembler and poly(A)-binding domain physically recruit and protect endogenous RNAs. Mitochondrial-fraction RNA recovery feeds bulk RNA-seq, with separate single-cell readout. This membrane-anchored condensate enrichment/storage boundary differs from free-floating vault storage, POND secretion and DNA/RNA editing-based recorders; domain variants remain one method.",
+      "evidence_scope": "Published21Oct2026 primary publisher/PubMed42907534 identity and abstract verified. Primary indexed Results Capturing endogenous transcripts/Transcriptome-wide recording and RNA-seq/scRNA-seq library overview inspected; no construct sequence, parameter or whole recipe curation. Primary author publication list checked; no separate preprint identity established, and no full correction/version audit.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "Connectome-seq",
+      "doi": "10.1038/s41592-026-03026-9",
+      "title": "Connectome-seq: high-throughput mapping of neuronal connectivity at single-synapse resolution via barcode sequencing",
+      "source_url": "https://www.nature.com/articles/s41592-026-03026-9",
+      "modality": "multi",
+      "boundary": "Engineered synaptic protein/RNA barcode preparations feed parallel single-nucleus and single-synaptosome sequencing, linking neuronal transcriptomic identity to barcode pairs recovered from synaptic material. The physical synaptosome/nucleus capture boundary distinguishes it from axonal projection barcode counting or a new neuronal target panel.",
+      "evidence_scope": "Published12Mar2026 primary publisher exact identity/abstract verified in indexed article. Supersededpreprint10.1101/2025.02.13.638129 primary PubMed41030982 identity checked only; no preprint chemistry adopted. Direct publisher follow-up redirected to inaccessible identity endpoint, so no full Methods/SI, vectors, barcode orderings or correction audit. Not a collected protocol.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "TotalX",
+      "doi": "10.1038/s41587-026-03068-6",
+      "title": "Scalable single-cell total RNA sequencing unifies coding and noncoding transcriptomics",
+      "source_url": "https://www.nature.com/articles/s41587-026-03068-6",
+      "modality": "RNA",
+      "boundary": "Droplet total-RNA capture combines a uracil-containing template-switch oligo and post-RT UDG cleavage with pre-amplification-stage Cas9 DASH depletion and separate short-fragment direct indexing. These preparation changes distinguish the method from an ordinary droplet platform application; optional miRNA fractions are variants of this one candidate.",
+      "evidence_scope": "Published Nature Biotechnology 31Mar2026 identity, Results opening and Fig1a workflow overview inspected in primary publisher indexed text. Custom dUTSO/UDG, DASH and separate long/short cDNA handling are source-positive; detailed oligos, Supplementary Note and correction audit remain unreviewed. Known preprint identities 10.1101/2025.08.08.669394 and 10.21203/rs.3.rs-7294776/v1 checked for local overlap only; no preprint recipe adopted.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "TRAP-seq",
+      "doi": "10.1038/nprot.2014.085",
+      "title": "Cell type-specific mRNA purification by translating ribosome affinity purification (TRAP)",
+      "source_url": "https://www.nature.com/articles/nprot.2014.085",
+      "modality": "RNA",
+      "boundary": "Cell-type restricted tagged ribosomes are affinity captured with their intact associated mRNAs before downstream RNA profiling. This is distinct from nuclease-footprint Ribo-seq and chemical RiboLace capture. Species, epitope and downstream kit substitutions must not become extra protocols; RiboTag remains a comparison, not a separate admission.",
+      "evidence_scope": "Discovery overview only: primary PubMed24810037 identity/abstract and indexed associated mainPMC4102313 overview of tagged translating-ribosome capture and downstream RNA-sequencing compatibility (two source records). DirectPMC challenge, publisher identity redirect and authorPDF502 were not bypassed. No full Methods/SI or concrete final-library route reviewed; actual RNA-seq preparation and published identity applicability need capped curation. Not acquired, registered or counted.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "doi": "10.1016/j.ymeth.2013.09.013",
+      "title": "RIPiT-Seq: A high-throughput approach for footprinting RNA:protein complexes",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S1046202313003824",
+      "modality": "RNA",
+      "boundary": "Sequential affinity purification of two RNP subunits with intervening mild RNA footprinting/non-denaturing elution enriches compositionally defined complexes before RNA-footprint NGS; distinct from single-RBP UV-CLIP and FLASH His/Strep purification of one tagged protein. Treat 2012 Cell origin and later RIPiT protocols as ONE method family, not additional rows.",
+      "evidence_scope": "Published 2014 Methods indexed abstract/highlights inspected; direct publisher open403. Related published 2012 Cell10.1016/j.cell.2012.10.007 indexed summary and published2019 JoVE10.3791/59913 indexed abstract/workflow inspected. Three selected original identities/overviews, zero successful direct original opens; 2021 update and other search-result identities were incidental fanout, not followed/adopted. No supplements/full recipes/oligos read. DOI origin choice2012 versus2014 must remain explicit at admission; no whole-revision equivalence.",
+      "status": "unregistered_discovery_only",
+      "protocol": "RIPiT-seq"
+    },
+    {
+      "doi": "10.1093/nar/gkaf231",
+      "title": "Mapping small molecule\u2013RNA binding sites via Chem-CLIP synergized with capillary electrophoresis and nanopore sequencing",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11952968/",
+      "modality": "RNA",
+      "boundary": "RNA-binding ligand bears a reactive crosslink module and capture handle; probe-modified RNA is enriched/released then mutational RT and amplified cDNA nanopore sequencing report ligand-proximal covalent adduct sites. Physical ligand-directed adduct/capture and mutation encoding differ from protein CLIP, ordinary direct-RNA sequencing or unselected generic SHAPE/DMS. CE RT-stop branch is not NGS and is not an additional candidate.",
+      "evidence_scope": "Published2025 NAR primary PMC11952968 identity/abstract/introduction153\u2013158 and limited capture/release overview184\u2013188 inspected; one successful direct original open. Primary PubMed40156856 indexed identity/abstract represents same article, not another chemistry original. Search also exposed indexed2019 Chem-CLIP-Map-Seq10.1016/j.bmcl.2019.04.001 overview and2025 PAL-Chem-CLIP10.1039/d4cb00266k abstract: counted conservatively as two comparison originals, total3; neither recipe/version merged. Other search fanout not followed. Current proof includes in-vitro modelRNA; no transcriptome-wide/cellular generalization or demonstrated native-RNA readout asserted. No SI/full protocol/oligos reviewed.",
+      "status": "unregistered_discovery_only",
+      "protocol": "Chem-CLIP-MaP-Seq"
+    },
+    {
+      "doi": "10.1093/nar/gku818",
+      "title": "TELP, a sensitive and versatile library construction method for next-generation sequencing",
+      "source_url": "https://academic.oup.com/nar/article/43/6/e35/2453421",
+      "modality": "multi",
+      "boundary": "TdT poly-C tailing of ssDNA or dsDNA-derived fragments precedes biotin-anchor primed extension, ExoI removal of excess anchor, streptavidin capture, on-bead adapter ligation and PCR. This independent library construction differs from generic double-stranded ligation and single-stranded ancient-DNA capture. Existing fC-CET delegates an opaque adapted TELP continuation and Paired-seq cites its component; neither registers or reconstructs the standalone TELP preparation. DNA/cDNA applications are one method.",
+      "evidence_scope": "Two primary records: publishedNAR main indexed Introduction/Fig1/Results preparation overview (alternatePMC4381050/PDF same defining work), and PubMed25223787 administrative DOI/online2014Sep15/2015issue identity. DirectOUPopen returned inaccessibleminimalpage redirect; no retry/acquisition. Exact name/preparation screened locally before reading; DOI gku818 checked after identity discovery before attempted primary open. No fullMethods/SI/wholeoligo/correction audit, recipe or source-equivalence inheritance.",
+      "status": "unregistered_discovery_only",
+      "protocol": "TELP"
+    },
+    {
+      "doi": "10.1186/s12864-018-4530-3",
+      "title": "SALP, a new single-stranded DNA library preparation method especially useful for the high-throughput characterization of chromatin openness states",
+      "source_url": "https://link.springer.com/article/10.1186/s12864-018-4530-3",
+      "modality": "DNA",
+      "boundary": "Denatured DNA is joined to a partially duplex single-strand adapter with a short degenerate3prime overhang, then copied and amplified. The tagmentation route uses one barcoded Tn5-adapter species followed by SSA installation, instead of requiring a productive pair of different Tn5 adapters; samples can pool after tagged tagmentation. This downstream adaptor/copying boundary differs from ATAC or changing its transposase alone. Fragmentation alternatives,1\u20134N adapter optimization and cell panels remain one SALP method.",
+      "evidence_scope": "One publishedBMCGenomics2018 main work, primaryarticle identity/abstract/Results130\u2013146/Fig1caption and overview199\u2013215 inspected; PMC5811972 is another representation, not another original. No supplementary original, wholeoligo/modification, correction or final complete preparation audit. Exact name/DOI/preparation screened against ours/plan/allledgers before primary open; substring-only SALP hits were unrelated names, not method records.",
+      "status": "unregistered_discovery_only",
+      "protocol": "SALP / SALP-seq"
+    },
+    {
+      "doi": "10.1038/s41551-017-0092",
+      "title": "Long-adapter single-strand oligonucleotide probes for the massively multiplexed cloning of kilobase genome regions",
+      "source_url": "https://www.nature.com/articles/s41551-017-0092",
+      "modality": "DNA",
+      "boundary": "Probe libraries assembled from short synthetic oligonucleotide pools incorporate a long adapter scaffold for multiplex capture of kilobase DNA regions, with an actual captured-ORFeome sequencing endpoint in Fig5. This is a probe-construction and long-target capture frontend, not merely a new MIP target panel; full gap-fill/circularization/enrichment chemistry must still be checked locally before collection. Cloning/expression and sequencing outputs must remain distinguished. Later recombinase-based factories or application panels are not extra leads here.",
+      "evidence_scope": "Conservatively three selected primary/version records at overview scope: published2017NatureBiomedicalEngineering identity/abstract/Fig1/Fig5headings; associatedPMC5687285 introductory probe-library/capture overview (whole final/associated-version equivalence unverified);2021 detailedprotocol10.1002/cpz1.278 indexed identity/intro pointer only. Direct2017publisheropen failed identityredirect; no retry/acquisition. Later2019/2022 assembly-variant searchpointers surfaced but no recipes/originalbody/extra method were adopted. Exact name/boundary screened locally first; DOI017-0092 checked before publisheropen; generic LASSO-regression hits not method duplicates. No fullMethods/SI/wholeoligo/correction audit.",
+      "status": "unregistered_discovery_only",
+      "protocol": "LASSO multiplex DNA capture"
+    },
+    {
+      "doi": "10.1038/s41467-020-20459-8",
+      "title": "isoCirc catalogs full-length circular RNA isoforms in human transcriptomes",
+      "source_url": "https://www.nature.com/articles/s41467-020-20459-8",
+      "modality": "RNA",
+      "boundary": "Enrich native circRNA with rRNA removal/RNaseR, reverse transcribe, remove RT-product overhangs by nuclease digestion, ligate circular cDNA and amplify that DNA circle by RCA for nanopore reads. The overhang-trimming/cDNA-circle construction boundary differs from registered R2C2 Gibson-splint preparation and from RNA-circle RCRT/CirSeq; admission is not based only on circRNA target class or software.",
+      "evidence_scope": "Published NatCommun12:266,12January2021 primary publisher identity/abstract and indexed definingPMC7803736 Experimentalworkflow/Fig1caption inspected. Main publisher and PMC are the same defining work; primaryBioProjectPRJNA594380/GEO indexed metadata also surfaced (conservative3article/adminrecords), not independent recipe authority. No fullMethods/SI/wholeoligo/correction audit, downloads or preprint merge. ExactDOI/name/title/preparation screened locally before reading against ours/plan/all discoveryledgers; no matching entry. Detailed comparison to R2C2 remains required at curation, no inherited constructor.",
+      "status": "unregistered_discovery_only",
+      "protocol": "isoCirc"
+    },
+    {
+      "doi": "10.7554/eLife.69457",
+      "title": "circFL-seq reveals full-length circular RNAs with rolling circular reverse transcription and nanopore sequencing",
+      "source_url": "https://elifesciences.org/articles/69457",
+      "modality": "RNA",
+      "boundary": "Native circRNA enrichment precedes rolling-circle reverse transcription from P1-N6. First-strand cDNA is polyA-tailed, second strand is made with P2-T24 anchor and P1/P2 PCR creates nanopore library. This RNA-templated repeat synthesis and cDNA tail/anchor-strand construction differs from isoCirc DNA-circle RCA and from registered CirSeq artificial RNA-fragment circularization; not an isoform-software or tissue-only variant.",
+      "evidence_scope": "Primary eLife current VersionofRecord title/DOI/versionheader (VOR26October2021; acceptedmanuscript14October onlyidentified, notsubstituted), abstract/Resultsopening/Fig1workflow; definingPMC8550772 indexed representation is same article. Companion BioProtocol2022PMC9081479 identity/abstract/enrichment overview also surfaced/read, not a separate method (2workrecords). No fullMethods/SI/sourceoligo or versionequivalence audit, no preprint merge/acquisition. Exact DOI/name/title/preparation absent ours/plan/all discoveryledgers at pre-open local screen. CIRI-long is a comparator, not another saved lead.",
+      "status": "unregistered_discovery_only",
+      "protocol": "circFL-seq"
+    },
+    {
+      "doi": "10.1038/s41467-021-24975-z",
+      "title": "Nanopore sequencing of brain-derived full-length circRNAs reveals circRNA-specific exon usage, intron retention and microexons",
+      "source_url": "https://www.nature.com/articles/s41467-021-24975-z",
+      "modality": "RNA",
+      "boundary": "After circRNA enrichment/linear-RNA depletion, gentle hydrolysis nicks RNA circles and linearized RNA ends are healed and polyadenylated before ONT cDNA-PCR sequencing. It samples single-copy opened RNA templates rather than DNA-circle RCA or intact-RNA RCRT concatemers. The same paper circPanel-LRS targeted alternative is retained as one paper/branch, not extra panel/species entries.",
+      "evidence_scope": "Published NatCommun12:4825,10August2021 primary indexed publisher/PMC8355340 identity/abstract/Resultsopening/Fig1workflow and nicking-versus-panel overview inspected. LaterMethodsMolBiol2024protocolidentity PubMed38381338 and authors2021Methods overview surfaced (conservative3work/adminrecords); physical-boundary evidence here comes from defining primary article, not review substitution. No completeMethods/SI/oligo/correction audit, acquisition or versionequivalence claim; companion protocols not extra candidates. Exact DOI/name/title/preparation locally absent ours/plan/all discoveryledgers before primary opens.",
+      "status": "unregistered_discovery_only",
+      "protocol": "circNick-LRS"
+    },
+    {
+      "doi": "10.1016/j.molcel.2018.09.012",
+      "title": "Higher-Order Organization Principles of Pre-translational mRNPs",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S1097276518307834",
+      "modality": "RNA",
+      "boundary": "Tandem selection of EJC-containing RNPs includes limited nuclease digestion, RNA-end healing and intracomplex RNA proximity ligation during second immunoaffinity purification; RNA-RNA chimeric junctions report RNP-associated RNA organization. Distinct from queued RIPiT unligated occupancy footprints and from unselected RNA secondary-structure capture; EJC targets/replicates are branches, not extra methods.",
+      "evidence_scope": "Published2018 MolecularCell main indexed summary/highlights read after local name/exactDOI screen; directmain403, not retried. Associatedauthor-manuscript PMC6239896/NIHMS1510438 indexed Results RIPPLiT method/Fig1 overview read to establish physical proximity-ligation boundary; published-first identity retained, full final/AMrecipe equivalence unverified. Conservatively2 originaldocument/version scopes;0successful direct opens/1failed publisheropen. PubMed30415953 identity and later RIPiT protocol identities incidental searchfanout, not opened/adopted. No fullMethods/SI/oligos/sourcebundle.",
+      "status": "unregistered_discovery_only",
+      "protocol": "RIPPLiT"
+    },
+    {
+      "doi": "10.1038/nature20781",
+      "title": "Variable chromatin structure revealed by in situ spatially correlated DNA cleavage mapping",
+      "source_url": "https://www.nature.com/articles/nature20781",
+      "modality": "DNA",
+      "boundary": "Ionizing-radiation clusters create spatially correlated DNA strand breaks; cells are processed in agarose plugs, end-healed and denatured to release short ssDNA fragments, then random-overhang adaptor ligation prepares paired-end libraries. The selection/reporting boundary is correlated fragment endpoints probing local chromatin proximity, distinct from proximity-ligation concatemers, nuclease accessibility and ordinary damaged-DNA WGS. Radiation doses/cell states/later applications remain branches.",
+      "evidence_scope": "PublishedNature online26Dec2016/issue2017 indexed abstract/editorial overview read after exactDOI/name screen; directmain identityredirect, no retry. Associatedauthor-manuscript PMC5526328/NIHMS870950 indexed Fig1 principle and ExtendedDataFig1 library-workflow caption read. Conservative2 originaldocument/version scopes;0successful directopens/1failedpublisheropen. AssociatedAM workflow is source-qualified, not asserted fullfinalrecipe equivalence. Later2025SRSLYadaptation/searchfanout not opened/merged/admitted. No fullMethods/SI/oligomodification review/sourcebundle.",
+      "status": "unregistered_discovery_only",
+      "protocol": "RICC-seq"
+    },
+    {
+      "protocol": "RADICL-seq",
+      "doi": "10.1038/s41467-020-14337-6",
+      "title": "RADICL-seq identifies general and cell type\u2013specific principles of genome-wide RNA-chromatin interactions",
+      "source_url": "https://www.nature.com/articles/s41467-020-14337-6",
+      "modality": "multi",
+      "boundary": "Fixed-nuclear DNase processing, RNase-H treatment, a biotin-bearing RNA\u2013DNA bridge and EcoP15I shortening create paired RNA/chromatin tags. Preparation differences from GRID-seq/iMARGI require full source comparison; coverage or cell type alone is not a new method.",
+      "evidence_scope": "One defining published2020 work at indexed publisher abstract, Results opening andFig1-caption scope; direct open failed Nature identity redirect. A2021 publisher correction index was also encountered, conservatively second administrative record; listed19May2021correction identity/body unreviewed. No acquired source bundle, complete Methods/SI/oligos or correction audit. Exact DOI/name absent ours/plan/allledgers before direct open; provisional discovery, not collection.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "HiChIRP",
+      "doi": "10.1038/s41592-019-0407-x",
+      "title": "HiChIRP reveals RNA-associated chromosome conformation",
+      "source_url": "https://www.nature.com/articles/s41592-019-0407-x",
+      "modality": "DNA",
+      "boundary": "RNA-probe enrichment selects preformed chromatin contacts. Azido nucleotide incorporation and later copper-free click attachment of biotin separate RNA-probe capture from contact enrichment. This joint DNA-contact preparation differs from ordinary ChIRP occupancy mapping and protein-directed HiChIP; individual RNAs are applications.",
+      "evidence_scope": "Published2019 NatureMethods identity/supplement-index overview plus associatedPMC6638558 indexed introduction/workflow opening: conservatively two version records; complete published/PMC equivalence unverified. Publisher direct open failed identity redirect. No source acquisition or complete recipe/SI/oligo review; actual listed supplementary protocol and probe/primer Table5 remain follow-up. Local exact DOI/name absent ours/plan/allledgers before direct open.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "protocol": "nanoPARE",
+      "doi": "10.1101/gr.239202.118",
+      "title": "NanoPARE: parallel analysis of RNA 5\u2032 ends from low-input RNA",
+      "source_url": "https://genome.cshlp.org/content/28/12/1931",
+      "modality": "RNA",
+      "boundary": "Template-switched cDNA is tagmented, then terminal fragments are selected by TSO/transposase-adapter PCR while a paired gene-body library comes from the same cDNA. This end-selection preparation differs from ordinary gene-body Smart-seq2 and RNA-ligation-based PARE. Low input alone does not establish distinctness.",
+      "evidence_scope": "Published2018 GenomeResearch indexed Results opening/Fig1 and PubMed30355603 identity/abstract, two records. Same-work PMC6280765 open challenged; no bypass or acquired original. Exact DOI/name locally absent ours/plan/allledgers before attempted original open. No full Methods/SI/oligos/correction audit; one method with paired outputs, not two counts.",
+      "status": "unregistered_discovery_only"
+    },
+    {
+      "doi": "10.1073/pnas.2405342121",
+      "title": "Fluorescence-activated droplet sequencing (FAD-seq) directly provides sequences of screening hits in antibody discovery",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11406258/",
+      "modality": "RNA",
+      "boundary": "Fluorescence gates selective picoinjection of lysis/RT-PCR supplies into intact phenotype-positive droplets; paired antibody heavy/light transcripts are fused and amplified as scFv before emulsion breaking, followed by nested amplification and ONT ligation sequencing. This replaces physical hit-droplet sorting/cell recovery with reaction-selective molecular amplification, beyond an antibody target-panel or nanopore-platform substitution.",
+      "evidence_scope": "Published PNAS121:e2405342121 (6September2024 online/10September issue), primaryPMC11406258 identity/abstract/Resultsopening and NanoporeSequencing overview255\u2013260 inspected; PubMed39240970 identity also surfaced (2primaryarticle/adminrepresentations). Actual endpoint SQK-LSK114/Flongle is explicitly sequencing, separate Sanger validation not substituted. No SI/wholeoligo/completeMethods/correction audit or download/registration/model. Exact DOI/name/title and selective-picoinjection physical boundary screened locally before direct main open against ours/plan/all discovery ledgers; no match, no preprint merge.",
+      "status": "unregistered_discovery_only",
+      "protocol": "FAD-seq"
+    },
+    {
+      "doi": "10.1038/s41592-021-01242-z",
+      "title": "Multiplexed profiling facilitates robust m6A quantification at site, gene and sample resolution",
+      "source_url": "https://www.nature.com/articles/s41592-021-01242-z",
+      "modality": "RNA",
+      "boundary": "Individually barcoded samples are physically pooled BEFORE joint m6A immunoprecipitation, retaining sample identity through a shared enrichment reaction. This sample-barcoding/capture-order boundary permits within-reaction sample comparisons; curation must establish exact molecular barcoding and compare existing MeRIP/m6A-LAIC rather than count higher throughput, new specimens or more index values alone.",
+      "evidence_scope": "Published NatureMethods18:1060\u20131067(2021) identity and preparation overview verified in primary PubMed34480159 abstract; author-institute indexed accepted-manuscript cover independently gives exact published DOI/title/year, explicitly AM not VOR equivalence. Publisher full page access redirected to inaccessible idp; author-repository PDF direct open403, no retries or chemistry acquisition. Conservative3original/adminidentities (PubMed, author cover, publisher identity attempt); no completeMethods/SI/oligos/corrections reviewed. Initial name/boundary and then exactDOI/title screened locally against ours/plan/all ledgers before direct opens; no matching entry. This remains an overview lead, not established full-preparation equivalence or registration.",
+      "status": "unregistered_discovery_only",
+      "protocol": "m6A-seq2"
+    }
+  ],
+  "user_priority": {
+    "protocol": "spatial-vdj__10.1126+science.adf8486",
+    "url": "https://www.science.org/doi/full/10.1126/science.adf8486",
+    "requested": "2026-10-29",
+    "status": "Final published main/SM/DataS1 supplied/retrieved, validated and incorporated into selected SR-TRB partial model. Independent original/source checks closed;36focusedPASS. No remaining requested downloads; historical cDNA/index/end/product geometry unresolved. Stable user-requested pause checkpoint.",
+    "deferred_by_user": "2026-10-29",
+    "resume_rule": "Activeuserpriority; previouslydeferred, nowresumed. Publishedmain+actualchemistrySI, no supersededpreprint substitution.",
+    "resumed_by_user": "2026-10-30",
+    "retrieved_source": "https://www.science.org/doi/full/10.1126/science.adf8486",
+    "version_limit": "Final main+SM+DataS1 now primary for selected scope. Other workbook content and full accepted/final equivalence not asserted; earlier16/12 analysis metadata remains explicitly historical.",
+    "ledger": "catalogue/curation_rounds/2026-10-30-priority-spatial-vdj.tsv",
+    "verification": "36 focused checks pass;678 source-matched strand instances/0 failures/4 inputs without exact states;74 unresolved/0 contradictory chemistry claims. Independent original workbook comparison0 mismatches, independent supplied-original implementation review closed;321 original workbook row comparisons match.",
+    "remaining_downloads": [],
+    "retrieved_supplements": [
+      "science.adf8486_sm.pdf",
+      "science.adf8486_data_s1_to_s5.zip"
+    ]
+  },
+  "platform_note_round19": "RNAworker returned a platform content restriction after its three existing models and MSCC/BL reviews had already closed. Failed turn not retried/rephrased; no chemistry fact inferred from failure. Remaining newDIP selected-source chemical/fate review conducted independently by coordinator against its published SI.",
+  "limited_component_source_reads": [
+    {
+      "protocol": "nad-captureseq__10.1038+nature14020",
+      "scope": "2017 published SI component ligation/tailing benchmarks only; original2015/coreNAD preparation inaccessible.",
+      "counts_as_collected": false
+    }
+  ],
+  "platform_deferred_round24": {
+    "protocols": [
+      "send-seq__10.1038+s41564-019-0500-z",
+      "capzyme-seq__10.1016+j.molcel.2018.03.014",
+      "bacs__10.1038+s41592-024-02439-8"
+    ],
+    "reason": "Worker turn stopped by platform screening; no chemistry drafts or reviews written. Source acquisition43480 terminal0; downloads and scraper hits do not establish source-qualified protocol collection. No retry of failed task.",
+    "acquisition_session": "43480 terminal0",
+    "scope": "Three registrations remain uncollected; not a source absence or inaccessible-document assertion."
+  },
+  "platform_deferred_round25": {
+    "protocols": [
+      "m7g-map-seq__10.1093+nar+gkz736",
+      "ice-seq__10.1101+gr.162537.113",
+      "rna-bs-seq-squires2012__10.1093+nar+gks144"
+    ],
+    "reason": "Worker stopped by platform screening while waiting for metadata READY, before source acquisition or any source-qualified draft. Failed task not retried.",
+    "scope": "Registration/metadata only; no source absence or source-access claim. No further chemistry tasks sent to this worker in this round."
+  },
+  "next_batch_staffing": "No next batch selected; user requested stable checkpoint, staging and pause. No discovery/acquisition while paused.",
+  "platform_note_round32": "DNAworker completed all round32models/reciprocal selected implementation reviews before a later separate future-discovery task returned a platform content restriction. No discovery artifact/lead/source blocker inferred from that failed turn; not retried or rephrased. Completed models/reviews were independently validated.",
+  "same_paper_method_boundary_note": "SSB-Seq and DSB-Seq share the2014 defining paper, which explicitly names separate PolI/DIG/antibody and TdT/biotin/streptavidin/S1 preparations. Both have independently inspected source-qualified local models. The existing catalogue JOINT allowlist now records the paper; no generic duplicate-DOI rule was weakened and no whole recipe inherited.",
+  "discovery_scope_holds": [
+    {
+      "protocol": "CLAM-Cap-seq",
+      "doi": "10.1038/s41586-022-05668-z",
+      "title": "mRNA ageing shapes the Cap2 methylome in mammalian mRNA",
+      "source_url": "https://www.nature.com/articles/s41586-022-05668-z",
+      "modality": "RNA",
+      "boundary": "IndexedprimaryResults/Fig2overview: cDNAcovalentlyjoinedtoRNAtemplateend; RNaseT2digestion retainscap-derivednucleotidetagattachedtocDNA; adapterinstallationlinks transcriptidentityandCap1/Cap2status. Fullchemistrynotcurated.",
+      "status": "deferred_discovery_scope_review_not_registered_or_collected",
+      "evidence_scope": "One definingarticle opened/indexedoverview read(PMC9891201/publisher); no supplementaloriginals orindividualGEOrecordsopened. Searchresults surfaced >=7identities: article,GSE196043,GSM5907217,GSM5907212,GSM5907215,GSM5907214,PRJNA803151. Workerwithheldunderstrictadministrative-identityexposure interpretation; notacappedfullsourcecurationpass.",
+      "deferred": "Fresh directlyselectedmain/SIcuration neededbeforeanyregistration/collection. FullMethods/oligos/librarygeometry/final-PMCequivalence/corrections/aliasesunknown. SamepaperCapTag/qPCRnotcurrentlyproposedasextraentries. Noaccessfailure/sourceabsence/exhaustionclaim."
+    },
+    {
+      "round": "39",
+      "ledger": "catalogue/curation_rounds/2026-10-30-expansion-discovery-multi39.tsv",
+      "scope": "SPARK-seq actual capture/library boundary versusApt-seq and DIG-seq nativechromatin boundary versusDigenome require comparison. Primaryoverview insufficient for admission; not source-access blockers, not exhausted."
+    },
+    {
+      "round": "39",
+      "ledger": "catalogue/curation_rounds/2026-10-30-expansion-discovery-dna39b.tsv",
+      "scope": "MeD-seqLpnPI/32bppreparation requires comparison againstMethylRADexplicitMrrenzymesincludingLpnPI. Enzyme/motifsubstitutionaloneinsufficient; holdnotconfirmedduplicate/notaccessblocked."
+    }
+  ],
+  "discovery_boundary_holds": [
+    {
+      "candidate": "m1A-IP-seq / m1A-quant-seq (evolvedRT)",
+      "doi": "10.1038/s41592-019-0550-4",
+      "source_url": "https://www.nature.com/articles/s41592-019-0550-4",
+      "title": "Evolution of a reverse transcriptase to map N1-methyladenosine in human messenger RNA",
+      "scope": "Preselectedpublishedmain; primaryassociatedAMPMC6884687 indexedabstract/Introductionworkflow confirms evolvedRT-1306andactualNGSIP/quantmethodnames. DirectNaturefailedidentityredirect; directPMCrecaptcha, no bypass. One definingwork, no SI/companion originals opened.",
+      "disposition": "Hold for distinct preparation/reporting boundary comparison against registeredTGIRTm1A-MAP10.1016/j.molcel.2017.10.019. Reporter-enzyme evolution can be a molecular difference; discovery scope does not yet establish enough independent boundary. Not software-only dismissal, sourceblockedclassification or exhaustion.",
+      "round": "37",
+      "status": "unregistered_uncollected_boundary_comparison_pending"
+    },
+    {
+      "candidate": "MeTH-seq",
+      "scope": "Localduplicate screen and searchidentity exposure only; primarydefiningoriginal notopened. Secondary search snippets distinguish lowMgRT fromlowdNTP2OMe-seq but were not adopted as chemistry evidence.",
+      "disposition": "Hold pending primarysource-supported boundary; no absence/exhaustion claim. No registration.",
+      "round": "37",
+      "status": "unregistered_uncollected_boundary_comparison_pending"
+    }
+  ],
+  "discovery_boundary_clarifications": [
+    {
+      "round": "38",
+      "candidate": "QuantM-tRNAseq",
+      "finding": "Local comparison finds circularization shared with registered DM-tRNAseq/mim-tRNAseq. Admission must rest on exact mature-CCA capture and product-fate architecture; no source reinspection or collection occurred."
+    },
+    {
+      "round": "39",
+      "protocol": "PT-seq (phosphorothioate)",
+      "scope": "Primary-indexed discovery preflight only, not a full new source pass.",
+      "finding": "Exact2024preprint identity still indexed; related published2025Microbiome10.1186/s40168-025-02071-4 cites it for details. This does not by itself establish that application as the published replacement. Preserve candidate and resolve publication/source-version before use. No source acquisition, registration or collection."
+    }
+  ],
+  "discovery_duplicate_exclusions": [
+    {
+      "round": "39",
+      "protocols": [
+        "SNS-seq",
+        "Bubble-seq",
+        "ini-seq"
+      ],
+      "reason": "Exact defining DOI and method already registered; no new identities or source collection from incidental search exposure."
+    }
+  ],
+  "curation_cap_exceptions": [
+    {
+      "protocol": "clippr-seq__10.1093+nar+gkae058",
+      "round": "2026-10-30-ngs-expansion-43",
+      "chemistry_originals": 3,
+      "conservative_identity_slots": 4,
+      "reason": "Distinct accepted XML identity header was exposed in addition to the three selected chemistry originals; accepted chemistry excluded. Owner disclosed overrun and stopped further source inspection. Source-positive classification rests on published PDF, not a claim of cap compliance. Independent reader inspected selected published original scope only."
+    }
+  ]
 }

@@ -1,0 +1,69 @@
+{
+  "dir": "miclip-nsun2-m5c__10.1016+j.celrep.2013.06.029",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3730056.1/PMC3730056.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain86\u201390and158; actualFig1originalPDFp2 independentlyviewed. Cys321/C271A/noUV, retainedproteinRNAclass andorderedlibraryworkflow.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3730056.1/mmc9.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Consolidatedmmc9extended595\u2013611 andactualFigS1p11 independentlyviewed; RNaseI1:1000/25cycle/HMLselectioncontext. Repeatedmainbody nottreatedindependentconfirmation.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "predecessor",
+      "role": "predecessor",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualpublishedK\u00f6nig2010SIidentity/2098\u20132121 barcodecontextonly; three-random+two-experimentbarcode preventswhole2010RTinheritance; no otherpredecessorrecipe adopted.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "independent_dna_peer_round40",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Independentselectedcriticalimplementationreview againstsame3owner-selectedoriginals; noadditionaloriginals/retrieval and noacceptedabsenceaudit.",
+      "locations": "Publishedmain86\u201390and158; actualFig1originalPDFp2 independentlyviewed. Cys321/C271A/noUV, retainedproteinRNAclass andorderedlibraryworkflow.; Consolidatedmmc9extended595\u2013611 andactualFigS1p11 independentlyviewed; RNaseI1:1000/25cycle/HMLselectioncontext. Repeatedmainbody nottreatedindependentconfirmation.; ActualpublishedK\u00f6nig2010SIidentity/2098\u20132121 barcodecontextonly; three-random+two-experimentbarcode preventswhole2010RTinheritance; no otherpredecessorrecipe adopted.",
+      "findings": "No blockingmolecular/source defect. PreservedCys321attacker/C271Arelease-mutant/noUV/proteinasepeptideremnant, primaryfractionfates, 3PNKprocessing beforeactivatedlinker/separate32Plabel, RT/circle/BamHI/PCR25 andQC/loadingstockallocations. Correct2013N5versus2010N3+2boundary.",
+      "deferred": [
+        "Sugimoto2012/citedexpressionconstruct/historicalreagentwholeorders andotherlinkedchemistry originals ordinaryunread, notdeclaredabsent.",
+        "Eightdataworkbooks andTruSeq/bisulfitevalidationrecipes outside selectedscope; noirrelevancefinding or absenceinference."
+      ],
+      "oligo_scraper": "Coordinatorreports mandatorydefiningbundle/predecessorSI scans inowner note; peerverifiedexactselectedoriginalbarcodeparagraphs andactualfigures, nozeroscraperabsenceinference."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Cited2010publishedsupplementcheckedonlyatbarcodeboundary. Sugimoto2012, sourceexpressionconstruct/historicalreagents ordinaryunread; completeoriginal/linked-sourceaudit notperformed."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveboundedprivatepartialgraph; selectedcriticalpeerclosed, nofullchemistryproof/two-passabsenceclaim.",
+  "independent_implementation_recheck": [
+    {
+      "round": "2026-10-30-ngs-expansion-40",
+      "reviewer": "dna_independent_round40",
+      "date": "2026-10-30",
+      "scope": "Same3originals/main86\u201390/158+Fig1p2;mmc9methods595\u2013611/FigS1p11;actualpublishedK\u00f6nig2010SI2098\u20132121 barcodecontext. No neworiginals.",
+      "findings": "Criticalsource/modelreviewclosed withoutmodelchanges; actual14focusedPASS; sourceguard0exact/0failed/3unassembled;chemistry23unresolved0contradictory. N5UMIversusN3+2sourceboundary/peptideremnant/actualfractionprovenance preserved. Narrowimplementationrecheck, notabsencepass2."
+    }
+  ]
+}

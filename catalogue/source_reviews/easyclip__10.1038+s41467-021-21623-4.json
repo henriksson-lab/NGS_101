@@ -1,0 +1,97 @@
+{
+  "dir": "easyclip__10.1038+s41467-021-21623-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/easyclip__10.1038+s41467-021-21623-4/s41467-021-21623-4_PMC7946914.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7946914.1/PMC7946914.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round22",
+        "date": "2026-10-30",
+        "locations": "Results78\u2013104/Methods229\u2013231,sourcearticleidentity/HiSeqacknowledgment/directprotocolreference555.",
+        "finding": "Positive inspectedpreparativescope only;fullmolecular/linkedsourceauditunresolved."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "workbook",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/easyclip__10.1038+s41467-021-21623-4/s41467-021-21623-4_supp_41467_2021_21623_MOESM3_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7946914.1/41467_2021_21623_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round22",
+        "date": "2026-10-30",
+        "locations": "LysisToRT/RTtolibraries1\u201368,L5linkers109\u2013139,Otheroligos168\u2013192;selectedprecursor/PCRoriginalshared-stringvalues independently extractedfromXLSX.",
+        "finding": "Positive inspectedpreparativescope only;fullmolecular/linkedsourceauditunresolved."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/easyclip__10.1038+s41467-021-21623-4/s41467-021-21623-4_supp_41467_2021_21623_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7946914.1/41467_2021_21623_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round22",
+        "date": "2026-10-30",
+        "locations": "Selectedmethodheaders/read-processing413\u2013434:randomhexamerUMIversusworkbooksevenrN.",
+        "finding": "Positive inspectedpreparativescope only;fullmolecular/linkedsourceauditunresolved."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "coordinator_round22",
+      "date": "2026-10-30",
+      "locations": "Mainreference41/text555;workbookOtheroligos192 namesOriginalirCLIPadapter",
+      "finding": "ExactProtocolExchange2021revision1 andirCLIPadaptercomponent named,notfollowedwithin3originalcap. Otherfigures/workbooks/cloning/standards andvendororiginals unreviewed,notdeclaredirrelevant."
+    },
+    "pass_2": null,
+    "deferred_originals": [
+      {
+        "locator": "https://doi.org/10.21203/rs.3.pex-1333/v1",
+        "role": "detailed_protocol",
+        "availability": "not_assessed",
+        "sections_inspected": "None",
+        "disposition": "Directcitedrevision1;sourcecapclosedbeforefollowup,notinaccessibleorabsent."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Positive publishedsourceworkflow/privateincompletegraph;fullmolecular/end/read/coverage remains unassembled,no publicpromotion or acceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-22",
+      "reviewer": "coordinator_round22",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Definingpublishedmain+twoactualpublishedchemistryoriginals;no recursivefollowup.",
+      "locations": "Results78\u2013104/Methods229\u2013231,sourcearticleidentity/HiSeqacknowledgment/directprotocolreference555.; LysisToRT/RTtolibraries1\u201368,L5linkers109\u2013139,Otheroligos168\u2013192;selectedprecursor/PCRoriginalshared-stringvalues independently extractedfromXLSX.; Selectedmethodheaders/read-processing413\u2013434:randomhexamerUMIversusworkbooksevenrN.",
+      "findings": "Dualadapter/polyA-adaptercapture/RTdirectPCR,physicalremnants/stocks/7PCRaliquots;RTtable/paragraph andUMI7versushexamerdifferences kept;longerL5precursorversusP6handle relationshipunassigned. No perfectproduct/primer landing asserted.",
+      "deferred": [
+        "Fullfinaldye-conjugatedadapters/end chemistry",
+        "ExactPCRpooling/run/primerlanding andsourceL5/P6inventoryrelationship",
+        "Directcitedprotocolrevision1 andhistoricalvendororiginals",
+        "Unselectedassays/sourcefiles/linkedmaterials"
+      ],
+      "oligo_scraper": "Mandatorybundlepassandfinalrerun;selectedprecursor/PCR/RTsourcehitsfollowedtoworkbookoriginalstrings. Noabsenceclaim.",
+      "verification": "9localchecks pass;independentselectedcriticalreviewclosed,notfullsource/absenceaudit."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round22",
+    "date": "2026-10-30",
+    "scope": "Independentselectedworkbook24\u201367/109\u2013139/168\u2013192 and SI425;3original scope,notfulloriginal/linkedabsenceaudit.",
+    "finding": "9focusedchecks pass. Source7rNversushexamer/P6TGdifference/RTparagraph40vs50/80C10vs5 preserved;7PCR/20ulRT/8mixboundaries explicit,unknownpoolworkupunassembled,azideprecursor notfinaldyeconjugate."
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "dir": "space-seq__10.1016+j.stem.2026.05.017",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13401910.1/PMC13401910.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedauthorMS PMC13401910.1/NIHMS2190436 identity/Methods246\u2013254 andanalysis264;finalpublishedbody/SIequivalencenotverified."
+    },
+    {
+      "id": "needed_2",
+      "role": "defining",
+      "locator": "https://doi.org/10.1016/j.stem.2026.05.017",
+      "original": "https://doi.org/10.1016/j.stem.2026.05.017",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Finalpublishedbody/versionidentityneeded;availableoriginalisassociatedauthorMS. Finalbodyunretrievednotassumedunpublished;associated-MSattachmentsactualgates,notallpublicationversionsinspected.",
+      "pass_1": {
+        "reviewer": "coordinator_round28",
+        "date": "2026-10-30",
+        "locations": "Sourceidentity/actualretrievalbarrieronly;originalbodyunread",
+        "finding": "Relevantversion/sourceblocked;noacceptedabsence."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "needed_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Supplementary_Figures.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Supplementary_Figures.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject. Finalbodyunretrievednotassumedunpublished;associated-MSattachmentsactualgates,notallpublicationversionsinspected.",
+      "pass_1": {
+        "reviewer": "coordinator_round28",
+        "date": "2026-10-30",
+        "locations": "Sourceidentity/actualretrievalbarrieronly;originalbodyunread",
+        "finding": "Relevantversion/sourceblocked;noacceptedabsence."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "needed_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Table_S1.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Table_S1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject. Finalbodyunretrievednotassumedunpublished;associated-MSattachmentsactualgates,notallpublicationversionsinspected.",
+      "pass_1": {
+        "reviewer": "coordinator_round28",
+        "date": "2026-10-30",
+        "locations": "Sourceidentity/actualretrievalbarrieronly;originalbodyunread",
+        "finding": "Relevantversion/sourceblocked;noacceptedabsence."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedauthorMS PMC13401910.1/NIHMS2190436 identity/Methods246\u2013254 andanalysis264;finalpublishedbody/SIequivalencenotverified.",
+      "locations": "AssociatedauthorMS PMC13401910.1/NIHMS2190436 identity/Methods246\u2013254 andanalysis264;finalpublishedbody/SIequivalencenotverified.",
+      "findings": "Associated-manuscript-qualified puck capture and physical transcriptome/spatial-lineage cDNA split; selected Tigre nested-PCR route, known whole printed bead and within-MS layout discrepancies retained.",
+      "deferred": [
+        "Finalpublishedbody/versionidentityneeded;availableoriginalisassociatedauthorMS.",
+        "ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject.",
+        "ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject."
+      ],
+      "oligo_scraper": "Mandatorybundle run: SPACE9candidates/1main;Sprox0/0,Bridge0/0. Onlyselectedreadoriginalwasauthority.",
+      "verification": "29focusedchecks(SPACE14/RASL15)pass;4localwhole-orderingchecksagainstselectedoriginaltextincluded. Standardinput-onlysourceguard0exact/0failed/0exceptions/2unassembledover2graphs(bulkprimercomponentsareproducedmaterials). Chemistry0established/48unresolved/0contradictory;notcompletevalidation."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Relevantunreadoriginalsremainopen;no full linked-source or absence review."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://doi.org/10.1016/j.stem.2026.05.017",
+      "why": "Finalpublishedbody/versionidentityneeded;availableoriginalisassociatedauthorMS."
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Supplementary_Figures.pdf",
+      "why": "ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject."
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13401910/bin/NIHMS2190436-supplement-Table_S1.xlsx",
+      "why": "ActualidentifiedsourceTableS1primers/splintorSupplementaryFigures;PMCdownloadgated/notCloudTDMobject."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round28",
+    "date": "2026-10-30",
+    "scope": "AssociatedAM PMC13401910.1/NIHMS2190436 Methods246\u2013254/analysis264, same1original. Nofinalpublished/S1readorequivalenceclaim.",
+    "finding": "Literal8N/prose7UMI and8+6J/analysis8+7Jwithin-AM discrepanciesretained; actualbeadwholeorderingchecked. Capture5P/S1gatedgeometrymanualunassembledstate, notsource-unreported. Same-stockbeadprimers/TSO, clearingstocknotfinalconcentrations, physicalbead/cDNAparallel50ulPCRallocation, transcriptomebranch, halfPCR/PhiXactualDNAprovenanceverified. Sourcecustompuckcapture/librarysplitdistinctboundarybeyondtargetpanel. Selectedcriticalscopeclosed."
+  }
+}

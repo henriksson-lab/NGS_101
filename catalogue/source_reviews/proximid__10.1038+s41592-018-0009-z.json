@@ -1,0 +1,67 @@
+{
+  "dir": "proximid__10.1038+s41592-018-0009-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0009-z/MediaObjects/41592_2018_9_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI1identity/Fig1\u20138 captions: analysis/network/FISHvalidationcontext, notorderedNGSpreparation.",
+      "cached_original": "s41592-018-0009-z_41592_2018_9_MOESM1_ESM.pdf"
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41592-018-0009-z",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Published finalNatureidentity/abstract read; fullMethods blockedbysubscriptionpreview.",
+      "cached_original": "s41592-018-0009-z.html",
+      "reason": "ActualfinalarticleHTML is subscriptionpreview; fullMethods unavailable throughthis response. Identity/abstractscope stillread/countedasoriginal."
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-018-0009-z/MediaObjects/41592_2018_9_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published reportingsummary p1samplecounts/blinding confirms mouth-pickingdoublets/triplets; remainingmaterial/animal/studycontext. Coresequencingprotocolnotverified.",
+      "cached_original": "s41592-018-0009-z_41592_2018_9_MOESM2_ESM.pdf"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published finalNaturemain identity/abstractpreview; publishedSI1Fig1\u20138 analysis/FISHvalidationcaptions; publishedSI2reportingsummary p1samplecounts/blinding and reagentcontext. No centraldissociation/cellassignment/library recipe verified.",
+      "locations": "Published SI1identity/Fig1\u20138 captions: analysis/network/FISHvalidationcontext, notorderedNGSpreparation.; Published finalNatureidentity/abstract read; fullMethods blockedbysubscriptionpreview.; Published reportingsummary p1samplecounts/blinding confirms mouth-pickingdoublets/triplets; remainingmaterial/animal/studycontext. Coresequencingprotocolnotverified.",
+      "findings": "Published ProximIDidentity/abstract and reportingsummary confirm mouth-picking interacting doublet/tripletstructures, but core sequencing preparation remains blocked by mainarticle subscriptionpreview; no graph or countable completed preparation curation.",
+      "deferred": [
+        "Actualfullpublishedmain requiredforcentralpartialdissociation/individual-cellassignment/librarypreparation; abstractandanalysisSIalone insufficientforcollection.",
+        "ActualSI3zip acquisitionstoppedatconfigured120MBcap; documentrole/chemistryrelevanceunreviewed, notpublisherinaccessibility ordisclosureabsence. No automaticlarge-downloadchase.",
+        "NoCEL-seq2/otherpredecessorrecipe assumed fromsecondarysummaries orpaperassociation."
+      ],
+      "verification": "Repair9/inCITE12focusedchecksPASS; two-graphsourceguard0exact/0failed/0exceptions/1unassembledinput. Chemistry51unresolved0contradictory; not complete validation. ProximIDno model/notcollected.",
+      "oligo_scraper": "Mandatoryscrapers:Repair1candidate/1representation atselectedreadtime;inCITE1200/6 withactualMOESM7normal10MBscan-size-skip;ProximID0/0. No sourceabsenceinferredfromhits."
+    }
+  ],
+  "pass_1": null,
+  "pass_2": null,
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actualdeferredlinkedsources/componentsstated; capped passnotfullsource/absenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round33",
+    "date": "2026-10-30",
+    "scope": "SamepublishedNaturefinalpreview,SI1Fig1\u20138captions andSI2reportingsummaryp1samples/blinding;3originalcombinedscope.",
+    "findings": "Independentlyconfirmedfinalsubscriptionpreview andsourceSIroles, mouthpipettingdoublets/tripletspositivecomponent only. Analysis/FISHcaptions andreportingsummary do not establish central dissociation/cellassignment/libraryrecipe. Uncollected/no-graphdisposition remainsjustified; actualSI3largesizecap retained as unreviewedrole, notabsence/accessproof. No inheritedCEL-seqrecipe or fakeabsenceclaim.",
+    "verification": "Source/modelboundaryreview closed; no chemistrygraph/suite fabricated."
+  }
+}

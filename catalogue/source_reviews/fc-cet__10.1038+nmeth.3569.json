@@ -1,0 +1,85 @@
+{
+  "dir": "fc-cet__10.1038+nmeth.3569",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fc-cet__10.1038+nmeth.3569/nmeth.3569_PMC4626315.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "Associated manuscript NIHMS714853 mainMethods93\u2013131/Fig1e; matchingPDFunittext",
+        "finding": "PhysicalAIadduct/click/strandwash/reductiverelease and downstreamTELPadaptation plus3comparisonsourcebranches."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fc-cet__10.1038+nmeth.3569/nmeth.3569_supp_NIHMS714853-supplement-1.pdf.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "Mandatoryscraper/identitypointers only; full associatedSIchemistry not separately reviewed",
+        "finding": "PublishedSI selected as active chemistryoriginal; this associatedsupplement remains distinct, not whole-versionequivalence."
+      }
+    },
+    {
+      "id": "original_3",
+      "role": "other",
+      "locator": "https://www.nature.com/articles/nmeth.3569",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "Primarypublisher21September2015Changehistory; integratedSI chemistrycaptions1\u20139",
+        "finding": "Updatecorrects ChuanHeaffiliations (Tsinghuaremoved/missingPekingChemicalBiologyadded); no chemistrycorrection stated. PublisherSI download/review beyond selectedassociatedoriginal remains deferred."
+      }
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fc-cet__10.1038+nmeth.3569/nmeth.3569_41592_2015_BFnmeth3569_MOESM167_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round13",
+        "date": "2026-10-29",
+        "locations": "PublishedDOIheader/Fig1\u20139captions, especially8\u20139 strandwash/disulfiderelease/polymeraseclasses",
+        "finding": "Explicit5fC-AI-SH releasedclass; PCRcopybias ratherthanphysicalDNA-Tconversion. KnownqPCR/modelvalidationtables not adopted asTELPoligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round13",
+      "date": "2026-10-29",
+      "locations": "Selected originals/actuallinkedtargets innotes",
+      "finding": "ActualgatedSI distinguishedfromordinaryhistoricalkit/TELP/publishedversiondeferredreading; noabsenceacceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Knownoperations/acquisitionretainedwithsourcequalifiedpartialmolecularstates; completehistoricalpolymers/end/readgeometryunreviewed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "expansion_dna_round13",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Max3originals; definingmainandchemistrySI beforelinkedreferences; norecursivechase.",
+      "locations": "AssociatedmainMethods93\u2013131/Fig1e; publishedSI MOESM167Fig1\u20139; publisher21September2015affiliationChangehistory. AssociatedSIscannedforpointers only, notseparatechemicalauthority.",
+      "findings": "Sourceorder/physicalfractions/chemicaladductversusreportedbases retained; publisherupdateidentifiedonlyasaffiliationcorrection.",
+      "deferred": [
+        "ActualgatedSIandnamedhistoricalkit/directpredecessortargets inresearchnote; noabsenceconclusion."
+      ],
+      "oligo_scraper": "/tmp/fccet13-oligos-final.log;114hits in2files afterpublishedSI arrived, duplicateoriginaltablepointers/modelvalidationoligos; noTELPpolymeradopted and noabsenceclaim.",
+      "verification": "21localchecks(6MINCE/7fCAB/8fC-CET)passed;3privatebuilds/scopeddocs/pairing0problems andsource-reviewschema passed. Chemistry0established/56unresolved/0contradictory;sourceguard0checked/0failed with6fC-CETprimerinputswithout exactstates,notexactoligovalidation. Retrieval83354/30671completedexit0; externalcachepreserved/noacquisitionrunning."
+    }
+  ]
+}

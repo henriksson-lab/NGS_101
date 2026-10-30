@@ -1,0 +1,136 @@
+{
+  "dir": "g4rp-seq__10.1038+s41467-018-07224-8",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_PMC6226477.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/PMC6226477.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_PMC6226477.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/PMC6226477.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance36; Results60\u201376; limitations116; Methods138\u2013148capture/release/extraction/library/readout",
+        "finding": "Source-known capture\u2192TRIZOL\u2192DNase\u2192thermalfragment\u2192RiboZero\u2192TruSeq\u2192NextSeqPE75; noncovalent probe binding and no perfect G4 specificity."
+      },
+      "pass_2": null,
+      "source_version": "Published non-manuscript original"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_supp_41467_2018_7224_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/41467_2018_7224_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round09_reader",
+        "date": "2026-10-29",
+        "locations": "Identityp1; selected BioTASQcharacterizationpp5\u20136; Fig6p11/Fig7p12; Table3in-vitro oligos/source594ff",
+        "finding": "Source-known capture\u2192TRIZOL\u2192DNase\u2192thermalfragment\u2192RiboZero\u2192TruSeq\u2192NextSeqPE75; noncovalent probe binding and no perfect G4 specificity."
+      },
+      "pass_2": null,
+      "source_version": "Published SI"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_supp_41467_2018_7224_MOESM2_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/41467_2018_7224_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_supp_41467_2018_7224_MOESM3_ESM.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/41467_2018_7224_MOESM3_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_supp_41467_2018_7224_MOESM4_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/41467_2018_7224_MOESM4_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_supp_41467_2018_7224_MOESM5_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/41467_2018_7224_MOESM5_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actual cached original/analysis file not inspected in capped pass; no absence/irrelevance conclusion. Main/SI file variants are not assumed identical by filename."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "locations": "Selected exact source sections above and protocol notes",
+      "finding": "Source-known capture\u2192TRIZOL\u2192DNase\u2192thermalfragment\u2192RiboZero\u2192TruSeq\u2192NextSeqPE75; noncovalent probe binding and no perfect G4 specificity. Directly named originals deferred at source cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Historical TRIZOL,RiboZero and TruSeqRNA manufacturer documents named in Methods138/148",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    },
+    {
+      "locator": "Main explicitly cited RIP-predecessor reference30; exact linked original not followed in cap",
+      "scope": "Actual named/cited original or edition boundary, not an invented missing disclosure document"
+    }
+  ],
+  "open_questions": [
+    "Exact kit editions, full molecular geometry and input-control aliquot exposure timing remain unassembled. Distinct from rG4 RT-stall frontend.",
+    "Historical RiboZero mechanism, any separation and physical RNA/DNA/remnant fates remain unresolved; opaque kit processing does not assert affinity capture or disposal."
+  ],
+  "conclusion": "Notes-only capped first source/implementation pass. No full chemical/readout/source completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "rna_round09_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining/chemistry originals first, no recursive source chase",
+      "locations": "Provenance36; Results60\u201376; limitations116; Methods138\u2013148capture/release/extraction/library/readout; Identityp1; selected BioTASQcharacterizationpp5\u20136; Fig6p11/Fig7p12; Table3in-vitro oligos/source594ff",
+      "findings": "Source-known capture\u2192TRIZOL\u2192DNase\u2192thermalfragment\u2192RiboZero\u2192TruSeq\u2192NextSeqPE75; noncovalent probe binding and no perfect G4 specificity.",
+      "deferred": [
+        "Historical TRIZOL,RiboZero and TruSeqRNA manufacturer documents named in Methods138/148",
+        "Main explicitly cited RIP-predecessor reference30; exact linked original not followed in cap"
+      ],
+      "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
+      "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

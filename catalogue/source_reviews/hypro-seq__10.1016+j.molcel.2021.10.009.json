@@ -1,0 +1,57 @@
+{
+  "dir": "hypro-seq__10.1016+j.molcel.2021.10.009",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8791277.1/PMC8791277.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main identity/Methods HyProRNA preparation distinct fromMS branch, source version checked",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8791277.1/mmc2.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS1 original probe set identities/PNCTRtargetrows, notwholeNGSoligos",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-36",
+      "reviewer": "targeted_owner_round36",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Selectedsource-positivepreparationonly; sourceinvestigationclosedbeforemodelling.",
+      "locations": "Published main identity/Methods HyProRNA preparation distinct fromMS branch, source version checked; Published TableS1 original probe set identities/PNCTRtargetrows, notwholeNGSoligos",
+      "findings": "PublishedPNCTRrepeat(GA)10/3DIGprobeHyProneighborhoodRNAseq: DSP/ethanolhybridization/HyProfusion, equalvolume-addedbiotinphenolperoxide1min, RNA400ugPKbeforeC1 and80ugonbeadPKrelease, RNAkit/rRNAdepletion/qPCR/actualbarcodedNGSpool/NextSeq75SE. Separateinfusioncontrol andMSroute retainedassuch; wholevendoroligos/endproductsunassembled. Verification: 39focusedPASS(QTI16/HyPro12/PA11);guard1exact0failed1GA10source-notationexception0unassembledintroducedstates;0established70unresolved0contrad. WholeQTIØprimers/otherknownPCRoligoscheckedbylocaloriginalfixtures; guardexactmatchitselfcoverspartialleftblockonly. Independentselectedpeerreviewpending; nofullreaction/source/absenceaudit.",
+      "deferred": [
+        "Exactactualblockedfulloriginalswhereidentified",
+        "Directlylinkedhistoricalvendor/predecessororiginals andfullmolecularproducts/readlandings"
+      ],
+      "oligo_scraper": "Mandatorywholebundlerun QTI71/HyPro234/PA0hits; actualsourcepointersverified, QTIoriginalPDFp10modifiedorderingsviewed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourcequalifiednamedlinkedmaterial ordinaryunread/unavailableasstated; no inventeddisclosuredocument or sourceabsence conclusion."
+  },
+  "missing_claims": [],
+  "conclusion": "Positivequalifiedboundedpreparation, not completechemistry/sourceoracceptedmissing-informationaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "dna_peer_round36",
+    "date": "2026-10-30",
+    "round": "2026-10-30-ngs-expansion-36",
+    "scope": "Same2publishedoriginals: main606–632 actualRNA-versusMSworkups and TableS1mmc2originalZIP/XML PNCTRNRprobecontext. Main(GA)10/3Dig_N wholeprobe retained, conditionalRNAUCwindow, labeledsameHyProenzyme/equal-volume addedsolutions,400ugprePK thenRNAextraction/C1capture10ulper20ugRNA/second.80ugulPK, separateinfusioncontrol and75cycleSEboundary verified; no proteinMS60ulbeadrecipe inherited.",
+    "findings": "Critical source/model/physicalfate/modified-end/identifier boundary recheck closed; no blocking defect found. Focused suites independently rerun QTI16/HyPro12/PA11=39PASS. Same selected originals only; no new retrieval and no accepted missing-information or pass2absence conclusion."
+  }
+}

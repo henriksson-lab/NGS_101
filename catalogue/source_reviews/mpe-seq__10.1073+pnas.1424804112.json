@@ -1,0 +1,59 @@
+{
+  "dir": "mpe-seq__10.1073+pnas.1424804112",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://doi.org/10.1073/pnas.1424804112",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ePMC500/PMCchallengecooldown/officialCloud no usable file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "other",
+      "locator": "https://doi.org/10.1073/pnas.1916397116",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ePMC500/PMCchallengecooldown/officialCloud no usable file",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://doi.org/10.1073/pnas.1424804112",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "SI Materials and Methods explicitly linked from defining article; source-indexed supplement identity remains unresolved because original unavailable",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Actual original-source access barrier;identity only, no chemistry collection/no accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "dna_round21",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Capped source acquisition;no original chemistry reading from search excerpts.",
+      "locations": "Standard defining and correction routes and official PMC archive listings;all inaccessible/no usable original.",
+      "findings": "No validated original available;do not establish chemistry or missing information.",
+      "deferred": [
+        "Defining full article and source-indexed SI Materials and Methods",
+        "Actual formal2019correction original"
+      ],
+      "oligo_scraper": "Mandatory scrape:0sequences/0files;not evidence of absence."
+    }
+  ]
+}

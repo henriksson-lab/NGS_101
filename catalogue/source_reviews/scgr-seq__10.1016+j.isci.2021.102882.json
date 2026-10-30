@@ -1,0 +1,60 @@
+{
+  "dir": "scgr-seq__10.1016+j.isci.2021.102882",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgr-seq__10.1016+j.isci.2021.102882/j.isci.2021.102882_PMC8349903.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Results88/Fig1 and Methods330\u2013350: conjugation/quench/desalt/click/affinity/dialysis, cell stain/washes/pick/UV, tag supernatant versus RNA pellet, tag PCR/AMPure/MiSeq and GenNextRamDA/NovaSeq branches."
+    },
+    {
+      "id": "published_tag_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgr-seq__10.1016+j.isci.2021.102882/j.isci.2021.102882_supp_mmc2_TableS1.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS1 rPVL row: full reporter DNA and22-base lectin identity. Original file is a member of the published mmc2 TablesS1\u2013S15 archive, not an independently guessed download."
+    },
+    {
+      "id": "published_primer_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgr-seq__10.1016+j.isci.2021.102882/j.isci.2021.102882_supp_mmc2_TableS15.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS15 printed primer header, i5/i7 families and cell barcode description. Exported worksheet name TableS11 does not override printed TableS15/file identity."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Selected source-local physical reporter interfaces and all known operational continuation steps;main-unread opaque boundaries explicit,not a complete method review.",
+      "locations": "Published Results88/Fig1 and Methods330\u2013350: conjugation/quench/desalt/click/affinity/dialysis, cell stain/washes/pick/UV, tag supernatant versus RNA pellet, tag PCR/AMPure/MiSeq and GenNextRamDA/NovaSeq branches.; Published TableS1 rPVL row: full reporter DNA and22-base lectin identity. Original file is a member of the published mmc2 TablesS1\u2013S15 archive, not an independently guessed download.; Published TableS15 printed primer header, i5/i7 families and cell barcode description. Exported worksheet name TableS11 does not override printed TableS15/file identity.",
+      "findings": "\ud83d\udfe2 Source Results specifies photocleavable DBCO-NHS attachment to lectin amino groups followed by coupling to5\u2032-azide DNA;Methods abbreviates the reagent name as DBCO-NHS. Exact linker catalogue/structure and photo-product formula are unassembled;the model does not claim ordinary DBCO itself is photocleaved. Lectin activation20\u00b0C1h is followed by Tris quenching20\u00b0C15min and SephadexG25 removal of excess reagent. AzideDNA coupling at4\u00b0C precedes sugar\u2013Sepharose affinity purification,dialysis and10kDa concentration. Quenching alone is not removal.\n\n\ud83d\udfe2 The representative rPVL reporter is `CGACGCTCTTCCGATCTCTGTCGCCCTGAACAACGGCAATGGCAGTCAGATCGGAAGAGCACAC`;its TableS1 lectin identity is `TCGCCCTGAACAACGGCAATGG`. The input DNA carries5\u2032azide. After click attachment the original azide is not presented as an unreacted terminal group;after UV the local5\u2032remnant is explicitly unassembled,not assigned phosphate or hydroxyl by assumption. This label is a lectin identity,not a UMI or cell identity.\n\n\ud83d\udfe2 Cells receive41DNA-barcoded proteins0.5\u00b5g/ml4\u00b0C1h,three PBS/BSA washes,and visual single-cell picking after counting. Source365nm15W15min exposure releases reporterDNA. Source Fig1/Results explicitly recovers DNA-bearing supernatant after centrifugation and retains the same-cell pellet forRNA. The two fractions can carry soluble or cell-associated remnants;neither is asserted chemically pure. No DNA barcode is transferred into RNA as part of this separation.\n\n\ud83d\udfe2 Tag supernatant uses NEBNextUltraIIQ5 and i5/i7 well-index primers for20cycles98/65,then AMPureXP cleanup and MultiNA assessment. TableS15 calls the8X windows cell barcodes;they are sequencing index windows that identify cell wells,not molecular UMIs. The model carries those meanings without assigning particular experimental cells. Source reports MiSeqv2 50cycle kit and26bp paired-end reads;both printed statements remain explicit without a silent25bp substitution. Exact acquired index cycles/read primers are unassembled.\n\n\ud83d\udfe2 Cell-pellet RNA continues through GenNextRamDA-seqSingleCellKit as directed by the source,then PowerUpSYBR/CFXlibraryqPCR and NovaSeq6000S4,151bp paired-end. Whole historical kit/cDNA/library geometry and exact manufacturer operations remain unread. Existing RamDA-seq code is not imported solely because the product name matches.\n\nComponent ancestry: published Methods350 explicitly directs the RNA branch to the GenNextRamDA kit and Hayashi etal.2018 source. That establishes a branch-specific source referral,not full recipe equivalence with an existing module. scGlycan-seq-only,bulkGlycan-seq and jointscGR-seq remain branches of this one defining technology;bulk-only cell number is not silently assigned to the single-cell graph.",
+      "deferred": [
+        "Published mmc1 figures including detailed FigS1 linker depiction; its cached existence does not mean inspected",
+        "Direct GenNextRamDA kit historical guide/revision and Hayashi2018 predecessor; complete RNA preparation/library steps",
+        "Exact photocleavable linker/released DNA end chemistry and full PCR/read geometry",
+        "Remaining linked originals and independent source review"
+      ],
+      "oligo_scraper": "/tmp/round13-scgr-final-hits.log",
+      "verification": "scGR8+TRAPS8+TetTCR12=28localchecks pass;3privatebuilds,pairing0problems. Sourceguard13checked0failed/0exemptions after narrowsharedoriginal-format fixes forTRAPSmodificationcolumnwrap andTetTCRbalancedNmanufacturingdirective. Chemistry0established45unresolved0contradictory;review2in_progress+1blocked valid. Independentselected-sourcecriticalreviewfoundnoconsequentialdefect;TRAPSFig3positivecovalentAb\u2013streptavidinthenoligoassociationrefinementretained. These checks establishonlytheirselectedscope,notfullchemistry/sourcecoverage."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Specific originals/source versions and pending linked targets separated from unassigned molecular questions. No missing-information gate acceptance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published mmc1 figures including detailed FigS1 linker depiction; its cached existence does not mean inspected",
+    "Direct GenNextRamDA kit historical guide/revision and Hayashi2018 predecessor; complete RNA preparation/library steps",
+    "Exact photocleavable linker/released DNA end chemistry and full PCR/read geometry",
+    "Remaining linked originals and independent source review"
+  ]
+}

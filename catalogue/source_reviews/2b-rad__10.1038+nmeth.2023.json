@@ -1,0 +1,73 @@
+{
+  "dir": "2b-rad__10.1038+nmeth.2023",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/2b-rad__10.1038+nmeth.2023/nmeth.2023_41592_2012_BFnmeth2023_MOESM591_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.2023/MediaObjects/41592_2012_BFnmeth2023_MOESM591_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2012MOESM591 exacttitle/DOI;oneoriginalsourcepass",
+      "pass_1": {
+        "reviewer": "dna_round17",
+        "date": "2026-10-29",
+        "locations": "PublishedSI Table6/Table8/Table10p11rendered, DetailedProtocol848–1029, Appendix1031–1067",
+        "finding": "ActualSOLiDAlfIroute,capTinventory/blockedends,sourceoligos,fourprimer/cycleQCandphysicalfractions verified;completegeometryunassembled."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "defining_main",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth.2023",
+      "original": "https://doi.org/10.1038/nmeth.2023",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "CoordinatorstandardDOIroute: no open full text found,publisherpageonly;no further acquisition duringimplementation.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round17",
+      "date": "2026-10-29",
+      "locations": "OnepublishedSI;detailedsourcebranchanddirectunreviewedtargets innotes",
+      "finding": "Definingmainactualaccessbarrier;historicalfullSOLiD/capbond/readgeometry remains ordinarydeferredreading,notconfirmedabsent."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "PrivateincompletepublishedSI-ownedSOLiDAlfIgraph;no publicpromotion,fullrevieworacceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "dna_round17",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Coordinatorboundedsourcepassclosed;implementationusedonlyexistingpublishedSI,no acquisition.",
+      "locations": "PublishedSI Table6/Table8/Table10p11rendered, DetailedProtocol848–1029, Appendix1031–1067",
+      "findings": "Two-sidedcutreferenceconservesbothstrands atcallerexplicitcoordinates;invertedTremainsnucleotide16/14inventorywithblockedend;fullnoncanonicalbondgeometryunassembled. PhysicalQC/prep/remainders andlatergel/collectionfatesdistinct. BothrawTable10(3primeinvT+reversedcore)andAppendix(5primecoreT(invT))formspreserved;modelchoosesTable10core15/13+oneinvT. Appendixpostfixadditionversusterminalannotation/fullchemicalequivalenceandapplicabilityremainunreviewed,nopublicationerrorasserted. Source-knownlongadapterbodies/3primeNNendsnowexplicitinreported_adapter_endgeometry;cap/genomicjunctionstillunassembled. Coordinatecutreferenceinferredbydefaultandrequirescentralduplexoverlap. Source-readytransferredeluateisK.LIBRARY,notfullchemical/readgeometryclaim.",
+      "deferred": [
+        "Definingfullmain,historicalSOLiDbeadenrichment/readprimer/runchemistry andcompleteadapter/ligation/PCR/noncanonicalcapbondgeometry."
+      ],
+      "oligo_scraper": "Mandatory87candidates/1SIfile;actualTable10p11renderedmodifications/strandorientationverified.",
+      "verification": "16focusedlocalcheckspass;sourceguard5checked0failed1approvedp4familyexemption,2capinputswithoutcanonicalfullstrandstates,1graph. Chemistry13unresolved0contradictory. Source-review schema/note/ref rendering checked. No fullsource/absenceaudit."
+    }
+  ],
+  "source_transcription_review": {
+    "reviewer": "coordinator_independent_reader",
+    "date": "2026-10-29",
+    "scope": "OriginalTable10p11andAppendix1031–1067 wholep4fixedflanks plusTable10general6–10/actualstudy6width",
+    "finding": "SingleunassignedN6p4familyguardexemptionapprovedbecause[bc]/(bc)macrowidthunrepresented;fiveotherexactstrandsstaychecked. This is independentselectedsourcetranscriptionreview,notabsenceaudit."
+  },
+  "independent_implementation_recheck": {
+    "reviewer": "dna_round17",
+    "date": "2026-10-29",
+    "scope": "Coordinatorchanges only:partialreported3primeNNends,libraryendpoint,caller-coordinateoverlap/inferredreference;existingoriginalscope,nonewacquisition.",
+    "finding": "No consequentialdefectfound;16localchecks and5literaloligos0fail/1approvedfamilyexemptionpass. This is not an absenceaudit."
+  }
+}

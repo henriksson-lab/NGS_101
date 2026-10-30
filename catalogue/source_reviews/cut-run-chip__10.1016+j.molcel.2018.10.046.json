@@ -1,0 +1,46 @@
+{
+  "dir": "cut-run-chip__10.1016+j.molcel.2018.10.046",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6475595.1/PMC6475595.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAM107–129 nuclei, serial physical CUTRUN/ChIP, two referenceDNA stages, shared DNArecovery and25cyclePE; no final-version equivalence.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-36",
+      "reviewer": "dna_owner_round36",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated author manuscript PMC6475595 main107–129; one original. Published-final equivalence not established.",
+      "locations": "AssociatedAM107–129 nuclei, serial physical CUTRUN/ChIP, two referenceDNA stages, shared DNArecovery and25cyclePE; no final-version equivalence.",
+      "findings": "Native targetedMNase releases supernatant for second physicalhistoneChIP, with savedinput/two actual referenceDNA stocks; historical no-size-selection PE25 library procedure retained.",
+      "deferred": [
+        "Cited Skene2017/2018 detailed CUTRUN original methods and source-linked KAPA HyperPrep guide unread within bounded scope; no inherited whole kit recipe."
+      ],
+      "oligo_scraper": "Mandatory wholebundle scraper; Mint/CUT0hits notabsence. ChIPselectedhit verified actualSIp26 and originalworkbookZIP/XML, nonselectedSI2 unopened."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Cited Skene2017/2018 detailed CUTRUN original methods and source-linked KAPA HyperPrep guide unread within bounded scope; no inherited whole kit recipe."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive source-qualified notes/private partial graph; complete molecular inventory/whole products/linked source and absence audit remain unfinished.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round36",
+    "date": "2026-10-30",
+    "scope": "Same one associated manuscript PMC6475595 Methods107–129 only. No final-version equivalence or new predecessor/vendor originals.",
+    "findings": "Verified native yeastnuclei/ConA/FLAG-secondary-pAMN release, actualreleasedsupernatant split into serialhistoneChIP/savedinput/otherassays, two distinct actual referenceDNA stocks and physicalglycogen additions, PK/DNArecovery and inputbypass. Source formaldehyde is in firstreferencechromatin preparation, not experimentalyeastfixation. No size selection; PE25 and literalantiFLAG1:2 00 remain qualified. No blocking defect found.",
+    "verification": "10focused checks independently rerunPASS. Selected implementation review only; no complete chemistry/source or absence gate."
+  }
+}

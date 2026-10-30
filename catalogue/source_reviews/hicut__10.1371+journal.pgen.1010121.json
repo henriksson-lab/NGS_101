@@ -1,0 +1,66 @@
+{
+  "dir": "hicut__10.1371+journal.pgen.1010121",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8979432.1/PMC8979432.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain135–159, chemistry143/147/151/153/157: cellfixation/plainnucleotidecontactgeneration/25of100nuclei/ConA-antibodyloadedpAG-tagmentation/physicalsupernatantfates/release/PCR/QC/NextSeqPE75.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "s4",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8979432.1/pgen.1010121.s010.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedS4TableactualPDFp1 wholeuniversali5Sequencecell including55+6ntwrap; whole12uniquei7primerorderings and identicalduplicatedi7_11/12rows; originalrenderindependentlyinspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "round39_hicut_handoff_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Same2publishedoriginalsclosedbyDNAownerbeforehandoff; noextraoriginals/fetch duringimplementation. SelectedCTCFphysicalpreparationonly.",
+      "locations": "Publishedmain135–159, chemistry143/147/151/153/157: cellfixation/plainnucleotidecontactgeneration/25of100nuclei/ConA-antibodyloadedpAG-tagmentation/physicalsupernatantfates/release/PCR/QC/NextSeqPE75.; PublishedS4TableactualPDFp1 wholeuniversali5Sequencecell including55+6ntwrap; whole12uniquei7primerorderings and identicalduplicatedi7_11/12rows; originalrenderindependentlyinspected.",
+      "findings": "FA/DSG/nuclearDdeI-DpnII/plain-dATPcontactligation→25of100nuclei→ConAretention/primary-secondary/loadedpAG→tagment/removesupernatant→PKReleaseBuffer/newrelease-supernatantcollection→21ulDNA/18PCR/15ulsize-selectedlibrary/Qubit-qPCR/NextSeqPE75. BSAcarriersandactual35ulfill/332.5ulligation/25ulPCRmastercomponentsphysical; noextraNT/enzymeadditions. Primerwholewrap61ntand12uniquei7withduplicatedrowsretained; i7volumeunassigned. Wholeproduct/readgeometryunassembled.",
+      "deferred": [
+        "WholeloadedCUTANApAG-Tn5oligostrands/ends andexactoccupiedcontact/tagmentation/PCRproducts/readlandingunassembled; no vendor/predecessorconstructorinherited.",
+        "SourceReleaseBufferboth.2mM/22.5mMEDTA retained; intendedconcentrationunassigned. Source35ulfillmasterlistedcomponentbalance/wordingunassigned, noinventedwaternormalization.",
+        "Actualselectedi7memberand10uMstockvolume, antibody-secondaryselection, AMPureselectionratio/fullkitinternals/recovery/offproductfates notassignedinthispass.",
+        "Otherpublicationcomparison/analyticalbranchesanddirectlylinkedHiC/vendorrecipesordinaryunread; nosourceabsenceclaim."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescraper /tmp/ngs39-hicut-scraper.log; universali5scrapes55ntonly. ActualS4p1render showsGTGTATsameSequencecell; whole61ntfixtureplusall12i7orderingscheckedlocally.",
+      "verification": "32focusedchecksPASS; sourceguard1exactinputchecked/0failed/1narrowuniversali5wrapexception/0unrepresentedexternaloligos; producedloadedpAGoligosremainunknownandoutsideexternalinputguard. Chemistry34steps/35unresolved/0contradictory; note/refrenderpass. Same2closedoriginals; targetedindependentpeerpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Selected2originalspositivepreparationonly. Directlylinkedpredecessor/vendorandotherbranchesordinaryunread; no claimedabsence or versioninheritance.",
+    "deferred_targets": [
+      "WholeloadedCUTANApAG-Tn5oligostrands/ends andexactoccupiedcontact/tagmentation/PCRproducts/readlandingunassembled; no vendor/predecessorconstructorinherited.",
+      "SourceReleaseBufferboth.2mM/22.5mMEDTA retained; intendedconcentrationunassigned. Source35ulfillmasterlistedcomponentbalance/wordingunassigned, noinventedwaternormalization.",
+      "Actualselectedi7memberand10uMstockvolume, antibody-secondaryselection, AMPureselectionratio/fullkitinternals/recovery/offproductfates notassignedinthispass.",
+      "Otherpublicationcomparison/analyticalbranchesanddirectlylinkedHiC/vendorrecipesordinaryunread; nosourceabsenceclaim."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive privatepartialHiCuTcontact/targetedtagmentation preparation; notcompletechemistry/sourceoracceptedabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round39",
+    "date": "2026-10-30",
+    "scope": "Same two selected published originals only: PMC8979432 main135–159 and actual published S4 primer-table original PDFp1 (render independently viewed). No new original, predecessor or vendor recipe read.",
+    "findings": "Verified source contact-generation before antibody-directed loaded pAG-Tn5, plain dATP fill, actual35ul fill and332.5ul ligation stock components with BSA, selected25ul from100ul nuclei stock and preserved75ul remainder. ConA/primary/secondary/pAG binding precedes tagmentation; the removed post-tagmentation supernatant is distinct from newly collected ProteinaseK-release supernatant. Both printed EDTA descriptors are retained with actual concentration unresolved. Independently checked the full61nt universal i5 sequence including wrappedGTGTAT and all12 unique i7 orders with printed11/12 duplicates. Actual i7 dose volume remains unassigned rather than inferred fromi5. Unknown loaded oligos and complete PCR/read geometry not inferred from primer decomposition; no HiChIP antibodyIP/biotin-capture recipe imported.",
+    "verification": "Independently reran32focused checks PASS; source guard1exact0failed1narrowwrapped-universal exception, no source-original expansion. Selected implementation closure only, not a complete molecular/source or accepted absence audit."
+  }
+}

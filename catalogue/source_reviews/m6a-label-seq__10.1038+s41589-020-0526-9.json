@@ -1,0 +1,60 @@
+{
+  "dir": "m6a-label-seq__10.1038+s41589-020-0526-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-020-0526-9/MediaObjects/41589_2020_526_MOESM31_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI31 actual rendered FigS4 originalPDFpage5/legend207. Analytical/validation table identities distinguished from production oligos."
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41589-020-0526-9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Published main subscription preview: abstract661 and supplement labels1515\u20131535 read; full core Methods unavailable, not absent.",
+      "reason": "Published main subscription preview: abstract661 and supplement labels1515\u20131535 read; full core Methods unavailable, not absent."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published SI31 actual rendered FigS4 originalPDFpage5/legend207. Analytical/validation table identities distinguished from production oligos.; Published main subscription preview: abstract661 and supplement labels1515\u20131535 read; full core Methods unavailable, not absent.",
+      "locations": "Published SI31 actual rendered FigS4 originalPDFpage5/legend207. Analytical/validation table identities distinguished from production oligos.; Published main subscription preview: abstract661 and supplement labels1515\u20131535 read; full core Methods unavailable, not absent.",
+      "findings": "Published workflow-only source scope: metabolic allyl-labelling of RNA, anti-a6A enrichment/a6ATP elution and iodination-cyclization comparison libraries. Core Methods unavailable in the selected subscription preview.",
+      "deferred": [
+        "SI32 labelled Reporting Summary, left unopened; result workbooks uninspected, not labelled unavailable.",
+        "Full production oligos/reagents/platform/read geometry, upstream metabolic dose/extraction and physical comparison allocation unassembled.",
+        "Actual published main response is subscription preview; full core preparation Methods needed. Published SI31workflow positive, not enough for complete recipe."
+      ],
+      "verification": "26focusedchecks(m7G9/m6Alabel6/NmMut11)pass;sourceguard1exact0failed0exceptions9unassembledinputs3graphs;scopedchemistry0established66unresolved0contradictory.Notcompletevalidation.",
+      "oligo_scraper": "Mandatorybundle runs m7G4candidates/1file,m6Alabel686/8,NmMut213/2. Only selected original scopes support facts; rendered NmMut adapter pages checked."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped selected-source review only; named deferred material and actual retrieval limitations retained. Not complete linked-source or absence audit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    {
+      "url": "https://www.nature.com/articles/s41589-020-0526-9",
+      "why": "Actual published main response is subscription preview; full core preparation Methods needed. Published SI31workflow positive, not enough for complete recipe."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round30",
+    "date": "2026-10-30",
+    "documents": 1,
+    "scope": "Narrow selected source/implementation critical review only, not complete source or linked-information/absence review; no new originals and cap unchanged.",
+    "finding": "Coordinator independently viewed same published SI31 rendered FigS4 originalPDFp5: savedInput, a6ATP elution and untreated/treated comparison arrows verified. Comparison stock allocation remains MAGIC rather than invented physical split; residual IP fraction unresolved, actual opaque RT/library molecular stocks represented. Full final main Methods subscription preview remains limiting; no analytical primer import.",
+    "verification": "26focusedchecks(m7G9/m6Alabel6/NmMut11)pass;sourceguard1exact0failed0exceptions9unassembledinputs3graphs;scopedchemistry0established66unresolved0contradictory.Notcompletevalidation."
+  }
+}

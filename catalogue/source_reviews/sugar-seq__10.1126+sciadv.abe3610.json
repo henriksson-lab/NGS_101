@@ -1,0 +1,53 @@
+{
+  "dir": "sugar-seq__10.1126+sciadv.abe3610",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sugar-seq__10.1126+sciadv.abe3610/sciadv.abe3610_PMC7895430.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published article Results78\u201390/Fig1A and Methods160\u2013162: biotinylated/nonbiotinylatedL-Pha, cold washes, anti-biotin/epitope/hashtag staining, 5prime Chromium GEX/TCR/combinedADT\u2013HTO library branches and named indexkit. Separate validation assays not imported into SUGAR acquisition."
+    },
+    {
+      "id": "published_si_index",
+      "role": "supplement",
+      "locator": "http://advances.sciencemag.org/cgi/content/full/7/8/eabe3610/DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Exact supplementary-material URL inpublishedJATS;one declared standardfetch attempted. Figure-onlyPMC ZIP not mistaken for chemistry supplement.",
+      "reason": "Standardget_sources declaredDC1.html retrievalreturnedHTTP403;no guessed filename or challenge bypass."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Source-owned physical reporter interfaces and all operational continuations stated in inspected originals;private partial graphs,notfullchemistry orsource review.",
+      "locations": "Published article Results78\u201390/Fig1A and Methods160\u2013162: biotinylated/nonbiotinylatedL-Pha, cold washes, anti-biotin/epitope/hashtag staining, 5prime Chromium GEX/TCR/combinedADT\u2013HTO library branches and named indexkit. Separate validation assays not imported into SUGAR acquisition.",
+      "findings": "\ud83d\udfe2 This preparation converts glycan affinity recognition into an antibody-tag readout. Surface glycans bind L-Pha; biotinylated lectin is then detected by an anti-biotin oligo-antibody. Glycan, lectin, biotin, antibody and DNA tag remain distinct physical components. The source does not establish a covalent glycan\u2013DNA or glycan\u2013RNA product, one DNA tag per glycan, complete binding occupancy or perfect specificity. The local qualitative reporter complex preserves those limits.\n\n\ud83d\udfe2 FACS-sorted TILs are incubated with biotinylated/nonbiotinylatedL-Pha at1:5,1\u00b5g/ml,20min on ice. Three coldPBS washes precede cellhashing/CITE-seq antibody staining. Source Results identifies anti-biotin,PD-1,TIM3 reporters;stained cells are washed,counted and loaded at~1000cells/\u00b5l. Unbound lectin/antibodies are removed only at actual washes. Secondary reporter binding is separate from original lectin\u2013glycan affinity binding.\n\n\ud83d\udfe2 The main specifies 5\u2032 SingleCellV(D)J withFeatureBarcoding for GEX,TCR and surface features. This is not a license to reuse a3\u2032 CITE-seq size selection or a modern kit recipe. The source separately prepares GEX,TCR enrichment with the mouseTcellV(D)J kit,and one combined5\u2032HTO/ADT library with the5\u2032FeatureBarcodeLibraryKit, indexed using i7MultiplexKitNSetA. These remain source-named operational continuations with exact capture/RT/primer/fragment/cleanup geometry unassembled. Branch allocations are not ideal modality purification.\n\nThe separate genome-wideCRISPR screen,75bp bulkRNA-seq and75bp ATAC validation in other main Methods sections are not SUGAR acquisition settings. The selected SUGAR subsection does not itself assign those run cycles or sequencers to its libraries; this pass leaves acquisition geometry unassembled rather than declaring absent information. Computational doublet filtering does not remove DNA in the protocol graph.\n\nSource limitation: the JATS supplementary-material links exactly `http://advances.sciencemag.org/cgi/content/full/7/8/eabe3610/DC1`. The standard PMC supplementary ZIP contains only F1\u2013F5 image aliases;it is not the chemistry supplement. One declared standard retry of DC1 returnedHTTP403. No guessed supplement filename,challenge bypass or newer revision supplied missing details.\n\nComponent ancestry: Methods162 cites CITE-seq staining(ref1) and the named historical5\u2032 manufacturer workflow. The local lectin/secondary-antibody complex is the distinct preparation interface;neither tumor application nor the shared platform establishes complete recipe identity. Historical guides and linked chemistry SI remain pending.",
+      "deferred": [
+        "Exact published supplement index http://advances.sciencemag.org/cgi/content/full/7/8/eabe3610/DC1 \u2014 actual standard retrieval HTTP403",
+        "Cited CITE-seq staining source and historical 5primeVDJ/FeatureBarcode/MouseTCR/i7MultiplexKitNSetA guides with exact revisions",
+        "Whole antibody/hashtag/capture polymers, identifier widths, primer/end/read/run geometry",
+        "Remaining linked chemistry originals and independent review"
+      ],
+      "oligo_scraper": "/tmp/round12-sugar-final-hits.log;pointerverificationandoriginalrenderingwhereindicatedabove.",
+      "verification": "Apt-seq9+SUGAR-seq8+NEAT-seq12=29focusedchecks pass;3privatebuilds pass;sourceguard15exactstateschecked0failed/0exemptions/2unassembledinputstates(beadprimer,randomblockextent);pairing0problems;scopedchemistry0established63unresolved0contradictory;reviewrecords2in_progress+1blockedvalid. These checks validateonlyselectedtranscription/branch/statebehavior,notcompletechemistry/sourcecoverage."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Source versions,actualoriginals anddirectdeferredtargets separatedfrom desiredcomponentquestions. No absenceaccepted; no currentkitdefault substitution."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Exact published supplement index http://advances.sciencemag.org/cgi/content/full/7/8/eabe3610/DC1 \u2014 actual standard retrieval HTTP403",
+    "Cited CITE-seq staining source and historical 5primeVDJ/FeatureBarcode/MouseTCR/i7MultiplexKitNSetA guides with exact revisions",
+    "Whole antibody/hashtag/capture polymers, identifier widths, primer/end/read/run geometry",
+    "Remaining linked chemistry originals and independent review"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "dir": "exseq__10.1126+science.aax2656",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://www.alonlab.org/_files/ugd/3a64da_132e82c78d884323a15c487cb07fbf01.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PrintedpublishedScience371eaax2656/29Jan2021/title/DOI; mainMethodsSummary2136\u20132148/2329\u20132342, Results224\u2013240/565\u2013572 andactualFig1PDFp3/References22identity; supplementindex2663\u20132671.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "associated_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7900882/bin/NIHMS1670746-supplement-Supp_Text_and_Figures.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "ActualassociatedMethodsDOCX notread: PMCdownloadgate, notintheCloudbucket(TDM). This is not proof of published-SM equivalence or absence.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "ActualassociatedMethodsDOCX notread: PMCdownloadgate, notintheCloudbucket(TDM). This is not proof of published-SM equivalence or absence."
+    },
+    {
+      "id": "associated_tables",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7900882/bin/NIHMS1670746-supplement-Supp_Tables.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "ActualassociatedTablesXLSX notread: standardhostcooldown/downloadgate preserved; no challenge/retry bypass. Publishedtable-equivalenceunverified.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "ActualassociatedTablesXLSX notread: standardhostcooldown/downloadgate preserved; no challenge/retry bypass. Publishedtable-equivalenceunverified."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "targeted_owner_round43",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Publishedmain-onlyuntargetedLabelX/chargedgel/digest/waterexpand\u2192unchargedreembed/passivate\u2192randomRT/~100cDNAsizerestriction/circle/RCA\u2192in-situopticalreadout\u2192physicalampliconrecovery/ex-situIllumina; detailedSM/wholeoligos/geometryunassembled.",
+      "locations": "PrintedpublishedScience371eaax2656/29Jan2021/title/DOI; mainMethodsSummary2136\u20132148/2329\u20132342, Results224\u2013240/565\u2013572 andactualFig1PDFp3/References22identity; supplementindex2663\u20132671.; ActualassociatedMethodsDOCX notread: PMCdownloadgate, notintheCloudbucket(TDM). This is not proof of published-SM equivalence or absence.; ActualassociatedTablesXLSX notread: standardhostcooldown/downloadgate preserved; no challenge/retry bypass. Publishedtable-equivalenceunverified.",
+      "findings": "ActualLabelXRNAretentionandunchargedreembedding/chemicalpassivationenablepost-expansionenzymaticlibrarypreparation, followedbyphysicalampliconrecovery/ex-situresequencing; notadmittedonlyforspatialresolution/software.",
+      "deferred": [
+        "ActualassociatedMethodsDOCX/tablesXLSXgatedunread; fullpublishedSM/tableversionidentityandcontentsremainunverified.",
+        "PublishedSMlandinghttps://science.sciencemag.org/content/371/6528/eaax2656/suppl/DC1printed, ordinaryunread; no inventedexactfileURL.",
+        "AssociatedAMandpreprintnotread/substituted; fullLabelX/gel/passivation/recovery/FISSEQ/wholeoligo/circle/RCArecipeunassembled."
+      ],
+      "oligo_scraper": "Mandatorywholebundle0hits/0representations; actualpublishedFig1PDFp3andmainmethodsverified. No exactoligoconclusionfromemptyhitlist; gatedtablesnotinspected.",
+      "verification": "18focusedPASSincludingprimarybiologicalprovenanceandRCAfunctionalcomponentsfromsameactualinventory. Noexactwholeoligointroduced;2unknownexternaloligoinventoriesplus2producedRT/RCAprimingclassesoutsideexternalguard. Chemistry18steps18unresolved0contradictory. IndependentselectedcriticalpeerCLOSEDsame1printedpublishedoriginal; SM/tableunread/gated."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Cappedselectedsourcepassonly. ActualassociatedMethodsDOCX/tablesXLSXgatedunread; fullpublishedSM/tableversionidentityandcontentsremainunverified. PublishedSMlandinghttps://science.sciencemag.org/content/371/6528/eaax2656/suppl/DC1printed, ordinaryunread; no inventedexactfileURL. AssociatedAMandpreprintnotread/substituted; fullLabelX/gel/passivation/recovery/FISSEQ/wholeoligo/circle/RCArecipeunassembled."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialpreparation; completechemistry/source/absenceauditnotachieved.",
+  "independent_implementation_recheck": {
+    "reviewer": "dna_peer_round43",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 1,
+    "scope": "SameONE author-hostedprintedFINAL Science371eaax2656/29Jan2021 PDF3a64da_132e82c78d884323a15c487cb07fbf01.pdf: MethodsSummary2136\u20132148/2329\u20132342, Results224\u2013240/565\u2013572, actualFig1PDFp3. No acceptedversion/SI/predecessor/vendor/neworiginal opened.",
+    "findings": [
+      "Actualprintedpublishedidentityverified, not an acceptedmanuscript orScienceadf8486. SourceLabelXRNAanchoring\u2192chargedgel/softening/waterexpansion\u2192UNCHARGEDreembedding/passivation precedesenzymaticsteps; no borrowedgelmonomer/ProteinaseK/LabelXatommap orcompletechargeconversion imposed.",
+      "RandomRT/cDNAsize-restrictionapproximately100/circularization/RCA staysmain-qualified; observedmean76 notimposedasexacttemplate. Actualin-situopticalreadout precedesphysicalpostreadoutampliconelution withresidualsample retained; ex-situIlluminapreparationconsumesthosemolecules, computationalmatchingisnotaDNAreaction. No syntheticUMI/cellbarcode inferredfromendogenoussequencefingerprints or FISSEQendpoints.",
+      "RequestedandverifiedRCApolymeraseK.CATALYST andNTK.MOLECULAR components fromSAMEactualaggregateRCAinventory, notafreshduplicatepolymerase/NTPstock or assumedPhi29identity/dose/premix. ExistingRCAprimingclass remainswhole-unassembled withrelationtopriorRTprimerunassigned. Alsoverifiedactualbiologicalsourceprimary=Truewithendpointprovenanceregression.",
+      "Wholeoligos/modifiedends/occupiedsubstrates/kitidentities andex-situfinishing remainunassembled because detailedSMunretrieved; no sourceabsence orfullfinal/AMequivalenceassertion. IndependentfirstopticalandlaterIlluminareadout scopes arenot silentlycollapsed."
+    ],
+    "verification": "18focusedPASS independentlyrerun; sourceguard0exact0failed2externalwholeoligoinventoriesunassembled plus2producedRT/RCAprimerclassesoutsideexternalguard. Chemistry18steps18unresolved0contradictory. Same1publishedoriginalselectedcriticalimplementationreviewCLOSED."
+  }
+}

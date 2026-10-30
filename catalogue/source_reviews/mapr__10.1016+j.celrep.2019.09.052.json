@@ -1,0 +1,59 @@
+{
+  "dir": "mapr__10.1016+j.celrep.2019.09.052",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mapr__10.1016+j.celrep.2019.09.052/j.celrep.2019.09.052_PMC6870988.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round09",
+        "date": "2026-10-29",
+        "locations": "Associated author manuscript, main58/Methods160\u2013244; published SI FigureS1\u2013S5legends",
+        "finding": "Selected original source scope and version read; source-known operations recorded without full molecular-library completion."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mapr__10.1016+j.celrep.2019.09.052/j.celrep.2019.09.052_supp_NIHMS1542685-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round09",
+        "date": "2026-10-29",
+        "locations": "Source SI article identity and legends; protein characterization and controls, not adapter recipes",
+        "finding": "Selected source identity and scope read; unrelated biological results not used for chemistry."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round09",
+      "date": "2026-10-29",
+      "locations": "Associated author manuscript, main58/Methods160\u2013244; published SI FigureS1\u2013S5legends",
+      "finding": "Direct pending originals/version and chemistry targets are identified in notes; no recursive source chase or absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass; no completed two-reader missing-information review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "expansion_dna_round09",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published-first bounded source reading; associated manuscript identity explicit forMapR; other originals deferred.",
+      "locations": "Associated author manuscript, main58/Methods160\u2013244; published SI FigureS1\u2013S5legends",
+      "findings": "Known operations through reported NGS endpoint; exact molecular/library/read relations remain explicitly unassembled.",
+      "deferred": [
+        "Named detailed predecessors, historical library/adapter/primer/run geometry and source-qualified boundaries listed in protocol notes."
+      ],
+      "oligo_scraper": "Whole-bundle scraper run; MapR14hits/2files(EMSA/fusion-cloning scope), ini-seq19hits/1file(qPCR), BisMapR0hits, Bubble0hits; no absent-information inference.",
+      "verification": "23localchecks across4DNA09protocols passed;4builds/pairing/source-review schema passed. Sourceguard0checked/0failed,6inputswithout exact states(customMapR/BisMapR adapter/PCRprimers); no exact oligo transcription validation claimed. Chemistry0established/67unresolved/0contradictory, no complete molecular validation. Source investigation cap closed; fetch process26669completed exit0."
+    }
+  ]
+}

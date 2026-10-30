@@ -1,0 +1,68 @@
+{
+  "dir": "bind-n-seq__10.1093+nar+gkp802",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2794170.1/PMC2794170.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Methods25\u201359,Results63\u201377 and originalFigure1PDFp3 rendered;proteinpreparation scope,93mer design,resin/gel/QC/GAI-II operations"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2794170.1/gkp802_1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI TablesS1A/B barcode inventories/condition table scope;other figures not systematically read"
+    },
+    {
+      "id": "blocked1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2794170.1/gkp802_index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;actual standard retrieval failed or source-hostcooldown",
+      "reason": "supplementary file (PMC Cloud); no article content (442 characters of text)"
+    },
+    {
+      "id": "blocked2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2794170/bin/gkp802_index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "No original chemistry inspected;actual standard retrieval failed or source-hostcooldown",
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Bounded published-first selected originals;associatedMS explicit,source-limited private models only,no abstract-only fullgraph or absenceaudit",
+      "locations": "Published main Methods25\u201359,Results63\u201377 and originalFigure1PDFp3 rendered;proteinpreparation scope,93mer design,resin/gel/QC/GAI-II operations; Published SI TablesS1A/B barcode inventories/condition table scope;other figures not systematically read",
+      "findings": "Positive source operational/physical fraction scopes preserved;unknown whole molecular geometry/source coverage not promoted.",
+      "deferred": [
+        "Full93mer/Pr4-f/Pr3-r primer sequences and exact geometry;Figure1 rendered original inspected as design diagram,not oligo table",
+        "Exact source production amplification/normalization workup and run-specific readcycles/primer landing;analytical real-timePCR not silently substituted",
+        "Source optional longwash,extra selection round/gelconditions,protein manufacturing predecessors and other supplementary figure scopes deferred"
+      ],
+      "verification": "Combined16 focused localchecks(8+8),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt8unassembled inputs (not sequence validation);chemistry0established22unresolved0contradictory. No fullchemistry/sourcevalidation claimed.",
+      "oligo_scraper": "Mandatory fullbundle scraper run;sourcepointers checked in selected scopes. Zero hits/retrievedfiles do not establish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct relevant source targets/questions listed;no recursive source chase or complete missing-information audit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full93mer/Pr4-f/Pr3-r primer sequences and exact geometry;Figure1 rendered original inspected as design diagram,not oligo table",
+    "Exact source production amplification/normalization workup and run-specific readcycles/primer landing;analytical real-timePCR not silently substituted",
+    "Source optional longwash,extra selection round/gelconditions,protein manufacturing predecessors and other supplementary figure scopes deferred"
+  ]
+}

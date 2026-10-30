@@ -392,6 +392,11 @@ def _exact_hit(text: str, seq: str, scan=None, *, gapped=None) -> bool:
             observed = scrape_primers._letters(written)
         except ValueError:
             continue
+        if scrape_primers.GAP in observed:
+            # find() may return a substring of the printed oligo. An unknown-width
+            # identifier requires both *complete* fixed flanks, so only the whole
+            # parsed oligos below may establish this kind of transcription match.
+            continue
         if strand == "rc":
             observed = scrape_primers.revcomp(observed)
         elif strand == "rev":

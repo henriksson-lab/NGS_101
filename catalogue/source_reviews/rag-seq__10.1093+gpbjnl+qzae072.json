@@ -1,0 +1,66 @@
+{
+  "dir": "rag-seq__10.1093+gpbjnl+qzae072",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "selected_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11658833.1/PMC11658833.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Methods198/214\u2013240, design110/178/180; selected RAG3.0 explicitly including oligo-dT, DASH and IVT.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "selected_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11658833.1/qzae072_supplementary_data.zip#Supplementary Table S2.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Original whole oligo table and rich-text runs: T30 subscript, underlined six NSR positions, P7 index8, 5Phos ME-rev.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "selected_2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11658833.1/qzae072_supplementary_data.zip#Supplementary Table 3.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Whole27guide rows18S/28S; guide targeting sequences do not define whole sgRNA/scaffold assembly.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "targeted_owner_round35",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published selected preparation branch only; capped pass closed before modelling.",
+      "locations": "Published main Methods198/214\u2013240, design110/178/180; selected RAG3.0 explicitly including oligo-dT, DASH and IVT.; Original whole oligo table and rich-text runs: T30 subscript, underlined six NSR positions, P7 index8, 5Phos ME-rev.; Whole27guide rows18S/28S; guide targeting sequences do not define whole sgRNA/scaffold assembly.",
+      "findings": "Positive distinct wet preparation, whole modified oligo scope and actual physical allocations are documented in protocol note; full products/read landings unassembled.",
+      "deferred": [
+        "Directly cited historical precursor/vendor originals and full molecular contexts outside selected scope"
+      ],
+      "oligo_scraper": "Mandatory bundle scan and relevant source pointer/original verification; actual modified tables inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Named predecessors/vendor originals ordinary unread; no claimed absence or inaccessible disclosure document inferred."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive source-qualified bounded curation, not complete chemistry or accepted absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round35",
+    "date": "2026-10-30",
+    "scope": "SamepublishedPMC11658833Methods198/214\u2013240 andsameoriginalSupplementaryTableS2+Table3workbooks. ActualS2richtextunderline andwholemodifiedoligocells inspected viaZIP/XML;3combinedoriginals only.",
+    "findings": "Verified selectedRAG3.0ratherthan1/2/Smart3comparator: sourceNSRprecedingN+underlinedsixprimingpositions(12\u201317),notUMI; actualT7/ME5P/transposomeloadedstockaliquot,rtretainedNSR/oligodT,dNTP/BstQ5extension\u2192customP5/T7PCR\u2192actual50ulDASH/Cas9stock\u2192retainedAMPurebeadsDNAIVT\u219211ulRNA/secondRT\u219210of20ul/finalPCR. Exactwhole sourceoligos agree; scaffolds/occupiedtransferproducts/readlandingremainunassembled. No criticaldefect found.",
+    "verification": "14focusedchecks independently rerunPASS; no extraoriginals/fullchemistry/sourceabsenceaudit."
+  }
+}

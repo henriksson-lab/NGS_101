@@ -1,0 +1,83 @@
+{
+  "dir": "dpc-seq-endogenous-crosslinks__10.1038+s41556-024-01391-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dpc-seq-endogenous-crosslinks__10.1038+s41556-024-01391-1/s41556-024-01391-1_PMC11098753.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11098753.1/PMC11098753.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedOA main181–187/319: actualKCl-SDSfractionation/technicalreplicatecomponent andcompleteoperativeparagraph,ref80exactv1identity.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dpc-seq-endogenous-crosslinks__10.1038+s41556-024-01391-1/s41556-024-01391-1_supp_41556_2024_1391_MOESM8_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11098753.1/41556_2024_1391_MOESM8_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedTable6originalworkbookSheet1wholeName/Application/Sequencecolumns: CRISPRi-screenPCR/genotyping/siRNA/RTqPCRapplicationsexplicit;theseoligosnotassignedashistoricalDPCkitprimers.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://doi.org/10.21203/rs.3.pex-2562/v1",
+      "original": "https://doi.org/10.21203/rs.3.pex-2562/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Actualmainref80citedstep-by-stepProtocolExchangev1;existinghandlerreturnsCloudflarebarrier,nooriginal/revisionread. Noalternateversionapplied.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Actualmainref80citedstep-by-stepProtocolExchangev1;existinghandlerreturnsCloudflarebarrier,nooriginal/revisionread. Noalternateversionapplied."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "https://doi.org/10.21203/rs.3.pex-2562/v1",
+    "Historicalkit/wholeend/readgeometryandsource-specificsampleallocationsunassembled; no recursivechase."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpreparativereading/privatepartialmodel;actualaccessbarriersqualifycurrentreview.Noacceptedabsence/fullmolecularreview/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "dna_round30",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedprivateendogenousDPCtechnical-preparationcomponent:explicit10percentInputandproduction,solubleRNase/QCubiquotvsstock,3KClreprecipitations,PK+BSA/supernatantRNase,50ng/glycogen/SYBR/gel-SpinX,1/10adapter/7PCRfrompreparedcomponentstock/finalQC/normalizedown+otherlibraryaliquots. Technicalpooltiming/wholekitgeometryunassembled.",
+      "locations": "PublishedOA main181–187/319: actualKCl-SDSfractionation/technicalreplicatecomponent andcompleteoperativeparagraph,ref80exactv1identity.; PublishedTable6originalworkbookSheet1wholeName/Application/Sequencecolumns: CRISPRi-screenPCR/genotyping/siRNA/RTqPCRapplicationsexplicit;theseoligosnotassignedashistoricalDPCkitprimers.",
+      "deferred": [
+        "Actualmainref80citedstep-by-stepProtocolExchangev1;existinghandlerreturnsCloudflarebarrier,nooriginal/revisionread. Noalternateversionapplied.",
+        "Historicalkit/wholemoleculargeometryandtechnicalreplicatepooltimingremainunassembled; unassignedvaluesarenotunavailableinventeddocuments."
+      ],
+      "findings": "PublishedprivateendogenousDPCtechnical-preparationcomponent:explicit10percentInputandproduction,solubleRNase/QCubiquotvsstock,3KClreprecipitations,PK+BSA/supernatantRNase,50ng/glycogen/SYBR/gel-SpinX,1/10adapter/7PCRfrompreparedcomponentstock/finalQC/normalizedown+otherlibraryaliquots. Technicalpooltiming/wholekitgeometryunassembled.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round30-dna-original-counts.tsv",
+        "source_investigation_closed": true,
+        "historical_discovery": "Previousidentity/overviewtrackedhistory;notadditionalcurrentoriginalsorunreadchemistryauthority.NoOka/concurrent/preprintoriginalreopened."
+      },
+      "oligo_scraper": "MandatoryTg0hits/emptyreadablesequencebundle;endo34hits/4representations. Selectedoriginalscope/applicationcolumnschecked;zerosnotabsence.",
+      "verification": "Own2DPCmodels32focusedchecks(16Tg/16endogenous)pass;sourceguard0exact0fail0exempt2unassembledinputstates/2graphs;chemistry0established0conditional60unresolved0contradictory. CLAPSseparatelyowned/peer-reviewedbytargeted;mergetotalswhenready."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round30",
+    "date": "2026-10-30",
+    "scope": "Samepublishedmain181–187/319; noadditionaloriginal.",
+    "finding": "Selectedsourceorder/fractions reviewed;opaqueOTHERprePCRpreparationcorrectedtoactualmolecularcontributorwithoutnamedenzymeinference. Technical-preparationcomponentscope,pooltimingunassembled,Input/soluble/QCubiquotsvsstocks/3washes/PK-BSA/50ng/carriers-dye/SpinX/finalnormalizedpoolverified. Noabsence/wholegeometryaudit."
+  }
+}

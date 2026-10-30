@@ -1,0 +1,66 @@
+{
+  "dir": "cider-seq__10.1093+nar+gky914",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cider-seq__10.1093+nar+gky914/nar_gky914_PMC6344846.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6344846.1/PMC6344846.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67\u201395/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.",
+      "pass_1": {
+        "reviewer": "dna_round15",
+        "date": "2026-10-29",
+        "locations": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67\u201395/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.",
+        "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cider-seq__10.1093+nar+gky914/nar_gky914_supp_gky914_supplemental_files.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6344846.1/gky914_supplemental_files.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI title/DOI association; Table1assayprimer scope/Table2SMRTcellorganization and Fig8analyticalenrichmentcontrols. Reference-protein inventory is not a DNA adapter original.",
+      "pass_1": {
+        "reviewer": "dna_round15",
+        "date": "2026-10-29",
+        "locations": "PublishedSI title/DOI association; Table1assayprimer scope/Table2SMRTcellorganization and Fig8analyticalenrichmentcontrols. Reference-protein inventory is not a DNA adapter original.",
+        "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "dna_round15",
+      "date": "2026-10-29",
+      "locations": "Exact inspected scopes and direct pending originals in note",
+      "finding": "Known operations through acquisition; historical geometry/deferred originals remain explicit, no recipe inheritance."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified incomplete graph/notes; no public promotion or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "dna_round15",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "At most10min/3originals; published-first, no recursive source chase. CIDER scope analytical extractedDNA only.",
+      "locations": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67\u201395/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.; PublishedSI title/DOI association; Table1assayprimer scope/Table2SMRTcellorganization and Fig8analyticalenrichmentcontrols. Reference-protein inventory is not a DNA adapter original.",
+      "findings": "Source physical reactions, retained debris/fractions and computational/native DNA distinctions explicit.",
+      "deferred": [
+        "Exact historicalkit/primer/end/readgeometry and directly named originals in note; S1 actualchemistrySI gated."
+      ],
+      "oligo_scraper": "Mandatory wholebundle scans: mTAG14hits/2files, CIDER4hits/1file, S1zero; pointers read in their actual assay/chemistry scopes.",
+      "verification": "22localchecks pass (mTAG7/CIDER9/S1six), including independent CIDER QCprovenance correction: analyticalaliquot isQCterminal, retainedproductionlibrary alonefeedsP6. Sourceguard0eligibleexactstrands/0failed/9inputswithout exactstates/3graphs; notsequencecompletion. Chemistry42unresolved0contradictory; sixnotes/refbuilds,pairing0problems,source-review schema2in_progress/1blocked,diffcheck clean. No finishedpages. Retrieval18717/39123terminalexit0."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "dir": "cc-seq__10.1038+s41467-019-12802-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cc-seq__10.1038+s41467-019-12802-5/s41467-019-12802-5_PMC6813358.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6813358.1/PMC6813358.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedOA main205\u2013225/261, Results53\u201363; selectedpreparativefacts and sourceidentity.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cc-seq__10.1038+s41467-019-12802-5/s41467-019-12802-5_supp_41467_2019_12802_MOESM1_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6813358.1/41467_2019_12802_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI Table5physicalp17originalrender/lines4992\u20135018, Fig1caption321\u2013327.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Wholehistoricalkitcomposition/aliquotbridges/wholePCR-indexproducts/readlandingunassembled; noclaimofpublicationabsence."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpreparativereading; privatepartialmodelonly.Noacceptedabsence/fullmolecularreview/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "dna_round31",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedOA main205\u2013225/261, Results53\u201363; selectedpreparativefacts and sourceidentity.; PublishedSI Table5physicalp17originalrender/lines4992\u20135018, Fig1caption321\u2013327.",
+      "locations": "PublishedOA main205\u2013225/261, Results53\u201363; selectedpreparativefacts and sourceidentity.; PublishedSI Table5physicalp17originalrender/lines4992\u20135018, Fig1caption321\u2013327.",
+      "deferred": [
+        "Wholehistoricalkitcomposition/aliquotbridges/wholePCR-indexproducts/readlandingunassembled; noclaimofpublicationabsence."
+      ],
+      "findings": "Source-specificactualpreparationandmolecularboundariesretained; unknownmodeldataareunassembled,notconfirmedmissing.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round31-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      },
+      "oligo_scraper": "Mandatorysource-scraperrun; pointersverifiedonlyforselectedactualoriginalscope.",
+      "verification": "40focusedchecks(CC18/Topo10/S1 12)pass; sourceguard3exact0fail3format-exemptstrands(2CCP5+1S1ad1)0unassembledinputs/3graphs; chemistry5narrowestablished0conditional69unresolved0contradictory. Selectedsame-originalpeercriticalreviewsclosed; notfullsource/wholegeometry/absencevalidation."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round31",
+    "date": "2026-10-30",
+    "scope": "Samepublishedmain207\u2013225/SITable5p17image. Fourwholeorderings/reverseoriginalorientation/invdTretained/bothcohesiveends/5nucleosides3OHverified. P5formattingexceptionchecked; initialrepositoryP5mistakecorrected. Producedothercolumnbranchfixverified; actual2/50/2/15QCs/P7\u2192TDP2\u2192P5/nosecondendrepair/glycogen/BSA/BluePippin/poolconsistent.",
+    "finding": "Selectedcriticalsource/modelreviewclosedwithstatedfixes. Noneworiginal, fullreaction/final-AMequivalenceorabsenceauditclaimed."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "dir": "claps-seq__10.1093+nar+gkab1022",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8643665.1/PMC8643665.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published final main77\u2013129; genomic labeling/shearing/ligation/capture/extension/complement recovery/PCR/readout distinguished from synthetic controls/ELISA/input libraries."
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8643665.1/gkab1022_supplemental_file.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS1 originalPDFp2/lines33\u201388, five whole modified production oligos/annealing caption; actual rendered original checked. Table2 comparison identity only."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published final main77\u2013129; genomic labeling/shearing/ligation/capture/extension/complement recovery/PCR/readout distinguished from synthetic controls/ELISA/input libraries.; Published TableS1 originalPDFp2/lines33\u201388, five whole modified production oligos/annealing caption; actual rendered original checked. Table2 comparison identity only.",
+      "locations": "Published final main77\u2013129; genomic labeling/shearing/ligation/capture/extension/complement recovery/PCR/readout distinguished from synthetic controls/ELISA/input libraries.; Published TableS1 originalPDFp2/lines33\u201388, five whole modified production oligos/annealing caption; actual rendered original checked. Table2 comparison identity only.",
+      "findings": "Published chemical OG biotin-tagging before shearing, adapter/capture/primer extension, alkaline release of complementary strands and second splinted adapter library preparation, with source-owned complete modified oligos.",
+      "deferred": [
+        "Whole historical endprep/extension/PCR formulations, full sealed constructs/read landing and exact N5purpose/matched members remain unassembled.",
+        "Model control15minExoI, ELISA and input-kit recipes are not genomic10minExoI route.",
+        "No complete source/linked-information or absence audit."
+      ],
+      "verification": "17focusedchecks pass;sourceguard3exact0failed0exceptions2unassembledinputs1graph;scopedchemistry6established32unresolved0contradictory. Established narrow relations are not complete reaction validation.",
+      "oligo_scraper": "Mandatory standard scraper11candidates/1representation; same selected main/SI, TableS1p2 actualrenderchecked."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Two-original capped source/model scope; directly cited predecessor and vendor originals not followed. Unassembled details are not publication absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round30",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Selected published main77\u2013129 plus rendered TableS1 originalPDFp2; narrow source/model review only, not complete chemistry/linked-information or absence audit. Combined two-original cap unchanged.",
+    "finding": "All five whole modified orderings, both extension-primer terminalTs, sourceAd1dA/Tinterface and conditional inferredN5interface verified. Label-before-shear,10min genomicExoI versus15min assay, released complementary strand,2percentQC preserved. Follow-up removes invented post-shear cleanup; source up-to5ug purified-fragment aliquot/remainder retained with unknown workup. ActualPOOL combines own selectedaliquot with external otherqualifiedlibraryaliquots, retaining own stock remainder and unassigned amounts without equimolar claim. Final DNA-peer follow-up represents the source prepared extension reaction stock as co-present catalyst/molecular nucleotide components without a separate fresh dose, and places the Ad1 cohesive-overhang annotation on actual bottom3T; source top5P remains explicit.",
+    "verification": "17focusedchecks pass;sourceguard3exact0failed0exceptions2unassembledinputs1graph;scopedchemistry6established32unresolved0contradictory. Established narrow relations are not complete reaction validation."
+  },
+  "implementation_followups": [
+    {
+      "reviewer": "independent_dna_round30",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Same already-selected published main77\u2013129 and SI TableS1 originalPDFp2; narrow implementation follow-up, not complete source/reaction/absence audit.",
+      "finding": "Five whole oligos including both terminal ExtensionPrimerTs, conditionalN5splint/localA:T, label-before-shear,up-to5ugaliquot, releasedcomplement,2percentQC and actual other-libraryPOOL verified. Single prepared extension stock produces catalyst and molecular nucleotide components consumedatEXT without invented separate dose. Literal bottom3T cohesive marker and top5P retained.",
+      "verification": "All17 focused CLAPS checks independently rerun PASS; shared3graphguard3exact0failed0exceptions4unassembled; shared3graph chemistry6established92unresolved0contradictory. Shared counts are scoped, not complete reaction validation."
+    }
+  ]
+}

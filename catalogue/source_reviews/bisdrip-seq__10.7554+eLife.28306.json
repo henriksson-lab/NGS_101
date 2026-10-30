@@ -1,0 +1,46 @@
+{
+  "dir": "bisdrip-seq__10.7554+eLife.28306",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bisdrip-seq__10.7554+eLife.28306/eLife.28306_v2.xml.txt",
+      "original": "https://cdn.elifesciences.org/articles/28306/elife-28306-v2.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published v2 Methods514\u2013546/584\u2013592;controls556\u2013582identified",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Selectedsource-qualifiedprivatepartialgraph;no complete linked-original/absenceaudit orpublicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-22",
+      "reviewer": "dna_round22",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Atmost10minutesandthreeoriginalsincludingadministrativeidentities;sourceinvestigationclosed;consistencyworkcontinued.",
+      "locations": "Published v2 Methods514\u2013546/584\u2013592;controls556\u2013582identified",
+      "findings": "Standard non-denaturingbisulfite/S9.6IP preparation, physicalallocation/QC/remnants and opaquePicoMethylkitwithoutsecondconversion.",
+      "deferred": [
+        "Historical source-specific kit/adapter/primer/read geometry and source-cited precursor originals identified in note;ordinaryunread,notacceptedabsence."
+      ],
+      "oligo_scraper": "3candidates/1promoterresultsfile,unadoptedgene-name-likehits;notabsenceevidence.",
+      "verification": "12localchecks pass;independentcriticalimplementationreviewclosed. Two-DNAcombinedsourceguard7exact0failed0exempt0unassembled;chemistry1narrowcorepairrelation/60unresolved0contradictory;notcompletechemicalvalidation."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna22_reader",
+    "date": "2026-10-30",
+    "scope": "Selected original sources and critical implementation;notfullsource/absenceaudit.",
+    "finding": "Publishedv2 Methods514\u2013546/584\u2013592 vsgraph:actual475ulallocations/remainders,20ugIP/QC,NaOHneutralize/RNaseI/RNaseH/PK/magneticrelease,aqueoustransfer,Covaris/PicoMethyl(no2ndbisulfite)/QC/pool/PE100correct. PhysicalDNAUversusreportedTseparate. No consequential defect found within selected scope."
+  }
+}

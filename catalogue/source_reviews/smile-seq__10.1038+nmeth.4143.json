@@ -1,0 +1,67 @@
+{
+  "dir": "smile-seq__10.1038+nmeth.4143",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4143/MediaObjects/41592_2017_BFnmeth4143_MOESM206_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI Fig1 setup and Fig5a four-step heterodimer capture caption; originalPDF Fig5 p5 rendered/inspected"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4143/MediaObjects/41592_2017_BFnmeth4143_MOESM207_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Table1 header only: TF/ORF/protein class/seed identities; gene bodies not curated as library oligos"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4143/MediaObjects/41592_2017_BFnmeth4143_MOESM208_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Workbook header only: predictive AUC comparison/data; detailed rows not read as reaction chemistry"
+    },
+    {
+      "id": "blocked1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth.4143",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original Methods/chemistry not inspected through this unavailable route",
+      "reason": "journal article; no open full text found (publisher page only)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Capped published-first original reading;associated manuscript explicit,actual source blockers unresolved,private source-local graphs only",
+      "locations": "Published SI Fig1 setup and Fig5a four-step heterodimer capture caption; originalPDF Fig5 p5 rendered/inspected; Published Table1 header only: TF/ORF/protein class/seed identities; gene bodies not curated as library oligos; Workbook header only: predictive AUC comparison/data; detailed rows not read as reaction chemistry",
+      "findings": "Real selected preparation/component scopes distinguish methods;unknown polymers/geometry/source versions and fractions remain explicit.",
+      "deferred": [
+        "Defining published main Methods: surface preparation, full DNA bait/primer polymer, recovery/release and library operations/readout",
+        "Complete Cy5 attachment site, duplex ends and antibody/surface immobilization chemistry; these are questions,not invented missing-disclosure documents",
+        "Other SI figures/tables/code and source-linked molecular predecessors remain unreviewed; no full source or absence audit"
+      ],
+      "verification": "Combined21 local checks (7 SMiLE/14 SEQRS),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt27unassembled inputs (not sequence validation);chemistry0established74unresolved0contradictory. Independent selected-source review/recheck closed;not absence audit.",
+      "oligo_scraper": "Mandatory bundle scraper run;selected source pointers/modifications verified,ORFs not treated as libraryoligos,zero hits/files not absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct pending originals/questions listed;no recursive source chase or accepted absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Defining published main Methods: surface preparation, full DNA bait/primer polymer, recovery/release and library operations/readout",
+    "Complete Cy5 attachment site, duplex ends and antibody/surface immobilization chemistry; these are questions,not invented missing-disclosure documents",
+    "Other SI figures/tables/code and source-linked molecular predecessors remain unreviewed; no full source or absence audit"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "dir": "smac-seq__10.1038+s41592-019-0730-2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smac-seq__10.1038+s41592-019-0730-2/s41592-019-0730-2_PMC7968351.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7968351.1/PMC7968351.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated manuscript Results58\u201368/Methods134\u2013168",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smac-seq__10.1038+s41592-019-0730-2/s41592-019-0730-2_41592_2019_730_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0730-2/MediaObjects/41592_2019_730_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI cover/Table1;remaining figures open",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified private incomplete graph;no full linked source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-21",
+      "reviewer": "dna_round21",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded defining/chemistry review;no recursive linked-source chase.",
+      "locations": "Associated manuscript Results58\u201368/Methods134\u2013168;Published SI cover/Table1;remaining figures open",
+      "findings": "Combined native methylation preparation and source distinct human route;historical kit geometry unassembled.",
+      "deferred": [
+        "Final defining published article;historical named kit/protocol originals and source-linked predecessors;remaining SI sections."
+      ],
+      "oligo_scraper": "Mandatory scraper0sequence-positive files after publishedSI extraction;not absence evidence.",
+      "verification": "9localchecks pass;independentselectedAMreviewcorrectedcatalysttyping."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna21_reader",
+    "date": "2026-10-30",
+    "scope": "AMMethods134\u2013168 vsgraph;critical implementationreview,notabsenceaudit.",
+    "finding": "Correct separateyeast/human marks/ordering/stop/nativekitreadout;explicit enzymecatalysttyping corrected after review;100U split remains unassigned."
+  }
+}

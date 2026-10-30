@@ -1,0 +1,444 @@
+{
+  "dir": "sharc-exo__10.1038+s41467-022-28602-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_41467_2022_28602_MOESM1_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-022-28602-3/MediaObjects/41467_2022_28602_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_41467_2022_28602_MOESM2_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-022-28602-3/MediaObjects/41467_2022_28602_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_41467_2022_28602_MOESM3_ESM.zip",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-022-28602-3/MediaObjects/41467_2022_28602_MOESM3_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Sfig_10c_SHARC_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/S10c/Sfig 10c SHARC Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Sfig_10c_no_SHARC_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/S10c/Sfig 10c no SHARC Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/(manual) 2021.11.19.469208_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/2021.11.19.469208v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/(manual) 2021.11.19.469208_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/2021.11.19.469208v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_8",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_PMC8854666.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/PMC8854666.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_9",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_PMC8854666.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/PMC8854666.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round13_reader",
+        "date": "2026-10-29",
+        "locations": "Identity/header, overview49\u201379/Fig2; full source preparation Methods175\u2013223 including DD2D/RNaseR/proximityligation/decrosslink/adapter/RT/circle/PCR/acquisition branches",
+        "finding": "Selected positive source chemistry/identity read with version/scope limitations in note. No accepted absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published VOR"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round13_reader",
+        "date": "2026-10-29",
+        "locations": "Title and chemical characterization of activated dicarboxylic acids opening16\u201344; SupplementaryFig1 caption/synthesis statement. Remaining image plots/tables not independently chemistry-read.",
+        "finding": "Selected positive source chemistry/identity read with version/scope limitations in note. No accepted absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published SI"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM2_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round13_reader",
+        "date": "2026-10-29",
+        "locations": "Opening identity/date only, updated2021-12-09; no molecular facts assigned from unchecked OCR",
+        "finding": "Selected positive source chemistry/identity read with version/scope limitations in note. No accepted absence conclusion."
+      },
+      "pass_2": null,
+      "source_version": "Published reporting summary"
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM.zip",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_AMTHEKbc10_7SK1000_CRSSANT.ghsRN7SK_hsRN7SK.cliques.t_o0.1_dg.bed",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig16cde/AMTHEKbc10_7SK1000_CRSSANT.ghsRN7SK,hsRN7SK.cliques.t_o0.1_dg.bed",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Figure_4c_SHARC_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/fig4c/Figure 4c SHARC Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Figure_4c_no_SHARC_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/fig4c/Figure 4c no SHARC Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Figure_4d_SHARC_Top_200_Models_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/fig4d/Figure 4d SHARC Top 200 Models Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Figure_4d_no_SHARC_Top_200_Models_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/fig4d/Figure 4d no SHARC Top 200 Models Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_RN7SK.fa",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig17a/RN7SK.fa",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_RN7SL_chr1_301_bp.bed",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig8c/RN7SL_chr1_301_bp.bed",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_SHARC_source_data.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data Main Text/SHARC_source_data.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_21",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Supp_fig_10k_control_SHARC_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig10k/Supp fig 10k control SHARC Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_22",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_Supp_fig_10k_control_SHARC__Top_100_models_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig10k/Supp fig 10k control SHARC  Top 100 models Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_hsRN7SK_Marz_bp_color.bed",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig17a/hsRN7SK_Marz_bp_color.bed",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_24",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_hsRN7SK_Marz_bp_short.bed",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig17a/hsRN7SK_Marz_bp_short.bed",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_25",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_hs_7SL1_helix.bed",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig8c/hs_7SL1_helix.bed",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_26",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_hs_7SL2_helix.bed",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig8c/hs_7SL2_helix.bed",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_27",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_hs_7SL_alignments.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig8c/hs_7SL_alignments.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_28",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_source_data_minjie_kongpan.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/source data_minjie_kongpan.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_29",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_supp_fig_10k_SHARC-exo_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig10k/supp fig 10k SHARC-exo Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_30",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_supp_fig_10k_SHARC-exo_Top_100_models_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig10k/supp fig 10k SHARC-exo Top 100 models Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_31",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_supp_fig_10k_no_SHARC_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig10k/supp fig 10k no SHARC Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    },
+    {
+      "id": "source_32",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sharc-exo__10.1038+s41467-022-28602-3/s41467-022-28602-3_supp_41467_2022_28602_MOESM3_ESM_supp_fig_10k_no_SHARC_Top_100_models_Source_Data.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8854666.1/41467_2022_28602_MOESM3_ESM.zip#Source Data/Source Data SI/sfig10k/supp fig 10k no SHARC Top 100 models Source Data.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Manifest identity only; original not inspected",
+      "reason": "Original uninspected or actual manifest access barrier; figure/data inventories are not chemical-source review. No absence/irrelevance assertion."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round13_reader",
+      "date": "2026-10-29",
+      "locations": "Identity/header, overview49\u201379/Fig2; full source preparation Methods175\u2013223 including DD2D/RNaseR/proximityligation/decrosslink/adapter/RT/circle/PCR/acquisition branches; Title and chemical characterization of activated dicarboxylic acids opening16\u201344; SupplementaryFig1 caption/synthesis statement. Remaining image plots/tables not independently chemistry-read.; Opening identity/date only, updated2021-12-09; no molecular facts assigned from unchecked OCR",
+      "finding": "Capped source pass; directly linked pending originals and actual access barriers in note. No recursive chase or second absence reader."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "PublishedMethods181/201/217 refs1/2/3",
+      "scope": "Actual named TNA extraction, proximity-ligation and libraryPCR predecessors not followed in capped pass; barcodedRTprimer/end/backbone/index geometry remains unassembled."
+    },
+    {
+      "locator": "PublishedSupplementaryTable1 and actual source-data files",
+      "scope": "Available original data/workbooks not read as full chemistry sources; two large source-data files skipped by scraper default. No sequence absence inferred."
+    }
+  ],
+  "open_questions": [
+    "Full source-linked molecular end/primer/read geometry and stated version boundaries remain unassembled, not confirmed absent."
+  ],
+  "conclusion": "Source-qualified notes and incomplete local graph only; no finished schematic, full source review or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "rna_round13_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Max10min/3originals source investigation. Mod-seq formalcorrection counts within cap; figure-only ZIP inventory not chemistrySI. No recursive chase.",
+      "locations": "Identity/header, overview49\u201379/Fig2; full source preparation Methods175\u2013223 including DD2D/RNaseR/proximityligation/decrosslink/adapter/RT/circle/PCR/acquisition branches; Title and chemical characterization of activated dicarboxylic acids opening16\u201344; SupplementaryFig1 caption/synthesis statement. Remaining image plots/tables not independently chemistry-read.; Opening identity/date only, updated2021-12-09; no molecular facts assigned from unchecked OCR",
+      "findings": "Source-known operations through library/acquisition; physical RNA/crosslink identity distinct from conditional copiedDNA/readout; debris/control fractions preserved.",
+      "deferred": [
+        "PublishedMethods181/201/217 refs1/2/3",
+        "PublishedSupplementaryTable1 and actual source-data files"
+      ],
+      "oligo_scraper": "Mandatory bundle scraper and main original modification pointers inspected. SHARC2large source-data skips remain unreviewed. Empty SHAPE-JuMP hits do not imply absent SI sequences.",
+      "verification": "29 local checks pass (Mod9,SHAPE-JuMP7,SHARC13); sourceguard6checked0failed0bundlesskipped1explicit formal-corrected-primer exemption7unassembledinputs3graphs; chemistry65unresolved0contradictory. Canonical source-review schema passes (2in_progress,1blocked). Notes build and git diff --check pass; no preview/finished schematic."
+    }
+  ]
+}

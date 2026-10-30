@@ -1,0 +1,81 @@
+{
+  "dir": "slic-cage__10.1101+gr.235937.118",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slic-cage__10.1101+gr.235937.118/gr.235937.118_PMC6280763.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6280763.1/PMC6280763.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round20",
+        "date": "2026-10-29",
+        "locations": "PublishedVORMethods169\u2013201:carrier preparation/nominalcapmix,nAnT2014sourceboundary,local exceptions/two digestions/separateQC/18ulPCR/conditionalcleanup/SE50.",
+        "finding": "Positive selectedpreparativescope only; completeinheritednAnT/fullmoleculargeometry andadditionaloriginals remainunreviewed,notacceptedabsence."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slic-cage__10.1101+gr.235937.118/gr.235937.118_supp_supp_gr.235937.118_Supplemental_Material.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6280763.1/supp_gr.235937.118_Supplemental_Material.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round20",
+        "date": "2026-10-29",
+        "locations": "PublishedSI TablesS1/2/5/6/primerp8rendered andFigS20p52rendered; sequence/recognition-site inventory,template-bpvsRNA-length distinction andworkflow/QC/PicoGreen.",
+        "finding": "Positive selectedpreparativescope only; completeinheritednAnT/fullmoleculargeometry andadditionaloriginals remainunreviewed,notacceptedabsence."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "coordinator_round20",
+      "date": "2026-10-29",
+      "locations": "MainMethods185/referenceMurata2014 at615\u2013630; actualSupplementalMaterial andprocessingcode identified bymanifest",
+      "finding": "DirectMurata2014chapter identified/notfollowedwithinboundedpass;processingcode/resultsuninspected. No fullsource/linked absenceaudit."
+    },
+    "pass_2": null,
+    "deferred_originals": [
+      {
+        "locator": "https://doi.org/10.1007/978-1-4939-0805-9_7",
+        "role": "predecessor",
+        "availability": "not_assessed",
+        "sections_inspected": "None",
+        "disposition": "DirectnamednAnT2014component;boundedpassclosedbeforefollowingpredecessor,notclaimedinaccessible orchemicallyabsent."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Private incomplete source-qualifiedcarrier-depletiongraph;twooriginalscapclosed,nopublicpromotion/fullsourceorabsenceclaim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "coordinator_round20",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Definingpublishedmain+selectedpublishedchemistrySI;noexternalpredecessorfollowup.",
+      "locations": "PublishedVORMethods169\u2013201:carrier preparation/nominalcapmix,nAnT2014sourceboundary,local exceptions/two digestions/separateQC/18ulPCR/conditionalcleanup/SE50.; PublishedSI TablesS1/2/5/6/primerp8rendered andFigS20p52rendered; sequence/recognition-site inventory,template-bpvsRNA-length distinction andworkflow/QC/PicoGreen.",
+      "findings": "CarrierstockRNAseparatefromtarget,nominalmassmixnotmoleculefractions,PCR-templatebpnottranscriptlength,latepooling/nodrying;twoactualcarrierDNA-digestionsandseparateqPCR/PCR/QCfates/conditional0.8cleanup preserved.",
+      "deferred": [
+        "DirectMurata2014nAnToriginal/fullRT/captrapping/librarygeometry",
+        "Completecarrier/plasmid/IVT/capmolecules andsourcecut-productduplexends",
+        "ActualsampleQCoutcomes/technicalreplicatecounts andfullindex/read-primergeometry"
+      ],
+      "oligo_scraper": "Mandatoryrerunafterconversion;originalTableS6p8andFigS20p52rendered,knownprimer/source-sitehitsfollowed;code/dataandpreprintexcludedfromchemistryauthority.",
+      "verification": "15localchecks;sourceguard6exact0failed0exempt;23unresolved0contradictory. Independentselectedcriticalreviewclosed,notfullsource/absenceaudit."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_multi_reader_round20",
+    "date": "2026-10-29",
+    "scope": "PublishedMethods169\u2013201,actualTableS6p8all3wholeprimerrows andFigS20p52;implementation/selectedsourceonly,notfullsourceorabsenceaudit",
+    "finding": "15checks pass;nominal15\u21921/14,20\u2192separatediagnosticand18PCRallocation,noreplicatescalinginvented;carrier/template/capidentities,Q2conditionalcleanup,physicalremnantsandlatepool/sourcefrontgapconsistent. SelectedcutreferenceconservesallDNAandpredictsnoenzyme/yield."
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "dir": "chart-seq__10.1073+pnas.1113536108",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chart-seq__10.1073+pnas.1113536108/(manual) PMC3251105 PMC Cloud source",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC3251105.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "Explicit identified CHART original in official public PMC Cloud dataset; why: Primary PubMed/PMC identity independently known;standard metadata/fullTextXML route failed. Existing publicdataset handler only;verify original identity/licence,no bypass.; no usable file returned; obtain the original through another route"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chart-seq__10.1073+pnas.1113536108/(manual) pnas.1113536108 full text",
+      "original": "https://doi.org/10.1073/pnas.1113536108",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chart-seq__10.1073+pnas.1113536108/(manual) pnas.1113536108_PMC3251105.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3251105/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "PMC article page: full text; host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (5.9 h left; not requested) (5.5 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested)"
+    },
+    {
+      "id": "source_4",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chart-seq__10.1073+pnas.1113536108/(manual) pnas.1113536108_PMC3251105.xml",
+      "original": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3251105/fullTextXML",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Publishedoriginaloractualuninspectedmanifesttarget",
+      "reason": "full-text JATS XML (Europe PMC); HTTP 500"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round17_source_reader",
+      "date": "2026-10-29",
+      "locations": "Nooriginalobtained; discoveryprimaryabstractidentityretainedashistoryonly.",
+      "finding": "Directnamedvendor/predecessor/source targets enumerated; cap/accessbarriersremain, noabsenceverdict."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3251105/fullTextXML",
+      "scope": "ActualHTTP500, nooriginalobtained."
+    },
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3251105/",
+      "scope": "Existinghostcooldown; notrequestedunderchallengeblock."
+    },
+    {
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC3251105.",
+      "scope": "Coordinator-authorizedofficialPMCCloudhandler returnednousablefile; no challengeworkaround."
+    },
+    {
+      "locator": "DefiningCHARTpublishedarticleandactualSupportingInformation",
+      "scope": "Identityonlysourcepass; chemistry/modifiedprobe/end/readgeometryuninspected. Discoveryabstractdoesnotcountascollection."
+    }
+  ],
+  "open_questions": [
+    "Fullmodifiedmolecule/oligo/end/index/readgeometry andexactphysicalfractionfatesremainunassembled."
+  ],
+  "conclusion": "Identity/accessonly; uncollectedchemistry,nograph.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-17",
+      "reviewer": "round17_source_reader",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Boundedmax10min/3originals, publishedfirst; associatedMSandfinalsourcesseparate, norecursivechase.",
+      "locations": "Nooriginalobtained; discoveryprimaryabstractidentityretainedashistoryonly.",
+      "findings": "Physicalnascentprotein/RNA/RPF/capturedDNA/probeidentitiesandfractionfatesdistinctwhereoperationalmodeljustified.",
+      "deferred": [
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3251105/fullTextXML",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC3251105/",
+        "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC3251105.",
+        "DefiningCHARTpublishedarticleandactualSupportingInformation"
+      ],
+      "oligo_scraper": "Mandatoryfullcache scraper ran; AHARIBO93MBproteomicstabletextskippedbysizelimit. Scrapedvalidationsequencesnotlibraryinputs; noadoptedexactsequencepolymerclaim.",
+      "verification": "AHARIBO9/RAP8localcheckspass; sourceguard0eligible/0failed/0exemptions/2unassembledinputs, chemistry30unresolved/0contradictory. Noexactoligotranscriptioncoverageclaimed."
+    }
+  ]
+}

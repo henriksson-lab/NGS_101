@@ -1,0 +1,62 @@
+{
+  "dir": "ssdna-seq-permanganate__10.1016+j.cell.2013.04.033",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "associated_manuscript",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ssdna-seq-permanganate__10.1016+j.cell.2013.04.033/j.cell.2013.04.033_PMC3684982.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round10",
+        "date": "2026-10-29",
+        "locations": "Results104\u2013110/Fig3 and Methods146\u2013148",
+        "finding": "Associated accepted-manuscript identity explicit; selected molecular/order source scope read; finalVOR applicability not independently established."
+      }
+    },
+    {
+      "id": "supplement_01",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3684982/bin/NIHMS472536-supplement-01.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC preparing/download gate; original contents uninspected."
+    },
+    {
+      "id": "supplement_02",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3684982/bin/NIHMS472536-supplement-02.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC preparing/download gate; original contents uninspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round10",
+      "date": "2026-10-29",
+      "locations": "Selected defining original/associated manuscript and chemistry supplements listed above",
+      "finding": "Named original/kit/script/version targets remain uninspected or unavailable within cap; no absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; full source/library/read geometry and independent linked-source review remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "expansion_dna_round10",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first source selection; associated manuscript identities explicit. No3original cap expansion, no recipe inheritance by resemblance.",
+      "locations": "Detailed inspected locations are recorded per original above.",
+      "findings": "Source-known operations retained, exact molecular end/read geometry deliberately incomplete; no accepted absence claim.",
+      "deferred": [
+        "Exact blocked originals and named kit/script/predecessor targets identified in notes."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scrapers run after fetch; G4seq95hits/5files, SMRF0hits, ssDNA0hits. Hits reviewed as pointers; no exact library oligo or absence claim derived.",
+      "verification": "22localchecks(6G4/9SMRF/7ssDNA)passed;3builds/pairing and source-review schema passed. Sourceguard0checked/0failed with2unrepresented SMRF locus-primer inputs; no exact oligo validation claimed. Chemistry0established/25unresolved/0contradictory, not full chemical validation. Independent implementation review found no critical molecular/fate/version defect; it was not an absence-audit pass. Fetch session10000completed exit0, no process running."
+    }
+  ]
+}

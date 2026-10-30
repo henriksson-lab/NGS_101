@@ -1,0 +1,70 @@
+{
+  "dir": "rad-seq__10.1371+journal.pone.0003376",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rad-seq__10.1371+journal.pone.0003376/journal.pone.0003376_PMC2557064.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2557064.1/PMC2557064.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main;not author manuscript",
+      "pass_1": {
+        "reviewer": "round15_coordinator",
+        "date": "2026-10-29",
+        "locations": "Published identity;Results72/Fig1;Methods141 and145",
+        "finding": "Original P1 tagging/pooling before random shearing and divergent P2 copying gate;actual source components/physical aliquot,not full genomic product or readout validation."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round15_coordinator",
+      "date": "2026-10-29",
+      "locations": "Published identity;Results72/Fig1;Methods141 and145",
+      "finding": "Original P1 tagging/pooling before random shearing and divergent P2 copying gate;actual source components/physical aliquot,not full genomic product or readout validation."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1128/AEM.70.9.5298-5304.2004",
+      "scope": "Source-cited Coyne2004 divergent-Y component,original unreviewed"
+    },
+    {
+      "locator": "Historical Illumina2006Solexa and source Phusion product guidelines,main141",
+      "scope": "Source-cited kit/protocol identity and acquired primer/run geometry,not assigned a fabricated revision"
+    }
+  ],
+  "open_questions": [
+    "Complete source genomic fragment/end/Y-fold/first-copy geometry and actual acquired primer/cycle layout;study barcode members unassigned."
+  ],
+  "conclusion": "Capped source-read private incomplete graph only;no finished schematic,full source review or accepted absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "round15_coordinator",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded10minutes/three originals source reading;no recursive predecessor chase",
+      "locations": "Published identity;Results72/Fig1;Methods141 and145",
+      "findings": "Original P1 tagging/pooling before random shearing and divergent P2 copying gate;actual source components/physical aliquot,not full genomic product or readout validation.",
+      "deferred": [
+        "Coyne2004 original",
+        "Historical source-cited Solexa/Phusion guidelines and readout identity"
+      ],
+      "oligo_scraper": "Mandatory actual-bundle scan20hits/mainPDF+JATStwins;original Methods141 modifications and lowercase x windows read. No inference of absence from stalled generic supplemental ZIP.",
+      "verification": "10checks/build/pairing pass;4exact source inputs/0failed/2P1strands explicitly exempt from strict lowercase-x matching but independently verified as whole original oligos.2conditional component checks/18unresolved claims/0contradictory."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent_dna_reader",
+    "date": "2026-10-29",
+    "locations": "Published Methods141/145;Results72/Fig1",
+    "finding": "Whole P1 top/bottom for both source variants plus P2A/P2B/PCR primers independently compared to source,all exact;physical order,aliquot/end/trim limits consistent;10checks pass. Not absence audit."
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "dir": "rock-and-roi__10.1038+s41467-025-66248-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12695968.1/PMC12695968.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main288\u2013352 selected bead modification, ROI primer/library generation and sequencing; main100\u2013118 preparative rationale.",
+      "cached_original": "s41467-025-66248-z_PMC12695968.xml"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12695968.1/41467_2025_66248_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1Table11 originalp41 rendered; selected whole eGFPsplint/ROI/T/index/customR1/protective oligos and5Pcolumn verified. Other SIfigures/experiments not fully inspected.",
+      "cached_original": "s41467-025-66248-z_supp_41467_2025_66248_MOESM1_ESM.pdf"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-32",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "One method entry with complementary RoCK capture and ROI priming components; selected eGFP inventory/standard62bpR2 branch, not separate target-panel entries.",
+      "locations": "Published main288\u2013352 selected bead modification, ROI primer/library generation and sequencing; main100\u2013118 preparative rationale.; PublishedSI1Table11 originalp41 rendered; selected whole eGFPsplint/ROI/T/index/customR1/protective oligos and5Pcolumn verified. Other SIfigures/experiments not fully inspected.",
+      "findings": "Published polymerase-based extension of the TSO subset of BDbeads using5Psplints, protective5PA18 and lambda removal, followed by ROI priming/RPE and separately indexed WTA/TSO libraries pooled together.",
+      "deferred": [
+        "Exact cited protocols.io10.17504/protocols.io.rm7vzjyb5lx1/v2 automatically fetched but ordinary unreviewed; no substitution ofv1/current export.",
+        "Exact historical BDdocs210966 and23-21711-00 ordinary unreviewed; no whole modern BD recipe imported.",
+        "Complete bead-bound barcode/UMI/dT/TSO structures, factory-to-experiment allocation, full products/indexes/read landings unassembled.",
+        "Source20ul fluorescent-QC/scaled-reaction branch is positive but not imported as an invented production loss. Analytical Atto647N inventories are separate from NGS production."
+      ],
+      "verification": "88 focused checks pass (Constellation58/scG2P9/RoCK21); source guard58exact/0failed/0exceptions/2unassembledinputs; chemistry67unresolved/0contradictory, not full validation.",
+      "oligo_scraper": "Mandatory bundle scrapers run; Constellation336candidates/5representations,scG2P3/1,RoCK66/4at selected read time; source originals independently verified, no negative inference from hits."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Only selected source-positive scope; directly cited detailed protocols/vendor predecessors remain unreviewed as stated, not absent."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "dna_round32",
+    "date": "2026-10-30",
+    "scope": "Same published main288\u2013352 and original publishedSI Table11physicalp41 rendered /tmp/rock32-table41.png; no protocols.io/vendor source opened.",
+    "finding": "Selected source/model critical review closed. Original eGFP splint/5Pprotectors/ROI/T/index/customRead1 orderings verified in actual table. Four source factory tubes, preincubation beforeT4 and retained dNTP/oligos, lambda/washes/sourcequalifiedfactoryallocation, sourceROI4/10ulstocksplit, separateWTA/TSOprimarylibrary aliquots, actual1:1qualifiedpool and3%PhiX/customRead1 reflect source. HistoricalBDbody/wholeproducts remainunassembled; QCscaledfactory branch not imported as production loss.21checks independently rerunPASS. No extra originals, fullsource/wholegeometry validation or absence audit claimed."
+  }
+}

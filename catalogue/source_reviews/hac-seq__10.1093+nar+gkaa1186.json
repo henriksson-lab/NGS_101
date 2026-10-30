@@ -1,0 +1,82 @@
+{
+  "dir": "hac-seq__10.1093+nar+gkaa1186",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7969016.1/PMC7969016.1.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7969016.1/PMC7969016.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round26",
+        "date": "2026-10-30",
+        "locations": "PublishedmainMethods65/77/81/85,Results95/103/Fig2caption107;renderedoriginalFig2PDFp6.",
+        "finding": "Source-positiveprep"
+      },
+      "pass_2": null
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7969016.1/gkaa1186_supplemental_files.zip#Suppment table 1.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7969016.1/gkaa1186_supplemental_files.zip#Suppment table 1.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round26",
+        "date": "2026-10-30",
+        "locations": "Publishedworkbook opening/headerandselectedcleavage-ratiorows; results,notoperationaloligos.",
+        "finding": "Selectedsupplementidentity/scopeonly;notabsenceevidence."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si_docx",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7969016.1/gkaa1186_supplemental_files.zip#JC revision NAR 101120 supplementary information.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7969016.1/gkaa1186_supplemental_files.zip#JC revision NAR 101120 supplementary information.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round26",
+        "date": "2026-10-30",
+        "locations": "PublishedDOCXcaptiontextonly;embeddedfalsepositiveplotsnotadoptedasinspectedchemistry.",
+        "finding": "Selectedsupplementidentity/scopeonly;notabsenceevidence."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "coordinator_round26",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Three originals including results-workbook/admincaptioninspection;nooverrun,sourceinspectionclosedbeforemodelling.",
+      "locations": "MainMethods65/77/81/85/Results95/103/Fig2p6;workbookopening;DOCXcaption.",
+      "findings": "Threegrouporder;endprocessingbeforem3CselectiveHAC;postDMonlynamedHACgroup;blocked/compatibleendclassesco-retained;kitunassembledwith60C1hRTsourcechange.",
+      "oligo_scraper": "Mandatoryhits/modifications reviewed;isolation/Northernprobesareseparateassays,notoperationalkitadapters. Noabsenceclaim.",
+      "deferred": [
+        "Remainingmain/supplementfigures/source-eraNEBkitandfulloligo/end/readgeometry",
+        "Sourceenzymeproductionanddirectlycitedoriginalsnotreviewed"
+      ],
+      "verification": "8focusedpass;0exactsourceinputs/0failed/5unassembledinputs;15unresolved/0contradictory. Independentcriticalreviewpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "HistoricalNEBkitrevision/oligocomponents andpurifiedAlkBreagentproductionremainunreviewed;desiredspecificationsarenotfabricatedunavailable originals. No supported wet-chemistry parent established;analysis-onlym7GTRACcitationisnotrecipeinheritance."
+  },
+  "missing_claims": [],
+  "conclusion": "Positivepublishedprepnotes/privateincompletegraph. Main/SIavailable;ordinaryremainingreview,noconfirmedabsence.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round26",
+    "date": "2026-10-30",
+    "scope": "Publishedmain65/77/81/85,Results95/103/Fig2caption107 and originalFig2PDFp6; same main original, no further SI/vendor/linked-source audit.",
+    "finding": "Selected group timing,stock/final buffer concentrations and5ug/2ug/100ng allocations consistent. Endprocessing beforeHAC, blocked fragments physicallyretained, noHydra terminalspecies inherited; kitcompoundboundaryandRT60C1h limitedappropriately. No consequential issue; eightfocusedchecks. Not fullabsenceaudit."
+  }
+}

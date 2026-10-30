@@ -1,0 +1,68 @@
+{
+  "dir": "nail-seq__10.1186+s13059-021-02390-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8188667.1/PMC8188667.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain169\u2013183 sequential-label/Click-beforefragment/actualtwofractionselection/onbeadbridgeligation/readout.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8188667.1/13059_2021_2390_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1actualrenderedFigS1c/dp1 andcaptionp2: actualsupernatant\u2192C1 flow, separatecrossreactioncontrols.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "resource_table",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8188667.1/13059_2021_2390_MOESM5_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedAdditionalfile5TableS4 actualZIP/XML wholeadapter/primer rows; modifications andsourceP5fixed/P7N6 retained.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "dna_owner_round33",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedselectedK562sequentialEdU/BrdU branch andwholebridgeadapterinventory only.",
+      "locations": "Publishedmain169\u2013183 sequential-label/Click-beforefragment/actualtwofractionselection/onbeadbridgeligation/readout.; PublishedSI1actualrenderedFigS1c/dp1 andcaptionp2: actualsupernatant\u2192C1 flow, separatecrossreactioncontrols.; PublishedAdditionalfile5TableS4 actualZIP/XML wholeadapter/primer rows; modifications andsourceP5fixed/P7N6 retained.",
+      "findings": "ClickCu fragmentation precedesdenaturation/PNK; actualBrdUbound/SN\u2192EdUbound partition; known5P/3NH2andfixedP5/P7N6 orderings retained.",
+      "deferred": [
+        "Reference70 extraction/librarytaggingoriginal",
+        "Full occupiedDNA/adapters/PCRproducts/primerlanding/runmask"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; relevant TableS4 hits verified inoriginalZIP/XML forNAIL. Emptyentrap/Repair hits not absenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Mainexplicitlydelegatesextraction/taggingtoref70; ordinaryunread withinselected3-originalcap. OtherChIPcontrols notproduction."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveprivatepartial from3published originals; no complete reaction/sourceabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round33",
+    "date": "2026-10-30",
+    "documents": 3,
+    "scope": "Same publishedmainPMC8188667Methods169\u2013183, SI1FigS1c/doriginalp1image/captionp2 and resourceTableS4MOESM5XLSX originalsheet1rows75\u201383 viaZIP/XML only. Narrow implementation/source-limit recheck only, not pass2 or full linked-source/absenceaudit.",
+    "finding": "Whole Bridge1up5P/3NH2 anddown3NH2, Bridge2upunmodified/down3NH2,N6splints,P5fixeddespitename/P7N6index orderings independently matched. SequentialK562EdU/BrdUpulses\u2192click-derivedfragmentation\u2192PNK\u2192antiBrdUboundversusactualsupernatantC1capture preserves source fractions. SeparateonbeadBrdU/EdUlibraries do not physically merge computationalEminusBsignals. Following peer request, localtypedBridge1up5P/Bridge2up3OH adapter interfaces are now drawn as partialknownsplinted ends; targetDNAends/N6occupancy/sealedproductsremainunassembled, not a whole ligation proof. No further blocking issue after this refinement.",
+    "verification": "18focusedPASS; no new source originals."
+  }
+}

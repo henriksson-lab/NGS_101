@@ -1,0 +1,72 @@
+{
+  "dir": "uvclap__10.1038+s41467-018-03575-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/uvclap__10.1038+s41467-018-03575-4/s41467-018-03575-4_PMC5861125.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5861125.1/PMC5861125.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round22",
+        "date": "2026-10-30",
+        "locations": "PublishedResults45\u201353/Methods171/183\u2013201;wholePCRpatterns187 andliteralUVunit171.",
+        "finding": "Positive selectedsourcepreparation only; complete chemistry andlinkedsource/absenceaudit unresolved."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/uvclap__10.1038+s41467-018-03575-4/s41467-018-03575-4_supp_41467_2018_3575_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5861125.1/41467_2018_3575_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round22",
+        "date": "2026-10-30",
+        "locations": "FigS1originalp2workflow andTable7originalp12selectedconditiontag;bothrendered. Otherresults/figures not chemistry-audited.",
+        "finding": "Positive selectedsourcepreparation only; complete chemistry andlinkedsource/absenceaudit unresolved."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "coordinator_round22",
+      "date": "2026-10-30",
+      "locations": "MainMethods/cited2017uvCLAPapplications andtag/vendorreferences;sourcecapclosedbeforefollowing",
+      "finding": "Earlierstudy/Hisbiotintag references andhistoricalkits remainordinaryunread;no fullrecipe/componentconstructor inherited. No complete linked-information audit."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Private incomplete source-qualifiedpreparation/tagwindow model;no publicpromotion or acceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-22",
+      "reviewer": "coordinator_round22",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Publisheddefiningmain/selectedpublishedSI;no recursivefollowup.",
+      "locations": "PublishedResults45\u201353/Methods171/183\u2013201;wholePCRpatterns187 andliteralUVunit171.; FigS1originalp2workflow andTable7originalp12selectedconditiontag;bothrendered. Otherresults/figures not chemistry-audited.",
+      "findings": "TandemHis/streptavidin\u2192RNAendprocessing/linker\u2192PKcolumn/RT\u2192earlyjointpool/gel\u2192circle/restriction/PCR;chemicalmixtures/fates explicit. Tagcondition/replicate/size meanings separated andwithinreplicaterandommeaning locallytyped. LiteralUVunit retained.",
+      "deferred": [
+        "FullRT/linker/circle/cut/PCR/run geometry",
+        "Complete kit/vendor/predecessor/sourcecoverage and unselectedexperiments",
+        "Shared overlappingidentifier-read-spanrepresentation not claimed by localdualsemanticsprototype"
+      ],
+      "oligo_scraper": "Mandatoryscrape5candidatehits/3files,mainPDF/XMLsameoriginal;wholePCRpatterns verifiedinmain187,Table7rendered;noabsenceclaim.",
+      "verification": "9localchecks pass;independentselectedcriticalreviewclosed,notfullsource/absenceaudit."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round22",
+    "date": "2026-10-30",
+    "scope": "Independentpublishedmain171/183\u2013201 andoriginalSIfigS1p2/Table7p12 rendered;2originalscope,notfullsource/absenceaudit.",
+    "finding": "9focusedchecks pass;literal0.15mJ,His/imidz/streptavidin/endprocessing/PKcolumn/SSIII/jointpoolbeforegel/circle/restrict/PCR consistent. SplitUMIgroup anddualreplicatetagmeanings local/inferredprototype;nooverlappingreadvalidationclaim."
+  }
+}

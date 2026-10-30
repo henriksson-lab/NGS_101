@@ -1,0 +1,143 @@
+{
+  "dir": "dna-microscopy__10.1016+j.cell.2019.05.019",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6697087.1/PMC6697087.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated author manuscript overview90–94, in-situ/library/sequencing/UMI-UEI Methods210–248, references539/547; main JATS supplement-link identity metadata only."
+    },
+    {
+      "id": "linked_si_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-8.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-9.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-10.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-11.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    },
+    {
+      "id": "linked_si_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6697087/bin/NIHMS1531916-supplement-12.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual main-JATS-linked original; standard fetch reports PMC download gate/not in Cloud TDM bucket. Candidate part of collection containing required TablesS1/S2; generic printed JATS labels do not establish individual table mapping or each file chemistry. No original opened or absence conclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Capped selected originals including administrative identity opens. Published-first; AM status explicit. Not complete source or absence audit.",
+      "locations": "Associated author manuscript overview90–94, in-situ/library/sequencing/UMI-UEI Methods210–248, references539/547; main JATS supplement-link identity metadata only.",
+      "findings": "Positive distinct wet-preparation boundary and source-owned private partial graph. Physical workups, saved/unused aliquots, original substrates and source alternatives retained; no borrowed whole-chemistry constructor.",
+      "deferred": [
+        "Actual TablesS1/S2 fourplex and S5/S6 24plex, exact linked PDF identity mapping; directly cited overlap-extension/interference and hydrogel originals",
+        "Whole molecular/adapter-end/read geometry and actual sample-specific assignments"
+      ],
+      "verification": "21 focused checks pass (7 each); source guard5 exact strands checked,0failed,1 documented lowercase-x pattern exemption independently checked whole by local suite,12unassembled inputs across3graphs. Chemistry0established/46unresolved/0contradictory; not complete chemical validation. Notes render successfully.",
+      "oligo_scraper": "Mandatory source scraper: two candidates/one source file. Actual source pointers verified for selected facts; not absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Actual TablesS1/S2 fourplex and S5/S6 24plex, exact linked PDF identity mapping; directly cited overlap-extension/interference and hydrogel originals. Scoped component/adaptation evidence is in notes. No recursive follow-up or whole-recipe inheritance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Actual TablesS1/S2 fourplex and S5/S6 24plex, exact linked PDF identity mapping; directly cited overlap-extension/interference and hydrogel originals",
+    "Unreviewed remaining sections and final-main comparison where explicitly operating from AM"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round23",
+    "date": "2026-10-30",
+    "scope": "Independent selected-original/model critical review only; not full source or linked-information absence audit",
+    "finding": "Independently read qualified AM overview90–94 and Methods210–248. Explicit20nt UEI, mixed29nt UMI composition, PCR programs and physical aliquot/workup boundaries agree. Required correction made: proteinase K step uses DEPROTEINIZATION with catalyst input, preserving nucleic-acid material rather than labelling proteolysis nucleic-acid digestion. Seven affected checks pass; selected scope closed. Supplement access remains blocked, not confirmed absence; not a full source/linked-information or absence audit.",
+    "verification": "Affected DNA microscopy suite7pass; source guard across3graphs5exact strands checked/0fail/1approved lowercase-x literal-pattern exception/12unassembled inputs. Three source review records validate."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "dir": "molecular-pixelation-mpx__10.1038+s41592-024-02268-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11166577.1/PMC11166577.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain85/Methods183–239"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11166577.1/41592_2024_2268_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "DetailedprotocolSteps1–4/Appendix1, selectedmainversusSIinstructionsandactualallocations"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11166577.1/41592_2024_2268_MOESM3_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "inspection_scope": "Administrativeheaderidentifiespeerreviewonly;reviewerchemistryunreadandunused",
+      "reason": "Onlyadministrativeheaderread;notusedasauthorityfortheselectedpublishedrecipe. Notanabsenceclaimorfullirrelevanceaudit."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedPMC11166577 main85/183–239 andpublishedSI MOESM1 protocolSteps1–4/Appendix1;MOESM3peerreviewadministrativeheaderonly,chemistryunused.3originalsclosed.",
+      "locations": "PublishedPMC11166577 main85/183–239 andpublishedSI MOESM1 protocolSteps1–4/Appendix1;MOESM3peerreviewadministrativeheaderonly,chemistryunused.3originalsclosed.",
+      "findings": "Positivepublishedpreparationandprivateincompletegraph. Literalmodifications,physicalstockfatesanduncertainmolecularboundariesretained;noacceptedabsenceclaim.",
+      "deferred": [
+        "Wholemolecular/primer/readgeometryandlinkedcomponentoriginals",
+        "Actualsample/cycleassignmentswhereunassigned;notinventeddisclosuredocuments"
+      ],
+      "verification": "53focusedchecks(12MPX/19BALI/22PCL)pass;guard18exact0failed1PCLwholeadapterformattingexemption8unassembled. Scopedchemistry7established/115unresolved/0contradictory;establishedclaimsaredeclaredMEpairingandknownBALI/PCLadapterendchecks,notcompletechemicalvalidation.",
+      "oligo_scraper": "Mandatoryscrapersallthreeexecutedonvalidatedsourcebundles. BALI46candidates/1SI,PCL15/1SI;MPXfinal611candidates/4textfiles(initial200datahits);onlyselectedalready-readsourcepointersused. Exactselectedrowscheckedoriginals; scraperisnotauthority."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Relevantunreadlinkedcomponent/versiondetailsremainopenwithinboundedpass;nofullabsenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Completegeometryandlinked-informationreviewremainuncompleted;noactualcurrentlyfailedneededURL."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round26",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Narrowselectedpublishedsource/modelcriticalreviewonly;notcompleteall-source/linked-informationorabsenceaudit.",
+    "finding": "Coordinator independently read publishedmain207–239 andSI1 AOC45minalternative/Step4PCR30of40ulallocation (twooriginals). SeparateA/Bcircle→RCAandpixel→hybridizationaliquotsretainfourstockremainders;physicalPhiXDNAspikeroleexplicit. Publishedmain/SIinstructiondifferencesandunassembledwholeoligos/productsremainqualified. Requiredstock/PhiXfixesverified.",
+    "verification": "Latesttargeted53focusedchecks(12MPX/19BALI/22PCL)pass;sourceguard18exact0failed1verifiedPCLformattingexception8unassembled. Scopedpairing/adapterendclaims7established/115unresolved/0contradictory;sealedproductsandreadgeometryremainunassembled."
+  }
+}

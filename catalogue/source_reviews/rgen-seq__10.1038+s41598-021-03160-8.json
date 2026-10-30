@@ -1,0 +1,75 @@
+{
+  "dir": "rgen-seq__10.1038+s41598-021-03160-8",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8654851.1/PMC8654851.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmainidentity/Methods104\u2013110/Results38\u201348 andactualFig1originalPDFp2; typeddephosphorylatedp5L andflowcellfates.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "protocol",
+      "role": "detailed_protocol",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8654851.1/41598_2021_3160_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSUPPLEMENTARYRGEN-SEQPROTOCOLsteps0\u2013H; actualwholeadaptertablePDFp1/render; standardenzymaticFSroute, alternativeCovarisbodyonlyidentifiednotinherited.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "orders",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8654851.1/41598_2021_3160_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "OriginalTableS1wholemodifiedadapterordersrc_p7/p7_index/rc_p5/p5_index andCD15120nttargetingsequencecells; notwhole100bRNAguide.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "dna_owner_round41",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Publishedsource-onlySupplementaryProtocolenzymaticFSreactionwithoptionalpre-existingendblocking; actualstudyreplicate/poolassignmentsnotfabricated. Sourceinvestigationclosed, implementation/testingseparate.",
+      "locations": "Publishedmainidentity/Methods104\u2013110/Results38\u201348 andactualFig1originalPDFp2; typeddephosphorylatedp5L andflowcellfates.; PublishedSUPPLEMENTARYRGEN-SEQPROTOCOLsteps0\u2013H; actualwholeadaptertablePDFp1/render; standardenzymaticFSroute, alternativeCovarisbodyonlyidentifiednotinherited.; OriginalTableS1wholemodifiedadapterordersrc_p7/p7_index/rc_p5/p5_index andCD15120nttargetingsequencecells; notwhole100bRNAguide.",
+      "findings": "FivewholeoriginalTableS1fixtures(fourmodifiedadapters+target20nt), sourceadapterstemgeometry/3T/5P/3AmMO/PS/p5dephosphorylated5OH, actualeluate/aliquotstocks/premixcomponentsandPCR-freeconstruction\u2192flowcellfates retained. Guide100bbody/genomicends/junctions/readlandingunassembled. Main26/151vsSIH25/100\u2013300 retainednotmerged.",
+      "deferred": [
+        "PublishedSI1docxfigures andremainingworkbooksordinaryunreadunder3originalcap, notjudgedirrelevantorconfirmedabsent.",
+        "Historicalvendorfullmoduleformulations/guidescaffold/actualsampleindexassignmentsunassembled; noinventedmissingdisclosuredocument.",
+        "SupersededbioRxiv/ResearchSquarepreprintsexcluded, nopreprintrecipeadopted."
+      ],
+      "oligo_scraper": "Mandatoryavailablewholebundlescraper434hits/4files; selectedwholeoligosfollowedtoactualSI2PDFp1andTableS1ZIPXML; noabsenceinference or20ntguide-as-wholeRNA substitution."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Selectedpublishedmain/SupplementaryProtocol/TableS1read; otherSI/vendororiginalsordinaryunreadundercap. Supersededpreprintsexcluded. Noacceptedabsenceorcompleteversionaudit."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveprivatepartialpublishedprotocolreaction; same3publishedoriginalcriticalimplementationpeerCLOSED. Wholefunctionalguide/genomicjunctions/37TE-to40CutSmartbufferbridgeunassembled; noacceptedabsence/fullchemicalaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round41",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same THREE published originals: s41598-021-03160-8_PMC8654851.xml(.txt) mainMethods104\u2013110/Results38\u201346 and actualFigure1PDFp2; MOESM2SupplementaryProtocol0\u2013H plusactualadaptertablePDFp1; MOESM3TableS1originalXLSX ZIP/XMLallfive selectedorders/purpose/polymercells. No otheroriginal/retrieval.",
+    "findings": [
+      "Verified actualsourcefourmodifiedadapterwholeorders includingPSbeforeterminalT, p7index5P/distal3AmMO and sourceFigure1dephosphorylatedp5L5OH; localadapterScenes preserve3Tdonorends andcomputedduplexpairing without claimingwholegenomicsealedproducts. TableS1CD15120ntRNA-targetentry is not a whole100bsgRNA; scaffold/wholeguide remainsunassembled, no borrowedguideconstructor.",
+      "SourceoptionalCIP/TdT/ddATP blocking and its37of39ul retainedstock feed the selectedsourcebranch; sourceA6separately describesDNApreparationin40ul1xCutSmart. Requested andverified explicit unassembledrecoveredDNAamount/aliquot/preparation/finalbufferinterface scope, without invented3ulbufferaddition/newDNA or silentrecipe correction.",
+      "Knownsubsequent31of33\u219230.25ul,30of32\u219226ul,23of25 transfersretainseparatestockremainders; preannealedadapterstocksusetheir own2.5ulaliquots. Same2ulFS-mixand30ulligationmaster componentsprovidecatalysts/supplieswithoutfreshduplicate enzyme inputs. Actualreaction/wholegenomicends/adductoccupancy/readlanding remainunassembled.",
+      "SourcePCR-freepreparation remainsdistinctfromqPCRquantificationQC. NonproductiveP5/P5andotherclasses are removed only afteractualflowcellloading/clustering, notsilentlybyearlierSPRI. Protocolreactiondoesnotinventstudytriplicate/controlpool arrays. Main26/151run andSI25/100\u2013300valuesarebothpreserved; differentsettings notsilentlynormalized orassumedidenticalrunidentity."
+    ],
+    "verification": "23focusedPASSincluding5wholeoriginalTableS1fixtures; guard4exact0fail0exceptions/1wholeguideunassembled; chemistry8localestablishedduplexrelations/30unresolved0contradictory. Selectedimplementationreviewclosed, not full biochemicalreaction/source/absenceaudit."
+  }
+}

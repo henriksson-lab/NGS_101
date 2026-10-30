@@ -1,0 +1,60 @@
+{
+  "dir": "smm-seq__10.1126+sciadv.abm3259",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smm-seq__10.1126+sciadv.abm3259/sciadv.abm3259_PMC8993124.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8993124.1/PMC8993124.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedPMC8993124 main76/82/134\u2013140;originalPDFp4verified;publishedSI tablesS1\u2013S3/FigS1\u2013S4captions.2originals;historicalkits/predecessorsdeferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smm-seq__10.1126+sciadv.abm3259/sciadv.abm3259_supp_sciadv.abm3259_sm.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8993124.1/sciadv.abm3259_sm.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedPMC8993124 main76/82/134\u2013140;originalPDFp4verified;publishedSI tablesS1\u2013S3/FigS1\u2013S4captions.2originals;historicalkits/predecessorsdeferred.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph. No complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "dna_round25",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Before-open original counter /tmp/round25-dna-original-counts.tsv; source investigation closed2/1/2, no overrun.",
+      "locations": "PublishedPMC8993124 main76/82/134\u2013140;originalPDFp4verified;publishedSI tablesS1\u2013S3/FigS1\u2013S4captions.2originals;historicalkits/predecessorsdeferred.",
+      "findings": "SMM-seq selected pulse-RCA route",
+      "deferred": [
+        "HistoricalNEB/Bioroncomponentoriginals;fullHpyCH4IIIadaptercut/ligation/dumbbell/RCA/PCRgeometry; sourcepulsegoto3vsnarrativedenaturationdifference preserved, notsilentlyfixed."
+      ],
+      "oligo_scraper": "MandatoryscrapersSMM6/2,Sci13/1,Methyl18/1; originalSMMp4 andMethylSITablep4inspected.",
+      "verification": "39focusedchecks pass across3graphs;guard9wholetextmatches0failed8independentlyverifiedformattingexemptions5unassembledinputs;chemistry81unresolved0contradictory. No complete molecularvalidation oracceptedabsence claim."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted25_reader",
+    "date": "2026-10-30",
+    "scope": "Publishedmain76/82/134\u2013140 plus originalPDFp4; publishedSI onlypreviouslydeclaredscope. Selected critical implementation and all8text-formattingexceptions independentlyverified; notfull linked-source orabsenceaudit.",
+    "finding": "Fullhairpin exception matches original fixedbases/deoxyU; normalized whole-source check passes. Fig1A82 positivelysupports broadendrepair/dAtail while kitinternals remainunassembled. Pulsego-to3/narrativedenaturationdifference preserved, noUSERinSMMroute; physicalworkups/aliquot/PCR/readout consistent."
+  },
+  "text_matching_exceptions": {
+    "hairpin_oligo": "Whole original ordering including internaldeoxyU checked independently against publishedPDFp4 andlocalactual-source normalization."
+  }
+}

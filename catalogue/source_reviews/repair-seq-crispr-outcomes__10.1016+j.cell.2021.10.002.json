@@ -1,0 +1,57 @@
+{
+  "dir": "repair-seq-crispr-outcomes__10.1016+j.cell.2021.10.002",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9074467.1/PMC9074467.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedNIHMS1750972identity; selectedMethods264\u2013270/292, UMIs106 and supplementalTableS2role469\u2013477.",
+      "cached_original": "j.cell.2021.10.002_PMC9074467.xml"
+    },
+    {
+      "id": "needed0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9074467/bin/NIHMS1750972-supplement-9.xlsx",
+      "availability": "unavailable",
+      "reason": "ActualTableS2oligonucleotide/TaqManworkbook(mainlabels9/TableS2) neededforwholeUMIadapter/primerorderings; standardfetch gated/TDMnotCloudobject.",
+      "relevance": "relevant",
+      "inspection_scope": "Actualoriginalnotopened; no componentabsenceconclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-33",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Selected associatedNIHMS1750972/PMC9074467.1 Methods264\u2013270/292 and TableS2identity469\u2013477. No arrayed/Perturb-seq/preprint recipe merge or final-body equivalence.",
+      "locations": "AssociatedNIHMS1750972identity; selectedMethods264\u2013270/292, UMIs106 and supplementalTableS2role469\u2013477.",
+      "findings": "Associated-manuscript pooledRepair-seq outcome readout: NotI/targetgel/HindIII\u2192custom12ntUMIadapters\u2192parallelPCR\u2192indexedNGSpools; exact sourceTableS2gated, whole molecule/read geometry unassembled.",
+      "deferred": [
+        "Actual associatedTableS2/supplement-9.xlsx gatedTDM; source wholeoBA676/oBA677/P7/Screenindexingorderings/endmods/readlandings unassembled, notabsent.",
+        "Finalpublishedbody/versionequivalence ordinaryunverified; superseded2021.06.14.448344 notauthority.",
+        "Directlycited historical IlluminaSequencingSamplePrep_old.pdf gelguide ordinaryunreviewed; upstreamintegratedscreenconstruct/cloning/editing/arrayed/Perturb-seq branches outside selectedboundary."
+      ],
+      "verification": "Repair9/inCITE12focusedchecksPASS; two-graphsourceguard0exact/0failed/0exceptions/1unassembledinput. Chemistry51unresolved0contradictory; not complete validation. ProximIDno model/notcollected.",
+      "oligo_scraper": "Mandatoryscrapers:Repair1candidate/1representation atselectedreadtime;inCITE1200/6 withactualMOESM7normal10MBscan-size-skip;ProximID0/0. No sourceabsenceinferredfromhits."
+    }
+  ],
+  "pass_1": null,
+  "pass_2": null,
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actualdeferredlinkedsources/componentsstated; capped passnotfullsource/absenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round33",
+    "date": "2026-10-30",
+    "scope": "SameassociatedNIHMS1750972/PMC9074467mainMethods264\u2013270/Sequencing292 and namedTableS2sourceidentity only;1originalcombinedscope.",
+    "findings": "Verified NotI\u2192widegel\u2192HindIII\u2192remaining4ntNotIcompatibleUMIadapterinterface, source1ug/110ul/200:1ligations/dualSPRI andsourcePCRaliquots/readbranches. Corrected repository assertion of precleanup parallelPCRpool: source270 leaves per-PCRvscombinedworkupscheduleunassigned; opaque workup now retains bothactualproducedPCRinputs andsource0.8SPRI/removedfractions. Subsequentinter-indexpoolremains sourceexplicit. No wholeadapter/primerbody inherited fromgatedTableS2.",
+    "verification": "9focusedchecks independently rerunPASS afterlocalfix; no fullsource/reaction/absenceaudit."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "dir": "liga__10.1038+s41589-021-00788-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-021-00788-5/MediaObjects/41589_2021_788_MOESM53_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI cover identity and SupplementaryFig1\u20133 captions1573\u20131602; glycosylation/viability experiments only"
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8380037.1/PMC8380037.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated accepted manuscript (manifest author manuscript true), Methods1.8\u20131.15 lines179\u2013243; operational production and selected CD22 ProteinG capture route, not established whole-VOR equivalence"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-14",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published-first bounded source-local partial model; no absence audit or whole-version equivalence claim",
+      "locations": "Published SI cover identity and SupplementaryFig1\u20133 captions1573\u20131602; glycosylation/viability experiments only; Associated accepted manuscript (manifest author manuscript true), Methods1.8\u20131.15 lines179\u2013243; operational production and selected CD22 ProteinG capture route, not established whole-VOR equivalence",
+      "findings": "Positive selected-source operations/components retained; unknown exact molecular geometry and linked-source coverage remain explicit.",
+      "deferred": [
+        "Published main final Methods or version equivalence of selected accepted-manuscript operations",
+        "Published detailed Supplementary Methods with production, binding and PCR thermal/primer details; printed final SI inspected only in selected figure-caption scope",
+        "Full source silent-genome sequences, barcoded PCR primer bodies/site geometry and barcode\u2192glycan dictionary mapping; additional plate/cell/lectin branches",
+        "Genetic construction/manufacturing route and cited direct predecessors remain unassembled; separate viability condition variant not merged"
+      ],
+      "verification": "Local 10 behavioral/transcription checks and private build pass. Combined three-protocol guard:7 checked,0failed,1explicit A1 table-extraction exemption,3unassembled ProteinSeq inputs. Pairing0problems;chemistry0established41unresolved0contradictory. Schema check passes. No complete reaction/source validation claimed.",
+      "oligo_scraper": "Mandatory full bundle scraper completed; relevant original pointers verified, uninspected hits not adopted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped pass stops at selected originals; direct source targets listed in pending_sources. No accepted absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published main final Methods or version equivalence of selected accepted-manuscript operations",
+    "Published detailed Supplementary Methods with production, binding and PCR thermal/primer details; printed final SI inspected only in selected figure-caption scope",
+    "Full source silent-genome sequences, barcoded PCR primer bodies/site geometry and barcode\u2192glycan dictionary mapping; additional plate/cell/lectin branches",
+    "Genetic construction/manufacturing route and cited direct predecessors remain unassembled; separate viability condition variant not merged"
+  ]
+}

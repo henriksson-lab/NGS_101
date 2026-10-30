@@ -1,0 +1,55 @@
+{
+  "dir": "seq-scope-expanded__10.1038+s41467-026-69346-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13000175.1/PMC13000175.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Downloadedpublishedmainwholeanchor, gel/transfer and TotalSeqA/customoYo route text"
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41467-026-69346-8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Attemptedcurrent18Marversionidentity/body comparison; directopen500identityredirect,nooriginalreturned",
+      "reason": "Attemptedcurrent18Marversionidentity/body comparison; directopen500identityredirect,nooriginalreturned"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "PublisherPMC13000175.1 main115/285–321,10Feb2026epubmetadata;18Mar2026publisher-body comparison unverified becauseactualNatureidentityredirect. No complete equivalence or inventedcorrectiondocument claimed.",
+      "locations": "PublisherPMC13000175.1 main115/285–321,10Feb2026epubmetadata;18Mar2026publisher-body comparison unverified becauseactualNatureidentityredirect. No complete equivalence or inventedcorrectiondocument claimed.",
+      "findings": "Source-positive distinctwetpreparation withprivatepartialgraph; knownoligos/modifications/physicalstates sourcequalified, no wholefamilyconstructor inheritance.",
+      "deferred": [
+        "Complete intermediate/end/primer/read geometry and actualchosen sample assignments",
+        "Actualunreadlinkedhistoricalkit/componentoriginals; no recursivechase"
+      ],
+      "verification": "23focusedchecks(9CATS/8SeqScopeX/6SPACECAT)pass. Defaultsourceguard5exact0failed0exempt4unassembled across3graphs; explicitSeqScopeXproteinbranchsourceguard5exact0failed(sharedanchorcountedagain). Chemistry0established/52unresolved/0contradictory,notcompletevalidation.",
+      "oligo_scraper": "MandatoryscrapersCATS31candidates/3textfiles(same-mainPDF/XML),SeqScopeX10/2,SPACECAT0/0sequence-positivefiles. Actualselectedsourceliteralsverified; zerohitsnotabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Explicitactualtargets/versionorconfiguredsizelimitsabove; otherkits/parentoriginals remainordinaryunreviewedscope. No completeabsenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "https://www.nature.com/articles/s41467-026-69346-8",
+    "Fullmolecular/linkedsource review remainsuncompleted scope."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round25",
+    "date": "2026-10-30",
+    "scope": "Selectedoriginal/modelcriticalreviewonly; no complete source/linked-material absenceaudit.",
+    "finding": "Coordinator independentlyreadmain321 proteinDNA-copydirection/ATallocations/P5body. RequiredP5TR1correction removesunsourcedCGATCusingTRUSEQ_READ1[:27]; wholeP5/P7fixed-base/window/PSsourcefixtures added. P7rightbodyderivedcanonicalTRUSEQ_READ2[:12]+revcomp(TRUSEQ_SMALL_RNA_RA3). Proteinbranchsourceguard5matches0fail. Versionlimitexplicit,notindependentconfirmationof18Marbodyequivalence."
+  }
+}

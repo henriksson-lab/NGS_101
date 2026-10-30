@@ -1,0 +1,76 @@
+{
+  "dir": "tcp-seq__10.1038+nature18647",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nature18647",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published defining Nature HTML abstract593/ExtendedData captions/source index1365\u20131380; subscription preview only, full Methods unavailable in this response.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "discussion",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature18647/MediaObjects/41586_2016_BFnature18647_MOESM91_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SupplementaryDiscussion2a286\u2013340 applied fixation/first sedimentation/PDD and footprint size-selection scope; opening theoretical context read, not a detailed recipe.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "table3",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature18647/MediaObjects/41586_2016_BFnature18647_MOESM90_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SupplementaryTable3 original XLSX A4:D53 all50whole DNA orderings/headers/target labels independently verified ZIP/XML, not internal misleading sheetname as authority.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-42",
+      "reviewer": "targeted_owner_round42",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published applied in-vivo fixation\u2192initial translating-mRNP sedimentation\u2192opaque SSU/ribosome footprint fractions\u2192selectedSSU cDNA boundary\u2192all50sourceTable3 PDD DNA probes\u2192opaque finish/readout. Actual full2016Methods unavailable;2017recipe not inherited.",
+      "locations": "Published defining Nature HTML abstract593/ExtendedData captions/source index1365\u20131380; subscription preview only, full Methods unavailable in this response.; Published SupplementaryDiscussion2a286\u2013340 applied fixation/first sedimentation/PDD and footprint size-selection scope; opening theoretical context read, not a detailed recipe.; Published SupplementaryTable3 original XLSX A4:D53 all50whole DNA orderings/headers/target labels independently verified ZIP/XML, not internal misleading sheetname as authority.",
+      "findings": "SupplementaryDiscussion2a explicitly records applied formaldehyde fixation, first sedimentation requiring at least one translating ribosome and cDNA PDD; physical SSU footprint selection differs from ordinary Ribo-seq, not merely a new read-analysis label.",
+      "deferred": [
+        "Full defining2016Methods response still needed; actual Nature subscriptionpreview did not supply it.",
+        "2017detailedprotocol10.1038/nprot.2016.189 and PDDreferences34/35 ordinaryunread; no recipe/component inheritance.",
+        "WholeRNA/cDNA/adapter/RT/PCR/readlayout and reaction conditions unassembled; publishedTable1/2 datasets ordinaryunread."
+      ],
+      "oligo_scraper": "Mandatorywholebundle51hits/2representations; originalTable3all50wholeDNAorders/headers verifiedZIP/XML. TheoryAAAAUGG81falseexpandedcitation not used.",
+      "verification": "59focusedPASS including50originalXLSXwholeorderingfixtures; sourceguard50exact0fail0exemptions/1whole-unassembledexternalfinisholigoinventory; chemistry8unresolved0contradictory. IndependentselectedcriticalpeerCLOSEDsame3originals.",
+      "counter_recording_issue": "First3-lineSIidentityheaderreadbeforecounterentry; bodyreads followed recordedentry; all3uniqueoriginalscounted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Capped selected sources only. Full defining2016Methods response still needed; actual Nature subscriptionpreview did not supply it. 2017detailedprotocol10.1038/nprot.2016.189 and PDDreferences34/35 ordinaryunread; no recipe/component inheritance. WholeRNA/cDNA/adapter/RT/PCR/readlayout and reaction conditions unassembled; publishedTable1/2 datasets ordinaryunread."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive selected partial preparation; complete molecular/source/absence audit incomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "multi_peer_round42",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 3,
+    "scope": "Same published Nature subscription preview identity/abstract/source-role map; published SupplementaryDiscussion2a286\u2013340; original published MOESM90 Table3 A1:D53 raw ZIP/XML including all50 DNA orders and last-row5S-1/5.8S target label. No2017protocol/predecessor/vendor/neworiginal opened.",
+    "findings": [
+      "Applied in-vivo fixation is separated from prior-report1\u20133percent concentration; first translating-mRNP sediment and excluded fraction retained as physical fractions. SSU and other ribosome branches not implicitly pooled.",
+      "PDD operates on actual cDNA library, with all50 source-table DNA probes preserved; dose/stock packaging/reaction details remain unassigned. Observed19\u201375nt footprint range is not invented size selection. Full initial cDNA/PCR/whole library/read geometry remains unassembled.",
+      "Independently inspected original workbook headers/all50 orders, including literal5S-1 name with5.8S target label; no silent source repair or source-absence claim."
+    ],
+    "verification": "Independently59focusedPASS/50wholeoriginalorderingfixtures; sourceguard50exact0failed0exemptions/1unassembledexternalfinisholigo; chemistry8unresolved0contradictory. Selected same3original implementation review closed."
+  }
+}

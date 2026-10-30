@@ -1,0 +1,130 @@
+{
+  "dir": "cyphyrna-seq__10.1080+15476286.2021.1999105",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cyphyrna-seq__10.1080+15476286.2021.1999105/15476286.2021.1999105_PMC8782182.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8782182.1/PMC8782182.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cyphyrna-seq__10.1080+15476286.2021.1999105/15476286.2021.1999105_PMC8782182.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8782182.1/PMC8782182.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round18_source_reader",
+        "date": "2026-10-29",
+        "locations": "Published Version of Record; Fig1/overview87\u2013119, Methods185\u2013247, selected branch preparative/library operations219\u2013247.",
+        "finding": "Selected positive original reading only; no complete-publication or absence audit."
+      },
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cyphyrna-seq__10.1080+15476286.2021.1999105/15476286.2021.1999105_supp_KRNB_A_1999105_SM4973.zip",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8782182.1/KRNB_A_1999105_SM4973.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cyphyrna-seq__10.1080+15476286.2021.1999105/15476286.2021.1999105_supp_KRNB_A_1999105_SM4973_20211015_Supplementary_Data_RNA_Biology_final.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8782182.1/KRNB_A_1999105_SM4973.zip#Supplementary information/20211015_Supplementary Data_RNA Biology_final.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round18_source_reader",
+        "date": "2026-10-29",
+        "locations": "Published SupplementaryData TableS5 active oligos; original WordXML cells inspected, table5 row46/globalrow73 reversePCR primer and adjacent Index containing six bases. Original TableS5 chemistry modifications retained.",
+        "finding": "Selected positive original reading only; no complete-publication or absence audit."
+      },
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "supplementary file (PMC Cloud) (from the zip)"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cyphyrna-seq__10.1080+15476286.2021.1999105/15476286.2021.1999105_supp_KRNB_A_1999105_SM4973_Supplementary_File_1_RNA_Biology.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8782182.1/KRNB_A_1999105_SM4973.zip#Supplementary information/Supplementary File 1_RNA Biology.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "supplementary file (PMC Cloud) (from the zip)"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round18_source_reader",
+      "date": "2026-10-29",
+      "locations": "Published Version of Record; Fig1/overview87\u2013119, Methods185\u2013247, selected branch preparative/library operations219\u2013247.; Published SupplementaryData TableS5 active oligos; original WordXML cells inspected, table5 row46/globalrow73 reversePCR primer and adjacent Index containing six bases. Original TableS5 chemistry modifications retained.",
+      "finding": "Actual linked targets and uninspected scope enumerated; no accepted absence claim."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published Supplementary File1.xlsx and other data/validation sections",
+      "scope": "Available but uninspected within cap, not an unavailable source."
+    },
+    {
+      "locator": "Cited tRNA-blocking predecessor reference52 and historical named enzyme/vendor originals",
+      "scope": "Directly linked follow-up deferred; no full recipe inheritance or modern kit defaults."
+    }
+  ],
+  "open_questions": [
+    "Unassembled exact end/index/primer/read geometry and uninspected downstream vendor/predecessor details remain explicit."
+  ],
+  "conclusion": "Source-positive private incomplete operational graph through selected source-known acquisition; notes status, no public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "round18_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Capped ten minutes/three originals, published first; exact selected scope only.",
+      "locations": "Published Version of Record; Fig1/overview87\u2013119, Methods185\u2013247, selected branch preparative/library operations219\u2013247.; Published SupplementaryData TableS5 active oligos; original WordXML cells inspected, table5 row46/globalrow73 reversePCR primer and adjacent Index containing six bases. Original TableS5 chemistry modifications retained.",
+      "findings": "Physical substrates, modified oligos and separable product/companion fractions retained; chemical state distinguished from sequencing readout.",
+      "deferred": [
+        "Published Supplementary File1.xlsx and other data/validation sections",
+        "Cited tRNA-blocking predecessor reference52 and historical named enzyme/vendor originals"
+      ],
+      "oligo_scraper": "Mandatory scraper run on source bundle; relevant adopted sequences and modifications verified in originals, no absence conclusion.",
+      "verification": "ChIRP7/PARE7/cyPhy19 local checks pass(33total); three new provenance checks verify actual independent molecular ribozyme spike pool before either enrichment and no spike in endogenous linear branch. Default chemistry43steps/46unresolved/0contradictory unchanged; circular branch adds one actual pool. Sourceguard5checked/0failed/1approvedexemption/7unassembled."
+    }
+  ],
+  "source_oligo_exemption_review": {
+    "input": "pcr_reverse",
+    "scope": "Only whole reverse primer family P7+N6+GTGACTGGAGTT+revcomp(RA3); no concrete index member assigned.",
+    "original": "Published DOCX word/document.xml table5,row46 (global row73), all three cells",
+    "approval": "Coordinator independent original review2026-10-29; separate DNA reader independently verified full fixed flanks and explicit six-base Index width2026-10-29. Not an absence audit.",
+    "limitation": "Generic source parser does not expand bare Index; no shared parser alias or geometry degradation. Source/have test reads whole original row and width."
+  },
+  "implementation_review": {
+    "date": "2026-10-29",
+    "reviewer": "independent DNA implementation reader",
+    "finding": "Missing independent ribozyme spike-in input corrected against published Methods preparation subsection:1ng fragment plus1\u00b5g E.colitotalRNA before enrichment. No new source acquisition/absence audit."
+  }
+}

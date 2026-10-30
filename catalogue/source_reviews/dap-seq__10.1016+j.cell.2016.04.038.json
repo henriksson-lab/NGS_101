@@ -1,0 +1,81 @@
+{
+  "dir": "dap-seq__10.1016+j.cell.2016.04.038",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4907330.1/PMC4907330.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "AssociatedAMNIHMS790647ExperimentalProcedures148/150/156/178; nativeDAP/ampDAPboundary andactualsupplementrolesunknown.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "mmc1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4907330/bin/NIHMS790647-supplement-mmc1.pdf",
+      "availability": "unavailable",
+      "reason": "ActuallinkedPDFgated/TDM; whetheritcontainsneededSupplementExperimentalProceduresunverified.",
+      "relevance": "relevant",
+      "inspection_scope": "Actualoriginalnotread; doesnotestablishabsenceorirrelevance.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "mmc5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4907330/bin/NIHMS790647-supplement-mmc5.pdf",
+      "availability": "unavailable",
+      "reason": "ActuallinkedPDFgated/TDM; chemistry/documentroleunverified.",
+      "relevance": "relevant",
+      "inspection_scope": "Actualoriginalnotread; doesnotestablishabsenceorirrelevance.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "correction",
+      "role": "defining",
+      "locator": "https://doi.org/10.1016/j.cell.2016.08.063",
+      "availability": "unavailable",
+      "reason": "DeclaredstandardDOIretrievalfoundnoopenfulltext; correctiontext/scopeunread.",
+      "relevance": "relevant",
+      "inspection_scope": "Actualoriginalnotread; doesnotestablishabsenceorirrelevance.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "dna_owner_round34",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedAMnativeDAPcoarsepreparationonly; unavailablecorrectionnotassumedirrelevant.",
+      "locations": "AssociatedAMNIHMS790647ExperimentalProcedures148/150/156/178; nativeDAP/ampDAPboundary andactualsupplementrolesunknown.",
+      "findings": "NativegDNAadapterlibrary precedes independentHaloTF/beadbinding; ampDAP/ChIPnotmerged. ExactSI/correctedfinalgeometryunassembled.",
+      "deferred": [
+        "Actuallinkedmmc1/mmc5PDFs andcorrectiontext",
+        "Wholetruncatedadapter/TFcomplexes/primers/finalAMequivalence",
+        "Linked2017detailedprotocol/vendororiginals"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; selectedoriginalsourcepointers verified; DSBPDFp9 andCATSIp16/p19 visuallyinspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "MainSupplementExperimentalProceduresdelegation/actualfilelist verified, exactPDFrolesunresolved; correctionstandardretrievalfailed."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositiveprivatepartial preparation only; selectedscope not a complete reaction/source/absenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round34",
+    "date": "2026-10-30",
+    "scope": "Same associated manuscript NIHMS790647/PMC4907330 ExperimentalProcedures148/150/156/178 only. One combined original; actual supplements and correction remain unread, not assumed irrelevant or final-equivalent.",
+    "findings": "Verified native genomic adapter-library construction precedes separately expressed and washed HaloTF/bead capture, DNA wash/elution and indexed amplification. AmpDAP pre-binding amplification and ChIP comparators are not imported into native DAP. Full truncated adapters, biochemical quantities and correction applicability remain unassembled; associated-manuscript qualification retained. No critical defect found.",
+    "verification": "8 focused checks independently rerun PASS. Selected implementation review only; no complete reaction/source review or missing-information absence audit."
+  }
+}

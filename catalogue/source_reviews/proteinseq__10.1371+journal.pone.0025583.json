@@ -1,0 +1,50 @@
+{
+  "dir": "proteinseq__10.1371+journal.pone.0025583",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3183061.1/PMC3183061.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Methods194\u2013274 and overview112\u2013150; source qPCR versus NGS branches distinguished"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3183061.1/pone.0025583.s012.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS8, complete table including Index1\u201312/reverse/enrichment primers"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-14",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published-first bounded source-local partial model; no absence audit or whole-version equivalence claim",
+      "locations": "Published main Methods194\u2013274 and overview112\u2013150; source qPCR versus NGS branches distinguished; Published TableS8, complete table including Index1\u201312/reverse/enrichment primers",
+      "findings": "Positive selected-source operations/components retained; unknown exact molecular geometry and linked-source coverage remain explicit.",
+      "deferred": [
+        "Published TablesS5\u2013S7 (probe bodies and sliding-splint sequence) and FigS1 original geometry; TableS3 source NGS probe concentrations",
+        "Source-cited bead/antibody conjugation predecessors (main refs19/29), full manufacturing and workup",
+        "Full universal primer sites, complete reporter copy/ligation and read geometry; actual sample/index assignment"
+      ],
+      "verification": "Local 8 behavioral/transcription checks and private build pass. Combined three-protocol guard:7 checked,0failed,1explicit A1 table-extraction exemption,3unassembled ProteinSeq inputs. Pairing0problems;chemistry0established41unresolved0contradictory. Schema check passes. No complete reaction/source validation claimed.",
+      "oligo_scraper": "Mandatory full bundle scraper completed; relevant original pointers verified, uninspected hits not adopted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Capped pass stops at selected originals; direct source targets listed in pending_sources. No accepted absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published TablesS5\u2013S7 (probe bodies and sliding-splint sequence) and FigS1 original geometry; TableS3 source NGS probe concentrations",
+    "Source-cited bead/antibody conjugation predecessors (main refs19/29), full manufacturing and workup",
+    "Full universal primer sites, complete reporter copy/ligation and read geometry; actual sample/index assignment"
+  ]
+}

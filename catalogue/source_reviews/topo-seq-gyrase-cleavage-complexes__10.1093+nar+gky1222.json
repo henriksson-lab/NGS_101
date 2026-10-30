@@ -1,0 +1,83 @@
+{
+  "dir": "topo-seq-gyrase-cleavage-complexes__10.1093+nar+gky1222",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/topo-seq-gyrase-cleavage-complexes__10.1093+nar+gky1222/nar_gky1222_PMC6379681.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6379681.1/PMC6379681.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedOA main70\u201378/Results50,128: actualculture/trap/antiFLAG/PK/workup/Accel1S andNextSeqPE150.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/topo-seq-gyrase-cleavage-complexes__10.1093+nar+gky1222/nar_gky1312_PMC6379713.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6379713.1/PMC6379713.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedactualCorrigendumwhole notice: changesref98bibliographiccitation only, noselectedrecipechange.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/topo-seq-gyrase-cleavage-complexes__10.1093+nar+gky1222/nar_gky1222_supp_gky1222_supplemental_files_Supplementary_Figures_191118.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6379681.1/gky1222_supplemental_files.zip#Supplementary_Figures_191118.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI FigS1physicalp2 renderedoriginal andcaption37\u201351: melting/TdTpolyG/Adapter1oligoC/Klenow/Adapter2blunt andblockedstrandclasses.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Wholehistoricalkitcomposition/aliquotbridges/wholePCR-indexproducts/readlandingunassembled; noclaimofpublicationabsence.",
+    "AvailablepublishedTableworkbookunread at3originalcap; sourceS2qPCR/strainoligoshitsnotlibraryassignment.",
+    "Directcitedsingle-strandlibraryreference51/historicalkitoriginaluninspected; no recursivechase."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpreparativereading; privatepartialmodelonly.Noacceptedabsence/fullmolecularreview/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-31",
+      "reviewer": "dna_round31",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedOA main70\u201378/Results50,128: actualculture/trap/antiFLAG/PK/workup/Accel1S andNextSeqPE150.; PublishedactualCorrigendumwhole notice: changesref98bibliographiccitation only, noselectedrecipechange.; PublishedSI FigS1physicalp2 renderedoriginal andcaption37\u201351: melting/TdTpolyG/Adapter1oligoC/Klenow/Adapter2blunt andblockedstrandclasses.",
+      "locations": "PublishedOA main70\u201378/Results50,128: actualculture/trap/antiFLAG/PK/workup/Accel1S andNextSeqPE150.; PublishedactualCorrigendumwhole notice: changesref98bibliographiccitation only, noselectedrecipechange.; PublishedSI FigS1physicalp2 renderedoriginal andcaption37\u201351: melting/TdTpolyG/Adapter1oligoC/Klenow/Adapter2blunt andblockedstrandclasses.",
+      "deferred": [
+        "Wholehistoricalkitcomposition/aliquotbridges/wholePCR-indexproducts/readlandingunassembled; noclaimofpublicationabsence.",
+        "AvailablepublishedTableworkbookunread at3originalcap; sourceS2qPCR/strainoligoshitsnotlibraryassignment.",
+        "Directcitedsingle-strandlibraryreference51/historicalkitoriginaluninspected; no recursivechase."
+      ],
+      "findings": "Source-specificactualpreparationandmolecularboundariesretained; unknownmodeldataareunassembled,notconfirmedmissing.",
+      "cap": {
+        "originals_read": 3,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round31-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      },
+      "oligo_scraper": "Mandatorysource-scraperrun; pointersverifiedonlyforselectedactualoriginalscope.",
+      "verification": "40focusedchecks(CC18/Topo10/S1 12)pass; sourceguard3exact0fail3format-exemptstrands(2CCP5+1S1ad1)0unassembledinputs/3graphs; chemistry5narrowestablished0conditional69unresolved0contradictory. Selectedsame-originalpeercriticalreviewsclosed; notfullsource/wholegeometry/absencevalidation."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round31",
+    "date": "2026-10-30",
+    "scope": "Samepublishedmain70\u201378/FigS1p2/actualcorrection32\u201341. Actualcontrols/mocks/FLAG\u2192PKsupernatant\u2192AccelGtail/oligoC/Klenow\u2192bluntAdapter2/inefficientpeptideclassesconsistent; correctiononlyref98citation.",
+    "finding": "Selectedcriticalsource/modelreviewclosedwithstatedfixes. Noneworiginal, fullreaction/final-AMequivalenceorabsenceauditclaimed."
+  }
+}

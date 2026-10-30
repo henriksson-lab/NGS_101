@@ -1,0 +1,70 @@
+{
+  "dir": "mscc__10.1038+nbt.1533",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mscc__10.1038+nbt.1533/nbt.1533_PMC3566772.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3566772.1/PMC3566772.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscript NIHMS103254 Methods151\u2013167/Fig3; final main applicability unreviewed",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "read_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mscc__10.1038+nbt.1533/nbt.1533_41587_2009_BFnbt1533_MOESM19_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.1533/MediaObjects/41587_2009_BFnbt1533_MOESM19_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI TableS5 enzyme/site statistics, S6 count-data column headers, S7 actual three-channel library counts; S8 statistical section header only",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mscc__10.1038+nbt.1533/nbt0509-485b.html.txt",
+      "original": "https://www.nature.com/articles/nbt0509-485b",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Official May2009 corrigendum DOI10.1038/nbt0509-485b paragraph642 fully read: adds YuanGao VCU ComputerScience affiliation only; no chemistry amendment",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "read_0"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified private incomplete operational graph; no full source review, public promotion or accepted missing information.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "dna_round19",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Bounded breadth-first at most10min/3originals; defining/chemistry supplements before references, no recursive chasing.",
+      "locations": "AssociatedAMMethods151\u2013167/Fig3; publishedSI S5\u2013S7/headerS8; official affiliation corrigendum paragraph642.",
+      "findings": "Known source operations retained through acquisition with unresolved full geometry and physical carryover; source identity/conditions qualified, no recipe inheritance.",
+      "deferred": [
+        "Final published main applicability; full custom A/B adapter bodies/modifications and source primer/read geometry; linked historical library/source originals not chased after cap.",
+        "61MB MOESM21 actual MSCC count-data file not sequence-scanned; S6 identifies columns, no sequence-disclosure absence asserted."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper134candidates/3sequence-positivefiles,100shown;61MBdatatable skipped default10MBlimit. Selected hits/actualmethods read, BSPP primers not borrowed.",
+      "verification": "33localchecks(10MSCC/11BL/12DIP)pass; sourceguard8literalstrands0failed0exempt,4unassembledMSCCinputs,3graphs;chemistry1established84unresolved0contradictory;3reviewschema2in_progress1blocked(actualDIPmainaccessbarrier);6note/refpagesbuilt,pairing0errors(notmolecularvalidation). Fetch31872/68773/73008terminalexit0,noactiveacquisition. Privategraph-only,nofinishedmarkers;independentreviewscopebelowisimplementationonly."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna_reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached original scopes; report-only critical implementation review, not an independent missing-information audit.",
+    "finding": "AssociatedAM151\u2013167 agrees with source channel/order/partial adapter ends/MmeI daughter retention/80%PCR allocation; all10checks pass, no consequential defect in selected scope."
+  }
+}

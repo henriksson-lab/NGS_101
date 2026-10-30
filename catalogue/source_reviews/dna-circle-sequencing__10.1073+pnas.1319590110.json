@@ -1,0 +1,79 @@
+{
+  "dir": "dna-circle-sequencing__10.1073+pnas.1319590110",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dna-circle-sequencing__10.1073+pnas.1319590110/source_pdf_25b44e781411953c4d40.pdf.txt",
+      "original": "https://escholarship.org/content/qt3gt268r9/qt3gt268r9_noSplash_fda4f316e06527ded407567209a30186.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round23",
+        "date": "2026-10-30",
+        "locations": "Printedfinalidentity/title/DOI/issue;Results128\u2013177/215\u2013260 andMethods499\u2013513,Fig1Bcaption.",
+        "finding": "Actual orderedpreparationprefix throughRCA;wholelibrary/primerconditionsunassembled. Noperformance/errorindependenceclaim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1319590110/-/DCSupplemental",
+      "original": "https://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1319590110/-/DCSupplemental",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exactsource-printedsupplementindexreturnedHTTP403;actualSI MaterialsMethods/FigS1 original inaccessible,filenameunassigned.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null,
+    "deferred_originals": [
+      {
+        "locator": "https://doi.org/10.1073/pnas.1400941111",
+        "role": "other",
+        "availability": "not_assessed",
+        "sections_inspected": "None",
+        "disposition": "Published2014commentidentitydiscovered;no interpretationclaim;notfollowedwithinboundedpreparativepass."
+      },
+      {
+        "locator": "https://doi.org/10.1073/pnas.1402606111",
+        "role": "other",
+        "availability": "not_assessed",
+        "sections_inspected": "None",
+        "disposition": "Publishedreplyidentitydiscovered;notfollowed,no numerical/statisticaladjudication."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive main-defined preparationprefix/privateincompletegraph,actualSIaccessblock;noacceptedabsence/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "coordinator_round23",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "One publishedoriginal;standardacquisition/primaryrepository+printedSIindexfollowed,no recursivechemistrychase.",
+      "locations": "MainResults128\u2013177/215\u2013260 andMethods499\u2013513,Fig1Bcaption.",
+      "findings": "S288Cshear/gel/phosphorylate/denature/sscircle/exo/randomprime/Phi29+pyrophosphatase+UDG/Fpg;no inventedprimermodifications/cleanup/faithfulrepair/librarykit. NeutralexistingRCArelationreusedforcaller-selectedinferredreferenceonly.",
+      "deferred": [
+        "ActualSI MaterialsMethods/FigS1/oligo/end/adapter/read geometry",
+        "Exactsourcepostexo/RCAworkup andrun assignments",
+        "Directlylinked2014comment/reply andother source materialunreviewed"
+      ],
+      "oligo_scraper": "Mandatoryfinalrerun0sequences/0positivefiles;notabsenceevidence.",
+      "verification": "9focusedpass;0exactsourceinputs/0failed/1unassembledprimerinput;9unresolved0contradictory. Selectedindependentcriticalreviewclosed,notfullsource/absenceaudit."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round23",
+    "date": "2026-10-30",
+    "scope": "ActualfinalmainResults128\u2013177/215\u2013260/Fig1Bcaption/Methods499\u2013513 andprivategraph;oneoriginalscope,notcompleteSI/linkedsourceorabsenceaudit.",
+    "finding": "Selectedroute/retainedexodigest/partialclasses/glycosylasecotreatment/unknownlibraryboundary consistent. RemovedduplicateexternalrandomprimeradditionafteralreadyprimedmixtureenteredRCA;regressioncheckadded.9focusedpass;selectedreference inferred, no performance/independence guarantee."
+  }
+}

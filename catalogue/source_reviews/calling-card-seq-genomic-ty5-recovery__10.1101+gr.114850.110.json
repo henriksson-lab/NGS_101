@@ -1,0 +1,48 @@
+{
+  "dir": "calling-card-seq-genomic-ty5-recovery__10.1101+gr.114850.110",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://genome.cshlp.org/content/21/5/748",
+      "availability": "unavailable",
+      "reason": "Actualprimarypublisherfallbackcurlerror47redirectlimit; EPMC500/PMCcooldown/PMCCloudnouseablefile. No validatedoriginal.",
+      "relevance": "relevant",
+      "inspection_scope": "No mainoriginalread; discoveryidentityonly.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "dna_owner_round35",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Sourceblockedidentityonly/no graph.",
+      "locations": "Validatedbundleempty; actualmanualMANIFESTrows only.",
+      "findings": "No originalchemistryread; no fabricatedinversePCRrecipe orabsenceclaim.",
+      "deferred": [
+        "Actualfullpublishedmain anditsnamedchemistrySIidentity",
+        "Genomicjunction/circle/iPCR/barcode/readlayoutsourcefacts"
+      ],
+      "oligo_scraper": "Mandatorywholebundle runs; promoter/probehitsnotadopted asIPODlibraryoligos. EmptyCalling/ChORhitsnotabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Actualpublishermainneeded; exactSIunidentifiednotguessed. No predecessorinheritance."
+  },
+  "missing_claims": [],
+  "conclusion": "Sourceblockeduncollectedidentity/no fabricatedgraph.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round35",
+    "date": "2026-10-30",
+    "scope": "Acquisition MANIFEST and source-qualified note only; zero validated article originals available/read. Prospective counter row is not a read original; no new retrieval or blocked-host retry.",
+    "findings": "Corroborated manual-only bundle: actualpublishercurlerror47 redirectlimit, EuropePMC500 and Cloud no usable original, with existingPMC cooldown respected. Source pending identity only remains uncollected/no graph; no primer/enzyme/construct inheritance or absence claim introduced.",
+    "verification": "Readcount0 remains unchanged. No chemistry suite or source absence gate claimed."
+  }
+}

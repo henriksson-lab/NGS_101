@@ -1,0 +1,84 @@
+{
+  "dir": "drna-seq__10.1038+nature08756",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nature08756",
+      "original": "https://www.nature.com/articles/nature08756",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round28",
+        "date": "2026-10-30",
+        "locations": "PublishedHTMLidentity/abstract633,subscriptionpreview647,supplementidentity1388\u20131397",
+        "finding": "Fullarticle/Methodsnotreceived;publishedpreviewonly."
+      },
+      "pass_2": null,
+      "reason": "Standardexactpublisherfetchreturnedsubscriptionpreview;fullpublishedarticleisneeded."
+    },
+    {
+      "id": "methods",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM206_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM206_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round28",
+        "date": "2026-10-30",
+        "locations": "Oligoroles113\u2013114,centralTEXand454library237\u2013282,companionSolexa287\u2013296",
+        "finding": "Positivecentralpublishedpreparation,notjustcomponentinventory."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "tables",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM208_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM208_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round28",
+        "date": "2026-10-30",
+        "locations": "ActualTable2p6,MLminus/plus4ntbarcodesandcaption",
+        "finding": "SourceACTA/AGGTfixedsampletags,exactfullprimersunassembled."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "coordinator_round28",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Publishedmainidentity/abstractsubscriptionpreview;SI206Methods113/237\u2013282/287\u2013296 andSI208actualTable2p6. Exactoriginalselectionrecordedbeforeopens; nootheroriginals. Sourceinvestigationclosedwithin cap before modeling/corrections.",
+      "locations": "Main633/647/1388\u20131397;SI206113\u2013114/237\u2013282/287\u2013296;SI208Table2originalp6",
+      "findings": "PositivecoreTEXmock\u2192organic/precipitation\u2192TAPboth\u2192organic/precipitation\u2192polyA\u2192RNA5adapter\u2192oligodTMMLV\u2192barcodedPCR454pair; companionfragmentedSolexa routeexcluded. Fullmainunavailable, historicalvendorwholeoligosunassembled.",
+      "oligo_scraper": "Mandatory600hits/3sourcefiles; source-specific analyticalTable17/RACErolesnotguessedassequencingoligos. Table2ACTA/AGGToriginalrenderverified.",
+      "deferred": [
+        "Publishedfullmain/Methods",
+        "DirectlycitedhistoricalvertismicroRNArecipe/vendoroligos",
+        "OtherpublishedsupplementoriginalsandremainingTable17analyticalscope"
+      ],
+      "verification": "9focusedpass;0exactoligoinputs/0failed/8unassembledinputs/1graph;26unresolved/0contradictorychemistryclaims. Selectedindependentcriticalreviewpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Methodsdelegatesvertis454cDNAlibrarytoitscitedmicroRNAoriginalref10, unreviewedwithinpass; notclaimedunavailable. HistoricalTEX/TAP/vendor originals and remaining supplementsunreviewed. No modernprotocol-equivalence assumed."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positivepublishedSIcorepreparation/privatepartialpairedgraph; fullmainarticleblockedbysubscriptionpreview. No fullsource, reaction orabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round28",
+    "date": "2026-10-30",
+    "scope": "ExactpublishedSI206Methods237\u2013282/287\u2013296 andactualSI208Table2p6render; twoalready-selectedoriginals, combinedtotalstill3. Mainfullbodyunavailable.",
+    "finding": "EqualRNAallocations,TEXmockpairedarms\u2192organic/ethanol\u2192TAPBOTH\u2192repeatworkup\u2192polyA\u2192RNA5adapter\u2192oligodTMMLV\u2192PCRbarcodesconsistent. OriginalMLminusACTA/MLplusAGGTand5linkercaptionverified;Roche454FLXsourceplatform,nofixedIlluminaindexmask. CompanionfragmentedSolexarouteexcluded. Retainedclassesqualified,wholevendoroligos/endsunassembled. No criticalselectedscopeissue,notfullsource/reaction/absenceaudit."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "dir": "neat-seq__10.1038+s41592-022-01461-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_protocol",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/neat-seq__10.1038+s41592-022-01461-y/s41592-022-01461-y_41592_2022_1461_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI Protocolv1.0 pp4\u20136, AppendixIVp10: fixation/permeabilization/block/wash, fiveNPC hashing aliquots/pool/TF stain, Multiome transposition/continuation, preamp primer spike,22uL reporterPCR,0.6x/75uL transfer/1.2xSPRI, terminalddC block, reporter/index oligos and phosphorothioates. Rendered originalp10 verifies all displayed oligo notation."
+    },
+    {
+      "id": "published_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/neat-seq__10.1038+s41592-022-01461-y/s41592-022-01461-y_41592_2022_1461_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published TableS4: antibody barcode36nt members and separate HTO/antibody-concentration contexts. Table values not assigned to generic protocolv1.0 unknown hash members."
+    },
+    {
+      "id": "accepted_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/neat-seq__10.1038+s41592-022-01461-y/s41592-022-01461-y_PMC11192021.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Explicit author manuscript (not finalVOR); Methods94\u2013144: source antibody\u2013streptavidin/biotin versus BDdirect conjugation, EcoSSB/no intermediatepurification, blocked DNA ddC, MultiomeRevA/35uL continuation, barnyardversusCD4 handles/run contexts. Used only separately qualified,not to override publishedSI22uL orHTONextera design."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Source-owned physical reporter interfaces and all operational continuations stated in inspected originals;private partial graphs,notfullchemistry orsource review.",
+      "locations": "Published SI Protocolv1.0 pp4\u20136, AppendixIVp10: fixation/permeabilization/block/wash, fiveNPC hashing aliquots/pool/TF stain, Multiome transposition/continuation, preamp primer spike,22uL reporterPCR,0.6x/75uL transfer/1.2xSPRI, terminalddC block, reporter/index oligos and phosphorothioates. Rendered originalp10 verifies all displayed oligo notation.; Published TableS4: antibody barcode36nt members and separate HTO/antibody-concentration contexts. Table values not assigned to generic protocolv1.0 unknown hash members.; Explicit author manuscript (not finalVOR); Methods94\u2013144: source antibody\u2013streptavidin/biotin versus BDdirect conjugation, EcoSSB/no intermediatepurification, blocked DNA ddC, MultiomeRevA/35uL continuation, barnyardversusCD4 handles/run contexts. Used only separately qualified,not to override publishedSI22uL orHTONextera design.",
+      "findings": "\ud83d\udfe2 The default local graph follows the published supplementary protocolv1.0. It fixes cells1.6%PFA2min,quenches withglycine5min,washes,permeabilizes with NP40/Tween/digitonin and performs actual pellet/wash separations. DNA blocking uses source random30mer material with a terminal dideoxycytidine. The local strand retains an actual terminalC nucleotide with blocked sugar/no3\u2032OH,not a C3 spacer or backbone deletion. Whether the source30mer designation includes the finalddC is left unassembled; no31nt orN29C whole string is silently invented.\n\n\ud83d\udfe2 Antibody DNA is pre-associated with EcoSSB. The local state carries that qualitative protein association and physical source oligo;it does not calculate saturating occupancy,nuclease resistance or perfect retention. Source incubation/staining buffer is carried directly into staining without an invented intermediate purification. Initial free DNA block is washed before subsequent staining;it is not replenished where the source warns it may compete forSSB.\n\n\ud83d\udfe2 Five disjoint nuclei aliquots receive five distinct NPC hashing antibody preparations,then are washed and pooled. They are not five copies of every nucleus,nor five aliquots receiving one identical hash reagent. TF staining follows pooling,then washes,nuclei buffer and Flowmi filtration. The generic sourcev1.0 protocol is not assigned a specific accepted-manuscript cell sample or concentration experiment.\n\n\ud83d\udfe2 Source Multiome transposition precedes its historical partition/RT/recovery continuation. ADT/HTO preamp primers are added during step4.1. Separate manufacturer GEX/ATAC continuations remain coarse and source-qualified. ReporterPCR uses22\u00b5l preamp+25\u00b5lNEBNextHiFi+3\u00b5lprimers in the publishedSI,not35\u00b5l from the accepted manuscript. Source first0.6xSPRI keeps supernatant;75\u00b5l is transferred,untransferred material remains explicit. Added28\u00b5lSPRI yields source1.2xfinalselection;ethanol wash and20\u00b5lEB elution recover reporter libraries. No ideal class purity or universal molecule recovery is assumed.\n\n\ud83d\udfe2 Published ADT oligo `CAGACGTGTGCTCTTCCGATCT[12bp UMI][36bp Barcode]AAAAAAAAAAAAAAAAAAAAAAA*A*A`;HTO `GGCTCGGAGATGTGTATAAGAGACAG[12bp UMI][36bp Barcode]AAAAAAAAAAAAAAAAAAAAAAA*A*A`. The25A tail has the two printed terminal phosphorothioate bonds. Reporter UMI12,antibody identity36,HTO sample identity,library8bp indexes and kitcellbarcode are distinct meanings. N36 represents an unassigned source member,not random de novo antibody identity.\n\n\ud83d\udfe2 Published preamp primers `CAGACGTGTGCTCTTCCGATC` and `GGCTCGGAGATGTGTATAAGAGACAG`. Index primers: P5 `AATGATACGGCGACCACCGAGATCTACAC[8bp index]ACACTCTTTCCCTACACGACGCTCTTCCGAT*C*T`;ADT P7 `CAAGCAGAAGACGGCATACGAGAT[8bp index]GTGACTGGAGTTCAGACGTGTGCTCTTCCGAT*C*T`;HTO P7 `CAAGCAGAAGACGGCATACGAGAT[8bp index]GTCTCGTGGGCTCGGAGATGTGTATAAGAGAC*A*G`. These modifications belong to supplied oligos,not all amplified copies. Full PCR junctions,kit strand geometries and read-primer landings remain unassembled.\n\nVersion scope: the inspected main is an accepted author manuscript. It describes35\u00b5l preamp for reporterPCR and Truseq handles for barnyardHTOs,whereas publishedSIv1.0 uses22\u00b5l and generic NexteraHTOs. Those are separately qualified versions/contexts,not a confirmed publication error and not a merged recipe. Its barnyardADT MiSeq28/48/8/8 and NextSeq550 ATAC/RNA contexts are recorded as conditional source information;no run is assigned to the generic publishedSI graph without verifying applicability. Published main and historicalMultiomeRevA remain pending.\n\nComponent ancestry: publishedSI explicitly directs continuation of10xMultiome with local reporter modifications. Source EcoSSB\u2013oligo association and intracellular blocking/staining are independently source-owned; no DOGMA/TEA/ASAP recipe is imported from endpoint similarity.",
+      "deferred": [
+        "Full published main finalMethods and accepted-manuscript applicability; no whole-version equivalence assumed",
+        "Historical 10xMultiome RevA original and source-specific whole capture/product/end/read geometry",
+        "Actual experimental index members and exact randomblock/terminalddC count convention",
+        "Remaining directly linked sources and independent source review"
+      ],
+      "oligo_scraper": "/tmp/round12-neat-final-hits.log;pointerverificationandoriginalrenderingwhereindicatedabove.",
+      "verification": "Apt-seq9+SUGAR-seq8+NEAT-seq12=29focusedchecks pass;3privatebuilds pass;sourceguard15exactstateschecked0failed/0exemptions/2unassembledinputstates(beadprimer,randomblockextent);pairing0problems;scopedchemistry0established63unresolved0contradictory;reviewrecords2in_progress+1blockedvalid. These checks validateonlyselectedtranscription/branch/statebehavior,notcompletechemistry/sourcecoverage."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Source versions,actualoriginals anddirectdeferredtargets separatedfrom desiredcomponentquestions. No absenceaccepted; no currentkitdefault substitution."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full published main finalMethods and accepted-manuscript applicability; no whole-version equivalence assumed",
+    "Historical 10xMultiome RevA original and source-specific whole capture/product/end/read geometry",
+    "Actual experimental index members and exact randomblock/terminalddC count convention",
+    "Remaining directly linked sources and independent source review"
+  ]
+}

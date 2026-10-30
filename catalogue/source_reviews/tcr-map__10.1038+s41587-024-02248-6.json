@@ -1,0 +1,65 @@
+{
+  "dir": "tcr-map__10.1038+s41587-024-02248-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11994455.1/PMC11994455.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main74/104/110 and Methods252–280; other two originals reporting-summary/MTA headers for identity only."
+    },
+    {
+      "id": "admin1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11994455.1/41587_2024_2248_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Printed reporting summary identity/header inspected; administrative document, not molecular chemistry evidence. Counts toward three-original cap.",
+      "inspection_scope": "Document identity/header only; not a whole-document absence review."
+    },
+    {
+      "id": "admin2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11994455.1/41587_2024_2248_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Printed UBMTA implementing letter identity/header inspected; administrative document, not molecular chemistry evidence. Counts toward three-original cap.",
+      "inspection_scope": "Document identity/header only; not a whole-document absence review."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Capped selected originals including administrative identity opens. Published-first; AM status explicit. Not complete source or absence audit.",
+      "locations": "Published main74/104/110 and Methods252–280; other two originals reporting-summary/MTA headers for identity only.",
+      "findings": "Positive distinct wet-preparation boundary and source-owned private partial graph. Physical workups, saved/unused aliquots, original substrates and source alternatives retained; no borrowed whole-chemistry constructor.",
+      "deferred": [
+        "Actual unreviewed XLSB supplemental originals; directly cited TScan2019/TScanII2023 selected NGS preparation and circuit-stock construction",
+        "Whole molecular/adapter-end/read geometry and actual sample-specific assignments"
+      ],
+      "verification": "21 focused checks pass (7 each); source guard5 exact strands checked,0failed,1 documented lowercase-x pattern exemption independently checked whole by local suite,12unassembled inputs across3graphs. Chemistry0established/46unresolved/0contradictory; not complete chemical validation. Notes render successfully.",
+      "oligo_scraper": "Mandatory source scraper: 12 candidates/two source files. Actual source pointers verified for selected facts; not absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actual unreviewed XLSB supplemental originals; directly cited TScan2019/TScanII2023 selected NGS preparation and circuit-stock construction. Scoped component/adaptation evidence is in notes. No recursive follow-up or whole-recipe inheritance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Actual unreviewed XLSB supplemental originals; directly cited TScan2019/TScanII2023 selected NGS preparation and circuit-stock construction",
+    "Unreviewed remaining sections and final-main comparison where explicitly operating from AM"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round23",
+    "date": "2026-10-30",
+    "scope": "Independent selected-original/model critical review only; not full source or linked-information absence audit",
+    "finding": "Independently read published Methods252–260/280 and selected FACS/magnetic/NGS boundaries. Premade circuit stocks remain unassembled and no older custom T-Scan PCR recipe is inherited into the source standard-primer route. Selected scope consistent; no full source/linked-information or absence audit.",
+    "verification": "Affected DNA microscopy suite7pass; source guard across3graphs5exact strands checked/0fail/1approved lowercase-x literal-pattern exception/12unassembled inputs. Three source review records validate."
+  }
+}

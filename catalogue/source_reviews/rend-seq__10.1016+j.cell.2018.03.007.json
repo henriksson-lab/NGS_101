@@ -1,0 +1,219 @@
+{
+  "dir": "rend-seq__10.1016+j.cell.2018.03.007",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(duplicate) PMC5978003_PMC5978003.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5978003.1/PMC5978003.1.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "full-text JATS XML (PMC Cloud); same source URL already saved as j.cell.2018.03.007_PMC5978003.xml",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Data_S1.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Data_S1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplemental original inaccessible through standard route: host cool-down after reCAPTCHA challenge. Not requested during cool-down; no source absence conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Fig__S1.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Fig__S1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Fig__S2.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Fig__S2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Fig__S3.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Fig__S3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Fig__S4.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Fig__S4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Fig__S5.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Fig__S5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Fig__S6.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Fig__S6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Table_S1.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Table_S1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Table_S2.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Table_S2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Table_S3.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Table_S3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/(manual) j.cell.2018.03.007_supp_NIHMS964513-supplement-Table_S4.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5978003/bin/NIHMS964513-supplement-Table_S4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifest identity; contents not inspected",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_12",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/j.cell.2018.03.007_PMC5978003.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5978003.1/PMC5978003.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original, selected scope",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_13",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rend-seq__10.1016+j.cell.2018.03.007/source_pdf_cb028449b9993071a147.pdf",
+      "original": "https://gwli.scripts.mit.edu/group/wp-content/uploads/2019/01/Lalanne_Cell2018.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original, selected scope",
+      "reason": "Selected positive scope only; no full original/linked or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published Table S4 actual linker1/ocj485/o231/indexing and depletion oligos remain unreviewed; PMC gate on linked supplements is actual access barrier.",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    },
+    {
+      "locator": "Linked Li2014/Ingolia2012 detailed method originals and complete endpoint/read layout remain unreviewed; do not inherit other riboprofiling preparations.",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    },
+    {
+      "locator": "Other published SI/figures available or gated remain unreviewed within the cap.",
+      "scope": "Actual original/deferred linked target or unassigned study component; not a fabricated missing disclosure."
+    }
+  ],
+  "conclusion": "Capped positive source scope only; no full original/linked or accepted absence audit. Source-qualified private partial graph; no public promotion. Actual needed original architecture/oligo supplement has a recorded access barrier; source-positive selected preparation remains counted, no absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-23",
+      "reviewer": "round23_RNA_source_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Capped10min/three-original investigation including administrative identity; selected defining sources first across batch.",
+      "locations": "Published final author-hosted Cell173(2018) PDF printed identity/DOI, Methods1549\u20131568 and1966\u20131989; associated AM PMC5978003 Methods150\u2013156/294\u2013306 selected earlier. Final controls current claims; selected scope agrees.",
+      "findings": "Actual preparation/components recorded with source version and physical fates; unread sources do not establish absence.",
+      "deferred": [
+        "Published Table S4 actual linker1/ocj485/o231/indexing and depletion oligos remain unreviewed; PMC gate on linked supplements is actual access barrier.",
+        "Linked Li2014/Ingolia2012 detailed method originals and complete endpoint/read layout remain unreviewed; do not inherit other riboprofiling preparations.",
+        "Other published SI/figures available or gated remain unreviewed within the cap."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle scraper completed; source pointers read, no hit or abstract used as absence evidence.",
+      "verification": "20focusedchecks across Cappable/Rend (10each);0exactsourceinputs/0failed/0exempt/6unassembled across2graphs;40unresolved0contradictory chemistryclaims. NADcomponentnotesonly/noNGSgraph. IndependentcriticalselectedAM/mainimplementationreviewsclosed;notfullsourceorabsenceaudits."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent round23 DNA implementation reader",
+    "date": "2026-10-30",
+    "scope": "Independent reader inspected associated author manuscript PMC5978003 Methods150\u2013156/294\u2013306 only, not newly fetched final PDF. Owner separately checked published final selected Methods/identity. Critical order/fate review, not independent full original/linked audit.",
+    "finding": "Cappable bead-preparation order corrected; actual postbinding physical washes explicit. Rend inherited postcircle precipitation retained and actual Rend instruments explicit. Other selected order/allocations/branch distinctions checked. Focused checks rerun after fixes."
+  }
+}

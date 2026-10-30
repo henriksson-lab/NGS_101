@@ -1,0 +1,66 @@
+{
+  "dir": "ficc-seq__10.1093+nar+gkz658",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6821191.1/PMC6821191.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC6821191 identity/introduction/Fig1mechanism; MethodsFICCSeq/computation and selectedFigure2overview. No whole predecessorrecipe imported.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6821191.1/gkz658_supplemental_files.zip#Supplementary Methods.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryMethods whole selectedFICCrecipe plus allfivewholemodifiedoligos checked in originalDOCXXML; literal400mlTE and listedligationcomponents retained.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-41",
+      "reviewer": "targeted_owner_round41",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published selected endogenousHEK293FICCbranch; sourcepassclosedwithin10minutes/2originals, implementationseparate. Notcomplete source/reaction/absenceaudit.",
+      "locations": "PublishedmainMethodsFICCSeq/introductionFigure1/computationalUMImeaning; SupplementaryMethodswholeparagraph and originalDOCXXMLfivewholemodifiedorders.",
+      "findings": "5FU catalytictrap/endogenousTRMT2Acapture andfullsourceoperationalrecipepositive; exactmixedmodification/identifier/sourceunits preserved. No mutantmiCLIP/UV/otherCLIPconstructor inherited.",
+      "deferred": [
+        "ResultsWorkbook/SupplementaryFigures ordinaryunreadunder cap; not an absence conclusion.",
+        "Directlycitedpredecessor/vendor originals ordinaryunread, no whole-recipe or complete equivalence claim.",
+        "Fulladduct/RNA/cDNA/circle/sealedproducts/readlanding/conversion/yield unassembled."
+      ],
+      "oligo_scraper": "Mandatorywholebundle5hits/1representation; actualallfivewholeorderings/modificationsverifiedfromoriginalSupplementaryMethodsDOCXXML.",
+      "verification": "22focusedPASS,5wholemodifiedsourceordersoriginalDOCXXMLverified; externalguard5exact0fail0exceptions0unassembledinputs; retainedproducedRTprimeralsosource-exact. Chemistry40unresolved0contradictory; independentselectedcriticalpeerclosed/same2originals."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "MaincitesSupplementaryMethods(read), resultsWorkbook/SupplementaryFigures(unread), iCLIP/miCLIP predecessors and sourcevendordocuments(unread). Publishedauthorityonly, no preprintmerge/absenceclaim."
+  },
+  "missing_claims": [],
+  "conclusion": "Cappedpositivepublishedpreparation; fullmolecular/source/absenceaudit incomplete.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_RNA_round41_peer",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Same closed publishedPMC6821191 Introduction52/Fig1caption56/Methods78/computationalidentifier meaning and actualsameoriginalFig1PDFp3; originalSupplementaryMethodsDOCX fullselectedFICCparagraph/allfivewholemodifiedorders, checkedagainstoriginalZIP/XML viafocusedsourcefixtures. No SupplementaryFigures/resultsworkbook/vendor/predecessor/neworiginals opened.",
+    "findings": [
+      "Source100uM5FU24h metabolicFUTP incorporation andendogenousTRMT2A catalytictrap retained, withcovalentbaseC6 intermediate/sourcecontinuedmethyltransfer andfailureofrelease. NoUV/mutantmiCLIP/5aza orliteralconversionofallRNA tom5U imported; wholeadduct/occupancy/byproducts unresolved.",
+      "ExactsourceL3 activationApp andadditionalphysical3ddC retained; activationisnotanextraRNAbackboneresidue. WholeRT5P/N2+X4+N3/fixedflanks andsourceP5/P3 completeorders matchDOCX. N5sourcePCRduplicate tags andfixedX4sampledemultiplexingcode distinguished; actualfixedcode/readlanding unassigned. Local23bpBamHIduplex constructed, fullRTflanksretainedininputinventory, unpairedAAAA notforcedtopair.",
+      "Actual100ulProteinG/5ugantiTRMT2Apreparedselectionstock; RNase/DNase trimming, listedATP-free3PNK/freshgamma32P-ATP5PNK, heateluate/residualbeads/RNPmembraneexcision/PKthenurea/aqueousrecovery/carriers verified. RNAenters65CannealingwithactualRTprimer/dNTP; sameproducedcomponentsreachRTwithoutfreshduplicates. WholeRNA/cDNA/circle/endproducts remainheterogeneousunassembled.",
+      "Size-selectedcDNAgelpieces andlater150\u2013200ntlibrarygelpieces havephysicalfates. Source20ullinearizedDNA\u219210ulPCR/10ulstock;20ulAccuprimeSupermixco-componentsnotduplicateadditions. Source400mlTEversus1.5mltubelimit andlisted12ulligmix retainedwithoutnormalization. SourceHiSeq4000SE50 metadata scoped. No blocking implementationdefectfound."
+    ],
+    "verification": "22focusedchecksPASS including5originalDOCXwholemodifiedorders/literal400ml/SE50; sourceguard5exactchecked/0failed/0exceptions/0unrepresentedexternalinputs; chemistry40steps/40unresolved/0contradictory. Narrow implementation recheck only, notabsencepass2/fullchemicalaudit."
+  }
+}

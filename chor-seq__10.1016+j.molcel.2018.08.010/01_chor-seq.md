@@ -1,0 +1,19 @@
+# ChOR-seq
+
+[Published defining article](https://doi.org/10.1016/j.molcel.2018.08.010), *Accurate Recycling of Parental Histones Reproduces the Histone Modification Landscape during DNA Replication* (2018).
+
+🟢 ActualpublishedmainPMC6202308 (CCBY/openaccess,author-manuscriptFalse), Methods381–399 andpublishedSI1FigureS1p2/FigureS2p3(originalrenderedpages). The combinedarticlemmc2header is an alternative representation of the samepublishedmain; its addedSIbody was not read as an extra source. Mandatorybundle scraper returnedzero oligos; sourcekits/adapterorderings remainunassembled, not confirmedabsent. No2021ChOR/SCARprotocol or genericChIPconstructor is inherited.
+
+## Selected EdU/qChOR branch
+
+🟢 H3K4me3timecourse: HeLaS3singlethymidineblock2mM17h, release infresh24µMdeoxycytidinemedium. After2h15min, label10µMEdU10min. NascentT0 is collectedimmediately; afterPBSwash, remainingcells grow infresh24µMdCmedium37°C forsourceT1/T6/T12maturationpoints (SI1FigS1A). SourceH3K27me3 uses20minmid-Spulse anddifferenttimes; it is not merged into this selectedroute. AsynchronousDrosophilaS2spike-in is10µMEdU39h, separatelyfixed/lysed/sonicated; its chromatin0.025–2.5%total is added toHeLachromatin aftersonication. It is actualphysicalreferenceDNA, not merely a computational normalization label.
+
+🟢 Selectedtimepoint cells: immediately1%formaldehydefix,0.125Mglycine5minRT. Lyseice20min100mMNaCl/66mMTris/5mMEDTA/.3%SDS/1.6%Triton+proteaseinhibitors,21Gneedle, Bioruptor20×30sON/30sOFFhigh,14,000rpm4°C10minclarification/keepsupernatant. Mixed30µgtotalHeLa/S2chromatin receivesstandardhistoneChIP: preclearProteinA1h4°C, H3K4me3C42D8overnight4°C,3hpreblockedProteinAagarosecapture(1mgmlBSAinRIPAovernight). SourceRIPA×3/highsalt/LiCl/TE×2 washes; RNaseA37°C30min,0.5%SDS/ProteinaseK1mgml37°C10h,65°C6hdecrosslink;MinElutepurifyDNA. Actualunbound/bead/workupfractions are not perfectspecificity or losslessrecovery claims.
+
+🟢 **ChIP precedes purifiedDNA indexing and EdU click capture.** Select100ngimmunoprecipitatedDNA (or sourceparallelreplicatedDNAinput route, notmergedhere), KAPAend-repair/A-tail,1.25µMPentabaseIllumina-compatibleindexedadapterligation20°C60min,AMPurecleanup. ForqChOR, indexedDNAfromalltimepoints of thesametimecourse is physically pooled **before** Click-IT. A representativeT0preparation plus actualotherindexedtimepoint contributions are represented withoutinventingtheir quantities or completeupstreampreparations. Select200ngindexedmixedDNA forRT30minclick:1×ClickITbuffer/0.5mMbiotinTEGazide/0.1mMCuSO4/0.5mMTHPTA/5mMaminoguanidine/10mMsodiumascorbate.
+
+🟢 Select200–700bpfragments withAMPure, resuspendTE, captureMyOneStreptavidinT1beads inequalvolume2×B&WbufferRT30min. Beadswash1×B&W×4/TE.05%Tween×2/10mMTrisonce, resuspendwater; useactualbeadsuspension astemplate for10–15cyclesKAPAPCR. AfterPCR, magneticseparation removesbeads and theactualPCR**supernatant** proceeds toAMPurecleanup. This PCRcopy doesnot imply chemicalconversion of EdU or removal of biotin from original templates. SourceHiSeq4000SE50 andNextSeq500SE75 are bothretained; per-samplemask/index assignment/wholeprimers remainunassembled. NoUMI is invented fromPCRduplicateremoval.
+
+## Separate direct-biotin alternative
+
+🟢 Main395/SI1FigS1G/H also reports biotin-dUTPlabelling withoutDrosophilaspike-in. This route performs streptavidinpull-down onchromatin afterChIPelution andbeforede-crosslinking, usesblockedbeadpreclear/nonblockedT1capture andthen2ngNEBNextUltra librarypreparation. It is a distinctbranch of thisdefiningmethod, not a substitute for the selectedEdU/indexpool-beforeclick/qChORroute and not counted separately. SourceH3K27me3timing/parentalChIP/inputcomparators also stayseparate. DirectlylinkedhistoneChIP/clickchemistry/vendororiginals remainordinaryunread withinthis2-originalpass. No complete reaction/source/absenceaudit.

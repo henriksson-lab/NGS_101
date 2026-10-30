@@ -1,0 +1,186 @@
+{
+  "dir": "methyl-snp-seq__10.1101+gr.277080.122",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/(manual) 2022.06.28.498010_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/2022.06.28.498010v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "source_version": "Excluded superseded preprint; publishedversioncontrols",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Excludedpreprint identity/supersession only; no activechemistryauthority."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/(manual) 2022.06.28.498010_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/2022.06.28.498010v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "source_version": "Excluded superseded preprint; publishedversioncontrols",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Excludedpreprint identity/supersession only; no activechemistryauthority."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/(manual) gr.277080.122_supp_supp_32_11-12_2079__DC1.html",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9808626.1/supp_32_11-12_2079__DC1.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifestinventory; originalnotchemistryread",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "supplementary file (PMC Cloud); no article content (358 characters of text)"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/(manual) gr.277080.122_supp_supp_32_11-12_2079__DC1__0044daa4ec19.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9808626/bin/supp_32_11-12_2079__DC1.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "Manifestinventory; originalnotchemistryread",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; host cool-down after host cool-down after host cool-down after reCAPTCHA challenge page (5.7 h left; not requested) (6.0 h left; not requested) (6.0 h left; not requested)"
+    },
+    {
+      "id": "source_5",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/gr.277080.122_PMC9808626.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9808626.1/PMC9808626.1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedoriginal selectedsections only",
+      "pass_1": {
+        "reviewer": "round15_source_reader",
+        "date": "2026-10-29",
+        "locations": "Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.",
+        "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
+      },
+      "pass_2": null,
+      "reason": "Sourcecurrentselectedpass; duplicatePDF/XML are oneoriginalarticle."
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/gr.277080.122_PMC9808626.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9808626.1/PMC9808626.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedoriginal selectedsections only",
+      "pass_1": {
+        "reviewer": "round15_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedVORPMC9808626 overview46\u201350/discussion130\u2013138/Methods148\u2013164/readout200\u2013210; linkedcopy andnative5mC readouts separate.",
+        "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
+      },
+      "pass_2": null,
+      "reason": "Sourcecurrentselectedpass; duplicatePDF/XML are oneoriginalarticle."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/gr.277080.122_supp_supp_gr.277080.122_Supplemental_Materials.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9808626.1/supp_gr.277080.122_Supplemental_Materials.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedoriginal selectedsections only",
+      "pass_1": {
+        "reviewer": "round15_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedSupplementalProtocolsteps1\u20137, text352\u2013491; SupplementalText233\u2013235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.",
+        "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
+      },
+      "pass_2": null,
+      "reason": "Sourcecurrentselectedpass; duplicatePDF/XML are oneoriginalarticle."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/gr.277080.122_supp_supp_gr.277080.122_Supplemental_Tables.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9808626.1/supp_gr.277080.122_Supplemental_Tables.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedoriginal selectedsections only",
+      "pass_1": {
+        "reviewer": "round15_source_reader",
+        "date": "2026-10-29",
+        "locations": "PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
+        "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
+      },
+      "pass_2": null,
+      "reason": "Sourcecurrentselectedpass; duplicatePDF/XML are oneoriginalarticle."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/methyl-snp-seq__10.1101+gr.277080.122/gr.277080.122_supp_supp_gr.277080.122_SupplementaryCode.tar.gz",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9808626.1/supp_gr.277080.122_SupplementaryCode.tar.gz",
+      "availability": "available",
+      "relevance": "relevant",
+      "source_version": "Manifestinventory; originalnotchemistryread",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "supplementary file (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round15_source_reader",
+      "date": "2026-10-29",
+      "locations": "PublishedVORPMC9808626 overview46\u201350/discussion130\u2013138/Methods148\u2013164/readout200\u2013210; linkedcopy andnative5mC readouts separate.; Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.; PublishedSupplementalProtocolsteps1\u20137, text352\u2013491; SupplementalText233\u2013235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.; PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
+      "finding": "Direct named linkedpredecessors/vendors deferred at cap; no recursion or accepted absence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Main156/160andSIprotocol NEBE7546/M0367/M0280/M0304/E7536/E7165/E7140/M0597; historicalmanufacturer originals",
+      "scope": "Actual vendor originals unreviewed; exact kit/version identity andfullhairpin/Yprimerends pending."
+    },
+    {
+      "locator": "Main156AbcamFastBisulfiteab117127 versusSIp8ab11727",
+      "scope": "Preserveprintedcatalogueidentifiers; no manufactureridentity resolutionwithin cap."
+    },
+    {
+      "locator": "Main160TwistHumanCoreExome102025 guide andNEBM0544/E7603",
+      "scope": "Optionaltargetedsourceknownoperation, internalcapture/primergeometry unreviewed."
+    },
+    {
+      "locator": "SupplementalProtocol commands linked Read_Processing/README.pdf GitHuboriginal",
+      "scope": "Computationalhairpin/readcycleassembly unreviewed; sourceoperations known without inventingcyclegeometry."
+    }
+  ],
+  "open_questions": [
+    "Fullstrand/end/primer/index/readgeometry and unreviewedhistoricalkit details remain unassembled, not confirmed absent."
+  ],
+  "conclusion": "Publishedsource-qualified notes and incomplete local graph through sourceknownacquisition only; no fullpublication/sourcecoverage claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-15",
+      "reviewer": "round15_source_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Bounded max10min/3originals; selectedoriginals only; samearticlePDF/XML oneoriginal.",
+      "locations": "PublishedVORPMC9808626 overview46\u201350/discussion130\u2013138/Methods148\u2013164/readout200\u2013210; linkedcopy andnative5mC readouts separate.; Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.; PublishedSupplementalProtocolsteps1\u20137, text352\u2013491; SupplementalText233\u2013235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.; PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
+      "findings": "Physicalmodification/copy/readout andphysicalfraction distinctions retained; deferredgeometry explicit.",
+      "deferred": [
+        "Main156/160andSIprotocol NEBE7546/M0367/M0280/M0304/E7536/E7165/E7140/M0597; historicalmanufacturer originals",
+        "Main156AbcamFastBisulfiteab117127 versusSIp8ab11727",
+        "Main160TwistHumanCoreExome102025 guide andNEBM0544/E7603",
+        "SupplementalProtocol commands linked Read_Processing/README.pdf GitHuboriginal"
+      ],
+      "oligo_scraper": "Mandatoryscraper fullcache; pointers independentlychecked in originalselectedMethods/SI; emptyhits are not absence.",
+      "verification": "7 local behavior/transcription checks pass. Combined three-protocol source guard4checked/0failed/0exemptions/8unassembled inputs; chemistry71unresolved/0contradictory; schema3pass, notes build and diff whitespace check pass. Independent selected-source implementation review is not a second missing-information audit."
+    }
+  ]
+}

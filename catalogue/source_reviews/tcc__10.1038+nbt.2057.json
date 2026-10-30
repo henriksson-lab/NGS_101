@@ -1,0 +1,88 @@
+{
+  "dir": "tcc__10.1038+nbt.2057",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "read_0",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tcc__10.1038+nbt.2057/nbt.2057_41587_2012_BFnbt2057_MOESM22_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2057/MediaObjects/41587_2012_BFnbt2057_MOESM22_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "CORRECTEDpublishedSI3July2012firstpagecorrectionnotice;Methodspp38–45/lines1578–1942active;historicalincorrectexperimentalprotocolsexcluded",
+      "pass_1": {
+        "reviewer": "dna_round18",
+        "date": "2026-10-29",
+        "locations": "CORRECTEDpublishedSI3July2012firstpagecorrectionnotice;Methodspp38–45/lines1578–1942active;historicalincorrectexperimentalprotocolsexcluded",
+        "finding": "Scopedpositiveidentity/chemistryread;notfullsourceorabsenceaudit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tcc__10.1038+nbt.2057/nbt.2057_PMC3782096.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3782096.1/PMC3782096.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedAMNIHMS512052overview/Fig1only;finalauthorPDF403;correctedpublishedSIrecipecontrols",
+      "pass_1": {
+        "reviewer": "dna_round18",
+        "date": "2026-10-29",
+        "locations": "AssociatedAMNIHMS512052overview/Fig1only;finalauthorPDF403;correctedpublishedSIrecipecontrols",
+        "finding": "Scopedpositiveidentity/chemistryread;notfullsourceorabsenceaudit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "barrier_2",
+      "role": "defining",
+      "locator": "https://kalhorlab.bme.jhu.edu/wp-content/uploads/2022/07/2012_Kalhor-et-al._Nature-biotechnology_Genome-architectures.pdf",
+      "original": "https://kalhorlab.bme.jhu.edu/wp-content/uploads/2022/07/2012_Kalhor-et-al._Nature-biotechnology_Genome-architectures.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published TCC original in author first-party repository; why: Verify printed title/DOI before chemistry use.; HTTP 403",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round18",
+      "date": "2026-10-29",
+      "locations": "Selectedoriginalscopesabove;directtargets/deferredsinnotes",
+      "finding": "Knownlateoperationsretainedwithunassembledmoleculargeometry/fates;nofamilyrecipe/acceptedabsence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Privateincompletegraph/notesfromselectedoriginals;no publicpromotion/fullrevieworacceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "dna_round18",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Atmost10min/3originals,defining+chemistrySIbeforedepth1;sourceinvestigationclosed,norecursivechase.",
+      "locations": "CORRECTEDpublishedSI3July2012firstpagecorrectionnotice;Methodspp38–45/lines1578–1942active;historicalincorrectexperimentalprotocolsexcluded;AssociatedAMNIHMS512052overview/Fig1only;finalauthorPDF403;correctedpublishedSIrecipecontrols",
+      "findings": "PhysicalnativeDNA/newcopies,proteinbiotin/DNAnucleotidebiotin,removedDNA/remnants andactualfractions/workupareexplicit. Unknownfullgeometrynotfilledfromrelatedrecipes.",
+      "deferred": [
+        "FinalpublishedmainauthorPDFHTTP403;historicalIlluminaPEoligos/end/PCR/readgeometryanddirectQuail2008componentoriginal;SIotherdata/XLSnotchemicallyread."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescans:ChIPexo1candidate/1file,Nexus20candidates/4convertedfiles,TCC0candidates/0sequence-positivefiles. Emptyhitsnotabsenteevidence. Nexuspublishedoligostablep17rendered/5P/terminalPS/actualTverified.",
+      "verification": "27localchecks(8/9/10)pass;sourceguard5checked0failed0exempt,8unassembledinputs,3graphs;chemistry2established145unresolved0contradictory;3reviewschema1in_progress2blocked(actualbarriers);6note/refpagesbuilt. IndependentcriticalimplementationreviewclosedafterNexuspublishedSIcold70%postcutwashcaptioncorrectedfromAM80%;noabsenceaudit. Fetch75285polledterminalexit0;noactiveacquisition."
+    }
+  ],
+  "source_revision_disposition": {
+    "selected": "PublishedMOESM22 corrected3July2012",
+    "locator": "Openingcorrectionnotice/firstoriginalpage",
+    "disposition": "Earlierpostedexperimentalprotocolsexplicitlyincorrectpernotice;historicaluncorrectedrecipeexcluded. Currentcorrectedrecipeactive,nounresolvedcontradictionmanufactured."
+  },
+  "independent_implementation_review": {
+    "reviewer": "independent_rna_reader",
+    "date": "2026-10-29",
+    "scope": "Already-selectedcachedoriginalspotchecks/physicalorder,fates,strand/mark/copy/source-versionboundaries",
+    "finding": "No remainingconsequentialdefectfoundinselectedscopeafterpublishedSINexus70%captionfix;27localchecks pass. Notfullsource/missing-informationaudit."
+  }
+}

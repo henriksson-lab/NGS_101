@@ -1,0 +1,55 @@
+{
+  "dir": "pcl-seq__10.1101+gr.279906.124",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12401048.1/PMC12401048.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Main69/Fig2andMethods159–201freshfrozen/RT/block/illumination/ligation/workup/TS/WTA/Tn5finishing"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12401048.1/Supplemental_Figures_and_Tables.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "OriginalTable2p10wholemodifiedorderings/coloredsamplecodes;captionUMImeaning"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedPMC12401048 main69/Fig2/Methods159–201 andpublishedSITable2originalp10.2originals;FFselected,FFPEalternativequalified. SIheaderopenedjustbeforecounterupdate(timingoversightrecorded,capnotexceeded).",
+      "locations": "PublishedPMC12401048 main69/Fig2/Methods159–201 andpublishedSITable2originalp10.2originals;FFselected,FFPEalternativequalified. SIheaderopenedjustbeforecounterupdate(timingoversightrecorded,capnotexceeded).",
+      "findings": "Positivepublishedpreparationandprivateincompletegraph. Literalmodifications,physicalstockfatesanduncertainmolecularboundariesretained;noacceptedabsenceclaim.",
+      "deferred": [
+        "Wholemolecular/primer/readgeometryandlinkedcomponentoriginals",
+        "Actualsample/cycleassignmentswhereunassigned;notinventeddisclosuredocuments"
+      ],
+      "verification": "53focusedchecks(12MPX/19BALI/22PCL)pass;guard18exact0failed1PCLwholeadapterformattingexemption8unassembled. Scopedchemistry7established/115unresolved/0contradictory;establishedclaimsaredeclaredMEpairingandknownBALI/PCLadapterendchecks,notcompletechemicalvalidation.",
+      "oligo_scraper": "Mandatoryscrapersallthreeexecutedonvalidatedsourcebundles. BALI46candidates/1SI,PCL15/1SI;MPXfinal611candidates/4textfiles(initial200datahits);onlyselectedalready-readsourcepointersused. Exactselectedrowscheckedoriginals; scraperisnotauthority."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Relevantunreadlinkedcomponent/versiondetailsremainopenwithinboundedpass;nofullabsenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Completegeometryandlinked-informationreviewremainuncompleted;noactualcurrentlyfailedneededURL."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round26",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Narrowselectedpublishedsource/modelcriticalreviewonly;notcompleteall-source/linked-informationorabsenceaudit.",
+    "finding": "Coordinator independently read publishedmain57/69/159–199 andSITable2originalp10 (twooriginals), includingwholeBiotinadapter1formattingexception. Source-knownliteralU/Tsplint alignsRT_PREFIXandBLOCK atadjacentnick,typedadapter3prime/substrate5primeendsknown;wholecDNA/sealedproduct/sugarpartitionunassigned. SecondRT-namedsourceoperationtypedcontinuedcDNAextension/TEMPLATE_SWITCHINGwithTSOacceptor,notnewRTprimer. Physicalretainedprimer/slidewashprovenanceandrequiredsplint/TSfixesverified.",
+    "verification": "Latesttargeted53focusedchecks(12MPX/19BALI/22PCL)pass;sourceguard18exact0failed1verifiedPCLformattingexception8unassembled. Scopedpairing/adapterendclaims7established/115unresolved/0contradictory;sealedproductsandreadgeometryremainunassembled."
+  }
+}

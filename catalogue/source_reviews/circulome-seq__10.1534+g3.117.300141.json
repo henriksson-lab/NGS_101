@@ -1,0 +1,82 @@
+{
+  "dir": "circulome-seq__10.1534+g3.117.300141",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/circulome-seq__10.1534+g3.117.300141/g3.117.300141_PMC5633380.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5633380.1/PMC5633380.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublisheddefiningoriginalMethods90–106/Fig1 and initialResults; selectednativecircleenrichment/tagmentation/PCR, noRCA.",
+      "pass_1": {
+        "reviewer": "dna_round16",
+        "date": "2026-10-29",
+        "locations": "PublisheddefiningoriginalMethods90–106/Fig1 and initialResults; selectednativecircleenrichment/tagmentation/PCR, noRCA.",
+        "finding": "Positive scoped originalidentity/chemicalsteps; no complete source review or missing-information acceptance."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/circulome-seq__10.1534+g3.117.300141/g3.117.300141_supp_3295FigureS1.pptx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5633380.1/3295FigureS1.pptx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "OriginalPPTXslideXML caption: exoV/gradient/combinedenrichmentcomparison and technical/biologicalreplicate coverage. Plots not numerically reanalyzed.",
+      "pass_1": {
+        "reviewer": "dna_round16",
+        "date": "2026-10-29",
+        "locations": "OriginalPPTXslideXML caption: exoV/gradient/combinedenrichmentcomparison and technical/biologicalreplicate coverage. Plots not numerically reanalyzed.",
+        "finding": "Positive scoped originalidentity/chemicalsteps; no complete source review or missing-information acceptance."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/circulome-seq__10.1534+g3.117.300141/g3.117.300141_supp_3295FigureS2.pptx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5633380.1/3295FigureS2.pptx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "OriginalPPTXslideXML caption: synthetic3kb/412bpcirclecontrol, explicit421bp filledinsert=412+9duplication. No synthetic-template recipe imported.",
+      "pass_1": {
+        "reviewer": "dna_round16",
+        "date": "2026-10-29",
+        "locations": "OriginalPPTXslideXML caption: synthetic3kb/412bpcirclecontrol, explicit421bp filledinsert=412+9duplication. No synthetic-template recipe imported.",
+        "finding": "Positive scoped originalidentity/chemicalsteps; no complete source review or missing-information acceptance."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "dna_round16",
+      "date": "2026-10-29",
+      "locations": "Exactselectedscopes anddirectpendingoriginals innotes",
+      "finding": "Knownphysicaloperations throughacquisition preserved withhistoricalgeometry limits, nofamilyrecipeimport."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Private source-qualified incomplete molecular/operational graph andnotes; no full review, public promotion or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-16",
+      "reviewer": "dna_round16",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "At most10minutes/3originals; main+chemistrySI first, no recursive retrieval.",
+      "locations": "PublisheddefiningoriginalMethods90–106/Fig1 and initialResults; selectednativecircleenrichment/tagmentation/PCR, noRCA.; OriginalPPTXslideXML caption: exoV/gradient/combinedenrichmentcomparison and technical/biologicalreplicate coverage. Plots not numerically reanalyzed.; OriginalPPTXslideXML caption: synthetic3kb/412bpcirclecontrol, explicit421bp filledinsert=412+9duplication. No synthetic-template recipe imported.",
+      "findings": "Native/installedmodifications/copies and physicalfraction/workup identity are distinct; unreviewedkit geometry remains explicit.",
+      "deferred": [
+        "Directly named historicalkit/capture/primer/A3Aconditions andexactcompletegeometrytargets innote."
+      ],
+      "oligo_scraper": "Mandatory bundle scans: DM15hits (copyv2Table1 originalp2rendered),TAmCzero,Circulomezero text hits. Empty/partialconversionsnotabsenceevidence.",
+      "verification": "25 focused local checks pass across DNA16 (9 DM,8 TAmC,8 Circulome); exact-source guard1checked0failed0exempt across3graphs with8unassembled inputs; literal /5mC/ parser alias independently reviewed against original Table1. Chemistry50unresolved0contradictory; source-review schema3in_progress0blocked; all6 note/ref pages built. This is scoped implementation verification, not a complete chemistry or missing-information review."
+    }
+  ]
+}

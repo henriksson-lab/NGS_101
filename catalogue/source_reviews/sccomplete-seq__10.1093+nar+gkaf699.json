@@ -1,0 +1,56 @@
+{
+  "dir": "sccomplete-seq__10.1093+nar+gkaf699",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "selected_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12276002.1/PMC12276002.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Methods62\u201389 including droplet programme and four physical aliquots; PBMC reporter branch selected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "selected_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12276002.1/gkaf699_supplemental_files.zip#Supplementary scCompleteseq.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Actual TableS2p2 wholemodifiedoligos, TableS1antibodyidentity, FigS1p4 physical split/fractionation/librarybranches.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "targeted_owner_round35",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published selected preparation branch only; capped pass closed before modelling.",
+      "locations": "Published main Methods62\u201389 including droplet programme and four physical aliquots; PBMC reporter branch selected.; Actual TableS2p2 wholemodifiedoligos, TableS1antibodyidentity, FigS1p4 physical split/fractionation/librarybranches.",
+      "findings": "Positive distinct wet preparation, whole modified oligo scope and actual physical allocations are documented in protocol note; full products/read landings unassembled.",
+      "deferred": [
+        "Directly cited historical precursor/vendor originals and full molecular contexts outside selected scope"
+      ],
+      "oligo_scraper": "Mandatory bundle scan and relevant source pointer/original verification; actual modified tables inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Named predecessors/vendor originals ordinary unread; no claimed absence or inaccessible disclosure document inferred."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive source-qualified bounded curation, not complete chemistry or accepted absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round35",
+    "date": "2026-10-30",
+    "scope": "SamepublishedPMC12276002Methods62\u201389 andsamepublishedSIactualTableS2p2/FigS1p4independentlyviewedoriginalrender;2combinedoriginals only.",
+    "findings": "Verified literalUbodywithoutassigningRNA/dU-sugarpartition,source5Biosg/rG2/LNA+G andknownPSbonds acrosswholeoligoinventory. Source75ulGEM/37CPAP\u219253CRT/UDG/12cyclepreamp,actualfour25ulaliquots withtwo stored, .6pelletversusactualsupernatant2xproteinbranch, separate5ulADT/HTO,small/largeRNAindexPCRBEFORErRNAdepletion asactualFigS1A, fourlibrarypool preserved. No rRNAdepletionimposedonADT/HTO; no modern10xconstructor. No criticaldefect found.",
+    "verification": "18focusedchecks independently rerunPASS; no extraoriginals/fullU-backbone/occupiedPCR/sourceabsenceaudit."
+  }
+}

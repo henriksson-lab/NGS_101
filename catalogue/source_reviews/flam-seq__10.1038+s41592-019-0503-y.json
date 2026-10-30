@@ -1,0 +1,193 @@
+{
+  "dir": "flam-seq__10.1038+s41592-019-0503-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/(manual) 547034_supplementary",
+      "original": "https://www.biorxiv.org/content/10.1101/547034v1.supplementary-material",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Superseded preprint not used as current chemistry authority; identity/supersession only, no chemistry inspection."
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/(manual) 547034_v1.full.pdf",
+      "original": "https://www.biorxiv.org/content/10.1101/547034v1.full.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Superseded preprint not used as current chemistry authority; identity/supersession only, no chemistry inspection."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/(manual) s41592-019-0503-y full text",
+      "original": "https://doi.org/10.1038/s41592-019-0503-y",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published2019definingmainarticle; finaltextnotobtained",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM1_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round20_RNA_source_reader",
+        "date": "2026-10-29",
+        "locations": "Selected pp1\u20132 tail-calling/anchoredTTT/GIlimitations; otherfigures/dataunreviewed.",
+        "finding": "Source-positive published supplementary protocol preparation; source final main unavailable, exactGIkitinternals, TSO incorporation, fullPCR/SMRTbell/primer geometry remain unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published supplementary information",
+      "reason": "Selected positive reading only; no full disclosure/absence audit."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM2_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM3_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM3_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round20_RNA_source_reader",
+        "date": "2026-10-29",
+        "locations": "All preparative/SMRTbell/sequencing setup sections; originalp2oligosrendered; historicalkitinternalmoleculargeometryunassembled.",
+        "finding": "Source-positive published supplementary protocol preparation; source final main unavailable, exactGIkitinternals, TSO incorporation, fullPCR/SMRTbell/primer geometry remain unassembled."
+      },
+      "pass_2": null,
+      "source_version": "Published supplementary detailed protocol",
+      "reason": "Selected positive reading only; no full disclosure/absence audit."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM4_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM4_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM5_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM6_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM7_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flam-seq__10.1038+s41592-019-0503-y/s41592-019-0503-y_41592_2019_503_MOESM8_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0503-y/MediaObjects/41592_2019_503_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round20_RNA_source_reader",
+      "date": "2026-10-29",
+      "locations": "Selected pp1\u20132 tail-calling/anchoredTTT/GIlimitations; otherfigures/dataunreviewed.; All preparative/SMRTbell/sequencing setup sections; originalp2oligosrendered; historicalkitinternalmoleculargeometryunassembled.",
+      "finding": "Selected chemistry-positive reading; actual deferred links and versions remain explicit, no accepted absence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/s41592-019-0503-y",
+      "scope": "Defining published final main no open full text from standardcollector; Nature direct access identity-provider redirect inaccessible."
+    },
+    {
+      "locator": "https://www.pacb.com/wp-content/uploads/Quick-Reference-Card-Loading-and-Pre-Extension-Recommendations-for-the-Sequel-System.pdf",
+      "scope": "Directly linked loading/pre-extension reference not inspected; no current export substituted as historical kit version."
+    }
+  ],
+  "conclusion": "Source-positive published supplementary protocol preparation; source final main unavailable, exactGIkitinternals, TSO incorporation, fullPCR/SMRTbell/primer geometry remain unassembled.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "round20_RNA_source_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Capped10min/3originals source investigation, publishedfirst; associatedmanuscript main explicitly versionqualified where final originalnotobtained. Later implementation consistency work does not claim additional source investigation.",
+      "locations": "Selected pp1\u20132 tail-calling/anchoredTTT/GIlimitations; otherfigures/dataunreviewed.; All preparative/SMRTbell/sequencing setup sections; originalp2oligosrendered; historicalkitinternalmoleculargeometryunassembled.",
+      "findings": "Source-positive published supplementary protocol preparation; source final main unavailable, exactGIkitinternals, TSO incorporation, fullPCR/SMRTbell/primer geometry remain unassembled.",
+      "deferred": [
+        "https://doi.org/10.1038/s41592-019-0503-y \u2014 Defining published final main no open full text from standardcollector; Nature direct access identity-provider redirect inaccessible.",
+        "https://www.pacb.com/wp-content/uploads/Quick-Reference-Card-Loading-and-Pre-Extension-Recommendations-for-the-Sequel-System.pdf \u2014 Directly linked loading/pre-extension reference not inspected; no current export substituted as historical kit version."
+      ],
+      "oligo_scraper": "Mandatorywholebundle scraper; adoptedmodifiedoligosverifiedintext and renderedoriginals. Noemptyhitabsence claim.",
+      "verification": "31localchecks TIF10/FLAM11/PAL10pass. Sourceguard10exactchecked0failed1independentlyapproved iso_tso-onlytextmatchingexemption/9unassembledinputs across3graphs. Chemistry77steps/81unresolved0contradictory; scoped partial declarations only."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent DNA implementation reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached originals only; no additional acquisition or full source/absence audit. TIF associatedmain217\u2013290/publishedSIoverview/Table2; FLAMpublishedprotocol allpreparative/setupsections/originalp2; PALassociatedAM425\u2013482/originalp8.",
+    "finding": "31localchecks10+11+10pass. Corrected FLAM primer conditioning/addition temperatures and independentinternalcontrol physicalloadingpool; TIF SAP operation typeddephosphorylation. FixedTSO ACATtranscription and independentlyapproved iso_tso-only macro-normalizationtextmatchexemption; actualnoncanonicalbasesandterminalRNAretained. TIF fixedA/Binlinecontrolfeaturecoordinatesexplicitlyunassembled, actualwholeoligoskept. No consequential remaining defect in selected scope; no accepted absence. Final TIFpublishedSI NotI-beforepool order adopted; AMpool-beforeNotIdifference retained as versionqualification, exactintermediateconditions/workupunassembled."
+  }
+}

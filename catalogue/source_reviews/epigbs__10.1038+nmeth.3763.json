@@ -1,0 +1,127 @@
+{
+  "dir": "epigbs__10.1038+nmeth.3763",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/epigbs__10.1038+nmeth.3763/nmeth.3763_41592_2016_BFnmeth3763_MOESM158_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3763/MediaObjects/41592_2016_BFnmeth3763_MOESM158_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round18",
+        "date": "2026-10-29",
+        "locations": "PublishedSI originalFigS1p1/rendered pluscaptionp1\u20132,FigS3p4 andFigS9p11/rendered; sample-workbookSpecies_levelheader/firstrows only.",
+        "finding": "Source-qualified positive adapter/nick-repair/paired-end scope only; main Methods not acquired; no absence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth.3763",
+      "original": "https://doi.org/10.1038/nmeth.3763",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Standard canonical route found no open main; publisher browser view is preview and integrated SI, not full Methods.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "sample_description",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/epigbs__10.1038+nmeth.3763/nmeth.3763_41592_2016_BFnmeth3763_MOESM159_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3763/MediaObjects/41592_2016_BFnmeth3763_MOESM159_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round18",
+        "date": "2026-10-29",
+        "locations": "Species_level header/firstsample rows; sample-source400ng not promoted as a universal recipe",
+        "finding": "Source-qualified positive adapter/nick-repair/paired-end scope only; main Methods not acquired; no absence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "workbook157",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/epigbs__10.1038+nmeth.3763/nmeth.3763_41592_2016_BFnmeth3763_MOESM157_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3763/MediaObjects/41592_2016_BFnmeth3763_MOESM157_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Figure2 source-data workbook; uninspected, not a full irrelevance/absence audit; conservatively retained relevant pending actual reading",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "workbook160",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/epigbs__10.1038+nmeth.3763/nmeth.3763_41592_2016_BFnmeth3763_MOESM160_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3763/MediaObjects/41592_2016_BFnmeth3763_MOESM160_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "SupplementaryData2 result workbook; uninspected, not a full irrelevance/absence audit; conservatively retained relevant pending actual reading",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "workbook161",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/epigbs__10.1038+nmeth.3763/nmeth.3763_41592_2016_BFnmeth3763_MOESM161_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3763/MediaObjects/41592_2016_BFnmeth3763_MOESM161_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "SupplementaryData3 result workbook; uninspected, not a full irrelevance/absence audit; conservatively retained relevant pending actual reading",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gbs_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1371/journal.pone.0019379",
+      "original": "https://doi.org/10.1371/journal.pone.0019379",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Directly attributed adapter design; no constructor imported, no recursive source pass",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "coordinator_round18",
+      "date": "2026-10-29",
+      "locations": "PublishedSI originalFigS1p1/rendered pluscaptionp1\u20132,FigS3p4 andFigS9p11/rendered; sample-workbookSpecies_levelheader/firstrows only.",
+      "finding": "Source-qualified positive adapter/nick-repair/paired-end scope only; main Methods not acquired; no absence claim."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Private incomplete positive SI model; actual main barrier, no full source review or accepted absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "coordinator_round18",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published SI first plus limited sample-workbook identity; source investigation cap closed.",
+      "locations": "PublishedSI originalFigS1p1/rendered pluscaptionp1\u20132,FigS3p4 andFigS9p11/rendered; sample-workbookSpecies_levelheader/firstrows only.",
+      "findings": "Methylated5primeOHadapters,3primeTGCAends,source nicktranslation,all ordered end classes and separate native marks/readout retained.",
+      "deferred": [
+        "Defining full main Methods",
+        "Direct GBS component original and generator documentation",
+        "Complete covalent/PCR/conversion geometry, actual QC/allocation and run originals"
+      ],
+      "oligo_scraper": "Final0hits;17MBresultworkbook skippedby10MBdefault,not anabsenceclaim. OriginalFigS1image containssixoligo rows,allrendered/verified.",
+      "verification": "9localchecks;independentall-sixwhole-row/sourcechemistryreviewclosed. OnlytwoBstrands approvedfortextmatchexemption;fourA/PCRstrandsremainchecked. Chemistry4narrowpairingrelations/9unresolved0contradictory."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_multi_reader_round18",
+    "date": "2026-10-29",
+    "scope": "ActualpublishedSIp1rerender2600/all6wholeoligorows plusFigS1c/9p11;notfullsource/absenceaudit",
+    "finding": "Allsixrowscanonicalequationsmatch,A1/B1AACTinventoryexamples,onlyadapter_b2strands approvedimage-extractiontextmatchexemption.5OH/3TGCA/methylatedC,nick-repair-beforebisulfite,native-markseparation/allendclasses/PCRchemicaldistinctionconsistent;9localchecks pass."
+  }
+}

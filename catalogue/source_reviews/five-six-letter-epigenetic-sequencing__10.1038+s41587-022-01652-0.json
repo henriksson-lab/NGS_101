@@ -1,0 +1,68 @@
+{
+  "dir": "five-six-letter-epigenetic-sequencing__10.1038+s41587-022-01652-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/five-six-letter-epigenetic-sequencing__10.1038+s41587-022-01652-0/s41587-022-01652-0_PMC10567558.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10567558.1/PMC10567558.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main121/123/185\u2013195/203; selected80nggDNA five/sixbranch recipes, wholehairpin/Yorderings, controls, actualphysicalworkups and readalternatives.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/five-six-letter-epigenetic-sequencing__10.1038+s41587-022-01652-0/s41587-022-01652-0_supp_41587_2022_1652_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10567558.1/41587_2022_1652_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI originalFigure7p8 synthetic5hmCcontrol/colorannotations viewed; captions and Tables1\u20133 identities/resultsmetrics scope. No full extra-source or absence audit.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Historicalsource-specifickit/service/UDIoriginalsandwholemoleculegeometry remain deferred reading; individualstudyvalues unassigned, not invented inaccessible documents."
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-positive private partial preparation, no complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-28",
+      "reviewer": "dna_round28",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Source-positive80nggDNA five/sixletterbranchesinONEentry; exactsourcehairpin/Yinventoriesandlocalgeometry, sourcephysicalfates; wholeUSER/copy/read pathsunassembled; same2originalscombinedowner/root.",
+      "locations": "Published main121/123/185\u2013195/203; selected80nggDNA five/sixbranch recipes, wholehairpin/Yorderings, controls, actualphysicalworkups and readalternatives.; Published SI originalFigure7p8 synthetic5hmCcontrol/colorannotations viewed; captions and Tables1\u20133 identities/resultsmetrics scope. No full extra-source or absence audit.",
+      "findings": "One source-owned entry with graph_for_letters(5/6): sourcegroundtruthspike/endprep/hairpinUSER/PNK-Klenowcopy/Yligation/TET2-BGT/APOBEC-UvrD/6cycle80ngPCR/PhiX;6branchearlyBGTandpostlig2DNMT5 explicit. Adapter1Uinstem/local10bp3Tcandidateinferred,Y12bp3Tcomputed;readyYandUDIpairsingle-stockprovenance.",
+      "deferred": [
+        "Whole source-specific molecular/reaction/read paths and linked historical originals unassembled; no recursivechase."
+      ],
+      "oligo_scraper": "MandatoryESEGA19hits/4representations;fiveletter8hits/3representations;MEDUSAemptybundle. Pointers checkedagainstselectedoriginals, zerohitsnotabsence.",
+      "verification": "46focusedchecks(25ESEGA/21five-six)pass; sourceguard6exact0fail0exempt2unassembledinputstates. Chemistry(default5branch)2narrowestablished2conditional37unresolved0contradictory;6branch additionallytested, no fullreactionvalidation.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round28-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      }
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round28",
+    "date": "2026-10-30",
+    "scope": "Publishedmain185\u2013205; actualSIFig7p8render. Same2selectedoriginals, no reporting-summary/vendor/MASDrecipeinheritance.",
+    "finding": "Source80nggDNA/spike/endprep/Adapter1\u2192USER\u2192PNK-Klenow\u2192Adapter2\u2192protection/deamination/UDI/PhiXreadoutverified; pairedstemUsnotloopopening. SixbranchaddsBGT/UDPincopyandDNMT5afterAdapter2,postDNMTtransferunassembled. SourceallC5mC/terminalPSandlocal10/12bpstem3Tgeometry retainedwithcandidatefoldinferred. 111/8/8/111versus151/8/8/151notrounded. Selectedcriticalscopeclosed;wholeUSER/copy/junctionstatesunknown."
+  }
+}

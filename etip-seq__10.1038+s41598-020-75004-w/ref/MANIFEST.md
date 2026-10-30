@@ -1,0 +1,7 @@
+# eTIP-seq source manifest
+
+Standard acquisition: `python3 tools/get_sources.py --slugs etip-seq__10.1038+s41598-020-75004-w`. Sources are external under `sources/etip-seq__10.1038+s41598-020-75004-w/`; no originals/text/images belong in this repository.
+
+Closed two published originals: `s41598-020-75004-w_PMC7596052.xml.txt` mainMethods164–176, Introduction/Results/Fig1 and Fig3 preparation/caption, computational188–190; same main PDF actualFig3p5 and adaptor-orderingMethodsp11; `s41598-020-75004-w_supp_41598_2020_75004_MOESM6_ESM.pdf.txt` notesmethodologyp1/FigS1p2. Actual figures/modification text rendered `/tmp/etip41-main5.png`, `/tmp/etip41-main11.png`, `/tmp/etip41-si2.png`. Browser official publisher/PMC/PDF representations are the same defining work; initial PMC browser challenge was not bypassed. PMCCloud standard acquisition supplied validated originals.
+
+Mandatory whole-bundle scanner `/tmp/ngs41-etip-scraper.log`: two collapsed sequence hits in mainXML; top hit truncates before `[Bio-dT]`, so the complete originalPDF/XML ordering was independently read and the physical modified T restored explicitly. Narrow transcription exception preserves the whole modified fixture and does not change the shared parser. S1–S5 coordinate/result workbooks were downloaded but not inspected/adopted as chemistry originals. Earlier cited eTIP/kit/predecessor sources ordinary unread. Counter `/tmp/ngs41-multi-originals.json`; acquisition `/tmp/ngs41-multi-fetch-resume.log`. No full chemical/source/absence audit.

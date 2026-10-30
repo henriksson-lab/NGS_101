@@ -36,6 +36,8 @@ hit back to the original, which is reported "as written"):
     /iBiodT/, /iAmMC6T/, /iFluorT/ read as T, /i5MedC/ as C, /ideoxyU/ as U, /ideoxyI/
     as N; a spacer or dye such as /iSp18/ or /iCy3/ adds none), (dU) or dU, iso-bases
     iCiGiC, and a dye or quencher glued to the bases (FAM-..., ...CCAGTMGBNHQ-3').
+  * exact /5mC/ is a 5-methylcytosine nucleotide, including at either end;
+    its C and source-positioned modification token are retained.
   * a run of 4+ asterisks between bases is an index placeholder, one N each (also
     "...GAGAT-3'******5'-GTGAC..."); a single * is a phosphorothioate.
   * shorthand and placeholders inside an oligo keep it whole: T30, T30VN, dT30, (T)30,
@@ -44,6 +46,8 @@ hit back to the original, which is reported "as written"):
     expanded to that many bases in `sequence`; a placeholder without a length ([i7],
     [barcode], -barcode-, -index-, -UMI-, XXX...XXX, NNNN...NNNN, (dT), (A)n,
     cDNA_Insert) becomes "…" in `sequence` and the hit's length is shown as "N+ nt".
+  * inside a DNA cell with fixed flanks, balanced synthesis `(N:25252525)(N)...`
+    is one unspecified base per explicit token; the directive is not a base count.
 
 Each hit lists: the bases; the oligo as written with its modifications; the parsed
 modifications, named the same way however they are written ("5' biotin (/5Biosg/)",
@@ -67,9 +71,9 @@ counted after collapsing) keeps the highest scorers and says how many it cut. A 
 takes minutes) is not scanned unless --include-large or --all is given; each skipped file
 is named on stderr and in the closing summary. --find always reads every file.
 
-Not rejoined: an oligo whose pieces a PDF table puts in separate cells with other cells
-between them (e.g. a primer continued under a "Hiseq tail" label cell); join those by hand
-from the rendered table, then confirm with --find.
+Explicit 5' modification-column cells between two sequence lines are supported when
+the marked continuation and a 3' phosphorothioate descriptor close the row. Arbitrary
+intervening cells (e.g. a "Hiseq tail" label) are not joined; inspect the rendered table.
 
 --find SEQ (repeatable) lists where SEQ occurs. The query may be pasted as written:
 5'/3' ends, /mods/, rN/mN/+N/* marks, spaces, hyphens, shorthand and placeholders are
@@ -474,9 +478,29 @@ MOD3 = re.compile(rf"^(?:[ \t]*-?[ \t]*(?:{_MOD})(?![A-Za-z0-9]))+")
 # brackets rather than slashes. Gated on the known modification vocabulary and on hyphens
 # both sides, so ordinary parenthetical prose between two base runs cannot join them.
 _BRACKET_INTERNAL = re.compile(rf"-[\[(](?:[53]['\u2032\u2019]?[ -]?)?(?:{_MODNAME})[\])]-")
+# A PDF table can interleave its modification column with a wrapped sequence.
+# Require an explicitly bounded row: a standalone first sequence, a 5' modification
+# cell, a phosphorothioate-marked continuation and its 3' descriptor. Neither prose
+# nor a new oligo name may occur between these cells. Keep the stars as the authority
+# for linkage positions; the descriptor alone supplies no nucleotide or position.
+_MOD_COLUMN_WRAP = re.compile(
+    rf"(?m)^(?P<first>[ACGTUN]{{12,}})(?P<gap>\n(?:[ \t]*\n)?"
+    rf"(?P<five>5['′’]-?(?P<mod>Biotin(?:-TEG)?|FAM|HEX|Cy[35]|AminoC6)),"
+    rf"[ \t]*\n(?:[ \t]*\n)?)(?P<second>[ACGTUN]{{4,}}(?:\*[ACGTUN]){{1,3}})"
+    rf"(?P<end>\n(?:[ \t]*\n)?3['′’]-phosphorothioate)(?=[ \t]*(?:\n|$))")
+
+
+@lru_cache(maxsize=8)
+def _column_wraps(text: str):
+    """Complete row spans, cached across per-hit parsing of the same original."""
+    return tuple(_MOD_COLUMN_WRAP.finditer(text))
+
 _ANY_MARK = re.compile(r"[rm+*∗(/]|-s-|dU")
 _R_MARK = re.compile(rf"(?<![A-Za-z])r[{BASE}]|(?<=[{BASE}])r[{BASE}]")
 _M_MARK = re.compile(rf"(?<![A-Za-z])m[{BASE}]|(?<=[{BASE}])m[{BASE}]")
+# Exact source ordering alias: this is one 5-methylcytosine residue,
+# including at a strand end. It is not a 5'-terminal nucleotide-free modifier.
+_FIVE_MC = re.compile(r"/5mC/")
 # Explicit dU in a nucleotide run (e.g. NEB's CdUA), including at either end.
 # Require an adjacent base/mark so an isolated prose mention of dU stays prose.
 _DU_MARK = re.compile(rf"(?<=[{BASE}{LOW}])dU|(?<![A-Za-z])dU(?=[{BASE}{LOW}]|dU)")
@@ -541,10 +565,14 @@ def modifications(orig: str, start: int, end: int, seq: str = "") -> tuple[int, 
         mods += _name_mods("3", m3.group(0).strip(" -"))
         end += m3.end()
     if _ANY_MARK.search(bases):
-        counts = {"r": len(_R_MARK.findall(bases)), "m": len(_M_MARK.findall(bases)),
+        methyl_c = len(_FIVE_MC.findall(bases))
+        counts = {"r": len(_R_MARK.findall(bases)),
+                  "m": len(_M_MARK.findall(bases)) - methyl_c,
                   "+": len(_L_MARK.findall(bases)),
                   "*": len(re.findall(r"(?<![*∗])[*∗](?![*∗])", bases)) + bases.count("-s-")}
         mods += [f"{_TAG[k]} x{n}" for k, n in counts.items() if n]
+        if methyl_c:
+            mods.append(f"5-methyl-C (/5mC/) x{methyl_c}")
         mods += [f"internal /{x}/" for x in IDT_INTERNAL.findall(bases)]
         mods += [f"3' modified base /{x}/" for m in _IDT_TAIL.finditer(bases)
                  for x in re.findall(r"[^/]+", m.group(0)) if x[0] == "i"]
@@ -564,6 +592,11 @@ def modifications(orig: str, start: int, end: int, seq: str = "") -> tuple[int, 
     if u and not counts["r"]:
         mods.append("RNA (written with U)" if not re.search("[Tt]", seq) and u >= 2
                     else f"U bases x{u}")
+    for wrapped in _column_wraps(orig):
+        if start <= wrapped.start('gap') and end >= wrapped.end('second') \
+                and start >= wrapped.start('first'):
+            start, end = wrapped.start('first'), wrapped.end()
+            mods += _name_mods('5', wrapped.group('mod'))
     return start, end, mods
 
 
@@ -620,6 +653,10 @@ _BR_WORD = re.compile(r"(?i)barcode|\bbc\d*\b|\bcbc\b|\bubc\b|umi|index|\bidx|\b
 # its length is never stated in the word, so it is an uncounted gap.
 _WORD_GAP = re.compile(r"-[ ]?['‘’\"]?(?:(?:sample[ _])?(?:barcode|index)|umi|bc|cbc|"
                        r"i[57](?:[ _](?:index|barcode))?)['‘’\"]?[ ]?-", re.I)
+# Inline identifier names in published oligos, e.g. P7 (Index) adapter-body.
+# Parentheses otherwise also enclose prose, modifications and citations: require
+# substantial nucleotide flanks on the same line before treating one as a gap.
+_PAREN_IDENTIFIER = re.compile(r"\((?:index|barcode|umi|i[57])\)", re.I)
 _HOMO_PAREN = re.compile(r"\(d?([ACGTUN])\)[ ]?(\d{1,3})(?![0-9])")       # (T)30, (dT)30
 _HOMO = re.compile(r"([ACGTUN])(?:\((\d{1,3})\)|(\d{1,3})(?![0-9]))")       # T(30), T30, N8
 _PAREN_GAP = re.compile(r"\((?:d|p|poly)?[ACGTU]\)n?|\((?:d|p)?[ACGTU]\)[ ]?n\b|poly-?\(?[AT]\)?n\b")
@@ -650,6 +687,8 @@ _INTERNAL_CAMEL = re.compile(r".*[a-z0-9]([ACGTU])")
 
 def internal_base(name: str) -> str:
     """The nucleotide an internal or terminal modification token stands for, or ''."""
+    if name == "5mC":
+        return "C"
     low = name.lower()
     if re.fullmatch(r"3dd[acgtu]", low):
         return low[-1].upper()  # a terminal dideoxynucleotide still carries a base
@@ -670,6 +709,22 @@ _PARENS_BASE = re.compile(r"\(d([UI])\)")
 # IDT custom mixed bases "(N1:25252525)" and ribo "r(N1)" are one N each.
 _PAREN_NRUN = re.compile(r"\((N{3,})\)")
 _IDT_MIX = re.compile(r"r?\(N\d{1,2}(?::\d{8})?\)")
+# An unnumbered balanced-synthesis directive denotes one N, not eight bases or
+# a count. Accept its following explicit (N) tokens only inside one DNA cell,
+# with substantial fixed DNA on both sides; isolated manufacturing prose is not
+# an oligo. Spaces are allowed, while tabs/newlines and other words end the cell.
+_BALANCED_MIX = re.compile(
+    r"(?<![A-Za-z0-9])(?P<left>[ACGTU]{2,}(?: +[ACGTU]{2,})*) *"
+    r"(?P<mix>\(N:25252525\)(?: *\(N\)){1,127}) *"
+    r"(?P<right>[ACGTU]{2,}(?: +[ACGTU]{2,})*)(?![A-Za-z0-9])")
+
+
+@lru_cache(maxsize=8)
+def _balanced_mixes(text: str):
+    """Explicit mixed-base spans, cached so each candidate does not rescan the file."""
+    return tuple(m for m in _BALANCED_MIX.finditer(text)
+                 if all(len(m.group(k).replace(' ', '')) >= 8 for k in ('left', 'right')))
+
 # A run of four or more asterisks between bases is an index placeholder ("(* indicates
 # Illumina index)"), one N per asterisk, even when the source closes and reopens the
 # strand ends around it (OK-seq: "...GAGAT-3'******5'-GTGAC..."). A single "*" between
@@ -725,6 +780,12 @@ def scan_copy(orig: str) -> Scan:
         edits.append((a, b, r))
         return True
 
+    for wrapped in _column_wraps(orig):
+        add(wrapped.start('gap'), wrapped.end('gap'), '')
+        # End the row explicitly so its descriptor cannot attach the next oligo.
+        add(wrapped.start('end'), wrapped.end('end'), HARD_NL)
+    for m in _FIVE_MC.finditer(orig):
+        add(m.start(), m.end(), "C")
     for m in PER_BASE.finditer(orig):
         add(m.start(), m.end(), re.sub(r"[rm+*∗\s]", "", m.group(0)))
     def prev(a: int) -> str:
@@ -758,6 +819,9 @@ def scan_copy(orig: str) -> Scan:
             add(a, b, m.group(1))
     for m in _IDT_MIX.finditer(orig):
         add(m.start(), m.end(), "N")
+    for m in _balanced_mixes(orig):
+        add(m.start(), m.end(), m.group('left').replace(' ', '')
+            + 'N' * m.group('mix').count('(N') + m.group('right').replace(' ', ''))
     for m in _PARENS_BASE.finditer(orig):
         add(m.start(), m.end(), "U" if m.group(1) == "U" else "N")
     for m in _DU_MARK.finditer(orig):
@@ -766,6 +830,15 @@ def scan_copy(orig: str) -> Scan:
         r = _bracket(m)
         if r is not None:
             add(m.start(), m.end(), r)
+    for m in _PAREN_IDENTIFIER.finditer(orig):
+        a, b = m.start(), m.end()
+        while a and orig[a - 1] in " \t":
+            a -= 1
+        while b < len(orig) and orig[b] in " \t":
+            b += 1
+        if (a >= 6 and re.fullmatch(r"[ACGTUN]{6}", orig[a - 6:a])
+                and re.fullmatch(r"[ACGTUN]{6}", orig[b:b + 6])):
+            add(m.start(), m.end(), GAP)
     for m in _WORD_GAP.finditer(orig):
         a, b = m.start(), m.end()
         if prev(a) and prev(a) in BASE + LOW and orig[b:b + 1] and orig[b] in BASE + LOW:
@@ -1011,7 +1084,10 @@ def scan(path: Path, orig: str, known: dict[str, str], min_len: int = MIN_LEN,
                 label = above if "\t" not in above else label_before(above)
         line = sc.line(s)
         written = orig[s:e]
-        if "\n" in written or " " in written or "\t" in written:
+        column_wrapped = any(w.start('first') == s and w.end() == e
+                             for w in _column_wraps(orig))
+        balanced_mix = any(s <= w.start() and w.end() <= e for w in _balanced_mixes(orig))
+        if not (column_wrapped or balanced_mix) and ("\n" in written or " " in written or "\t" in written):
             written = _WS.sub("", _BR_SPACE.sub(lambda b: _WS.sub("\x00", b.group(0)),
                                                 _LINENO_TEXT.sub("\n", written)))
             written = written.replace("\x00", " ")
@@ -1118,6 +1194,12 @@ _TRIM_GAP = re.compile(rf"(.*[{BASE}{LOW}{GAP}])(?:{_FIND_GAP})", re.S)
 def _letters(q: str) -> str:
     """The bases of a query as pasted: ends, /mods/, marks, shorthand and placeholders
     handled like the text; raises ValueError on letters that are not bases."""
+    # A complete interleaved table row is already explicitly delimited. Parse its
+    # two DNA pieces without making the intervening modification-column text bases.
+    # Other queries retain the ordinary modification and whole-query checks below.
+    wrapped = _MOD_COLUMN_WRAP.fullmatch(q.strip())
+    if wrapped:
+        q = wrapped.group('first') + wrapped.group('second')
     # rG, +G, +rG; also after an XXXX/JJJJ or [bracketed] placeholder ("...XXXXXXrGrGrG")
     q = re.sub(rf"(?:(?<=[{BASE}XJ\]{GAP}*∗ '′’-])|^)(?:\+[rm]|[rm+])(?=[{BASE}])", "", q.strip())
     sc = scan_copy(" " + q + " ")
@@ -1193,6 +1275,21 @@ def find(text: str, query: str, strict: bool = False, sc: Scan | None = None,
                 continue
             mtext = trim.group(1)
             s, e = sc.span(m.start(), m.start() + len(mtext))
+            column_wrapped = False
+            for wrapped in _column_wraps(sc.orig):
+                if s < wrapped.start('gap') and e > wrapped.end('gap'):
+                    # Preserve the complete source row, even if the query matches
+                    # only a prefix/suffix crossing its wrap. A whole-oligo guard
+                    # must see the extra source bases rather than accept that part.
+                    s, e = wrapped.start('first'), wrapped.end()
+                    column_wrapped = True
+                    break
+            for mixed in _balanced_mixes(sc.orig):
+                if s < mixed.end('mix') and e > mixed.start('mix'):
+                    # A variable-window match establishes only the whole printed
+                    # strand, never a truncated flank or concrete member of it.
+                    s, e = mixed.start(), mixed.end()
+                    break
             line = sc.line(s)
             if (line, s) in seen:
                 continue
@@ -1205,7 +1302,7 @@ def find(text: str, query: str, strict: bool = False, sc: Scan | None = None,
                 fixed = [i for i, c in enumerate(x) if c in "ACGT"]
                 if sum(got[i] == x[i] for i in fixed) < 0.6 * len(fixed):
                     continue
-            written = re.sub(r"[ \t]*\n[ \t]*", "", sc.orig[s:e])
+            written = sc.orig[s:e] if column_wrapped else re.sub(r"[ \t]*\n[ \t]*", "", sc.orig[s:e])
             out.append((line, strand, "exact" if exact else "iupac", written))
     out.sort(key=lambda t: (t[2] != "exact", t[0]))
     return out if detail else sorted({t[0] for t in out})

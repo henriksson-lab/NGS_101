@@ -1,0 +1,73 @@
+{
+  "dir": "scedu-seq__10.1038+s41592-024-02308-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scedu-seq__10.1038+s41592-024-02308-4/s41592-024-02308-4_PMC11239516.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11239516.1/PMC11239516.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main54/150\u2013188; single-pulse route, click/sort/digest/release/IVT/RT/PCR/read wording.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scedu-seq__10.1038+s41592-024-02308-4/s41592-024-02308-4_supp_41592_2024_2308_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11239516.1/41592_2024_2308_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Administrative reporting-summary identity/opening; not a chemistry recipe.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scedu-seq__10.1038+s41592-024-02308-4/s41592-024-02308-4_supp_41592_2024_2308_MOESM2_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11239516.1/41592_2024_2308_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "source_version": "Administrative peer-review header opened by glob and immediately counted; no chemistry adopted.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Administrative peer-review header only, excluded as active preparation authority; no complete missing-information audit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph. No complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "dna_round26",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Three originals including administrative opens; source investigation closed. Before-open counter /tmp/round26-dna-original-counts.tsv. scEdU peer-review administrative glob open was immediately counted after opening; no fourth original or cap overrun.",
+      "locations": "Published main54/150\u2013188; single-pulse route, click/sort/digest/release/IVT/RT/PCR/read wording.; Administrative reporting-summary identity/opening; not a chemistry recipe.; Administrative peer-review header opened by glob and immediately counted; no chemistry adopted.",
+      "findings": "Source-positive preparation; actual inventory/order/physical fractions retained with explicit unassembled historical geometry.",
+      "deferred": [
+        "Directly linked historical kit/predecessor originals and source-specific whole molecular/read geometry.",
+        "No recursive chase or further original opening in this pass."
+      ],
+      "oligo_scraper": "Mandatory completebundle scrape: scEdU12hits/4representations;Nano154hits/4representations;LABS4hits/2representations. Only exact originals/sections listed here were treated as read.",
+      "verification": "49focusedchecks(15scEdU/19Nano/15LABS)pass;guard9exact0fail0exemptions4unassembledinputs;chemistry84unresolved0contradictory. Selected implementation check, not complete molecular validation."
+    }
+  ],
+  "pending_linked_targets": [
+    "Historical vendor guides and cited component predecessors remain ordinary deferred source reading; no claimed source absence."
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted26_reader",
+    "date": "2026-10-30",
+    "scope": "Published main54/150\u2013188 only; no new original acquisition or deferred workbook reading.",
+    "finding": "Selected click/PNK-buffer duplicate and both-enzymes wording/complement retrieval/RNA5of12 allocation/literal100cycleR1R2 labels independently match. No invented formulation or index-layout repair; no consequential selected-scope issue. Selected critical implementation only, not full linked-source or absence audit."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "dir": "chip-dip__10.1038+s41588-024-02000-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://guttmanlab.caltech.edu/wp-content/uploads/2024/12/PerezGoronzy2024.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published final printedDOI/title/date andMethods3235–3285, separateDNA/antibody readclasses; no AM/finalmerge.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-024-02000-5/MediaObjects/41588_2024_2000_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 Methods380–587/actualrenderedp26 color-coded modified oligo, physicalbeadfactory/IP/barcoding/library and computationaldedup.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "oligos",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-024-02000-5/MediaObjects/41588_2024_2000_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SupplementaryData1 actualZIP/XML sharedstrings/worksheetA1–A97; firstwholemodifiedordering verified; no exacttargetmapping adopted.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-36",
+      "reviewer": "dna_owner_round36",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Published final author-hosted PDF verified printedDOI/title/25November2024 date; publishedSI1 and SupplementaryData1(MOESM4) actualZIP/XML. Three originals. AssociatedAM and supersededpreprint chemistry excluded.",
+      "locations": "Published final printedDOI/title/date andMethods3235–3285, separateDNA/antibody readclasses; no AM/finalmerge.; PublishedSI1 Methods380–587/actualrenderedp26 color-coded modified oligo, physicalbeadfactory/IP/barcoding/library and computationaldedup.; Published SupplementaryData1 actualZIP/XML sharedstrings/worksheetA1–A97; firstwholemodifiedordering verified; no exacttargetmapping adopted.",
+      "findings": "Actual antibody/oligo/bead conjugate pool beforeIP, shared bead-tag joining of separate DNA/antibody molecules, source-modifiedoligo features, aliquot indexing and distinct dedup meanings retained.",
+      "deferred": [
+        "Published MOESM2 and other supplementary data remain unread/deferred; metadata selection of MOESM2 replaced before opening with directly cited oligo workbookMOESM4.",
+        "Cited SPRITE original/tag sources and complete run-specific primer/plate assignments remain ordinary unread originals; no inherited recipe. AssociatedAM and preprint excluded as alternate/superseded authorities."
+      ],
+      "oligo_scraper": "Mandatory wholebundle scraper; Mint/CUT0hits notabsence. ChIPselectedhit verified actualSIp26 and originalworkbookZIP/XML, nonselectedSI2 unopened."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Published MOESM2 and other supplementary data remain unread/deferred; metadata selection of MOESM2 replaced before opening with directly cited oligo workbookMOESM4.; Cited SPRITE original/tag sources and complete run-specific primer/plate assignments remain ordinary unread originals; no inherited recipe. AssociatedAM and preprint excluded as alternate/superseded authorities."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive source-qualified notes/private partial graph; complete molecular inventory/whole products/linked source and absence audit remain unfinished.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round36",
+    "date": "2026-10-30",
+    "scope": "Same three published originals only: PerezGoronzy2024mainMethods3235–3285; SI1Methods380–587/originalp26wholecoloredoligo and actualp29dAtail text rendered independently; MOESM4originalZIP/XMLA1–A97 (header and96wholemodifiedoligos). No new originals/AM/preprint opened.",
+    "findings": "Verified whole5P/UMI8/antibodyID9/3Bio orderings, sourceSIexample versus workbookvariant with actualantibody assignmentunassembled, antibody-only UMI dedup versus genomicpositional dedup, separate genomicDNA/IDmolecules sharing beadcodes rather than covalentfusion. Requested and inspected explicit savedoriginalProteinGstoragebuffer production/reuse afterPBSt/biotinylationwashes. Actualp29 visibly prints Klenow(3prime→5primeexo) withoutminus, next sentence(exo-): a real printednotation difference, not OCRminusloss; both retained and completeenzymeform unresolved, without asserting confirmedbiochemicalerror. Actualpool/QC/aliquot/tagging/library boundaries remain sourcequalified.",
+    "verification": "11focused checks independently rerunPASS after storagebuffer provenance correction. Originalworkbook96wholefixedarms/5P/3Bio and nine-base variableID class independently verified. Selected implementation closure, not full reaction/source/absence audit."
+  }
+}

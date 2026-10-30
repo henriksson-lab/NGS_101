@@ -1,0 +1,78 @@
+{
+  "dir": "labs__10.1186+s13059-024-03262-2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/labs__10.1186+s13059-024-03262-2/s13059-024-03262-2_PMC11177480.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11177480.1/PMC11177480.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main129/211\u2013237; selected extractedcfDNA/T7/bisulfite/extension/protease/IVT/RNAkitfinish.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/labs__10.1186+s13059-024-03262-2/s13059-024-03262-2_supp_13059_2024_3262_MOESM1_ESM.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11177480.1/13059_2024_3262_MOESM1_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI FigS1caption; method comparison context.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/labs__10.1186+s13059-024-03262-2/s13059-024-03262-2_supp_13059_2024_3262_MOESM2_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11177480.1/13059_2024_3262_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published wholeTableS1 sequencing-information workbook, particularly LABScfDNAcomparison rows(SE75).",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph. No complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "dna_round26",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Three originals including administrative opens; source investigation closed. Before-open counter /tmp/round26-dna-original-counts.tsv. scEdU peer-review administrative glob open was immediately counted after opening; no fourth original or cap overrun.",
+      "locations": "Published main129/211\u2013237; selected extractedcfDNA/T7/bisulfite/extension/protease/IVT/RNAkitfinish.; Published SI FigS1caption; method comparison context.; Published wholeTableS1 sequencing-information workbook, particularly LABScfDNAcomparison rows(SE75).",
+      "findings": "Source-positive preparation; actual inventory/order/physical fractions retained with explicit unassembled historical geometry.",
+      "deferred": [
+        "Directly linked historical kit/predecessor originals and source-specific whole molecular/read geometry.",
+        "No recursive chase or further original opening in this pass."
+      ],
+      "oligo_scraper": "Mandatory completebundle scrape: scEdU12hits/4representations;Nano154hits/4representations;LABS4hits/2representations. Only exact originals/sections listed here were treated as read.",
+      "verification": "49focusedchecks(15scEdU/19Nano/15LABS)pass;guard9exact0fail0exemptions4unassembledinputs;chemistry84unresolved0contradictory. Selected implementation check, not complete molecular validation."
+    }
+  ],
+  "pending_linked_targets": [
+    "Historical vendor guides and cited component predecessors remain ordinary deferred source reading; no claimed source absence."
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_targeted26_reader",
+    "date": "2026-10-30",
+    "scope": "Published main211\u2013237 plus originalTableS1 XLSX sheetmESC A24:E27(cfDNA/LABS/SE75). SI1caption not independently claimed. Accidental peer-reviewMOESM4 text display excluded as active authority; no further source chase.",
+    "finding": "Full methylatedT7/helper3P/extensionprimer/order/protease\u2192IVT\u2192DNase\u2192physicalRNAcleanup/max100ng allocation independently consistent; no consequential selected-scope issue. Selected critical implementation only, not full linked-source or absence audit."
+  },
+  "crossreview_source_accounting": {
+    "own_pass_originals": 3,
+    "combined_unique_originals": 4,
+    "combined_scope_cap_overrun": true,
+    "reason": "Independent reader accidentally displayed the separate MOESM4 peer-review DOCX text through a glob. It was not among the own pass main/MOESM1/MOESM2 originals and is excluded as active chemistry authority. No further reading."
+  }
+}

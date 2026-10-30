@@ -1,0 +1,67 @@
+{
+  "dir": "rims-seq__10.1093+nar+gkab705",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8565308.1/PMC8565308.1.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8565308.1/PMC8565308.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round25",
+        "date": "2026-10-30",
+        "locations": "Published Methods114\u2013120;comparison122\u2013130;selectedResults188\u2013212.",
+        "finding": "Source actual library route; historical kit/geometry remains unassembled. No bisulfite-component inheritance."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8565308.1/gkab705_supplemental_file.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8565308.1/gkab705_supplemental_file.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round25",
+        "date": "2026-10-30",
+        "locations": "Supplementarytext1 andFigS1caption;originalPDFp2\u20133rendered during figure location, no exact geometry/performance adopted.",
+        "finding": "Separate8oxoG-LCMS oligo modifications;source limitedm5C\u2192T/C\u2192U amplification/readout explanation, not quantitativelyvalidated specimen chemistry."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-25",
+      "reviewer": "coordinator_round25",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Two published originals; investigation closed within3originalcap. No vendor or predecessor original opened.",
+      "locations": "MainMethods114\u2013120/122\u2013130,Results188\u2013212;SItext1/FigS1caption,p2\u20133views.",
+      "findings": "Historical unmethylated-loop kitUSER precedes alkaline exposure/quench/Zymo/PCR;Q5U/methylatedadapter/lambdaspike comparisonnotimported. No fixedcode/primer/endgeometry invented.",
+      "oligo_scraper": "Mandatory3candidates across3twins;modified8oxoGvalidationoligo distinguished from operational primers and motifstrings. No absence inference.",
+      "deferred": [
+        "Remainingmain/SI/source-eraE7645/E7337A originals andversionidentity",
+        "Whole oligo/end/PCR/readcyclegeometry and sample-specific values"
+      ],
+      "verification": "8focusedpass;0exactsourceinputs/0failed/3unassembledinputs;12unresolved/0contradictory. Independentcriticalreviewpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Exact source-era vendor revision not identified in selected paper scope; desired kit/oligo specification remains an open question, not an invented unavailable document. Published main/SI available. Superseded preprint excluded."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive prep notes/private incompletegraph; ordinary remaining source review, not acceptedabsence or accessbarrier.",
+  "independent_implementation_review": {
+    "reviewer": "independent_dna25_reader",
+    "date": "2026-10-30",
+    "scope": "Published mainMethods114\u2013120 vs separateBS122\u2013130; Results188\u2013212; publishedSItext1/FigS1caption. Selectedcriticalimplementation only; no full linked-source orabsenceaudit.",
+    "finding": "Source USER-before-alkaline,unmethylatedadapter,NaOH/acid/column/PCR/QC/PEorder andphysicalfates preserved; noQ5U/methylatedBS/lambda/LCMScontrol inheritance. U-blocking sourceexplanation distinguishedfromperfectphysicaldepletion/readout guarantees. Adaptergeometry defaultnotreportedmarker correctedtoexplicitunassembledhistoricalsourcegeometry;8checks pass. No further consequential selected-scope defect."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "dir": "g4-seq__10.1038+nbt.3295",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "publisher_abstract",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nbt.3295",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round10",
+        "date": "2026-10-29",
+        "locations": "Title/abstract only; full main Methods not obtained",
+        "finding": "Published identity and assay concept established; full library/sequence-script chemistry unreviewed."
+      }
+    },
+    {
+      "id": "supplement_figures",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4-seq__10.1038+nbt.3295/nbt.3295_41587_2015_BFnbt3295_MOESM27_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round10",
+        "date": "2026-10-29",
+        "locations": "Fig1\u20137/captions and source reaction-observation scope",
+        "finding": "Compared cation/PDS sequencing readouts; not original-template base conversion."
+      }
+    },
+    {
+      "id": "supplement_tables",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/g4-seq__10.1038+nbt.3295/nbt.3295_41587_2015_BFnbt3295_MOESM28_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round10",
+        "date": "2026-10-29",
+        "locations": "Tables1\u20133/result-interpretation scope",
+        "finding": "Sequencing coverage/observed-predictedG4categories read; exact adapter construction not adopted."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round10",
+      "date": "2026-10-29",
+      "locations": "Selected defining original/associated manuscript and chemistry supplements listed above",
+      "finding": "Named original/kit/script/version targets remain uninspected or unavailable within cap; no absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; full source/library/read geometry and independent linked-source review remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "expansion_dna_round10",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Published-first source selection; associated manuscript identities explicit. No3original cap expansion, no recipe inheritance by resemblance.",
+      "locations": "Detailed inspected locations are recorded per original above.",
+      "findings": "Source-known operations retained, exact molecular end/read geometry deliberately incomplete; no accepted absence claim.",
+      "deferred": [
+        "Exact blocked originals and named kit/script/predecessor targets identified in notes."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scrapers run after fetch; G4seq95hits/5files, SMRF0hits, ssDNA0hits. Hits reviewed as pointers; no exact library oligo or absence claim derived.",
+      "verification": "22localchecks(6G4/9SMRF/7ssDNA)passed;3builds/pairing and source-review schema passed. Sourceguard0checked/0failed with2unrepresented SMRF locus-primer inputs; no exact oligo validation claimed. Chemistry0established/25unresolved/0contradictory, not full chemical validation. Independent implementation review found no critical molecular/fate/version defect; it was not an absence-audit pass. Fetch session10000completed exit0, no process running."
+    }
+  ]
+}

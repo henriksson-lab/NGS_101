@@ -1,0 +1,68 @@
+{
+  "dir": "catch-seq-clone-adapted-template-capture__10.1371+journal.pone.0111756",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4214737.1/PMC4214737.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC4214737 identity/Methods47–66/Results76–85/Fig1caption83 and actualoriginalPDFp2T7wholeorders/p3capture/p4Fig1.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4214737.1/pone.0111756.s005.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "ActualpublishedTableS1s005DOCXZIP/XML headers andregion6row:24hyb/24seq/144samples/HiSeqPE100; noimage-basedtable, nofullcohortrecipeassignment.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "dna_owner_round43",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Cappedpublishedstandard24plex referencepreparation plusregion6sourceacquisitionexample. Sourceinvestigationclosed beforeimplementation; thirdoriginalslotunused/reservedpeer same-source.",
+      "locations": "PublishedPMC4214737 identity/Methods47–66/Results76–85/Fig1caption83 and actualoriginalPDFp2T7wholeorders/p3capture/p4Fig1. ActualpublishedTableS1s005DOCXZIP/XML headers andregion6row:24hyb/24seq/144samples/HiSeqPE100; noimage-basedtable, nofullcohortrecipeassignment.",
+      "findings": "KnownT7whole27/26ntorders/26bpcore/3T andactual24independentlibrarypreps pooledonlyafterprep; BACweightedpool/three12ulIVTs/2ulpooledQC/C1boundcapture/standardNaOH-Tris/PCR/loadingfates source-local. Sampleadapter/T7F/PCRwholeorders unassembled; not borrowedcanonicalIllumina recipe. Methods40foldCot1 andResults20foldcondition scopes retained.",
+      "deferred": [
+        "SupplementaryS2costcomparison andTIFFresultsgraphs ordinary unread; no chemistryfactsadopted.",
+        "HistoricalNEB/Ambion/Illumina/vendor originals anddirectlycitedGnirke2009capture predecessor ordinaryunread; no wholecomponentinheritance.",
+        "Specificsampleinlineadapterset orders/T7Fmapping/wholePCRprimers are modelquestions, notinventedunretrieveddisclosuredocuments; sourceacknowledgesDexheimerdesign butno inspectedstandaloneordertable.",
+        "Actualhistoricalindividualsampledoses, wholegenomic/transcript/junctionstates, capturebead104ulscaling andworkingprobevolumeconventions remainunassigned."
+      ],
+      "oligo_scraper": "Mandatorywholebundle4hits/2representationsofsamepublishedmain; falsewhitespacewraptruncations rejected. ActualPDFp2wholeorders verified; actualTableS1ZIPXMLcells inspected.",
+      "verification": "30focusedPASS; sourceguard2exact0failed25wholeexternaloligoinputsunassembled plus2producedfunctionalPCRclassesoutsideguard. Chemistry461steps4duplicatedlocalduplexrelationsestablished462unresolved0contradictory. Independentcriticalimplementationpeerpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Twooriginalscappedpass, actualsupplementrolesmappedfrompublishedmain. Vendor/predecessor/detailsordinaryunread, noacceptedabsence orrecipeinheritance."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartialstandard24plex preparation; selectedcriticalimplementationpeerpending. Not fullchemical/source/absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "multi_peer_round43",
+    "date": "2026-10-30",
+    "type": "same_source_implementation_recheck_not_absence_pass_2",
+    "documents": 2,
+    "scope": "SamepublishedPMC4214737mainMethods47–66/Results76–85andactualPDFp2T7wholeorders/p3hybridizationcapture/p4Fig1; actualpublishedTableS1s005DOCXrawZIPXMLheaders/region6row. No additionaloriginal/vendor/predecessor/networkopened.",
+    "findings": [
+      "Verified sourceT7whole27/26ntorders produce26bpcoreandterminal3T withoutinvented5P; T7Fseparateannealingoligo and standardPCRwholeorders remainunassembled ratherthanassignedfromnames.",
+      "Verified24actualindependentsamplelibrarypreparations,QCandselectedcontributionsbeforephysicalpool. RequestedandverifiedBACweightedcontributionallocationafteridentityQCwithuntransferredsourceBACstockremainder; cardinalityandindividualmassesremainunassembled.",
+      "Requestedandverified24sampleadapterligationsandBACT7ligationusetypedS.LIGATION with existingunavailable/knownlocalgeometry. WholegenomicsealedproductsnotclaimedfromlocalT7pairing.",
+      "Verified36ultemplate dividedintothreeactual12ulIVTs,separateDNase/EDTA/heatthenactualpool,2ulpooledgelQCbeforeNucAway,probeQCallocations/remainders,actualC1prewash/captureunboundfractions,NaOHeluate/Trisneutralizationseparatefrombisulfitebranch.",
+      "VerifiedTableS1region6actual24hyb/24seq/144samples/HiSeqPE100metadataasanacquisitionexample; rangevaluesnotassignedtoeveryhistoricalsample. Methods40foldCot1versusResults20:1conditionspreservedwithoutsilentrepair."
+    ],
+    "verification": "Independently31focusedPASS; mandatoryscraper4sequence-likehits/2representations; sourceguard2exact0failed0exemptions/25unassembledexternaloligoinputsplus2producedPCRclassesoutsideexternalguard. Chemistry462steps4localduplexrelationsestablished463unresolved0contradictory. Selectedsame2originalcriticalimplementationreviewclosed;notcompletechemicalorabsenceaudit."
+  }
+}

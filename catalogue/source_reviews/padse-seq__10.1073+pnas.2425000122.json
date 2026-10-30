@@ -1,0 +1,76 @@
+{
+  "dir": "padse-seq__10.1073+pnas.2425000122",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/padse-seq__10.1073+pnas.2425000122/pnas.2425000122_PMC12012555.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12012555.1/PMC12012555.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2025OA main121\u2013135/165/177\u2013179: actualcyclicscanning/nicking/SDA/proteinIDs/molecularIDs, fixedcellsNGS andSIdelegation.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/padse-seq__10.1073+pnas.2425000122/pnas.2425000122_supp_pnas.2425000122.sapp.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12012555.1/pnas.2425000122.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI Methods133\u2013187(fixed-cellAb-DNAconjugation/assay/SDA/PCR/outsourcedNGS), applicablePCRNGS124\u2013131, actualTableS1originalp28/p29 renderedandread (Assori/TPcel/SPcel1/BPcel1\u20133/FP142s/RPcel whole modifiedorderings); origami/Sanger/fluorescencevalidationnotmerged.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Wholehistoricalkitformulations/products/readprimerlanding andcitedchemistrypredecessorsunassembled; no publicationabsence conclusion.",
+    "Unopenedfetchedtable/resultoriginalsremaindeferred, notnegativeevidence.",
+    "OutsourcedNGSlibraryinternals/platform/runlayoutunassigned; no unavailable disclosure document invented.",
+    "Wholeconjugatedprobe/nicking/SDAchemistryunassembled; selectedsourceknownlocalinterfacesonly."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpublishedpreparativereading; privatepartialmodelwherejustified. Noabsence/fullmolecular/sourceaudit/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-32",
+      "reviewer": "dna_round32",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Selectedsource-specificpreparation; notes preservephysicalstocks/sourcevariants andunassembledboundaries.",
+      "locations": "Published2025OA main121\u2013135/165/177\u2013179: actualcyclicscanning/nicking/SDA/proteinIDs/molecularIDs, fixedcellsNGS andSIdelegation.; PublishedSI Methods133\u2013187(fixed-cellAb-DNAconjugation/assay/SDA/PCR/outsourcedNGS), applicablePCRNGS124\u2013131, actualTableS1originalp28/p29 renderedandread (Assori/TPcel/SPcel1/BPcel1\u20133/FP142s/RPcel whole modifiedorderings); origami/Sanger/fluorescencevalidationnotmerged.",
+      "deferred": [
+        "Wholehistoricalkitformulations/products/readprimerlanding andcitedchemistrypredecessorsunassembled; no publicationabsence conclusion.",
+        "Unopenedfetchedtable/resultoriginalsremaindeferred, notnegativeevidence.",
+        "OutsourcedNGSlibraryinternals/platform/runlayoutunassigned; no unavailable disclosure document invented.",
+        "Wholeconjugatedprobe/nicking/SDAchemistryunassembled; selectedsourceknownlocalinterfacesonly."
+      ],
+      "findings": "Actualsourcepreparativechemistrypositive; unknowncomponentsareunassembled,notconfirmedmissing.",
+      "cap": {
+        "originals_read": 2,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round32-dna-original-counts.tsv",
+        "source_investigation_closed": true
+      },
+      "oligo_scraper": "Mandatoryscraper1/2/8hits respectively; relevantpointersverifiedonlyinselectedoriginals; imageTableS1PADSEinspected.",
+      "verification": "46focusedchecks(SMAdd13/ssGap12/PADSE21)PASS;sourceguard8exact0fail0exempt0unassembledinputs/3graphs. Chemistry0established0conditional127unresolved0contradictory. Same-selected-originalindependentcriticalreviewsclosedfor3, nofullchemistry/absenceaudit/publicpromotion."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round32",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Same selected two originals only: published pnas.2425000122_PMC12012555.xml main125\u2013135/165; pnas.2425000122_supp_pnas.2425000122.sapp.pdf Methods124\u2013187 and TableS1 actual originalp28/p29 rendered. No extra originals or linked-source/absence audit.",
+    "finding": "Independently checked source fixed-cell~30nmHER2 SPcel-1 and threeBPcel1\u20133 azide-modified whole oligos,Assori,TPcelN30 and actualRPcel/FP142s versus Sanger/fluorescent/origami alternatives. N3 is non-nucleotide azide, source molecularID not automatically UMI. Four actual antibody/DBCO/DNA factories and chosen conjugate-stock aliquots preserved. Fixed-cell orderHER2recognition\u2192Assoriblocking\u2192otherAda\u2192initial5UNt\u2192TP\u2192actualsecond10UNt+5UKlenow+500nMdNTP\u2192collectedsupernatant/80C20min\u219230cyclePCR(ownNT)+5ngprovider aliquot matches Methods. Known activatedBP3OH retained without invented nick/junction/SDA yield; Klenow primer components are source co-retained, not fresh additions. No blocking critical issue within selected source scope.",
+    "verification": "21 focused checks pass; source images independently inspected, not complete chemistry/product validation."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "dir": "subassembly-hiatt__10.1038+nmeth.1416",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/subassembly-hiatt__10.1038+nmeth.1416/nmeth.1416_41592_2010_BFnmeth1416_MOESM439_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published publisherSI,MD5 26bb14af6e4c525034e9b54afa9cb32a;Table4printedp11/PDFp12rendered original checked for row assignments/5primeP/terminalPS;Protocols1\u20133,metagenomic route and optional8d mergingbranch;Protocol3endprep/sizeworkup."
+    },
+    {
+      "id": "accepted_article",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/subassembly-hiatt__10.1038+nmeth.1416/nmeth.1416_PMC2848820.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Accepted author manuscript,TDM (manifestauthor manuscriptTrue);Introduction/native-fragment tag explanation and Methods overview only,orientation;publishedSI owns modeled recipe,no whole-version equivalence asserted."
+    },
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nmeth.1416",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Final published fullarticle/Methods not obtained/read;prior livepublisher opening redirected to inaccessibleIDP;indexedprimarytitle/abstractidentity available. Standardfetchreturned acceptedmanuscriptinstead.",
+      "reason": "Final published fullarticle/Methods not obtained/read;prior livepublisher opening redirected to inaccessibleIDP;indexedprimarytitle/abstractidentity available. Standardfetchreturned acceptedmanuscriptinstead."
+    },
+    {
+      "id": "manuscript_si",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2848820/bin/NIHMS185279-supplement-Supplementary_Information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actualstandardfetchmanual row:PMCPreparing-to-downloadgate. PublisherSI available;exactdocument equivalence not established;not automatically an additional chemistry download requirement.",
+      "reason": "Actualstandardfetchmanual row:PMCPreparing-to-downloadgate. PublisherSI available;exactdocument equivalence not established;not automatically an additional chemistry download requirement."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "PublishedSI metagenomic input/endprep/adapter/bottleneck/resizing/reamp/concatemer/breakpoint/twoendpointPCR route and physicallyindependent8dtagpairreadout;fullmolecular/rungeometryunassembled.",
+      "locations": "Published publisherSI,MD5 26bb14af6e4c525034e9b54afa9cb32a;Table4printedp11/PDFp12rendered original checked for row assignments/5primeP/terminalPS;Protocols1\u20133,metagenomic route and optional8d mergingbranch;Protocol3endprep/sizeworkup.; Accepted author manuscript,TDM (manifestauthor manuscriptTrue);Introduction/native-fragment tag explanation and Methods overview only,orientation;publishedSI owns modeled recipe,no whole-version equivalence asserted.",
+      "findings": "Native20basefragment-end identifiers are not addedrandomUMIs. TwoT-tailedsourceadapterduplexes reconstructed with5primePbottom;PCRsourceprimers5primeP;breakpointadapterterminalPSphysicalstate preserved. SourcePCRpopulation supplies bothconcatemerligationpartners,no freshprimeradded. Readout20x76 and independent8d36x36declared perpublishedSI,without merging acceptedMSread-description. Untransferredfractions explicit;physicalworkups govern disposal.",
+      "deferred": [
+        "Publishedfinal mainarticle/Methods and exactacceptedMSscope comparison",
+        "Exactidentity/equivalence of gatedmanuscriptSI versus publishedSI",
+        "Uninspected publishedSIfigures/results and linked historicalkit documentation",
+        "FullnativeDNA/concatemer/product/end/primer/read geometry and physicalmodifiedstrand propagation",
+        "Independent source review"
+      ],
+      "verification": "LocalSubassembly12+Stapleton20=32checks pass;bothprivatebuilds pass;sourceguard21checked0failed0unrepresented0exceptions;pairing0;scopedchemistry6established(pairing-only),91unresolved,0contradictory. Molecular/sourcecompleteness not implied.",
+      "oligo_scraper": "/tmp/round09-subassembly-hits.log;6oligolikehits in1file;Table4originalrendered plus sourcewritten modifications read independently."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Source-cited predecessors and source-version boundaries enumerated;remaining chemistry-relevant originals/figures are pending,not accepted absence. No inherited sharedkit recipe supplies unknowns."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Publishedfinal mainarticle/Methods and exactacceptedMSscope comparison",
+    "Exactidentity/equivalence of gatedmanuscriptSI versus publishedSI",
+    "Uninspected publishedSIfigures/results and linked historicalkit documentation",
+    "FullnativeDNA/concatemer/product/end/primer/read geometry and physicalmodifiedstrand propagation",
+    "Independent source review"
+  ]
+}

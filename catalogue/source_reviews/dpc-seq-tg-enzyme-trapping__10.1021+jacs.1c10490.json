@@ -1,0 +1,86 @@
+{
+  "dir": "dpc-seq-tg-enzyme-trapping__10.1021+jacs.1c10490",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dpc-seq-tg-enzyme-trapping__10.1021+jacs.1c10490/jacs.1c10490_PMC8755629.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8755629.1/PMC8755629.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedAMmain56–58/84/98/108/110–116/132–134: actualgenomictrap/onresinligation/membranerelease andversion/sourceidentity. HistoricaldiscoveryPubMed/overviewnotcurrentchemistryauthority.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "https://pubs.acs.org/doi/10.1021/jacs.1c10490",
+      "original": "https://pubs.acs.org/doi/10.1021/jacs.1c10490",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "ActualdeclaredpublishedmainfallbackHTTP403;fullfinal/AMapplicabilityunverified.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "ActualdeclaredpublishedmainfallbackHTTP403;fullfinal/AMapplicabilityunverified."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8755629/bin/NIHMS1769268-supplement-Supporting_pdf.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8755629/bin/NIHMS1769268-supplement-Supporting_pdf.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "source_version": "ActualAM-linkedSupportingPDF/TableS1identity,standardrouteblockedbyPMCdownloadgate; notread,noabsentoligoclaim.",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "ActualAM-linkedSupportingPDF/TableS1identity,standardrouteblockedbyPMCdownloadgate; notread,noabsentoligoclaim."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "https://pubs.acs.org/doi/10.1021/jacs.1c10490",
+    "https://pmc.ncbi.nlm.nih.gov/articles/instance/8755629/bin/NIHMS1769268-supplement-Supporting_pdf.pdf",
+    "Historicalkit/wholeend/readgeometryandsource-specificsampleallocationsunassembled; no recursivechase."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positivecappedpreparativereading/privatepartialmodel;actualaccessbarriersqualifycurrentreview.Noacceptedabsence/fullmolecularreview/publicpromotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-30",
+      "reviewer": "dna_round30",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "QualifiedAMprivategenomicTgDPCtrap:Fragmentase/pretreat/NTHL1-His6+NaBH3CNmoleculartrap/NiNTA+realssDNAblocker/ON-RESINendprep-adapter-USER/wash/20ulimidazole/PAGE-NCband/PK-150ul/QIAquick/opaquehistoricalfinish/twoBioanalyzerQC. NotendogenousDPCcaptureorvalidation-spikerecipe.",
+      "locations": "AssociatedAMmain56–58/84/98/108/110–116/132–134: actualgenomictrap/onresinligation/membranerelease andversion/sourceidentity. HistoricaldiscoveryPubMed/overviewnotcurrentchemistryauthority.",
+      "deferred": [
+        "ActualdeclaredpublishedmainfallbackHTTP403;fullfinal/AMapplicabilityunverified.",
+        "ActualAM-linkedSupportingPDF/TableS1identity,standardrouteblockedbyPMCdownloadgate; notread,noabsentoligoclaim.",
+        "Historicalkit/wholemoleculargeometryandtechnicalreplicatepooltimingremainunassembled; unassignedvaluesarenotunavailableinventeddocuments."
+      ],
+      "findings": "QualifiedAMprivategenomicTgDPCtrap:Fragmentase/pretreat/NTHL1-His6+NaBH3CNmoleculartrap/NiNTA+realssDNAblocker/ON-RESINendprep-adapter-USER/wash/20ulimidazole/PAGE-NCband/PK-150ul/QIAquick/opaquehistoricalfinish/twoBioanalyzerQC. NotendogenousDPCcaptureorvalidation-spikerecipe.",
+      "cap": {
+        "originals_read": 1,
+        "limit": 3,
+        "combined_reader_cap": true,
+        "overrun": false,
+        "before_open_counter": "/tmp/round30-dna-original-counts.tsv",
+        "source_investigation_closed": true,
+        "historical_discovery": "Previousidentity/overviewtrackedhistory;notadditionalcurrentoriginalsorunreadchemistryauthority.NoOka/concurrent/preprintoriginalreopened."
+      },
+      "oligo_scraper": "MandatoryTg0hits/emptyreadablesequencebundle;endo34hits/4representations. Selectedoriginalscope/applicationcolumnschecked;zerosnotabsence.",
+      "verification": "Own2DPCmodels32focusedchecks(16Tg/16endogenous)pass;sourceguard0exact0fail0exempt2unassembledinputstates/2graphs;chemistry0established0conditional60unresolved0contradictory. CLAPSseparatelyowned/peer-reviewedbytargeted;mergetotalswhenready."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_round30",
+    "date": "2026-10-30",
+    "scope": "SameassociatedAM84/98/108/110–116/132–134;onecombinedoriginal,nofinal-version/absenceclaim.",
+    "finding": "Selectedcriticalsource/modelreviewclosed;resinEndPrep/ligation/USERbefore20ulimidazole/PAGE/NC/PK,novalidation8pmol/15ulinheritance;NaBH3CNmolecularcontributor/actualopaquekitfinishstock/secondBioanalyzerQCverified.16localchecksindependentlypass."
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "dir": "hi-c-original__10.1126+science.1181369",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hi-c-original__10.1126+science.1181369/science.1181369_PMC2858594.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round08",
+        "date": "2026-10-29",
+        "locations": "Associated author manuscript PMC2858594, main112\u2013118 and Fig1caption320",
+        "finding": "Main-only selected HindIII branch. Biotin nucleotide identity, enzyme/end geometry, cleanup recipe and final adapters require the linked gated Supplementary text. The NcoI replicate is separate. No in-situ or DNase Hi-C recipe is inherited."
+      }
+    },
+    {
+      "id": "supplementary_text",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2858594/bin/NIHMS194459-supplement-Supplementary_text.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC Preparing-to-download gate; relevant original uninspected."
+    },
+    {
+      "id": "supplementary_figures",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2858594/bin/NIHMS194459-supplement-Supplementary_Figures.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard retrieval returned PMC Preparing-to-download gate; relevant original uninspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round08",
+      "date": "2026-10-29",
+      "locations": "Associated author manuscript PMC2858594, main112\u2013118 and Fig1caption320",
+      "finding": "Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; no two-reader missing-information acceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "expansion_dna_round08",
+      "date": "2026-10-29",
+      "documents": 1,
+      "locations": "Associated author manuscript PMC2858594, main112\u2013118 and Fig1caption320",
+      "findings": "Main-only selected HindIII branch. Biotin nucleotide identity, enzyme/end geometry, cleanup recipe and final adapters require the linked gated Supplementary text. The NcoI replicate is separate. No in-situ or DNase Hi-C recipe is inherited.",
+      "deferred": [
+        "Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates."
+      ],
+      "oligo_scraper": "Whole bundle run; source hits reviewed; Hi-C zero hits is not absence evidence.",
+      "scope": "Published-first capped source inspection; source-qualified incomplete private molecular preview, no recipe inheritance or absence acceptance.",
+      "verification": "Nineteen checks across the three Round08DNA protocols passed, including five exact PG160\u2013164 source-table checks and reaction-fate/branch boundaries. Three builds and pairing passed. Shared source-oligo guard0eligible exact constructs,0failed; standalone Scene inventories are not automatically checked by that guard. Chemistry58unresolved,0established,0contradictory across all three: no exact product relation validation claimed. Source schema passed."
+    }
+  ]
+}

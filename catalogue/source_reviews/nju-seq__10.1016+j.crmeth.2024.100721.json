@@ -1,0 +1,44 @@
+{
+  "dir": "nju-seq__10.1016+j.crmeth.2024.100721",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10985248.1/PMC10985248.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedPMC10985248 identity/Fig1/Methods504\u2013508;syntheticassayandNm-VAQidentifiedasseparate,notadopted."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "PublishedPMC10985248 identity/Fig1/Methods504\u2013508;syntheticassayandNm-VAQidentifiedasseparate,notadopted.",
+      "locations": "PublishedPMC10985248 identity/Fig1/Methods504\u2013508;syntheticassayandNm-VAQidentifiedasseparate,notadopted.",
+      "findings": "Published MgR-dependent 3prime RNA endpoint profiling after pre-digestion ligation of a literal poly(A)-ssRNA tail, with matched no-MgR control, post-digestion 5prime PNK and a source-qualified historical small-RNA library boundary.",
+      "deferred": [
+        "Wholeend/read/productgeometryanddirectlylinkedhistoricalvendor/precursorsremainunreviewed."
+      ],
+      "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation.",
+      "oligo_scraper": "Mandatorybundle runs:NJU351candidates/10files(one16MBresulttableskippednormalcap),2OMe54/3,Rho14/1. Onlyselectedoriginalpointersweresourceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Sourcequalifiedcappedpassonly;ordinarylinkedoriginalsandknownactualSIbarriersremainopen.No absenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round29",
+    "date": "2026-10-30",
+    "documents": 1,
+    "scope": "Narrowselectedsource/modelcriticalreviewonly;notcompleteall-source,linked-informationorabsenceaudit.",
+    "finding": "Coordinator independently read same publishedmainMethods508 andearlier504. LiteralpAGCUAAAAAAAAAAAAp/bothterminalPmarks,unknownfragmentends/kitboundaryand3phosphataseminusPNKafterMgRworkup preserved;no invented3endhealing. SelectedTR/NCsourcepreparationonly.",
+    "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation."
+  }
+}

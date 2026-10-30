@@ -1,0 +1,76 @@
+{
+  "dir": "nano-c__10.1038+s41467-023-41265-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10497529.1/PMC10497529.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain Methods231\u2013245, Results113\u2013121, Fig3actualPDFp5 andsameoriginalsupplementidentitymap; source3C/Cas9/FFPE/probe/C1/SbfI/IVT/polyA/RNA002 preparation.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10497529.1/41467_2023_41265_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1 actualFigS4PDFp7/caption150\u2013187: comparator/platform/filtering overview only, not fullwetlabchemistry.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "oligos",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10497529.1/41467_2023_41265_MOESM7_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryData4 firstsheetguide/probe sections, rawZIP/XML/text; biotinA72 andwholeprobeB75\u2013B104, especiallyB75/B76 representativechr3intraTADpair. Otherassayprimerrowsnotimported.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-39",
+      "reviewer": "round39_nanoc_owner",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Threepublishedoriginalsclosedbeforeimplementation; ~5mininvestigation, selectedDNAcontacts\u2192IVT\u2192nativeRNA branch only.",
+      "locations": "Publishedmain Methods231\u2013245, Results113\u2013121, Fig3actualPDFp5 andsameoriginalsupplementidentitymap; source3C/Cas9/FFPE/probe/C1/SbfI/IVT/polyA/RNA002 preparation.; PublishedSI1 actualFigS4PDFp7/caption150\u2013187: comparator/platform/filtering overview only, not fullwetlabchemistry.; PublishedSupplementaryData4 firstsheetguide/probe sections, rawZIP/XML/text; biotinA72 andwholeprobeB75\u2013B104, especiallyB75/B76 representativechr3intraTADpair. Otherassayprimerrowsnotimported.",
+      "findings": "Sourceknown3C/Cas9viewpointselection/first-base-biotinT7probeextension/C1capture/SbfIDNArelease/IVT/polyA/historicalRNA002nativeRNAreadoutretained; physical55\u219253.5/28.5fromunknownrepairedstock/11\u219210allocationsandQC/stockfatesexplicit. PrintedBSA/31ulIVT/50.5ulextensionnotnormalized. Unknownwholeproduct/end/readgeometryremainsunassembled. RootrequestedinventoryclassesBSA/T7polymerase/RNA002adapteroligos/RTenzyme-NTsexposedwithoutinventedstockpackaging.",
+      "deferred": [
+        "Conventional3Cref85 and directRNAref86/historicalRNA002 vendor originals ordinaryunread, no recipeinheritance.",
+        "WholeactualgenomicDNA/RNA molecules, probeoccupancy/targetpanel, SbfIends/remainingbiotinfragments, exacttranscriptstarts/tails and fullhistoricalkitadapters/readlanding remainunassembled.",
+        "SourceBSA10ugul,50.5ulprobe-extensionrecipeand31ulIVTretainedwithoutnormalizingorpublicationerrorclaim.",
+        "OtherData1\u20133/5\u20136, PeerReviewFile/ReportingSummary, preprint/otherapplicationbranches notinspectedaschemistryauthority. Data5/6coordinatesfirst-routefailedbutstandardfallbackobtained; remainunopenedandnotneededselectedchemistryoriginals."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescan37sequences/3representations in /tmp/ngs39-nanoc-scraper.log; largeData1not_scanned. ActualFig3p5/FigS4p7rendered/read andData4raworiginalXMLA72/B75/B76checked.",
+      "verification": "25focusedchecksPASS; sourceguard0exactchecked/0failed/0exceptions/1guidepoolunrepresented; producedprobe/kitcomponentsoutsideexternalinputguard, wholeprobeorderingfixturesandconditionalScenechecksverified. Chemistry39steps/39unresolved/0contradictory; note/refrenderpass. Same3closedoriginals; rootpeerpendingfinalrecheck."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourceversions/ordinaryunreadlinkedchemistryretained; noexcludedsourcecalledirrelevantorconfirmedabsence.",
+    "deferred_targets": [
+      "Conventional3Cref85 and directRNAref86/historicalRNA002 vendor originals ordinaryunread, no recipeinheritance.",
+      "WholeactualgenomicDNA/RNA molecules, probeoccupancy/targetpanel, SbfIends/remainingbiotinfragments, exacttranscriptstarts/tails and fullhistoricalkitadapters/readlanding remainunassembled.",
+      "SourceBSA10ugul,50.5ulprobe-extensionrecipeand31ulIVTretainedwithoutnormalizingorpublicationerrorclaim.",
+      "OtherData1\u20133/5\u20136, PeerReviewFile/ReportingSummary, preprint/otherapplicationbranches notinspectedaschemistryauthority. Data5/6coordinatesfirst-routefailedbutstandardfallbackobtained; remainunopenedandnotneededselectedchemistryoriginals."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive privatepartialDNAcontactselection/nativeRNAreadout model; notcompletechemistry/source orabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round39",
+    "date": "2026-10-30",
+    "scope": "Same three selected published originals: main231\u2013245, actualSI1FigS4p7, Data4firstsheetA71/A72/A74/A75/B75/B76rawXML andtext. Narrow critical implementation review, not absence pass2.",
+    "findings": "Verified sourcewholeprobe orderings, first-basebiotin semantics without inventedterminal linker, actual53.5of55/10of11and28.5fromunassignedstock, sourceprintedBSA/50.5extension/31IVTvalues, C1capture versusSbfIDNArelease and nativeRNA002 readout. Corrected molecularBSA, T7polymerasefromsameactual3ulmix, explicitproducedRNA002adapterclasses andRTenzyme/nucleotideclasseswithoutinventedstockpackaging or freshduplicateadditions.25localchecks pass. Wholeoccupiedproducts/SbfIends/kitsequences/landingremainunassembled; guarddoesnotcoverproducedcomponents.",
+    "absence_pass_2": false
+  }
+}

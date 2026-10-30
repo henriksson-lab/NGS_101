@@ -1,0 +1,168 @@
+{
+  "dir": "apex-rip__10.7554+eLife.29224",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/153098_v1.full.pdf.txt",
+      "original": "https://www.biorxiv.org/content/10.1101/153098v1.full.pdf",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Superseded automatically fetched preprint/preprint attachment excluded from current chemistry authority; not read or used."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_PMC5730372.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5730372.1/PMC5730372.1.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_elife-29224-supp1-v1.xlsx.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-supp1-v1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_elife-29224-supp2-v1.xlsx.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-supp2-v1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_elife-29224-supp3-v1.xlsx.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-supp3-v1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_elife-29224-supp4-v1.xlsx.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-supp4-v1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_elife-29224-supp5-v1.xlsx.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-supp5-v1.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round10_reader",
+        "date": "2026-10-29",
+        "locations": "Construct/antibody/qRT-PCR primer sheets; primers not adopted as sequencing adapters",
+        "finding": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default."
+      },
+      "pass_2": null,
+      "source_version": "Published Supplementaryfile5 version1 original"
+    },
+    {
+      "id": "source_8",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_elife-29224-transrepform-v1.pdf.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-transrepform-v1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_9",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_v1.pdf.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-v1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cached but uninspected in capped pass; no absence/irrelevance conclusion. Large APEX-RIP data workbooks skipped by default scraper remain explicitly unreviewed."
+    },
+    {
+      "id": "source_10",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/apex-rip__10.7554+eLife.29224/eLife.29224_v1.xml.txt",
+      "original": "https://cdn.elifesciences.org/articles/29224/elife-29224-v1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round10_reader",
+        "date": "2026-10-29",
+        "locations": "MethodsPartsI\u2013III516\u2013540; optimized BP/quench/crosslink, library and alternate-order distinction",
+        "finding": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default."
+      },
+      "pass_2": null,
+      "source_version": "Published publisher eLife version1 VOR"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round10_reader",
+      "date": "2026-10-29",
+      "locations": "Exact selected sections in source_checklist and protocol notes",
+      "finding": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default. Directly linked originals deferred at cap; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Named historical TruSeqRNA sampleprepv2 and RiboZeroGold originals",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    },
+    {
+      "locator": "MainMethodsPartII cited Hendrickson2016 release/preparation predecessor; exact scope not independently followed",
+      "scope": "Actual named/cited original or version boundary; no invented disclosure document and no complete recipe inheritance"
+    }
+  ],
+  "open_questions": [
+    "Exact full molecular adduct, strand/end/library/run geometry and named historical kit/predecessor scope remain unassembled; no absence claim."
+  ],
+  "conclusion": "Capped source-qualified notes/local model only. No finished schematic, complete source review, full molecular/readout validation or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-10",
+      "reviewer": "rna_round10_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining and chemistry originals first; no recursive predecessor chase",
+      "locations": "MethodsPartsI\u2013III516\u2013540; optimized BP/quench/crosslink, library and alternate-order distinction; Construct/antibody/qRT-PCR primer sheets; primers not adopted as sequencing adapters",
+      "findings": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default.",
+      "deferred": [
+        "Named historical TruSeqRNA sampleprepv2 and RiboZeroGold originals",
+        "MainMethodsPartII cited Hendrickson2016 release/preparation predecessor; exact scope not independently followed"
+      ],
+      "oligo_scraper": "Mandatory acquired-bundle scan; source contexts/modifications inspected where relevant. Superseded preprint hits excluded; APEX-RIP two large dataworkbooks unscanned by default, no absence conclusion.",
+      "verification": "17localbehaviorchecks pass across3models; sourceguard0exactchecked0failed2unassembledinputs; chemistry45unresolved0contradictory. Not full chemical validation."
+    }
+  ]
+}

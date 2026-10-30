@@ -1,0 +1,77 @@
+{
+  "dir": "slic-seq__10.1093+nar+gkad604",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10484733.1/PMC10484733.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedNAR2023 definingarticle; PDFanotherrepresentation",
+      "inspection_scope": "Methods119/Data127/Results173\u2013181; actualPDFp2\u20134modifiedoligos/processing/endchemistry andmainFigure1caption. SelectedtreatedHEK293Troute; modelRNA/targetedvalidationnotmerged.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10484733.1/gkad604_supplemental_files.zip#revised NAR-SI 4.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedmain-associated revised_NAR-SI_4.pdf",
+      "inspection_scope": "Originalp13TableS1wholemodifiedRNA3/DNA5/RToligos; Figure1caption; TableS2identity/targetedampliconscopeonly. Nestedanalyticaldatabasearchiveunopened.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-37",
+      "reviewer": "round37_slic_implementation_worker",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedmainPMC10484733Methods119/Data127/Results173\u2013181 andactualPDFp2\u20134; publishedSIrevised_NAR-SI_4.pdf originalp13TableS1/wholemodifiedoligos, Figure1captionandTableS2targeted-branchscope. Two selectedoriginals only; ZIPdirectorylistingnotadditionalchemistryoriginal, nesteddatabasearchiveunopened; sourceinvestigationclosed.",
+      "locations": "MainMethods119/Data127/Results173\u2013181/PDF2\u20134; SIoriginalp13TableS1, Figure1caption/TableS2scope. Same-main bibliographyreference29identity515\u2013526 only; predecessororiginalunopened.",
+      "findings": "SourceT4PNK\u2192periodateold3endblocking\u2192EndoVsecondbond3toInew3OH/5Pclasses\u2192RNA3lig/deAd/RecJf/cleanup\u2192SSIII\u2192DNA5lig/cleanup\u2192actualqPCRQCstocksplit\u2192NEBprimerPCR/beadcleanup/PE150. Allmain/SImodifiedadaptervaluesretained; localgeometryexplicitSIqualified(19ntarm/3SpC3), mainalternativephysicalddCaddsC; noactualvariantclaim. N10inlinebarcodepurpose/hexamerwordingmappinglimit andRNA3N6qualityroleexplicit. No predecessorvolumes/ligaseidentities/RTrecipe/hydrolysis/NEBbodyborrowed.",
+      "deferred": [
+        "Resolve publishedmain/SIRNA3arm andboth3primeblockerdisagreement/actualusedvariant; allsourceorderingsretained withoutauthor-errorassignment.",
+        "CompleteRNA/cDNAends, transcriptoccupancy/cleavageyield/specificity/offproducts andactualwholeligation/PCRproducts; onlysourcequalifiednarrowSIgeometryandqualitativeendclassesdeclared.",
+        "Historical extraction/polyA/DNase/PNK/ligation/RT/NEBprimerkitoriginalsanddirectlycitedreference29: ordinaryunread, notaccessblocked orconfirmedmissing. No predecessorrecipeinherited.",
+        "ExactsourceN10deduplicationwindowmappingversusrandomhexamerwording andseparateRNA3N6sequencingdiversityrole.",
+        "FullqPCR/productionPCRstock/primer/indexidentities, actualaliquotamountsandsequencingprimerlanding/read/indexcycles.",
+        "Sourceinput/control/othercelltypes/modelRNA/targetedampliconvalidation andagarosecleanupalternative excludedfromselectedtreatedHEK293T/beadcleanroute."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescraperalreadyrun /tmp/ngs37-slic-scraper.log; workerverified relevantmain119/siTableS1modifiedwholeorderingsandactualprovidedPDFmain2\u20134/SI13. Scraperisnotchemicalevidence.",
+      "verification": "23localchecks pass; sourceguard3exactwholeinputs/0failed/0exempt/2unassembledNEBprimers;22steps/23unresolved/0contradictorychemistry. Note/refrenderpass. Rootcriticalreviewpending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Main119 cites modified library predecessorref29; same-main bibliography515\u2013526 identifies Zhou etal2019 DOI10.1038/s41592-019-0550-4, Evolution of a reverse transcriptase to map N1-methyladenosine in human messenger RNA. That original was not opened. No reagent/RTenzyme/conditions inheritance established; prior task shorthand m6AORL was corrected as an implementation attribution, not a publicationerror. Vendororiginals remain unread in closedtwo-originalpass.",
+    "deferred_targets": [
+      "Resolve publishedmain/SIRNA3arm andboth3primeblockerdisagreement/actualusedvariant; allsourceorderingsretained withoutauthor-errorassignment.",
+      "CompleteRNA/cDNAends, transcriptoccupancy/cleavageyield/specificity/offproducts andactualwholeligation/PCRproducts; onlysourcequalifiednarrowSIgeometryandqualitativeendclassesdeclared.",
+      "Historical extraction/polyA/DNase/PNK/ligation/RT/NEBprimerkitoriginalsanddirectlycitedreference29: ordinaryunread, notaccessblocked orconfirmedmissing. No predecessorrecipeinherited.",
+      "ExactsourceN10deduplicationwindowmappingversusrandomhexamerwording andseparateRNA3N6sequencingdiversityrole.",
+      "FullqPCR/productionPCRstock/primer/indexidentities, actualaliquotamountsandsequencingprimerlanding/read/indexcycles.",
+      "Sourceinput/control/othercelltypes/modelRNA/targetedampliconvalidation andagarosecleanupalternative excludedfromselectedtreatedHEK293T/beadcleanroute."
+    ],
+    "identified_predecessor": {
+      "locator": "https://doi.org/10.1038/s41592-019-0550-4",
+      "discovered_from": "Publishedmain119andbibliographyreference29",
+      "scope": "Source says library prepared following previous procedure with slightchanges; no specific enzyme/recipe/version inheritance adopted. Ordinaryunread original."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive privatepartial Slicseq preparation with visiblepublishedmain/SIadapterconflicts andN10/N6processingwording. NarrowSIgeometry/qualitativeendclassesonly; actualusedvariant/fullsubstrates/kit/PCR/readgeometryunassembled. Notcompletechemistry/sourcevalidation oracceptedabsenceaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round37",
+    "date": "2026-10-30",
+    "scope": "Same two selected published originals, rendered main p2\u20134 and SI p13, source-pointer fixtures and local graph. Selected critical implementation review only, not absence pass_2.",
+    "findings": "Confirmed main/SI arm and ddC versus SpC3 discrepancies, SI-only 19bp/5A RT relation, source reaction ordering, end classes and N10/N6 reporting limits. Corrected graph wording that implied an actual premixed PCR stock: packaging/number of stocks is unassigned; aggregate supplies expose required components without invented packaging. Actual cited ref29 is Zhou2019, not m6A-ORL shorthand. Whole occupied products/read landing remain unassembled.",
+    "absence_pass_2": false
+  }
+}

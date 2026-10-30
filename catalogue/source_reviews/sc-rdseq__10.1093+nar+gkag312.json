@@ -1,0 +1,83 @@
+{
+  "dir": "sc-rdseq__10.1093+nar+gkag312",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13076218.1/PMC13076218.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedmain-associatedoriginal, notlaterprotocol/preprint",
+      "inspection_scope": "PublishedNAR2026 main Intro70\u201376/Methods98\u2013142; sourceauthor-ownedfactory/capture/library/readoutanddeferredinheritance. Same main original reference18 at416\u2013420 identifies Zilionis2017 DOI10.1038/nprot.2016.154; predecessor original not opened.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13076218.1/gkag312_supplemental_files.zip#supplementary_data.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedmain-associatedoriginal, notlaterprotocol/preprint",
+      "inspection_scope": "OriginalFigS1actualPDFp2, TableS1actualp20 wholemodifiedanchor/factorytemplates/indexprimerorderings andstar=reversecomplementfootnote. FigS2p3 overviewonly, noexperimentalcomparisonbranchimported.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "rds_workbook",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13076218.1/gkag312_supplemental_files.zip#Supplementary File 2.sc-rDSeq Barcode primers.zip#rDS_220.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publishedmain-associatedoriginal, notlaterprotocol/preprint",
+      "inspection_scope": "Selectedthirdoriginal: firstsheetheader/rows1\u20136only, rDS1TGCGCANNN andprintedcomplementverified. Archivecontainerslisted/extractedinmemory; nootherXLSorcostworkbookopened.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "round38_rdseq_owner",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedPMC13076218 Intro70\u201376/Methods98\u2013142; publishedSIactualFigS1p2/TableS1p20 andmodifiedoligo/starRCproof; selectednestedSupplementaryFile2barcodearchive rDS_220.xlsx firstsheetheader/rows1\u20136 only. OtherbarcodeXLS/costworkbook/laterBiomethods/vendor/predecessororiginalsunopened. Closed3-originalsourcepass.",
+      "locations": "Main70\u201376/98\u2013142; SIactualFigS1p2/TableS1p20/FigS2p3overview; nestedrDS_220.xlsxfirstsheetheader/rows1\u20136. Same main reference18 bibliography416\u2013420.",
+      "findings": "Three-roundhydrogelcellbarcode/UMI/rDS-polyT5C8N4:1factory, sourceacr/iSpPCnoextraDNA/starRCmeaning; actualperroundQCbeads, known5ulextensionmixcopresentcomponents; first150ulRTlysisinletstockandactualfeedallocation/remainder, UVrelease/rampedRT andexplicitopaqueinDropspreIVTboundary; actualaRNA9backup+9production+nominal2remainder,40ulcDNA20backup/20production; source10to12ultraceunreconcilednoterror; sourceReadyMix/1ulprimer-mixtenPCRcycles/TapeStation/loading/50-70-8-8run. Fullchemistry/geometryunassembled. Root-requested inventory fixes: ONE actual1ul25uM PE1/PE2 mix decomposes to produced known oligos, not two fresh input stocks; physical selected2\u20133well contributions explicitly pool with any unselected collection amount unassigned. Mainref18 identity now checked in same source; narrow documented delegated-stage relationship only.",
+      "deferred": [
+        "Fullhydrogelpolymerization/wash/extensionmolecularstates, barcodeplateassignments/all220rDSmembers andcombinedUMIidentity/primingoccupancy; narrowerlocalsourcecomponentsonly.",
+        "DirectlycitedinDropsref18/postfirstRTthroughIVTroute, refs16\u201317bead/deviceproduction andhistoricalkits: ordinaryunread, notfailedaccessorabsenceclaims. No protocolrecipeimported.",
+        "Source10ulaRNAeluate\u219212ulRNAsecondRTinput trace: unassembleddilution/stockorigin/allocationpossible; no2ultopuporpublicationerrorclaim.150ulfirstRTfeedisdifferentstage.",
+        "WholeRNA/cDNA/IVT/ampliconproducts, photocleavedlinker/failedprimer/offproductfates andprecisereaction/cleanupyielddistributions.",
+        "Exactselectedcell/sampleindexes, physicalsequencingprimerlanding/featurecyclemapping; source100cycleskitlabelandactual50/70/8/8runretainedwithoutkiterrorclaim.",
+        "LaterBiomethods10.1093/biomethods/bpag027differentprotocolversionnotopened/adopted; comparatorbulk/scNSR/otherplatformbranchesnotmerged."
+      ],
+      "oligo_scraper": "Mandatorybundlescraper13sequences/2representations, /tmp/ngs38-rdseq-scraper.log. ActualSIFigS1p2/TableS1p20visuallyreadbeforeusingmodifiedoligos/macros/starmeaning; rDS_220.xlsxsourcefirstorderingcheckedinselectednestedoriginal.",
+      "verification": "25localchecks pass; sourceguard2wholeexternalinputschecked/0failed/1narrowBC2macro-formattingexception/2unrepresentedBC1width-rDSpool; producedPE1/PE2retainwhole-sourcefixturesand8ntwindows, outsideexternalinputguard;47steps/48unresolved/0contradictorychemistry; note/refrenderpass. Rootrequestedoneactualprimer-mixcomponentinventoryandphysical2\u20133wellPOOLfixed; rootrecheckpending. Closed3originals."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Publishedmain explicitlybuildsoninDropsandciteshydrogel/preIVTpredecessors. Theiroriginalsremainunread; nodetailedrecipeorversionequivalenceinherited. LaterBiomethodssupportingprotocolandotherbarcodeXLSrecordsnotopened.",
+    "deferred_targets": [
+      "Fullhydrogelpolymerization/wash/extensionmolecularstates, barcodeplateassignments/all220rDSmembers andcombinedUMIidentity/primingoccupancy; narrowerlocalsourcecomponentsonly.",
+      "DirectlycitedinDropsref18/postfirstRTthroughIVTroute, refs16\u201317bead/deviceproduction andhistoricalkits: ordinaryunread, notfailedaccessorabsenceclaims. No protocolrecipeimported.",
+      "Source10ulaRNAeluate\u219212ulRNAsecondRTinput trace: unassembleddilution/stockorigin/allocationpossible; no2ultopuporpublicationerrorclaim.150ulfirstRTfeedisdifferentstage.",
+      "WholeRNA/cDNA/IVT/ampliconproducts, photocleavedlinker/failedprimer/offproductfates andprecisereaction/cleanupyielddistributions.",
+      "Exactselectedcell/sampleindexes, physicalsequencingprimerlanding/featurecyclemapping; source100cycleskitlabelandactual50/70/8/8runretainedwithoutkiterrorclaim.",
+      "LaterBiomethods10.1093/biomethods/bpag027differentprotocolversionnotopened/adopted; comparatorbulk/scNSR/otherplatformbranchesnotmerged."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Sourcepositive privatepartialsc-rDSeqfactory/capture/finishingpreparation. Completebeadmolecules/inheritedpreIVTchemistry/volumeorigin/primerlandingunassembled; no fullreaction/sourceaudit oracceptedabsenceclaim.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round38",
+    "date": "2026-10-30",
+    "scope": "Same selected three originals; main Methods94\u2013145/bibliography416\u2013420, actual SI TableS1p20 render, local selected nested-workbook fixture and model inventory. Narrow critical implementation review, not absence pass2.",
+    "findings": "Verified modifiedanchor, starRCfootnote, sourceBC1variablewidth/BC2/indexmacro widths and source RT/index orderings. Corrected oneactual1ulprimermix to producedcopresentPE1/PE2 components and explicit2\u20133wellphysicalpool contributions. Preserved actual9+9+2aRNA and20/20cDNA stocks, QC allocations, distinct150ulfeed/20ulRT and unreconciled10-to12ulsourceinput. Exactref18supports component-scoped inDropv2 lineage, no constructor or whole recipe inheritance.25localchecks pass; whole factory/featurecycle/occupiedproducts remainunassembled.",
+    "absence_pass_2": false
+  }
+}

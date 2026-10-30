@@ -1,0 +1,70 @@
+{
+  "dir": "record-seq__10.1038+s41586-018-0569-1",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/record-seq__10.1038+s41586-018-0569-1/Schmidt_Platt_Nature_2018_Transcriptional_recording_by_CRISPR_spacer_acquisition_from_RNA.pdf.txt",
+      "original": "https://lifesciencesphd.unige.ch/storage/app/media/uploaded-files/Schmidt_Platt_Nature_2018_Transcriptional%20recording%20by%20CRISPR%20spacer%20acquisition%20from%20RNA.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2018original",
+      "pass_1": {
+        "reviewer": "round12_coordinator",
+        "date": "2026-10-29",
+        "locations": "Printedidentity;Methods1385\u20131458,ExtendedDataFig2/text2168\u20132198",
+        "finding": "Source-qualified RNA/DNA-origin limitations and SENECA selectivity/library order;published ambiguities retained."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/record-seq__10.1038+s41586-018-0569-1/s41586-018-0569-1_41586_2018_569_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-018-0569-1/MediaObjects/41586_2018_569_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2018original",
+      "pass_1": {
+        "reviewer": "round12_coordinator",
+        "date": "2026-10-29",
+        "locations": "Notes9\u201312,PrimerDesignNotes1\u20132,Tables4\u20137;originalPDFpages14/29rendered",
+        "finding": "Source-qualified RNA/DNA-origin limitations and SENECA selectivity/library order;published ambiguities retained."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Cited precursor methods and full historical kit/end chemistry not followed under cap. University mirror supplies same published main;later authorSENECAV4 not read or treated as equivalent."
+  },
+  "missing_claims": [],
+  "open_questions": [
+    "Exact recording mechanism and individual spacer origins",
+    "Plasmid/cut/end/primer/product/read geometry",
+    "Printed10versus10.38\u00b5l and primer-note/schema ambiguities",
+    "Remaining results and independent complete original/linked-material review"
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "round12_coordinator",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published defining original and chemistry SI before linked protocols",
+      "locations": "Exact sections in source checklist",
+      "findings": "Donor pairing computed;parental/expanded classes retained,eligibility not yield;no ordinaryRNA extraction/RT library substituted.",
+      "deferred": [
+        "Complete native geometry",
+        "Cited predecessor and later protocol revisions"
+      ],
+      "oligo_scraper": "Wholeacquiredbundle scanned after universitymirror;Table6/7 pointers verified inoriginal;twoSIpagesrendered."
+    }
+  ],
+  "conclusion": "Capped source-read private incomplete model;no accepted missing information.",
+  "local_validation": {
+    "selftest_checks": 11,
+    "result": "pass"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "dir": "rapture__10.1534+genetics.115.183665",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4788223/",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "selected published main sections via primary browser text; Published primary main NewRADMethods270–278, sequencing280–281/Fig1caption151–152; one browser-opened original; later application search result excluded and not used. ActualFileS1 original attempt failed. Local acquisition unavailable, no absence claim."
+    },
+    {
+      "id": "unavailable_si1",
+      "role": "supplement",
+      "locator": "https://www.genetics.org/lookup/suppl/doi%3A10.1534/genetics.115.183665/-/DC1/FileS1.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual directly linked original failed primarybrowser cache retrieval; no document read, no absence conclusion. Standard ePMC/PMC/officialCloud routes supplied no usable cached article/SI."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-24",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published primary main NewRADMethods270–278, sequencing280–281/Fig1caption151–152; one browser-opened original; later application search result excluded and not used. ActualFileS1 original attempt failed. Local acquisition unavailable, no absence claim.",
+      "locations": "Published primary main NewRADMethods270–278, sequencing280–281/Fig1caption151–152; one browser-opened original; later application search result excluded and not used. ActualFileS1 original attempt failed. Local acquisition unavailable, no absence claim.",
+      "findings": "Positive preparation boundary, source-owned private partial graph and physicalfates preserved. No unverified family constructor inheritance.",
+      "deferred": [
+        "Whole source-specific molecular/end/read geometry",
+        "Actual linked supplements/datasets and historical vendor originals atdepthone"
+      ],
+      "verification": "17 focused pass (Rapture5/PIC6/HyPR6),2 source-dependent groupsskip; sourceguard4exact/0failed/2missinglocalbundles/4unassembled inputs across3graphs; chemistry0established/66unresolved/0contradictory. Not complete chemical validation.",
+      "oligo_scraper": "Mandatoryscrapers: Rapture0/0localfiles;PIC11candidates/1sequence-positivefile;HyPR0/0localfiles. Browserreadmain does not produce a false local match or confirmed absence."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Actual linked sources remain deferred or unavailable as listed; no recursive follow-up, preprint substitution or confirmed missing-information claim."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "https://www.genetics.org/lookup/suppl/doi%3A10.1534/genetics.115.183665/-/DC1/FileS1.xls",
+    "Whole linkedhistoricalkit/component/source-geometry review; ordinary unreviewed scope is not confirmed absence."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round24",
+    "date": "2026-10-30",
+    "scope": "Selected source/model review only, with explicit HyPRoriginal-access limit; not full source/linked-material absence audit.",
+    "finding": "Coordinator independently read primary publishedPMC mainMethods270–281/Fig1caption151–152. NewRAD→platepool/shear→biotin-boundwash→SbfI supernatantrelease→unmodifiedhistoricalNEB→MYbaitscapture/PSuniversalprimers consistent. Exact oligos/kit intermediates remain source-limited; no blocking selected-scope model issue."
+  }
+}

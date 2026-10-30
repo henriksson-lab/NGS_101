@@ -248,6 +248,17 @@ check("read content uses molecular length rather than compressed drawing width",
       "UMI (cycles 41–44)" in sp.read_contents(
           known_insert_lib, (sp.TRUSEQ["R1"],), {"Read 1": 100})[0].content, True)
 
+_lineage_feature = feature("inherited_recorder", "lineage_barcode", "unknown")
+_lineage_segment = Segment("inherited scar", "ACGTTG", feature=_lineage_feature)
+_lineage_lib = Construct([Segment("Read 1", il.TRUSEQ_READ1), _lineage_segment])
+from chemdraw import complement_segments  # noqa: E402
+check("inherited recorder identity survives complementary copying",
+      complement_segments([_lineage_segment])[0].feature, _lineage_feature)
+check("an inherited recorder is acquired as its own identifier class",
+      [(s.feature.role, s.cycle_start, s.cycle_end) for s in sp.feature_spans(
+          _lineage_lib, (sp.TRUSEQ["R1"],), {"Read 1": 6})],
+      [("lineage_barcode", 1, 6)])
+
 check.section("restriction adapter compatibility")
 branch_graph = ProtocolGraph("two contributing preparations", authority="test source")
 branch_sample = branch_graph.input("sample", "input DNA", MaterialKind.BIOLOGICAL, primary=True)
@@ -1393,6 +1404,67 @@ check("explicit oligo queries retain isolated bases between source triplets",
       spx._letters("CAAGTCA TATCAGCG A GAT CGG"), "CAAGTCATATCAGCGAGATCGG")
 check("source guard accepts an exact oligo with isolated spaced bases",
       _exact_hit("AD2 LO\tCAAGTCA TATCAGCG A GAT CGG\n", "CAAGTCATATCAGCGAGATCGG"), True)
+# A rendered table row may put its modification column between two sequence lines.
+# Both terminal cells and the explicit linkage marks delimit this particular layout.
+_column_first = "CCTTGGCACCCGAGAATTCCAACGAGTAGCTC"
+_column_second = "GAGAC" + "A" * 25 + "*A*A"
+_column_seq = _column_first + "GAGAC" + "A" * 27
+_column_row = (_column_first + "\n\n5’-Biotin-TEG,\n\n" + _column_second
+               + "\n\n3’-phosphorothioate")
+_column_source = "oligo_name\n\n" + _column_row + "\n"
+_column_hits = spx.scan(Path("column-table"), _column_source, {})
+check("modification-column wrap recovers one full DNA oligo",
+      [(h.seq, h.line) for h in _column_hits], [(_column_seq, 3)])
+check("modification-column wrap preserves exact source notation and linkage count",
+      [(h.written, h.mods) for h in _column_hits],
+      [(_column_row, ["phosphorothioate x2", "5' biotin (Biotin-TEG)"])])
+check("whole source guard handles the complete interleaved modification row",
+      [_exact_hit(_column_source, _column_seq),
+       _exact_hit(_column_source, spx.revcomp(_column_seq))], [True, True])
+check("interleaved row does not hide an altered fixed base or extra nucleotide",
+      [_exact_hit(_column_source, _column_seq[:24] + "T" + _column_seq[25:]),
+       _exact_hit(_column_source, _column_seq + "A")], [False, False])
+check("matching only part across the interleaved row cannot establish a whole oligo",
+      [_exact_hit(_column_source, _column_seq[1:]),
+       _exact_hit(_column_source, _column_seq[:-1])], [False, False])
+check("ordinary prose or a new oligo name cannot bridge two DNA pieces",
+      [_exact_hit(_column_source.replace("5’-Biotin-TEG,", gap), _column_seq)
+       for gap in ("5’-Biotin-TEG, unrelated text", "other_oligo", "5’-Unknown-label,")],
+      [False, False, False])
+check("a modification-column bridge requires its explicit marked terminal closure",
+      [_exact_hit(_column_source.replace("3’-phosphorothioate", ""), _column_seq),
+       _exact_hit(_column_source.replace("*", ""), _column_seq)], [False, False])
+_column_next = "GTCAGTCAGTCAGTCA"
+check("terminal modification column does not join the next table row",
+      _exact_hit(_column_source + _column_next + "\n", _column_seq + _column_next), False)
+_balanced_left = "TAG TAC TCA GAG GTT GAT CTA CAT TG"
+_balanced_right = "GAC GAT GAC GAC AAG"
+_balanced_window = "(N:25252525)(N)(N) (N)(N)(N) (N)(N)(N) (N)(N)(N)"
+_balanced_written = ("/5AmMC12/ /iSp18/ " + _balanced_left + "  " + _balanced_window
+                     + " " + _balanced_right)
+_balanced_source = "DNA Linker\t" + _balanced_written + "\tDNA Linker for fluorescent streptavidin\n"
+_balanced_seq = _balanced_left.replace(" ", "") + "N" * 12 + _balanced_right.replace(" ", "")
+check("balanced synthesis directive denotes one N and each explicit token one more",
+      [(h.seq, h.written, h.mods) for h in spx.scan(Path("mixed-table"), _balanced_source, {})],
+      [(_balanced_seq, _balanced_written, ["5' /5AmMC12/", "5' spacer (/iSp18/)"])])
+check("balanced source notation and both nonnucleotide modifications parse as DNA",
+      spx._letters(_balanced_written), _balanced_seq)
+check("whole mixed-base source matches the full unspecified strand on either strand",
+      [_exact_hit(_balanced_source, _balanced_seq),
+       _exact_hit(_balanced_source, spx.revcomp(_balanced_seq))], [True, True])
+check("mixed-base synthesis source rejects wrong length, fixed base and concrete member",
+      [_exact_hit(_balanced_source, _balanced_seq.replace("N" * 12, "N" * n)) for n in (11, 13)]
+      + [_exact_hit(_balanced_source, "C" + _balanced_seq[1:]),
+         _exact_hit(_balanced_source, _balanced_seq.replace("N" * 12, "A" * 12)),
+         _exact_hit(_balanced_source, _balanced_seq[1:]),
+         _exact_hit(_balanced_source, _balanced_seq[:-1])], [False] * 6)
+check("balanced synthesis needs actual DNA flanks in the same source cell",
+      [_exact_hit(text, _balanced_seq) for text in (
+          _balanced_source.replace("  " + _balanced_window, " unrelated " + _balanced_window),
+          "Balanced synthesis " + _balanced_window + " is recommended\n",
+          _balanced_source.replace(" " + _balanced_right, "\t" + _balanced_right),
+          _balanced_source.replace(" " + _balanced_right, "\n" + _balanced_right),
+          _balanced_source.replace("25252525", "25252526"))], [False] * 5)
 check("terminal biotin-dT and blocked ddC retain all three nucleotide positions",
       spx._letters("/5App/CTGACNNNNNNNNNNNNNNNTGGAATTCTCGGGTGCCAAGGC/iBiodT//iBiodT//3ddC/"),
       "CTGAC" + "N"*15 + "TGGAATTCTCGGGTGCCAAGGCTTC")
@@ -1402,6 +1474,42 @@ check("source guard accepts a printed 3'-to-5' strand as an ordered 5'-to-3' inp
 
 # Source forms found by curation rounds 7-20 (ChAIR, easySHARE, FIND-seq, NEBNext E6420,
 # OK-seq, UMI-4C, scRibo-seq, RAMPAGE, STRT-seq, sci-RNA-seq).
+# BEGIN exact /5mC/ source alias regressions
+_five_mc_written = ('GA/5mC/TGGAGTT/5mC/AGA/5mC/GTGTG/5mC/T/5mC/'
+                    'TT/5mC/GAT/5mC/')
+_five_mc_body = 'GACTGGAGTTCAGACGTGTGCTCTTCGATC'
+_five_mc_source = 'Methylated copy primer\t' + _five_mc_written + '\n'
+check('exact /5mC/ alias is a nucleotide at internal and terminal positions',
+      [spx._letters(_five_mc_written), spx._letters('/5mC/ACGT'),
+       spx._letters('ACGT/5mC/')], [_five_mc_body, 'CACGT', 'ACGTC'])
+check('all seven source methyl-C marks survive as written, without 2primeOMe confusion',
+      [(h.seq, h.written, h.mods) for h in spx.scan(Path('modified-copy'), _five_mc_source, {})],
+      [(_five_mc_body, _five_mc_written, ['5-methyl-C (/5mC/) x7'])])
+_five_mc_scan = spx.scan_copy(_five_mc_written)
+check('each methyl-C residue maps to its original whole modification token',
+      [i for i in range(len(_five_mc_scan.text))
+       if _five_mc_written[slice(*_five_mc_scan.span(i, i+1))] == '/5mC/'],
+      [2, 10, 14, 20, 22, 25, 29])
+check('whole modified source oligo matches either strand without dropping residues',
+      [_exact_hit(_five_mc_source, _five_mc_body),
+       _exact_hit(_five_mc_source, spx.revcomp(_five_mc_body))], [True, True])
+check('modified-C alias keeps source guard strict for missing, extra and altered bases',
+      [_exact_hit(_five_mc_source, _five_mc_body[:14] + _five_mc_body[15:]),
+       _exact_hit(_five_mc_source, _five_mc_body[:14] + 'C' + _five_mc_body[14:]),
+       _exact_hit(_five_mc_source, _five_mc_body[:8] + 'C' + _five_mc_body[9:])],
+      [False, False, False])
+check('exact methyl-C alias does not generalize digit-prefixed codes',
+      [spx.internal_base(x) for x in ('5mC', '5MC', '5mc', '5Phos', 'iMe-dC', '3ddC')],
+      ['C', '', '', '', 'C', 'C'])
+check('scan normalization adds only the exact slash-delimited methyl-C alias',
+      [spx.scan_copy('ACGT' + token + 'ACGT').text
+       for token in ('/5mC/', '/5mA/', '/5MC/')],
+      ['ACGTCACGT', 'ACGT/5mA/ACGT', 'ACGT/5MC/ACGT'])
+check('nearby source methyl-C, dideoxy-C and phosphate syntax retain legacy meanings',
+      [spx._letters('/5Phos/ACG/iMe-dC/TT/3ddC/'),
+       spx._letters('P-ACGT'), spx._letters('mAmCmGmU')],
+      ['ACGCTTC', 'ACGT', 'ACGT'])
+# END exact /5mC/ source alias regressions
 check("internal modified nucleotides keep their base; spacers and dyes add none",
       [spx.internal_base(x) for x in ("iBIOdT", "iAmMC6T", "iFluorT", "i5MedC", "iMe-dC",
                                       "iBiodG", "ideoxyU", "ideoxyI", "iSp18", "iSpC3",
@@ -1487,6 +1595,26 @@ check("gapped fallback retains the minimum width of printed random flanks",
                  _gapped_left + 'N' * 10 + _gapped_right), False)
 check("gapped fallback cannot promote a matching partial strand to a whole oligo",
       _exact_hit('tag\t' + _gapped_written + '\n', _gapped_model[4:]), False)
+
+_paren_written = _gapped_left + ' (Index) ' + _gapped_right
+_paren_model = _gapped_left + 'N' * 6 + _gapped_right
+check("inline parenthesized index yields a whole source oligo",
+      _exact_hit('primer\t' + _paren_written + '\n', _paren_model), True)
+check("parenthesized index support retains opposite-strand matching",
+      _exact_hit(_paren_written, spx.revcomp(_paren_model)), True)
+check("an unspecified parenthesized index cannot establish a concrete member",
+      _exact_hit(_paren_written, _gapped_left + 'ACTGAC' + _gapped_right), False)
+check("a parenthesized index cannot consume known model bases",
+      _exact_hit(_paren_written, _gapped_left + 'NNACNN' + _gapped_right), False)
+check("parenthesized index matching retains every fixed flank",
+      [_exact_hit(_paren_written, 'A' + _paren_model[1:]),
+       _exact_hit(_paren_written, _paren_model[:-1] + 'C')], [False, False])
+check("a parenthesized index does not turn a partial oligo into whole evidence",
+      _exact_hit(_paren_written, _paren_model[4:]), False)
+check("parenthesized prose is not an oligo window",
+      _exact_hit(_paren_written.replace('(Index)', '(coding)'), _paren_model), False)
+check("parenthesized identifier normalization requires nucleotide flanks",
+      spx.scan_copy('PCR (Index) setup').text, 'PCR (Index) setup')
 
 check("a 3' run of slash-delimited modified bases reads as bases; A/G stays an alternative",
       [spx.internal_base("iXNA_G"), spx.internal_base("Index_A"),
@@ -1640,5 +1768,8 @@ with tempfile.TemporaryDirectory() as _tmp:
     check("convert writes FILE.txt beside FILE", _t, Path(_tmp) / "t.xlsx.txt")
     check("...and the scraper reads the twin, not the original",
           [f.name for f in spx.files([_tmp])], ["t.docx", "t.xlsx.txt"])
+
+from selftest_rna_lariat import run as run_rna_lariat_checks
+run_rna_lariat_checks(check)
 
 check.report()

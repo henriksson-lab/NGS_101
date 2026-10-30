@@ -1,0 +1,109 @@
+{
+  "dir": "base-seq__10.1186+s13059-014-0517-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/base-seq__10.1186+s13059-014-0517-9/s13059-014-0517-9_PMC4269956.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4269956.1/PMC4269956.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2014article/supplement",
+      "pass_1": {
+        "reviewer": "round08_coordinator",
+        "date": "2026-10-29",
+        "locations": "Published identity45;Results68–72/Figure1;Methods346–356;processing360–364;separateDeepSeq378",
+        "finding": "Main and detailed protocol agree nested deletion,dsDNA circularization,NexteraXT and customR2PE150."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "detailed",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/base-seq__10.1186+s13059-014-0517-9/s13059-014-0517-9_supp_13059_2014_517_MOESM2_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4269956.1/13059_2014_517_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2014article/supplement",
+      "pass_1": {
+        "reviewer": "round08_coordinator",
+        "date": "2026-10-29",
+        "locations": "Printed2July2014;renderedoligotablep3;Steps1–9,text225–707;AppendicesA–C709–855",
+        "finding": "Source primer modifications,internal standardAT,cleanuporder,capture/doublePBIrelease,dsDNA45mlligation,postligationexonucleases,customPCR/run verified."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "figs",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/base-seq__10.1186+s13059-014-0517-9/s13059-014-0517-9_supp_13059_2014_517_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4269956.1/13059_2014_517_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2014article/supplement",
+      "pass_1": {
+        "reviewer": "round08_coordinator",
+        "date": "2026-10-29",
+        "locations": "FigureS1caption text1–100;otherresulttablesunread",
+        "finding": "Barcode assignment-cycle errors versus later computational error removal distinguished; no complete result-table audit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "historical_kit",
+      "role": "vendor",
+      "locator": "Nextera XT Sample Preparation Guide explicitly cited by Additionalfile2 Step8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual guide cited by detailed Step8;exact historical revision/identity not resolved or retrieved. No absent-disclosure claim.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round08_coordinator",
+      "date": "2026-10-29",
+      "locations": "Published main and detailed sourceStep8",
+      "finding": "Historical kitguide remains unreviewed;no independent linkedmaterial/absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Nextera XT Sample Preparation Guide cited by published detailedStep8",
+      "scope": "Identify and review actual historical version before transposome/end/library geometry inheritance."
+    }
+  ],
+  "open_questions": [
+    "Full source-specific HBV/deletion/modified-primer/end-repair/circle/final-library geometry and sequencing-primer declarations.",
+    "Remaining original figures/results and independent original/linked-material pass."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "round08_coordinator",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining publishedoriginal and detailedchemistry first;no recursive chase.",
+      "locations": "Exact scoped sections above",
+      "findings": "Published HBV barcode/nested-deletion/dsDNAcircle/Nextera workflow supports notes-only partial model.",
+      "deferred": [
+        "Historical kitguide revision",
+        "Full physical product assembly",
+        "Independent source review"
+      ],
+      "oligo_scraper": "28hits across4extractedfiles;sourceoligotablep3rendered andverified;modifiedprimer ordering locallytranscriptionchecked."
+    }
+  ],
+  "conclusion": "Preparative chemistry-source pass,private incomplete model,no confirmed missing-information or complete chemical validation claim.",
+  "local_validation": {
+    "selftest_checks": 10,
+    "result": "pass",
+    "sourceguard": "5checked,0failed,0exemptions,1unrepresented modified-primer input.",
+    "chemistry": "26steps,30unresolvedclaims,0contradictory."
+  }
+}

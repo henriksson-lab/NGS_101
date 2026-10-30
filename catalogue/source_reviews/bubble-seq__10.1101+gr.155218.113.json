@@ -1,0 +1,54 @@
+{
+  "dir": "bubble-seq__10.1101+gr.155218.113",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bubble-seq__10.1101+gr.155218.113/gr.155218.113_PMC3814878.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round09",
+        "date": "2026-10-29",
+        "locations": "Published article Introduction41\u201345/Results49/Methods221\u2013233",
+        "finding": "Selected original source scope and version read; source-known operations recorded without full molecular-library completion."
+      }
+    },
+    {
+      "id": "publisher_supporting_index",
+      "role": "supplement",
+      "locator": "https://genome.cshlp.org/content/suppl/2013/08/20/gr.155218.113.DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Web tool returned not accessible via this tool; original chemistry contents uninspected, HTTP status not established."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round09",
+      "date": "2026-10-29",
+      "locations": "Published article Introduction41\u201345/Results49/Methods221\u2013233",
+      "finding": "Direct pending originals/version and chemistry targets are identified in notes; no recursive source chase or absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass; no completed two-reader missing-information review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-09",
+      "reviewer": "expansion_dna_round09",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first bounded source reading; associated manuscript identity explicit forMapR; other originals deferred.",
+      "locations": "Published article Introduction41\u201345/Results49/Methods221\u2013233",
+      "findings": "Known operations through reported NGS endpoint; exact molecular/library/read relations remain explicitly unassembled.",
+      "deferred": [
+        "Named detailed predecessors, historical library/adapter/primer/run geometry and source-qualified boundaries listed in protocol notes."
+      ],
+      "oligo_scraper": "Whole-bundle scraper run; MapR14hits/2files(EMSA/fusion-cloning scope), ini-seq19hits/1file(qPCR), BisMapR0hits, Bubble0hits; no absent-information inference.",
+      "verification": "23localchecks across4DNA09protocols passed;4builds/pairing/source-review schema passed. Sourceguard0checked/0failed,6inputswithout exact states(customMapR/BisMapR adapter/PCRprimers); no exact oligo transcription validation claimed. Chemistry0established/67unresolved/0contradictory, no complete molecular validation. Source investigation cap closed; fetch process26669completed exit0."
+    }
+  ]
+}

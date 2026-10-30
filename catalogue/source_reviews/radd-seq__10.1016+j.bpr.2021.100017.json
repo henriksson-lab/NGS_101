@@ -1,0 +1,66 @@
+{
+  "dir": "radd-seq__10.1016+j.bpr.2021.100017",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/radd-seq__10.1016+j.bpr.2021.100017/j.bpr.2021.100017_PMC8651515.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8651515.2/PMC8651515.2.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main76\u2013108/130\u2013141; selected oxidationrepair recipe, actualparallelProteinGpreclear/antibody loading, physicaltransfers and noadditionalfragmentation/size selection.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/radd-seq__10.1016+j.bpr.2021.100017/j.bpr.2021.100017_supp_mmc1.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8651515.2/mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "WholeDocumentS1 FigS1\u2013S5captions/References; nickingvalidation/results separate from selected oxidation preparation.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Historical source-era kit/predecessor originals and full molecule/end/read geometry remain ordinary deferred reading."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph; no complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "dna_round27",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Exact manifest-selected originals counted before opening in/tmp/round27-dna-original-counts.tsv; combined-reader cap MASD3/RADD2/adduct0, no overrun. No source glob/admin reads.",
+      "locations": "Published main76\u2013108/130\u2013141; selected oxidationrepair recipe, actualparallelProteinGpreclear/antibody loading, physicaltransfers and noadditionalfragmentation/size selection.; WholeDocumentS1 FigS1\u2013S5captions/References; nickingvalidation/results separate from selected oxidation preparation.",
+      "findings": "Actual source reaction sequence, local inventory/geometry and physical fractions modeled with explicit source/model limitations.",
+      "deferred": [
+        "Remaining source-specific whole product/junction/read geometry and directly cited historical kits/predecessors; no recursive chase."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper: MASD18hits/2representations;RADD0hits/0files;adduct0hits/emptybundle. Zero hits are not absence evidence.",
+      "verification": "38focusedchecks(21MASD/17RADD)pass;guard4exact0fail1independentlyverifiedmodifiedhairpinformattingexemption0unassembledinputstates;chemistry2narrowestablished2conditional46unresolved0contradictory. No adductgraph/fullvalidation."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round27",
+    "date": "2026-10-30",
+    "scope": "Publishedmain76\u2013108/130\u2013141only, ownerselectedmainoriginal; nofurtheroriginal.",
+    "finding": "hOGG1thenEndoIVthenoneBst/Taq/Taqligase/biotin-dUTPaddition,30\u2192120\u2192500ulunassignedbridges,50/20ulProteinGparallelbeadpreclear/antibodyloadingandactualtube2supernatanttransferverified. HistoricalTruSeqDNA-Nano explicitlywithoutadditionalfragmentation/sizeselection; wholekit/ends/readgeometryunassembled. Selectedcriticalreviewclosed,notfullsource/absenceaudit."
+  },
+  "independent_implementation_review": {
+    "reviewer": "independent_round27_root_reader",
+    "date": "2026-10-30",
+    "scope": "Published main76\u2013108/130\u2013141 only, same already-selected main original; no independent supplement/absenceaudit claim.",
+    "finding": "hOGG1\u2192EndoIV\u2192singleBst/Taq/Taq-ligase repairmix, sonication beforefree-nucleotidecleanup, parallelProteinG50/20tubeprovenance/precleartransfer/anti-biotincapture andphysicalelution consistent. No duplicated freeenzyme/antibodyadditions or genericsecondfragmentation/size selection. Unassignedvolume bridges remain explicit. Selected critical implementation check only, not complete molecular or linked-source/absence audit."
+  }
+}

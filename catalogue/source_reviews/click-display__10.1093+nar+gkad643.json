@@ -1,0 +1,58 @@
+{
+  "dir": "click-display__10.1093+nar+gkad643",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10484664.1/PMC10484664.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain Table1,Methods134\u2013174 including mock-library selection and NGS; source recipe authority except corrected oligo groups/names"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11662653.1/PMC11662653.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Mandatory published2024correction doi10.1093/nar/gkae1172; whole corrected O1/O2 table and corrected descriptions, originalp1 rendered /tmp/click18-correction.png; source-transcription checks use exact XML table"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10484664.1/gkad643_supplemental_files.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedoriginalSI TableS1 and FigS3 template legend; originaloligo1/2 names reversed, correction controls; complete assembly/primer landing unassembled"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Capped published-first selected source reading and source-local private incomplete operational graph; no missing-information audit",
+      "locations": "Publishedmain Table1,Methods134\u2013174 including mock-library selection and NGS; source recipe authority except corrected oligo groups/names; Mandatory published2024correction doi10.1093/nar/gkae1172; whole corrected O1/O2 table and corrected descriptions, originalp1 rendered /tmp/click18-correction.png; source-transcription checks use exact XML table; PublishedoriginalSI TableS1 and FigS3 template legend; originaloligo1/2 names reversed, correction controls; complete assembly/primer landing unassembled",
+      "findings": "Known source operations and physical fractions retained; incomplete geometry stays explicit. Independent selected-source critical review by coordinator closed after full corrected modified-oligo transcription checks; not absence-gate approval.",
+      "deferred": [
+        "Other publishedSI primer/construct assembly details and full modified template/product geometry; mandatory correctionSI available but uninspected after3original cap",
+        "Exact mock experiment IMAC variant/workup, per-round bead identity/wash counts and source read cycles/landing",
+        "Directly cited prior display/TRAP components and historical PURExpress/RT source documents; not automatically inherited"
+      ],
+      "verification": "35localchecks9PLATO/10CFMS/16Click pass; sourceguard3exactchecked0failed0exempt26unassembledinputs. 3privatebuilds/schema/pairing0problems pass;chemistry0established138unresolved0contradictory. Independentcriticalreviewclosed,notabsenceaudit.",
+      "oligo_scraper": "Mandatory per-bundle scraper run: PLATO69/CFMS10/Click11candidates; original selected pointers/modifications checked. Collapsed hits are not manufactured oligos or sequence-absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Direct source links/component questions enumerated; no recursive retrieval or absent-disclosure claim."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Other publishedSI primer/construct assembly details and full modified template/product geometry; mandatory correctionSI available but uninspected after3original cap",
+    "Exact mock experiment IMAC variant/workup, per-round bead identity/wash counts and source read cycles/landing",
+    "Directly cited prior display/TRAP components and historical PURExpress/RT source documents; not automatically inherited"
+  ]
+}

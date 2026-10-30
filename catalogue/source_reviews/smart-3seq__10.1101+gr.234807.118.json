@@ -1,0 +1,56 @@
+{
+  "dir": "smart-3seq__10.1101+gr.234807.118",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "selected_0",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6836736.1/PMC6836736.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Methods136\u2013146, UMI preprocessing and comparator branch limits.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "selected_1",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6836736.1/supp_gr.234807.118_Supplemental_File_2.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published detailed protocol Jan8,2019; standard intactRNA procedure, pre-SPRI option2, oligopage10 actualrender, first listed6ntindex.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-35",
+      "reviewer": "targeted_owner_round35",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published selected preparation branch only; capped pass closed before modelling.",
+      "locations": "Published main Methods136\u2013146, UMI preprocessing and comparator branch limits.; Published detailed protocol Jan8,2019; standard intactRNA procedure, pre-SPRI option2, oligopage10 actualrender, first listed6ntindex.",
+      "findings": "Positive distinct wet preparation, whole modified oligo scope and actual physical allocations are documented in protocol note; full products/read landings unassembled.",
+      "deferred": [
+        "Directly cited historical precursor/vendor originals and full molecular contexts outside selected scope"
+      ],
+      "oligo_scraper": "Mandatory bundle scan and relevant source pointer/original verification; actual modified tables inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Named predecessors/vendor originals ordinary unread; no claimed absence or inaccessible disclosure document inferred."
+  },
+  "missing_claims": [],
+  "conclusion": "Positive source-qualified bounded curation, not complete chemistry or accepted absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round35",
+    "date": "2026-10-30",
+    "scope": "SamepublishedPMC6836736main136\u2013146/154 andsamepublishedSupplementalFile2Jan8,2019standardintactRNA/option2/actualoligopage10, independentlyviewedrender.2combinedoriginals only.",
+    "findings": "Verified source1Swholeordering usescanonicalR2minuslastT plus30T/V(noextraT),5biotin1S/2S,2S5NmolecularUMI+threeexplicitrG,sourceP5/P7singleterminalPSbond andi7sixclass. Sourcefragment-beforeRT/noaddedadapterligation, distinctindexedPCRpre-SPRIpool/ReSPRI/QCs/1percentPhiX actualDNAcontribution andreferenceNextSeq86/i7six retained. FFPE/LCM/MiSeqbranchesnotmerged; equimolarbatch/samplepoolallocation remainsunassembled. No criticaldefect found.",
+    "verification": "11focusedchecks independently rerunPASS; no extraoriginals/fullTSproduct/sourceabsenceaudit."
+  }
+}

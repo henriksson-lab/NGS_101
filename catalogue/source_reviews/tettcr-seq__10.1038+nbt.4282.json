@@ -1,0 +1,60 @@
+{
+  "dir": "tettcr-seq__10.1038+nbt.4282",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tettcr-seq__10.1038+nbt.4282/Zhang_Nat_Biotech_2018.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Institutional mirror printed title,authors,doi10.1038/nbt.4282 and12Nov2018 publication/December2018journal identity verified before chemistry. Selected OnlineMethods973\u20131064: linker/protein,dual DNA-template uses,UVpMHC exchange,tetramer/cell handling,retained flowthrough and jointRT/PCR then parallel TCR/DNA libraries."
+    },
+    {
+      "id": "published_table10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tettcr-seq__10.1038+nbt.4282/nbt.4282_supp_NIHMS1508189-supplement-11.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published MOESM15 Table10 has a manifest-validated byte-identical alias to this cached file. Selected source DNA Linker manufacturing syntax/5AmMC12/iSp18/12N,HCV-KLV(WT) template,P1/P2,V1F/V1Rmember1 andILLU_f/r. This alias establishes selected file identity,not equivalence of all author-manuscript sources."
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tettcr-seq__10.1038+nbt.4282/nbt.4282_41587_2018_BFnbt4282_MOESM4_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SI Fig3 caption125\u2013130 confirms covalent linker/fluorescentstreptavidin and DNA-template extension;control classification48\u201365 distinguishes tetramernegative single cells from enriched fraction and flowthrough fluorescence background. Remaining figures/tabledata not fully audited."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Selected source-local physical reporter interfaces and all known operational continuation steps;main-unread opaque boundaries explicit,not a complete method review.",
+      "locations": "Institutional mirror printed title,authors,doi10.1038/nbt.4282 and12Nov2018 publication/December2018journal identity verified before chemistry. Selected OnlineMethods973\u20131064: linker/protein,dual DNA-template uses,UVpMHC exchange,tetramer/cell handling,retained flowthrough and jointRT/PCR then parallel TCR/DNA libraries.; Published MOESM15 Table10 has a manifest-validated byte-identical alias to this cached file. Selected source DNA Linker manufacturing syntax/5AmMC12/iSp18/12N,HCV-KLV(WT) template,P1/P2,V1F/V1Rmember1 andILLU_f/r. This alias establishes selected file identity,not equivalence of all author-manuscript sources.; Published SI Fig3 caption125\u2013130 confirms covalent linker/fluorescentstreptavidin and DNA-template extension;control classification48\u201365 distinguishes tetramernegative single cells from enriched fraction and flowthrough fluorescence background. Remaining figures/tabledata not fully audited.",
+      "findings": "\ud83d\udfe2 The university mirror is a published NatureBiotechnology original with printed title,DOI and date verified;the accepted PMC manuscript is not used to replace it. Table10's publisherMOESM15 download is byte-identical to the cached NIHMS supplement11,as recorded in the canonical manifest. That is exact file provenance,not a claim of whole-version equivalence.\n\n\ud83d\udfe2 The peptide-encoding DNA has two physically separate uses. One aliquot is PCR-amplified for PURExpress IVTT,which retains a mixture of DNA template,RNA,peptide,enzymes and reagents. A second aliquot encodes its corresponding fluorescentstreptavidin DNA linker by annealing55\u00b0C then exo-minusKlenow37\u00b0C1h and EDTA quenching. No purification is invented at EDTA addition. The local graph preserves these independent preparation branches before matching the source antigen and DNA reporter.\n\n\ud83d\udfe2 Source DNA Linker as written is `/5AmMC12/ /iSp18/ TAG TAC TCA GAG GTT GAT CTA CAT TG (N:25252525)(N)(N) (N)(N)(N) (N)(N)(N) (N)(N)(N) GAC GAT GAC GAC AAG`. There are12explicitNsymbols;the first balanced-synthesis directive does not denote25252525bases. The5\u2032amineC12 andiSp18 are nonnucleotide attachment/spacer chemistry,not12or18 extra DNA bases. The source amine is not asserted free after conjugation. Synthetic linkerMID12 counts reporter molecules;it precedes PCR and is distinct from well identity,TCR RNA molecule identity and laterNHNHN windows.\n\n\ud83d\udfe2 PE/APCstreptavidin\u2013linker conjugates are cleaned by six100kDaVivaspin washes,concentration and0.2\u00b5m filtration. Solulink attachment geometry remains unread. Source biotinylated UV-labilepMHC is added directly to the completed IVTT mixture,UVexchanged60min on ice then incubated4\u00b0C\u226512h. This is peptide exchange,not DNA photorelease. Matched DNA-streptavidin and pMHC are incubated1:6.7,4\u00b0C1h;that input ratio is not a predicted exact output tetramer stoichiometry. Panel pooling/100kDa concentration is a physical operation;remaining species and recovery are unquantified.\n\n\ud83d\udfe2 SourceCD8 cells are stained~60nM each tetramer4\u00b0C1h,washed,incubated with antiPE/antiAPCmicrobeads and selected byLScolumn. The enriched and tetramer-depleted flowthrough fractions are both retained. Flowthrough phenotyping is not assigned an NGS library. Published SI uses tetramernegative single cells from the enriched fraction for MID-background classification;binding positivity is not predicted from reporter presence. One representative sorted cell enters4\u00b5l lysis,while other cell/sort fractions retain unresolved fates.\n\n\ud83d\udfe2 TCRRT occurs in the same lysis well with DNA-BCs present. FirstPCR includesP1/P2at100nM for joint TCR/DNA-BC amplification. Subsequent preparations use separate parallel wells,not physically joined TCR\u2013antigen amplicons. DNA-BCsecondPCR uses1\u00b5l firstPCR in5\u00b5l total,ExTaqHS,10cycles95/55/72 with V1F/V1R well tags. TCR aliquot and unallocated firstPCR remainder remain explicit. Third DNA-BCPCR usesILLU_f/ILLU_r for5cycles;multiple wells are pooled and gel purified. TCR continues through the cited parent PCR method,then pooling/gel and MiSeqV2. The source DNA-BC depth is\u22656000reads/cell;exact read/index cycles and whole-library geometry remain unassembled.\n\n\ud83d\udfe2 Table10 source P1 `TCAGAGGTTGATCTACATTG`,P2 `AGCGAGGTGCTTCGTTA`. The selected HCV-KLV(WT)DNA is `CGAGGTGCTTCGTTAAACAGCGTTGATACCCAGAGCAACCAGTTTCTTGTCGTCATCGTC`. V1F/V1Rmember1 inline well tags are `ATCACG` and `TCAAG`;their experimental well assignment is not inferred. The printed5-baseNHNHN patterns retain constrained synthesis notation with unassigned function;they are not called another UMI. ILLU_r prints fixedAA followed by sixX;no full acquired index boundary or8cycle read is inferred solely from that local window.\n\nComponent ancestry: the published main explicitly follows prior single-cell TCR protocol(ref7) with local P1/P2 additions and parallel DNA-BC handling. Exact parent recipe/version remains unread before code inheritance. pMHC UVexchange cites earlier protocols5/6;that does not make the source IVTT/tag construction identical to older bulk dextramer library chemistry. Antigen binding,RNA RT,DNA template encoding and later computational association remain distinct.",
+      "deferred": [
+        "Cited single-cell TCR protocol ref7 and complete historical RT/nestedPCR/index/run geometry",
+        "Solulink conjugation guide and pMHC UVexchange predecessor sources5/6",
+        "Complete source peptide/linker/copy duplex geometry,manufacturing annotations and NHNHN purpose",
+        "Remaining published SI/linked originals and independent source review"
+      ],
+      "oligo_scraper": "/tmp/round13-tettcr-final-hits.log",
+      "verification": "scGR8+TRAPS8+TetTCR12=28localchecks pass;3privatebuilds,pairing0problems. Sourceguard13checked0failed/0exemptions after narrowsharedoriginal-format fixes forTRAPSmodificationcolumnwrap andTetTCRbalancedNmanufacturingdirective. Chemistry0established45unresolved0contradictory;review2in_progress+1blocked valid. Independentselected-sourcecriticalreviewfoundnoconsequentialdefect;TRAPSFig3positivecovalentAb\u2013streptavidinthenoligoassociationrefinementretained. These checks establishonlytheirselectedscope,notfullchemistry/sourcecoverage."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Specific originals/source versions and pending linked targets separated from unassigned molecular questions. No missing-information gate acceptance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Cited single-cell TCR protocol ref7 and complete historical RT/nestedPCR/index/run geometry",
+    "Solulink conjugation guide and pMHC UVexchange predecessor sources5/6",
+    "Complete source peptide/linker/copy duplex geometry,manufacturing annotations and NHNHN purpose",
+    "Remaining published SI/linked originals and independent source review"
+  ]
+}

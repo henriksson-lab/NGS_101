@@ -1,0 +1,58 @@
+{
+  "dir": "bl-hi-c__10.1038+s41467-017-01754-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bl-hi-c__10.1038+s41467-017-01754-3/s41467-017-01754-3_PMC5696378.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5696378.1/PMC5696378.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published2017 article mainMethods90\u2013106/Fig1; standardHaeIII/S2 branch",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "read_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bl-hi-c__10.1038+s41467-017-01754-3/s41467-017-01754-3_supp_41467_2017_1754_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-017-01754-3/MediaObjects/41467_2017_1754_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedSI734\u2013957; originalp10\u201311 oligos and p12fixation rendered; selected standardHaeIII/two-stepS2route",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Source-qualified private incomplete operational graph; no full source review, public promotion or accepted missing information.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-19",
+      "reviewer": "dna_round19",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Bounded breadth-first at most10min/3originals; defining/chemistry supplements before references, no recursive chasing.",
+      "locations": "PublishedmainMethods90\u2013106/Fig1; SI734\u2013957 source reagents/preparation/fixation/digestion/two-stepS2/workup/PCR/acquisition, originalp10\u201312 inspected.",
+      "findings": "Known source operations retained through acquisition with unresolved full geometry and physical carryover; source identity/conditions qualified, no recipe inheritance.",
+      "deferred": [
+        "Full genomic/S2/Y ligation/PCR/read geometry and modification recovery; SIp12 numerical fixation formulation unresolved as written.",
+        "PublishedSI one-stepS1/overhang restriction variants and peer-review file not chemically reviewed; future cellular-barcode proposal not part of selected fixed linker."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper30candidates/3files. Originalp10 confirms5P/internalbiotin-dT actualT; originalp11 literal8nt /CGTGATGT/ sourcewindow, p12 numericfixation inspected.",
+      "verification": "33localchecks(10MSCC/11BL/12DIP)pass; sourceguard8literalstrands0failed0exempt,4unassembledMSCCinputs,3graphs;chemistry1established84unresolved0contradictory;3reviewschema2in_progress1blocked(actualDIPmainaccessbarrier);6note/refpagesbuilt,pairing0errors(notmolecularvalidation). Fetch31872/68773/73008terminalexit0,noactiveacquisition. Privategraph-only,nofinishedmarkers;independentreviewscopebelowisimplementationonly."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna_reader",
+    "date": "2026-10-29",
+    "scope": "Selected published main90\u2013106 and SI865\u2013957; report-only implementation review, not missing-information audit.",
+    "finding": "No consequential physical-flow/strand/fate defect;11checks pass. Minor Q5 catalytic-input caption fixed to source0.5ulQ5HotStartpolymerase, not ready-mix."
+  }
+}

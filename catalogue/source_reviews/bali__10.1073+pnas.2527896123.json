@@ -1,0 +1,55 @@
+{
+  "dir": "bali__10.1073+pnas.2527896123",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13214022.1/PMC13214022.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published2026identity/129–141rootmechanism/UMI/readlayout"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13214022.1/pnas.2527896123.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "RNA321–389;TableS2originalp32render;selectedjoint450–555alternativeboundary"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-26",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published2026mainPMC13214022 root/index129–141;SIAppendixRNA321–389/TableS2originalp32 andselectedjoint450–555.2originals;2024preprintsuperseded,notused. GraphedRNAbranchonly.",
+      "locations": "Published2026mainPMC13214022 root/index129–141;SIAppendixRNA321–389/TableS2originalp32 andselectedjoint450–555.2originals;2024preprintsuperseded,notused. GraphedRNAbranchonly.",
+      "findings": "Positivepublishedpreparationandprivateincompletegraph. Literalmodifications,physicalstockfatesanduncertainmolecularboundariesretained;noacceptedabsenceclaim.",
+      "deferred": [
+        "Wholemolecular/primer/readgeometryandlinkedcomponentoriginals",
+        "Actualsample/cycleassignmentswhereunassigned;notinventeddisclosuredocuments"
+      ],
+      "verification": "53focusedchecks(12MPX/19BALI/22PCL)pass;guard18exact0failed1PCLwholeadapterformattingexemption8unassembled. Scopedchemistry7established/115unresolved/0contradictory;establishedclaimsaredeclaredMEpairingandknownBALI/PCLadapterendchecks,notcompletechemicalvalidation.",
+      "oligo_scraper": "Mandatoryscrapersallthreeexecutedonvalidatedsourcebundles. BALI46candidates/1SI,PCL15/1SI;MPXfinal611candidates/4textfiles(initial200datahits);onlyselectedalready-readsourcepointersused. Exactselectedrowscheckedoriginals; scraperisnotauthority."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Relevantunreadlinkedcomponent/versiondetailsremainopenwithinboundedpass;nofullabsenceaudit."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Completegeometryandlinked-informationreviewremainuncompleted;noactualcurrentlyfailedneededURL."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round26",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Narrowselectedpublishedsource/modelcriticalreviewonly;notcompleteall-source/linked-informationorabsenceaudit.",
+    "finding": "Coordinator independently read publishedmain131–143 plusSIRNA321–378/TableS2originalp32 (twooriginals). WholepairedindexScene preserves12bpstem/7nt5primecohesiveendandbottomdesthiobiotin/UMI/PCRtail;knownadapterenddeclaredwithoutclaimingsealedproduct. UnknownRNAlysisactivecomponent remainsopaque,notborrowedjointprotease;knownSSIV retainscatalystrole. Requiredknown-end/lysisfixesverified.",
+    "verification": "Latesttargeted53focusedchecks(12MPX/19BALI/22PCL)pass;sourceguard18exact0failed1verifiedPCLformattingexception8unassembled. Scopedpairing/adapterendclaims7established/115unresolved/0contradictory;sealedproductsandreadgeometryremainunassembled."
+  }
+}

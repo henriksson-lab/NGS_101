@@ -1,0 +1,176 @@
+{
+  "dir": "pal-seq__10.1038+nature13007",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/(manual) source_pdf_5df0ca15ab9fc2632e89.pdf",
+      "original": "https://bartellab.wi.mit.edu/publication_reprints/Subtelny_Nature2014.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. PAL-seq published final article in author first-party repository; why: Verify printed final title/DOI and operative Methods; associated manuscript remains version-qualified.; curl error 60"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_41586_2014_BFnature13007_MOESM10_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature13007/MediaObjects/41586_2014_BFnature13007_MOESM10_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_41586_2014_BFnature13007_MOESM6_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature13007/MediaObjects/41586_2014_BFnature13007_MOESM6_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_41586_2014_BFnature13007_MOESM7_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature13007/MediaObjects/41586_2014_BFnature13007_MOESM7_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_41586_2014_BFnature13007_MOESM8_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature13007/MediaObjects/41586_2014_BFnature13007_MOESM8_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_41586_2014_BFnature13007_MOESM9_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature13007/MediaObjects/41586_2014_BFnature13007_MOESM9_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. Springer supplementary file"
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_PMC4086860.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4086860.1/PMC4086860.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. article PDF (PMC Cloud)"
+    },
+    {
+      "id": "source_9",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_PMC4086860.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4086860.1/PMC4086860.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round20_RNA_source_reader",
+        "date": "2026-10-29",
+        "locations": "Methods425\u2013482 selected preparation/acquisition; originalPDFp8rendered for adopted oligos. No final-main equivalence.",
+        "finding": "Source-positive AM-qualified PAL retained-tail preparation distinct from3Ptailremoval; exactligation/RT/cluster/readgeometry unassembled, no public promotion."
+      },
+      "pass_2": null,
+      "source_version": "Associated accepted manuscript PMC4086860",
+      "reason": "Selected positive reading only; no full disclosure/absence audit."
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_supp_NIHMS555414-supplement-Extended_Data.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4086860.1/NIHMS555414-supplement-Extended_Data.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. supplementary file (PMC Cloud)"
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pal-seq__10.1038+nature13007/nature13007_supp_NIHMS555414-supplement-Supplementary_Table_1.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4086860.1/NIHMS555414-supplement-Supplementary_Table_1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Actualmanifesttarget; identity/version not chemically inspected",
+      "reason": "Conservatively retained unreviewed original; no irrelevance or absence determination. supplementary file (PMC Cloud)"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round20_RNA_source_reader",
+      "date": "2026-10-29",
+      "locations": "Methods425\u2013482 selected preparation/acquisition; originalPDFp8rendered for adopted oligos. No final-main equivalence.",
+      "finding": "Selected chemistry-positive reading; actual deferred links and versions remain explicit, no accepted absence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://bartellab.wi.mit.edu/publication_reprints/Subtelny_Nature2014.pdf",
+      "scope": "Actual first-party final original failed standardretrievalcurl60; final-version applicability unreviewed, no TLS workaround."
+    },
+    {
+      "locator": "https://doi.org/10.1038/nature09616",
+      "scope": "Direct originalreference39 forpartialRNaseT1conditions; not imported as full3P-seqrecipe."
+    }
+  ],
+  "conclusion": "Source-positive AM-qualified PAL retained-tail preparation distinct from3Ptailremoval; exactligation/RT/cluster/readgeometry unassembled, no public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "round20_RNA_source_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Capped10min/3originals source investigation, publishedfirst; associatedmanuscript main explicitly versionqualified where final originalnotobtained. Later implementation consistency work does not claim additional source investigation.",
+      "locations": "Methods425\u2013482 selected preparation/acquisition; originalPDFp8rendered for adopted oligos. No final-main equivalence.",
+      "findings": "Source-positive AM-qualified PAL retained-tail preparation distinct from3Ptailremoval; exactligation/RT/cluster/readgeometry unassembled, no public promotion.",
+      "deferred": [
+        "https://bartellab.wi.mit.edu/publication_reprints/Subtelny_Nature2014.pdf \u2014 Actual first-party final original failed standardretrievalcurl60; final-version applicability unreviewed, no TLS workaround.",
+        "https://doi.org/10.1038/nature09616 \u2014 Direct originalreference39 forpartialRNaseT1conditions; not imported as full3P-seqrecipe."
+      ],
+      "oligo_scraper": "Mandatorywholebundle scraper; adoptedmodifiedoligosverifiedintext and renderedoriginals. Noemptyhitabsence claim.",
+      "verification": "31localchecks TIF10/FLAM11/PAL10pass. Sourceguard10exactchecked0failed1independentlyapproved iso_tso-onlytextmatchingexemption/9unassembledinputs across3graphs. Chemistry77steps/81unresolved0contradictory; scoped partial declarations only."
+    }
+  ],
+  "implementation_review": {
+    "reviewer": "independent DNA implementation reader",
+    "date": "2026-10-29",
+    "scope": "Selected cached originals only; no additional acquisition or full source/absence audit. TIF associatedmain217\u2013290/publishedSIoverview/Table2; FLAMpublishedprotocol allpreparative/setupsections/originalp2; PALassociatedAM425\u2013482/originalp8.",
+    "finding": "31localchecks10+11+10pass. Corrected FLAM primer conditioning/addition temperatures and independentinternalcontrol physicalloadingpool; TIF SAP operation typeddephosphorylation. FixedTSO ACATtranscription and independentlyapproved iso_tso-only macro-normalizationtextmatchexemption; actualnoncanonicalbasesandterminalRNAretained. TIF fixedA/Binlinecontrolfeaturecoordinatesexplicitlyunassembled, actualwholeoligoskept. No consequential remaining defect in selected scope; no accepted absence. Final TIFpublishedSI NotI-beforepool order adopted; AMpool-beforeNotIdifference retained as versionqualification, exactintermediateconditions/workupunassembled."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "dir": "chip-exo__10.1016+j.cell.2011.11.013",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "read_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chip-exo__10.1016+j.cell.2011.11.013/j.cell.2011.11.013_PMC3243364.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3243364.1/PMC3243364.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "AssociatedAMNIHMS338311;Methods132/Resultsdesign/Fig1;finalCellapplicabilityunreviewed",
+      "pass_1": {
+        "reviewer": "dna_round18",
+        "date": "2026-10-29",
+        "locations": "AssociatedAMNIHMS338311;Methods132/Resultsdesign/Fig1;finalCellapplicabilityunreviewed",
+        "finding": "Scopedpositiveidentity/chemistryread;notfullsourceorabsenceaudit."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "barrier_0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3243364/bin/NIHMS338311-supplement-01.doc",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3243364/bin/NIHMS338311-supplement-01.doc",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ExistingPMChostchallengecooldown;notrequested",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "dna_round18",
+      "date": "2026-10-29",
+      "locations": "Selectedoriginalscopesabove;directtargets/deferredsinnotes",
+      "finding": "Knownlateoperationsretainedwithunassembledmoleculargeometry/fates;nofamilyrecipe/acceptedabsence."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Privateincompletegraph/notesfromselectedoriginals;no publicpromotion/fullrevieworacceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "dna_round18",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Atmost10min/3originals,defining+chemistrySIbeforedepth1;sourceinvestigationclosed,norecursivechase.",
+      "locations": "AssociatedAMNIHMS338311;Methods132/Resultsdesign/Fig1;finalCellapplicabilityunreviewed",
+      "findings": "PhysicalnativeDNA/newcopies,proteinbiotin/DNAnucleotidebiotin,removedDNA/remnants andactualfractions/workupareexplicit. Unknownfullgeometrynotfilledfromrelatedrecipes.",
+      "deferred": [
+        "ExactchemistrySupplementDOC(unavailablePMCroute);publishedCellmainapplicability;priorVenters/Pugh2009DOI10.1101/gr.084970.108andhistoricalSOLiDoriginals."
+      ],
+      "oligo_scraper": "Mandatorywholebundlescans:ChIPexo1candidate/1file,Nexus20candidates/4convertedfiles,TCC0candidates/0sequence-positivefiles. Emptyhitsnotabsenteevidence. Nexuspublishedoligostablep17rendered/5P/terminalPS/actualTverified.",
+      "verification": "27localchecks(8/9/10)pass;sourceguard5checked0failed0exempt,8unassembledinputs,3graphs;chemistry2established145unresolved0contradictory;3reviewschema1in_progress2blocked(actualbarriers);6note/refpagesbuilt. IndependentcriticalimplementationreviewclosedafterNexuspublishedSIcold70%postcutwashcaptioncorrectedfromAM80%;noabsenceaudit. Fetch75285polledterminalexit0;noactiveacquisition."
+    }
+  ],
+  "independent_implementation_review": {
+    "reviewer": "independent_rna_reader",
+    "date": "2026-10-29",
+    "scope": "Already-selectedcachedoriginalspotchecks/physicalorder,fates,strand/mark/copy/source-versionboundaries",
+    "finding": "No remainingconsequentialdefectfoundinselectedscopeafterpublishedSINexus70%captionfix;27localchecks pass. Notfullsource/missing-informationaudit."
+  }
+}

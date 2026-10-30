@@ -1,0 +1,71 @@
+{
+  "dir": "id-seq__10.1038+s41467-018-04761-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/id-seq__10.1038+s41467-018-04761-0/s41467-018-04761-0_PMC6008431.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published PMC6008431 Methods126\u2013145:conjugation,staining/release,samplebarcoding and dataanalysis;Results54\u201358 antibodyUMI/reporting identity."
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/id-seq__10.1038+s41467-018-04761-0/s41467-018-04761-0_supp_41467_2018_4761_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published SupplementaryNote1 lines20\u201366 and Figure1caption154\u2013166;template and twoPCR design."
+    },
+    {
+      "id": "data3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/id-seq__10.1038+s41467-018-04761-0/s41467-018-04761-0_supp_41467_2018_4761_MOESM6_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Data3 README,Production_barcode_template FLD0001,FW_primer,Production_barcode_RV,well_barcode FLD0151 and plate_barcode_adapter25,including separate field orientations. Remaining families unreviewed."
+    },
+    {
+      "id": "conjugation2016",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/srep22675",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Source-cited detailed modified dsDNA/conjugation original;not read within cap.",
+      "reason": "Retrieval/reading deferred by bounded cap;not an observed access failure."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Collected released antibody reporter through PKIS branch finalpurification;three original documents selected;private unresolved preview.",
+      "locations": "Published PMC6008431 Methods126\u2013145:conjugation,staining/release,samplebarcoding and dataanalysis;Results54\u201358 antibodyUMI/reporting identity.; Published SupplementaryNote1 lines20\u201366 and Figure1caption154\u2013166;template and twoPCR design.; Published Data3 README,Production_barcode_template FLD0001,FW_primer,Production_barcode_RV,well_barcode FLD0151 and plate_barcode_adapter25,including separate field orientations. Remaining families unreviewed.",
+      "findings": "Source-specific direct well-barcodingPCR then perplatepool/column/ExoI/heat/platePCR/column/ExoI and PKIS-only size-selection/finalpurification. Production template and modified releaseddsDNA end assembly explicitly distinct;UMI15,antibody10,well and plate identity structured. No hidden scID recipe reused.",
+      "deferred": [
+        "2016 detailed conjugation/modified dsDNA production original",
+        "Complete released reporter/PCR product end and strand assembly",
+        "Remaining Data3 families/SI graphics and linked material",
+        "Exact sequencing primer/read-cycle geometry",
+        "Independent source review"
+      ],
+      "verification": "Local suites:ID-seq9checks and LoopSeq13checks pass;both privatebuilds pass;sourceguard2checked0failed0exemptions;pairing0;scopedchemistry0established39unresolved0contradictory. Structural validity is not source or molecular completeness.",
+      "oligo_scraper": "/tmp/multi-next-idseq-canonical-hits.log;216 hits across4 files,selected Data3 sequences verified against original workbook transcription."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "scID-seq TransparentMethods explicitly cites ID-seq2018 for downstream barcode sequences;component-scope documented ancestry. ID-seq cites2016conjugationoriginal,unreviewed. No predecessor constructor imported."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "2016 detailed conjugation/modified dsDNA production original",
+    "Complete released reporter/PCR product end and strand assembly",
+    "Remaining Data3 families/SI graphics and linked material",
+    "Exact sequencing primer/read-cycle geometry",
+    "Independent source review"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "dir": "lish-seq__10.1093+nar+gkx471",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5737328.1/PMC5737328.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Methods76\u2013112; identity/title/DOI; Plus-slide/LCM/Illumina/ONT boundaries.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5737328.1/gkx471_supp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedAdditionalFig4originalp6/TableS1hRPS19_2p7/TableS3p11; actualrenderedcolumns verified.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-32",
+      "reviewer": "coordinator_round32",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Plus-slideimmune-panel preparation and representativeprobeRNA2 inventory only.",
+      "locations": "MainMethods76\u2013112;SIp6/p7hRPS19_2/p11.",
+      "findings": "Actual RNA2/5P probe chemistry retained; sourceOF same-sense tail conflicts with opposed preamp geometry. IndexP7 tail is opposed; no silent source repair. Actualreleasedfraction/pellet/preampaliquot/pool/2columns tracked.",
+      "deferred": [
+        "Reference11 probe design and historical manufacturer originals",
+        "Full occupied template/panel geometry and effective preamp primer ordering",
+        "Whole indexed products/primer landing/runmask and other library aliquots"
+      ],
+      "oligo_scraper": "Mandatorywholebundle run; wholeprobe/primerorders confirmed inrenderedoriginalTableS1/S3."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Mainreference11probe design/manufacturercolumn/polymerase originals notfollowed withinselectedscope. LCM/qPCR/ONTalternatives keptseparate; no absenceaudit."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive private partial model. Full preamp and indexed geometry unresolved; no complete reaction or source-absence audit.",
+  "independent_implementation_recheck": {
+    "reviewer": "targeted_peer_round32",
+    "date": "2026-10-30",
+    "documents": 2,
+    "scope": "Same two selected originals only: published nar_gkx471_PMC5737328.xml Methods76\u2013112; nar_gkx471_supp_gkx471_supp.pdf actual original AdditionalFig4p6/TableS1hRPS19_2p7/TableS3p11 rendered images inspected. Combined original counter unchanged; narrow implementation check, not full linked-source/absence audit.",
+    "finding": "Verified corrected hRPS19_2 whole rightprobe20nttarget GGGAGCAAGCTCTTTGTGCT plus OF17nt,5P and whole leftDNA/rUrA ordering. Source TableS3OF equals same-sense righttail while Fig4 depicts opposed amplification; literal source orientation issue preserved without an invented correction. Original RNA2 chimeric reporters remain distinct from copied DNA. Plus-slide hybridization/ligation/carrier/ATP stocks, RNaseHrelease/aspiratedfraction/20,000gclearedsupernatant,20ulpreamp\u21922ulindexaliquot/remainder,actualotherindexedPCRcontribution/twoQIAquickcolumns/loadingallocation match selectedsource. SourceB8 sample-index meaning preserved, not IUPAC B. No blocking critical issue after coordinator rightprobe transcription fix. Canonical P5/P7/TruSeqR2/i7 bodies now imported without changing source literal orderings. Earlier rightprobe mistranscription was a repository error, not a publication error.",
+    "verification": "17 focused checks pass after corrected rightprobe; original source images independently inspected. Not complete chemistry validation."
+  }
+}

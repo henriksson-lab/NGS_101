@@ -1,0 +1,62 @@
+{
+  "dir": "crispr-ds__10.1101+gr.235291.118",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6169890.1/PMC6169890.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main Methods140\u2013172,selectedFig1C originalPDFp3 /tmp/crisprds22-fig1-actual.png;referenced2014identitywithinmain"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6169890.1/supp_gr.235291.118_Supplemental_Tables.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "SupplementalTablesS1crRNA+PAM/tableS2captureprobe inventories;resultstableunreviewed"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6169890.1/supp_gr.235291.118_Supplemental_Materials.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Administrativecontentsonly;thirdoriginalcountsincap,notunderlyingfigure/data/codechemistryreview"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-22",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Capped selected originals including administrative identity; publishedSIcontrolsinspectedcomponentfacts; not absenceaudit",
+      "locations": "Published main Methods140\u2013172,selectedFig1C originalPDFp3 /tmp/crisprds22-fig1-actual.png;referenced2014identitywithinmain; SupplementalTablesS1crRNA+PAM/tableS2captureprobe inventories;resultstableunreviewed; Administrativecontentsonly;thirdoriginalcountsincap,notunderlyingfigure/data/codechemistryreview",
+      "findings": "Positivewetpreparationboundary;source-localprivateincompletegraph. Physicalworkups/QC/remnants/sourcebranchesretained; no borrowed wholechemistryconstructor.",
+      "deferred": [
+        "Full molecular/end/read geometry and unreviewed actualsource sections",
+        "Directsource-citedpredecessor and historicalkit/vendororiginals atdepthone"
+      ],
+      "verification": "33focusedchecks pass (CRISPRDS6/OS13/HiDEF14);7sourceinputschecked/0failed/0exempt/8unassembledinputsacross3graphs;chemistry2narrowestablished/61unresolved/0contradictory,notcompletechemicalvalidation",
+      "oligo_scraper": "Mandatoryfinalscrapers:CRISPRDS155candidates/4files;OS32/3;HiDEF21/2. Sourcepointers andmodificationsverified;notabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Source-localancestryscope innotes;actualdirectlycitedoriginalsandhistoricalmanualsdeferredwithinoriginalcap. No recursivefollowup,sourceabsencedeclarationorwholeconstructorinheritance."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Fullhistoricalsource-specificadapter/end/read geometry anddirectlycitedcomponentoriginals",
+    "Unreviewedsourcesectionsandactualsample/run/conditionalbranch assignments"
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round22",
+    "date": "2026-10-30",
+    "scope": "Independent selected original/model critical review, not full source/linked-material absence audit",
+    "finding": "CRISPR publishedMethods140\u2013172 including wholePCR/inosineblockers,sourcepolaritywording andphysicalfates;OSAM68\u201398 plusall8actualadaptertable rows originalrender,pairing/singleprimerPCR/flowcellbranch;HiDEFAM316\u2013364all4wholehairpins/sourcebeadratios/physicalbranches. Requiredderivedfoldcandidateuncertaintyfixedwithprotocol-local frozenSelectedHairpin(inferred=True),knownlinearoligobasesunchanged.33localchecks pass; no furtherblockingselected-scopeissue."
+  }
+}

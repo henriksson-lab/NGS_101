@@ -1,0 +1,239 @@
+{
+  "dir": "rbs-seq__10.1073+pnas.1817334116",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_PMC6452723.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/PMC6452723.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_2",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_PMC6452723.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/PMC6452723.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round08_reader",
+        "date": "2026-10-29",
+        "locations": "Published non-manuscript JATS provenance57; Fig1 rationale63\u201389; Methods107\u2013131",
+        "finding": "Main/SI-qualified RNA chemical classes and conditional copying, source-known downstream library through PE101; actual correction contents unread so applicability remains provisional."
+      },
+      "pass_2": null,
+      "source_version": "Published original; selected sections only"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sapp.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round08_reader",
+        "date": "2026-10-29",
+        "locations": "Published SI Methodspp3\u20136/source113\u2013280; mechanistic assaypp9\u201311/source476\u2013555; heat/Mg dependence",
+        "finding": "Main/SI-qualified RNA chemical classes and conditional copying, source-known downstream library through PE101; actual correction contents unread so applicability remains provisional."
+      },
+      "pass_2": null,
+      "source_version": "Published original; selected sections only"
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd01.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd01.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd02.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd02.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd03.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd03.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd04.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd04.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd05.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd05.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd06.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd06.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd07.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd07.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd08.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd08.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd09.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd09.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rbs-seq__10.1073+pnas.1817334116/pnas.1817334116_supp_pnas.1817334116.sd10.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6452723.1/pnas.1817334116.sd10.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original available but uninspected in capped pass; no absence or irrelevance conclusion."
+    },
+    {
+      "id": "correction_13",
+      "role": "defining",
+      "locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6500115/fullTextXML",
+      "original": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6500115/fullTextXML",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "HTTP500; bibliographic metadata alone identifies actual Correction for Khoddami et al., Transcriptome-wide profiling of multiple RNA modifications simultaneously at single-base resolution, PNAS2019;116(18):9136; PMID31010919; DOI10.1073/pnas.1905628116. Printed correction contents not obtained or read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "correction_14",
+      "role": "defining",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6500115/",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6500115/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No original article content; recaptcha gate; bibliographic metadata alone identifies actual Correction for Khoddami et al., Transcriptome-wide profiling of multiple RNA modifications simultaneously at single-base resolution, PNAS2019;116(18):9136; PMID31010919; DOI10.1073/pnas.1905628116. Printed correction contents not obtained or read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "correction_15",
+      "role": "defining",
+      "locator": "https://www.pnas.org/doi/10.1073/pnas.1905628116",
+      "original": "https://www.pnas.org/doi/10.1073/pnas.1905628116",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "HTTP403; bibliographic metadata alone identifies actual Correction for Khoddami et al., Transcriptome-wide profiling of multiple RNA modifications simultaneously at single-base resolution, PNAS2019;116(18):9136; PMID31010919; DOI10.1073/pnas.1905628116. Printed correction contents not obtained or read.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round08_reader",
+      "date": "2026-10-29",
+      "locations": "Selected source sections recorded above and in notes",
+      "finding": "Main/SI-qualified RNA chemical classes and conditional copying, source-known downstream library through PE101; actual correction contents unread so applicability remains provisional. Linked/deferred originals not fully inspected; no independent absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1073/pnas.1905628116",
+      "scope": "Directly cited/unreviewed original or exact historical edition; follow-up bounded review required"
+    },
+    {
+      "locator": "Published DatasetS10 oligo original (available but not read in cap)",
+      "scope": "Directly cited/unreviewed original or exact historical edition; follow-up bounded review required"
+    },
+    {
+      "locator": "Historical Illumina v1.5/SSII supplier/library documents and exact primer/read geometry",
+      "scope": "Directly cited/unreviewed original or exact historical edition; follow-up bounded review required"
+    }
+  ],
+  "open_questions": [
+    "Main/SI-qualified RNA chemical classes and conditional copying, source-known downstream library through PE101; actual correction contents unread so applicability remains provisional."
+  ],
+  "conclusion": "Capped first source/implementation pass only; notes status, no full publication or missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "rna_round08_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining and chemistry originals first; correction attempted but unread",
+      "locations": "Published non-manuscript JATS provenance57; Fig1 rationale63\u201389; Methods107\u2013131; Published SI Methodspp3\u20136/source113\u2013280; mechanistic assaypp9\u201311/source476\u2013555; heat/Mg dependence",
+      "findings": "Main/SI-qualified RNA chemical classes and conditional copying, source-known downstream library through PE101; actual correction contents unread so applicability remains provisional.",
+      "deferred": [
+        "https://doi.org/10.1073/pnas.1905628116",
+        "Published DatasetS10 oligo original (available but not read in cap)",
+        "Historical Illumina v1.5/SSII supplier/library documents and exact primer/read geometry"
+      ],
+      "oligo_scraper": "Mandatory full downloaded bundle run; hits verified in source contexts. Empty output is not evidence of absence.",
+      "verification": "17 local behavioral/transcription checks pass across3models. Source guard0checked/0failed/13inputs without exact states; chemistry audit43unresolved/0contradictory. Not full chemical validation."
+    }
+  ]
+}

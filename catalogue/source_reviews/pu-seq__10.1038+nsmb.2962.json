@@ -1,0 +1,72 @@
+{
+  "dir": "pu-seq__10.1038+nsmb.2962",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pu-seq__10.1038+nsmb.2962/nsmb.2962_PMC4789492.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "Associated author manuscript EMS61634 Methods105\u2013119/Fig1d\u2013e",
+        "finding": "Original alkali\u2192dUTP-complement\u2192NEBNextUltra\u2192delayedUSER\u2192PCR library differs from registeredribosemethods; finalVORapplicability unreviewed."
+      }
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pu-seq__10.1038+nsmb.2962/nsmb.2962_supp_NIHMS61634-supplement-2.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "AssociatedSI identity/selectedFig1\u20134captions only",
+        "finding": "Related replicationresults and mutantclasses; no full sourceversion equivalence or librarydetail inferred."
+      }
+    },
+    {
+      "id": "original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pu-seq__10.1038+nsmb.2962/nsmb.2962_41594_2015_BFnsmb2962_MOESM16_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round12",
+        "date": "2026-10-29",
+        "locations": "PublishedSI DOIidentity and Fig1\u20134captions, Tables2\u20133scope",
+        "finding": "Publishedoriginal identified; data/results captions not treated as absentchemistryproof."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round12",
+      "date": "2026-10-29",
+      "locations": "Exact actual originals and linked original identities in note/checklist",
+      "finding": "Named historical guides/linked methods remain deferred; gatedSI or unresolved actualoriginal identity distinguished from ordinaryunreviewed reading. No absenceacceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped sourcequalified privategraph throughknownoperations/acquisition; complete physicalends/library/readgeometry and independentlinkedsourceaudit unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-12",
+      "reviewer": "expansion_dna_round12",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Published-first boundedpass; associatedmainidentities explicit; no morethan3originals/protocol.",
+      "locations": "Associated author manuscript EMS61634 Methods105\u2013119/Fig1d\u2013e; AssociatedSI identity/selectedFig1\u20134captions only; PublishedSI DOIidentity and Fig1\u20134captions, Tables2\u20133scope",
+      "findings": "Knownsourceoperationorder, chemicalmarkers versusreportedbases and physicalfractionfates retained; no familyrecipe import.",
+      "deferred": [
+        "Direct actual originals/kit versions and accessbarriers in researchnote; no recursivechase."
+      ],
+      "oligo_scraper": "/tmp/puseq12-canonical-oligos.log; mandatory wholebundle scan returned0hits; no sequenceabsenceconclusion.",
+      "verification": "21localchecks(6eSPAN/7SNS/8Pu)passed;3privatebuilds/scopeddocs and pairing0problems. Sourceguard0checked/0failed,3Puinputswithout exactstates;notexactoligovalidation. Chemistry0established/30unresolved/0contradictory. Fourfetchsessions35603/79241/9946/66750 terminalexit0; externalcachepreserved; noacquisitionrunning."
+    }
+  ]
+}

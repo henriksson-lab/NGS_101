@@ -1,0 +1,53 @@
+{
+  "dir": "d-seq-draycott2022__10.1371+journal.pbio.3001622",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9129914.1/PMC9129914.1.xml",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9129914.1/PMC9129914.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "coordinator_round29",
+        "date": "2026-10-30",
+        "locations": "Methods155/159\u2013164,Results108,originalFig1PDFp3 and main supplement identities",
+        "finding": "Positivefullmainpreparation;MethodsRNA70\u201380vsFig1D100\u2013120wordingdifferenceexplicit,notcorrected."
+      },
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-29",
+      "reviewer": "coordinator_round29",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Onepublishedmain;fullcorechemistryandactualFig1readbeforemodeling, no separateSI/vendor/predecessor original opened.",
+      "locations": "Methods155/159\u2013164,Results108,originalFig1PDFp3",
+      "findings": "NaBH4DreductionseparatefromRhodamine;CIP/PNKorderingunassembled;RNApreAppfirstligationvssecondcDNAlinkerpolarityunknown;known5ulallocationandphysicalsizefractionations. Figure/MethodsRNAwindowdifferenceexplicit.",
+      "oligo_scraper": "Mandatory18hits/2mainrepresentations;genotyping/syntheticRNAassayrolesnotguessedasoperationalprimers. Large32MBrawimagePDFnotinspected.",
+      "deferred": [
+        "SeparateSIoriginals/linkedchemistryandvalidationpapers/vendororiginals",
+        "Wholeoperationaloligos,modifiedendsandjunctions/readlayout"
+      ],
+      "verification": "10focusedpass;0exact/0failed/5unassembledinputstates;23unresolved/0contradictory. Selected independent critical review closed; not full reaction/source/absence audit."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "MainidentifiesS1\u2013S3figures,S1\u2013S3datatableworkbooks,S1rawimagePDF;availablebutunread. Citedchemistry/validationmethods andhistoricalvendororiginsunreviewed, notclaimedinaccessible. Noacceptedabsence."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positiveprivatepartiallibrarygraphfrompublishedmain;remainingreadableoriginals/wholemolecularstatesordinaryunassembledscope,nocompleteaudit.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round29",
+    "date": "2026-10-30",
+    "scope": "Same one published original PMC9129914 main156/160\u2013164/108 and actual Fig1PDFp3; selected critical implementation review, not full source or absence audit.",
+    "findings": "Two poly(A) captures distinct from LCMS-only >200nt route; source Zn/NaBH4 stock amounts, compound CIP/PNK, Methods70\u201380RNA versus Fig100\u2013120 wording, preApp ATP-free first ligation, SSIII/50\u201380cDNA/5ul stock allocation and literal ATP-containing Rnl2 second ligation preserved. Unknown second-adapter chemical polarity and inferred first RNA3OH class remain bounded. No critical defect found.",
+    "verification": "10 focused checks pass; combined original count remains1; pass_2 remains null."
+  }
+}

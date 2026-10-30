@@ -1,0 +1,67 @@
+{
+  "dir": "clickseq__10.1016+j.jmb.2015.06.011",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "associated_main",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/clickseq__10.1016+j.jmb.2015.06.011/j.jmb.2015.06.011_PMC4523409.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4523409.1/PMC4523409.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscript NIHMS705616;finalVOR applicability unverified",
+      "pass_1": {
+        "reviewer": "round13_coordinator",
+        "date": "2026-10-29",
+        "locations": "Main30\u201334/38\u201358,Fig1\u20132captions;JATS actualsupplement mediahref",
+        "finding": "Stochastic azido termination/click joining/inefficient read-through and actual final selection;precise polymers and library parameters unreviewed."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4523409/bin/NIHMS705616-supplement.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual standard declared source request reached PMC preparing-download gate;TableS1 and detailed chemistry unread."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Actual named supplement attempted;unread chemistry,full polymers and final published applicability not supplied from generic ClickSeq kits or validation-only oligos."
+  },
+  "missing_claims": [],
+  "open_questions": [
+    "ActualTableS1 modifiedpolymers and reaction conditions",
+    "Exact RNA/cDNA/PCR/end/read geometry and copying at triazole",
+    "Complete original/linked-material and independent source audit"
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-13",
+      "reviewer": "round13_coordinator",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Associatedmain and actual direct supplement request;stop on gate,not recursive chase",
+      "locations": "Exact selected source sections above",
+      "findings": "Selected joining preserves nucleotides;modified template versus new PCR products remain separate;no original-RNA fragmentation step.",
+      "deferred": [
+        "Gated named supplement",
+        "FinalVOR applicability and full molecular geometry"
+      ],
+      "oligo_scraper": "Mandatory acquired-bundle scan returned0hits;actualTableS1 is in gated namedDOCX,not confirmed absent."
+    }
+  ],
+  "conclusion": "Source-qualified private incomplete model;actual supplemental access barrier,not a missing-information conclusion.",
+  "local_validation": {
+    "selftest_checks": 8,
+    "result": "pass"
+  },
+  "implementation_review": {
+    "scope": "Selected main30\u201342/58 versus model;not independent linked-source absence pass.",
+    "finding": "Restored source100ngFHV/CrPV independent library context,1:20ratio,300\u2013500ntselection,HiSeqSE100 and activeCu(I)-TBTA. HostmRNA mapping comes from FHVdataset,not a separate preparation. Precise stock,primers and geometry remain unresolved.",
+    "checks": 8,
+    "result": "pass"
+  }
+}

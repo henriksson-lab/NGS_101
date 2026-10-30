@@ -1,0 +1,81 @@
+{
+  "dir": "crac__10.1073+pnas.0901997106",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/0901997106_0901997106SI.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/0901997106_0901997106SI.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; HTTP 404"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/supp_106_24_9613__index.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/supp_106_24_9613__index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary file; HTTP 404"
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/crac__10.1073+pnas.0901997106/pnas.0901997106_PMC2688437.html.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2688437/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round08_reader",
+        "date": "2026-10-29",
+        "locations": "Published original abstract1105; rationale1123; Fig1caption1131; library1143\u20131149; explicit Solexa1171\u20131179; Methods1204\u20131212",
+        "finding": "Source-known Solexa operations through sequencing; original Sanger linker nucleotide blocks separately typed, never assigned to modified NGS adapters. SI TableS5 and exact Solexa geometry remain unreviewed."
+      },
+      "pass_2": null,
+      "source_version": "Published original; selected sections only"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round08_reader",
+      "date": "2026-10-29",
+      "locations": "Selected source sections recorded above and in notes",
+      "finding": "Source-known Solexa operations through sequencing; original Sanger linker nucleotide blocks separately typed, never assigned to modified NGS adapters. SI TableS5 and exact Solexa geometry remain unreviewed. Linked/deferred originals not fully inspected; no independent absence pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published SI Text and TableS5 at failed supplement URLs",
+      "scope": "Directly cited/unreviewed original or exact historical edition; follow-up bounded review required"
+    }
+  ],
+  "open_questions": [
+    "Source-known Solexa operations through sequencing; original Sanger linker nucleotide blocks separately typed, never assigned to modified NGS adapters. SI TableS5 and exact Solexa geometry remain unreviewed."
+  ],
+  "conclusion": "Capped first source/implementation pass only; notes status, no full publication or missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "rna_round08_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining and chemistry originals first; correction attempted but unread",
+      "locations": "Published original abstract1105; rationale1123; Fig1caption1131; library1143\u20131149; explicit Solexa1171\u20131179; Methods1204\u20131212",
+      "findings": "Source-known Solexa operations through sequencing; original Sanger linker nucleotide blocks separately typed, never assigned to modified NGS adapters. SI TableS5 and exact Solexa geometry remain unreviewed.",
+      "deferred": [
+        "Published SI Text and TableS5 at failed supplement URLs"
+      ],
+      "oligo_scraper": "Mandatory full downloaded bundle run; hits verified in source contexts. Empty output is not evidence of absence.",
+      "verification": "17 local behavioral/transcription checks pass across3models. Source guard0checked/0failed/13inputs without exact states; chemistry audit43unresolved/0contradictory. Not full chemical validation."
+    }
+  ]
+}

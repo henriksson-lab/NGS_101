@@ -1,0 +1,58 @@
+{
+  "dir": "ep-seq__10.1038+s41467-024-45630-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10902396.1/PMC10902396.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmain176\u2013206: sourcebarcodefactorymeaning/PacBiolookupcontext; selectedactivitylabel/stain/FACS/regrowth/DNAprep andResults82SE100.",
+      "cached_original": "s41467-024-45630-3_PMC10902396.xml"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10902396.1/41467_2024_45630_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1Table3originalp15/render/tmp/ep34-table15.png; wholeF3\u20136/R3\u20136orders and upstreamF1N15/R1context verified. FullNNK/Zenodolibraryfactorynotopened.",
+      "cached_original": "s41467-024-45630-3_supp_41467_2024_45630_MOESM1_ESM.pdf"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "PublishedPMC10902396Methods176\u2013206/Results82; SI1Table3originalp15rendered/all8F3\u20136R3\u20136wholeorderingsverified. Selectedactivityreplicate; upstreambarcodefactory/PacBiolookup/expressionreadoutnotreconstructed.",
+      "locations": "Publishedmain176\u2013206: sourcebarcodefactorymeaning/PacBiolookupcontext; selectedactivitylabel/stain/FACS/regrowth/DNAprep andResults82SE100.; PublishedSI1Table3originalp15/render/tmp/ep34-table15.png; wholeF3\u20136/R3\u20136orders and upstreamF1N15/R1context verified. FullNNK/Zenodolibraryfactorynotopened.",
+      "findings": "PublishedEP-SeqselectedDAOxactivityreadout: antibody/Alexadye/BSAstocks\u2192tyramideHRPD-alaninealginateactivitylabel\u2192fourFACSbins\u2192regrowth/50Mcells\u2192zymolyase/GeneJET/whole15ulelute\u2192staggerprimerPCR/Nexteraindexing/NGSpool. Source15NcloneidentitynotNGSdedupUMI.",
+      "deferred": [
+        "Source15NcalledUMI isupstreamclone/variantidentityreusedthroughgrowth; notfreshmolecular-deduplicationUMI. Fixedprimerstaggeringsnotbarcodes.",
+        "Upstreammutagenesis/15Nfactory/Zenodo8388902andPacBiovariantlookupordinaryunreviewed; no fullplasmid/readconstruct inherited.",
+        "Selectedactivityreplicateonly; parallel expressionbinassay/otherreplicatesqualifiedoutsidegraph. Exactproductiontubeallocation/sourcepoolmembershipandNexteraindexchemistry/valuesunassembled.",
+        "Wholeenzyme-radicalreaction/diffusion/occupancy/yield andDNAampliconreadlandingsunassembled; noactivity/stabilityvaluecomputedaschemicalproof."
+      ],
+      "verification": "47focusedPASS(Perturb22/EP25);two-graphguard6exact0fail0exceptions0unassembledintroducedinputs;6established128unresolved0contradictory. FullsourcefixturescheckadditionalproducedPCRinventory; notcompletechemicalvalidation. GLASSuncollected/nograph.",
+      "oligo_scraper": "MandatoryscrapersPerturb205candidates/2representations;EP9/2;GLASS0/0emptybundle. Originalwholeoligosindependentlyverified, nonegativeinferencefromscraper."
+    }
+  ],
+  "pass_1": null,
+  "pass_2": null,
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Namedordinaryunread/actualunavailablesourcesandunassembledmodelvaluesretained; cappedpassnotabsencegate."
+  },
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round34",
+    "date": "2026-10-30",
+    "scope": "SamepublishedPMC10902396main176\u2013206/82; samepublishedSI1actualTable3PDFp15 independently viewed, all8wholeF3\u20136/R3\u20136orderingfixtures checked. Two combined originals only.",
+    "findings": "Verified source15Ninstalled-upstreamclone/variantidentity (featurebarcode) instead of freshper-NGSmoleculededupUMI, fixedstaggerbasesnotidentifier, actualprotein-displayantibody/BSA/AF488tyramide/HRP/D-alanine/alginate molecular contributions andFACSphysical4bins. Binregrowth/50Maliquots/Zymolyasewallhydrolysis/whole15ulDNAelute+PCRstock18literalcycles/eightstaggeredwholeprimers/indexpool remain sourcequalified. Independentlookup/PacBio/factory/parallel-expressionroutes notinventedinside selectedactivitybranch. No criticaldefect found.",
+    "verification": "25focusedchecks independently rerunPASS; no fullwhole-plasmid/reaction/source/absenceaudit."
+  }
+}

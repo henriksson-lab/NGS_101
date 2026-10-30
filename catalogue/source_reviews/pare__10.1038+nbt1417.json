@@ -1,0 +1,77 @@
+{
+  "dir": "pare__10.1038+nbt1417",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pare__10.1038+nbt1417/(manual) nbt1417 full text",
+      "original": "https://doi.org/10.1038/nbt1417",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pare__10.1038+nbt1417/nbt1417_41587_2008_BFnbt1417_MOESM9_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt1417/MediaObjects/41587_2008_BFnbt1417_MOESM9_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round18_source_reader",
+        "date": "2026-10-29",
+        "locations": "Published supplement, SupplementaryFigure1 originalp1 rendered; caption65\u201372 and selectedFigure2 signature orientation overview80\u2013105. Remaining extensive data tables uninspected.",
+        "finding": "Selected positive original reading only; no complete-publication or absence audit."
+      },
+      "pass_2": null,
+      "source_version": "Published original or actual uninspected manifest target",
+      "reason": "Springer supplementary file"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "round18_source_reader",
+      "date": "2026-10-29",
+      "locations": "Published supplement, SupplementaryFigure1 originalp1 rendered; caption65\u201372 and selectedFigure2 signature orientation overview80\u2013105. Remaining extensive data tables uninspected.",
+      "finding": "Actual linked targets and uninspected scope enumerated; no accepted absence claim."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nbt1417",
+      "scope": "Defining published main not obtained by standard route; actual access barrier, not chemical absence."
+    },
+    {
+      "locator": "Defining main Methods and detailed library oligo/end/read geometry",
+      "scope": "Original main remains needed; desired values are open questions, not invented unavailable documents."
+    }
+  ],
+  "open_questions": [
+    "Unassembled exact end/index/primer/read geometry and uninspected downstream vendor/predecessor details remain explicit."
+  ],
+  "conclusion": "Source-positive private incomplete operational graph through selected source-known acquisition; notes status, no public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-18",
+      "reviewer": "round18_source_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Capped ten minutes/three originals, published first; exact selected scope only.",
+      "locations": "Published supplement, SupplementaryFigure1 originalp1 rendered; caption65\u201372 and selectedFigure2 signature orientation overview80\u2013105. Remaining extensive data tables uninspected.",
+      "findings": "Physical substrates, modified oligos and separable product/companion fractions retained; chemical state distinguished from sequencing readout.",
+      "deferred": [
+        "https://doi.org/10.1038/nbt1417",
+        "Defining main Methods and detailed library oligo/end/read geometry"
+      ],
+      "oligo_scraper": "Mandatory scraper run on source bundle; relevant adopted sequences and modifications verified in originals, no absence conclusion.",
+      "verification": "Final ChIRP7/PARE7/cyPhy19 local checks pass(33total); sourceguard5checked/0failed/1independentlyapprovedfamilyexemption/7unassembled; defaultchemistry43steps/46unresolved/0contradictory. Independent critical implementation review found no consequential issue in this selected source scope; not a second source/absence pass."
+    }
+  ]
+}

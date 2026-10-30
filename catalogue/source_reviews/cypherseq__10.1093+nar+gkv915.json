@@ -1,0 +1,58 @@
+{
+  "dir": "cypherseq__10.1093+nar+gkv915",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4756847.1/PMC4756847.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainMethods57\u2013100/Fig1:emptyvectorstockconstruction,alternativecloningbranches,RCA86/98\u2013100acquisition; p53calibrationupstreamconstructoutsidechosenRCAentry"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4756847.1/supp_gkv915_nar-01384-met-k-2015-File012.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSIworkbookTablesSI1/4/6/8,exactfullSI4primerrows/5biotinSI6primer andlegacyNexterav1sequencingprimers"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4756847.1/supp_gkv915_nar-01384-met-k-2015-File007.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedcaptionsFigS1barcodefamiliesandFigS2computationalerrorcorrectionworkflow"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Cappedpublished-firstselectedoriginalreading;source-localprivateincompletegraph,notabsenceaudit",
+      "locations": "PublishedmainMethods57\u2013100/Fig1:emptyvectorstockconstruction,alternativecloningbranches,RCA86/98\u2013100acquisition; p53calibrationupstreamconstructoutsidechosenRCAentry; PublishedSIworkbookTablesSI1/4/6/8,exactfullSI4primerrows/5biotinSI6primer andlegacyNexterav1sequencingprimers; PublishedcaptionsFigS1barcodefamiliesandFigS2computationalerrorcorrectionworkflow",
+      "findings": "Distinctactualwetpreparationspositive; molecularbarcodes/sampleindexes/physicalfates/sourcevariantboundariesexplicit. Known lateroperationsretained,fullgeometryunassembled. Coordinatorcriticalreviewclosed: NOIRactualSIMethodspp1\u20132/TableS3originalconfirmed15basebarcodeandindependent5/6ntsampleindexes,physicalbeadremovalandDSreplacementbypass;SiMSenstem/sourcevariantcaveatsandCypherRCAcopy/primerbiotin/fractionsconsistent. Cypherupfrontnote/LIMITnowretainunassignedcloning/amplificationroute,withoutchangingactualgraph.",
+      "deferred": [
+        "Complete source-specific molecular/end/read geometry and allremainingtarget/indexmembers",
+        "Exact historicalkitanddirectlycitedcomponent/predecessororiginals;uncuratedoriginsremainunspecified",
+        "Source-specificbranch/allocation/workupquestionsdescribedinprotocolnote"
+      ],
+      "verification": "32localchecks11SiMSen/10NOIR/11Cypherpass;3privatebuilds/schema/pairing0problems pass;sourceguard7checked0failed0exempt12unassembledinputs,notfullsequencevalidation;chemistry0established73unresolved0contradictory. Coordinatorindependentcriticalreviewclosed2026-10-29;noconsequentialsourceflow/chemistrydefect,notabsenceaudit. Cypherupfrontcloningroutewordingcorrectedtoreflectunassignedroute;actualgraphunchanged.",
+      "oligo_scraper": "Mandatorybundle scraper:SiMSen76candidates/NOIR47/Cypher17; selectedoriginalpointersandmodificationsverified,notabsenceevidence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Directsource-linkedpredecessorsandhistoricalkitdetailsdeferredwithordinaryavailableunreadscope;no recursivechase oracceptedabsence. Sharedprimers/computedstem similaritydonotauthorizeancestryorrecipereuse."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Complete source-specific molecular/end/read geometry and allremainingtarget/indexmembers",
+    "Exact historicalkitanddirectlycitedcomponent/predecessororiginals;uncuratedoriginsremainunspecified",
+    "Source-specificbranch/allocation/workupquestionsdescribedinprotocolnote"
+  ]
+}

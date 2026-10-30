@@ -1,0 +1,41 @@
+{
+  "dir": "methyl-maps__10.1101+gr.101535.109",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "defining",
+      "role": "defining",
+      "locator": "https://genome.cshlp.org/content/20/7/972.full.pdf",
+      "original": "https://genome.cshlp.org/content/20/7/972.full.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ExactpublishedPDFHTTP403;EuropePMCXML500;PMCpagechallengecooldown;officialPMCCloudPMC2892098no usablefile. Oneboundedstandardextraattemptclosed;noalternatechallenge route or recursivechase.",
+      "source_version": "Published2010definingoriginal;identity/overviewonly,fullMethodsunread",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "Identity/accessonly;nofakegraphorchemistrycollectedcount. Actualdefiningoriginalaccessbarrier,notacceptedabsence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-20",
+      "reviewer": "dna_round20",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Boundedatmost10min/3originals;definingoriginalattempted,no recursivechase/substitutedrecipe.",
+      "locations": "https://pubmed.ncbi.nlm.nih.gov/20488932/ identity/abstractoverviewonly;canonicalmanifestexactfailedroutes",
+      "findings": "Primaryidentity/abstract/Fig1: methylation-sensitive RE-resistant methylatedDNA and McrBC-resistant unmethylatedDNA compartments feed paired-end deep sequencing. This is a distinct preparation boundary from MSCC tagcounting or DREAM sequentialcut signatures; enzyme choices, fraction-selection geometry, physical workup and library recipes have not been chemically reviewed.",
+      "deferred": [
+        "FullpublishedarticleincludingactualMethodsandchemistrySupplementalMaterial, if supplied with their actual identities; exactSIidentitynotresolvedfrominspectedmetadata, no inventedfilename/request."
+      ],
+      "oligo_scraper": "0originals/0files; mandatoryscraper0hits. Primarydiscoveryidentity/abstract does not establishfullchemistryreading.",
+      "verification": "HELP12checks pass/guard6literalstrands0fail0exempt1unassembledRTprimer;chemistry19unresolved0contradictory. Other2identity/accessonlynogr\u00adaphs(notcollected).3reviewschemasvalid1in_progress2blocked;6note/refpagesbuilt. IndependentcriticalHELPimplementationreviewclosed,notabsenceaudit."
+    }
+  ]
+}

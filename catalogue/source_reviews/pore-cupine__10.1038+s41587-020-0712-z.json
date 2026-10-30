@@ -1,0 +1,76 @@
+{
+  "dir": "pore-cupine__10.1038+s41587-020-0712-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41587-020-0712-z",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published main preview identity/abstract680 and actual ExtendedData4 caption1457\u20131458 only; full Methods gated.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "https://www.nature.com/articles/s41587-020-00755-w",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Actual AuthorCorrection body707: affiliation and acknowledgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "https://www.nature.com/articles/s41587-021-00889-5",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Actual PublisherCorrection body713: ReportingSummary replacement.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-38",
+      "reviewer": "targeted_owner_round38",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Three published originals only; limited IVT TetrahymenaRNA chemical-probing/directRNA-sequenced example, not full main Methods or native-cell route.",
+      "locations": "Published main preview identity/abstract680 and actual ExtendedData4 caption1457\u20131458 only; full Methods gated.; Actual AuthorCorrection body707: affiliation and acknowledgment.; Actual PublisherCorrection body713: ReportingSummary replacement.",
+      "findings": "Main ExtendedData4 explicitly ties100mM5min NAI-N3-modified full-length IVT RNA to Bioanalyzer/directRNA read results. Actual correction bodies read: affiliation/acknowledgment and wrong ReportingSummary replacement; neither states chemistry change, no complete version equivalence inferred. Computational read-length/coverage filters not physical size selection.",
+      "deferred": [
+        "Actual full published main Methods via https://www.nature.com/articles/s41587-020-0712-z; fetched page is subscription preview with accessible captions, not full preparation.",
+        "Cached actual published SI/data originals remain ordinary unread, not inaccessible; complete modified oligos and historical library/run geometry require later source selection.",
+        "Full cellular preparation, IVT RNA synthesis/whole sequence/ends, adduct atom maps/occupancy, recovery chemistry, control stock allocation, historical directRNA kit revision and all complete products.",
+        "Replacement ReportingSummary applicability and complete corrected/original-version equivalence not audited;2026sm-PORE-cupine remains same-core follow-up, not separate count."
+      ],
+      "oligo_scraper": "Mandatory whole-bundle scan9hits/1representation; one28MBworkbook excluded by standard10MBscan limit. No unselected SI/data original opened or oligo ordering adopted.",
+      "verification": "7 focused checks PASS; source guard0exact0failed0exceptions0unassembled external oligo inputs; chemistry5unresolved0contradictory. Independent selected implementation review pending."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Two actual linked correction originals read within cap; no SI chemistry authority or correction-to-whole-recipe equivalence assumed.",
+    "deferred_targets": [
+      "Actual full published main Methods via https://www.nature.com/articles/s41587-020-0712-z; fetched page is subscription preview with accessible captions, not full preparation.",
+      "Cached actual published SI/data originals remain ordinary unread, not inaccessible; complete modified oligos and historical library/run geometry require later source selection.",
+      "Full cellular preparation, IVT RNA synthesis/whole sequence/ends, adduct atom maps/occupancy, recovery chemistry, control stock allocation, historical directRNA kit revision and all complete products.",
+      "Replacement ReportingSummary applicability and complete corrected/original-version equivalence not audited;2026sm-PORE-cupine remains same-core follow-up, not separate count."
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive narrow published in-vitro chemical probing/directRNA preparation only; no complete cellular preparation, molecular validation or accepted absence review.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round38",
+    "date": "2026-10-30",
+    "scope": "Same three selected originals: main published ExtendedData4 caption1457\u20131458, actual correction bodies00755w707/00889-5713; selected graph and source fixtures only.",
+    "findings": "Actual caption explicitly ties IVT full-length Tetrahymena RNA/100mMNAIN3 5min and25min to Bioanalyzer and native sequencing/mapped-read outcomes. Selected5min front-end source-positive, not native-cell or whole-library preparation. Corrections concern affiliation/acknowledgment and wrongReportingSummary; no blanket recipe equivalence. Retained RNA is physical sequenced material, not substituted cDNA; datafilters computational. Strengthened condition fixture to complete exact caption clause. Whole native finishing remains opaque.",
+    "absence_pass_2": false
+  }
+}

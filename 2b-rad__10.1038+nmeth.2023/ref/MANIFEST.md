@@ -1,0 +1,3 @@
+# Source provenance
+
+Canonical source directory: `/husky/henriksson/NGS101_papers/sources/2b-rad__10.1038+nmeth.2023/`. Re-obtain using `python3 tools/get_sources.py --slugs 2b-rad__10.1038+nmeth.2023`; run `tools/scrape_primers.py` on the whole bundle. No acquisition occurred during implementation: the coordinator-provided publishedMOESM591 was read at Table6/8/10, DetailedProtocol and Appendix; Table10 originalp11 was visually inspected. The cache MANIFEST.tsv stores exact originalURL/hash; definingmain DOI route is marked manual. SoftwareZIP unreviewed as chemistry. No third-party original is stored in checkout.

@@ -1,0 +1,63 @@
+{
+  "dir": "hypr-seq__10.1073+pnas.2010738117",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/33376219/",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "inspection_scope": "administrative identity; Published PNAS primaryHTML Design250–283/Experimental285–304/Computational310–320, plus PubMed33376219 identity. SI Appendix access failed; no claim originalSIread. Root critical review model/accounting only because independent primarysource access failed.",
+      "reason": "Identity-only administrative original, counted before chemistry reading; not chemistry evidence or an absence audit."
+    },
+    {
+      "id": "source2",
+      "role": "defining",
+      "locator": "https://www.pnas.org/doi/full/10.1073/pnas.2010738117",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "selected published primaryHTML; Published PNAS primaryHTML Design250–283/Experimental285–304/Computational310–320, plus PubMed33376219 identity. SI Appendix access failed; no claim originalSIread. Root critical review model/accounting only because independent primarysource access failed."
+    },
+    {
+      "id": "unavailable_si1",
+      "role": "supplement",
+      "locator": "https://www.pnas.org/doi/suppl/10.1073/pnas.2010738117/suppl_file/pnas.2010738117.sapp.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual directly linked original failed primarybrowser cache retrieval; no document read, no absence conclusion. Standard ePMC/PMC/officialCloud routes supplied no usable cached article/SI."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-24",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published PNAS primaryHTML Design250–283/Experimental285–304/Computational310–320, plus PubMed33376219 identity. SI Appendix access failed; no claim originalSIread. Root critical review model/accounting only because independent primarysource access failed.",
+      "locations": "Published PNAS primaryHTML Design250–283/Experimental285–304/Computational310–320, plus PubMed33376219 identity. SI Appendix access failed; no claim originalSIread. Root critical review model/accounting only because independent primarysource access failed.",
+      "findings": "Positive preparation boundary, source-owned private partial graph and physicalfates preserved. No unverified family constructor inheritance.",
+      "deferred": [
+        "Whole source-specific molecular/end/read geometry",
+        "Actual linked supplements/datasets and historical vendor originals atdepthone"
+      ],
+      "verification": "17 focused pass (Rapture5/PIC6/HyPR6),2 source-dependent groupsskip; sourceguard4exact/0failed/2missinglocalbundles/4unassembled inputs across3graphs; chemistry0established/66unresolved/0contradictory. Not complete chemical validation.",
+      "oligo_scraper": "Mandatoryscrapers: Rapture0/0localfiles;PIC11candidates/1sequence-positivefile;HyPR0/0localfiles. Browserreadmain does not produce a false local match or confirmed absence."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Actual linked sources remain deferred or unavailable as listed; no recursive follow-up, preprint substitution or confirmed missing-information claim."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "https://www.pnas.org/doi/suppl/10.1073/pnas.2010738117/suppl_file/pnas.2010738117.sapp.pdf",
+    "Whole linkedhistoricalkit/component/source-geometry review; ordinary unreviewed scope is not confirmed absence."
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round24",
+    "date": "2026-10-30",
+    "scope": "Selected source/model review only, with explicit HyPRoriginal-access limit; not full source/linked-material absence audit.",
+    "finding": "Coordinator independently reviewed model semanticaccounting/SelectedProbePair and explicitpublishedindexnotice, but PRIMARYORIGINALACCESSFAILED (PNAScachemiss/PMCreCAPTCHA). This is modelreview only, not independent confirmation of primarysourcefacts. No furthercriticalmodelissue found; full independent sourcecheck andSI remain pending."
+  }
+}

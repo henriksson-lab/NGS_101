@@ -1,0 +1,68 @@
+{
+  "dir": "perturb-dbit__10.1038+s41587-026-03127-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source1",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41587-026-03127-y",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedNaturemainidentity/selectedPACMethods1091\u20131107/Results1002; DCparametersreadonlyasbranchcontext, notinherited.",
+      "cached_original": "s41587-026-03127-y.html"
+    },
+    {
+      "id": "source2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-026-03127-y/MediaObjects/41587_2026_3127_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSI1computationalMethods: sourceRead1cDNA/Read2barcodeoverview andTable6references; not a wetlabrecipe.",
+      "cached_original": "s41587-026-03127-y_41587_2026_3127_MOESM1_ESM.pdf"
+    },
+    {
+      "id": "source3",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-026-03127-y/MediaObjects/41587_2026_3127_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedTables1\u20138 actualTableS3Primersrows3\u201317, firstA/Bfamilyrows2\u20135; C/D/DCwholeorderingscontext only. Table6headers/firstbarcodeUMIrows. Wholemodifiedprimaryorderings/representativeA1/B1 ZIP/XMLverified.",
+      "cached_original": "s41587-026-03127-y_41587_2026_3127_MOESM4_ESM.xlsx"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-34",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "PublishedNaturemainselectedPAC1091\u20131107/Results1002; SI1computationalcontext; actualMOESM4TableS3wholeprimers/representativeA1B1andTable6headers verifiedZIP/XML. SelectedanalytesareRNA(guideRNAandendogenousRNA), notgenomicDNA/proteinmultiome.",
+      "locations": "PublishedNaturemainidentity/selectedPACMethods1091\u20131107/Results1002; DCparametersreadonlyasbranchcontext, notinherited.; PublishedSI1computationalMethods: sourceRead1cDNA/Read2barcodeoverview andTable6references; not a wetlabrecipe.; PublishedTables1\u20138 actualTableS3Primersrows3\u201317, firstA/Bfamilyrows2\u20135; C/D/DCwholeorderingscontext only. Table6headers/firstbarcodeUMIrows. Wholemodifiedprimaryorderings/representativeA1/B1 ZIP/XMLverified.",
+      "findings": "PublishedPerturb-DBiTselectedPACRNA/gRNAprep: in-situPAP/ATP beforeRT; sourceiBiodTphysicalextraT/UMI10; A/Bsplintinterfaces/spatialbarcodes; actual100of110lysate,C1/TSO,4PCRtubes,twofractionlibraries/ribodepletion/finalPCR. DCnotmerged.",
+      "deferred": [
+        "Fulltissuepreprocessing/100x100channelallocationandwholeRNA/cDNA/TSOsealedproductsunassembled, notabsent. DCseparatebranch notmerged.",
+        "ActualSEQuoiaribodepletionvendorchemistry ordinaryunreviewed; two physicalprocessingroundspositivewithoutinventedmechanism/yield.",
+        "SourcefinalP5/P7 mappingtobothplainN501andextendedN501directfamilies unassigned; fourwholeliteralorderingsverifiedbutnotforcedintounsupportedprimerlanding. Studysampleindexvalues/completeNGSmoleculesunassembled.",
+        "SourcePCRwording directlyligateprimers interpretedasPCRattachmentcontext, notaninventedfreshligaseaddition. Fourtubecombining/0.7xworkuptiming opaque.",
+        "Automaticallyfetchedsupersededpreprintnotrecipeauthority. No fullsource/linked-material/absenceaudit."
+      ],
+      "verification": "47focusedPASS(Perturb22/EP25);two-graphguard6exact0fail0exceptions0unassembledintroducedinputs;6established128unresolved0contradictory. FullsourcefixturescheckadditionalproducedPCRinventory; notcompletechemicalvalidation. GLASSuncollected/nograph.",
+      "oligo_scraper": "MandatoryscrapersPerturb205candidates/2representations;EP9/2;GLASS0/0emptybundle. Originalwholeoligosindependentlyverified, nonegativeinferencefromscraper."
+    }
+  ],
+  "pass_1": null,
+  "pass_2": null,
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Namedordinaryunread/actualunavailablesourcesandunassembledmodelvaluesretained; cappedpassnotabsencegate."
+  },
+  "pending_sources": [],
+  "independent_implementation_recheck": {
+    "reviewer": "independent_dna_reader_round34",
+    "date": "2026-10-30",
+    "scope": "SamepublishedmainPAC1091\u20131107/1002; samepublishedSI1ComputationalMethodsidentity/readroles; sameMOESM4originalworkbookTableS3Primersactualsheet5rows3\u201317/A1B1 andTableS6headers verified throughZIP/XML. Three combined originals only.",
+    "findings": "Verified sourcePACPAP-beforeRT, actualextra/iBiodT/thymidinenucleotideandTSOrGrG+G, wholeprimers/linkers/A1B1orderings/local3OH/5Pinterfaces. Sourceactual50/100channelstockscope,110\u2192100lysate10rest, capturedbeadTSO/fourPCRtubes/0.7pellet+savedSN/second1.2selection/20ngtworibodepletions/seven-cycleP5P7PCR remain distinct. WholeP5family/primerlanding assignments andcombination timing stayunassembled rather than borrowed. No criticaldefect found.",
+    "verification": "22focusedchecks independently rerunPASS; selectedcriticalreviewonly, notfullchemistry/source/absenceaudit."
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "dir": "masd-seq__10.1038+s44321-026-00509-2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_0",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/masd-seq__10.1038+s44321-026-00509-2/s44321-026-00509-2_PMC13658776.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13658776.1/PMC13658776.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published main90/96\u2013100/298\u2013310; cfDNA MASD route and explicit main/Appendix differences.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/masd-seq__10.1038+s44321-026-00509-2/s44321-026-00509-2_supp_44321_2026_509_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13658776.1/44321_2026_509_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "PublishedAppendix PartI126\u2013502,printed14\u201320; all selected chemistry/order/quantities and full oligo orderings.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/masd-seq__10.1038+s44321-026-00509-2/s44321-026-00509-2_supp_44321_2026_509_MOESM2_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13658776.1/44321_2026_509_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "WholeTableEV1 originalXLSX cells and rich-textred/blue C annotations; selected secondhairpinordering, Ystrands and distinct MspI-RRS inventory.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null
+  },
+  "pending_linked_targets": [
+    "Historical source-era kit/predecessor originals and full molecule/end/read geometry remain ordinary deferred reading."
+  ],
+  "missing_claims": [],
+  "conclusion": "Positive selected-source preparation/private incomplete graph; no complete linked-source/absence audit or public promotion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-27",
+      "reviewer": "dna_round27",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Exact manifest-selected originals counted before opening in/tmp/round27-dna-original-counts.tsv; combined-reader cap MASD3/RADD2/adduct0, no overrun. No source glob/admin reads.",
+      "locations": "Published main90/96\u2013100/298\u2013310; cfDNA MASD route and explicit main/Appendix differences.; PublishedAppendix PartI126\u2013502,printed14\u201320; all selected chemistry/order/quantities and full oligo orderings.; WholeTableEV1 originalXLSX cells and rich-textred/blue C annotations; selected secondhairpinordering, Ystrands and distinct MspI-RRS inventory.",
+      "findings": "Actual source reaction sequence, local inventory/geometry and physical fractions modeled with explicit source/model limitations.",
+      "deferred": [
+        "Remaining source-specific whole product/junction/read geometry and directly cited historical kits/predecessors; no recursive chase."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper: MASD18hits/2representations;RADD0hits/0files;adduct0hits/emptybundle. Zero hits are not absence evidence.",
+      "verification": "38focusedchecks(21MASD/17RADD)pass;guard4exact0fail1independentlyverifiedmodifiedhairpinformattingexemption0unassembledinputstates;chemistry2narrowestablished2conditional46unresolved0contradictory. No adductgraph/fullvalidation."
+    }
+  ],
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_round27",
+    "date": "2026-10-30",
+    "scope": "Publishedmain90/96\u2013100/298\u2013310; AppendixPartI126\u2013502includingwholehairpin208; existingTableEV1worksheetB6secondhairpin. Same3ownerselectedoriginals, noMOESM3/kit/parentoriginals.",
+    "finding": "SelectedAppendixsourceorder/quantities andmain/Appendixdiscrepanciesretained; D4biotindTD4wholeorderingindependentlymatchesAppendixandTableEV1B6, notD\u2192N. Localcomputed9bphairpin/14bpYstemsand5primeCGendgeometryfaithful; hairpinfoldplacementconstructorinferredbydefault. Fullsealedproducts/duplexyieldsandUMI8vsparsed4correspondence remainunassembled. Selectedcriticalreviewclosed,notfullreaction/source/absenceaudit."
+  },
+  "independent_implementation_review": {
+    "reviewer": "independent_round27_root_reader",
+    "date": "2026-10-30",
+    "scope": "Publishedmain90/96\u2013100/298\u2013310 plusAppendixPartI126\u2013502, and TableEV1B6 wholehairpinordering crosscheck. Same three already-selected originals; no new source.",
+    "finding": "Source concurrentdigest/methylation, stocks/physicalfractions/conversion/PCR and main/Appendix differences consistent. Local hairpin9bpstem/5primeCG and Y14bpterminalstem/5primeCG fix reviewed; inferred fold Scene segments now inferred=True by default while inventory exact. Fullsealedproduct/yields remainunassembled. Single formatting exemption independently checked against complete sourcehairpinD4/biotindT/D4 fixed ordering/modifications; no D\u2192N substitution inmodel. Selected critical implementation check only, not complete molecular or linked-source/absence audit."
+  }
+}

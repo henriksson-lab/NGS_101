@@ -1,0 +1,56 @@
+{
+  "dir": "tf-chrdp__10.3389+fcell.2025.1561540",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_main",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11925928.1/PMC11925928.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedmainPMC11925928 header/reagents149\u2013181/Methods265\u2013479/Results497\u2013503, actualFigure1originalPDFp9. SameONEoriginalselectedandclosedbycoordinator; no vendor/SI/predecessor originals read.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-43",
+      "reviewer": "dna_tf_owner_round43",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Sourceinvestigationclosedcoordinatoroneoriginal, implementationfromsameoriginalonly; selectedHCT116/5FU/p53route.",
+      "locations": "PublishedmainPMC11925928 header/reagents149\u2013181/Methods265\u2013479/Results497\u2013503, actualFigure1originalPDFp9. SameONEoriginalselectedandclosedbycoordinator; no vendor/SI/predecessor originals read.",
+      "findings": "PositiveFAthenEGS/p53sharedIP withtwo10ulpreIPcontrols andthreepostwashDNA/RNA/proteinallocations; actualthree1mlsonications/recombination; distinct65CovernightDNA versus50C45min+95C10minRNA extraction. RNA randomhexSSIII\u2192PolI/RNaseH/ligase\u2192T4pol12C/294ulAMPure\u2192localTn5/PCR source3.18reuse. SamephysicalloadedTn5 andPCRmastercomponents exposed; allTn5/indexwholebodiesunassembled. Source .61supernatant then19ul/.8original100ul beadcapture,6of8uleluate andfinalloadingremainders. Protein nonNGScontinuation notQC; optimizedproductionTn5dosesunassigned, DNA-test8ul4ng/.33ul reference notfabricatedasoptimizeddose.",
+      "deferred": [
+        "Source-loadedTn5/indexkitwholeorders/historicalmanuals, MasterMixformulation andspecificsampleindexassignment ordinaryunread; no canonicalsequenceinheritance.",
+        "Actualdishnumbers/recovered1mlchromatinarray/beadstockmultiplicity andsource-selectedoptimizedtagmenttemplate/.33ulreferencedose differences remainunassigned modelquestions, notinventedmissingdocuments.",
+        "DetailedLCMSproteinassay continuation outsideDNA/RNAmodel; actualallocatedfractionretainedUNRESOLVED, notQC/fakeNGS."
+      ],
+      "oligo_scraper": "Mandatorywholeavailablebundle0hits/0knownoligoorders; sourcepositiverandomhexamerfamily andnamedindexedprimerfunctionalclasses do notestablishwholevendororders.",
+      "verification": "49focusedPASS; sourceguard0exact0failed10wholeexternalinputswithoutlongexactstates (8indexedprimerinputs+2sourceN6randomprimerfamilies), plus4producedwhole-unassembledadapterclassesoutsideexternalguard. Chemistry123steps0established127unresolved0contradictory. Independent coordinator critical peer closed;49checks independently rerun."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Sourcekit/vendororiginals ordinaryunread, completecrosslinks andwholeDNA/RNAproductsunassembled; noabsenceaudit."
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positivesharedcapturewithseparateDNA/RNANGSpreparations andexplicitproteincontinuation; privatepartial, coordinator critical peer closed, noacceptedabsence.",
+  "independent_implementation_recheck": {
+    "reviewer": "coordinator_same_original_critical_review",
+    "date": "2026-10-30",
+    "type": "same_published_source_implementation_recheck_not_absence_pass_2",
+    "documents": 1,
+    "scope": "Same published main already inspected before owner implementation: source header/reagents/Methods265\u2013479/Results497\u2013503 and actualFigure1PDFp9. No additional originals or vendor/predecessor defaults.",
+    "findings": [
+      "FA precedes EGS with actual quench/wash boundaries; actual three sonication aliquots are recombined afterward, without cloning a whole stock. Two10ulpreIP QC aliquots are separated before production immunocapture; postwash DNA/RNA/protein allocations remain distinct.",
+      "RNA50C45min then95C10min/Trizol/chloroform and column/DNase/RWTflowthrough reapplication differ from DNA65Covernight/workup. Actual source randomhexamer firststrand, PolI/RNaseH/ligase secondstrand and T4pol processing are retained with occupied product geometry unresolved.",
+      "Same actual Tn5 inventory supplies catalyst/adapter classes and same MasterMix supplies enzyme/NT/buffer; no independent fresh adapter or nucleotide additions invented from a recipe family. Optimized production input/dose remain unassigned relative to known test reference.",
+      "Requested two narrow corrections completed: actual100ulchloroform has a physical supply port in both RNA paths; protein fraction is an unresolved non-NGS assay continuation, not a QC control. The two sequencing endpoints retain separate source150/150 plans; no physical DNA/RNA library pool invented."
+    ],
+    "verification": "Independently reran49 focused checks PASS, sourceguard0exact0failed10inputswithoutlongexactstates/4producedunknownadapterclasses; chemistry127unresolved0contradictory. Narrow source/implementation review only, not complete molecular validation or absence gate."
+  }
+}

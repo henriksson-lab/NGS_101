@@ -1,0 +1,59 @@
+{
+  "dir": "depace-seq__10.1093+nar+gkag784",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/depace-seq__10.1093+nar+gkag784/nar_gkag784_PMC13443447.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round08",
+        "date": "2026-10-29",
+        "locations": "Published main Methods94\u2013120; SI Adapter preparationp7, genomic control validationpp13\u201314, rendered TableS1pp17\u201318",
+        "finding": "Selected published main genomic route. PAB conjugates AP sites; cleavage does not remove fragments from the tube. SI control experiments use NEB/NextSeq conditions and do not replace main VAHTS/HiSeq-or-DNBSEQ recipe. Left/right release identity and exact adduct-bearing end geometry require further assembly; no ideal molecular partition assumed."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/depace-seq__10.1093+nar+gkag784/nar_gkag784_supp_gkag784_supplemental_file.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round08",
+        "date": "2026-10-29",
+        "locations": "Adapter preparationp7, validationpp13\u201314, TableS1pp17\u201318 including rendered originals",
+        "finding": "Verified selected source components/version and boundaries; not a whole-document absence audit."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round08",
+      "date": "2026-10-29",
+      "locations": "Published main Methods94\u2013120; SI Adapter preparationp7, genomic control validationpp13\u201314, rendered TableS1pp17\u201318",
+      "finding": "Exact modified P5/P7/rhP5 assembly, exact molecular partition through sequential L/R release and full read geometry remain model work; vendor ND607 manual directly named but uninspected."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; no two-reader missing-information acceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-08",
+      "reviewer": "expansion_dna_round08",
+      "date": "2026-10-29",
+      "documents": 2,
+      "locations": "Published main Methods94\u2013120; SI Adapter preparationp7, genomic control validationpp13\u201314, rendered TableS1pp17\u201318",
+      "findings": "Selected published main genomic route. PAB conjugates AP sites; cleavage does not remove fragments from the tube. SI control experiments use NEB/NextSeq conditions and do not replace main VAHTS/HiSeq-or-DNBSEQ recipe. Left/right release identity and exact adduct-bearing end geometry require further assembly; no ideal molecular partition assumed.",
+      "deferred": [
+        "Exact PAB cleavage-side adduct/strand identity and sequential L/R release partition; modified adapter/RNaseH2 activation end geometry; ND607 vendor manual and full run/index geometry. Full source-known L/R operation sequence is represented."
+      ],
+      "oligo_scraper": "Whole bundle run; source hits reviewed; Hi-C zero hits is not absence evidence.",
+      "scope": "Published-first capped source inspection; source-qualified incomplete private molecular preview, no recipe inheritance or absence acceptance.",
+      "verification": "Nineteen checks across the three Round08DNA protocols passed, including five exact PG160\u2013164 source-table checks and reaction-fate/branch boundaries. Three builds and pairing passed. Shared source-oligo guard0eligible exact constructs,0failed; standalone Scene inventories are not automatically checked by that guard. Chemistry58unresolved,0established,0contradictory across all three: no exact product relation validation claimed. Source schema passed."
+    }
+  ]
+}

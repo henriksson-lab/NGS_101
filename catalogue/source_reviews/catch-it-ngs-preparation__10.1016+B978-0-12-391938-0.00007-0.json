@@ -1,0 +1,57 @@
+{
+  "dir": "catch-it-ngs-preparation__10.1016+B978-0-12-391938-0.00007-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "administrative_identity",
+      "role": "defining",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/22929769/",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Coordinator directly inspected administrativePubMed22929769: published2012MethodsEnzymol513:169\u2013184/title/DOI and abstractNGSpairedendSolexalibrary endpoint; noPMCID listed. Not fullchapter chemistry.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "defining_original",
+      "role": "defining",
+      "locator": "https://linkinghub.elsevier.com/retrieve/pii/B9780123919380000070",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Actual needed defining original unavailable; no mainMethods/supplements/chemistry read. Final exact PubMed-linked Elsevier original route returned no article content (11characters oftext); standard DOI route no open fulltext. No usable chapter original acquired.",
+      "reason": "Final exact PubMed-linked Elsevier original route returned no article content (11characters oftext); standard DOI route no open fulltext. No usable chapter original acquired.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-30-ngs-expansion-37",
+      "reviewer": "dna_owner_round37",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Identity/retrieval boundary only; no usable defining chemistry original and no molecular graph.",
+      "locations": "Coordinator directly inspected administrativePubMed22929769: published2012MethodsEnzymol513:169\u2013184/title/DOI and abstractNGSpairedendSolexalibrary endpoint; noPMCID listed. Not fullchapter chemistry.; Actual needed defining original unavailable; no mainMethods/supplements/chemistry read. Final exact PubMed-linked Elsevier original route returned no article content (11characters oftext); standard DOI route no open fulltext. No usable chapter original acquired.",
+      "findings": "Final exact PubMed-linked Elsevier original route returned no article content (11characters oftext); standard DOI route no open fulltext. No usable chapter original acquired. Administrative identity does not establish fullsource reading or collection.",
+      "deferred": [
+        "Actual defining main original and its directly linked chemistry material after source supply; source contents not guessed."
+      ],
+      "oligo_scraper": "Mandatorycurrentbundle run0hits/0sourcefiles, not a sourceabsenceclaim."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": null,
+    "pass_2": null,
+    "notes": "Actual routes known from standard source manifest or administrativePubMedlink only. No hypothetical supplemental/vendordisclosure invented; inaccessiblemain leaves detailedlinkedlist unreviewed."
+  },
+  "missing_claims": [],
+  "conclusion": "Uncollected identity with actual source retrieval blocker; no graph/complete-source/absence conclusion.",
+  "independent_implementation_recheck": {
+    "reviewer": "independent_targeted_reader_round37",
+    "date": "2026-10-30",
+    "scope": "Existing MANIFEST/acquisition outcomes, source counter and scoped note only. Coordinator administrativePubMed22929769 is the one already-counted combined original; no neworiginal or chemistrychapter opened.",
+    "findings": "Confirmed zero validated sourcefiles and no graph/collection. Exact PubMed-linkedElsevier route produced invalid11-character nonarticle content; standard DOI route foundnoopenchapter. Administrativeidentity/NGS intent is not promoted to preparativeevidence; original2010microarray/time-ChIPrecipes not substituted. EnvironmentmetadataDNS failure is explicitly separate from actualterminalsourceoutcomes. Missingclaims remainempty.",
+    "verification": "Metadata/blockerimplementationreview only, no chemistrytest/sourceabsencepass2 or newsourceoriginalread. Combinedoriginalcountersunchanged."
+  }
+}

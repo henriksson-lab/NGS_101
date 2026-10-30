@@ -106,6 +106,7 @@ check("each SMART-seq protocol is named for its own defining paper",
 # those are older -- so "earliest" once named ISSAAC-seq after ATAC-seq and three
 # multi-omics methods after Smart-seq2. One paper defining two protocols is rare and real.
 JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 2017 paper
+         "10.3390/ijms150713111",       # SSB PolI/DIG capture and DSB TdT/biotin/S1: distinct 2014 preparations
          "10.1038/ncomms13296",          # purified-DNA and single-cell TruePrime workflows
          "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
          "10.1038/s41587-021-00962-z",   # s3-ATAC and s3-WGS
