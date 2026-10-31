@@ -1,5 +1,48 @@
 # Restart handoff
 
+Latest animation review: user rejected the line-based movies. Sequence lettering,
+attached labels/arrows, explicit pairing state, off-screen oligo entry and corrected
+Tn5 products/repair/final anatomy remain to implement. See the final section of
+`plans/chemistry-animation.md`. Current movies are review checkpoints.
+
+## 2026-10-31 — animation presentation revision
+
+User feedback prompted a new SMART-seq story: explicit RT primer/poly(A)/IS-PCR
+handle, RNA retained during template switching, animated first complementary DNA,
+PCR binding sites, loaded Tn5 homodimers with separated cut pieces, both index-primer
+overhangs and final functional library anatomy. SPRI is omitted. Other example
+adapters now show their corresponding arms, overlaps, primer identifiers, ligation
+ends, restriction products and promoter. Native original-kit unknowns remain scoped.
+Playback defaults to1.5×; CLI and batch `--speed` override it. Schema is nowv3.
+Thirty-six checks pass. Eleven full movies and eleven focused clips are under
+`/tmp/chemistry-animations-presentation-final/` (1080p30H.264/yuv420p, 37 shots).
+SMART-seq is 111.334s. All source-scene/settings resume checks and ffprobe checks
+pass; revised contacts and decoded SMART-seq mechanism/final-library frames were
+visually inspected. See the latest plan/state checkpoint.
+The original exports/counts below are historical and superseded. Nothing staged.
+
+## 2026-10-31 — native animation tool and Spatial VDJ reader page
+
+The agreed native animation implementation is complete: `animation/README.md` is the
+CLI/dependency/authoring guide, `plans/chemistry-animation.md` the design and completion
+evidence, and `plans/chemistry-animation-state.json` the machine-readable checkpoint.
+Python/Cairo streams frames directly to FFmpeg; no browser/Manim/Rust is required.
+Ten source-qualified protocol movies plus a reference fixture and eleven short clips
+are under `/tmp/chemistry-animations-2026-10-31/`, together with SVG/PNG stills,
+JSON/timing/source manifests,contact sheets,decoded frames and verification.json.
+All22MP4s are1080p30 H.264/yuv420p. The principal SMART-seq movie has9shots and
+lasts142.934s. Thirty animation checks pass; all source/geometry limitations remain
+explicit and the normal chemistry/site builds gain no mandatory dependencies.
+
+Spatial VDJ's public-page source was separately expanded for human readers: biological
+purpose,six preparation stages,primer/blocker roles,spot-barcode/UMI/read interpretation,
+analysis and branch/chain-pairing limits,while retaining source discrepancies and the
+full reaction disclosure. Published-final16nt/12nt LR parsing is now source-verified.
+Files: `spatial-vdj__10.1126+science.adf8486/tools/chem.py` and its main research note.
+Protocol38checks,sourceguard678orders/0failures,pairing and localpage build pass.
+These page changes are local,not deployed. No staging,commit or push for either task.
+
+
 ## 2026-10-30 — unlinked-page pass complete:61 linked,333 deferred
 
 All394 originally unlinked entries have been assessed for attainable publication fixes using bounded parallel work. **61 now link to public pages,333 retain specific source/model blockers, and none remain queued.** This completes the requested capped pass; it does not imply complete chemical review of every protocol. No missing-information claim was accepted. Per-protocol results and blockers are in `catalogue/curation_rounds/2026-10-30-unlinked-pages.tsv`; the final170-entry review/refinement record is `catalogue/curation_rounds/2026-10-30-unlinked-final-review.json`.

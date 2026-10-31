@@ -1,0 +1,65 @@
+{
+  "status": "sequence_rendering_revision_requested",
+  "date": "2026-10-31",
+  "plan": "plans/chemistry-animation.md",
+  "implementation": "animation/README.md",
+  "outputs": "/tmp/chemistry-animations-presentation-final",
+  "protocols": [
+    "crispr-mip",
+    "boloramis",
+    "atac",
+    "smallseq",
+    "gibson",
+    "hic",
+    "dropseq",
+    "scrrbs",
+    "celseq",
+    "smartseq"
+  ],
+  "tests": {
+    "command": "python3 -m animation.selftest --native",
+    "checks": 36,
+    "result": "PASS"
+  },
+  "artifacts": {
+    "movies": 11,
+    "focused_clips": 11,
+    "codec": "H.264",
+    "pixel_format": "yuv420p",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "movie_frames": 11315,
+    "movie_seconds": 377.171,
+    "shots": 37,
+    "smartseq_seconds": 111.334,
+    "verification": "/tmp/chemistry-animations-presentation-final/verification.json",
+    "visually_reviewed": [
+      "All revised mechanism contact sheets",
+      "Decoded SMART-seq template-switch, post-cleavage, index-primer binding and final-library frames",
+      "Source-scene/settings consistency verified for all eleven full exports"
+    ]
+  },
+  "requirements": {
+    "native_mp4": "Cairo\u2192rawvideo pipe\u2192FFmpeg; no browser or Manim",
+    "deterministic_evaluation": "animation/evaluate.py + native pixel seek check",
+    "molecular_relations": "animation/model.py + reaction rejection/identity/circle/copy tests",
+    "source_reuse": "animation/protocols.py original module hashes/step ids and constructor calls",
+    "narration_and_sparse_defaults": "Shot.timing; default1.5\u00d7 playback; CLI/batch --speed, detail flags and narration overrides",
+    "still_and_interchange": "PNG/SVG,versionedJSONroundtrip,actual batch artifacts",
+    "all_accepted_coverage": "SMART-seq +9 complementary protocol movies; reference separate",
+    "isolated_dependencies": "optionalanimationrequirements; Python-S model-loading check",
+    "documentation": "animation/README.md and this plan"
+  },
+  "scientific_limits": [
+    "Selected successful mechanism and illustrative choreography, not kinetics/yields or whole reaction validation.",
+    "OriginalSMART-seq native kit/first-cycle/read geometry stays unassigned; noSMART-seq2substitution.",
+    "ConditionalRNA/mask targets and inventedGibson/scRRBS fixtures explicitly qualified.",
+    "Native sequencing/read maps and unexpanded populations remain source-scoped."
+  ],
+  "git": "Unstaged; no commit/push/deploy.",
+  "schema": "ngs101.animation/3",
+  "playback_multiplier": 1.5,
+  "revision": "User-directed primer/handle/RNA/PCR/Tn5/final-library teaching revision; original native end geometry remains explicitly schematic.",
+  "pending_revision": "See final section of plans/chemistry-animation.md; current line-based exports rejected by user, sequence-based renderer and corrected Tn5 product/repair story not yet implemented."
+}

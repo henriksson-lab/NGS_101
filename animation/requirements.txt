@@ -1,0 +1,2 @@
+# Optional animation authoring only. FFmpeg must also be installed separately.
+pycairo>=1.20,<2

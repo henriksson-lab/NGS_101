@@ -13,13 +13,19 @@ presentation, protocol boundaries, evidence display, or model/test responsibilit
 
 ## Commands
 
-Pure Python 3 standard library — **no third-party dependencies, don't add any** (that is
-why `lib/mdrender.py` is a home-grown Markdown renderer).
+The chemistry library and website build use the Python 3 standard library, without
+third-party dependencies (that is why `lib/mdrender.py` is a home-grown Markdown
+renderer). The animation authoring and video-export tools are exempt, as approved
+2026-10-31: use suitable third-party libraries and external tools, including FFmpeg,
+for native offline rendering and MP4 export. Document their installation requirements
+separately; ordinary chemistry tests and website builds must not require them. Do not
+check in runtime binaries or generated videos.
 
 Approved browser-only exception (2026-10-21): the Anneal primers tab may load pinned
 Pyodide 314.0.7 on demand to run the existing Python model in a Web Worker. Keep the
-Python/site build offline and standard-library-only; add no Python packages, npm
-packages or Rust toolchain. Runtime binaries are not checked in. See
+Python/site build offline and standard-library-only; this browser exception does not
+authorize Python packages, npm packages or a Rust toolchain for annealing. The separate
+animation exception above still applies. Runtime binaries are not checked in. See
 [plans/annealing.md](plans/annealing.md).
 
 ```sh

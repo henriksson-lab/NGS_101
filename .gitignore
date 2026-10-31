@@ -163,3 +163,8 @@ assets/restriction_catalogue.json
 
 # Generated public relationship/similarity payload; curated source registry is tracked.
 assets/protocol_lineage.json
+
+# Native animation authoring outputs (keep source JSON under version control).
+*.mp4
+*.mov
+animation/output/

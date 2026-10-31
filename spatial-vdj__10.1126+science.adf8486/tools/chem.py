@@ -59,7 +59,7 @@ class B:
         y=self.g.product(key+'_selected',selected,K.MOLECULAR);r=self.g.product(key+'_remainder',remainder,K.MOLECULAR)
         self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(y,r));self.g.mark_terminal(Terminal(r.id,Disposition.UNRESOLVED,remainder));self.x=y;return y
 
-AUTHORITY='Final published Science full article, DOI10.1126/science.adf8486, authorized browser HTML science_adf8486_final_browser.html.txt: Results1580/Methods1623–1669; supplementary index1767–1782. Earlier accepted-analysis-only16/12 metadata labelled locally. Published SM PDF title/Methods1–72 and source DataS1 spatial worksheets inspected after user supply; full kit/template geometry unresolved. Earlier accepted-only review is historical, not whole-version equivalence.'
+AUTHORITY='Final published Science full article, DOI10.1126/science.adf8486, authorized browser HTML science_adf8486_final_browser.html.txt: Results1580/Methods1623–1669; supplementary index1767–1782. Final published LR processing1685 additionally verifies16/12 analysis metadata; this does not establish full SR primer geometry. Published SM PDF title/Methods1–72 and source DataS1 spatial worksheets inspected after user supply; full kit/template geometry unresolved. Earlier accepted-only review is historical, not whole-version equivalence.'
 PREAMP_PROGRAMME='Source literal: Repeat steps 2-5 six times for a total of five cycles. Executed count unassigned; no silent correction.'
 def unknown_oligo(label,identifier=None):
     s=Scene();s.strand('source',[Segment(label,'[wholeorderingunassembled]',placeholder=True,feature=identifier)]);return s
@@ -97,7 +97,7 @@ def qc(b,key,label):
 
 def protocol_graph():
     b=B('Spatial VDJ published SR-TRB four-replicate partial preparation',AUTHORITY,'Actual full-length spatially barcoded Visium cDNA before fragmentation from published-source tonsil preparation',K.MOLECULAR);g=b.g
-    g.materials['source'].chemical_state.update({'source_boundary':'Published Methods useCG000239RevA Visiumpreparation; its oligos/RT/TSOrecipe NOTimported.','spatial_barcode':'Earlier accepted-manuscript LR analysis843–865 identifies16nt after anchor; not independently final-verified or a complete oligo','UMI':'Earlier accepted-manuscript LR analysis843–865 identifies12nt after spatial barcode; not independently final-verified; origin/wholeconstructunassembled','scope':'StartsactualpreparedcDNA, notcompletefirst-strandchemistryorwholefinalconstruct'})
+    g.materials['source'].chemical_state.update({'source_boundary':'Published Methods useCG000239RevA Visiumpreparation; its oligos/RT/TSOrecipe NOTimported.','spatial_barcode':'Final published LR processing Methods1685 identifies16nt after adapter anchor; analysis coordinates, not a complete oligo','UMI':'Final published LR processing Methods1685 identifies12nt after spatial barcode; origin/wholeconstructunassembled','scope':'StartsactualpreparedcDNA, notcompletefirst-strandchemistryorwholefinalconstruct'})
     b.split('select10ul','Actual10ulfromVisiumfull-lengthcDNAstock','Actualselected10ulcDNA','UntransferredVisiumcDNAstock')
     collection=g.product('preamp_collection','Actual collection of separate10ngtemplate PCR subsamples; number depends on measured concentration, not a physical pool',K.MOLECULAR);g.react('preamp_allocate','Splitselected10ulinto10ngtemplates, multiplicityunassigned',S.GENERIC,((b.x,R.TEMPLATE),),(collection,),changes_molecule=False);b.x=collection
     amp(b,'preamp','Commonpreamplification of separate10ngsubsamples, notpooledbeforePCR',(primer(b,'preamp_cdna_primers','Aggregateactual10xcDNAprimerallocations7.5ulPERPCR acrossvariablearray; number/totalamount/constituentwholeordersunassembled'),),PREAMP_PROGRAMME+' Source25ulReadyMix+7.5ulprimers+17.5ulsample/water;98C3min,98C15s/63C30s/72C2min;72C1minfinal.')
@@ -132,7 +132,7 @@ def protocol_graph():
     lib=g.product('library','Published-source SRTRBsequencinglibrary; source spatial primers declared; full amplicons/index primers unassembled',K.LIBRARY);g.react('load','SourceNovaSeq6000SP; R135/I6/R2259',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False)
     g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='The published run lengths are reported here. Data S1 supplies the spatial primer/probe inventories; complete cDNA/index primer preparations, index orientation, occupied transcript sites and full amplicons remain unassigned. Run lengths alone do not establish molecular products.'))
     g.add_source_item(SourceItem('published_scope',AUTHORITY,'Final published article supports this selected SR-TRB preparation; published SM and separate Data S1 retrieved; historical vendor detail/whole cDNA and index primer preparations remain unresolved. No whole-version equivalence or confirmed absence.'))
-    g.add_source_item(SourceItem('historical_analysis_metadata','Accepted author version Zenodo13148082, LR analysis843–865 only','16nt spatial barcode/12nt UMI are analysis metadata from earlier inspected accepted original, not final-verified whole primer sequences or binding evidence.'))
+    g.add_source_item(SourceItem('analysis_metadata','Final published article, LR Spatial VDJ read processing, text1685; SR clonotype analysis1693–1700','Final article verifies16nt spatial barcode/12nt UMI in LR parsing. These are analysis coordinates, not whole primer sequences or a verified SR primer-binding geometry. SR processing groups by barcode plus UMI.'))
     g.add_source_item(SourceItem('preamp_programme',PREAMP_PROGRAMME,'Retainactualprintedvalues, executedpreamplificationcountunassigned. OtherselectedSRcyclecountsarelocallyexplicit.'))
     g.declare_reviewed_scope(MAIN_COMMON_TARGETS,
         'Final published article: target enrichment Methods1625–1642 and selected SR-TRB Methods1645–1668. Functional stock components are copresent classes, not additional doses or full formulation claims.')
@@ -143,7 +143,7 @@ def protocol_graph():
             'Published Data S1: PartRead1 worksheet and whole SR-Spatial VDJ outer/inner TRBV rows. Sequence-only cells do not establish terminal modifications or occupied transcript sites.')
     g.declare_reviewed_scope(DATA_S1_COMMON_TARGETS,
         'Published Data S1: Hyb. capture - Probes and Hyb. capture - Blocking Oligos. Actual source rows retained, including repeated sequences; pool molarity and end modifications unassigned.')
-    for item, target in (('published_scope','source'),('historical_analysis_metadata','source'),('preamp_programme','preamp')):
+    for item, target in (('published_scope','source'),('analysis_metadata','source'),('preamp_programme','preamp')):
         g.cover_source_item(SourceCoverage(item,'modelled',target))
     g.annotate(SourceDiscrepancy(
         'preamp', 'Preamplification cycle count',
@@ -169,6 +169,7 @@ def primer_example():
     # Separate reagent orders: this view asserts no annealing or transcript site.
     sc=Scene()
     sc.strand('PartRead1',[Segment('PartRead1',oligos.PARTREAD1,'r1')])
+    sc.strand('TRBV10-1_outer',[Segment('Outer V-specific primer',oligos.OUTER_SOURCE['TRBV10-1_outer'].upper())])
     name='TRBV10-1_inner';seq=oligos.INNER[name]
     sc.strand(name,[Segment('Published Read2-compatible handle',oligos.illumina.TRUSEQ_READ2,'r2'),
                     Segment('Source TRBV10-1 target-specific portion',seq[len(oligos.illumina.TRUSEQ_READ2):])])
@@ -190,30 +191,81 @@ def oligo_tables():
 
 def render_page():
     g=protocol_graph()
-    overview=table(('Stage','Source-supported preparation'),(
-        ('Starting material','Full-length spatially barcoded Visium cDNA, before fragmentation.'),
-        ('Preamplification and capture','Amplify 10 ng subsamples separately, pool completed products, then capture IG/TR constant-region transcripts together overnight. The selected IG:TR probe ratio is1:3.'),
-        ('Nested TRB amplification',str(len(SOURCE_REPLICATES))+' separate replicates: outer TRBV + PartRead1, followed by inner TRBV + PartRead1, with cleanup and QC between stages.'),
-        ('Indexing','Pool 10 ng from each inner product at indexing; all four replicates receive the same sample index.'),
-        ('Sequencing','NovaSeq 6000 SP; short R1 and long R2 recover the spatial tag and receptor sequence. Exact occupied primer geometry remains unassembled.'),
+    paper='<a href="https://www.science.org/doi/full/10.1126/science.adf8486">Published article</a>'
+    data='<a href="https://www.science.org/doi/suppl/10.1126/science.adf8486/suppl_file/science.adf8486_data_s1_to_s5.zip">Data S1 (within Data S1–S5)</a>'
+    stages = table(('Stage', 'What happens', 'What this preserves or selects'), (
+        ('1 · Start before fragmentation',
+         'Take full-length, spatially barcoded Visium cDNA. Amplify separate 10 ng subsamples, then pool the completed reactions and bead-clean.',
+         'Retain the connection between a receptor transcript and its tissue-spot tag. Conventional fragmented gene-expression libraries can lose the distant CDR3 region.'),
+        ('2 · Enrich receptor transcripts',
+         'Hybridize IG and TRA/TRB constant-region probes together for 16 hours, with adapter-blocking oligos, then capture and wash. Use the selected 1:3 IG:TR probe ratio.',
+         'Select receptor-containing cDNA while retaining its spatial barcode and UMI. Even the TR-only short-read route starts with combined IG/TR capture.'),
+        ('3 · Amplify captured cDNA',
+         'Use the second experiment’s single 14-cycle postcapture PCR, followed by purification.',
+         'Supply enriched material for the receptor-specific amplification; the first experiment’s two-PCR alternative is a separate branch.'),
+        ('4 · Outer TRB PCR',
+         'In each of four replicates, amplify 2.5–5 ng with the outer TRBV pool and PartRead1 for 12 cycles. Clean and quantify each product.',
+         'Select TRB transcripts using a V-region primer upstream of CDR3 and a primer at the shared spatial-cDNA handle.'),
+        ('5 · Inner TRB PCR',
+         'Use 5 ng from each outer product with inner TRBV primers and the same PartRead1 for 8 cycles. Clean and quantify each replicate.',
+         'Move the V primer close to CDR3 and introduce its Read2-compatible handle. This is seminested PCR because only the V-side primer changes.'),
+        ('6 · Index and sequence',
+         'Pool 10 ng from each of the four inner products, give that pool one sample index in an 8-cycle PCR, then purify and pool samples for NovaSeq 6000 SP.',
+         'The four technical replicates become one indexed sample; they are not independently identifiable in the sequencing pool.'),
     ))
-    reads=table(('Read','Cycles','Source scope'),[(html.escape(role),str(cycles),
-        'Published run length; whole index order/orientation unassigned' if role=='I1' else
-        'Published run length; exact read-base mapping not asserted')for role,cycles in g.sequencing['library'].read_lengths.items()])
-    return assemble_page(g,[head('Spatial VDJ — short-read TRB'),
+    reads=table(('Read', 'Cycles', 'How to interpret it'), (
+        ('Read 1', str(g.sequencing['library'].read_lengths['R1']),
+         'Short spatial-tag read. The published run recipe is explicit; an exact cycle-by-cycle SR binding and base map is not assembled here.'),
+        ('Index read', str(g.sequencing['library'].read_lengths['I1']),
+         'Sample demultiplexing. The chosen index-primer orders and index orientation remain unassigned in this model.'),
+        ('Read 2', str(g.sequencing['library'].read_lengths['R2']),
+         'Long receptor read. The authors designed the asymmetric run to cover the entire CDR3 and part of the constant region from the 5′ end.'),
+    ))
+    identifiers=table(('Information', 'Meaning', 'Interpretation limit'), (
+        ('Spatial barcode', 'Links a receptor molecule to a Visium tissue spot and the matched gene-expression map.',
+         'A spot is a spatial sampling unit, not an individual-cell identifier. The final article’s LR parsing extracts 16 bases after the adapter anchor.'),
+        ('UMI', 'Groups amplified reads derived from the same tagged molecule within a spot.',
+         'The LR parsing extracts the next 12 bases. The SR pipeline groups by the combination of spatial barcode and UMI; UMI counts are not cell counts.'),
+        ('CDR3 and receptor annotation', 'Identify and compare receptor clonotypes using the receptor sequence and MiXCR calls.',
+         'A clonotype label is a computational assignment, not a sample index, antigen-specificity measurement or physical pairing of receptor chains.'),
+        ('Sample index', 'Separates prepared tissue-section libraries multiplexed on the sequencer.',
+         'All four TRB PCR replicates for an individual sample receive the same index.'),
+    ))
+    branches=table(('Route', 'Receptor coverage and purpose', 'Scope on this page'), (
+        ('SR Spatial VDJ', 'TRA or TRB, using seminested V-region PCR and asymmetric Illumina reads.',
+         'The TRB branch is represented: 12-cycle outer PCR, 8-cycle inner PCR. TRA uses a 14-cycle outer PCR and different V primers.'),
+        ('LR Spatial VDJ', 'Full-length IG and TR transcripts, prepared as PacBio SMRTbell libraries; used for IG somatic hypermutation and class-switch analyses.',
+         'Context only. Its adapter ligation and long-read preparation are not modelled by the SR workflow.'),
+        ('Bulk / validation PCR', 'Separate experiments validate receptor sequences or evaluate capture.',
+         'These are not interchangeable spatial libraries; the supplementary Fig. S1F validation PCR loses the spatial barcode.'),
+    ))
+    return assemble_page(g,[head('Spatial VDJ — spatial receptor sequencing, short-read TRB'),
         '<div class="wrap" data-protocol-complete="true"><h1>Spatial VDJ</h1>',
-        '<p class="research-notes"><a href="01_spatial_vdj.html">Research notes</a></p>',
-        info('<a href="https://doi.org/10.1126/science.adf8486">Engblom et al., <i>Science</i> (2023)</a>. Spatially resolved immune-receptor sequencing. This page follows the published short-read TRB branch; the long-read IG/TR and separate validation preparations are outside its scope.'),
-        caveat('The workflow and published oligo inventories are represented, with unresolved chemistry retained. Complete cDNA/index-primer preparations, terminal modifications and occupied transcript/product geometry remain unassembled. A linked page does not mean every reaction is molecularly validated.'),
-        '<h2>Preparation</h2>',overview,
-        '<h2>Published primer sequences</h2>',
-        info('PartRead1 and one inner TRBV order are shown below as separate reagents. The full outer/inner pools, capture probes and blocking patterns are available in the tables; repeated source rows are retained.'),
-        panel(primer_example().rows(),caption='Data S1 oligo orders; separate rows, not an annealed complex or a complete final library.'),
-        oligo_tables(),
-        '<h2>Read setup</h2>',reads,PlanLimitationSection('library'),
-        AnnotationSlot.BEFORE_WORKFLOW,
-        '<details><summary>Detailed reaction model and validation</summary>',
+        '<p class="subtitle">Map lymphocyte receptor clones back to their tissue locations.</p>',
+        info('<a href="https://doi.org/10.1126/science.adf8486">Engblom, Thrane, Lin et al., <i>Science</i> (2023)</a>. This schematic follows the published <strong>short-read TRB</strong> preparation, starting from full-length Visium cDNA before fragmentation.'),
+        '<nav aria-label="On this page"><a href="#principle">What it measures</a> · <a href="#preparation">Preparation</a> · <a href="#primers">Primers</a> · <a href="#readout">Readout</a> · <a href="#limits">Scope and limits</a></nav>',
+        '<h2 id="principle">Connect receptor identity to tissue position</h2>',
+        '<p>Spatial VDJ adds immune-receptor sequencing to a spatial gene-expression experiment. A receptor’s complementarity-determining region 3 (<strong>CDR3</strong>) helps distinguish lymphocyte clones. The spatial barcode places that sequence on the tissue image, so clone distributions can be compared with gene-expression patterns and anatomical regions.</p>',
+        '<p>The crucial starting point is <strong>full-length cDNA before fragmentation</strong>. The receptor sequence and the spatial tag are still connected at that stage. Constant-region hybridization capture enriches rare receptor transcripts; the short-read route then uses seminested PCR to bring the CDR3 region within reach of Illumina sequencing. '+paper+', Results “Spatial VDJ” and target-enrichment/SR Methods.</p>',
+        '<h2 id="preparation">From spatial cDNA to a TRB library</h2>',stages,
+        '<p><strong>Why capture IG for a TRB experiment?</strong> The authors cocaptured IG and TR to provide enough product for the capture protocol despite low TR transcript abundance. They recommend both probe pools for either sequencing route. The selected 1:3 ratio comes from triplicating TR probe sequences in the order and mixing equal volumes of the resulting IG and TR pools; it does not mean adding three volumes of TR pool. '+paper+', “Target enrichment of spatial cDNA”.</p>',
+        '<h2 id="primers">Which oligo does what?</h2>',
+        '<p><strong>PartRead1</strong> recognizes the universal partial Read1 sequence of the spatial cDNA and is reused in both receptor-specific PCRs. <strong>Outer TRBV</strong> primers target V genes upstream of CDR3. <strong>Inner TRBV</strong> primers target closer to CDR3 and carry a shared Read2-compatible 5′ handle for subsequent TruSeq indexing. One matching V-gene example is shown below; each reaction uses the published primer pool, not just this pair. '+data+', SR-Spatial VDJ worksheets.</p>',
+        panel(primer_example().rows(),caption='Published reagent sequences, all 5′→3′: PartRead1 and the TRBV10-1 outer/inner orders. The inner primer separates its shared handle from its target-specific portion. These independent oligos are not drawn as an annealed complex.'),
+        '<p><strong>Capture probes</strong> target IG and TRA/TRB constant regions. <strong>Blocking oligos</strong> occupy universal adapter sequences to reduce off-target capture. The Read1+polyT blocker contains a degenerate N window and a polyT tract; those N bases are a reagent pattern, not a declared barcode or UMI for a particular molecule.</p>',
+        panel(oligos.pool_scene('blockers').rows(),caption='The two published capture-blocker patterns from Data S1. N and V retain their source degeneracy; terminal modifications are not assigned from sequence-only cells.'),
+        '<details><summary>All published oligo sequences</summary><p>Whole source orders are retained, including repeated source rows. Sequences alone do not establish terminal modifications, occupied transcript binding sites or a complete library construct.</p>',oligo_tables(),'</details>',
+        '<h2 id="readout">What the reads and identifiers tell you</h2>',reads,
+        '<p>The final article gives an explicit 16-base spatial barcode followed by a 12-base UMI in its <em>long-read processing</em> description. That verifies the tag interpretation, but does not by itself establish every short-read cycle boundary or a complete Visium primer structure. '+paper+', “LR Spatial VDJ read processing” and “SR Spatial VDJ clonotype analysis”.</p>',identifiers,
+        '<p><strong>From reads to a tissue map.</strong> The published SR analysis filters low-quality reads, requires a valid Visium barcode and the inner-V primer sequence, and collapses reads by barcode plus UMI. For tonsil repertoire analysis, each UMI group must have at least three supporting reads. MiXCR supplies CDR3/clonotype calls, which become a clone-by-spatial-barcode count matrix and are matched to the gene-expression map. The authors also filter index-hopping candidates and a small number of suspected overamplification artifacts. These analysis choices affect the reported clone map; sequencing yield alone is not a count of clones or cells. '+paper+', “SR Spatial VDJ clonotype analysis”.</p>',
+        '<h2 id="limits">Branches and interpretation limits</h2>',branches,
+        '<p><strong>Spatial colocalization does not physically pair receptor chains.</strong> Spatial VDJ captures individual receptor transcripts. The paper predicts IG heavy/light pairing computationally with “repair” and evaluates predictions using matched single-cell VDJ data. A TRB map alone does not identify its paired TRA chain or establish antigen specificity. '+paper+', receptor-pairing Results.</p>',
+        caveat('This page represents the published preparation order and source oligos. Complete starting cDNA and index-primer preparations, terminal modifications, occupied transcript sites, full amplicons and exact sequencing-primer landing remain unassembled. No finished base-by-base library is inferred from a kit name. These are model boundaries, not a claim that the publication omits those details.'),
+        '<details><summary>Read-plan detail</summary>',PlanLimitationSection('library'),'</details>',
+        '<h2>Published source discrepancies</h2>',AnnotationSlot.BEFORE_WORKFLOW,
+        '<details><summary>Full reaction workflow, physical fractions and validation</summary><p>The expanded workflow retains separate PCR replicates, cleanup fractions, analytical aliquots and stock remainders. Its unresolved transitions expose where molecular products or reagent geometry have not been assembled.</p>',
         WorkflowSection('Source-qualified SR-TRB reaction workflow'),'</details>',
+        '<p class="research-notes"><a href="01_spatial_vdj.html">Research notes and source-reading scope</a></p>',
         '</div>'])
 
 
@@ -254,6 +306,9 @@ def selftest():
             ('Ten ng per replicate enters indexing','10 ng of input material was used from each replicate'),
             ('Published run lengths','read 1, 35 nt; index read, 6 nt; read 2, 259 nt'),
             ('Primer sequences delegated to Data S1','see data S1 for primer sequences'),
+            ('Final published spatial tag parsing','first 16 bases following the Truseq adapter for the spatial barcode and the 12 bases following that as the UMI'),
+            ('Final published SR collapsing retains spot and molecule identity','both the UMI and spatial barcode sequence as the “UMI” region'),
+            ('Final published receptor pairing limit','Spatial VDJ captures individual antigen receptor transcripts and cannot therefore define receptor pairs by itself'),
         ]
         for label,needle in fixtures:c(label,needle in text,True)
     p=sources_root()/Path(__file__).resolve().parents[1].name/'science.adf8486_data_s1.xlsx.txt'

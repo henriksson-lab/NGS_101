@@ -26,7 +26,7 @@ Known ReadyMix components are exposed from each actual named ReadyMix allocation
 
 ## Sequence and validation boundaries
 
-The earlier accepted text gives two short computational search patterns (`CGACGCTCTTCCGATCT` and `TCTGCGTTGATACCACT`) in **LR analysis**, followed by16spatial-barcode and12UMI bases. These are source analysis locators, not complete spatial primers or permission to import Visium/TruSeq constructs. No exact source oligo state is manufactured from a platform name or matching anchor. Spatial barcodes identify tissue spots, not single cells or physically paired receptor chains; receptor pairing is computational.
+The final published article, “LR Spatial VDJ read processing” (text1685), gives two short computational search patterns (`CGACGCTCTTCCGATCT` and `TCTGCGTTGATACCACT`) in **LR analysis**, followed by16spatial-barcode and12UMI bases. These are source analysis locators, not complete spatial primers or permission to import Visium/TruSeq constructs. No exact source oligo state is manufactured from a platform name or matching anchor. Spatial barcodes identify tissue spots, not single cells or physically paired receptor chains; receptor pairing is computational.
 
 ## Published Data S1 oligo inventories
 
@@ -40,8 +40,19 @@ The earlier accepted text gives two short computational search patterns (`CGACGC
 
 The source sequence cells do not assign terminal chemistry or occupied binding sites; no5′phosphate, blocked3′end, probe biotin or concrete N/V value is inferred from plain sequence text. These are oligo-pool inventory views, not annealed multimolecular complexes. The four actual replicate allocations retain their respective whole outer/inner pools and PartRead1.
 
-Preamplification/postcapture cDNA primer preparations, the selected whole index-primer orders, historical kit geometry, captured transcript sequences and complete molecular products remain unassembled. This is an open modelling/source question, not a conclusion that those details are unpublished. The28N blocker window alone does not prove the earlier accepted-analysis16/12 barcode/UMI partition. No bulk SS3 or barcode-losing validation primer is substituted.
+Preamplification/postcapture cDNA primer preparations, the selected whole index-primer orders, historical kit geometry, captured transcript sequences and complete molecular products remain unassembled. This is an open modelling/source question, not a conclusion that those details are unpublished. The28N blocker window alone does not prove the16/12 barcode/UMI partition; the final article’s LR parsing independently specifies those lengths. This is an analysis-coordinate statement, not a fully assembled SR read map. No bulk SS3 or barcode-losing validation primer is substituted.
 
 The final published preamplification programme (line1632) literally says “Repeat steps 2 to 5 six times for a total of five cycles.” Both printed values are retained, and executed cycle count is unassigned. The same ambiguity was previously observed in the accepted manuscript. The model does not choose a corrected cycle count.
 
 The public source-qualified workflow records the final article’s positive source order and stock/fraction boundaries. It remains an incomplete library model: selected cDNA/index primer preparations, occupied transcript geometry, molecular products and primer landing remain unresolved. No complete source audit or accepted missing-information conclusion is claimed.
+
+
+## Reader-facing page revision (31 October 2026)
+
+🟢 Re-read the final published HTML Results1574–1580 and receptor pairing1601; capture/SR preparation1623–1668; LR parsing1685 and SR clonotype processing1693–1700. Re-read Data S1 PartRead1 line4, innerTRBV55–62, outerTRBV171–177 and blocker432–435. The mandatory bundle scraper was rerun. No new original was downloaded and no preprint recipe was adopted.
+
+The public page now explains the biological question, why the cDNA must be taken before fragmentation, what constant-region capture and seminested V-region PCR select, the four-replicate pooling boundary, oligo roles, run lengths, identifiers and the clone-by-spot output. The additional views use existing source-order constructors for one outer/inner TRBV example and both blockers; they assert no occupied transcript geometry. Complete source tables and the full graph remain accessible in disclosures.
+
+🟢 The final published LR-processing paragraph independently verifies the16nt spatial barcode and subsequent12nt UMI; the previous accepted-version-only qualification for these analysis lengths is superseded by this specific final-article reading. No complete primer or exact SR cycle map follows from that paragraph. Final SR analysis explicitly combines barcode and UMI for collapsing, requires three supporting reads in tonsil, and describes index-hopping/overamplification filtering. Receptor pairing remains computational; the source explicitly says individual captured chains do not establish receptor pairs.
+
+This was a bounded presentation/source-excerpt pass, not an additional independent missing-information audit. Historical Visium/xGen kit geometry, index-primer orders and complete amplicons remain deferred model questions. The existing publication discrepancy notices are retained on the schematic.
