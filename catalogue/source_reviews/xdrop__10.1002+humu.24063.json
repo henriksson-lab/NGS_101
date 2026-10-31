@@ -1,6 +1,6 @@
 {
   "dir": "xdrop__10.1002+humu.24063",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "article",
@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7496172.1/PMC7496172.1.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published final articlePDF: printedDOI,Methods2.1,2.5–2.11,Results3.2/3.4; original renderedp1672 confirms TP53 oligos. Extracted PDF columns interleave; independent split-fragment transcription checks only.",
+      "inspection_scope": "Published final articlePDF: printedDOI,Methods2.1,2.5\u20132.11,Results3.2/3.4; original renderedp1672 confirms TP53 oligos. Extracted PDF columns interleave; independent split-fragment transcription checks only.",
       "local_file": "/husky/henriksson/NGS101_papers/sources/xdrop__10.1002+humu.24063/humu.24063_PMC7496172.pdf",
       "md5": "d7778dab38fbb9576097a825f32e4335",
       "source_identity": "article PDF (PMC Cloud)"
@@ -40,7 +40,7 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Bounded published-first local partial model; versions kept separate; not full source review",
-      "locations": "Published final article:Methods2.1,2.5–2.11;Results3.2/3.4; TP53 oligos verified; Breakpoint/validation-sequence context only; remaining supplement uninspected",
+      "locations": "Published final article:Methods2.1,2.5\u20132.11;Results3.2/3.4; TP53 oligos verified; Breakpoint/validation-sequence context only; remaining supplement uninspected",
       "findings": "Source-positive molecular mechanism, physical fates and explicit unknowns recorded in protocol note.",
       "deferred": [
         "Full supplied dMDA formulation and exact target/product geometry remain unassembled.",
@@ -49,6 +49,21 @@
       ],
       "verification": "Final local suites38checks passed(Xdrop9,Perturb7,Gel7,MULTI15); four private previews build, no completion marker; sourceguard10checked0failed0exemptions; pairing0problems; chemistry2established42unresolved0contradictory. Guard text matching is not provenance verification: Xdrop canonicalPDF+renderedp1672 is authority; orphanXML remains unreconciled.",
       "oligo_scraper": "Standard full-bundle scraper run; relevant source pointers checked. Gel rerun after institutional original retrieval. Image/layout-critical MULTI protocolp33 rendered and inspected."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Canonical published PDF only; not a full-source or absence review.",
+      "locations": "Canonical published non-AM PDF humu.24063_PMC7496172.pdf text335\u2013435; Methods2.8dMDA/2.9selectedTP53PacBio branch. ManifestURL/MD5qualified; orphan XML not authority. One original; other supplements/kit instructions not newly read.",
+      "findings": "3\u201310\u00b5lreleasedaqueous input entersfirstdMDA; about6\u00b5lfirstproduct enterssecond,30\u00b0C16h/65\u00b0C10min and20\u00b5lPicoBreak aftereach. TP53 selectedJurkat1\u00b5g makes5kbSMRTbell1.0library; oneSMRTcell/PacBioRSII/C4/P6/240minmovie. HPV18HeLa2kblibraries/Sequel are separate. Actual completevendor1.0instructions are cited but exactdocumentidentity/revision and applicability remain tocurate; do not importmodernSMRTbellrecipe. Detector amplicons and longDNA remain separate classes throughsorting/MDA; kitlibraryhandoff/inputstock/QC/loadingfates requireactualsource-qualified modelling.",
+      "deferred": [
+        "Source-qualified SMRTbell1.0 producer, transfer/stock/QC/loading, complete dMDA functional inputs and final library/topology/read geometry.",
+        "Exact cited manufacturer-guide identity/revision and applicability; remaining supplement/direct source scope."
+      ],
+      "oligo_scraper": "/tmp/unlinked9-xdrop-scraper.log; relevant new review is dMDA/kit boundary, not fresh oligo transcription.",
+      "verification": "Model unchanged; missing sequencing terminal and actual unassembled_source required item retained. Source-review schema and normal gate independently checked by coordinator."
     }
   ],
   "linked_information": {
@@ -66,5 +81,7 @@
     "source_collected": true,
     "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
     "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
-  }
+  },
+  "blocking_condition": "Requiredunassembled_source remains. Existing10stepgraph ends at enriched amplifiedDNA; originalSMRTbell1.0kit preparation/adapter topology, full dMDA functional inventory and input/strand/read geometry remain unassembled. Source actualnamedkitDNA-libraryproduction is positively described but cannot stand in for full existingdeclaredsource/modelscope. No unavailable-document or sequence-absence claim.",
+  "conclusion": "Bounded source/model hold; no accepted missing-information claim. Canonical published PDF remains authority."
 }

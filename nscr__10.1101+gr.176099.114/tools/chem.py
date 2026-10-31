@@ -46,6 +46,9 @@ def selftest():
     from checks import Check
     c = Check(); g = protocol_graph()
     c('Pending source/assembly boundary prevents finished publication', bool(g.publication_problems()))
+    c('T4PNK is an actual catalyst port',next(p.role for p in g.steps['thiophosphate'].inputs if p.material=='thiophosphate_stock'),R.CATALYST)
+    c('Maleimide is an actual molecular reagent',next(p.role for p in g.steps['maleimide'].inputs if p.material=='maleimide_stock'),R.STRUCTURAL)
+    c('Original historical assembly obligation stays uncovered','unreviewed_assembly' in g.source_coverage,False)
     c('Private preview has no finished marker', 'data-protocol-complete=' not in render_page())
 
     second=experiment_graph(2)
@@ -90,13 +93,17 @@ def experiment_graph(experiment):
     if experiment not in (1,2):raise ValueError('original experiment1 or2 required')
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
     x=g.input('cells','individual source WT or MCM2-deficient MEF preparation',K.MOLECULAR,state=pop('genomicDNA, nascent RNA-DNA chains and other cellular material'),primary=True)
-    x=op(g,'lysis','Source SDS/EDTA/NaCl/Tris/PK37C18h lysis; molecular debris remains',S.MAGIC,x,pop('DNA/RNA plus proteolytic and other molecular remnants'),'source proteinaseK and lysis conditions')
+    x=op(g,'lysis','Source SDS/EDTA/NaCl/Tris/PK37C18h lysis; molecular debris remains',S.MAGIC,x,pop('DNA/RNA plus proteolytic and other molecular remnants'),'source proteinaseK and lysis conditions',K.CATALYST,R.CATALYST)
     x=cleanup(g,'phenol','Source phenol/chloroform extraction',x,x.state)
     x=cleanup(g,'trizol','Source TRIzol DNA recovery and washes; no RNase destruction of RNA leaders',x,pop('recovered DNA with possible RNA-DNA chains/carryover'))
     x=op(g,'denature','Source heat denaturation; original numerical heat parameters unassigned',S.MAGIC,x,pop('denatured genomic fragments and RNA-DNA chimeras'),'source heat condition')
     x=cleanup(g,'gradient','Source16ml sucrose gradient; pooled400–2000nt fractions then ethanol precipitation',x,x.state)
-    x=op(g,'thiophosphate','Source T4PNK-mediated5′ thiophosphorylation; RNA leaders and brokenDNA can be labelled',S.MAGIC,x,pop('5′thiophosphorylated RNA-DNA and brokenDNA classes plus unreacted species'),'T4PNK and source thiophosphate labelling reaction; exact end/reagent geometry unreviewed')
-    x=op(g,'maleimide','Source biotin-maleimide coupling to installed5′thiophosphate',S.CHEMICAL_CONVERSION,x,pop('5′biotin-linked RNA-DNA/brokenDNA classes and possible uncoupled molecules'),'source biotin-maleimide SP1501/VectorMB9001 boundary')
+    x=op(g,'thiophosphate','Source T4PNK-mediated5′ thiophosphorylation; RNA leaders and brokenDNA can be labelled',S.MAGIC,x,pop('5′thiophosphorylated RNA-DNA and brokenDNA classes plus unreacted species'),'Source T4PNK catalyst; thiophosphate donor/end and kit geometry remain unreviewed',K.CATALYST,R.CATALYST)
+    maleimide=g.input('maleimide_stock','Actual source biotin-maleimide SP1501 molecular supply; dose and whole covalent adduct unassembled',K.MOLECULAR)
+    coupling=g.input('maleimide_conditions','Source MB9001 coupling conditions remain under historical-kit review; no numerical defaults',K.CONDITION)
+    tagged=g.product('maleimide_product','Source5primebiotin-linked RNA-DNA/brokenDNA classes and possible uncoupled molecules',K.MOLECULAR,state=pop('source labelled chain population; exact phosphate/linker/junction chemistry unassembled'))
+    g.react('maleimide','Source biotin-maleimide coupling, not a buffer-only condition',S.CHEMICAL_CONVERSION,((x,R.TEMPLATE),(maleimide,R.STRUCTURAL),(coupling,R.CONDITION)),(tagged,))
+    x=tagged
     beads=g.input('beads','source NEBS1420S streptavidin beads',K.SELECTION)
     bound=g.product('bound','captured tagged chains; possible background/carryover',K.MOLECULAR,state=x.state)
     flow=g.product('flowthrough','source collected F flowthrough fraction',K.MOLECULAR,state=pop('unbound molecules and carryover; composition unquantified'))
@@ -124,11 +131,14 @@ def experiment_graph(experiment):
     wga_input=g.product('wga_input','remaining R selected for WGA',K.MOLECULAR,state=released.state)
     g.react('split_r','Source unamplified R control aliquot separation before amplification',S.GENERIC,((released,R.TEMPLATE),(splitcond,R.CONDITION)),(control,wga_input),changes_molecule=False,reason='Physical source aliquot division, exact fraction unassigned.')
     g.mark_terminal(Terminal(control.id,Disposition.STORED,'Source saved unamplified R control; no synthetic library route assigned.'))
-    x=op(g,'wga','Source WGAII '+('SEQX experiment1' if experiment==1 else 'SEQXE experiment2')+'; NGS explicitly omits yield-assay Klenow conversion',S.MAGIC,wga_input,pop('source whole-genome-amplifiedDNA preparation plus remnants; internals unassembled'),'original WGAII kit, no inferred Phi29 or PCR primer recipe')
-    x=op(g,'library_prep','Source '+('NEBNextChIPSeq experiment1' if experiment==1 else 'IntegenXPrepXDNAChIP experiment2')+' library preparation',S.MAGIC,x,pop('source Illumina library preparation; historical geometry and workup internals unreviewed'),'source historical library kit')
+    x=op(g,'wga','Source WGAII '+('SEQX experiment1' if experiment==1 else 'SEQXE experiment2')+'; NGS explicitly omits yield-assay Klenow conversion',S.MAGIC,wga_input,pop('source whole-genome-amplifiedDNA preparation plus remnants; internals unassembled'),'Aggregate actual original WGAII reagent allocations; packaging/stock count unassigned, no inferred Phi29 or PCR primer recipe',K.MOLECULAR,R.STRUCTURAL)
+    x=op(g,'library_prep','Source '+('NEBNextChIPSeq experiment1' if experiment==1 else 'IntegenXPrepXDNAChIP experiment2')+' library preparation',S.MAGIC,x,pop('source Illumina library preparation; historical geometry and workup internals unreviewed'),'Aggregate historical library reagent allocations; manufacturing/packaging unreviewed',K.MOLECULAR,R.STRUCTURAL)
     final=g.product('library','source sequencing library handoff',K.LIBRARY,state=x.state)
     cond=g.input('handoff_condition','source library handoff; no invented additional purification',K.CONDITION)
     g.react('handoff','Original source library endpoint',S.GENERIC,((x,R.TEMPLATE),(cond,R.CONDITION)),(final,),changes_molecule=False,reason='Typed acquisition handoff only; not a new chemical operation.')
     native(g,final,'Original HiSeq2000 paired-end'+str(50 if experiment==1 else 72)+' bases; historical priming sites/whole library unreviewed, no primer geometry fabricated.')
+    # Actual reviewed six-step/control/WGA scope; exact historical library
+    # manufacturing and its supplier applicability remain unaccounted.
+    g.declare_reviewed_scope(('cells','lysis_stock','lysis','phenol_condition','phenol_step','trizol_condition','trizol_step','denature_stock','denature','gradient_condition','gradient_step','thiophosphate_stock','thiophosphate','maleimide_stock','maleimide_conditions','maleimide','beads','capture','wash_condition','wash_step','mock_condition','mock','rnase_stock','rnase','release_condition','collect_r','residual_tewash_condition','residual_tewash_step','alkali_stock','alkali','column_collection','collect_c','aliquot_condition','split_r','wga_stock','wga','handoff_condition','handoff','library'),g.authority)
     pending(g,'Original WGAII/NEBNextChIPSeq/IntegenXPrepX documents and detailed cited NSCR method')
     return g

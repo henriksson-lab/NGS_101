@@ -44,4 +44,4 @@ Preamplification/postcapture cDNA primer preparations, the selected whole index-
 
 The final published preamplification programme (line1632) literally says “Repeat steps 2 to 5 six times for a total of five cycles.” Both printed values are retained, and executed cycle count is unassigned. The same ambiguity was previously observed in the accepted manuscript. The model does not choose a corrected cycle count.
 
-The private partial graph records the final article’s positive source order and stock/fraction boundaries. It remains an incomplete library model: selected cDNA/index primer preparations, occupied transcript geometry, molecular products and primer landing remain unresolved. No complete source audit or accepted missing-information conclusion is claimed.
+The public source-qualified workflow records the final article’s positive source order and stock/fraction boundaries. It remains an incomplete library model: selected cDNA/index primer preparations, occupied transcript geometry, molecular products and primer landing remain unresolved. No complete source audit or accepted missing-information conclusion is claimed.

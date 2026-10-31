@@ -107,9 +107,10 @@ def protocol_graph():
     geometry=reported_adapter_end('source trP1 T-overhang end',kind='cohesive',polarity='3-prime',terminal_sequence='T',body_sequence=TRP1_TOP[:-1],statement='Source explicitly states T overhang and opposing5-prime phosphate. Full duplex/junction assembly is not inferred from this one strand.')
     g.react('ligate_trp1','Ligate source trP1 adapter',S.LIGATION,((tailed,R.TEMPLATE),(top,R.STRUCTURAL),(bottom,R.STRUCTURAL),(lig1,R.CATALYST)),(adapted,),geometry=geometry)
     ready=cleanup(g,'trp1_clean','AMPure cleanup after trP1 ligation',adapted,adapted.state)
-    tdt=g.input('tdt','TdT plus ddATP,37C2h',K.CATALYST)
+    tdt=g.input('tdt','Source TdT enzyme,37C2h; supply packaging unassigned',K.CATALYST)
+    ddatp=g.input('ddatp','Source dideoxyATP molecular substrate for end blocking; dose/stock packaging unassigned',K.MOLECULAR)
     blocked=g.product('blocked','pre-existing free3-prime ends blocked with ddA; physical DNA retained',K.MOLECULAR,state=LesionState('blocked'))
-    g.react('block_old_ends','TdT/ddATP block pre-existing free3-prime ends',S.TAILING,((ready,R.TEMPLATE),(tdt,R.CATALYST)),(blocked,))
+    g.react('block_old_ends','TdT/ddATP block pre-existing free3-prime ends',S.TAILING,((ready,R.TEMPLATE),(tdt,R.CATALYST),(ddatp,R.STRUCTURAL)),(blocked,))
     clean=cleanup(g,'block_clean','AMPure cleanup after TdT/ddATP',blocked,blocked.state)
     endov=g.input('endov','30U T4endoV,37C2h',K.CATALYST)
     cleaved=g.product('endov_cut','lesion-associated breaks and other DNA retained',K.MOLECULAR,state=LesionState('endoV'))
@@ -155,7 +156,7 @@ def protocol_graph():
     g.react('pcr','Six-cycle libraryPCR',S.PCR,((clean,R.TEMPLATE),(primer_a,R.STRUCTURAL),(primer_trp1,R.STRUCTURAL),(pcr,R.CONDITION)),(amplified,),geometry=PCRGeometry.unavailable(molecule('source dsDNA library',(role('full adapter/strand assembly not yet validated'),)),reason='Printed primers verified locally; full source adapter/template topology and run architecture remain unassembled.'))
     library=cleanup(g,'library','Final AMPure cleanup; selected A1 library (other source sample codes outside this route)',amplified,amplified.state)
     g.mark_terminal(Terminal(library.id,Disposition.UNRESOLVED,'Source IonProton endpoint; final assembly, source sample-code boundaries and run geometry unassembled.'))
-    g.declare_reviewed_scope(('dna','sonication','shear','fragment_clean_condition','fragment_clean_step','end_modules','end_processing','trp1_top','trp1_bottom','lig1','ligate_trp1','trp1_clean_condition','trp1_clean_step','tdt','block_old_ends','block_clean_condition','block_clean_step','endov','endov_digest','endov_clean_condition','endov_clean_step','ape1','make_3oh','ape_clean_condition','ape_clean_step','sap','dephosphorylate','sap_heat','stop_sap','sap_clean_condition','sap_clean_step','denaturation','denature','a1_top','a1_bottom','lig2','ligate_a1','beads','capture','naoh','release','primer_a','copy_polymerase','copy','copy_clean_condition','copy_clean_step','primer_trp1','pcr_condition','pcr','library_condition','library_step'),g.authority)
+    g.declare_reviewed_scope(('dna','sonication','shear','fragment_clean_condition','fragment_clean_step','end_modules','end_processing','trp1_top','trp1_bottom','lig1','ligate_trp1','trp1_clean_condition','trp1_clean_step','tdt','ddatp','block_old_ends','block_clean_condition','block_clean_step','endov','endov_digest','endov_clean_condition','endov_clean_step','ape1','make_3oh','ape_clean_condition','ape_clean_step','sap','dephosphorylate','sap_heat','stop_sap','sap_clean_condition','sap_clean_step','denaturation','denature','a1_top','a1_bottom','lig2','ligate_a1','beads','capture','naoh','release','primer_a','copy_polymerase','copy','copy_clean_condition','copy_clean_step','primer_trp1','pcr_condition','pcr','library_condition','library_step'),g.authority)
     g.add_source_item(SourceItem('companion_protocol','Direct emRiboSeq/EndoSeq protocol version and remaining assembly boundaries','Child Methods1268/ref19 explicitly cites DOI10.1038/nprot.2015.099; original not read within capped pass.'))
     return g
 

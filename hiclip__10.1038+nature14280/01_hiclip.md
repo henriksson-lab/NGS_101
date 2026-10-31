@@ -31,3 +31,28 @@ Graph boundary: upstream capture/workup, stringent purification, proteolysis/RT/
 ## Component lineage
 
 Introduction46 explicitly compares direct-arm CLASH ligation with hiCLIP's inserted bridge strategy: candidate CLASH→hiCLIP is a strategy refinement, not complete recipe inheritance. Main Methods calls denaturing purification adapted from Kiel etal.ref31 and iCLIP protocolsref19/32; exact editions/components require independent predecessor review before an import/registry claim. Shared RT motifs or matching primers alone do not establish ancestry.
+
+## Bounded unlinked-page adjudication: source/model scope retained
+
+The 30 October 2026 read-only pass revisited only the existing associated
+accepted manuscript's detailed Methods 104–174 and sequencing paragraph 206.
+No additional original, publisher retry, vendor source or reference was opened.
+The required `unreviewed_final_vor` source item remains unresolved; this pass
+did not establish a new version-of-record access failure. Its applicability
+is unperformed source/version scope, not a claim of missing disclosure.
+
+The present six-step adapter-gating graph still omits the actual adapter factory,
+cell/capture preparation, urea denaturation and second immunoprecipitation,
+20% radiolabel allocation/recombination with the other 80%, membrane selection,
+proteinase extraction, RT/hydrolysis, cDNA size selection, circularization,
+BamHI and PCR producer path. Those actual preparation and physical-fate
+obligations cannot be excluded merely to qualify a coarse RNA endpoint.
+
+The second-ligation paragraph states a 20 µl added mixture but lists component
+volumes totaling 100 µl. A possible bulk-stock versus aliquot interpretation
+remains unassigned here; neither normalization nor a publication-error claim is
+justified by that referent alone. The later source 11 µl cDNA stock contributes
+5 µl to PCR, with 6 µl nominal untransferred stock. The 24-cycle hiCLIP PCR and
+MiSeq 196-cycle report must remain distinct from the separate ribosome/mRNA
+protocol's modifications and cycles. The model is unchanged and remains a
+private source-qualified prefix, with no accepted absence claim.

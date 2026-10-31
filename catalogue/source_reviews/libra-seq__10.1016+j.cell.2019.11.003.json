@@ -114,5 +114,16 @@
     "Historical10x B-cellVDJ guide and bead/TSO design",
     "Complete antigen/BCR library geometry and read schedule",
     "Other antigen-panel variants and independent source review"
-  ]
+  ],
+  "publication_preparation_recheck": {
+    "date": "2026-10-30",
+    "scope": "j.cell.2019.11.003_PMC7158953.xml.txt Methods198\u2013220: antigen oligo pattern/13-base dictionary/5amino/PS additive primer; 4FB/HyNic conjugation/FPLC/analytical checks; streptavidinPE incremental additions; cell markers/PBS-BSA washes/FACS; Chromium/CITE handoff and separate retained antigen/BCR fractions; NovaSeq/processing. No supplement or historical CITE/10x guide reopened.",
+    "originals_read": 1,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "outcome": "page_ready",
+    "findings": "Physical reactant/apparatus roles, actual analytical allocations, molecular BSA/markers, stage-specific functional supplies and final stock/loading fates corrected. Exact free antigen tag retained; full kit molecule/read geometry and historical source revisions remain qualified.",
+    "verification": "16 focused PASS; build PASS; normal publication gate []; sourceguard2 exact0failed0exempt5 whole external inputs unassembled; chemistry19steps21unresolved0contradictory; pairing0. Actual HTML heading/complete-wrapper/caption/source-limit/link review PASS.",
+    "missing_information_claims": []
+  }
 }

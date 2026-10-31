@@ -5,6 +5,7 @@ from dataclasses import dataclass,replace
 from chemdraw import Scene,Segment,Construct,feature,workflow_from_protocol_graph,workflow_panel
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
 from page import head,info
+import illumina as il
 PAGE_FILE='chem.html'
 
 class Operations:
@@ -52,6 +53,10 @@ SOURCE='AssociatedauthorMS PMC4320661 Methods107 LAM-specificparagraph; publishe
 LIMIT='Private incomplete source graph. Operational2015LAMrecipe is explicitlyassociatedauthor-manuscript scope; publishedSI oligos independentlycontrolinventory. OriginalemulsionHTGTSend-repair/A-tailrecipe is not imported. Bothsourcebridgevariantsareinventory;actualend-conditionedallocationisexplicitlyunassembled,notallusedonebatch. EcoNI cuts only recognition-site-containingmolecules; digestiondoesnotphysicallydiscardthem. Fullbait/rearrangedDNAgeometry,predecessorbridgeinstructionsandkitrevisionsremainunreviewed.'
 ENDPOINT='loading_out'
 CORE='GCGACTATAGGGCACGCGTGG'
+# Published Table8 p30 source-specific PCRIII bodies. Canonical prefix reuse
+# records exact local sequence identity, not inheritance of a finished library.
+PCRIII_P5=il.P5+'TCTTTCCCTACACGACGCT'
+PCRIII_P7=il.P7+'CGGTCTCGGCATTCCTGCTGAACC'
 @dataclass(frozen=True)
 class DigestClass:
     has_econi:bool
@@ -91,7 +96,7 @@ def protocol_graph():
     r=g.input('nested_adapter','SourceadapterprimerwithI7-relatedtail;wholepolymerunassembled',K.OLIGO)
     x=o.join('nested',(x,f,r),'Source15cyclenested-locusPCR;newDNAcopiedfrombiotin/linker-bearingtemplates,biotin/blockersnotautomaticallycopied')
     x=o.op('econi',x,'EcoNIblockingdigestcleavessite-containinggermlineclasses; site-freeclassesremainintact,allfragmentsremainuntilphysicalworkup','EcoNI',chemical_state=(DigestClass(True).digest(),DigestClass(False).digest()))
-    f=g.input('p5','SourceTable8P5PCRIIIprimer;fullbodyunassembled',K.OLIGO);r=g.input('p7','SourceTable8P7PCRIIIprimer;fullbodyunassembled',K.OLIGO)
+    f=g.input('p5','SourceTable8P5PCRIII whole primer body; occupied library landing unassembled',K.OLIGO,state=Construct([Segment('source P5 PCRIII',PCRIII_P5)]));r=g.input('p7','SourceTable8P7PCRIII whole primer body; occupied library landing unassembled',K.OLIGO,state=Construct([Segment('source P7 PCRIII',PCRIII_P7)]))
     x=o.join('final_pcr',(x,f,r),'Source10–15cyclesP5/P7step-outPCRreconstructsMiSeqsequencearms; intact/cuttemplates/reagentsremainwithoutinventedcleanup')
     x=o.opaque('loading',x,'KnownMiSeqlibraryacquisitionhandoff; productioncleanup/QC/sizeallocationunreviewedinselectedparagraph')
     return finish(g,x,'PublishedassociatedsourceMiSeqpaired-end;runlength/fullprimerlandingunreviewed. Molecularrearrangementjunctionsareexistinggenomictemplates;mapping/duplicatefiltersnotchemicalseparations.')
@@ -109,6 +114,8 @@ def selftest():
     src=Source(sources_root()/'lam-htgts__10.1038+nbt.3101'/'nbt.3101_41587_2015_BFnbt3101_MOESM10_ESM.pdf.txt','PublishedTable8p30render /tmp/lam19-bridge.png')
     if have(c,src,label='Wholemodifiedbridgeoligotranscription'):
         t=''.join(src.path.read_text().split())
+        c('Source whole P5 PCRIII primer body',PCRIII_P5 in t,True)
+        c('Source whole P7 PCRIII primer body',PCRIII_P7 in t,True)
         c('Sourceupperwholeblockedbody',CORE+'TNNNNN-/3AmMO/' in t,True)
         c('Sourcelowerwhole5phosphate3aminobody','/5Phos/'+revcomp(CORE)+'-/3AmMO/' in t,True)
         c('Sourcealternatewhole5Aphosphate3aminobody','/5Phos/A'+revcomp(CORE)+'/3AmMO/' in t,True)

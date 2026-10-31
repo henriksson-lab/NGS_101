@@ -89,8 +89,8 @@
       "pass_1": {
         "reviewer": "rna_round09_reader",
         "date": "2026-10-29",
-        "locations": "Notes1\u20133pp1\u20132; especially Note2competitive elution and partial alkaline rearrangement beforeRT",
-        "finding": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV."
+        "locations": "Notes1–3pp1–2; especially Note2competitive elution and partial alkaline rearrangement beforeRT",
+        "finding": "Published SI-qualified partial m1A→m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV."
       },
       "pass_2": null,
       "source_version": "Published SI"
@@ -194,7 +194,7 @@
         "reviewer": "rna_round09_reader",
         "date": "2026-10-29",
         "locations": "Provenance72, Methods144/160 and mismatchanalysis184",
-        "finding": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV."
+        "finding": "Published SI-qualified partial m1A→m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV."
       },
       "pass_2": null,
       "source_version": "Associated accepted manuscript NIHMS778531; final-VOR procedural applicability unverified"
@@ -206,7 +206,7 @@
       "reviewer": "rna_round09_reader",
       "date": "2026-10-29",
       "locations": "Selected exact source sections above and protocol notes",
-      "finding": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV. Directly named originals deferred at source cap; no independent second pass."
+      "finding": "Published SI-qualified partial m1A→m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV. Directly named originals deferred at source cap; no independent second pass."
     },
     "pass_2": null
   },
@@ -236,8 +236,8 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Defining/chemistry originals first, no recursive source chase",
-      "locations": "Notes1\u20133pp1\u20132; especially Note2competitive elution and partial alkaline rearrangement beforeRT; Provenance72, Methods144/160 and mismatchanalysis184",
-      "findings": "Published SI-qualified partial m1A\u2192m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV.",
+      "locations": "Notes1–3pp1–2; especially Note2competitive elution and partial alkaline rearrangement beforeRT; Provenance72, Methods144/160 and mismatchanalysis184",
+      "findings": "Published SI-qualified partial m1A→m6A control; AM-qualified fragmentation/IP/kit/readout order. Separate from Li demethylation/AMV.",
       "deferred": [
         "https://doi.org/10.1038/nature16998",
         "Published SI Note2cited originalm6A-seq procedure (reference50); associated AMMethods160cited predecessor51",
@@ -245,6 +245,21 @@
       ],
       "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
       "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch17",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed-source bounded molecular-inventory/modification corrections; original assembly/source holds retained",
+      "locations": "nature16998_PMC4842015.xml(.txt): Provenance72; RNAinputs144 andactualfragment/IP/elution/rearrangement/library/acquisition160.; nature16998_41586_2016_BFnature16998_MOESM118_ESM.pdf(.txt): Notes1-3pp1-2, especiallyNote2text20-41 competitivefreem1Anucleosideelution andpartialDimroth afterIP/beforeRT; notwholeSI/absenceaudit.",
+      "findings": "Realrequired finalpublishedMethods applicability andhistoricalNEBNextUltrakit/fulladapter/readgeometry remainunreviewed. AM160statesfirststrand/kitDNAsequencingroute, publishedSINote2partialconversion, butcoarseproducerdoesnotwaiveeitherexistingobligation. Freecompetitive m1Anucleoside molecular contribution; historicalkitphysicalsupplies; literalreviewsubset retainingbothsourceitems. No source-item exclusion or opaque-product coverage waiver.",
+      "deferred": [
+        "pending_historical_kit",
+        "pending_vor"
+      ],
+      "oligo_scraper": "Mandatory cached-bundle scraper completed during closed preflight. ActualDePACETableS1p17/p18 images checked; rhP5wholemodifiedMain106 source fixture passes. No zero-hit absence inference.",
+      "verification": "6focusedchecksPASS; existingDePACEprivatebuilder andtemporarym1Agraph renderPASS; combinedguard5exact0failed0exempt6unassembledinputs; no fullPCR/P7 geometry implied, chemistry36unresolved0contradictory/pairing0. Fullmolecular/sourcecompleteness notclaimed."
     }
   ]
 }

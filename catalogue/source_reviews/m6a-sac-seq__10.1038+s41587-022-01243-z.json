@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "JATS119–125,191,209–227; referenceR53",
+        "locations": "JATS119\u2013125,191,209\u2013227; referenceR53",
         "finding": "Three control branches preserve selected A/m6A/FTO-erased reaction origins through allylation/cyclization, with incomplete fractions unassigned. Publisher oligo inventory remains separate from manuscript graph applicability."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "Publisher FigS1caption opening; original Table1PDFp29/printed28 visually inspected; extracted table446–551",
+        "locations": "Publisher FigS1caption opening; original Table1PDFp29/printed28 visually inspected; extracted table446\u2013551",
         "finding": "Inspected only stated sections; no complete panel/table or absence review."
       },
       "pass_2": null
@@ -292,7 +292,7 @@
     "pass_1": {
       "reviewer": "rna_round04_reader",
       "date": "2026-10-28",
-      "locations": "JATS119–125,191,209–227; referenceR53; Publisher FigS1caption opening; original Table1PDFp29/printed28 visually inspected; extracted table446–551",
+      "locations": "JATS119\u2013125,191,209\u2013227; referenceR53; Publisher FigS1caption opening; original Table1PDFp29/printed28 visually inspected; extracted table446\u2013551",
       "finding": "Three control branches preserve selected A/m6A/FTO-erased reaction origins through allylation/cyclization, with incomplete fractions unassigned. Publisher oligo inventory remains separate from manuscript graph applicability."
     },
     "pass_2": null
@@ -321,7 +321,7 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
-      "locations": "JATS119–125,191,209–227; referenceR53; Publisher FigS1caption opening; original Table1PDFp29/printed28 visually inspected; extracted table446–551",
+      "locations": "JATS119\u2013125,191,209\u2013227; referenceR53; Publisher FigS1caption opening; original Table1PDFp29/printed28 visually inspected; extracted table446\u2013551",
       "findings": "Three control branches preserve selected A/m6A/FTO-erased reaction origins through allylation/cyclization, with incomplete fractions unassigned. Publisher oligo inventory remains separate from manuscript graph applicability.",
       "deferred": [
         "Final VOR procedure and complete SI/version applicability; quantitative stoichiometry/calibration.",
@@ -333,5 +333,49 @@
     "selftest_checks": 9,
     "result": "pass",
     "scope": "Local behavior/source-transcription checks only. Default-graph shared chemistry claims remain unresolved; not complete reaction/source validation."
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "page_ready",
+    "scope": "Bounded implementation after initial model-scope hold, using same two previously selected originals; no source expansion or full revision equivalence. Accepted mainMethods209\u2013227 and explicitly cited publisherTable1 components. No absence audit.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "findings": "Full actual material stages, independent input/FTO-minus/FTO-plus controls, seven mixture allocations/drains under the explicitly disclosed six-fresh-round interpretation, molecular iodine/quench, carried RT primer, RT/RNaseH/release, second ligation, analytical/production/stock allocation and Q5/source-oligo/PCR/purification/loading now represented; exact whole occupied molecules/read landing remain unassembled.",
+    "normal_gate": [],
+    "verification": "21 focused PASS across three normal control gates; sourceguard2 exact0failed1 narrowly documented physical-iBiodT exception1unknownoligo(dT) input; 50steps51unresolved0contradictory expected after qPCR inventory refinement; build/pairing/actualHTML verified separately.",
+    "missing_information_claims": [],
+    "source_oligo_exception": "Only RNA-adapter physical dT transcription: whole original modified order plus backbone regression; no global parser changes.",
+    "repeat_count_source": {
+      "locator": "s41587-022-01243-z_PMC9378555.xml.txt:219, m6A site labeling and reverse transcription",
+      "exact_wording": "this labeling step was repeated six times",
+      "preceding_context": "Initial50C1h mixture, then supernatant removal and a fresh4+1+1+2+2ul20min recipe before parenthesis.",
+      "model_interpretation": "Six total fresh20minrounds after initial1h: seven modeled mixtureallocations.",
+      "ambiguity": "May instead mean six repeats after the separately described first20minround. Total remains source-interpretation limited; publicpage/note explicitly disclose, no publication-error claim.",
+      "control_limit": "Input has noMjDim1/I2; FTOminus/plus independentlyprepared. No sharedlabelingstock or physicalcontrolpool."
+    },
+    "repeat_inference_refinement": "All source-count-conditioned mixture stocks/components/labeling outputs and drain products are constructor-inferred; repeated inventory/labeling/drain process captions explicitly INFERRED \u2014 repeat convention. Preamble and7-vs8source interpretation caveat retained. Same21focusedchecks/all3normalgates/build pass after metadata-only refinement."
+  },
+  "unlinked_page_initial_model_hold": {
+    "date": "2026-10-30",
+    "result": "blocked_model_scope",
+    "source_scope": "Existing accepted-manuscript PMC9378555.xml.txt209\u2013227: threecontrols, actualupstreamRNA/adapter preparation, sevenlabelingrounds, iodine/quench, HIVRT/inputRTdistinction, RNaseH/elution, secondligation, actualqPCR/productionallocation andPE150. Existing publisherMOESM1.pdf.txt446\u2013485 selectedTable1probe/contexttext only; previously inspected originalTable1p29 modifiedadapter proof remains historical, not newly asserted original-image verification. Same2originals; no otherSI/workbooks/2013predecessor/laterprotocol/correction or finalVOR opens.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Current default source-qualified graph starts at prepared adapter-ligated bead-bound RNA and stops at washed covalent modified RNA before HIV RT. A true RNA-to-cDNA/adapter/PCR/QC/library path is absent from the model; adding a sequencing terminal to the chemical substrate would misrepresent source preparation.",
+    "positive_preparation_obligations": [
+      "Actualsourceinput/FTO-minus/FTO-plus libraries are independentpreparations. Upstream30\u2013100ngpolyAor ribo-minusRNA, oligo(dT)/RNaseH/DNaseIcleanup, sonication~150nt/PNK,0.6%calibration, adapterligation/deadenylaseTHENRecJf, RTprimerannealing and15ulC1capture are materialstages, not erased bystartingpreparedinput.",
+      "ActualMjDim1/allylicSAM/inhibitor/buffermixture first50C1h and SIXfresh20minrounds requireactualallocations/supernatantremoval ratherthan onefreshdose reused. SelectedreactedRNAadducts andresidualnative/backgroundpopulations staydistinguished. Iodine isphysicalreactant, not merelycondition; sourcequench printedNa2S2SO3 mustbe retained withqualification ratherthansilentlynormalized.",
+      "ActualRTbuffer/dNTP/Mg/DTT/RNaseOUT/HIVRTcontributions,3hmodifiedversus1hinputRT enzymeallocation, postRTwash thenRNaseH,95C10min50ulheateluate/residualbeads, DNAcleanup10ulelution and Rnl1/ATP/PEGadaptorligation requirephysicalinventory/fates.",
+      "Aftersecondcleanup21ulelution: source1ulqPCRanalyticalallocation,15ulproductionPCR andnominal5uluntransferredstock; preserve thosewithoutforcing21=16. ActualQ5mastermix same-stockenzyme/nucleotides/buffer andNEBNextprimerinventory,0.8xAMPure/load/stock remainunmodeled. SourcePE150HiSeqXTen isrunmetadata, not proofmodifiedRNAitselfisreadytosequence.",
+      "PublisherSIadapterinventory remains separate frommanuscriptbranch applicability. Internalbiotin-dT isphysicalnucleotide/C3isnonnucleotide; randomidentifierUMImeaning remainsinferred. No completedexactgenomiccopy/PCR/indexgeometry inferred fromcanonicalsuffixes."
+    ],
+    "normal_gate": [
+      "no terminal output is designated for sequencing"
+    ],
+    "verification": "Read-only Python-B import confirms 4defaultgraphsteps/noPAGE_FILE/no sequencingterminal. Existing wrappers onlyselftest. No modelcode changes, build or repeatedtests; documentedhold preserves fullsourcepreparation.",
+    "oligo_scraper": "/tmp/unlinked-multi8-sac-scraper.log:24 sequence-likehits in3files; sourcepointers only, output doesnot establish otheroriginals inspected.",
+    "missing_information_claims": []
   }
 }

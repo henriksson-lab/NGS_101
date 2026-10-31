@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round06_reader",
         "date": "2026-10-29",
-        "locations": "Provenance47; Results53–57, limitations99; Methods111–133; rendered original PDFpp6–7 checked for TSO/read oligos",
+        "locations": "Provenance47; Results53\u201357, limitations99; Methods111\u2013133; rendered original PDFpp6\u20137 checked for TSO/read oligos",
         "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "rna_round06_reader",
         "date": "2026-10-29",
-        "locations": "Supplementary Protocol beginning69–134; FigS2/S3 captions439–469; TableS2 lines11491–11565 and rendered originalp37",
+        "locations": "Supplementary Protocol beginning69\u2013134; FigS2/S3 captions439\u2013469; TableS2 lines11491\u201311565 and rendered originalp37",
         "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
       },
       "pass_2": null
@@ -126,7 +126,7 @@
   "open_questions": [
     "Substrate-specific capping, subsequent AP/backbone processing, cDNA/index/PCR/tagmentation branches, DASH physical fates and read-plan discrepancies remain unassembled. No source/absence completion."
   ],
-  "conclusion": "One capped source-limited pass; retain notes status. No finished schematic, full source completion or absent-information claim.",
+  "conclusion": "Bounded producer improvements retained as model hold. Original required unreviewed_remaining_preparation remains uncovered: version-specific capping, cDNA/PCR/index branches, DASH and acquired read geometry. Actual selected v2 direct-index producer/physical finishing is extended, but occupied capping and acquired primer geometry remain unassembled and the published custom Read1 values differ. Loading is not coverage for unresolved acquired geometry. No accepted missing-information absence audit.",
   "preliminary_history": "2026-10-28 task paused before completed source review. Preliminary pointers/fetches are not a separate independent reader or completed pass. Resumed2026-10-29 inspection scope is listed here.",
   "bounded_checks": [
     {
@@ -135,13 +135,25 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Bounded originals-first source review; partial protocol-owned model with explicit unreviewed SourceItems",
-      "locations": "Provenance47; Results53–57, limitations99; Methods111–133; rendered original PDFpp6–7 checked for TSO/read oligos; Supplementary Protocol beginning69–134; FigS2/S3 captions439–469; TableS2 lines11491–11565 and rendered originalp37; Product description/monofunctional glycosylase catalytic relation only; current reformulation/unit-change notice seen, not inherited",
+      "locations": "Provenance47; Results53\u201357, limitations99; Methods111\u2013133; rendered original PDFpp6\u20137 checked for TSO/read oligos; Supplementary Protocol beginning69\u2013134; FigS2/S3 captions439\u2013469; TableS2 lines11491\u201311565 and rendered originalp37; Product description/monofunctional glycosylase catalytic relation only; current reformulation/unit-change notice seen, not inherited",
       "findings": "Substrate-specific capping, subsequent AP/backbone processing, cDNA/index/PCR/tagmentation branches, DASH physical fates and read-plan discrepancies remain unassembled. No source/absence completion.",
       "deferred": [
         "https://github.com/aisakova/smart-seq-total/blob/master/README.md"
       ],
       "oligo_scraper": "Mandatory complete downloaded-bundle scan; selected source hits verified in Methods/original tables as noted.",
       "verification": "Local suites: CLASH4, hiCLIP8, Smart-seq-total9 checks pass. Across three graphs source guard3 exact input oligos pass; one typed modified TSO lacks Construct state. Chemistry audit11 unresolved claims,0contradictions; no shared reaction relations declared. Notes/ref docs build. Not validation of full preparation/readout."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10",
+      "reviewer": "bounded_source_producer_review",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed preflight originals reused for contained producer extension; no acquisition or investigation expansion. Required original obligations retained uncovered.",
+      "locations": "Methods111\u2013133: v1/v2 plate lysis, tail/cap/RT/UDG, PCR/index, plate pools, DASH, size selection, eight-plate pool/PhiX/read programmes; Actual original TableS2p37 whole modified oligo rows; DASH recipe69\u2013134 and TableS1 guide region",
+      "findings": "The source-local v2 direct-index route now includes actual sorted-cell reaction collection, per-well ERCC, tail/cap/RT/UDG,21-cycle cDNA PCR, measured/diluted stocks, selected1.5ul cDNA,10-cycle direct index PCR, actual within-plate pools, DASH/proteinase K/physical cleanup/Pippin210\u2013600bp/QC and eight equal-volume2nM plate-pool contributions with10percentPhiX and final loading remainder. Occupied well counts are unassigned; eight actual plate groups do not clone one representative cell. Main customRead1 TCGTCGGCAGCGTCAGTTGTATCAACTCAGAC differs from original TableS2p37 TCGGCAGCGTCAGTTGTATCAACTCAGACATGGG. Main selected DASH proteinaseK50C15min/1.2xcleanup is retained separately from general SI56C10min/0.8x-or1xSPRI. General SI88+88+704ul entries sum880ul versus printed total1140ul; that bulk stock preparation is not adopted. Original required unreviewed_remaining_preparation remains uncovered: version-specific capping, cDNA/PCR/index branches, DASH and acquired read geometry. Actual selected v2 direct-index producer/physical finishing is extended, but occupied capping and acquired primer geometry remain unassembled and the published custom Read1 values differ. Loading is not coverage for unresolved acquired geometry.",
+      "deferred": [],
+      "oligo_scraper": "41 sequence hits in4 representations, whole TSO/oligo-dT verified against actual TableS2 originalp37",
+      "verification": "17 focused checks PASS; source guard combined1exact/0fail/12unknownwholeinputs, no exemptions. Combined122unresolved chemical claims/0contradictions. Normal page builds deliberately rejected by unchanged required-source gate; no public HTML/pairing acceptance claimed. Coordinator independently verified TableS2p37 v2 FW/RV cDNA Amp and index Amp whole produced oligo orders; three local fixtures cover produced components excluded by external-input guard. Newly added PAGE_FILE wiring removed while source gate is unmet; full-site graph-only discovery remains stable."
     }
   ],
   "integration_verification": {

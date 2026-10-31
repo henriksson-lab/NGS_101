@@ -1,6 +1,6 @@
 {
   "dir": "espan__10.1016+j.molcel.2014.09.017",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original_1",
@@ -11,8 +11,8 @@
       "pass_1": {
         "reviewer": "expansion_dna_round12",
         "date": "2026-10-29",
-        "locations": "Associated author manuscript NIHMS667987; Methods144\u2013156, Results/Fig1A and limitations",
-        "finding": "Source serialproteinChIP\u2192proteindigestion\u2192DNAdenaturation\u2192BrdU-IP\u2192citedssDNA library\u2192HiSeq2000/2500pairedend. Exact finalpublishedversion applicability unreviewed."
+        "locations": "Associated author manuscript NIHMS667987; Methods144–156, Results/Fig1A and limitations",
+        "finding": "Source serialproteinChIP→proteindigestion→DNAdenaturation→BrdU-IP→citedssDNA library→HiSeq2000/2500pairedend. Exact finalpublishedversion applicability unreviewed."
       }
     },
     {
@@ -39,7 +39,7 @@
         "reviewer": "expansion_dna_round12",
         "date": "2026-10-29",
         "locations": "Original PubMed Erratum-in pointer:MolCell2014Nov20;56(4):609",
-        "finding": "Erratum exists in primaryindex, but precise original identity/content unresolved. CandidateDOI2014.11.007 not accepted as proven correctionidentity; institutional metadata conflates originalpages551\u2013563."
+        "finding": "Erratum exists in primaryindex, but precise original identity/content unresolved. CandidateDOI2014.11.007 not accepted as proven correctionidentity; institutional metadata conflates originalpages551–563."
       }
     }
   ],
@@ -61,13 +61,28 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Published-first boundedpass; associatedmainidentities explicit; no morethan3originals/protocol.",
-      "locations": "Associated author manuscript NIHMS667987; Methods144\u2013156, Results/Fig1A and limitations; Source SupplementalExperimentalProcedures/sevenfigures/twotables, actualmanifest gate; Original PubMed Erratum-in pointer:MolCell2014Nov20;56(4):609",
+      "locations": "Associated author manuscript NIHMS667987; Methods144–156, Results/Fig1A and limitations; Source SupplementalExperimentalProcedures/sevenfigures/twotables, actualmanifest gate; Original PubMed Erratum-in pointer:MolCell2014Nov20;56(4):609",
       "findings": "Knownsourceoperationorder, chemicalmarkers versusreportedbases and physicalfractionfates retained; no familyrecipe import.",
       "deferred": [
         "Direct actual originals/kit versions and accessbarriers in researchnote; no recursivechase."
       ],
       "oligo_scraper": "/tmp/espan12-oligos.log; mandatory wholebundle scan returned0hits; no sequenceabsenceconclusion.",
       "verification": "21localchecks(6eSPAN/7SNS/8Pu)passed;3privatebuilds/scopeddocs and pairing0problems. Sourceguard0checked/0failed,3Puinputswithout exactstates;notexactoligovalidation. Chemistry0established/30unresolved/0contradictory. Fourfetchsessions35603/79241/9946/66750 terminalexit0; externalcachepreserved; noacquisitionrunning."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch21",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed read-only main-original pass followed by bounded local contributor/QC corrections; no new original during implementation, no final-version equivalence or absence audit.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/espan__10.1016+j.molcel.2014.09.017/j.molcel.2014.09.017_PMC4362665.xml: Results68–70; Methods144–156; original JATS Figure1A caption. No actual figure image is cached in manifest, so geometry/layout not visually verified.",
+      "findings": "The selected original remains the associated NIHMS667987 manuscript, not a proven final-publication equivalent. Its Results68 explicitly describes ligation of an oligo to selected ssDNA at the 3′ end, conversion to duplex DNA and subsequent adaptor ligation. This positive order does not establish the historical whole oligos, enzyme stocks, end geometry or actual complete Meyer2012 preparation. The existing source library continuation therefore stays unresolved. The source yeast preparation is now typed biological, and actual BrdU nucleotide-analogue contribution is an explicit molecular input separate from the cell-cycle/HU programme. Chemical form, dose, incorporation distribution and full labelled polymers remain unassembled. Original required items `gated_si` and `erratum` remain exact and uncovered: actual detailed SI, precise correction identity/content, final-version applicability and directly cited methods remain follow-up obligations. No arbitrary labeling completeness, library recipe or physical pooling is added.",
+      "deferred": [
+        "Genuine associated Supplemental Experimental Procedures/seven figures/two tables: actual manifest manualURL https://pmc.ncbi.nlm.nih.gov/articles/instance/4362665/bin/NIHMS667987-supplement-supplement_1.pdf .",
+        "Historical PubMed25449133 erratum pointer recorded in review but not independently reopened here; actual correction original identity/content unresolved, candidateDOI not adopted.",
+        "Actual cited Viggiani2010 BrdU-IP and Meyer2012 DOI10.1126/science.1224344 ssDNA preparation, plus final-version applicability."
+      ],
+      "oligo_scraper": "Completed standard wholebundle scan;0 sequences in0 files with hits. Not a source absence claim. /tmp/espan-dna30-scraper.log (stdout empty; summary printed to stderr)."
     }
   ]
 }

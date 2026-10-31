@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round05_reader",
         "date": "2026-10-28",
-        "locations": "Results39–44, discussion130, Methods168–170; original non-manuscript provenance",
+        "locations": "Results39\u201344, discussion130, Methods168\u2013170; original non-manuscript provenance",
         "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
       },
       "pass_2": null
@@ -201,7 +201,7 @@
     }
   ],
   "open_questions": [
-    "Exact historical TruSeq PCR/index primers and acquired read geometry; upstream adapter ligations; m6Am cap boundary; spike 5′end preparation; calibration and crosslink remnants."
+    "Exact historical TruSeq PCR/index primers and acquired read geometry; upstream adapter ligations; m6Am cap boundary; spike 5\u2032end preparation; calibration and crosslink remnants."
   ],
   "source_version_limit": "Explicit source versions recorded per original. Manuscript/VOR equivalence is not assumed.",
   "conclusion": "One capped source-reading/model pass. Notes status; graph partial; no confirmed missing-information claim, second pass or completed read plan.",
@@ -212,12 +212,24 @@
       "date": "2026-10-28",
       "documents": 3,
       "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
-      "locations": "Results39–44, discussion130, Methods168–170; original non-manuscript provenance; Sheet1 methylated spike and library adapter/RT-primer rows; all source modifications checked; Opening source-file index identifying Supplementary Data1 oligo workbook",
-      "findings": "Exact historical TruSeq PCR/index primers and acquired read geometry; upstream adapter ligations; m6Am cap boundary; spike 5′end preparation; calibration and crosslink remnants.",
+      "locations": "Results39\u201344, discussion130, Methods168\u2013170; original non-manuscript provenance; Sheet1 methylated spike and library adapter/RT-primer rows; all source modifications checked; Opening source-file index identifying Supplementary Data1 oligo workbook",
+      "findings": "Exact historical TruSeq PCR/index primers and acquired read geometry; upstream adapter ligations; m6Am cap boundary; spike 5\u2032end preparation; calibration and crosslink remnants.",
       "deferred": [
         "https://doi.org/10.1093/nar/gky1104"
       ],
       "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
     }
-  ]
+  ],
+  "unlinked_page_implementation": {
+    "date": "2026-10-30",
+    "result": "page_ready",
+    "source_scope": "s41467-019-13561-z_PMC6904561.xml.txt168\u2013174 fullactualm6ACEpreparation andUMI/readstartprocessing. ExistingMOESM4.xlsx.txtSheet1 first26rows forsourcewholemodified3adapter,5adapterN7B,RTprimer andmethylatedspike. ExistingMOESM3.docx.txtopening sourcefileindex only. These are published originals asqualified in existingreview; no predecessor/vendor/resultworkbook expansion. No new original layout/chemistry diagram inference adopted.",
+    "originals_read": 3,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "findings": "Actual upstreamRNA/spike/antibody/UVone-otheraliquotarray\u2192recombine\u21921%input99%enriched, branchspecificcapture/XRN1, bothPK/RNA5ligation/SSIII/Phusion14/AMPure/PE75producerpaths. Spikeunknown5end/notearlierbulkPNK; ddCphysicalnucleotide andN7BUMIretained.",
+    "normal_gate": [],
+    "verification": "17focusedPASS; normalgate/build/fullworkflow/completewrapper pass; guard4exact0fail1narrowphysicalddCexception4unknownhistoricalPCRprimerinputs; chemistry44steps46unresolved0contradictory; pairing0.",
+    "missing_information_claims": []
+  }
 }

@@ -19,7 +19,7 @@ class B:
         y=self.g.product(key+'_kept','Actual retained physical source fraction, carryover/recovery unassigned',K.MOLECULAR);w=self.g.product(key+'_waste','Actual excluded workup fraction',K.WASTE)
         self.g.react(key,label,S.CLEANUP,((self.x,R.TEMPLATE),self.cond(key+'_condition',label)),(y,w));self.g.discard(w,'Actual source workup fraction excluded; no quantitative purification claim.');self.x=y;return y
     def aliquot(self,key,label,kept='Selected source aliquot',rest='Untransferred stock, amount/fate unassigned',qc=False):
-        y=self.g.product(key+'_selected',kept,K.MOLECULAR);r=self.g.product(key+'_remainder',rest,K.MOLECULAR)
+        y=self.g.product(key+'_selected',kept,K.QC if qc else K.MOLECULAR);r=self.g.product(key+'_remainder',rest,K.MOLECULAR)
         self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(y,r))
         if qc:self.g.mark_terminal(Terminal(y.id,Disposition.QC,kept));self.x=r;return r
         self.g.mark_terminal(Terminal(r.id,Disposition.UNRESOLVED,rest));self.x=y;return y
@@ -46,6 +46,9 @@ def selftest():
     c=Check();g=protocol_graph()
     c('Probe chemical contributes molecular inventory',g.steps['probe'].inputs[1].role,R.STRUCTURAL)
     c('QC sample is separate physical allocation',g.terminals['bioanalyzer_selected'].disposition,Disposition.QC)
+    c('Source Bioanalyzer analytical fraction has QC material kind',g.materials['bioanalyzer_selected'].kind,K.QC)
+    c('Analytical fraction does not enter native RNA finishing',g.steps['native_finish'].inputs[0].material,'bioanalyzer_remainder')
+    c('Actual selected source and both correction gates remain open',all(any(repr(k) in p for p in g.publication_problems()) for k in ('author_correction','publisher_correction','selected_scope')),True)
     c('Loading stock remainder retained','loading_remainder' in g.terminals,True)
     c('No copied cDNA transition imported',all(x.kind!=S.REVERSE_TRANSCRIPTION for x in g.steps.values()),True)
     p=sources_root()/Path(__file__).resolve().parents[1].name/'s41587-020-0712-z.html.txt'

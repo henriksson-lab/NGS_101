@@ -53,3 +53,21 @@ Deferred: both originals and their exact oligo lists; complete dsDNA reporter,
 well/plate primer designs and source-specific read layout; remaining original
 sections and independent review. Status remains notes; no missing component is
 confirmed absent.
+
+
+## Public preparation view, 2026-10-30
+
+The public representation is explicitly **illustrative_example**: two invented symbolic well classes illustrate the source per-well procedure and all-material per-plate pooling. They are not two experimental cell identities or a claim of96occupied wells. The source96wellplate capacity is stated separately. Input cells are already fixed, immunostained and sorted; manufacture/staining of the antibody reporters remains an explicit preparation boundary. Source Actinbarcode1 and UMI15 are separate identity fragments, not an assembled full reporter. DTT is a molecular contribution in the actual1uL releasebuffer under7uL Vaporlock. PCR1adds4uL enzyme/dNTP/buffer/primer mix; PCR2adds1uL buffer/forward/wellreverse mix and uses enzyme/nucleotide carryover. These component ports do not mean fresh independent additions at PCR2. PCR3after two purifications receives a fresh supply interface with enzyme identity/formulation unassigned in the inspected20uL recipe, rather than presumed PCR1enzyme carryover. Final agarose/BioAnalyzer material, retained library, loading aliquot and untransferred stock remain distinct.
+
+NextSeq500 alone does not assign a readlength, acquired indexmask, sequencing-primer landing or complete well/plate barcode position. Full ID-seq predecessor strands and exact well/plate primer sequences remain unassembled; the known local amplification primers remain source-exact. No bulk RNA/ChIP validation library is used as an extra scID output.
+
+
+
+Three selected published originals: mainPMC6249387 ResultsUMI/workflow; TransparentMethodsmmc1 text135–185 with actualPDFp12; TableS1mmc2 originalZIP/XML headers/Actinrow3. No predecessor original or bulkRNA/ChIP recipe adopted.
+
+Source investigation closed before implementation; mandatory scrapers ran during the
+read-only preflight. Literal curator source inventories include the stated technical
+slot/pair counts, not graph-enumerated automatic coverage. Normal gates, source
+transcription, physical-fate checks and full workflow rendering pass with unresolved
+chemistry visible. No sequence-exact final product, assay performance, full independent
+source audit or accepted missing-information claim is asserted.

@@ -205,3 +205,7 @@ follows. Exact reporter-RNA PCR geometry remains unresolved for this reason.
 This pass used two originals (corrected SOM and the already-linked author record),
 with a strict primer search against the corrected source. It is a bounded geometry
 check, not either independent full source-review pass. Local suite now has19 checks.
+
+## 2026-10-30 public preparation review
+
+The OSC published preparation can be shown with its existing source-qualified workflow and literal reviewed inventory. This bounded pass inspected the published article identity/Fig1A, corrected SOM Methods pp5–8 and Mapping p11 (rendered pp6/8), and the author DSCP GenBank identity/cassette/tail scope. The bundle oligo scraper was rerun. The public page retains the source cloning-PCR count conflict, unresolved reporter splice-primer context, and explicit GenBank LOCUS4080 versus ORIGIN5592 discrepancy. It does not import the full map or assign historical kit adapter/index sequences. This is not a completed independent source review or an accepted missing-information claim.

@@ -2,7 +2,7 @@
 
 Cozen et al., *Nature Methods* (2015), [doi:10.1038/nmeth.3508](https://doi.org/10.1038/nmeth.3508).
 
-This capped source pass establishes the pretreatment and reported sequencing readout. The local graph ends at the selected small-RNA input to the historical commercial library kit. It intentionally fails sequencing publishability. Adapter identity and kit revision remain unreviewed, not confirmed absent.
+This capped source pass establishes the pretreatment and reported sequencing readout. The local graph now traces actual matched preparations through a source-qualified historical-kit RNA-to-DNA-library handoff, selection, analytical QC and sequencing allocation. Internal kit chemistry remains explicitly unassembled. Adapter identity and kit revision remain unreviewed, not confirmed absent.
 
 ## Source reading
 
@@ -26,7 +26,7 @@ The full bundle oligo scraper returned zero hits. This is a retrieval aid result
 4. 🟢 MirVana selects RNA below 200 nt; concentration and DNase I precede column cleanup. The paper gives 1 µg RNA input to NEBNext Small RNA Library Prep Kit for Illumina.
 5. 🟢 E-Gel size selection retains libraries corresponding to 18–120 nt RNA inserts, followed by BioAnalyzer QC and Illumina MiSeq paired-end sequencing (Methods 376–402). Reads are adapter/index trimmed and merged before mapping; analyzed merged inserts are at least 15 nt (407–410).
 
-The partial graph retains physically rejected extraction and small-RNA selection material as waste and ends at RNA entering the kit. Its RNA states describe a variable population, not fabricated tRNA sequences or residue positions. The graph does not assume treatment repairs native RNA ends. It does not import DM-tRNA-seq's mutant enzyme, TGIRT reaction, template-switch starter or circularization.
+The source-qualified graph retains physically rejected extraction and small-RNA selection material as waste, with separate matched control and treated producer paths through actual DNA-library outputs. Its RNA states describe a variable population, not fabricated tRNA sequences or residue positions. The graph does not assume treatment repairs native RNA ends. It does not import DM-tRNA-seq's mutant enzyme, TGIRT reaction, template-switch starter or circularization.
 
 ## Inventory and read layout
 
@@ -40,4 +40,33 @@ No direct ancestry relation to DM-tRNA-seq is asserted: shared AlkB use and rela
 
 Candidate `arm-seq__10.1038+nmeth.3508` → `pandora-seq__10.1038+s41556-021-00652-7` is plausible only for demethylation-enabled small-RNA recovery. Existing PANDORA notes support the comparison but the defining PANDORA original's citation and inheritance statement were not re-read here, so this is an inferred candidate awaiting original-source review, with no exact buffer/enzyme/kit inheritance established.
 
-Deferred: identify and retrieve the applicable historical kit original; inspect Supplementary Table 5 and remaining linked materials; model source-specific kit reactions and molecular states; model the matched control branch; declare actual read priming when justified. No confirmed-absence claim follows from this capped pass.
+Deferred: identify and retrieve the applicable historical kit original; inspect Supplementary Table 5 and remaining linked materials; inspect source-specific kit reactions and molecular states; declare actual read priming when justified. The matched control and actual physical preparation are now modeled with the internal kit handoff explicitly unresolved. No confirmed-absence claim follows from this capped pass.
+
+## Bounded source-qualified public preparation
+
+The implementation uses the same closed associated author manuscript
+(Methods 340–402) and selected publisher Figure 1 caption. No historical kit
+guide, current kit export, predecessor recipe or whole final-version/manuscript
+equivalence was added. The source's separate radiolabeled primer-extension
+assay remains excluded from the NGS recipe.
+
+Actual matched 50 µg RNA allocations precede AlkB treatment or storage-buffer
+control. Fresh iron, alpha-ketoglutarate, ascorbate and molecular BSA contributions
+remain physical inputs. Stop-buffer, extraction, precipitation and selection
+fates are explicit. The source describes a 25 µg concentrated RNA stock, a
+10 µg DNase allocation and a 1 µg kit input. Nominal untransferred stocks are
+retained without inventing cleanup yields, mass normalization or disposal.
+
+The named historical NEBNext kit is an explicit source-positive RNA-to-DNA
+library operation with unassembled inner reactions. This is more than labeling
+RNA as a sequencing library, but does not establish adapter/primer bodies,
+ligation ends, RT/PCR recipes, kit edition or packaging. No such recipe is
+supplied by a shared constructor or current vendor default. Both actual DNA
+library paths then undergo source 2% E-Gel selection, column cleanup, analytical
+BioAnalyzer dilution and separate sequencing-loading/stock allocations.
+
+The normal publication gate passes. Full workflows and unresolved kit/analytical
+chemistry warnings remain visible on the public page. MiSeq paired-end is
+source-positive; exact cycles, index meaning/width and whole read landing stay
+unassigned. No universal demethylation yield, site-specific mutation signature
+or native-end repair is implied.

@@ -92,5 +92,45 @@
       "oligo_scraper": "Mandatory bundle scraper: TOP19hits, hmC-Seal0hits, chemical-labelSMRT13hits. Hits interpreted against originals; empty/partial extraction not absence evidence.",
       "verification": "21local checks pass (TOP7/hmC-Seal5/SMRT9); exact-source guard2checked0failed0exempt with4TOPmodifiedprimerinputswithout exactstates;3graphs. Chemistry33unresolved0contradictory (not reaction completion). All6notes/refpages build; scoped source-review schema passes (2blocked/1in_progress); diffcheck clean. Graph-only/no page builders or duplex pages, so schematic build/pairing not applicable. Retrieval82569terminalexit0; no additional acquisition."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 2,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/hmc-seal__10.1038+nbt.1732/nbt.1732_PMC3107705.xml.txt",
+        "version": "Associated author manuscript NIHMS295550, not automatic final-VOR Methods authority",
+        "sections": "Identity1\u20135; main74\u2013106",
+        "scope": "Actual genomic sonication/azido-glucose/copper-free-click/enrichment/deepsequencing and separate controls; online Methods referral106."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/hmc-seal__10.1038+nbt.1732/nbt.1732_41587_2011_BFnbt1732_MOESM6_ESM.pdf.txt",
+        "version": "Published DOI-header supplement; title differs from final article",
+        "sections": "Identity1\u201328; selected reagent-synthesis opening29\u201335 and closing100\u2013121/126\u2013137; selected validation captions176\u2013198/203\u2013213",
+        "scope": "Reagent-synthesis and validation identities, no complete synthesis/atom-map audit or genomic-library recipe; original graphical oligos not inspected/adopted."
+      }
+    ],
+    "scope": "Actual \u03b2-GT catalyst/UDP-azidoglucose donor/compound1 molecular roles; no genomic doses or full library recipe inferred.",
+    "missing_claims": [],
+    "normal_gate": [
+      "sequencing output 'library_boundary_product' is not a library",
+      "authoritative source item 'pending' is not accounted for",
+      "graph input/step 'affinity_recovery' has no source-inventory item",
+      "graph input/step 'affinity_recovery_stock' has no source-inventory item",
+      "graph input/step 'click' has no source-inventory item",
+      "graph input/step 'click_environment' has no source-inventory item",
+      "graph input/step 'click_stock' has no source-inventory item",
+      "graph input/step 'genomic' has no source-inventory item",
+      "graph input/step 'glyco' has no source-inventory item",
+      "graph input/step 'glyco_stock' has no source-inventory item",
+      "graph input/step 'library_boundary' has no source-inventory item",
+      "graph input/step 'library_boundary_product' has no source-inventory item",
+      "graph input/step 'library_boundary_stock' has no source-inventory item",
+      "graph input/step 'sonicate' has no source-inventory item",
+      "graph input/step 'sonicate_stock' has no source-inventory item",
+      "graph input/step 'udp_azidoglucose' has no source-inventory item"
+    ],
+    "verification": "hmC-Seal9PASS/PORE-cupine10PASS; sourceguard0checked0failed0exceptions0unknown (no exact oligo inputs); chemistry5+5unresolved0contradictory. No PAGE_FILE or builder exists, no new failing builder introduced."
+  }
 }

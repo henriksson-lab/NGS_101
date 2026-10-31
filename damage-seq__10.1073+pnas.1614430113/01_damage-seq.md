@@ -27,3 +27,9 @@ The source notes this implementation does not detect rare Pt interstrand crossli
 The same paper modifies UVXR-seq for platinum adducts by reversingPt withNaCN before amplification. This is an explicit **Pt-XR branch** inheriting components from UVXR-seq, not evidence that Damage-seq inherits the TFIIH capture/adapter/photolyase recipe. No constructor is imported from XR-seq.
 
 Deferred: SIAppendix original and its linked chemistry sources, exact adapter/primer polymers and reagent/end details, molecular binding/stall/strand-retention validation, run configuration, and independent second reader. The partial graph is source-positive preparation order with unresolved chemistry, not a completed protocol review or missing-information acceptance.
+
+## 2026-10-30 public preparation review
+
+Reinspected the same published main original: Results developing Damage-seq, Figure 1 caption, lesion-coordinate interpretation and Methods. The bundle scraper was rerun; zero hits do not establish missing oligos. The chemistry-relevant SI access hold remains unchanged. The public page presents the positive main-text preparation with unresolved end chemistry, strand separation, exact oligos and run settings.
+
+The extension now has an explicit unassigned molecular reagent supply. The PCR supply is conceptually partitioned into catalytic, nucleotide-bearing and nonincorporated portions of one unresolved supply; this is not a source-disclosed formulation, fresh extra additions or a verified kit recipe. Both stalled and unblocked molecular classes remain through library formation. The reserved 1% ligation-product QC aliquot stays analytical, and adapter-1-starting background read removal remains post-sequencing. No new absence claim or complete review is asserted.

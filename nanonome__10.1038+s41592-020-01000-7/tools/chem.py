@@ -46,6 +46,9 @@ def selftest():
     from checks import Check
     c = Check(); g = protocol_graph()
     c('Pending source/assembly boundary prevents finished publication', bool(g.publication_problems()))
+    c('Actual adapter stock consumed once',g._consumers['leader_motor'],['adapter_components'])
+    c('Motor is produced from the same stock, not another source input',g._producer['motor_component'],'adapter_components')
+    c('Historical kit/source applicability stays uncovered','historical_kit' in g.source_coverage,False)
     c('Private preview has no finished marker', 'data-protocol-complete=' not in render_page())
 
     x=MethylatedDNA('AGCGCA',frozenset({2}),frozenset({2,4}))
@@ -120,13 +123,18 @@ def protocol_graph():
     current=op(g,'shear','Selected source G-tube approximately10kb:2–3µg,5000g1min/invert/repeat',S.FRAGMENTATION,current,NOMePopulation('sheared'),'sourceCovarisG-tube; optional20kb/Circulomics branch unassembled separately')
     current=op(g,'end_prep','Source NEBNextUltraII end repair and dA-tail',S.MAGIC,current,NOMePopulation('end_prepared'),'historicalNEBNextUltraIIend-repair module; exact sequence/end populations unreviewed')
     current=cleanup(g,'end_cleanup','Source1xAMPureXP after end preparation',current,current.state)
-    donor_scene=Scene();donor_scene.strand('leader',[role('sourceleaderDNA adaptor; exact polymer/end geometry unreviewed')],label='leaderDNA');donor_scene.strand('motor',[role('source motor-protein component; DNA association topology unreviewed')],label='motor-associated component, not a DNA base')
-    donor=g.input('leader_motor','source LSK-SQK108 leaderDNA and motor-protein adaptor',K.ADAPTER,state=donor_scene)
+    donor_scene=Scene();donor_scene.strand('leader',[role('source leader DNA adaptor; exact polymer/end geometry unreviewed')],label='leader DNA component only')
+    stock=g.input('leader_motor','Actual source LSK-SQK108 adaptor supply:leaderDNA and associated motorprotein; molecular packaging/occupancy unassembled',K.MOLECULAR)
+    donor=g.product('leader_adapter','DNA component of same actual source adaptor supply; whole polymer/end geometry unassembled',K.ADAPTER,state=donor_scene)
+    motor=g.product('motor_component','Motor-protein component of same actual adaptor supply; not a nucleotide strand or fresh independent motor addition',K.CATALYST)
+    g.react('adapter_components','Expose DNA and protein components of one actual supplied adaptor stock',S.MAGIC,((stock,R.TEMPLATE),),(donor,motor),changes_molecule=False,reason='Source explicitly describes leader DNA and motor proteins in supplied sequencing adaptors. Inventory views of the same stock, not a separation or independently prepared protein dose.')
     ligase=g.input('ligase','source NEBBlunt/TALigaseMasterMix',K.CATALYST)
     library=g.product('ligated','source leader/motor adaptor-ligated methylated DNA',K.LIBRARY,state=NOMePopulation('library'))
     geometry=AdapterLigationGeometry('unavailable','unavailable',(donor_scene,),'Source end-repaired/dA-tailed substrate and leader/motor adaptor stated; exact cohesive/blunt strand assembly unreviewed, no source-absence claim.')
-    g.react('ligate','Source leaderDNA/motor adaptor ligation',S.LIGATION,((current,R.TEMPLATE),(donor,R.STRUCTURAL),(ligase,R.CATALYST)),(library,),geometry=geometry)
+    g.react('ligate','Source leaderDNA/motor adaptor ligation',S.LIGATION,((current,R.TEMPLATE),(donor,R.STRUCTURAL),(motor,R.CATALYST),(ligase,R.CATALYST)),(library,),geometry=geometry)
     final=cleanup(g,'library','Source0.4xAMPureXP/sequencingkit-reagent cleanup; greater400ngloaded per flowcell',library,library.state)
     g.sequence(final,SequencingPlan(limitation='Source native MinION Mk1b/GridION/PromethION acquisition; motor-assisted translocation has no sequencing primer. No arbitrary nucleotide read length is assigned; historical leader/adaptor/end geometry and kit version remain unreviewed.'))
+    # Literal associated-main operational scope; no graph-enumerated coverage.
+    g.declare_reviewed_scope(('cells','nuclei_lysis_stock','nuclei_lysis','nuclei_pellet_condition','nuclei_pellet_step','mcvi','sam','gpc_mark','stop_stock','stop','proteinase_stock','proteinase','organic_condition','organic_step','ethanol_condition','ethanol_step','shear_stock','shear','end_prep_stock','end_prep','end_cleanup_condition','end_cleanup_step','leader_motor','adapter_components','ligase','ligate','library_condition','library_step','library'),g.authority)
     g.add_source_item(SourceItem('historical_kit','Original LSK-SQK108 and NEBNextUltraII documents; finalVOR applicability','Associated mainMethods145 names exact historical kits; exact versions/assembly unreviewed.'))
     return g

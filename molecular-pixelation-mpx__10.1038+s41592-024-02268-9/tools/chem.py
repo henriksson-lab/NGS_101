@@ -1,8 +1,8 @@
-"""MPX source-qualified selected preparation, deliberately incomplete and private."""
+"""MPX source-qualified selected preparation, with explicit molecular limits."""
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from protocol_graph import ProtocolGraph, MaterialKind as K, InputRole as R, StepKind as S, SourceItem, SequencingPlan, Terminal, Disposition
+from protocol_graph import ProtocolGraph, MaterialKind as K, InputRole as R, StepKind as S, SourceItem,SourceCoverage, SequencingPlan, Terminal, Disposition
 from chemdraw import Scene,Segment
 from adapter_ligation import AdapterLigationGeometry
 from circular import CircularizationGeometry
@@ -15,14 +15,34 @@ SOURCE_DIFFERENCES='Publishedmain209/213/217 uses30min AOC staining,15000cells a
 def unknown_state():
     sc=Scene();sc.strand('unassembled',[Segment('unassembled','[source-known operation; molecular geometry unassembled]',placeholder=True)]);return sc
 
+# Literal curator-reviewed selected published preparation, not graph enumeration.
+REVIEWED_INPUTS = '''cells fix_stock fix_wash_buffer block_stock block_wash_buffer aocs stain_buffer aoc_wash_buffer secondary_stock secondary_wash_buffer
+ a_template a_padlock a_ligase a_ex a_rca_mix a_sap b_template b_padlock b_ligase b_ex b_rca_mix b_sap
+ a_hyb_buffer a_gfp a_hyb_wash_buffer a_gap_fill_ligate_stock a_gap_wash_buffer user_stock user_wash_buffer
+ b_hyb_buffer b_gfp b_hyb_wash_buffer b_gap_fill_ligate_stock b_gap_wash_buffer lambda_stock pcr_stock pcr_oligo_0 pcr_oligo_1 ampure1_buffer ampure2_buffer phix loading_buffer'''.split()
+REVIEWED_OPERATIONS = '''fix fix_wash block block_wash stain aoc_wash secondary secondary_wash a_circle a_exonuclease a_circle_aliquot a_rca_components a_rca a_rsap a_pixel_aliquot b_circle b_exonuclease b_circle_aliquot b_rca_components b_rca b_rsap b_pixel_aliquot pixelation_input a_hybridize a_hyb_wash a_gap_fill_ligate_components a_gap_fill_ligate a_gap_wash user user_wash b_hybridize b_hyb_wash b_gap_fill_ligate_components b_gap_fill_ligate b_gap_wash cell_count ex_input lambda pcr_components pcr cleanup_input ampure1 ampure2 qubit dilute interface library'''.split()
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=AUTHORITY,representation='published_instance')
     x=g.input('cells','Source cell suspension in PBS, selected fixed-cell assay; no capping/rituximab/uropod perturbation silently imposed',K.BIOLOGICAL,primary=True)
     def op(key,label,kind,stock,product,oligos=()):
         nonlocal x
         enzymatic=kind in {S.DIGESTION,S.CIRCULARIZATION,S.LIGATION,S.EXTENSION,S.PCR,S.MAGIC}
-        reagent=g.input(key+'_stock',stock,K.CATALYST if enzymatic else (K.MOLECULAR if kind==S.BINDING else K.CONDITION))
-        inputs=[(x,R.TEMPLATE),(reagent,R.CATALYST if enzymatic else (R.STRUCTURAL if kind==S.BINDING else R.CONDITION))]
+        supplied_components = key in {'a_gap_fill_ligate','b_gap_fill_ligate','pcr'}
+        reagent=g.input(key+'_stock',stock,K.MOLECULAR if supplied_components else K.CATALYST if enzymatic else (K.MOLECULAR if kind==S.BINDING else K.CONDITION))
+        inputs=[(x,R.TEMPLATE)]
+        if supplied_components:
+            enzyme=g.product(key+'_enzyme',('Q5 HotStart HiFi polymerase component of the actual master mix' if key=='pcr' else 'Source Taq DNA ligase40U and T4 DNA polymerase3U components of the same gap-fill supplies'),K.CATALYST)
+            nts=g.product(key+'_nts',('Co-present Q5 master mix dNTP substrates; source concentration unassigned' if key=='pcr' else 'Actual source100uM dNTP substrates of the same gap-fill supplies; per-base convention unassigned'),K.MOLECULAR)
+            buffer=g.product(key+'_buffer','Co-present source reaction buffer component',K.CONDITION)
+            components=[enzyme,nts,buffer]
+            inputs.extend(((enzyme,R.CATALYST),(nts,R.STRUCTURAL),(buffer,R.CONDITION)))
+            if key!='pcr':
+                nad=g.product(key+'_nad','Actual source 0.5mM NAD+ cofactor from the same gap-fill supplies',K.MOLECULAR)
+                components.append(nad);inputs.append((nad,R.STRUCTURAL))
+            g.react(key+'_components','Co-present source supply functions; packaging and stock count unassigned, no physical separation or extra doses',S.GENERIC,((reagent,R.TEMPLATE),),components,changes_molecule=False)
+        else:
+            inputs.append((reagent,R.CATALYST if enzymatic else (R.STRUCTURAL if kind==S.BINDING else R.CONDITION)))
         for i,name in enumerate(oligos):inputs.append((g.input(key+'_oligo_'+str(i),name,K.OLIGO),R.STRUCTURAL))
         kw={}
         if kind==S.MAGIC:kw['reason']='Source chemistry positive; precise combined substrate/product relation unassembled.'
@@ -65,8 +85,13 @@ def protocol_graph():
         used_circle=g.product(letter+'_circle_used','Sourcecircle-preparationaliquotgivingfinal5nMtemplatein75ulRCA; actualvolume/yieldunassigned',K.MOLECULAR)
         circle_rest=g.product(letter+'_circle_rest','Untransferred50ulcircle-preparationstock; exactremainingvolume/fateunassigned',K.MOLECULAR)
         g.react(letter+'_circle_aliquot','SourcecirclepreparationstockallocatedtoRCA; noassumedquantitativeyield',S.SPLIT,((dig,R.TEMPLATE),),(used_circle,circle_rest));g.mark_terminal(Terminal(circle_rest.id,Disposition.UNRESOLVED,'Circlepreparationnotimplicitlyconsumedinfull.'))
-        rcac=g.input(letter+'_rca_mix','Sourcephi29 7.5U/final5nMcircle/'+ntps+'/75ul37C4min→65C10min',K.CATALYST);rca=g.product(letter+'_rca_product','Source RCA DNA-pixel preparation; repeats/neighborhood UPIs known conceptually, exact copies/ends unassembled',K.MOLECULAR)
-        g.react(letter+'_rca','SourceRCA pixel production',S.EXTENSION,((used_circle,R.TEMPLATE),(rcac,R.CATALYST)),(rca,))
+        rcac=g.input(letter+'_rca_mix','Source aggregate RCA supplies: phi29 7.5U/'+ntps+'/75ul; packaging and stock count unassigned',K.MOLECULAR)
+        enzyme=g.product(letter+'_rca_enzyme','Phi29 component of the same source RCA supplies',K.CATALYST)
+        nts=g.product(letter+'_rca_nts',ntps+'; nucleotide substrates of the same source RCA supplies',K.MOLECULAR)
+        buffer=g.product(letter+'_rca_buffer','Same source RCA buffer as template preparation; no fresh inferred formulation',K.CONDITION)
+        g.react(letter+'_rca_components','Co-present RCA supply functions; no extra phi29/nucleotide doses or physical separation',S.GENERIC,((rcac,R.TEMPLATE),),(enzyme,nts,buffer),changes_molecule=False)
+        rca=g.product(letter+'_rca_product','Source RCA DNA-pixel preparation; repeats/neighborhood UPIs known conceptually, exact copies/ends unassembled',K.MOLECULAR)
+        g.react(letter+'_rca','SourceRCA pixel production37C4min→65C10min',S.EXTENSION,((used_circle,R.TEMPLATE),(enzyme,R.CATALYST),(nts,R.STRUCTURAL),(buffer,R.CONDITION)),(rca,))
         sap=g.input(letter+'_sap','SourcerSAP1U37C20min→65C5min',K.CATALYST);ready=g.product(letter+'_ready','Sourcepixelreagentmixture afterfree-nucleotide inactivation; not purified DNA alone',K.MOLECULAR)
         g.react(letter+'_rsap','SourcerSAPfree-nucleotide inactivation',S.DEPHOSPHORYLATION,((rca,R.TEMPLATE),(sap,R.CATALYST)),(ready,))
         used_pixel=g.product(letter+'_pixel_used','Sourcepixelstockaliquotgiving1nMfinalin50ulhybridization; exacttransfer/yieldunassigned',K.MOLECULAR)
@@ -101,6 +126,10 @@ def protocol_graph():
     g.react('interface','Source library interface',S.GENERIC,((x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation=READOUT))
     g.add_source_item(SourceItem('selected',AUTHORITY,'Sourcesreadwithin3originalcap; no complete source/absence review.'))
     g.add_source_item(SourceItem('differences',SOURCE_DIFFERENCES,'Publishedmain and SI differing instructions preserved explicitly.'))
+    g.cover_source_item(SourceCoverage('selected','modelled','library'))
+    g.cover_source_item(SourceCoverage('differences','modelled','stain'))
+    g.declare_reviewed_scope(REVIEWED_INPUTS, AUTHORITY+' Selected actual molecular supplies and prepared-stock boundaries; unknown whole oligos remain unassembled.')
+    g.declare_reviewed_scope(REVIEWED_OPERATIONS, AUTHORITY+' Actual selected physical preparation, allocations, QC and sequencing contribution; no assertion of complete occupied products or yield.')
     return g
 
 def selftest():
@@ -117,6 +146,38 @@ def selftest():
     c('RCAconsumesselectedcirclestock',g.steps['a_rca'].inputs[0].material,'a_circle_used')
     c('Hybridizationconsumesselectedpixelstock',g.steps['a_hybridize'].inputs[1].material,'a_pixel_used')
     c('NoBpixelUSERinvented',any(k=='b_user' for k in g.steps),False)
-    c('Privatepartialgraphnotpublicready',bool(g.publication_problems()),True)
+    for letter in ('a','b'):
+        c('RCA consumes nucleotide component of same actual supplies '+letter,
+          (g.steps[letter+'_rca_components'].inputs[0].material,
+           [(i.material,i.role) for i in g.steps[letter+'_rca'].inputs if i.material==letter+'_rca_nts']),
+          (letter+'_rca_mix',[(letter+'_rca_nts',R.STRUCTURAL)]))
+        key=letter+'_gap_fill_ligate'
+        c('Gap-fill consumes same-source NAD and nucleotide components '+letter,
+          {i.material for i in g.steps[key].inputs if i.role==R.STRUCTURAL},
+          {key+'_nts',key+'_nad'})
+    c('Q5 master polymerase and NT functions derive from one source addition',
+      (g.steps['pcr_components'].inputs[0].material,
+       [(i.material,i.role)for i in g.steps['pcr'].inputs if i.material in {'pcr_enzyme','pcr_nts'}]),
+      ('pcr_stock',[('pcr_enzyme',R.CATALYST),('pcr_nts',R.STRUCTURAL)]))
+    c('Selected reviewed preparation passes normal publication gate',g.publication_problems(),[])
+    g.input('unreviewed_addition','Regression-only unreviewed stock',K.CONDITION)
+    c('New stock cannot auto-publish',any('unreviewed_addition' in p and 'source-inventory' in p for p in g.publication_problems()),True)
     c.report()
+
+
+PAGE_FILE = 'molecular_pixelation.html'
+def render_page():
+    from page import head,info
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    return assemble_page(g,[head('Molecular pixelation'),'<div class="wrap" data-protocol-complete="true"><h1>Molecular pixelation</h1>',
+      '<p>Antibody–oligo conjugates label cell-surface proteins. Two successive DNA-pixel reactions copy neighborhood identifiers onto the reporters, producing sequencing reads used to reconstruct protein organization.</p>',
+      info('Source: <a href="https://doi.org/10.1038/s41592-024-02268-9">Molecular pixelation: spatial proteomics of single cells by sequencing</a>, published main and Supplementary Protocol. This page selects the main-article fixed-cell route. Antibody conjugates are prepared stocks; CD3 capping, rituximab and uropod perturbations are separate experiments.'),
+      '<h2>Published instruction differences</h2>',info(SOURCE_DIFFERENCES),
+      '<h2>Molecular components</h2><p>The antibody cocktail contains 80 conjugates. Each independent A/B pixel factory circularizes source template/padlock oligos, treats linear substrates with exonucleases, allocates circle preparation to phi29 RCA and treats remaining free nucleotides with rSAP. The assay then uses selected portions of these pixel stocks; it does not circularize the cells or consume every prepared stock in full.</p>',
+      '<p>Protein identifiers, antibody-oligo UMIs, pixel UPIs and eight-base sample indexes have distinct meanings. UPIs describe molecular neighborhoods, not predetermined cell barcodes. Exact source oligo bodies, variable-window coordinates, occupied complexes, sealed junctions and primer landing are unassembled here. No illustrative whole construct is substituted for them.</p>',
+      '<h2>Preparation and reads</h2><p>Fix, block and stain cells, then stabilize bound conjugates with secondary antibody. Hybridize A pixels, perform gap filling and ligation, cleave A pixels with USER and wash. Repeat hybridization and gap filling with B pixels. Count cells and allocate fewer than 1,000 to the lambda-exonuclease/PCR branch. Purify the selected PCR portion twice and quantify before physical PhiX addition.</p>',
+      info('The source sequence run is NextSeq 2000 paired-end 44 + 78 cycles with 15% PhiX. Full read/index masks remain unresolved. SI Step 4 supplies the separately qualified 30-of-40-µl PCR cleanup allocation. Pixelator graph reconstruction and filtering are computational, not additional physical purification.'),PlanLimitationSection('library'),
+      '<details><summary>Full preparation, pixel factories and chemistry warnings</summary>',WorkflowSection('Source-qualified main-article preparation'),'</details>',
+      '<p><a href="01_mpx.html">Source notes and model limits</a></p></div>'])
 if __name__=='__main__':selftest()

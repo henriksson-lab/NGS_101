@@ -39,6 +39,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle16hits/3representations. Mainwhole2modifiedlibraryoligos verified from originalJATS/PDF; actualSI1Table1/2 imageheaders/rows checked as analyticalqPCR/siRNA, not libraryPCRprimers.",
       "verification": "21focusedPASS/2wholemodifiedsourceoligos; externalguard2exact0fail0exceptions0unknownexternalinputs, TWOproducedforward/reversePCRclasseswholebodiesunassembledoutsideexternalguard. Chemistry37unresolved0contradictory. Selectedindependentcriticalpeerclosed/same2publishedoriginals afterPCRfunctionalprimerclasses/typedPCR andsource50ulbufferreferent refinements."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-sweep-targeted41",
+      "reviewer": "protocol_curator",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Same published defining original standard ARTR Methods reread for public-page inventory; prior SI scope retained, no new original or absence audit.",
+      "locations": "PMC10864177.xml.txt Methods186\u2013246, selected standard ARTR paragraphs from fixation through gel selection and Illumina readout; primary processing N8 UMI. Current module full source inventory and public rendering inspected.",
+      "findings": "Literal independently reviewed input/step inventory now mapped to actual published preparation; existing proximity and identifier findings retained/modelled locally, no source waiver. Full known RT/adaptor, standard-only readout caveats and collapsed complete workflow rendered. Unknown historical PCR sequences/occupied products/read spans remain explicit. No reaction or source ingredient changed.",
+      "deferred": [
+        "Whole RNA/cDNA/amplicon/primer landing and standard run-cycle spans remain unassembled; no missing-information claim.",
+        "Other experimental branches and source protein-factory details are outside this selected standard preparation."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper rerun /tmp/unlinked41-artr-scraper.log:16 hits in3 representations; exact source whole primer/modified adapter fixtures pass.",
+      "verification": "22 focused checks, normal publication gate, build, 2 source-exact/0failed/0exemptions and rendered pairing pass; same chemistry scope37unresolved/0contradictory. New-input regression prevents automatic source coverage."
     }
   ],
   "linked_information": {
@@ -62,5 +77,18 @@
       "RequestedPCRinventoryfixapplied: actualaggregateprimerinventorywithunknownpackaging/stockcount producesforward/reversefunctionalOLIGOclasses, consumedbytypedPCRwithunavailablewholegeometry. ActualQ5masterco-componentscopresent, all10ulcDNAusedin40ul/13cycles. E7335Sremainsexample, SIqPCR/siRNAordersnotNGSprimers. Gelband/stock/loadingphysicalfates andunknownrunlengths/wholeprimerlanding retained. No blocking defect remains in selected scope."
     ],
     "verification": "Reran21focusedchecksPASS includingwholeoriginalRT/modifiedadapter andsamephysicalRT/primercomponentprovenance; sourceguard2exactchecked/0failed/0exceptions/0unknownexternalinputs. Two producedunknownPCRprimerfunctionalclasses outsideexternalinputguard. Chemistry36steps/37unresolved/0contradictory. Narrow implementation recheck, notabsencepass2/fullchemicalaudit."
-  }
+  },
+  "publication_review": [
+    {
+      "verdict": "pass",
+      "reviewer": "coordinator_independent",
+      "originals": 1,
+      "original": "PublishedPMC10864177 JATS s41592-023-02146-w_PMC10864177.xml",
+      "sections": "Identity lines1\u20134; Results92 standard40k/PTBP1; Methods180\u2013248 including standardARTR, lowinput/tissue boundaries andN8 primaryprocessing. Keyword excerpts do not imply full source/absence audit.",
+      "findings": "Literal inventory matches selected standard physical operation sequence. Same washed pAGRT and actual preparedRTmix components, six NT classes; actual imaging/protease/RNase/capture and library order. N10priming vsN8UMI, physicalSpC3 and5P preserved. Scopefinding sourceitems represented without deleting a broadunreaditem. Declared wholePCR/run limitations not filled byE7335S or optionalbarcodedbranch.",
+      "verification": "Focused suite and public build pass; pairing0; normal source gate checked by builder.",
+      "scraper": "/tmp/unlinked-final-artr-scraper.log16candidates/3files",
+      "limits": "No complete reaction validation, source absence audit, or unrelated SI review."
+    }
+  ]
 }

@@ -1,8 +1,8 @@
-"""Private main-article-qualified ExSeq preparation, not an imported FISSEQ recipe."""
+"""Published-main-qualified ExSeq page; detailed preparation remains unresolved."""
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition,SourceCoverage
 AUTHORITY='PrintedpublishedScience371eaax2656/29Jan2021, authorhostedPDF3a64da_132e82c78d884323a15c487cb07fbf01.pdf; MethodsSummary2136–2148/2329–2342,Results224–240/565–572,actualFig1PDFp3. DetailedSM/tablesremainblocked; no wholeFISSEQ/defaultprimers or final-AMequivalence.'
 class B:
     def __init__(self):
@@ -14,6 +14,16 @@ class B:
         if kind==S.MAGIC:kw.setdefault('reason','Positivepublishedmainboundary; detailedSMrecipe/wholemolecules/chemicalproductsunassembled, notsourceabsence or borrowedFISSEQchemistry.')
         if kind==S.GENERIC:kw['changes_molecule']=False
         self.g.react(k,label,kind,((self.x,R.TEMPLATE),)+tuple(ins),(y,),**kw);self.x=y
+
+
+# Fixed target inventory independently checked against the printed published article.
+PREPARATION_SCOPE = ('source', 'fix', 'fixation_supplies', 'labelx', 'labelx_reagent', 'polymerize', 'swellable_gel', 'digest', 'digestion_supplies', 'expand', 'expansion_water', 'reembed', 'uncharged_gel', 'passivate', 'passivation_supplies', 'library_inventory', 'library_components', 'reverse_transcribe', 'size_restrict', 'size_supplies', 'circularize', 'rca_components', 'rca')
+READOUT_SCOPE = ('in_situ_sequencing', 'in_situ_oligos', 'in_situ_other', 'extract_amplicons', 'elution_supplies', 'ex_situ_library', 'ex_situ_oligos', 'ex_situ_supplies', 'loading_allocate', 'load', 'library')
+def reviewed_inventory(g):
+    g.declare_reviewed_scope(PREPARATION_SCOPE,'PrintedpublishedScience371eaax2656/29Jan2021, finalauthor-hostedPDF: MethodsSummary2136–2148/2329–2342, Results224–240/565–572, actualFig1PDFp3. LabelX/gel/passivationclasses and actualfunctionalenzymaticinventory; detailedSMrecipe/wholeoligosunreviewed, notborrowedfromFISSEQ.')
+    g.declare_reviewed_scope(READOUT_SCOPE,'SamepublishedMethodsSummary/actualFig1C: opticalin-situreadout thenphysicalampliconrecovery/ex-situIlluminaresequencing. Exactreadlength, wholefinishingmoleculesandkitstockpackagingunassembled; no physicaloperationsinferredfromcomputationalmatching.')
+    g.cover_source_item(SourceCoverage('source_scope','modelled','library'))
+    g.cover_source_item(SourceCoverage('computational_matching','modelled','extract_amplicons'))
 
 def protocol_graph():
     b=B();g=b.g
@@ -43,6 +53,7 @@ def protocol_graph():
     lib=g.product('library','Sourceex-situIlluminaresequencinglibrary; wholemolecularconstructunassembled',K.LIBRARY);g.react('load','Sourceex-situNGSreadout; exactinstrument/runlengthunassembled',S.GENERIC,((selected,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation='PublishedFig1in-situ17roundexample,variablein-situ5–30basestypically; ex-situIlluminareadscontainedcDNArepeats. No syntheticUMI/barcode inferred fromendogenoussequencefingerprints or exactrunlength/kitbody borrowed.'))
     g.add_source_item(SourceItem('source_scope',AUTHORITY,'Mainarticle-supporteduntargetedpreparationonly. ActualLabelX/unchargedreembed/passivationandampliconrecoveryboundariessupportidentitybeyondphysicalresolution/software. DetailedSM/tablecontentsunreviewed; targetedpadlockvariantnotmerged.'))
     g.add_source_item(SourceItem('computational_matching','SourceFig1C/MethodsSummaryusesrecoveredampliconsequenceasdictionaryanduniquematchesin-situreads.','Matching/segmentation/barcode-likeendogenoussequenceidentificationarecomputational, notnewwetligation or syntheticUMIinstallation.'))
+    reviewed_inventory(g)
     return g
 
 def selftest():
@@ -66,5 +77,24 @@ def selftest():
     if have(c,Source(p,'https://doi.org/10.1126/science.aax2656')):
         t=''.join(p.read_text().split());c('Printedpublishedidentity','Science371,eaax2656(2021)'in t,True);c('Actualunchargedreembedding','re-embeddingtheminunchargedgels'in t,True);c('ActualLabelXsource','RNAanchoringreagentLabelX'in t,True)
     c('Endpointretainsprimarybiologicalprovenance',any('lacks primary-template provenance' in x for x in g.publication_problems()),False)
-    c('Privateincompletegraph',bool(g.publication_problems()),True);c.report()
+    c('Source-mappedpublicationinventory',g.publication_problems(),[])
+    g.input('unreviewed_added_stock','Regression-only unreviewed input',K.CONDITION)
+    c('Unreviewedadditioncannotautopublish',any('unreviewed_added_stock' in p and 'source-inventory' in p for p in g.publication_problems()),True);c.report()
+
+PAGE_FILE = 'exseq.html'
+def render_page():
+    from page import head,info
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    return assemble_page(g,[head('ExSeq — expansion sequencing'),'<div class="wrap" data-protocol-complete="true"><h1>ExSeq</h1>',
+      '<p>Sequence RNA in physically expanded tissue, then recover its cDNA amplicons for longer ex-situ reads. The selected untargeted workflow couples RNA retention and gel chemistry to in-situ sequencing and a matching ex-situ reference.</p>',
+      info('Source: the printed published <a href="https://doi.org/10.1126/science.aax2656">Science 371, eaax2656 (29 January 2021)</a> article, available from the authors. This page follows its Methods summary, selected Results and Figure 1. Detailed supplementary methods and tables remain unreviewed after gated retrieval; this is not a finding that their information is absent.'),
+      '<h2>Make expanded RNA accessible to enzymes</h2><p>LabelX anchors RNA in a swellable, charged gel. After digestion and water expansion, the preparation is stabilized in an uncharged gel and chemically passivated. These retention and chemical-environment steps allow enzymatic library preparation after expansion. Exact anchoring adducts, polymer formulations, digestion and passivation reagents remain unresolved.</p>',
+      '<h2>Generate and read localized amplicons</h2><p>Random-primed reverse transcription produces cDNA. The article reports restricting cDNA fragments to approximately 100 bases to improve circularization, followed by circularization and RCA. The observed mean of 76 bases is not a selection target. Actual primer bodies, molecular ends, circle junctions and reaction formulations have not been assembled here; a standard FISSEQ recipe is not substituted.</p>',
+      '<p>Iterative fluorescent sequencing and imaging read the localized products. Amplicons are then physically eluted from the sample and used for ex-situ Illumina resequencing. Residual sample material and the untransferred sequencing stock remain explicit physical outcomes in the graph.</p>',
+      '<h2>How the readouts connect</h2><p>In-situ reads are computationally matched to longer ex-situ reads from the recovered amplicons. This extends sequence interpretation while retaining spatial localization. Endogenous sequence fingerprints are not automatically synthetic UMIs or predefined barcodes. The 17-round illustration is not assigned as a universal run length.</p>',PlanLimitationSection('library'),
+      info('This page describes the untargeted route. Targeted padlock ExSeq is a branch of the same work and is not merged into its chemistry. Whole oligos, exact sequencing-library construction, primer landing and run layout remain unresolved in the selected source scope.'),
+      '<details><summary>Complete declared preparation and physical outcomes, including chemistry warnings</summary>',WorkflowSection('Untargeted ExSeq preparation'),'</details>',
+      '<p><a href="01_exseq.html">Source notes and remaining questions</a></p></div>'])
+
 if __name__=='__main__':selftest()

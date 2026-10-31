@@ -40,3 +40,8 @@ Availablepublishedsupplements were read where stated; failedPMC aliases and supe
 ## Local validation
 
 Privategraph-onlyimplementation; no page builder or completionmarker. Focusedtests cover selected chemical identity/copying/fates. Fullhistoricalmolecular/end/readgeometry remains unassembled. Exact sequenceguard results and independent critical review will be recorded in the source-review JSON.
+
+
+## Bounded publication follow-up (2026-10-30)
+
+The selected0.5ul source loaded NexteraXT stock now yields copresent Tn5/adaptor/other components. It does not introduce an additional free Tn5 dose. Actual ExoV-regimen enzyme, ATP and DTT/ampicillin contributions are separate functions of source addition groups; per-round allocations and active/inactivated inventory remain unassembled, and heat remains distinct from cleanup. Gap filling and subsequent PCR consume one actual source PCR preparation: its polymerase, nucleotides and primer functions are retained from the first filling cycle into continuation, not supplied as a new PCR enzyme dose. Reported10–12cycle adequacy is not labelled10–12extra cycles after filling. Gel analytical material and final loading contributions remain separate with retained DNA stock. Native circles, gapped intermediates and copied linear products remain distinct; no RCA, modern XT oligo body, unreviewed transfer cleanup or full read geometry is introduced. Original historical XT/transfer obligations remain required/uncovered, and no public page is promoted.

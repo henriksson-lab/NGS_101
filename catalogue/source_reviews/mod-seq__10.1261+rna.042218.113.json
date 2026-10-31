@@ -140,6 +140,21 @@
       ],
       "oligo_scraper": "Mandatory bundle scraper and main original modification pointers inspected. SHARC2large source-data skips remain unreviewed. Empty SHAPE-JuMP hits do not imply absent SI sequences.",
       "verification": "29 local checks pass (Mod9,SHAPE-JuMP7,SHARC13); sourceguard6checked0failed0bundlesskipped1explicit formal-corrected-primer exemption7unassembledinputs3graphs; chemistry65unresolved0contradictory. Canonical source-review schema passes (2in_progress,1blocked). Notes build and git diff --check pass; no preview/finished schematic."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch21",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published archived main only; official correction indexed-reading/retrieval record retained as qualified history, no fresh source retrieval.",
+      "locations": "Identity1\u20133 and Methods106\u2013116; actualmodifiedoligo/source reaction paragraphs.",
+      "findings": "Molecular DMS/quench/NaOH; distinctPNKdoses/inhibitor/ATP supplements; actual3primeRNA+adaptercoheat vs5primelinkeronlyheat; capture consumes actual annealedRNA/probe preparation. Literal inspected subset only, original pending retained; no C18 flattening or source sequence repair.",
+      "deferred": [
+        "Actual chemistry SupplementalFiles, vendor and specificBrar/Lau originals.",
+        "Full C18circle polymerase path, complete acquired read geometry and original correction retrieval; no accepted absence audit."
+      ],
+      "oligo_scraper": "/tmp/unlinked21-mod-scraper.log19hits/2files, contexts106\u2013116 read directly.",
+      "verification": "12focusedPASS; privateworkflow/correctionnotice/pairing0; originalpendinguncovered. Constructor caught a colliding input/step ID and it was corrected; no invariant weakened. Final combined checks follow."
     }
   ]
 }

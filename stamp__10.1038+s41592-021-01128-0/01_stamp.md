@@ -19,3 +19,11 @@ Single-cell route202:72h1µg/ml doxycycline,TrypLE,count/resuspend1000cells/µl0
 ## Limits and ancestry
 
 Five source preparation branches have explicit unresolved kit/end/strand geometry and one notes-only wrapper; no public finished schematic. Sample/RBP/long-read variants remain branches. Direct component-strategy ancestry is supported for DART→STAMP enzyme-construct repurposing (main56/124, YTH removal/replacement and shared source construct); it does not establish inherited library operations or equivalent targeting. TRIBE is compared as a conceptually related A→I method, not asserted a physical precursor to this library. Historical vendors and final-VOR reconciliation remain pending; no two-reader absence review or accepted missing-information claim.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 The associated accepted manuscript Methods136 explicitly places Agilent TapeStation quantification before 500ng RNA enters either named bulk library kit. The local bulk branches now separate analytical RNA material (amount unassembled), the actual 500ng library input, and untransferred RNA stock (amount and subsequent fate unassembled). This is an allocation trace, not a reconstructed TapeStation assay or an assumed quantitative recovery. The source bulk DNA library endpoint is typed as a library.
+
+The required historical-library/final-VOR item remains uncovered. It cannot be satisfied by the endpoint label or a source-inventory list. Other branches retain their explicit limits: Methods184–192 requires actual independent technical preparations and subsequent physical pooling, not a one-product relabeling into replicates; Methods202 has separate expression and saved-supernatant feature preparations and library QA. Reconstructing these producer arrays and all historical kit interfaces is outside this bounded pass. Final-VOR applicability is unresolved, not a newly verified access failure. No public page or completion marker is introduced.
+
+The closed source pass reread only associated manuscript identity1–27 and Methods124–144/172–202. Mandatory scraper pointers into other originals were not adopted as source facts; five default large-file skips do not establish absence. No original acquisition or missing-information audit was performed.

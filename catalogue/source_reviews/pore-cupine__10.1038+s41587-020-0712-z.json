@@ -72,5 +72,48 @@
     "scope": "Same three selected originals: main published ExtendedData4 caption1457\u20131458, actual correction bodies00755w707/00889-5713; selected graph and source fixtures only.",
     "findings": "Actual caption explicitly ties IVT full-length Tetrahymena RNA/100mMNAIN3 5min and25min to Bioanalyzer and native sequencing/mapped-read outcomes. Selected5min front-end source-positive, not native-cell or whole-library preparation. Corrections concern affiliation/acknowledgment and wrongReportingSummary; no blanket recipe equivalence. Retained RNA is physical sequenced material, not substituted cDNA; datafilters computational. Strengthened condition fixture to complete exact caption clause. Whole native finishing remains opaque.",
     "absence_pass_2": false
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 3,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/pore-cupine__10.1038+s41587-020-0712-z/s41587-020-0712-z.html.txt",
+        "version": "Published Nature main subscription preview with public extended-data captions",
+        "sections": "Title6/532; abstract679\u2013680; accessheading701; ExtendedData4caption1457\u20131458",
+        "scope": "Native-RNA assay overview; Tetrahymena NAI-N3 100mM5min/25min actual comparator examples, Bioanalyzer and directRNA readmapping; computational length/coverage filters."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/pore-cupine__10.1038+s41587-020-0712-z/s41587-020-00755-w.html.txt",
+        "version": "Published AuthorCorrection10.1038/s41587-020-00755-w",
+        "sections": "Originalarticleidentity636; actual correctionbody707",
+        "scope": "FinnlayLambert missingsecondaffiliation andacknowledgment; not whole-recipe equivalence."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/pore-cupine__10.1038+s41587-020-0712-z/s41587-021-00889-5.html.txt",
+        "version": "Published PublisherCorrection10.1038/s41587-021-00889-5",
+        "sections": "Originalarticleidentity636; actual correctionbody713",
+        "scope": "Initially attached ReportingSummary belonged to anotherpaper; replacementchemistry/notread. No irrelevant/wholemethod equivalence claim."
+      }
+    ],
+    "scope": "Existing Bioanalyzer analytical allocation now K.QC; actual selected-scope/correction and full native-RNA finishing limits retained.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'author_correction' is not accounted for",
+      "authoritative source item 'publisher_correction' is not accounted for",
+      "authoritative source item 'selected_scope' is not accounted for",
+      "graph input/step 'bioanalyzer' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'library_reagents' has no source-inventory item",
+      "graph input/step 'load' has no source-inventory item",
+      "graph input/step 'loading' has no source-inventory item",
+      "graph input/step 'nai_n3' has no source-inventory item",
+      "graph input/step 'native_finish' has no source-inventory item",
+      "graph input/step 'probe' has no source-inventory item",
+      "graph input/step 'probe_conditions' has no source-inventory item",
+      "graph input/step 'source' has no source-inventory item"
+    ],
+    "verification": "hmC-Seal9PASS/PORE-cupine10PASS; sourceguard0checked0failed0exceptions0unknown (no exact oligo inputs); chemistry5+5unresolved0contradictory. No PAGE_FILE or builder exists, no new failing builder introduced."
   }
 }

@@ -67,7 +67,7 @@ def protocol_graph():
     pooled=g.product('pooled_library','Pooled source DASH/control libraries; mixing ratios and residual material unassigned',K.LIBRARY)
     g.react('pool','Source library pooling/quantification handoff',S.POOL,((reamplified,R.TEMPLATE),(other,R.TEMPLATE)),(pooled,))
     g.sequence(pooled,SequencingPlan(acquired_roles=('Read 1','Read 2'),read_lengths={'Read 1':135,'Read 2':135},limitation='Source HiSeq4000PE135; exact final-library/run-primer/index landing remains unassembled.'))
-    g.declare_reviewed_scope(['tagmented_cdna','cas9','guide_pool','rnp_buffer','assemble_rnp','cut','proteinase','proteolyze','organic_extract_reagent','organic_extract','ethanol_recovery_reagent','ethanol_recovery','index_forward','index_reverse','kapa','index_pcr','size_selection_reagent','size_selection','dna_cleanup_reagent','dna_cleanup','q_pcr','other_libraries','pool'],SOURCE)
+    g.declare_reviewed_scope(['tagmented_cdna','cas9','guide_pool','rnp_buffer','assemble_rnp','cut','proteinase','proteolyze','organic_extract_reagent','organic_extract','ethanol_recovery_reagent','ethanol_recovery','index_forward','index_reverse','kapa','index_pcr','size_selection_reagent','size_selection','dna_cleanup_reagent','dna_cleanup','q_pcr','other_libraries','pool','pooled_library'],SOURCE)
     g.add_source_item(SourceItem('unreviewed_full_input_geometry','Exact NuGEN/Nextera input, full guide RNA transcription and historical index/primer/read geometry','Published Methods191/197/211 and directly cited originals'))
     return g
 

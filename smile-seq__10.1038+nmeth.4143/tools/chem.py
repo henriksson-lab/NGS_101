@@ -12,7 +12,7 @@ def operations(g):
         if reagent:
             z=g.input(key+'_reagent',reagent,reagent_kind);inputs.append((z,reagent_role))
         y=g.product(key+'_product',label+'; preparation includes unremoved reaction components',K.MOLECULAR,state=state)
-        g.react(key,label,kind,inputs,(y,));return y
+        g.react(key,label,kind,inputs,(y,),changes_molecule=False);return y
     def clean(key,x,label):
         z=g.input(key+'_selection',label,K.SELECTION)
         y=g.product(key+'_kept','Physically retained source fraction: '+label,K.MOLECULAR)
@@ -22,7 +22,7 @@ def operations(g):
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
 def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    g.declare_reviewed_scope(SI_CAPTURE_SCOPE,SOURCE)
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 
@@ -31,7 +31,7 @@ from protocol_graph import Terminal,Disposition
 
 def join(g,key,inputs,label):
     y=g.product(key+'_product',label+'; unremoved companion species remain',K.MOLECULAR)
-    g.react(key,label,S.GENERIC,tuple((x,R.TEMPLATE if i==0 else R.STRUCTURAL) for i,x in enumerate(inputs)),(y,));return y
+    g.react(key,label,S.MAGIC,tuple((x,R.TEMPLATE if i==0 else R.STRUCTURAL) for i,x in enumerate(inputs)),(y,),changes_molecule=False,reason='Source-reported physical surface/complex preparation; exact immobilization and association chemistry unassembled. No DNA-copy or ligation claim.');return y
 
 def render_page():
     return head(TITLE)+'<main class="wrap"><h1>'+TITLE+'</h1>'+info(LIMIT)+'<p><a href="01_chem.html">Research notes</a></p>'+workflow_panel(workflow_from_protocol_graph(protocol_graph(),ENDPOINT))+'</main>'
@@ -40,6 +40,7 @@ TITLE='SMiLE-seq — published microfluidic TF-binding front end'
 SOURCE='Published supplement MOESM206 Fig1 setup and Fig5a four-step heterodimer capture caption; main unavailable'
 LIMIT='Private incomplete graph of the published heterodimer front end. Exact surface chemistry, DNA polymers/Cy5 attachment position, release and library/NGS operations remain unreviewed. No perfect dimer formation, affinity, membrane trapping or purity is predicted. This TF-binding method is not the unrelated PacBio WGS homonym Smile-seq.'
 ENDPOINT='library'
+SI_CAPTURE_SCOPE=('antibody','chip','surface','dna_bait','tf1','tf2','load','trap_reagent','trap','observe','wash_selection','wash')
 @dataclass(frozen=True)
 class ReporterInventory:
     body:str
@@ -77,4 +78,5 @@ def selftest():
     c('Physical washing follows membrane trapping',g.steps['wash'].inputs[0].material,'observe_product')
     c('Library continuation consumes retained fraction',g.steps['library_boundary'].inputs[0].material,'wash_kept')
     c('Unknown dye site is not assigned 5prime',g.materials['dna_bait'].chemical_state.attachment,'unreviewed')
+    c('Fluorescent observation does not produce a copied DNA molecule',g.steps['observe'].changes_molecule,False)
     c('Source-limited graph remains private',g.publishable,False);c.report()

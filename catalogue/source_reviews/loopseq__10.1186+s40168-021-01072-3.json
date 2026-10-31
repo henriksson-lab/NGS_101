@@ -16,7 +16,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/loopseq__10.1186+s40168-021-01072-3/gh_LoopSeq_16S_16S18S_Microbiome_SSC_Manual_v1p7.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Article-linked historical vendor original:coverprintedVersion1.7;revisionhistoryJuly2019;SectionsI\u2013IIIpp7\u20138 operation order/physicalfractionations;SectionIVp9 recipeorder/conditions through4.5cleanup. Layout-checked pdftotext-layout of same original /tmp/loop-v17-layout.txt. Complete kitpolymer/ligation/readgeometry unassembled."
+      "inspection_scope": "Article-linked historical vendor original:coverprintedVersion1.7;revisionhistoryJuly2019;SectionsI–IIIpp7–8 operation order/physicalfractionations;SectionIVp9 recipeorder/conditions through4.5cleanup. Layout-checked pdftotext-layout of same original /tmp/loop-v17-layout.txt. Complete kitpolymer/ligation/readgeometry unassembled."
     },
     {
       "id": "base_seq",
@@ -44,8 +44,8 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "One technology entry,source-local historicalSSC16S/16S18Sv1.7 operational route throughSection4.5cleanup;not a separate count for every microbialapplication. Two originals selected;private unresolved preview.",
-      "locations": "Published Intro/Sequencinglibrarypreparation/full-length16S;printedv1.7manualcover/revisionhistory/SectionsI\u2013IVpp7\u20139.",
-      "findings": "Historical SSCv1.7 assignment/inactivation/cleanup,independent calibrationqPCR aliquot,count-based normalization,22cycle amplification,5uLperwellpool/cleanup,intramolecularbarcodeDistribution20C15min75C5min,Activation20C2h,Neutralization37C15min,cleanup. No exact kitpolymer widths/enzymemechanism/endgeometry invented. KitPCR internal priming species unassembled and represented as explicitly coarse operational graph steps,not falsely validated molecularPCR relations. All source-knownSectionIVoperations represented:combinedfragmentation/end-repair/A-tail32C5min65C30min,ligation20C15min,cleanup,indexPCR12cycleswithoneP1\u2013P4choice,cleanup. Exact adapterendgeometry unassembled,not sourceabsence;PCR internal priming species remain unassembled/coarse operations.",
+      "locations": "Published Intro/Sequencinglibrarypreparation/full-length16S;printedv1.7manualcover/revisionhistory/SectionsI–IVpp7–9.",
+      "findings": "Historical SSCv1.7 assignment/inactivation/cleanup,independent calibrationqPCR aliquot,count-based normalization,22cycle amplification,5uLperwellpool/cleanup,intramolecularbarcodeDistribution20C15min75C5min,Activation20C2h,Neutralization37C15min,cleanup. No exact kitpolymer widths/enzymemechanism/endgeometry invented. KitPCR internal priming species unassembled and represented as explicitly coarse operational graph steps,not falsely validated molecularPCR relations. All source-knownSectionIVoperations represented:combinedfragmentation/end-repair/A-tail32C5min65C30min,ligation20C15min,cleanup,indexPCR12cycleswithoneP1–P4choice,cleanup. Exact adapterendgeometry unassembled,not sourceabsence;PCR internal priming species remain unassembled/coarse operations.",
       "deferred": [
         "Complete historical kit polymers/barcode widths/mix identities/endgeometry",
         "FullSectionIVpolymer/end/ligation/PCR assembly and exact read layout",
@@ -55,6 +55,21 @@
       ],
       "verification": "Local suites:ID-seq9checks and LoopSeq13checks pass;both privatebuilds pass;sourceguard2checked0failed0exemptions;pairing0;scopedchemistry0established39unresolved0contradictory. Structural validity is not source or molecular completeness.",
       "oligo_scraper": "/tmp/multi-next-loopseq-hits.log;8 hits across2files reviewed for source pointers;no oligo-absence conclusion."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch16",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed originals reused for bounded physical reagent typing/example qualification and independently literal source inventory. No acquisitions or architecture expansion.",
+      "locations": "Intro62–66 parent-molecule UMI/distribution versus well identifiers; Results72 NextSeq500PE150 context; Methods182–196 full16S/up-to24sample context and distinct18S/genomic variants; Source revision identity verified by original/test; sectionsI–III operation/order pointers and actual originalPDFp9 SectionIV4.1–4.5 tables, conditions and one-ofP1–P4 choice; extracted1021–1206",
+      "findings": "Original required unassembled_source remains uncovered: Remaining original/kit chemistry and complete sequenced library. Source LIMIT expressly includes kit polymers/barcode widths/mix identities/full end geometry and final library/read layout. Historical v1.7 operational continuity through4.5 cleanup is well supported, but current symbolic25step graph does not satisfy that declared complete molecular scope. Ten generic construct-changing steps and no sequencing terminal remain. Literal reviewed source inventory has replaced runtime enumeration, without waiving the original broad obligation. Renaming source items or labeling the eluate a library would not satisfy them. The graph now explicitly declares an illustrative example: two symbolic sample classes a/b demonstrate the historical up-to24well workflow, without assigning actual sample identities or24occupied wells. This notice is visible in the private preview. Actual source Barcoding Adapters and aggregate25µLIndexMasterMix plus5µLofONEP1–P4 allocation are physical molecular supplies, not only conditions. No new whole polymer, enzyme identity or additional fresh stock is invented. The previous runtime graph-enumeration coverage call has been replaced with a curator-written literal inventory of actual source inputs and operations. LoopSeq uses only the two explicitly illustrative a/b classes; NGGM uses explicit lectin/antibody versus bacterial source branches. The inventory is independent of graph-node discovery. This records reviewed operational scope and does not fulfill the broad unresolved original source item or assert molecular completeness.",
+      "deferred": [
+        "Full historical kit polymers/end/ligation/PCR/read geometry and uninspected manual/main sections remain model/source obligations.",
+        "BAsE/Stapleton broad ancestry citations do not authorize chemistry inheritance; no new predecessor original opened for this pass."
+      ],
+      "oligo_scraper": "8hits across2representations; exact historical manual p9 layout read, not recipe order inferred from interleaved extraction. Unrelated cached preprint/protocols.io material not adopted.",
+      "verification": "16focusedPASS; private buildPASS/pairing0problems. Normal publication gate remainsfalse with12failures, including original uncovered broad source item. No sequence-exact oligos changed or new chemical validation claimed."
     }
   ],
   "linked_information": {
@@ -68,5 +83,6 @@
     "Other application-specific historical kitmanuals linked by article",
     "Directly cited chemistry predecessors and remaining main/SI sections",
     "Independent source review"
-  ]
+  ],
+  "conclusion": "Bounded publication hold retained after contained improvements. Original required unassembled_source remains uncovered: Remaining original/kit chemistry and complete sequenced library. Source LIMIT expressly includes kit polymers/barcode widths/mix identities/full end geometry and final library/read layout. Historical v1.7 operational continuity through4.5 cleanup is well supported, but current symbolic25step graph does not satisfy that declared complete molecular scope. Ten generic construct-changing steps and no sequencing terminal remain. Literal reviewed source inventory has replaced runtime enumeration, without waiving the original broad obligation. Renaming source items or labeling the eluate a library would not satisfy them."
 }

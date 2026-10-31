@@ -18,20 +18,28 @@ def clean(g,key,x,label):
     g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.CONDITION)),(kept,waste));g.discard(waste,'Source physical separation, not perfect molecular classification.');return kept
 
 def op(g,key,x,label,kind=S.MAGIC,*,reagent='source mixture',catalyst=False,product=None,state=None,chemical_state=None):
-    stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.CONDITION)
-    y=g.product(key+'_product',product or label+'; all physical reaction companions retained until separation',K.MOLECULAR,state=state,chemical_state=chemical_state)
-    kwargs={}
-    if kind==S.MAGIC:kwargs['reason']='Source operation established; exact internal chemistry/geometry not assembled from unreviewed historical originals.'
-    if kind==S.PCR:kwargs['geometry']=PCRGeometry.unavailable(Scene(),reason='Exact source template/primer endpoint geometry unassembled, no ordinary complete library asserted.')
-    if kind in (S.LIGATION,S.PROXIMITY_LIGATION):kwargs['geometry']=AdapterLigationGeometry('unavailable','unavailable',(scene('unassembled','[source-known ligation; full substrate/end geometry unassembled]'),),'Unreviewed geometry; not a claim of unavailable disclosure.')
-    inputs=[(x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.CONDITION)]
-    if kind in {S.DIGESTION,S.END_REPAIR,S.EXTENSION,S.TAILING,S.PROXIMITY_LIGATION} and not catalyst:
-        enzyme=g.input(key+'_enzyme','Explicit catalytic component of source mixture: '+reagent,K.CATALYST);inputs.append((enzyme,R.CATALYST))
-    if kind==S.LIGATION:
-        adapter=g.input(key+'_adapter','Source ligating molecular adapter; exact historical oligo/end inventory unassembled',K.ADAPTER,state=scene(key+'_adapter','[source adapter geometry unassembled]'));inputs.append((adapter,R.STRUCTURAL))
+    supplies=g.input(key+'_reagent','Actualsource supplies: '+reagent+'; exactcomposition/stockpackagingunassembled',K.MOLECULAR)
+    inputs=[(x,R.TEMPLATE)];kwargs={}
     if kind==S.PCR:
-        for arm in ('f','r'):
-            primer=g.input(key+'_primer_'+arm,'Source PCR primer family; exact oligo/endpoint unassembled',K.OLIGO,state=scene(key+'_primer_'+arm,'[source primer body/index geometry unassembled]'));inputs.append((primer,R.STRUCTURAL))
+        enzyme=g.product(key+'_enzyme','ActualsourcePCRpolymerasefunction, identityunreviewed',K.CATALYST);nt=g.product(key+'_nt','ActualsourceDNA-PCRnucleotidefunction, amounts/formulationunreviewed',K.MOLECULAR);f=g.product(key+'_primer_f','ActualsourcePCRforwardprimerclass, fullbody/promoterdirectionunreviewed',K.OLIGO);r=g.product(key+'_primer_r','ActualsourcePCRreverseprimerclass, fullbody/promoterdirectionunreviewed',K.OLIGO);buf=g.product(key+'_conditions','ActualsourcePCRconditions, detailedSIunreviewed',K.CONDITION)
+        g.react(key+'_parts','ActualPCRsupplyfunctions, no namedpremixorindividualfreshdoseclaim',S.GENERIC,((supplies,R.TEMPLATE),),(enzyme,nt,f,r,buf),changes_molecule=False)
+        inputs.extend(((enzyme,R.CATALYST),(nt,R.STRUCTURAL),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(buf,R.CONDITION)))
+        kwargs['geometry']=PCRGeometry.unavailable(Scene(),reason='Actualsourcepromoter-PCRproducer; wholeoligo/amplicon/primergeometryunreviewed.')
+    elif key in {'sonicate','proteinase_release'} or catalyst:
+        enzyme=g.product(key+'_enzyme','ActualsourceTURBODNase catalyst' if key=='sonicate' else 'ActualsourceProteinaseK catalyst' if key=='proteinase_release' else 'Actualsourcecatalyticfunction',K.CATALYST)
+        other=g.product(key+'_other','Otheractualsourceaddedmolecularsupplies, dosesunassembled',K.MOLECULAR);conditions=g.product(key+'_conditions',label+'; actualsourceconditions',K.CONDITION)
+        g.react(key+'_parts','Actualadditiongroupcomponents, notextrafreshenzyme/reagentdoses',S.GENERIC,((supplies,R.TEMPLATE),),(enzyme,other,conditions),changes_molecule=False)
+        inputs.extend(((enzyme,R.CATALYST),(other,R.STRUCTURAL),(conditions,R.CONDITION)))
+    elif key=='dna_library':
+        oligos=g.product('dna_library_oligos','ActualsourceIlluminaDNA-libraryoligofunctions; adapter/primerpartition/count/wholebodiesunreviewed',K.OLIGO);other=g.product('dna_library_other','OtheractualDNA-librarysupplies; internalworkup/end/enzymerecipeunassembled',K.MOLECULAR)
+        g.react('dna_library_parts','ActualsourceDNA-librarysupplyfunctions, not an inventedkitrecipe',S.GENERIC,((supplies,R.TEMPLATE),),(oligos,other),changes_molecule=False);inputs.extend(((oligos,R.STRUCTURAL),(other,R.STRUCTURAL)))
+    else:
+        inputs.append((supplies,R.STRUCTURAL))
+        if kind in {S.CROSS_LINKING,S.EXTRACTION}:
+            conditions=g.input(key+'_conditions',label+'; actualsourceconcentration/time',K.CONDITION);inputs.append((conditions,R.CONDITION))
+    if kind==S.MAGIC:kwargs['reason']='Positive sourceoperation; actualoccupiedmolecules/internalrecipe/quantitativeproducts unassembled, no sourceabsenceclaim.'
+    if kind==S.GENERIC:kwargs['changes_molecule']=False
+    y=g.product(key+'_product',product or label+'; sourcecompanions retaineduntilactualworkup',K.MOLECULAR,state=state,chemical_state=chemical_state)
     g.react(key,label,kind,inputs,(y,),**kwargs);return y
 
 def qc_split(g,key,x,label):
@@ -53,12 +61,16 @@ class AntisenseRNAProbe:
 
 def protocol_graph():
     g=ProtocolGraph('RAP-DNA — published2013RNA-probe capture',authority=SOURCE,representation='published_instance')
-    cells=g.input('cells','Sourcecrosslinkedsamplepreparation; XistRNA targetcontext, exactsampleunassigned',K.MOLECULAR,primary=True)
-    templates=g.input('probe_dna_templates','SourcemicroarrayDNAoligopool with120ntantisensetargetregions,15nttiling; exactmembers/sequence/endgeometryunreviewed',K.MOLECULAR)
+    cells=g.input('cells','Actualsourcecells BEFOREDSG/FAcrosslinking; XistRNAcontext, exactsampleunassigned',K.BIOLOGICAL,primary=True)
+    templates=g.input('probe_dna_templates','ActualmicroarrayDNAoligopool with120nttargetregions,15nttiling; completepolymers/endgeometryunreviewed',K.OLIGO)
     p=op(g,'probe_pcr',templates,'SourcePCRincorporatesT7promoter intoDNAtargetpool',S.PCR,reagent='SourceprobePCRprimer/polymerasecomponentsunreviewed')
-    utp=g.input('biotin_utp','Sourcebiotin-UTP structuralRNAbuildingblock; fractionandpreciseadductunreviewed',K.MOLECULAR);t7=g.input('t7','SourceT7IVTpolymerasecomponent; exactrecipeunreviewed',K.CATALYST);probe=g.product('rna_probe_mix','Biotin-UTP-containingantisenseRNAprobes plusuntranscribedDNA/nucleotide/enzymeproducts untilactualprobepreparationworkup; notssDNA',K.MOLECULAR)
-    g.react('probe_ivt','SourceIVTbiotinylatedRNAprobes',S.TRANSCRIPTION,((p,R.TEMPLATE),(utp,R.STRUCTURAL),(t7,R.CATALYST)),(probe,))
-    probe=op(g,'probe_preparation',probe,'SourceRNAcaptureprobestockpreparation; detailedoriginalSIunreviewed',reagent='ActualprobeDNase/purification/fragmentends remainunassembled; nopuremixtureinferred')
+    ivt=g.input('ivt_supplies','AggregateactualsourceRNA-IVTsupplies; stockcount/packaging/UTPsubstitutionfraction/formulationunreviewed',K.MOLECULAR)
+    utp=g.product('biotin_utp','Actualsourcebiotin-UTP RNAbuildingblock; preciseadduct/fractionunreviewed',K.MOLECULAR);othernt=g.product('other_ivt_nt','OtheractualRNA-polymerizationsubstratefunctions; exactNTPmix/UTPfractionunassembled',K.MOLECULAR);t7=g.product('t7','Actualpromoter-compatibleIVTpolymerasefunction; preciseenzymeidentity/doseunreviewed',K.CATALYST);cond=g.product('ivt_conditions','ActualsourceIVTconditions, detailedSIunreviewed',K.CONDITION)
+    g.react('ivt_parts','ActualsameIVTadditionfunctions, notuninspectedcommercialpremixorfreshduplicateadditions',S.GENERIC,((ivt,R.TEMPLATE),),(utp,othernt,t7,cond),changes_molecule=False)
+    probe=g.product('rna_probe_mix','ActualRNAprobes plusuntranscribedDNA/remainingNT/enzyme/reagentcompanions; no pureRNA/noDNaseworkupassumed',K.MOLECULAR)
+    g.react('probe_ivt','ActualsourceIVT producesbiotinylatedantisenseRNA',S.TRANSCRIPTION,((p,R.TEMPLATE),(utp,R.STRUCTURAL),(othernt,R.STRUCTURAL),(t7,R.CATALYST),(cond,R.CONDITION)),(probe,))
+    ready=g.product('probe_preparation_product','SourceRNA-containingprobe-stockboundary; DNase/purification/fragmentendsunassembled, no extraoperationasserted',K.MOLECULAR)
+    g.react('probe_preparation','Probe-stockreadiness interface, notproofofaDNase/purificationreaction',S.GENERIC,((probe,R.TEMPLATE),),(ready,),changes_molecule=False);probe=ready
     x=op(g,'dsg',cells,'Source2mMDSG45min',S.CROSS_LINKING,reagent='SourceDSG')
     x=op(g,'fa',x,'Source3%formaldehyde10min',S.CROSS_LINKING,reagent='Sourceformaldehyde')
     x=op(g,'lyse',x,'Sourcecelllysis/chromatinfragmentationpreparation',S.EXTRACTION,reagent='Sourcebufferdetails inactualSIunreviewed')
@@ -73,7 +85,9 @@ def protocol_graph():
     x=clean(g,'wash',yes,'Sourcesix45Cwashes retainingbeadprobe/chromatinpreparation')
     x=op(g,'proteinase_release',x,'SourceProteinaseK65Covernightrelease/de-crosslinking',S.DEPROTEINIZATION,reagent='SourceProteinaseK/65Cconditions',product='ReleasedchromatinDNAplusendogenousRNA/RNAprobes/protein/peptide/beadcompanions untilactualworkup; capturedDNAdoesnotinheritprobebiotin')
     x=op(g,'dna_library',x,'SourcestandardIlluminaDNA-librarypreparationincludingrequiredDNAsampleworkup; detailedSIunreviewed',reagent='ActualDNAisolation/endprep/adapter/PCR/indexgeometryunreviewed; noRNA-libraryorRAPRNA2014recipeborrowed')
-    g.sequence(x,SequencingPlan(acquisition='unspecified',limitation='PublishedMethods25bp paired-endreads, >5millionpersample; exactinstrument/index/primer/endgeometryunassembled. DNAcontacts areRNA-associatedenrichment, notproofdirectRNA-DNAbasepairing.'))
+    loaded=g.product('loading_selected','ActualselectedsourceDNA-librarysequencingcontribution; amountunassigned',K.MOLECULAR);rest=g.product('loading_remainder','UntransferredsourceDNA-librarypreparation, laterfateunassigned',K.MOLECULAR)
+    g.react('loading','ActualsourceDNAsequencingcontribution afterrealDNA-libraryproducer',S.SPLIT,((x,R.TEMPLATE),),(loaded,rest));g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,'UntransferredsourceDNAlibrary stock.'))
+    g.sequence(loaded,SequencingPlan(acquisition='unspecified',limitation='PublishedMethods25bp paired-endreads, >5millionpersample; exactinstrument/index/primer/endgeometryunassembled. DNAcontacts areRNA-associatedenrichment, notproofdirectRNA-DNAbasepairing.'))
     g.add_source_item(SourceItem('pending','PublishedScienceSIandactualassociatedSupplementary_Material.doc; authorsRAPprotocol andhistoricalIlluminakitguides','Corefinalpublishedoperationsread, completeprobe/manufacturing/end/librarygeometry andcontrolworkupsremainunassembled; actualSIroutePMC-gated, noacceptedabsence.'))
     return g
 
@@ -90,7 +104,14 @@ def selftest():
     try:AntisenseRNAProbe('ACGU',(0,));bad=False
     except ValueError:bad=True
     c('BiotinUTPmarkmustidentifyU',bad,True)
-    g=protocol_graph();c('PreclearbeforeRNAhybridization',g.steps['hybridize'].inputs[0].material,'precleared')
+    g=protocol_graph();c('Primarycellsarenotpre-crosslinked',g.materials['cells'].kind,K.BIOLOGICAL)
+    c('DSGisactualmolecularcontributor',g.materials['dsg_reagent'].kind,K.MOLECULAR)
+    c('FragmentationhasactualTURBODNasecatalyst',g.steps['sonicate'].inputs[1].material,'sonicate_enzyme')
+    c('ProteinaseKisactualcatalyst',g.steps['proteinase_release'].inputs[1].material,'proteinase_release_enzyme')
+    c('IVTconsumessamepreparedbiotinUTP',g.steps['probe_ivt'].inputs[1].material,'biotin_utp')
+    c('Probe readinessdoesnotinventDNaseenzyme','probe_preparation_enzyme' in g.materials,False)
+    c('ActualDNA-libraryoligofunctionsnot hidden asconditions',g.steps['dna_library'].inputs[1].material,'dna_library_oligos')
+    c('PreclearbeforeRNAhybridization',g.steps['hybridize'].inputs[0].material,'precleared')
     c('2013releaseusesPKnot2014RNaseH','proteinase_release' in g.steps and 'rnaseh_elute' not in g.steps,True)
     q=Source(sources_root()/'rap-dna__10.1126+science.1237973'/'source_pdf_61caebc669c26ad8bbc5.pdf.txt','get_sources --slugs rap-dna__10.1126+science.1237973; exactcoordinator-declaredfirstpartyPDF')
     if have(c,q,label='publishedfinal'):

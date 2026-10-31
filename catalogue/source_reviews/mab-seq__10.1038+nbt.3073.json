@@ -55,7 +55,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped source/model pass only. Source-qualified partial graph, not full chemistry validation or a completed missing-information audit.",
+  "conclusion": "Eligible for source-qualified public preparation page; representation published_instance is scoped to the declared preparation and role-level classes. Whole-library architecture and the explicitly named source/model questions remain unresolved. No complete chemistry claim or accepted absence conclusion.",
   "bounded_checks": [
     {
       "round": "2026-10-28-expansion-pair2",
@@ -72,6 +72,23 @@
       ],
       "oligo_scraper": "Mandatory full-bundle scraper run; source lines and modifications read. Ribose corrected Table8 rendered. Hits are not absence evidence.",
       "verification": "2source adapter transcription checks pass; page build/pairing pass; chemistry0contradictory; sourceguard2primer inputs explicitly unrepresented, no absence claim."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-4",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded source-qualified public-page pass; not independent absence audit or complete chemistry review",
+      "locations": "Associated nbt.3073_PMC4269366.xml.txt Results44-50/genome-scale Methods110; published MOESM33 original FigS2 physicalPDFp2, rendered and inspected.",
+      "findings": "SAM is now a molecular contribution in each source protection round. Each round remains a clearly labelled compound schedule: initial25\u00b5L4h, then fresh25\u00b5L same-concentration M.SssI/SAM8h. A single diagram step does not mean simultaneous50\u00b5L treatment. Catalyst, nucleotide and buffer classes are exposed from the actual named KAPA Uracil+ ReadyMix supply; this is not three additional fresh stocks. Exact formulation and allocations between preamplification/final PCR remain unassigned. The retained library and analytical qPCR aliquot remain distinct; sequencing now selects a loading aliquot and leaves an explicit stock remainder. No unreported sample pool, historical primer member or whole methylated-adapter modification map is invented.",
+      "oligo_scraper": "Mandatory full-bundle scraper rerun /tmp/unlinked-mab4-scraper.log; source adapter polymers verified, locus-specific supplementary primer rows not borrowed into genome-scale PCR.",
+      "deferred": [
+        "Complete final2014 article Methods and later2016 detailed protocol",
+        "Historical kit/index primer members and full genomic library assembly"
+      ],
+      "verification": "8 focused PASS; typed graph gate[];14steps2localestablished16unresolved0contradictory; HTML build/pairing0."
     }
-  ]
+  ],
+  "pass_1": null,
+  "pass_2": null
 }

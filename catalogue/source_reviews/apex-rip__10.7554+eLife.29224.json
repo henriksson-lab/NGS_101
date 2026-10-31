@@ -79,7 +79,7 @@
         "reviewer": "rna_round10_reader",
         "date": "2026-10-29",
         "locations": "Construct/antibody/qRT-PCR primer sheets; primers not adopted as sequencing adapters",
-        "finding": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default."
+        "finding": "Source proteinbiotinylation/RNA–protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default."
       },
       "pass_2": null,
       "source_version": "Published Supplementaryfile5 version1 original"
@@ -116,8 +116,8 @@
       "pass_1": {
         "reviewer": "rna_round10_reader",
         "date": "2026-10-29",
-        "locations": "MethodsPartsI\u2013III516\u2013540; optimized BP/quench/crosslink, library and alternate-order distinction",
-        "finding": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default."
+        "locations": "MethodsPartsI–III516–540; optimized BP/quench/crosslink, library and alternate-order distinction",
+        "finding": "Source proteinbiotinylation/RNA–protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default."
       },
       "pass_2": null,
       "source_version": "Published publisher eLife version1 VOR"
@@ -129,7 +129,7 @@
       "reviewer": "rna_round10_reader",
       "date": "2026-10-29",
       "locations": "Exact selected sections in source_checklist and protocol notes",
-      "finding": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default. Directly linked originals deferred at cap; no independent second pass."
+      "finding": "Source proteinbiotinylation/RNA–protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default. Directly linked originals deferred at cap; no independent second pass."
     },
     "pass_2": null
   },
@@ -155,14 +155,28 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Defining and chemistry originals first; no recursive predecessor chase",
-      "locations": "MethodsPartsI\u2013III516\u2013540; optimized BP/quench/crosslink, library and alternate-order distinction; Construct/antibody/qRT-PCR primer sheets; primers not adopted as sequencing adapters",
-      "findings": "Source proteinbiotinylation/RNA\u2013protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default.",
+      "locations": "MethodsPartsI–III516–540; optimized BP/quench/crosslink, library and alternate-order distinction; Construct/antibody/qRT-PCR primer sheets; primers not adopted as sequencing adapters",
+      "findings": "Source proteinbiotinylation/RNA–protein crosslink capture; published explicit RiboZeroGold supernatant recovery and TruSeqv2 handoff/HiSeq2500PE50. Not direct-RNA biotin-labeling default.",
       "deferred": [
         "Named historical TruSeqRNA sampleprepv2 and RiboZeroGold originals",
         "MainMethodsPartII cited Hendrickson2016 release/preparation predecessor; exact scope not independently followed"
       ],
       "oligo_scraper": "Mandatory acquired-bundle scan; source contexts/modifications inspected where relevant. Superseded preprint hits excluded; APEX-RIP two large dataworkbooks unscanned by default, no absence conclusion.",
       "verification": "17localbehaviorchecks pass across3models; sourceguard0exactchecked0failed2unassembledinputs; chemistry45unresolved0contradictory. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch18",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed-source bounded physical/reagent/QC/allocation corrections; original broad source obligations preserved",
+      "locations": "eLife.29224_v1.xml(.txt): MethodsPartsI-III516-540 optimizedBPfirstquench-crosslink;20percentinput/proteolysis/RNAQA/RiboZeroretainedsupernatant/TruSeqv2start/QA/pooling/PE50; alternateorders528-532 distinguished. No qPCRworkbook/preprintoriginal reopened.",
+      "findings": "Realrequiredhistoricalkit/original/fullstrandreadscope remainsunreviewed/unassembled. Main536namesRNAfragment/TruSeqv2IncubateRFPstart and540actualsequencing, butcoarsekitproducer/opaqueoutput doesnotfulfilrequiredwholelibraryitem. Actualmolecularchemicalstocks; documentedsolutionreplacement/freshsecondcrosslinkdose; RNA/DNAQA/pool/loadstocks; EPFeluentphysicalinventory/literalreviewsubset. No opaque-library source waiver or source-item exclusion.",
+      "deferred": [
+        "pending_library"
+      ],
+      "oligo_scraper": "Mandatory cached-bundle scraper completed in closed preflight. No sequencing oligos newly asserted from qPCR/construct workbooks; superseded preprint not authority. No zero-hit absence inference.",
+      "verification": "8focusedchecksPASS; existingmodule/selftestentrypoints preserved; temporaryprivateHTMLrenderPASS. Combinedguard0eligible0failed0exempt0unknownexternaloligos (notoligovalidation); chemistry43unresolved0contradictory/pairing0. No complete marker or publicpromotion."
     }
   ]
 }

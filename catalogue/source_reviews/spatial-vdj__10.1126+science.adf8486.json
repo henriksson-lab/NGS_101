@@ -145,7 +145,7 @@
       "disposition": "Historicaldefermentresumed2026-10-30afterlegitimateauthoracceptedPDFwasretrieved; notactiveuserblock."
     }
   ],
-  "conclusion": "Final published main, supplied SM and actual Data S1 support selected SR-TRB preparation and declared spatial oligo inventories. Source-backed whole primer/probe bodies replace prior unknowns; cDNA/index primer preparations, terminal chemistry, transcript geometry and full products remain unresolved. No accepted missing-information claim or complete protocol/source audit.",
+  "conclusion": "Source-qualified public SR-TRB page now represents the reviewed preparation and published spatial oligo inventories. Full cDNA/index preparations, terminal chemistry and occupied products remain unresolved; no complete molecular-validation or absence-audit claim.",
   "independent_implementation_recheck": {
     "reviewer": "targeted_peer_spatialvdj_resumed",
     "date": "2026-10-30",
@@ -258,5 +258,11 @@
       "chemistry": "Rootcompleted74unresolved0contradictory; eightadditionalPCRgeometryclaimsdo notrepresentmorecompletewholemolecules."
     },
     "implementation_review_closed": true
+  },
+  "page_publication_review": {
+    "date": "2026-10-30",
+    "scope": "Selected published SR-TRB workflow, Data S1 whole oligo inventories and supplied SM branch boundaries already inspected by independent readers. Explicit source inventory lists declare common/replicate inputs and operations; no runtime graph-enumeration coverage. QC fractions correctly typed as QC.",
+    "result": "Source-qualified public page; unresolved molecular/geometry scope remains computed and displayed. Published cycle-count and worksheet-heading discrepancies appear on page. No new chemical products or source absence claims introduced.",
+    "verification": "Graph.require_publishable passes;35 source/behavior checks pass. Rendered local page visually inspected in Chrome, full reaction graph/warnings retained in expandable section; detailed source guard and site/index checks pending."
   }
 }

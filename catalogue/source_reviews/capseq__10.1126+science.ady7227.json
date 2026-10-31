@@ -22,14 +22,15 @@
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
         "locations": "Author bioRxiv v1 Results and Methods; article JATS PMC11957016 around Methods/associated supplements; bundle scraper",
-        "finding": "Describes semipermeable capsules, barcoded RT, two split-pool ligations, indexed PCR and follow-up library construction. Exact oligo members delegated to supplementary Tables S21–S25."
+        "finding": "Describes semipermeable capsules, barcoded RT, two split-pool ligations, indexed PCR and follow-up library construction. Exact oligo members delegated to supplementary Tables S21\u2013S25."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author bioRxiv v1 full PDF text lines 490–504 (Fig. 4 workflow) and 585–592 (hairpin rescue); source MANIFEST lines 4–8",
+        "locations": "Author bioRxiv v1 full PDF text lines 490\u2013504 (Fig. 4 workflow) and 585\u2013592 (hairpin rescue); source MANIFEST lines 4\u20138",
         "finding": "Original preprint explicitly orders RT with poly(dT)-R1/UMI, R2 and R3 ligations in successive pools, then R4 indexing PCR. It says hairpin ligation rescues cDNA lacking a template-switch adapter. These passages do not print the individual barcode/adapter oligos."
-      }
+      },
+      "current_scope_disposition": "Historical superseded preprint reading retained; not reopened or used as current published-chemistry authority in this bounded pass. Existing earlier reader statements are not a new absence/irrelevance conclusion."
     },
     {
       "id": "preprint_supp1",
@@ -40,15 +41,16 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "CapSeq procedure lines 219–340, TSO line 282, Table S21–S25 citations at 63, 269–323; bundle scraper",
-        "finding": "Prints modified /5Biosg/ TSO with terminal rGrGrG. BC1–BC3 and Hairpin-TSO steps are described, but tables S21–S25 are cited rather than present in this PDF."
+        "locations": "CapSeq procedure lines 219\u2013340, TSO line 282, Table S21\u2013S25 citations at 63, 269\u2013323; bundle scraper",
+        "finding": "Prints modified /5Biosg/ TSO with terminal rGrGrG. BC1\u2013BC3 and Hairpin-TSO steps are described, but tables S21\u2013S25 are cited rather than present in this PDF."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author bioRxiv v1 Supplement 1 PDF text lines 219–224, 269–340, 368–382; bundle scraper hit at line 282",
-        "finding": "Methods name the six stages and cite Tables S21–S25. The RT recipe prints /5Biosg/AAGCAGTGGTATCAACGCAGAGTACATrGrGrG (line 282); BC1–BC3 are added by RT then two T4 DNA-ligase rounds; RNA digestion, Hairpin-TSO ligation, and intracapsular PCR follow. The indexing-library paragraph at 368–382 is text-corrupted, and the cited oligo tables are absent from this PDF."
-      }
+        "locations": "Author bioRxiv v1 Supplement 1 PDF text lines 219\u2013224, 269\u2013340, 368\u2013382; bundle scraper hit at line 282",
+        "finding": "Methods name the six stages and cite Tables S21\u2013S25. The RT recipe prints /5Biosg/AAGCAGTGGTATCAACGCAGAGTACATrGrGrG (line 282); BC1\u2013BC3 are added by RT then two T4 DNA-ligase rounds; RNA digestion, Hairpin-TSO ligation, and intracapsular PCR follow. The indexing-library paragraph at 368\u2013382 is text-corrupted, and the cited oligo tables are absent from this PDF."
+      },
+      "current_scope_disposition": "Historical superseded preprint reading retained; not reopened or used as current published-chemistry authority in this bounded pass. Existing earlier reader statements are not a new absence/irrelevance conclusion."
     },
     {
       "id": "preprint_supp2",
@@ -60,20 +62,21 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Opening contents and Supplementary Figures S1–S13 captions; bundle scraper",
+        "locations": "Opening contents and Supplementary Figures S1\u2013S13 captions; bundle scraper",
         "finding": "Figure supplement, including capsule and UMI optimisation; it does not contain the cited oligo table bodies."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author bioRxiv v1 Supplement 2 PDF text lines 1–15 contents, 17–95 figure captions S1–S8, including S6",
-        "finding": "Contains capsule properties and biological/result panels; S6 reports UMI-capture optimization but the inspected figure captions do not provide oligo ordering sequences or Tables S21–S25."
-      }
+        "locations": "Author bioRxiv v1 Supplement 2 PDF text lines 1\u201315 contents, 17\u201395 figure captions S1\u2013S8, including S6",
+        "finding": "Contains capsule properties and biological/result panels; S6 reports UMI-capture optimization but the inspected figure captions do not provide oligo ordering sequences or Tables S21\u2013S25."
+      },
+      "current_scope_disposition": "Historical superseded preprint reading retained; not reopened or used as current published-chemistry authority in this bounded pass. Existing earlier reader statements are not a new absence/irrelevance conclusion."
     },
     {
       "id": "tables_s21_s25",
       "role": "supplement",
-      "locator": "CapSeq author Supplementary Tables S21–S25 cited in preprint Supplement 1 lines 63 and 269–323",
+      "locator": "CapSeq author Supplementary Tables S21\u2013S25 cited in preprint Supplement 1 lines 63 and 269\u2013323",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original oligo tables are referenced by preprint detailed Methods but absent from both downloaded PDF attachments.",
@@ -83,13 +86,20 @@
     {
       "id": "geo_library",
       "role": "linked_material",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/capseq__10.1126+science.ady7227/geo-GSM8830586-self-quick.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Submitter library text and adapter pair are reported in existing note, but GEO original was not independently inspected in this pass.",
+      "reason": "Previously stale unavailable status corrected from actual cached original; author-deposit downstream cDNA-library scope, not final Science method equivalence.",
       "discovered_from": "preprint",
-      "pass_1": null,
-      "pass_2": null
+      "pass_1": {
+        "reviewer": "unlinked_multi32_reader",
+        "date": "2026-10-30",
+        "locations": "ExactGSM8830586 accession/date2\u20136; protocol14\u201315; processing18\u201325; instrument34; library35\u201337; series62",
+        "finding": "Usable author-original downstream amplified-cDNA preparation, whole modified adapter pair and processed barcode/UMI layout. No upstream/fullpublishedScience recipe or rawcycle equivalence established."
+      },
+      "pass_2": null,
+      "original": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586&targ=self&form=text&view=quick",
+      "source_version": "Author-deposited GEO sample, submitted2025-03-05/public+lastupdate2025-09-03; not the Science VOR"
     },
     {
       "id": "author_code",
@@ -119,24 +129,24 @@
     "pass_1": {
       "reviewer": "audit_s_z",
       "date": "2026-10-16",
-      "locations": "Preprint bundle MANIFEST and source Methods Table S21–S25 citations; existing note identifies GEO/code/patent leads",
+      "locations": "Preprint bundle MANIFEST and source Methods Table S21\u2013S25 citations; existing note identifies GEO/code/patent leads",
       "finding": "Read preprint and both supplements; published Science source and cited oligo tables remain unavailable. GEO/code/patent leads have not been independently followed in this pass."
     },
     "pass_2": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Preprint PDF lines 490–504 and Supplement 1 lines 219–224, 269–340, 368–382; source MANIFEST lines 2–8",
-      "finding": "Followed preprint references into the two attached bioRxiv supplements; both PMC Cloud duplicate files have matching hashes in the manifest. Supplement 1 delegates oligo identities to absent Tables S21–S25 and an unattached Supplementary Protocol 1. Published Science full text, these tables, and independent author/code/GEO/patent source checks remain open; missing-sequence claims stay blocked."
+      "locations": "Preprint PDF lines 490\u2013504 and Supplement 1 lines 219\u2013224, 269\u2013340, 368\u2013382; source MANIFEST lines 2\u20138",
+      "finding": "Followed preprint references into the two attached bioRxiv supplements; both PMC Cloud duplicate files have matching hashes in the manifest. Supplement 1 delegates oligo identities to absent Tables S21\u2013S25 and an unattached Supplementary Protocol 1. Published Science full text, these tables, and independent author/code/GEO/patent source checks remain open; missing-sequence claims stay blocked."
     }
   },
   "missing_claims": [
     {
-      "claim": "Original CapSeq BC1–BC3, Hairpin-TSO and downstream index oligo sequences/layout",
+      "claim": "Original CapSeq BC1\u2013BC3, Hairpin-TSO and downstream index oligo sequences/layout",
       "disposition": "blocked",
       "evidence": "Relevant source files and independent second pass remain outstanding."
     }
   ],
-  "conclusion": "Preprint establishes step order and one modified TSO; original barcode tables and published version are still unavailable.",
+  "conclusion": "Published Science-source scope remains blocked/unreviewed. Cached author GEO GSM8830586 is positively read and usable for its downstream amplified-cDNA preparation, not a complete Science source substitute. No model/page or accepted source-absence conclusion.",
   "bounded_checks": [
     {
       "round": "2026-10-17-breadth-first-07",
@@ -181,5 +191,22 @@
       "scope": "Capped follow-up; published original still unread; preprint/GEO used as labelled fallback; no accepted missing-information claim.",
       "verification": "notes-only: no suite/page/pairing; check_chemistry not applicable (0 graph declarations); source guard 0 checked/0 failed/0 graphs; audit --check pass; Markdown built (01_capseq.html)"
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_published_source_scope",
+    "documents": 1,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/capseq__10.1126+science.ady7227/geo-GSM8830586-self-quick.txt",
+        "original": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586&targ=self&form=text&view=quick",
+        "version": "Author-deposited GEO sample, submitted2025-03-05/public+lastupdate2025-09-03; not the Science VOR",
+        "sections": "Exact accession/title/date fields2\u20136; extraction/libraryprotocol14\u201315; processing18\u201325; instrument34; library35\u201337; series62",
+        "scope": "Actual WBCfix/rehydration and downstream5\u201310ng amplified-cDNA FS/endprep/adapter/indexPCR prep; wholemodifiedadapterorders and processedbarcode/UMIlayout. No original upstreamcapsule/barcode/hairpinproducer or finalScienceapplicability proved."
+      }
+    ],
+    "scope": "Corrected actual cached GEO availability and author-deposit preparation/version boundary; no model or builder fabricated. Published full-method and original oligo obligations retained.",
+    "missing_claims": [],
+    "verification": "No tools/*.py/PAGE_FILE/graph/builders; no normal gate/test/render fabricated. Mandatoryscraper6sequences/3files; pointers not chemistry evidence. Review schema and note render verified."
+  }
 }

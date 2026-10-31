@@ -45,3 +45,26 @@ The following are source strings with the main modifications retained. Canonical
 The source explicitly adapts eCLIP library construction with local modifications (Methods180). This permits a scoped methodological link, not inheritance of eCLIP's full recipe, RT enzyme or product geometry. m6A-SAC later cites this method for a library subroute; the detection chemistry is different.
 
 Pending: final-VOR applicability; Methods S1 and remaining actual supplements; the directly cited prior IP/eCLIP originals and the remainder of this article's AlkB preparation; precise RNA/linker/cDNA/PCR/run geometry; and an independent original/linked-material pass. No missing-information claim is accepted.
+
+## Bounded DNA-product typing and supply corrections
+
+The same closed associated manuscript supports typing each actual 8% TBE-gel
+DNA product as a library, rather than generic molecular material. Curator-written
+common and per-library target inventories now cover those source-known terminal
+products; they are not collected from graph nodes or builder helper calls.
+The normal gate now fails only the original `detailed_source_and_geometry` item.
+That item remains uncovered and unchanged: neither correct material typing nor
+known oligo inventory establishes Methods S1, the prior IP original or full
+RNA/cDNA/PCR/read geometry. No public completion marker or promotion was added.
+
+Actual main-MAP AlkB cofactors and source RT nucleotide, DTT, inhibitor and
+buffer contributions are physical inputs. PCR functional enzyme/nucleotide/
+buffer classes are declared from actual aggregate supplies without inventing
+stock packaging, a prepared commercial premix, precise enzyme identity or
+program from unread Methods S1. RNA modifications remain distinct from selected
+complementary DNA outcomes. No separate validation or eCLIP recipe is imported.
+
+Fifteen focused checks and the private build pass. The existing actual Methods
+S1 download-gate record remains a source boundary; it was not retried, called
+irrelevant or converted into a confirmed absence claim. The matched source
+preparations and full source item continue to prevent publication.

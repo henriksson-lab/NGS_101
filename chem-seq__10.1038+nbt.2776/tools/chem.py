@@ -1,9 +1,9 @@
-"""Private source-qualified Chem-seq capture; historical library finishing unassembled."""
+"""Source-qualified Chem-seq page; historical library finishing remains unassembled."""
 from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parents[1]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem,SourceCoverage
 AUTHORITY='AssociatedAMPMC4189815/NIHMS616754 titledGenome-wide determination of drug localization, Methods114–120/Results60–64/actualFig1PDFp14; publishedSI5actualp3ligandscheme. FinalpublishedmainGenome-wide localization of small molecules fullbodyunread, nofullversionequivalence. Source-qualifiedJQ1routesonly.'
 PROBE={'source_name':'bio-JQ1(S)','ligand_class':'active-enantiomerBETbromodomainligand','capture_handle':'biotin','probe_covalent_linkage':'sourcePEG-linkedamideclass','probe_target_binding':'sourceaffinity/noncovalentclass','not_an_identifier':'NoDNAbarcode, UMI orgenomicsequenceencodedbybiotin','full_atommap':'unassembled'}
 IN_VIVO={'cells_per_sample':200000000,'probe_uM':5,'formaldehyde_percent':1,'minutes':20,'simultaneous':True}
@@ -24,6 +24,18 @@ class Trace:
     def allocation(self,key,label):
         a=self.g.product(key+'_selected','ActualsourceDNAcontributionforsequencing; amountunassigned',K.MOLECULAR);r=self.g.product(key+'_remainder','UntransferredsourceDNAstock; amount/fateunassigned',K.MOLECULAR)
         self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(a,r));self.g.mark_terminal(Terminal(r.id,Disposition.UNRESOLVED,'No inventedstockquantityorconsumptionofentireeluate'));self.x=a
+
+
+# Explicitly reviewed source inventory: fixed target groups, NOT derived from graph keys.
+REVIEWED_COMMON = ('cells', 'bio_jq1', 'quench', 'tris_quench', 'quench_conditions', 'cell_pellet', 'cell_pellet_conditions', 'cell_lysis', 'cell_lysis_conditions', 'nuclei', 'nuclei_conditions', 'sonication', 'sonication_conditions', 'clarification', 'clarify_conditions', 't1_beads', 'bead_bsa', 'bead_preparation_conditions', 'prepare_beads', 'capture', 'capture_washes', 'capture_washes_conditions', 'elute', 'elution_conditions', 'reverse_crosslinks', 'reverse_conditions', 'rnase', 'rnase_enzyme', 'pk', 'proteinase_k', 'dna_purification', 'dna_purification_conditions', 'dna_workup_supplies', 'sequencing_allocation', 'ngs_finishing_inventory', 'ngs_finishing', 'library')
+REVIEWED_IN_VIVO = ('drug_fix', 'fa', 'drug_fix_conditions')
+REVIEWED_IN_VITRO = ('fix', 'fa', 'fix_conditions', 'bead_loading_wash', 'loading_wash_bsa', 'loading_wash_conditions')
+def reviewed_inventory(g, route):
+    g.declare_reviewed_scope(REVIEWED_COMMON, 'AssociatedAMPMC4189815Methods114–116 JQ1capture/recovery and namedpreparedligand; publishedSI5p3 supportsbio-JQ1componentclass. Finishing33/34unreviewed, explicitlyunassembled actual boundary.')
+    g.declare_reviewed_scope(REVIEWED_IN_VIVO if route=='in_vivo' else REVIEWED_IN_VITRO, 'AssociatedAMMethods114 versus116 independently reviewed selectedroute: simultaneouscellprobe/fix versusfixedchromatin/preloadedwashedbeads; recipes notmerged.')
+    g.cover_source_item(SourceCoverage('source_version','modelled','library'))
+    g.cover_source_item(SourceCoverage('molecular_relations','modelled','capture'))
+    g.cover_source_item(SourceCoverage('finishing_scope','modelled','ngs_finishing'))
 
 def protocol_graph():return preparation_graph('in_vivo')
 
@@ -68,6 +80,7 @@ def preparation_graph(route='in_vivo'):
     library=g.product('library','ActualsourceChem-seqDNAlibraryclass; completeends/molecules/readlandingunassembled',K.LIBRARY)
     g.react('ngs_finishing','AMsourcepurifiedDNAfragmentsmassivelyparallelsequenced; finishingdelegatedsource33',S.MAGIC,((b.x,R.TEMPLATE),(finishing,R.STRUCTURAL)),(library,),reason='ActualNGSendpointreported; detailedphysicalfinishingoperations/reagents/primersequences/reads unassembledinselectedsourcepass, notabsenceevidence.')
     g.sequence(library,SequencingPlan(limitation='SourceJQ1massivelyparallelDNAsequencing/analysisref33; exactplatform/runlength/index/adapter/primerlandingunassembled. AT7519explicitIlluminabranchnotautomaticallyassignedtoselectedJQ1.'))
+    reviewed_inventory(g,route)
     return g
 
 def selftest():
@@ -95,5 +108,26 @@ def selftest():
         c('Source10percentSDSliteral','10% SDS at 65'in t,True)
         c('Sourceactual2x10power8sample','2×108 cells per sample'in t,True)
         c('Source200uMbeadloading','200 μM biotinylated drug'in t,True)
-    c('Privatepartial',bool(a.publication_problems()),True);c.report()
+    c('Reviewedin-vivopublicationinventory',a.publication_problems(),[])
+    c('Reviewedin-vitropublicationinventory',v.publication_problems(),[])
+    a.input('unreviewed_added_stock','Regression-only unreviewed input',K.CONDITION)
+    c('Unreviewedinventorycannotautopublish',any('unreviewed_added_stock' in issue and 'source-inventory' in issue for issue in a.publication_problems()),True)
+    c.report()
+
+PAGE_FILE = 'chem_seq.html'
+def render_page():
+    from html import escape
+    from page import head,info
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    return assemble_page(g,[head('Chem-seq — bio-JQ1 chromatin capture'),'<div class="wrap" data-protocol-complete="true"><h1>Chem-seq</h1>',
+      '<p>Map chromatin associated with a biotinylated small-molecule ligand. The selected in-vivo bio-JQ1 route combines ligand treatment with formaldehyde fixation, captures chromatin on streptavidin beads, and recovers DNA for sequencing.</p>',
+      info('Source scope: <a href="https://doi.org/10.1038/nbt.2776">Anders et al., 2014</a>. Operational recipe: associated manuscript PMC4189815/NIHMS616754, titled <em>Genome-wide determination of drug localization</em>; published title: <em>Genome-wide localization of small molecules</em>. Published supplement supports the ligand component. Full final/manuscript equivalence remains unverified.'),
+      '<h2>Preparation</h2><p>MM1.S cells receive 5 µM bio-JQ1 and 1% formaldehyde together for 20 min. Nuclei are isolated and sonicated; BSA-blocked streptavidin T1 beads capture the biotin-linked ligand and associated chromatin. Washing precedes eluate recovery, crosslink reversal, RNase/proteinase K treatment and DNA purification.</p>',
+      '<h2>Molecular relationships</h2><p>Biotin is covalently linked to the prepared ligand through a PEG-linked amide class. Ligand–BET binding and biotin–streptavidin capture are affinity interactions. The model does not assign a covalent drug–DNA bond, binding occupancy or perfect capture specificity. No DNA barcode or UMI is encoded by biotin.</p>',
+      info('The selected manuscript specifies <strong>10% SDS, 65°C for 15 min</strong> for JQ1 eluate recovery. The separate AT7519 branch uses different conditions and is not substituted. In vitro Chem-seq instead fixes untreated cells and preloads beads with 200 µM ligand for 6 h, washing four times before capture; it is not a second dose added to the in-vivo sample.'),
+      '<h2>Library and reads</h2><p>Actual DNA sequencing is reported, with purification and sequencing delegated to references 34 and 33. Their detailed finishing recipe, adapter oligos, PCR programme, sequencing platform and run lengths remain unresolved in this selected source scope. No generic ChIP-seq library is supplied to fill those boundaries.</p>',PlanLimitationSection('library'),
+      '<details><summary>Complete preparation graph, fractions and chemistry warnings</summary>',WorkflowSection('In-vivo bio-JQ1 preparation'),'</details>',
+      '<p><a href="01_chem-seq.html">Source notes and remaining questions</a></p></div>'])
+
 if __name__=='__main__':selftest()

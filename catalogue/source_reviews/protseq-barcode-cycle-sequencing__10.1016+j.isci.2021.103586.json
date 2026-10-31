@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8717419.1/PMC8717419.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published VOR Results262\u2013278,STARMethods588\u2013609/643\u2013657/669\u2013673;general DNA1/6cycle route,bridge modification,NGS finish"
+      "inspection_scope": "Published VOR Results262–278,STARMethods588–609/643–657/669–673;general DNA1/6cycle route,bridge modification,NGS finish"
     },
     {
       "id": "source2",
@@ -26,16 +26,30 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Published-first bounded selected-source pass;associatedMSNGGM explicit,no abstract-only fullgraph,no absenceaudit",
-      "locations": "Published VOR Results262\u2013278,STARMethods588\u2013609/643\u2013657/669\u2013673;general DNA1/6cycle route,bridge modification,NGS finish; Published SI TableS2 foundation/bridge and TableS4 selected binder identifiers;FigS3 sixDNA-DNAcycle caption;other tables deferred",
+      "locations": "Published VOR Results262–278,STARMethods588–609/643–657/669–673;general DNA1/6cycle route,bridge modification,NGS finish; Published SI TableS2 foundation/bridge and TableS4 selected binder identifiers;FigS3 sixDNA-DNAcycle caption;other tables deferred",
       "findings": "Selected physicalclasses/operations and limitations in protocol note;ordinary unread targets deferred,actualgates blocksourcecoverage.",
       "deferred": [
-        "Whole FC/RC,source target\u2013foundation/binder pair assignments and full per-cycle barcode/ligation/EcoRI geometry;TablesS2\u2013S8 full original scope",
-        "Peptide\u2013nanobody and thrombin physical conjugation branches,POC/modifier manufacturing,independent TargetSwitchSELEX branch and its original oligos",
-        "Specific run45\u2013600cycle choice,full primer landing/read geometry and actual measured six-cycle sequences",
+        "Whole FC/RC,source target–foundation/binder pair assignments and full per-cycle barcode/ligation/EcoRI geometry;TablesS2–S8 full original scope",
+        "Peptide–nanobody and thrombin physical conjugation branches,POC/modifier manufacturing,independent TargetSwitchSELEX branch and its original oligos",
+        "Specific run45–600cycle choice,full primer landing/read geometry and actual measured six-cycle sequences",
         "Other source-linked chemistry originals/buffer/manufacturing details deferred;no complete version/source audit"
       ],
       "verification": "Combined 20 local checks (9 NGGM / 11 ProtSeq), two private builds, schema and pairing (zero problems) pass; sourceguard: three checked, zero failed, zero exemptions, 14 unrepresented inputs; chemistry: zero established, 60 unresolved, zero contradictory. No complete chemistry/source validation claimed.",
       "oligo_scraper": "Mandatory standard bundle scraper run;relevant selectedoriginal pointers checked;zeroNGGMhits/cPTMretrievedfiles doesnotestablish absence."
+    },
+    {
+      "round": "unlinked-pages-batch24",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing originals only; bounded private physical/molecular corrections, not complete chemistry/source/absence review.",
+      "locations": "Exactsourceidentities/sections in /tmp/unlinked-targeted35-preflight.json andcounter /tmp/unlinked35-source-counts.json. S1associatedmain30–38/Fig1A440. ProtSeqpublishedmainResults262–278/STARMethods588–609,643–657,669–673; selectedpublishedS2/S4/FigS3 inventory.",
+      "findings": "Bounded correction of the demonstrated DNA–DNA barcode-cycling route, not complete amino-acid sequencing. The source per-target hybridization array feeds its100ul FoundationMix and two actual30ul chip loads, retaining untransferred stock; actual loaded T4 function is copresent rather than another fresh addition. The actual six-cycle foundation/member assignments remain unassembled; Fd7 stays a source-inventory reference helper, not an asserted measured six-cycle target. Six rounds use independent portions of the source12residue5-nitroindole bridge stock with retained remainder; BSA is added after binder/bridge annealing and before chip incubation. Ligation is a real molecular transformation with source T4 functions, and EcoRI digestion has an actual catalyst and exact known restriction-bridge DNA contributor. Cleavage companions remain until source washing; no peptide/amino-acid degradation is inserted. Known NGS adapter/bridge are copresent components of their actual preparation;100ul finishing mixture supplies two30ul loads with remainder, then source ligation/washes. Actual20ul20pMPhiX+580ulHT1 is a separate cartridge-control preparation, not ligated into every barcode chain. Runtime graph enumeration is replaced by fixed genuinely reviewed target groups. The broad required whole-assignment/junction/source scope remains uncovered; no opaque endpoint or coverage waiver, no public promotion.",
+      "deferred": [
+        "Selected main/SI are availableandchemistrypositive; actualwholefoundation/cololinker/target/binderassignments, percycleligation/EcoRIgeometry andrunlayout remainunassembled andparts ordinaryunread. Existingbroadrequireditem stays uncovered. No newidentifiedinaccessibleoriginalcurrentlyjustifies callingallofthissource-unavailable. Runtime tuple(graphmaterials)+tuple(graphsteps) coverage mustnotstandasreview."
+      ],
+      "oligo_scraper": "Mandatoryclosed-pass /tmp/unlinked35-protseq-scraper.log. Genericexternalguard doesnot validateproducedstocks/5NitIndclass; localconstructedNGSadaptor/bridge whole-source fixtures tie producedbodies toactualmaintext.",
+      "verification": "17 focusedchecksPASS; privatebuild/render andpairingPASS. Combinedguard6exact/0fail/15externalunknownstates; producedunknown/modifiedinventory remainsunassembled. Chemistry76unresolved/0contradictory; requireditems preserved."
     }
   ],
   "linked_information": {
@@ -44,9 +58,9 @@
   },
   "missing_claims": [],
   "pending_sources": [
-    "Whole FC/RC,source target\u2013foundation/binder pair assignments and full per-cycle barcode/ligation/EcoRI geometry;TablesS2\u2013S8 full original scope",
-    "Peptide\u2013nanobody and thrombin physical conjugation branches,POC/modifier manufacturing,independent TargetSwitchSELEX branch and its original oligos",
-    "Specific run45\u2013600cycle choice,full primer landing/read geometry and actual measured six-cycle sequences",
+    "Whole FC/RC,source target–foundation/binder pair assignments and full per-cycle barcode/ligation/EcoRI geometry;TablesS2–S8 full original scope",
+    "Peptide–nanobody and thrombin physical conjugation branches,POC/modifier manufacturing,independent TargetSwitchSELEX branch and its original oligos",
+    "Specific run45–600cycle choice,full primer landing/read geometry and actual measured six-cycle sequences",
     "Other source-linked chemistry originals/buffer/manufacturing details deferred;no complete version/source audit"
   ]
 }

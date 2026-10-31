@@ -54,6 +54,21 @@
       ],
       "oligo_scraper": "Whole-bundle scraper run; MapR14hits/2files(EMSA/fusion-cloning scope), ini-seq19hits/1file(qPCR), BisMapR0hits, Bubble0hits; no absent-information inference.",
       "verification": "23localchecks across4DNA09protocols passed;4builds/pairing/source-review schema passed. Sourceguard0checked/0failed,6inputswithout exact states(customMapR/BisMapR adapter/PCRprimers); no exact oligo transcription validation claimed. Chemistry0established/67unresolved/0contradictory, no complete molecular validation. Source investigation cap closed; fetch process26669completed exit0."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch17",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "One associated manuscript PMC6870988, not final-VOR equivalence. No acquisition or linked-original expansion.",
+      "locations": "Methods150\u2013168 and detailed steps208\u2013244; EMSA oligo context150\u2013158 independently checked.",
+      "findings": "Source calcium and copresent STOP-stock buffer/RNaseA/yeastDNA are molecular contributors, with37C10min as condition. Actual printed RNaseA ambiguity retained. Literal selected input/operation inventory covers only this inspected cleavage/release scope; original pending_originals and full molecular assembly remain open.",
+      "deferred": [
+        "Cited CUT&RUN2018 original10.1038/nprot.2018.015 applicability and component scope.",
+        "Historical custom library adapters and complete run/strand/index geometry; no EMSA-to-NGS transfer."
+      ],
+      "oligo_scraper": "/tmp/unlinked17-mapr-scraper.log completed15hits/3representations; control oligos checked, no library oligo or absence claim derived.",
+      "verification": "7focused checks pass; private render and pairing0problems. Original pending_originals remains uncovered; no finished marker or source-absence claim."
     }
   ]
 }

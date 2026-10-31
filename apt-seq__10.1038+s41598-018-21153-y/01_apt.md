@@ -32,3 +32,11 @@ Component ancestry: Methods99 explicitly follows Drop-seq (ref13) and its online
 ## Validation
 
 Local source transcription and physical branch/state checks are recorded in the source-review JSON. Full chemical products,library completion and complete source coverage are not established.
+
+## Bounded publication follow-up (2026-10-30)
+
+The required `unassembled` source/geometry item remains uncovered. Main Methods99 explicitly cites the Drop-seq defining original and online protocol; reference70/text543 identifies the latter as Macosko,Goldman andMcCarroll, Drop-Seq Laboratory Protocol **v3.1 (2015)**, http://mccarrolllab.com/dropseq/. No later revision is substituted. The source-positive summary of joint library production does not waive that real historical finishing obligation or the unassembled whole bead/product/read scope.
+
+Limited private fixes preserve the actual bead primer introduced once during encapsulation as co-present components through capture and copying; no second fresh bead addition is implied. The Maxima step is now explicitly a compound source-positive RNA-dependent/DNA-dependent copying and template-switch operation, because the DNA aptamer is not an RNA template. Whole occupied products and exact nucleotide/priming relation remain unassembled. The source13-cycle joint PCR is typed as PCR using its known primer classes and functional polymerase/nucleotide components of aggregate actual supplies, without an invented enzyme identity, dose, stock recipe or thermal program. Folding, binding and dilution are physical operations, not DNA copying.
+
+A literal reviewed input/step inventory replaces runtime graph enumeration and deliberately excludes the unread downstream continuation. No captured/fluorescent or opaque molecular product is promoted to sequencing-ready DNA. Existing published main/SI scope only; no new originals, acquisition, absence claim or completed whole-library geometry. Notes status remains a source-scope hold.

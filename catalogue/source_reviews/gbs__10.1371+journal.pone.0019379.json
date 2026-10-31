@@ -93,6 +93,20 @@
       ],
       "oligo_scraper": "Mandatory actual-bundle scan27hits/3files at initial pass;original component equations/5OH/TableS1 verified;generic matcher exemptions explicitly scoped to composition/IUPAC member.",
       "verification": "11focused checks/build/pairing pass;3exact inputs/0failed/3source-defined component-expansion exemptions independently verified against main/TableS1.6established narrow component relations/18unresolved claims/0contradictory. Independent critical review closed,not absence audit."
+    },
+    {
+      "round": "2026-10-30-unlinked25",
+      "reviewer": "coordinator",
+      "date": "2026-10-30",
+      "documents": 1,
+      "locations": "Published main PMC3087801 JATS Methods/Fig2 97\u2013109; Discussion195\u2013199",
+      "findings": "Actual ligation/PCR supplies expose copresent enzyme/nucleotide/buffer functions; source primer dose25pmol. Loading fraction separated from retained29ul after1ul Experion. SE86 acquisition declared, original nicked/end/readout hold preserved.",
+      "deferred": [
+        "Historical sequencing/product originals and whole nicked-library/read-primer geometry"
+      ],
+      "oligo_scraper": "27hits/3files; source adapter whole-fixture checks and original precise CTCC/CAG component exemptions retained, no expanded exemption.",
+      "verification": "13focusedPASS/private render/pairing0; not an absence audit.",
+      "scope": "One published original within10min/three-original cap; operational subset only, no recursive chase or full-source review."
     }
   ],
   "implementation_review": {

@@ -34,3 +34,7 @@ Random6 on A-bottom is hybridization degeneracy, not a UMI. The printed trP1 pai
 The source assigns a ribonucleotide site **one nucleotide upstream and on the opposite strand** to the aligned read5′end. That computational coordinate is distinct from the physical captured upstream fragment's3′OH. The captured fragment does not retain the downstream rNMP at its3′end. Because no pre-sequencing amplification was used, the source did not deduplicate genomic reads; this is not a UMI claim.
 
 Exact complete original Ion library/strand assembly, emulsion-PCR and acquired run-primer/flow configuration remain unassembled in the partial model. Source-linked RNaseH2 purification and later detailed protocols, full extended-data graphics and a second independent reader are deferred. No missing-information assertion is accepted.
+
+## Publication preparation review
+
+The source-qualified public page now exposes actual NanoDrop/Bioanalyzer allocations and selected DNA stocks, the molecular ddATP contribution, and components of the same actual Phusion FLASH prepared master mix. Original captured-template3′dideoxy chemistry is retained through release and cleanup; it is not assigned to newly copied DNA. OneTouch supplies remain functional classes with unassembled whole primer polymers. Accepted-manuscript scope and inferred strand assembly remain explicit.

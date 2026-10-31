@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round09",
         "date": "2026-10-29",
-        "locations": "Published article Results52\u201376/Fig1 and Methods142\u2013156; not an author manuscript",
+        "locations": "Published article Results52–76/Fig1 and Methods142–156; not an author manuscript",
         "finding": "Selected original source scope and version read; source-known operations recorded without full molecular-library completion."
       }
     },
@@ -35,12 +35,12 @@
     "pass_1": {
       "reviewer": "expansion_dna_round09",
       "date": "2026-10-29",
-      "locations": "Published article Results52\u201376/Fig1 and Methods142\u2013156; not an author manuscript",
+      "locations": "Published article Results52–76/Fig1 and Methods142–156; not an author manuscript",
       "finding": "Direct pending originals/version and chemistry targets are identified in notes; no recursive source chase or absence acceptance."
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source/model pass; no completed two-reader missing-information review.",
+  "conclusion": "Bounded publication hold retained after contained physical/source-inventory improvements. Original pending_originals is untouched and uncovered: MapR2020, named vendor documents and exact UDG/adapter/primer assembly. Twenty precursor-specific input/operation inventory targets also remain unaccounted; cited MapR does not establish full2019/2020 equivalence. No sequencing terminal or full library geometry has been declared.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-09",
@@ -48,13 +48,28 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Published-first bounded source reading; associated manuscript identity explicit forMapR; other originals deferred.",
-      "locations": "Published article Results52\u201376/Fig1 and Methods142\u2013156; not an author manuscript",
+      "locations": "Published article Results52–76/Fig1 and Methods142–156; not an author manuscript",
       "findings": "Known operations through reported NGS endpoint; exact molecular/library/read relations remain explicitly unassembled.",
       "deferred": [
         "Named detailed predecessors, historical library/adapter/primer/run geometry and source-qualified boundaries listed in protocol notes."
       ],
       "oligo_scraper": "Whole-bundle scraper run; MapR14hits/2files(EMSA/fusion-cloning scope), ini-seq19hits/1file(qPCR), BisMapR0hits, Bubble0hits; no absent-information inference.",
       "verification": "23localchecks across4DNA09protocols passed;4builds/pairing/source-review schema passed. Sourceguard0checked/0failed,6inputswithout exact states(customMapR/BisMapR adapter/PCRprimers); no exact oligo transcription validation claimed. Chemistry0established/67unresolved/0contradictory, no complete molecular validation. Source investigation cap closed; fetch process26669completed exit0."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch18",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed originals reused for contained physical catalyst/molecular typing and literal reviewed source inventory; precursor/library obligations remain uncovered. No source acquisition or new controls.",
+      "locations": "Actual published identity; Results52–76 and originalFigure1PDFp3; full Methods142–156 modified MapR/noRNaseA, non-denaturingbisulfite, RNaseH/dUTPsecondstrand and library/UDG/PE38; Original reporting-form title and sample-size/replicate scope; administrative metadata, no bench chemistry adopted",
+      "findings": "Source Enzymatics End-Repair and Klenow exonuclease-minus are now catalyst contributions, with the unresolved nucleotide/end chemistry retained. Actual E7760 second-strand allocations (8µLbuffer,4µLenzymeMix,48µLwater added to20µLeluate) are a physical molecular supply aggregate, not only a condition and not a claimed single premix. Literal reviewed inventory covers only source-supported component/operation scope; MapR-specific ConA/washes/permeabilization/activation/recovery details remain uncovered because the cited2019/2020 originals have not been reviewed here. Original pending_originals is untouched and uncovered: MapR2020, named vendor documents and exact UDG/adapter/primer assembly. Twenty precursor-specific input/operation inventory targets also remain unaccounted; cited MapR does not establish full2019/2020 equivalence. No sequencing terminal or full library geometry has been declared.",
+      "deferred": [
+        "Genuine sourceMapR2020/2019 predecessor versions, ZymoD5005/NEBE7760/E7600 originals and full molecular/read assembly; no retrieval chase or inherited recipe.",
+        "Administrative reporting form is not a new source for bench procedure or oligo absence."
+      ],
+      "oligo_scraper": "0hits/0eligible representations; actual mainFigure1p3 and Methods independently checked. No absence conclusion.",
+      "verification": "8focusedPASS; private buildPASS/pairing0problems. Actual normal gate remainsfalse with22failures including original pending_originals/no sequencing terminal. Combined sourceguard0exact/0failed/3unrepresented external oligos;45unresolved chemical claims/0contradictory, not complete validation."
     }
   ]
 }

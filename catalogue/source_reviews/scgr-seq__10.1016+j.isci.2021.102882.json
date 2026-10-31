@@ -56,5 +56,46 @@
     "Direct GenNextRamDA kit historical guide/revision and Hayashi2018 predecessor; complete RNA preparation/library steps",
     "Exact photocleavable linker/released DNA end chemistry and full PCR/read geometry",
     "Remaining linked originals and independent source review"
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 3,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/scgr-seq__10.1016+j.isci.2021.102882/j.isci.2021.102882_PMC8349903.xml.txt",
+        "version": "Published defining article",
+        "sections": "Identity1\u20138; Results88; Methods328\u2013350",
+        "scope": "Conjugation/workups and QC, actual 41-protein stain and cell isolation, barcode/RNA continuations and read setup."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/scgr-seq__10.1016+j.isci.2021.102882/j.isci.2021.102882_supp_mmc2_TableS1.xlsx",
+        "version": "Published mmc2 archive member TableS1",
+        "sections": "Original XLSX sheet1XML headerA1/A3:I3 and rPVL row4",
+        "scope": "Whole rPVL DNA,22nt lectin identity and source measured DNA/lectin0.71; no all41reporter inventory claim."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/scgr-seq__10.1016+j.isci.2021.102882/j.isci.2021.102882_supp_mmc2_TableS15.xlsx",
+        "version": "Published mmc2 archive member, printed TableS15",
+        "sections": "Original XLSX sheet1XML rows1\u201375: whole primerfamilies, X8cellbarcode explanation, printed i5/i7members",
+        "scope": "8nt windows represent cell-well indexes; no UMI, actual per-cell pair or full RNA branch inference."
+      }
+    ],
+    "scope": "Actual analytical aliquots/master-stock components/calibration and library-loading stock trace; full producer/geometry item remains uncovered.",
+    "missing_claims": [],
+    "normal_gate": [
+      "QC terminal 'barcode_qa_analytical' is not typed as QC material",
+      "construct-changing step 'activate' has generic chemistry",
+      "construct-changing step 'quench' has generic chemistry",
+      "construct-changing step 'click' has generic chemistry",
+      "construct-changing step 'stain' has generic chemistry",
+      "construct-changing step 'pick' has generic chemistry",
+      "construct-changing step 'uv' has generic chemistry",
+      "construct-changing step 'barcode_pcr_step' has generic chemistry",
+      "construct-changing step 'rna_prepare' has generic chemistry",
+      "authoritative source item 'unassembled' is not accounted for",
+      "protocol graph is disconnected: dna_standard_qa, dna_standards"
+    ],
+    "verification": "scGR13PASS/ProteinSeq8PASS; both private builds; source guard7exact0failed3unknown; chemistry21+16unresolved0contradictory; pairing0; actualHTML private limits and no completion markers verified."
+  }
 }

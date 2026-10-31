@@ -75,6 +75,23 @@
       ],
       "verification": "Nine local source/branch checks and preview build pass; pair duplex lint0. Whole-library/PCR geometry remains unresolved. Pair shared source checker initially fails only the DAb source-template placeholder (reported to coordinator); no QuRIE source-strand failure. Scoped chemistry pair:1 established,48 unresolved,0 contradictory.",
       "oligo_scraper": "Full bundle scraper run after retrieval; published sequence/modification hits verified; downloaded superseded preprints excluded. Logs /tmp/qurie-primer-hits.log and /tmp/dab-primer-hits.log."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-5",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "scope": "Source-qualified public-page pass; no complete chemistry or missing-information audit",
+      "documents": 2,
+      "locations": "Published main PMC9017125STARMethods281-327; published mmc1 TableS3 originalPDFp14/printed13 rendered and inspected; preprints/mmc2/predecessor/vendor originals unopened.",
+      "findings": "The BJAB graph now represents physical encapsulation of cell/bead/RT supplies before DTT reduction and UV primer release. It uses one aggregate droplet collection with unassigned occupancy/multiplicity, plus the continuous emulsion phase carried to actual recovery. No cell/barcode array or exact bead/polymers are fabricated. DSP/SPDP, blocking dextran-sulfate/RNasin, BSA/RNasin suspension, Optiprep, RTinlet and T7/PCR components are explicit source supply views. The actual source PrimeScript enzyme/dNTP/buffer/RNaseOUT additions remain separately typed stocks rather than an invented premix; second-strand buffer is distinct from the source enzyme supply. Both0.6x fractions continue. Source10uL protein backup,0.5uL qPCR versus9.5uL final-PCR templates, final QC selections, joint library-pool contributions and untransferred library/pool remainders remain separate. The qPCR analytical continuation is explicitly unresolved, with its separate source KAPA/EvaGreen/primer setup noted; it is not returned to the library. The rendered published TableS3 has a32-base PE2 arm plus five printed Ns (37characters), although the primer is named PE2-N6/randomhexamer and its length column says38. The model preserves the printed fiveNs and does not claim effective priming geometry or manufactured order. Protein IVT Methods also call the nucleotide supply \u201cdNTP\u201d while listing ATP/CTP/GTP/UTP: listed ribonucleotides are preserved with the wording conflict visible. Source RNAIVT37C and proteinIVT50C remain separate, and the printed RT10nM dNTP wording is not silently changed. Effective PE2-N6 tract defaults to inferred, with public preamble, marked RT caption and inferred bases; printed reference is not a claim of actual manufactured length.",
+      "oligo_scraper": "/tmp/unlinked-qurie6-scraper.log; relevant originalS3 table checked. Preprint hits excluded; no absence conclusion.",
+      "deferred": [
+        "Full antibody/bead/tag/promoter designs and specific Next1/BioHash2 primers",
+        "Klein2015/Zilionis2017/Gerlach2019 applicability, run geometry",
+        "Source PE2-N6 actual manufacturing N count and reported condition/wording ambiguities",
+        "Full linked-source/independent audit"
+      ],
+      "verification": "16focusedPASS;44steps46unresolved0contradictory; normalpublicationgate[]; pagebuild/pairing0."
     }
   ],
   "linked_information": {
@@ -91,5 +108,8 @@
     "Protein Next1/BioHash2 primer sequence/version mapping",
     "Final read-cycle/primer geometry and QC scope",
     "Independent source review"
-  ]
+  ],
+  "conclusion": "Eligible for a source-qualified public page of the selected preparation with explicit stock/fate scope and unresolved molecular geometry. Representation published_instance does not establish sequence-exact study molecules, assay performance or full source audit. No absence claim accepted.",
+  "pass_1": null,
+  "pass_2": null
 }

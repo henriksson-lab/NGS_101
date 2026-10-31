@@ -16,7 +16,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5388417.1/gkw810_supplementary_data.zip#nar-01760-r-2016-File006.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "PublishedsupplementFile006 Method2lines215\u2013277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1."
+      "inspection_scope": "PublishedsupplementFile006 Method2lines215–277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1."
     }
   ],
   "bounded_checks": [
@@ -25,8 +25,8 @@
       "reviewer": "bounded-source-model-pass",
       "date": "2026-10-30",
       "documents": 2,
-      "scope": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation.; PublishedsupplementFile006 Method2lines215\u2013277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1.",
-      "locations": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation.; PublishedsupplementFile006 Method2lines215\u2013277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1.",
+      "scope": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation.; PublishedsupplementFile006 Method2lines215–277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1.",
+      "locations": "PublishedPMC5388417 Methods70/Fig1/RTprinciple,selectedMethod1withoutfragmentation.; PublishedsupplementFile006 Method2lines215–277,inspectedonlytodistinguishfragmentedalternative;notmixedintoMethod1.",
       "findings": "Published random-primed AMV high/low-dNTP libraries recover RT-termination cDNA and ligate a source-known 5prime-phosphorylated, 3prime-C3-blocked DNA adapter using CircLigaseII; Method1 remains separate from the fragmented Method2.",
       "deferred": [
         "Wholeend/read/productgeometryanddirectlylinkedhistoricalvendor/precursorsremainunreviewed."
@@ -48,5 +48,53 @@
     "scope": "Narrowselectedsource/modelcriticalreviewonly;notcompleteall-source,linked-informationorabsenceaudit.",
     "finding": "Coordinator independently read publishedMethods70andearlierpublishedSIFile006Method2boundary. Method1high/lowdNTPmolecularsubstratesseparatefromAMV;source5P/3C3adapterandcDNA3OHinterfaceknown;actualnormalizedpoolaliquots/untransferredPCRstocksnowexplicit. NoMethod2fragmentation/windows/eighteencyclemerge.",
     "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation."
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "scope": "Selected published positive-source preparation; no broad required source item removed, renamed or excluded.",
+    "source_originals": 2,
+    "locations": "/husky/henriksson/NGS101_papers/sources/2ome-seq__10.1093+nar+gkw810/nar_gkw810_PMC5388417.xml: PublishedPMC5388417 mainMethods70 selected unfragmentedMethod1 fullpositive libraryfinish and exactRT/adapterorders.; /husky/henriksson/NGS101_papers/sources/2ome-seq__10.1093+nar+gkw810/nar_gkw810_supp_gkw810_supplementary_data_nar-01760-r-2016-File006.pdf: PublishedSI File006Method2 lines215–277 only as distinctfragmentedalternative; not merged intoMethod1.",
+    "finding": "The public page now records the source-positive Method1 high/low pair with optional source spike-in: actual RT, RNase workup,70–300nt cDNA recovery, known5P/3C3 adapter ligation,15-cycle PCR, cleanup/equimolar pooling and selected loading contribution. The original selected SourceItem is unchanged; it describes positive scoped source evidence, not an unread full-recipe obligation. Literal curator target suffixes expand the two source arms without inspecting graph nodes. An inferred-required nucleotide class comes from the same aggregate PCR supplies with unknown formulation. Full RT-stop/occupied molecules, PCR primer/index ordering and read masks remain visibly unassembled. Unknown index facets are not filled from a standard kit name. Fragmented18-cycle Method2 is kept separate. This is a source-qualified public preparation, not complete molecular validation or an accepted missing-information claim. No additional originals were acquired.",
+    "verification": "14focusedPASS;normalgate0;actualpagebuild/pairingpass. Wholeproducts remain unresolved.",
+    "independent_implementation_recheck": {
+      "date": "2026-10-30",
+      "reviewer": "independent curator",
+      "scope": "Source-qualified public page and literal inventory, same selected originals; no absence audit or complete reaction validation.",
+      "result": "pass",
+      "blockers": [],
+      "findings": [
+        "PublishedmainMethods70 independently supports separate2ughigh/lowAMV reactions, optional source100ngspikes, RNaseH/cocktail,70–300ntPAGE/passivediffusion/ethanol, actual5P/3C3adapter→cDNA3OHligation and15cyclePCR/equimolarpool/NextSeq500.",
+        "Same selectedSIFile006Method2 is a separate fragmented/end-repaired/50–150nt/18cycle alternative, not merged into displayedMethod1. Wholeprimer/adapter fixtures and local known end scope are sourceconsistent.",
+        "Requested RNAstockremainderSTORED→UNRESOLVED and PCRsupplies wording→aggregatepackaging/stockcountunassigned were applied. Actual two independent source preparations/normalizedpool/loadingstock remain; no new reagent recipe or complete occupied product invented."
+      ],
+      "source_scopes": [
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/2ome-seq__10.1093+nar+gkw810/nar_gkw810_PMC5388417.xml.txt",
+          "identity": "PublishedmainPMC5388417",
+          "sections": "Methods70, whole modifiedRT/adapter and method1producer/readscope."
+        },
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/2ome-seq__10.1093+nar+gkw810/nar_gkw810_supp_gkw810_supplementary_data_nar-01760-r-2016-File006.pdf.txt",
+          "identity": "PublishedSIFile006",
+          "sections": "SelectedMethod2alternative222–232/250–277,18cycletext273–277; no inheritance intoMethod1."
+        }
+      ],
+      "originals": 2,
+      "cap": 3,
+      "verification": {
+        "focused_checks": 15,
+        "focused_result": "PASS independently rerun after requested fixes",
+        "normal_gate": [],
+        "actual_render": "/tmp/positive-c-peer-2ome.html",
+        "render_bytes": 52803,
+        "pairing": "PASS/0problemduplexes; all3actualrenders",
+        "complete_wrapper_and_collapsed_full_workflow": true,
+        "sourceguard": "Combined3exact/0failed/0exceptions/6externalunknown; producedknownoligos outsideexternalguard validated by sourcefixtures.",
+        "chemistry": "Combined0established/388unresolved/0contradictory; notfullreactionvalidation.",
+        "source_scraper": "/tmp/positive-c-critical-2ome-scraper.log:54candidates/3representations",
+        "absence_pass_2": false,
+        "repository_edits": false
+      }
+    }
   }
 }

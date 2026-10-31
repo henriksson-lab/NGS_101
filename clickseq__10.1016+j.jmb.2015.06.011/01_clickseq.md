@@ -23,3 +23,11 @@ The local selected-template constructor preserves the supplied terminal nucleoti
 Main40 reports separate libraries from100ngFHV and100ngCrPV RNA,1:20AzNTP:dNTP,300–500nt selection and IlluminaHiSeq single-end100nt acquisition. The graph selects the FHV preparation; host mRNA mapping in main42 comes from that FHV dataset, not an independent cellular-mRNA preparation. Targeted-Primer5/gel validation remains a separate experiment. Upstream extraction is outside this library graph. Index acquisition, primer landing and full end geometry remain unassembled; TableS1 and precise chemistry methods are required. No contemporary kit recipe or index value is borrowed.
 
 The source reports low observed recombination and inefficient read-through in its experiments. These observations are not source-independent accuracy guarantees or constructor invariants. The model remains a private incomplete operational/chemical-class graph, with no finished schematic or accepted missing-information claim.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked one associated author manuscript, PMC4523409 identity1–3 and main30–40. The mandatory scraper completed with zero eligible hits; actual main text was read directly. No final-VOR equivalence, new retrieval success or sequence-absence conclusion is claimed. The precise historical TableS1 DOCX target remains unreviewed at its recorded gate.
+
+Ascorbate is now a molecular contributor rather than only a condition. The source's synthesized random-priming N6 is distinct from an unassigned sample-index placeholder. Reported PCR copying has an explicitly inferred functional nucleotide supply, with no recipe, nucleotide mixture or dose invented; its constructor property, preamble and step caption identify that inference.
+
+Actual cleanup and the final handoff retain the PCR/template mixture view with recovery unassigned. Original triazole-containing templates and copied DNA classes remain distinct; no chemical triazole is transferred automatically into daughter backbones. The handoff declares no new molecular transformation. Literal source-reviewed inputs/operations replace helper-accumulated coverage; original `supplement` remains required and uncovered. Whole modified oligos, formulations, precise end/primer geometry and final-version applicability remain deferred. No public completion marker is introduced.

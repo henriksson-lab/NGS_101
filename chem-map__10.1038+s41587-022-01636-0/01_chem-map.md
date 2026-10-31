@@ -37,3 +37,8 @@ Mandatory whole-bundle scraper was run before and after the declared component r
 ## Molecular limits
 
 The known local adapter duplexes are declared fully. Actual genome insertions, occupied target complexes, heterogeneous strand-transfer junctions, exact reference40 PCR orders, selected sample indexes and complete read-landing geometry remain unassembled. These are explicit positive source/model boundaries, not confirmed missing information or proof of incomplete publication. Computational peak calling/duplicate filtering do not physically remove DNA in this graph. No full-molecule sequencing endpoint is fabricated from the shared Nextera-like endpoint.
+
+
+## Public preparation page
+
+The public page displays the source-defined preparation, known local oligos/duplexes, read setup, unresolved molecular boundaries and all material fates. Analytical fractions have the QC material type. A curator-written inventory covers external inputs and operations; repetition is parameterized only by the source-defined sample/IVT counts, without scanning the graph to manufacture coverage. Passing this workflow gate does not establish the unassembled molecular transitions or complete source review.

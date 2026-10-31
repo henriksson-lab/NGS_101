@@ -235,5 +235,17 @@
       "oligo_scraper": "Mandatory full downloaded bundle run; hits verified in source contexts. Empty output is not evidence of absence.",
       "verification": "17 local behavioral/transcription checks pass across3models. Source guard0checked/0failed/13inputs without exact states; chemistry audit43unresolved/0contradictory. Not full chemical validation."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "source_scope": "pnas.1817334116_PMC6452723.xml.txt107\u2013131 actualRNAfractions/BS/library/specificvalidationandmechanisticboundaries. pnas.1817334116.sapp.pdf.txt190\u2013272 actualfractionQC/1thirdNBS/2thirdBS,2tubeTrissplit\u21926precipitationtubes\u219260\u00b5lpool/end-repair/adapter/RT/PCR/QC/laneplan. pnas.1817334116.sd10.pdf.txtfirst25lines/titleandsectionAoptimizationRNAoligos only; remainingDatasetS10notadjudicated. No originalcorrectioncontents read; existingactualfailedrequestrecords metadataonly. Nohistoricalvendor/otherdata/predecessor acquisition.",
+    "originals_read": 3,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "ActuallinkedCorrection DOI10.1073/pnas.1905628116/PMC6500115contents remainunread afterexistingrecordedHTTP500/reCAPTCHA/HTTP403attempts; no newretry. Itcannotbeclassifiedirrelevantfrommetadata. Originalrequired unread_correction andunreviewed_library_geometry itemsremain. Completehistoricaladapter/RT/PCR/readgeometryandDatasetS10scope notcompletedbycurrent14stepRNA\u2192PE101physicaloutline; literalterminalsourceinventoryalsoneedsrepair, notautotagging. Actual2desulfonation/6precipitation-tube producer/pool andmolecularBSreagents nowimplemented, butrequiredcorrection/fullgeometry andremainingfront-end/stock/QA scope remainunmet.",
+    "verification": "13directfocusedPASS; noPAGE_FILE/build introduced; chemistry26steps27unresolved0contradictory; sourceguard0exactclaims0failed5unassembledexternaloligos. Actualcorrection/geometry/libraryinventorygateissuesremain.",
+    "source_items_still_uncovered": true,
+    "missing_information_claims": []
+  }
 }

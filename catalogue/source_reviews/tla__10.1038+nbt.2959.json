@@ -42,5 +42,28 @@
   "linked_information": {
     "result": "blocked",
     "reason": "Defining-source access/scope and named predecessor boundaries recorded. Full linked-source enumeration and independent review remain pending; no confirmed absence claim."
+  },
+  "publication_review_2026_10_30": {
+    "scope": "Bounded public-page review, not a complete independent source/absence review. Source investigation closed after two existing originals; no extra source acquisition or predecessor chase.",
+    "originals": [
+      {
+        "file": "DeLaat_Key_2014_DeVree_Targeted-sequencing-by-proximity-ligation-for-comprehensive-variant-deletion-and-local-haplotyping.pdf",
+        "inspected": "Published Online Methods TLA sample preparation and Bioinformatics."
+      },
+      {
+        "file": "nbt.2959_41587_2014_BFnbt2959_MOESM1_ESM.pdf",
+        "inspected": "Fig1 caption and generic tissue-culture Supplementary Protocol steps1\u201355/PCR; target-specific Table2 pair remains unselected."
+      }
+    ],
+    "scraper": "Mandatory bundle scrape66hits; no target-specific oligo order adopted.",
+    "changes": "Actual distinct20U/100U Roche ligase additions; source diagnostic allocations; source800ng/200ul PCR setup split into8x25ul aliquots and actual pool. Copresent component views introduce no fresh dose or physical fractionation. Source formaldehyde remains molecular reagent with separate source time/temperature condition. No exact primer/target/kit end geometry is invented.",
+    "representation": "Published generic preparation with inferred role order, not a selected biological example or literal invented DNA.",
+    "deferred": [
+      "Source-linked predecessor refs10/37 and full independent linked-source review",
+      "Selected target map and primer pair",
+      "Exact historical NGS kit/end/index/read geometry",
+      "Diagnostic assay chemistry and optional failed-control repeats; no claim those were performed in this generic continuation"
+    ],
+    "absence_claims": []
   }
 }

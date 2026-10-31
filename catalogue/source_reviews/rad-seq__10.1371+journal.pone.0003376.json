@@ -59,6 +59,21 @@
       ],
       "oligo_scraper": "Mandatory actual-bundle scan20hits/mainPDF+JATStwins;original Methods141 modifications and lowercase x windows read. No inference of absence from stalled generic supplemental ZIP.",
       "verification": "10checks/build/pairing pass;4exact source inputs/0failed/2P1strands explicitly exempt from strict lowercase-x matching but independently verified as whole original oligos.2conditional component checks/18unresolved claims/0contradictory."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch24",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published main only; source whole oligo strings read, no generic archive, historical kit or predecessor inheritance.",
+      "locations": "Methods141 and Results104.",
+      "findings": "Actual P1ATP/buffer and opaqueQuickBlunting supplies; source-writtenadenineformunreviewed; P2functional ligase explicitlyinferred ratherthan claimedT4identity. Same-primer-mix/mastermix componentprovenance, actualPCRwater; local original-source tests coverproducedwholeprimers. Literal maininventory only, originalhistorical_readout unchanged.",
+      "deferred": [
+        "ExacthistoricalSolexa/Phusion protocols andCoyne2004Y-adapteroriginal.",
+        "Whole Y/sealed genomic junctions, complete PCR/primer/rungeometry andP2enzymeidentity."
+      ],
+      "oligo_scraper": "/tmp/unlinked24-rad-scraper.log20hits/2files, actualwholeMain141orders read; no absenceinference.",
+      "verification": "13focusedPASS/privateworkflow/pairing0; actualproducedprimerfixture accessesConstruct.top() correctly; originalhistorical_readoutuncovered. Finalcombinedchecks follow."
     }
   ],
   "implementation_review": {

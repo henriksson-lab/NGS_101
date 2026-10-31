@@ -35,6 +35,21 @@
       ],
       "verification": "20localchecks9INSPIIRED/11LAM pass;2privatebuilds/schema/pairing0problems pass;sourceguard3checked0failed8BNAstrandexemptions23unassembledinputs,notfullsequencevalidation;chemistry1pairingrelationestablished46unresolved0contradictory. IndependentwholeHIVblockeroriginaltranscriptionapproved;Coordinatorindependentcriticalimplementationreviewclosed,noconsequentialdefect;notabsenceaudit.",
       "oligo_scraper": "Mandatorybundle scraper run; selected originalpointersandmodificationsverified. Collapsedhits/zerofilesneverabsenceevidence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch14",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing-source preflight followed by bounded documentation and source-local constant oligo inventory correction only. No acquisition or preparation-scope expansion.",
+      "locations": "Methods105 older emulsion route for boundary only; full LAM-specific107: single biotin primer50+50Taqcycles, bead/on-bead overnight bridge,15cycle nestedPCR/EcoNI/final10–15cycle stepoutPCR; Actual original Table8PDFp30 whole three bridge orders/5P/3AmMO and P5/P7/AP2I7/nestedmultiplex row roles",
+      "findings": "Original required unassembled remains uncovered: Unassembled source inputs, molecular geometry and directly linked targets. Its source LIMIT explicitly retains associated-manuscript version scope, end-conditioned bridge allocation and predecessor/kit instructions. The11step graph also has8generic construct-changing steps and a non-library loading output; endpoint typing or generic-to-opaque relabeling cannot fulfill those source/producer obligations. Associated Methods107 supports LAM order but does not supply a locally reviewed complete finishing/QC/cleanup/loading recipe. The whole Table8p30 P5 and P7 PCRIII primer bodies are now declared as source oligo constructs: P5 AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCT; P7 CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACC. Canonical P5/P7 prefixes are imported only because these exact prefixes occur in the inspected local table, not to inherit library chemistry. These constant primer bodies contain no newly assigned sample index and do not establish occupied primer landing, a complete finished library, full final-publication equivalence or predecessor source coverage.",
+      "deferred": [
+        "Defining final article Methods/version comparison DOI10.1038/nbt.3101, not treated as absent or newly retried.",
+        "Actual cited LAM-PCRref28 and bridge-ligationref44, historical kit scopes, and actual downstream production workup/readlength/library geometry remain unreviewed."
+      ],
+      "oligo_scraper": "50hits across4representations; actual Table8p30 whole bridge modification/primer roles viewed independently",
+      "verification": "13focusedPASS including2whole PCRIII original-transcription fixtures; private buildPASS/pairing0problems; sourceguard4exact/0failed/0exempt/4unknown inputs. Original10normal-gate failures and requiredunassembled retained. No full library/source validation claimed."
     }
   ],
   "linked_information": {
@@ -46,5 +61,6 @@
     "DefiningpublishedfullMethods/source-versionequivalence; historicalkitdetails",
     "DirectlycitedLAM/bridgepredecessors; actualend-conditionedadapterallocation",
     "Fullbait/genomic/junction/primergeometry andpost-PCRworkup/runlengths"
-  ]
+  ],
+  "conclusion": "Bounded publication hold retained. Original required unassembled remains uncovered: Unassembled source inputs, molecular geometry and directly linked targets. Its source LIMIT explicitly retains associated-manuscript version scope, end-conditioned bridge allocation and predecessor/kit instructions. The11step graph also has8generic construct-changing steps and a non-library loading output; endpoint typing or generic-to-opaque relabeling cannot fulfill those source/producer obligations. Associated Methods107 supports LAM order but does not supply a locally reviewed complete finishing/QC/cleanup/loading recipe."
 }

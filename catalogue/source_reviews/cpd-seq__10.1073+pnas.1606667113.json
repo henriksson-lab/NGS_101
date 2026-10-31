@@ -59,6 +59,20 @@
       ],
       "oligo_scraper": "10 hits in inlineSIoligo paragraph1289; trP1-top terminalT is separated by English phosphorothioate wording, checked verbatim locally.",
       "verification": "Nine local checks pass, including six complete source-oligo transcriptions, incomplete/no-marker guards and distinct nonbiotin release/bead-retained strand outputs. Build/pairing pass. Source guard five checked strands,zero failures,one narrowly documented trP1-top parser exemption with verbatim local source check. Chemistry23unresolved/zero contradictory; no complete reaction-validation claim."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch11",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded private-inventory fix and publication-hold documentation; no source expansion",
+      "locations": "pnas.1606667113_PMC4987812.html(.txt): Main1268/ref191387; inlineSI1277–1297, especiallywholeoligos1289 andfullproduction1295. Existingtranscriptionfixtures verified source context; no newexternaloriginal.",
+      "findings": "Required exactcited2015protocol10.1038/nprot.2015.099 remains unreviewed. Main1268 explicitly establishes adaptation, so actualrelevantoriginal cannot beexcluded merelybecause inlineSIpositively describescoarsefinish. Currentgraph hasDNAcopy/PCR butwholeligation/PCR/readassembly unresolved andno libraryterminal. Required item remains uncovered; no source-coverage exclusion.",
+      "deferred": [
+        "companion_protocol"
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scraper completed in closed preflight. No new exact oligo authority adopted and no absence conclusion.",
+      "verification": "9 focused checks per protocol PASS; both private previews build; combined source guard6exact0failed/1existingformattingexemption/1unassembledinput; chemistry41unresolved0contradictory; pairing0. Source ATP (RAID) or ddATP (CPD) molecular contribution separated from enzyme catalyst; no library endpoint promotion."
     }
   ],
   "integration_verification": {

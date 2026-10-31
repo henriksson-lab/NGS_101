@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "rna_round12_reader",
         "date": "2026-10-29",
-        "locations": "Introduction38\u201346/Fig1; Methods52\u201380 including treatment58\u201368 and complete library76, acquisition76 and processing80",
+        "locations": "Introduction38–46/Fig1; Methods52–80 including treatment58–68 and complete library76, acquisition76 and processing80",
         "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
       },
       "pass_2": null,
@@ -52,7 +52,7 @@
       "pass_1": {
         "reviewer": "rna_round12_reader",
         "date": "2026-10-29",
-        "locations": "Sheet1 rows2\u20135 full modifications and PCR family rows6\u201329; workbook-derived text inspected, exactRT/linker source transcription guarded",
+        "locations": "Sheet1 rows2–5 full modifications and PCR family rows6–29; workbook-derived text inspected, exactRT/linker source transcription guarded",
         "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
       },
       "pass_2": null,
@@ -68,7 +68,7 @@
       "pass_1": {
         "reviewer": "rna_round12_reader",
         "date": "2026-10-29",
-        "locations": "Title and FigureS1\u2013S8 captions; no additional preparation recipe inferred from plots",
+        "locations": "Title and FigureS1–S8 captions; no additional preparation recipe inferred from plots",
         "finding": "Source-qualified positive chemistry/identity reading; scope and version limitations in note. No source-absence conclusion."
       },
       "pass_2": null,
@@ -104,7 +104,7 @@
     "pass_1": {
       "reviewer": "rna_round12_reader",
       "date": "2026-10-29",
-      "locations": "Introduction38\u201346/Fig1; Methods52\u201380 including treatment58\u201368 and complete library76, acquisition76 and processing80; Sheet1 rows2\u20135 full modifications and PCR family rows6\u201329; workbook-derived text inspected, exactRT/linker source transcription guarded; Title and FigureS1\u2013S8 captions; no additional preparation recipe inferred from plots",
+      "locations": "Introduction38–46/Fig1; Methods52–80 including treatment58–68 and complete library76, acquisition76 and processing80; Sheet1 rows2–5 full modifications and PCR family rows6–29; workbook-derived text inspected, exactRT/linker source transcription guarded; Title and FigureS1–S8 captions; no additional preparation recipe inferred from plots",
       "finding": "Capped source pass; actual directly linked pending originals enumerated. No recursive linked-source reading or independent absence audit."
     },
     "pass_2": null
@@ -131,7 +131,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Defining article and chemical SI first; max10min/3originals, no recursive chase.",
-      "locations": "Introduction38\u201346/Fig1; Methods52\u201380 including treatment58\u201368 and complete library76, acquisition76 and processing80; Sheet1 rows2\u20135 full modifications and PCR family rows6\u201329; workbook-derived text inspected, exactRT/linker source transcription guarded; Title and FigureS1\u2013S8 captions; no additional preparation recipe inferred from plots",
+      "locations": "Introduction38–46/Fig1; Methods52–80 including treatment58–68 and complete library76, acquisition76 and processing80; Sheet1 rows2–5 full modifications and PCR family rows6–29; workbook-derived text inspected, exactRT/linker source transcription guarded; Title and FigureS1–S8 captions; no additional preparation recipe inferred from plots",
       "findings": "Physical RNA/modified residues versus complementary DNA/readout kept distinct; source-known operations reach acquisition with unresolved geometry. Independent implementation review correction: pre-NaOH RT material is a typed mixture retaining independent originalRNA and possible unextendedprimer/reagent companions alongside selected spacer-containing cDNA.",
       "deferred": [
         "MainMethods52/76 references8,22,23,31",
@@ -139,6 +139,20 @@
       ],
       "oligo_scraper": "Mandatory actual-bundle scraper; original pointer contexts inspected. STAMP five large skipped files are unreviewed; no absence conclusion.",
       "verification": "27 local behavior/source-transcription checks pass across3models (RNA Tagging8,LASER11,STAMP8); sourceguard5checked0failed0bundlesskipped3inputswithoutexactstates3graphs; chemistry35unresolved0contradictory. Notes-only, no preview or full endpoint/source/readout promotion."
+    },
+    {
+      "round": "unlinked-pages-batch21",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing originals only; bounded private inventory/provenance corrections, not complete source/absence review.",
+      "locations": "Exact originals/sections in /tmp/unlinked-targeted29-preflight.json; currentcounter /tmp/unlinked29-source-counts.json. Record Methods1385–1458 and actualSI PrimerDesignNotes1–2/Table7; LASER mainMethods52–80 and actualTableS1rows1–6 originalZIP/XML.",
+      "findings": "Bounded corrections declare NAz/ZnCl2/EDTA/NaOH molecular contributions separately from source UV/temperature conditions and retain source precipitation-carrier material. EcoliRNA has separate selected RTbranch and companion allocation. SSII RNA and actual oBZ192 primer pass through the source65/55/45/42C annealing sequence before fresh6ulextensionmix; the same produced retained primer entersRT. Actual source RT enzyme/nucleotide/protective/buffer components and CircLigaseI/ATP/Mn-buffer components derive from their actual source preparations, not extra fresh doses. PCR is represented through completed source preparation components with actual forward/reverse classes, catalytic/nucleotide functions and supply provenance unassembled; no source-unverified fresh polymerase identity or commercial premix is inferred. FinalDNA loading leaves an untransferredstock. Both18atom spacers, terminalphysicalddC, RNA/remnant companions, RTstop/MaP distinctions and actualSE50 endpoint remain. The existing required predecessors item remains uncovered; no circle-to-PCR spacer traversal recipe, kitdefault, source waiver or public promotion.",
+      "deferred": [
+        "Actual directly cited synthesis/library originals references8/22/23/31 remain unreviewed under existing required predecessors item. Primarysource-positive producer does not discharge that obligation. Fullcircle-to-PCR molecular traversal/end geometry remainsunassembled; do not flatten non-nucleotide spacers into DNA. HistoricalDirectZolmanual is a separate K562-only branch limit, not an additional invented defaultEcoli obligation."
+      ],
+      "oligo_scraper": "Mandatory prior closed-pass /tmp/unlinked29-laser-scraper.log; current external transcriptionguard9checked0failed across2graphs, no sourceabsence conclusion.",
+      "verification": "16 focusedchecksPASS; privatebuild/render andpairingPASS. Combinedchemistry1established/47unresolved/0contradictory; guard9exact/0fail/3externalunassembled inputs. Existing broadrequireditem preserved."
     }
   ]
 }

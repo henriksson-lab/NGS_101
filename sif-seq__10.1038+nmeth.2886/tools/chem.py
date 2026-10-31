@@ -1,4 +1,4 @@
-"""Private source-qualified SIF-seq reporter construction, cell selection and NGS recovery."""
+"""Source-qualified SIF-seq reporter construction, cell selection and NGS recovery."""
 from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent
@@ -7,7 +7,7 @@ from chemdraw import Scene,Segment,Construct,revcomp
 from illumina import STEM
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry,PCRPrimer
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem,SourceCoverage
 AUTHORITY='AssociatedAMPMC4008384/EMS57097 Methods113–145/Results82–86; publishedSI19actualFigS1p2/TableS2p9firstsixwholeorders/Notep10–12vectorroles. PublishedmainPDFHTML-notPDF, no fullfinal/AMequivalence. SelectedmNanogBACRP24-73P7/insulatedH19/E14ESundifferentiatedbranch.'
 SOURCE_ORDERS={'adaptor_a':'GGGGACAAGTTTGTACAAAAAAGCAGGCTCGCTCTTCCGATC*T','adaptor_b':'/5Phos/GATCGGAAGAGCGACCCAGCTTTCTTGTACAAAGTGGTCCCC','forward':'GGGGACAAGTTTGTACAAAAAAGCAGGCT','reverse':'GGGGACCACTTTGTACAAGAAAGCTGGGT','yfp_f':'GAAGCGCGATCACATGGT','yfp_r':'CCATGCCGAGAGTGATCC'}
 CORE_B=STEM+'GA';CORE_A=revcomp(CORE_B)
@@ -72,13 +72,25 @@ class Trace:
         y=self.g.product(key+'_kept','Actualretainedsourceworkupfraction',K.MOLECULAR,**(_same_state(self.x)if preserve else{}));w=self.g.product(key+'_excluded','Actualexcludedworkupfraction',K.WASTE)
         self.g.react(key,label,S.CLEANUP,((self.x,R.TEMPLATE),)+tuple(ports)+(self.inp(key+'_conditions',label),),(y,w));self.g.discard(w,'Sourceexcludedphysicalfraction, recoveryunassigned');self.x=y;return y
     def allocation(self,key,label,selected,rest,qc=False,kind=K.MOLECULAR):
-        a=self.g.product(key+'_selected',selected,kind,**_same_state(self.x));r=self.g.product(key+'_remainder',rest,self.x.kind,**_same_state(self.x))
+        a=self.g.product(key+'_selected',selected,K.QC if qc else kind,**_same_state(self.x));r=self.g.product(key+'_remainder',rest,self.x.kind,**_same_state(self.x))
         self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(a,r));self.g.mark_terminal(Terminal(a.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,selected if qc else rest));self.x=r if qc else a;return self.x
     def components(self,key,label,items):
         stock=self.g.input(key,label,K.MOLECULAR);out=[];ports=[]
         for suffix,kind,role,text in items:
             y=self.g.product(key+'_'+suffix,text,kind);out.append(y);ports.append((y,role))
         self.g.react(key+'_components','Sameactualsuppliesinventorycomponents; stockpackagingunassignedunlessnamedpreparedmix, noextrafreshdose',S.GENERIC,((stock,R.TEMPLATE),),tuple(out),changes_molecule=False);return tuple(ports)
+
+
+# Fixed curator-reviewed target lists; actual arrays follow source ten-transfection/five-PCR recipes.
+CONSTRUCTION_SCOPE = ('bac_dna', 'forward_stock', 'forward_allocations', 'reverse_stock', 'reverse_allocations', 'shear_bac', 'shear_conditions', 'size_select', 'size_select_conditions', 'end_it_supplies', 'end_it_supplies_components', 'end_repair', 'repair_cleanup', 'repair_cleanup_conditions', 'a_tail', 'klenow', 'datp', 'tail_conditions', 'tail_cleanup', 'tail_cleanup_conditions', 'adaptor_a', 'adaptor_b', 'anneal_adapter', 'anneal_conditions', 'adapter_use', 'ligation_supplies', 'ligation_supplies_components', 'adapter_ligate', 'ligation_cleanup', 'ligation_cleanup_conditions', 'qubit', 'clone_pcr_input', 'pfu_supplies', 'pfu_supplies_components', 'clone_pcr', 'clone_size', 'clone_size_conditions', 'bp_input', 'pdonr221', 'gateway_bp', 'bp_clonase', 'bp_conditions', 'bp_transfer', 'h19_vector', 'gateway_lr', 'lr_clonase', 'lr_conditions', 'lr_transform', 'top10_cells', 'transform', 'soc', 'transform_conditions', 'bacterial_growth', 'lb', 'ampicillin', 'growth_conditions', 'plasmid_maxi', 'plasmid_maxi_conditions', 'maxi_supplies', 'pmei', 'pmei_enzyme', 'pmei_conditions', 'linear_dna', 'linear_dna_conditions', 'transfection_dna_allocations')
+CELL_SELECTION_SCOPE = ('es1_cells', 'es1_components', 'es1_integration', 'es1_hbs', 'es1_electroporation', 'es1_hat', 'es1_hat_select', 'es1_hat_conditions', 'es1_ht', 'es1_ht_feed', 'es1_ht_conditions', 'es2_cells', 'es2_components', 'es2_integration', 'es2_hbs', 'es2_electroporation', 'es2_hat', 'es2_hat_select', 'es2_hat_conditions', 'es2_ht', 'es2_ht_feed', 'es2_ht_conditions', 'es3_cells', 'es3_components', 'es3_integration', 'es3_hbs', 'es3_electroporation', 'es3_hat', 'es3_hat_select', 'es3_hat_conditions', 'es3_ht', 'es3_ht_feed', 'es3_ht_conditions', 'es4_cells', 'es4_components', 'es4_integration', 'es4_hbs', 'es4_electroporation', 'es4_hat', 'es4_hat_select', 'es4_hat_conditions', 'es4_ht', 'es4_ht_feed', 'es4_ht_conditions', 'es5_cells', 'es5_components', 'es5_integration', 'es5_hbs', 'es5_electroporation', 'es5_hat', 'es5_hat_select', 'es5_hat_conditions', 'es5_ht', 'es5_ht_feed', 'es5_ht_conditions', 'es6_cells', 'es6_components', 'es6_integration', 'es6_hbs', 'es6_electroporation', 'es6_hat', 'es6_hat_select', 'es6_hat_conditions', 'es6_ht', 'es6_ht_feed', 'es6_ht_conditions', 'es7_cells', 'es7_components', 'es7_integration', 'es7_hbs', 'es7_electroporation', 'es7_hat', 'es7_hat_select', 'es7_hat_conditions', 'es7_ht', 'es7_ht_feed', 'es7_ht_conditions', 'es8_cells', 'es8_components', 'es8_integration', 'es8_hbs', 'es8_electroporation', 'es8_hat', 'es8_hat_select', 'es8_hat_conditions', 'es8_ht', 'es8_ht_feed', 'es8_ht_conditions', 'es9_cells', 'es9_components', 'es9_integration', 'es9_hbs', 'es9_electroporation', 'es9_hat', 'es9_hat_select', 'es9_hat_conditions', 'es9_ht', 'es9_ht_feed', 'es9_ht_conditions', 'es10_cells', 'es10_components', 'es10_integration', 'es10_hbs', 'es10_electroporation', 'es10_hat', 'es10_hat_select', 'es10_hat_conditions', 'es10_ht', 'es10_ht_feed', 'es10_ht_conditions', 'pool_es', 'expand_cells', 'expansion_medium', 'expansion_conditions', 'input_control_allocation', 'trypsin', 'trypsin_reagent', 'trypsin_conditions', 'sort_suspension', 'saline', 'strainer', 'facs', 'facs_conditions')
+RECOVERY_SCOPE = ('sorted_gdna', 'sorted_gdna_supplies', 'sorted_gdna_conditions', 'sorted_dna_allocations', 'sorted1_pcr_supplies', 'sorted1_pcr_supplies_components', 'sorted1_pcr', 'sorted2_pcr_supplies', 'sorted2_pcr_supplies_components', 'sorted2_pcr', 'sorted3_pcr_supplies', 'sorted3_pcr_supplies_components', 'sorted3_pcr', 'sorted4_pcr_supplies', 'sorted4_pcr_supplies_components', 'sorted4_pcr', 'sorted5_pcr_supplies', 'sorted5_pcr_supplies_components', 'sorted5_pcr', 'sorted_pool_pcr', 'sorted_ampure', 'sorted_ampure_conditions', 'sorted_loading', 'sorted_ngs_supplies', 'sorted_ngs_finish', 'sorted_library', 'input_gdna', 'input_gdna_supplies', 'input_gdna_conditions', 'input_dna_allocations', 'input1_pcr_supplies', 'input1_pcr_supplies_components', 'input1_pcr', 'input2_pcr_supplies', 'input2_pcr_supplies_components', 'input2_pcr', 'input3_pcr_supplies', 'input3_pcr_supplies_components', 'input3_pcr', 'input4_pcr_supplies', 'input4_pcr_supplies_components', 'input4_pcr', 'input5_pcr_supplies', 'input5_pcr_supplies_components', 'input5_pcr', 'input_pool_pcr', 'input_ampure', 'input_ampure_conditions', 'input_loading', 'input_ngs_supplies', 'input_ngs_finish', 'input_library')
+def reviewed_inventory(g):
+    g.declare_reviewed_scope(CONSTRUCTION_SCOPE,'AssociatedAMMethods113–127 BAC/Y-adaptor/PCR/Gateway/plasmidpreparation; publishedSI19TableS2p9 sixwholeoligos/Notep10–12 vectorroles. WholeBAC/vector/junctionsequencesremainunassembled.')
+    g.declare_reviewed_scope(CELL_SELECTION_SCOPE,'AssociatedAMMethods129–137 tensourceEStransfections/HAT/HT/pool/FACS; publishedSI19FigS1p2 unsortedcontrolbeforeFACS. Literal0.4umstrainerretained; no differentiatedbranchPFAimport.')
+    g.declare_reviewed_scope(RECOVERY_SCOPE,'AssociatedAMMethods145: separateinput/sortedgDNA, fiveactualPCRs/sample pooled/AMPure/PacBioRS. ActualSMRTfinishingclassesopaque; no modernkitrecipe orreadlength invented.')
+    for item,target in (('source_version','sorted_library'),('known_interface','adapter_ligate'),('selection_scope','pool_es'),('source_literals','sort_suspension'),('ngs_boundary','sorted_ngs_finish')):
+        g.cover_source_item(SourceCoverage(item,'modelled',target))
 
 def protocol_graph():
     g=ProtocolGraph('SIF-seq selectedmNanogBAC/insulatedH19/ESYFPselectionandPacBioDNArecovery',authority=AUTHORITY,representation='published_instance')
@@ -117,9 +129,9 @@ def protocol_graph():
     b.allocation('clone_pcr_input','Actual5to10nglibraryDNAfor50ulPCR','Actual5to10ngPCRtemplateclass','UntransferredadaptedDNAstock')
     pfu=b.components('pfu_supplies','Actual50ulPfuUltraIIFusionHSPCRsuppliesaggregate; stockpackagingunassigned',[
         ('enzyme',K.CATALYST,R.CATALYST,'ActualPfuUltraIIFusionHSenzymeclass'),('nts',K.MOLECULAR,R.STRUCTURAL,'ActualPCRnucleotideclass; sourceindividualdosesunassigned'),('buffer',K.CONDITION,R.CONDITION,'ActualPCRbufferco-components')])
-    b.op('clone_pcr','Source95C2min/20x95C20s65C20s72C15s/72C3min',ports=((primers[('forward','clone')],R.STRUCTURAL),(primers[('reverse','clone')],R.STRUCTURAL))+pfu,kind=S.PCR,geometry=cloning_pcr_geometry(),state=cloning_reference(),chemical_state={'reference_scope':'INFERRED intendedPCRclass; wholeinsert/offproductsunassigned','PCR_copy_modifications':'No automaticinheritanceoforiginaladaptorPSor5Pontoallnewstrands'})
-    b.cleanup('clone_size','Source1percentagarose1to1.6kb/QIAquickelute25ul',preserve=True)
-    b.allocation('bp_input','Actualupto100ngof25uleluateforBP','Actualupto100ngampliconlibrary','Untransferred25ulDNAeluatestock')
+    b.op('clone_pcr','INFERRED — intended completed-adaptor product view; source95C2min/20x95C20s65C20s72C15s/72C3min',ports=((primers[('forward','clone')],R.STRUCTURAL),(primers[('reverse','clone')],R.STRUCTURAL))+pfu,kind=S.PCR,geometry=cloning_pcr_geometry(),state=cloning_reference(),chemical_state={'reference_scope':'INFERRED intendedPCRclass; wholeinsert/offproductsunassigned','PCR_copy_modifications':'No automaticinheritanceoforiginaladaptorPSor5Pontoallnewstrands'})
+    b.cleanup('clone_size','INFERRED — retained primer-end reference; source1percentagarose1to1.6kb/QIAquickelute25ul',preserve=True)
+    b.allocation('bp_input','INFERRED — retained primer-end reference; actualupto100ngof25uleluateforBP','Actualupto100ngampliconlibrary','Untransferred25ulDNAeluatestock')
     donor=g.input('pdonr221','Actual200ngpDONR221; wholevectorunassembled',K.MOLECULAR)
     b.op('gateway_bp','Source15ulBP/3ulBPClonaseII/200ngpDONR221/RT~20h',ports=((donor,R.TEMPLATE),b.cat('bp_clonase','Actual3ulBPClonaseIIpreparedenzymemix'),b.inp('bp_conditions','Actual15ulreactionRT~20h')),kind=S.SITE_SPECIFIC_RECOMBINATION,product='SourceBPmixturewithentryproduct/unreactedtemplates/byproducts; exactjunctionsunassembled')
     b.allocation('bp_transfer','Actual10of15ulBPmixturetoLR','Actual10ulBPforLR','Actualnominal5ulBPstockuntransferred')
@@ -168,14 +180,15 @@ def protocol_graph():
             tag=group+str(i);sup=b.components(tag+'_pcr_supplies','Actual50ulPlatinumTaqHFPCRsuppliesaggregate; packaging/stockcountunassigned',[
                 ('enzyme',K.CATALYST,R.CATALYST,'ActualPlatinumTaqHighFidelityenzymeclass'),('nts',K.MOLECULAR,R.STRUCTURAL,'ActualPCRnucleotidecomponentclass; dosesunassigned'),('buffer',K.CONDITION,R.CONDITION,'ActualPCRbufferco-components')])
             product=g.product(tag+'_pcr_product','ActualindependentrecoveryPCRproductclass; primer-endviewinferred, wholegenomicinsert/offproductsunassembled',K.MOLECULAR,state=recovery_reference(),chemical_state={'reference_scope':'INFERRED primer-derivedDNAends, notwholeintegratedtemplate','sample_group':group})
-            g.react(tag+'_pcr','Source50ul/up100nggDNA/94C2min/30x94C30s55C30s68C90s',S.PCR,((dna,R.TEMPLATE),(primers[('forward',tag)],R.STRUCTURAL),(primers[('reverse',tag)],R.STRUCTURAL))+sup,(product,),geometry=PCRGeometry.unavailable(unknown_scene(),reason='KnownwholeattBprimers/sourceactualgenomicPCR; integratedGateway/genomictemplatejunctions/fulloccupiedsitesnotassembled, no vectorrecipeinheritance.'));products.append(product)
+            g.react(tag+'_pcr','INFERRED — primer-derived product-end view; source50ul/up100nggDNA/94C2min/30x94C30s55C30s68C90s',S.PCR,((dna,R.TEMPLATE),(primers[('forward',tag)],R.STRUCTURAL),(primers[('reverse',tag)],R.STRUCTURAL))+sup,(product,),geometry=PCRGeometry.unavailable(unknown_scene(),reason='KnownwholeattBprimers/sourceactualgenomicPCR; integratedGateway/genomictemplatejunctions/fulloccupiedsitesnotassembled, no vectorrecipeinheritance.'));products.append(product)
         pool=g.product(group+'_pcr_pool','Actualphysicalpoolof5independentsame-samplePCRproducts',K.MOLECULAR,state=recovery_reference(),chemical_state={'reference_scope':'INFERRED primer-derivedends ofreportedampliconclass; fullmixtureunassembled','sample_group':group})
-        g.react(group+'_pool_pcr','SourcepoolfiveactualPCRproductsBEFOREAMPurepurification',S.POOL,tuple((x,R.TEMPLATE)for x in products),(pool,));b.x=pool;b.cleanup(group+'_ampure','SourceAMPureXPpurification; ratio/elutionvolumeunassigned',preserve=True)
-        b.allocation(group+'_loading','ActualPacBioRSfinishing/loadingcontribution; amountunassigned','Actualsourceampliconallocationforsequencing','Untransferredsampleampliconstock')
+        g.react(group+'_pool_pcr','INFERRED — retained primer-end view; sourcepoolfiveactualPCRproductsBEFOREAMPurepurification',S.POOL,tuple((x,R.TEMPLATE)for x in products),(pool,));b.x=pool;b.cleanup(group+'_ampure','INFERRED — retained primer-end view; sourceAMPureXPpurification; ratio/elutionvolumeunassigned',preserve=True)
+        b.allocation(group+'_loading','INFERRED — retained primer-end view; actualPacBioRSfinishing/loadingcontribution; amountunassigned','Actualsourceampliconallocationforsequencing','Untransferredsampleampliconstock')
         finishing=g.input(group+'_ngs_supplies','ActualreportedPacBioRSfinishing/loadinginventory; precisechemistry/SMRTbell/primer/polymerasedosesunassembled',K.MOLECULAR)
         library=g.product(group+'_library','ActualsamplePacBioRSsequencinglibraryclass; fullmolecules/readgeometryunassembled',K.LIBRARY)
         g.react(group+'_ngs_finish','AMsourcePCRampliconssequencedonPacBioRS; finishingunassembled',S.MAGIC,((b.x,R.TEMPLATE),(finishing,R.STRUCTURAL)),(library,),reason='ActualNGSendpointreported; no modernSMRTbell/adapter/primer/lengthdefaultimported. Upstreamconstruct/FACSstagesnotsequencing.')
         g.sequence(library,SequencingPlan(limitation='ActualsourcePacBioRSampliconsequencing; exactSMRTfinishing/runlength/primerlanding/barcodesunassembled. Sortedversusinputcomparisoncomputational, no physicalmixingofthese2libraries.'))
+    reviewed_inventory(g)
     return g
 
 def selftest():
@@ -212,5 +225,30 @@ def selftest():
     main=sources_root()/HERE.parent.name/'nmeth.2886_PMC4008384.xml.txt'
     if have(c,Source(main,'https://doi.org/10.1038/nmeth.2886')):
         t=main.read_text();c('SourcefivePCRandpool','Five PCR reactions were performed for each sample and pooled'in t,True);c('Sourcetentransfections','Ten such transfections were performed for each library'in t,True);c('SourceactualPacBioRSendpoint','PCR amplicons were sequenced using a PacBio RS'in t,True)
-    c('Privatepartial',bool(g.publication_problems()),True);c.report()
+    c('Reviewedpublicationinventory',g.publication_problems(),[])
+    c('ActualanalyticalallocationtypedQC',g.materials['qubit_selected'].kind,K.QC)
+    g.input('unreviewed_added_stock','Regression-only unreviewed input',K.CONDITION)
+    c('Unreviewedinventorycannotautopublish',any('unreviewed_added_stock' in issue and 'source-inventory' in issue for issue in g.publication_problems()),True)
+    c.report()
+
+PAGE_FILE = 'sif_seq.html'
+def render_page():
+    from page import head,info
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,OligoSection,OligoEntry,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    oligos=OligoSection('Known cloning and recovery oligos',tuple(OligoEntry(name,tuple(oligo_scene(name).strands['oligo'].segs),mods=('phosphorothioate before terminal 3′ T' if name=='adaptor_a' else '5′ phosphate' if name=='adaptor_b' else '')) for name in ('adaptor_a','adaptor_b','forward','reverse')))
+    return assemble_page(g,[head('SIF-seq — enhancer selection and sequencing'),'<div class="wrap" data-protocol-complete="true"><h1>SIF-seq</h1>',
+      '<p>Screen BAC-derived genomic fragments for enhancer activity after site-specific integration. The selected mNanog/H19 reporter library is introduced into mouse ES cells, YFP-positive cells are selected, and integrated inserts are recovered for PacBio RS sequencing alongside an unsorted control.</p>',
+      info('Source scope: <a href="https://doi.org/10.1038/nmeth.2886">Function-based identification of mammalian enhancers using site-specific integration</a>. Operational recipe: associated manuscript PMC4008384/EMS57097; published Supplementary Information supplies the oligo and vector-component evidence. Full final/manuscript equivalence is unverified.'),
+      '<h2>From genomic fragments to reporter cells</h2><p>mNanog BAC RP24-73P7 fragments are size-selected, end-repaired, dA-tailed and ligated to the source Y-adaptor. PCR and BP/LR Gateway cloning place fragments into the H19-insulated reporter vector. Ten separately allocated ES-cell transfections undergo HAT/HT selection, then cells from the same library are pooled. An unsorted control is collected before YFP sorting.</p>',
+      info('HAT selection enriches intended Hprt-restored classes; it does not establish every cell’s integration site or copy count. Whole BAC inserts, vector/genomic junctions and off-target products remain unresolved.'),oligos,
+      '<h2>Y-adaptor interface</h2><p>The source 43/42-nt strands pair over a 14-bp core; their two 28-nt arms stay unpaired. A terminal 3′ T follows a phosphorothioate bond; the opposing strand has a 5′ phosphate. This local interface is distinct from an already completed two-primer PCR substrate.</p>',panel(adaptor_scene().rows(),caption='Source-known local Y-adaptor; heterogeneous BAC ligation products are not assigned.'),
+      info('INFERRED — completed-adaptor and genomic recovery reference views describe intended primer-derived ends only. Actual complete inserts and first-cycle binding/junctions are unassembled; original adaptor phosphorothioate bonds are not automatically assigned to newly copied PCR strands.'),
+      '<h2>Insert recovery and readout</h2><p>Sorted and unsorted populations remain separate. Each supplies five genomic PCR reactions; products are pooled within each sample and AMPure-purified before PacBio RS sequencing. Selected DNA contributions and untransferred stocks are explicit. The two comparison libraries are not physically pooled together.</p>',
+      PlanLimitationSection('sorted_library','YFP selected'),PlanLimitationSection('input_library','Unsorted control'),
+      info('The associated manuscript prints <strong>1% w/v saline</strong> and a <strong>0.4 µm strainer</strong>. These literals are preserved; the executed strainer specification and final-publication wording remain unverified. No silent 40 µm substitution is made. Exact SMRT finishing adapters, polymerase/primer doses, barcodes and run length remain unresolved.'),
+      '<details><summary>Complete construction, selection and recovery graphs with chemistry warnings</summary>',WorkflowSection('All source-qualified preparation stages'),'</details>',
+      '<p><a href="01_sif-seq.html">Source notes and remaining questions</a></p></div>'])
+
 if __name__=='__main__':selftest()

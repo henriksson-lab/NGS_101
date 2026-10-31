@@ -70,8 +70,11 @@ READOUT='Source HiSeq2000/2500 paired-end acquisition; exact cycles/primers/libr
 PREVIEWS=(('Original yeast serial selection','library'),)
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
-    cells=g.input('cells','Original individually prepared yeastW303 strains, not pooledgenotypes',K.MOLECULAR,state=pop('yeastchromatin/cellular material; exact DNA/protein populations unassigned'),primary=True)
-    x=op(g,'label','Source Fig1A G1-release intoS with BrdU, with or withoutHU as distinctexperimentalconditions',S.MAGIC,cells,pop('physical BrdU-containingnascentDNA, parental/unlabelledDNA and cellularcomponents'),'source cell-cycle/analogue labeling; exact parameters gatedSI, no full labeling guarantee')
+    cells=g.input('cells','Original individually prepared yeastW303 strains, not pooledgenotypes',K.BIOLOGICAL,state=pop('yeastchromatin/cellular material; exact DNA/protein populations unassigned'),primary=True)
+    brdu=g.input('brdu','Actual source BrdU nucleotide-analogue contribution during S-phase release; chemical form/dose/incorporation distribution unassembled',K.MOLECULAR)
+    programme=g.input('label_stock','Source G1-release/S-phase programme; with/withoutHU are distinct conditions, actual parameters require detailedSI',K.CONDITION)
+    x=g.product('label_product','Source cell preparation after BrdU exposure',K.MOLECULAR,state=pop('physical BrdU-containingnascentDNA, parental/unlabelledDNA and cellularcomponents'))
+    g.react('label','Source Fig1A G1-release intoS with BrdU, with or withoutHU as distinctexperimentalconditions',S.MAGIC,((cells,R.TEMPLATE),(brdu,R.STRUCTURAL),(programme,R.CONDITION)),(x,),reason='Source physical analogue contribution is explicit; dose, incorporation extent and labelled polymers remain unassembled. No perfect labelling guarantee.')
     x=op(g,'chip','Source target-protein chromatin immunoprecipitation, original internal fixation/fragmentation/wash/recovery unreviewed',S.MAGIC,x,pop('source protein-associated chromatin preparation with possible otherDNA/protein/reagentcarryover'),'source standardChIP and targetantibody; no invented purification recipe')
     x=op(g,'proteolyze','Source proteins digested AFTER proteinChIP; resulting peptides remain physically present until actual sourceworkup',S.DEPROTEINIZATION,x,pop('source protein-associatedDNA with physical proteolyticremnants; no nativeDNA removal or assumed crosslink reversal'),'source protein-digestionreagent/conditions unreviewed',K.CATALYST,R.CATALYST)
     x=op(g,'denature','Source protein-associatedDNA denatured before BrdU-IP',S.MAGIC,x,pop('source single-strandDNA classes includingBrdU-bearingnascentDNA and unlabelledDNA, plus remnants'),'source DNAdenaturation conditions; exact heat/crosslink chemistry gatedSI')
@@ -90,6 +93,8 @@ def protocol_graph():
 def selftest():
     from checks import Check
     c=Check();g=protocol_graph()
+    c('Source BrdU physically contributes rather than being only a condition',g.steps['label'].inputs[1].material,'brdu')
+    c('Original detailedSI and correction obligations stay uncovered',any(k in g.source_coverage for k in ('gated_si','erratum')),False)
     c('Protein digestion consumes selected proteinChIP preparation',g.steps['proteolyze'].inputs[0].material,'chip_product')
     c('BrdU selection follows DNAdenaturation',g.steps['brdu_ip'].inputs[0].material,'denature_product')
     c('Library continuation consumes selectednascentDNA',g.steps['library_prep'].inputs[0].material,'nascent')

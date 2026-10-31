@@ -6,7 +6,7 @@ from chemdraw import Construct, Row, Scene, Segment
 from protocol_graph import ProtocolGraph, Disposition, Terminal, InputRole as R, MaterialKind as K, StepKind as S
 from protocol_model import Drawing, closed_circle
 from protocol_views import WorkflowSection, assemble_page
-from page import head, info
+from page import head, info, caveat, table
 
 PAGE_FILE = 'et_recombineering.html'
 TITLE = 'RecE/RecT ET — hypothetical neutral replacement reference'
@@ -56,17 +56,21 @@ def protocol_graph():
             [(a, R.TEMPLATE), (b, R.STRUCTURAL), (host, R.TEMPLATE)], [final, background],
             reason='The original full methods have not been inspected. This two-sided replacement topology is an invented reference, not a verified branch of Zhang1998. RecE/RecT processing, strand exchange, displaced-strand chemistry, host repair, selection and recovery remain unmodelled; homology identity does not establish any of them.')
     g.mark_terminal(Terminal(background.id, Disposition.UNRESOLVED, 'Physical byproducts and competing species remain unassigned.'))
-    g.constructed(final, 'Hypothetical reference endpoint for private draft review; no experimental ET construct or sequencing output is claimed.')
-    g.declare_reviewed_scope(('target', 'donor', 'host', 'host_replacement', 'final'),
-                            SOURCE + ' Only RecE/RecT system identity is verified; the full example is explicitly hypothetical.')
+    g.constructed(final, 'Illustrative intended neutral DNA reference endpoint; no experimental ET construct, working plasmid or sequencing output is claimed.')
+    g.declare_reviewed_scope(('host',),SOURCE+' Only RecE/RecT system identity is verified.')
+    g.declare_reviewed_scope(('target','donor','host_replacement','final'),EXAMPLE+' Curator-defined neutral overlap/replacement reference; no source-paper experimental construct or host-pathway proof.')
     return g.require_publishable()
 
 
 def render_page():
-    return assemble_page(protocol_graph(), (head(TITLE), '<div class="wrap"><h1>' + TITLE + '</h1>',
-        '<p class="research-notes"><a href="01_et_recombineering.html">Research notes</a></p>',
-        info('<a href="https://doi.org/10.1038/2417">Zhang et al.1998</a>. INFERRED — hypothetical substrate topology, homology strings and replacement map. Only the defining abstract was inspected; this draft does not establish that the original method uses this branch.'),
-        WorkflowSection('Hypothetical target and donor → unmodelled ET boundary → intended replacement reference'), '</div>'))
+    g=protocol_graph()
+    return assemble_page(g,(head(TITLE),'<main class="wrap" data-protocol-complete="true" data-protocol-output="constructed DNA"><h1>'+TITLE+'</h1>',
+        '<p><a href="https://doi.org/10.1038/2417">Zhang et al., Nature Genetics (1998)</a> · <a href="01_et_recombineering.html">Research note and source hold</a></p>',
+        caveat('<strong>Illustrative example — invented molecules.</strong> INFERRED: the neutral homology strings, circular target, linear donor and intended replacement map are hypothetical. Only the defining abstract establishes the RecE/RecT system identity. The full paper’s methods, substrate branch and host implementation remain unreviewed; this is not a reconstructed published experiment or a validated laboratory design.'),
+        '<h2>What the example shows</h2><p>Two invented homology windows flank an old interval in a circular target and a new interval in a linear donor. The intended reference retains the outer target body and includes the incoming interval once. Matching windows establish a sequence relationship; they do not prove cellular recombination, closure, selection or recovery.</p>',
+        table(('Reference part','Scope'),(('Target','Invented neutral circle; no functional gene, replicon or selectable cassette.'),('Donor','Invented neutral linear DNA with matching left/right windows.'),('Host boundary','RecE/RecT identity from the source abstract; resection, strand exchange and repair remain unmodelled.'),('Endpoint','Intended constructed-DNA reference only. Background and competing-product fates remain separate and unresolved.'))),
+        '<h2>INFERRED — hypothetical replacement reference</h2>',WorkflowSection('INFERRED — invented target and donor → unresolved host boundary → intended construct'),
+        '<h2>Source and output limits</h2><p>The source paper defines the method family, not the fictional DNA shown here. The unresolved host step does not predict displaced-fragment structure, complete conversion, a functioning plasmid or a recovered clone. No lambda-Red components or later ET variants are inherited. This page has a constructed-DNA endpoint and no sequencing readout. Full defining methods and figures remain a source hold; this does not establish that any information was absent from publication.</p></main>'))
 
 
 def selftest():

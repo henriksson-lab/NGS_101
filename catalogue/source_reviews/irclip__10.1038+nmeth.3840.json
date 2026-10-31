@@ -72,7 +72,7 @@
       "scope": "Gated NIHMS counterpart identity/equivalence not established."
     }
   ],
-  "conclusion": "One capped first pass; no second independent reader and no confirmed-absence claims. Proposed catalogue status remains notes.",
+  "conclusion": "Normal source/inventory/endpoint gate passes for this selected public preparation; complete molecular mechanism, source review and missing-information acceptance are not claimed.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion",
@@ -113,6 +113,22 @@
         "Full PCR/readout and final-VOR applicability remain unresolved."
       ],
       "verification": "24 local checks pass; private builder passes; pairing lint0. No protocol/source numerical facts changed."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted5",
+      "reviewer": "targeted_publication_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded source-supported public preparation completion using existing closed source set only; no new acquisition/original. Not an absence pass2.",
+      "locations": "nmeth.3840_PMC5477425.xml: Methods53–81: whole adapterfactory/UV-IP-RNase/ligase/proteinaseK/RT+circularization/PCR1/PCR2/customsequencingoligo andanalysis.; nmeth.3840_41592_2016_BFnmeth3840_MOESM217_ESM.pdf: ActualFigS1p1 /tmp/irclip_supp1.png reread: adapter5OH→phosphorylation→preadenylation→click1hr andIR/dotblotroles. Otherpagesnotread.",
+      "findings": "The public graph preserves the accepted-manuscript authority and publisher Fig. S1a timing comparison. The adapter factory now retains the actual half-reaction aliquot/remainder, column-array recovery/pool and selected ligation contribution. ATP and covalently contributing IR800CW–DBCO are molecular structural supplies. The adapter depiction shows two nucleotide tracts of **one covalent oligo** connected through the internal `/iAzideN/` chemical site; it neither adds a canonical nucleotide there nor assumes direct DNA adjacency across that chemistry. The source calls the modification nucleotide position 32; its exact atom/sugar coordinate convention remains unassembled.  Actual source dot-blot aliquots, phase extraction, linear-polyacrylamide carrier, RNA stock selection, primer annealing, enzyme preincubation before fresh dNTP addition, retained same-tube catalyst/primer components, real-time PCR1, two bead size selections, elution directly into PCR2 primer mix, fresh master mix, three PCR2 cycles, final QC and selected loading stock are explicit. Source-prepared mixtures are decomposed into copresent functional inventory classes, never invented fresh separate doses.  The conditional P6/C18 first-copy reference remains **nonphysical analytical bookkeeping** (`changes_molecule=False`) with an unresolved terminal. It is not a second physical PCR/aliquot and its hypothetical output is **not** the actual PCR1 template. The actual source PCR1/PCR2 branch retains known whole primers with unavailable occupied-product geometry. No exact linker readthrough/stopping distribution, acquired read count/cycles, read mask or final-version equivalence is invented. The full workflow and warnings remain visible under an expandable section. Original build/selftest paths and all independent synthetic spacer tests remain.",
+      "deferred": [
+        "AssociatedAMclick37C2h vs publisherFigS1a1hr: retain bothlocations, AMselected2h, finalVORprocedural applicability unverified; not establishedpublicationerror.",
+        "Full2primerPCRpopulations/C18readthrough experimentally unresolved; available wholemodifiedoligos still kept. Source says linkers enable linearcDNAproducts, not this exact stopcoordinate/yield.",
+        "FAST-iCLIPoriginal/gatedNIHMSsupplement/remainingSI andfinalVORordinarydeferred, no newfetch or sourceabsence inference."
+      ],
+      "oligo_scraper": "/tmp/unlinked5-irclip-scraper.log (8hits/1representation); whole bundle, original modified orderings verified in stated publisher images/AM passages; source fixture checks retain full orders. No absence inference.",
+      "verification": "50 focused PASS incl8whole-modified-sourcefixtures/21synthetic-spacer checks/source-inventory-negative test; graph34steps/36unresolved0contradictory. Combinedguard4exact0failed0exemptions2wholeunknownexternal; normalgate[]/legacybuildcomplete marker/duplexlint0."
     }
   ],
   "source_version_limit": "The inspected JATS is an accepted manuscript, not the version of record. Timing differs from publisher FigS1a; ordinary revision differences have not been excluded, so this is not an established publication error.",
@@ -132,5 +148,7 @@
       "uncertainty": "Printed spacer function is distinguished from inferred stop/traversal mechanism. Final VOR procedural applicability and full two-primer PCR/readout unresolved.",
       "validation": "21 local checks pass, including independent synthetic paths and two optional source checks; source oligo guard3checked0failed2inputswithout exact states; global chemistry audit11unresolved0contradictory, not established reaction validation."
     }
-  ]
+  ],
+  "proposed_status": "documented",
+  "model_scope": "Source-qualified selected preparation with actual source sequencing finish; whole occupied products and stated source/version limits remain unresolved."
 }

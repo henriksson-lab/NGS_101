@@ -57,6 +57,21 @@
       ],
       "oligo_scraper": "Mandatory full-bundle scrapers run after fetch; G4seq95hits/5files, SMRF0hits, ssDNA0hits. Hits reviewed as pointers; no exact library oligo or absence claim derived.",
       "verification": "22localchecks(6G4/9SMRF/7ssDNA)passed;3builds/pairing and source-review schema passed. Sourceguard0checked/0failed with2unrepresented SMRF locus-primer inputs; no exact oligo validation claimed. Chemistry0established/25unresolved/0contradictory, not full chemical validation. Independent implementation review found no critical molecular/fate/version defect; it was not an absence-audit pass. Fetch session10000completed exit0, no process running."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch18",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "One associated author manuscript PMC3684982, not automatic final-VOR equivalence; no acquisition.",
+      "locations": "Identity1\u20135, Results104\u2013106 and Methods146\u2013148.",
+      "findings": "Actual KMnO4 oxidant and delegated Illumina supplies now contribute molecular material; exposure conditions and full producer remain unassembled. Literal main-only inventory, not graph enumeration; source end-blocking/nuclease/tailing distinction preserved.",
+      "deferred": [
+        "Original2013 ExtendedExperimentalProcedures/figures and associated workbook; actual manifest historical gates not freshly retried.",
+        "Complete oxidation products, workups, end geometry, whole library and acquired read layout; no later2017S1 recipe inheritance."
+      ],
+      "oligo_scraper": "/tmp/unlinked18-ssdna-scraper.log completed0sequences/0eligiblefiles. Actual main read directly; no absence inference.",
+      "verification": "7focused checks and temporary private render pass; pairing0problems. Initial conversion-shape failure corrected by explicit exposure-condition port alongside molecular oxidant. Original gated_original_si remains uncovered; no completion marker."
     }
   ]
 }

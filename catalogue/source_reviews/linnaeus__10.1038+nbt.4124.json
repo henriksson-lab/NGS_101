@@ -8,7 +8,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/linnaeus__10.1038+nbt.4124/nbt.4124_PMC5942543.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Accepted manuscript recorder overview and Methods 82\u201390: bulk DNA, bulk RNA, Chromium capture, cDNA split, nested scar PCR and reported runs."
+      "inspection_scope": "Accepted manuscript recorder overview and Methods 82–90: bulk DNA, bulk RNA, Chromium capture, cDNA split, nested scar PCR and reported runs."
     },
     {
       "id": "published_table",
@@ -43,7 +43,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Conditional accepted-manuscript operational routes with separately qualified published SI primer inventory: single-cell transcriptome/scar split and independent bulk DNA/RNA scar library routes. Historical kit chemistry is unassembled.",
-      "locations": "Accepted manuscript recorder overview and Methods 82\u201390: bulk DNA, bulk RNA, Chromium capture, cDNA split, nested scar PCR and reported runs.; Published SI Table 1, rendered original PDF p. 41: RFP forward 1/2, single-cell reverse, bulk reverse and bulk forward members 1/2. sgRNA-synthesis primers distinguished from library primers.; Final publisher identity/abstract and explicit subscription-preview status inspected; full final Methods not accessible here.",
+      "locations": "Accepted manuscript recorder overview and Methods 82–90: bulk DNA, bulk RNA, Chromium capture, cDNA split, nested scar PCR and reported runs.; Published SI Table 1, rendered original PDF p. 41: RFP forward 1/2, single-cell reverse, bulk reverse and bulk forward members 1/2. sgRNA-synthesis primers distinguished from library primers.; Final publisher identity/abstract and explicit subscription-preview status inspected; full final Methods not accessible here.",
       "findings": "Distributed RFP scars are lineage barcodes, not unique current-cell IDs. Half of the whole cDNA mixture is fragmented for expression; the other half remains unfragmented for nested RFP PCR. Bulk sample tags are fixed eight-base inline barcodes. No kit cell/UMI widths or computational 75 nt truncation are turned into physical preparation facts.",
       "deferred": [
         "Full final published Methods and accepted-manuscript applicability",
@@ -53,6 +53,20 @@
       ],
       "verification": "Local GESTALT 6 + LINNAEUS 12 + CARLIN 12 = 30 checks pass; three private builds pass; default source guard 3 exact primers checked, 0 failed/exemptions, 9 unassembled inputs; pairing 0; scoped chemistry 0 established, 29 unresolved, 0 contradictory. These checks do not establish complete source or molecular coverage.",
       "oligo_scraper": "/tmp/round10-linnaeus-final-hits.log: 14 hits across four files; selected primer strings checked in rendered published SI Table 1, PDF p. 41. Preprint/MS SI not substituted for published SI."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch13",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded private-model provenance/physical-operation fixes and retained publication source hold",
+      "locations": "nbt.4124_PMC5942543.xml(.txt): Methods82–90 bulkDNA/RNA andsinglecelltranscriptome/scar split/production/runs; nbt.4124_41587_2018_BFnbt4124_MOESM11_ESM.pdf(.txt): Table1heading1829/rolecontexts; actualp41render/tmp/round10-linnaeus-table.png RFPfwd1/2,reverses,bulkprimermembers1/2 and8nttags independentlyviewed. NofurtherSIpanels.",
+      "findings": "RequiredhistoricalChromiumPN120233/fullfinal-versionandstrandreadscope remainsuncovered. Acceptedmanuscript90 positivelysupports actualRNA→cDNA amplification→halfbranchlibraries, andpublishedSIknownprimers, but doesnotestablishfinalMethods-equivalence orcompletehistoricalbead/primer/productgeometry. MerelychangingK.MOLECULAR sequencingterminalstoLIBRARYwouldnotwaivesourceobligation. Required broad item stays uncovered. Same-source beadoligoprovenance; bulkRTdNTPmolecularcontribution; literalper-variantinventory",
+      "deferred": [
+        "unassembled_source"
+      ],
+      "oligo_scraper": "Mandatory cached-bundle scraper completed in the closed preflight. Actual SMILEFig5 and LINNAEUSTable1p41 images inspected; no new full library or absence claim.",
+      "verification": "13focusedchecksPASS/privatebuildPASS; combinedguard3exact0failed0exempt2unassembledexternalinputs; producedretainedbeadoligowholebodyalsoexplicitlyunassembled. Combinedchemistry18unresolved0contradictory; pairing0. Notfullchemistry/sourcevalidation."
     }
   ],
   "linked_information": {

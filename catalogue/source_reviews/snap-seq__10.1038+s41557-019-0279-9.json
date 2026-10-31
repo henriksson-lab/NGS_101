@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round07",
         "date": "2026-10-29",
-        "locations": "Methods105–115; chemistry/assay rationale and Figure1–2 captions445–449",
+        "locations": "Methods105\u2013115; chemistry/assay rationale and Figure1\u20132 captions445\u2013449",
         "finding": "Associated accepted manuscript: HIPS/CuAAC tagging, room-temp complementary-strand release vs hotAP cleavage, negative second capture and source library steps."
       }
     },
@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round07",
         "date": "2026-10-29",
-        "locations": "Adapter annealing196–200; extraction240–245; Table1~635–665/caption713; controlN10 dedup282–284/1241–1251",
+        "locations": "Adapter annealing196\u2013200; extraction240\u2013245; Table1~635\u2013665/caption713; controlN10 dedup282\u2013284/1241\u20131251",
         "finding": "Published source custom oligos/modifications,6nt sample index and different P5top/PCR sequences; N10 controls not generalized to genomicUMIs."
       }
     }
@@ -47,7 +47,7 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Published-first source pass; accepted manuscript identities explicit; no recipe inheritance by resemblance.",
-      "locations": "Methods105–115; chemistry/assay rationale and Figure1–2 captions445–449; Adapter annealing196–200; extraction240–245; Table1~635–665/caption713; controlN10 dedup282–284/1241–1251",
+      "locations": "Methods105\u2013115; chemistry/assay rationale and Figure1\u20132 captions445\u2013449; Adapter annealing196\u2013200; extraction240\u2013245; Table1~635\u2013665/caption713; controlN10 dedup282\u2013284/1241\u20131251",
       "findings": "Associated accepted manuscript: HIPS/CuAAC tagging, room-temp complementary-strand release vs hotAP cleavage, negative second capture and source library steps.; Published source custom oligos/modifications,6nt sample index and different P5top/PCR sequences; N10 controls not generalized to genomicUMIs.",
       "deferred": [
         "Exact probe/adduct constitution and complete adapter/primer/product/run/index assembly.",
@@ -66,5 +66,21 @@
       "access": "not_assessed_in_this_pass",
       "scope": "Full publisher-article comparison not completed; associated manuscript identity explicit."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "source_scope": "s41557-019-0279-9_PMC6589398.xml.txt105\u2013115 actualHIPS/CuAAC/NEBcustomP7/SAP/firstcapture/cold-hotAPfractionation/negativecapture/extension/P5/Q5/KAPAquantification and inputvariantboundary. PublishedMOESM1.pdf.txt196\u2013201 actualadapterannealingstockrecipe and635\u2013665 Table1modifiedbody/index/P5leadingGtext. Existingpriorimage/modificationtranscriptions retained aspriorchecks, notnewlayoutproof; no completeVORcomparison orwholeSIequivalence.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "normal_gate": [
+      "no terminal output is designated for sequencing",
+      "authoritative source item 'vor_and_kit_assembly' is not accounted for"
+    ],
+    "blocker": "Requiredvor_and_kit_assembly explicitly includes definingVOR/fullhistoricalkit/strand/runassembly and is unaccounted. Current23stepPCRlibrary path is source-positive but cannotbeused to mark thatfullassembly itemmodelled merelybecauseanopaquekit/finalproductexists. Main evidence isassociatedAM, not a newlyfailedVORrequest; exactMe/endchemistry/kitgenomicjunction andcomplete product/readassembly remainunresolved. Critical physical inventory and QA/stock corrections are now implemented; actual broad required scope remains unmet.",
+    "verification": "14focusedPASS/privatebuild/pairing0; sourceguard7exact0failed0exceptions; chemistry28steps2established29unresolved0contradictory.",
+    "source_item_not_excluded_or_redefined": true,
+    "missing_information_claims": []
+  }
 }

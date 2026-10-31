@@ -97,9 +97,24 @@
         "Independent source review"
       ],
       "oligo_scraper": "28hits across4extractedfiles;sourceoligotablep3rendered andverified;modifiedprimer ordering locallytranscriptionchecked."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch12",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed preflight published originals reused, no additional originals or retrieval. Documentation plus contained physical nucleotide typing only.",
+      "locations": "Methods346–356 HBV clone/input context and barcode/nested-deletion/library route; sampleS7.1 internal-standard mixing paragraph after356; Actual original oligo tablep3; Step7 source45mL ligation/two22.5mL precipitation tubes; Step8 historical guide delegation/custom PCR; Step9 library quantification/MiSeq customR2, extracted585–707; FigureS1 source diagram labels and complete caption84–95: barcode assignment cycle errors vs later computational error removal",
+      "findings": "Original required pending_geometry remains uncovered: Full HBV product, source enzyme/end chemistry, historical NexteraXT guide and sequencing-primer declarations. Detailed published Step8 explicitly delegates actual tagmentation to the historical Nextera XT Sample Preparation Guide, whose exact revision is not resolved/inspected locally. Known custom PCR/run primer sequences and source PE150 do not provide that required transposome/product assembly. Current endpoint is K.MOLECULAR with missing literal source-inventory target; typing/inventory-only fixes do not satisfy the original required item. No model code changed in this adjudication. Existing source-qualified known primer modification declarations and custom R2 binding subrelation remain useful component evidence, not full historical Nextera XT/product assembly.",
+      "deferred": [
+        "Genuine Nextera XT Sample Preparation Guide cited by detailed Step8, exact historical revision unresolved; no invented failed URL.",
+        "Whole occupied HBV/deletion/circle/transposome and run-primer geometry remains a declared model obligation, not a claimed source omission."
+      ],
+      "oligo_scraper": "28hits across4representations; actual original oligoTablep3 visually verified, not just scraper extraction",
+      "verification": "10focusedPASS in closed preflight; unchanged model/builder not rerun. Three original normal-gate failures remain"
     }
   ],
-  "conclusion": "Preparative chemistry-source pass,private incomplete model,no confirmed missing-information or complete chemical validation claim.",
+  "conclusion": "Bounded publication hold retained. Original required pending_geometry remains uncovered: Full HBV product, source enzyme/end chemistry, historical NexteraXT guide and sequencing-primer declarations. Detailed published Step8 explicitly delegates actual tagmentation to the historical Nextera XT Sample Preparation Guide, whose exact revision is not resolved/inspected locally. Known custom PCR/run primer sequences and source PE150 do not provide that required transposome/product assembly. Current endpoint is K.MOLECULAR with missing literal source-inventory target; typing/inventory-only fixes do not satisfy the original required item.",
   "local_validation": {
     "selftest_checks": 10,
     "result": "pass",

@@ -23,3 +23,19 @@ The discovery ledger previously pointed to nmeth0318-226b as a purported Nm-seq 
 The source reports paired-end HiSeq2500 and an asymmetric read pileup whose RNA3′end corresponds to Nm (manuscript Methods125–129/Fig1). The model does not invent a fully acquired read plan from trimming strings. It covers eight OED cycles, finalOE, physical cleanups and5′phosphorylation, with an explicit downstream boundary at post-PNK cleanup/historical kit/adapters/PCR/read geometry. Notes status. Publisher SI figures, workbook, cited ProtocolExchange DOI10.1038/protex.2017.088 and applicable historical kit guide remain deferred; no information is claimed absent.
 
 No explicit catalogue-parent lineage established. Manuscript Introduction cites periodate/nucleoside chemistry predecessors and compares2OMe-seq/RiboMeth-seq, but conceptual comparison is not derivation of their library components. Do not infer family inheritance from shared small-RNA adapters.
+
+
+## Source-qualified public preparation, 2026-10-30
+
+Two originals: associated NIHMS922173manuscript nmeth.4294_PMC5712428.xml.txt chemistry71–77/Methods117–133; published SupplementaryProtocol1 MOESM3 fullSteps1–19, actualprintedPDFpp2–3 tables/Step16wording inspected. Publishedsupplementcontrols selectedtreatedpreparation; associatedmanuscriptprovidesqualifiedmechanism/inputcontrol/HiSeqcontext, notcompleteAM/VOR procedural equivalence. OtherSI/ProtocolExchange/correction pointers notopened/adopted thispass.
+
+The graph now starts with source10µgDNase-treated totalRNA, fragmentation and Antarctic3′repair/columns, then eight OED rounds and a ninth finalOEwithout dephosphorylation. Actual periodate/lysine/ethylene-glycol supplies are molecular inputs, rSAP and5′PNK are catalysts, ATP is separate from PNK. Released residue-derived products stay copresent until actual column separation, without a quantitative debris/recovery claim. SourceStep18post-PNKcleanup elutes8µL before the actualStep193′adapterligation16°Covernight and sourcekitfinishing. The source-positive kit continuation constructs DNA-library material; sequencing is not attached to the RNAintermediate. Historical adapters, downstream dual-ligation/RT/PCR/workups, exact kitstockcount and wholeDNA remain unassembled. Synthetic fluorescent control-adapter sequence is not borrowed into the sequencinglibrary. RNA3′OH/3′Pclasses are preserved through finalPNK/columnmetadata. A separately reported associated-manuscript untreated-input library branch is retained as an opaque sourcekit/controlloading interface; its earlier end handling is unknown and does not borrow treated OED/PNKconditions. Selected library-to-run contributions and untransferred stocks are explicit; actualtreated/controlrun grouping and rawlength/indexmask remain unknown.
+
+PublishedProtocolStep16literally says5′dephosphorylation, while its sectionheading says5′PHOSPHORYLATION and the table suppliesATP plusT4PNK3′phosphataseminus. The model uses sourceheading/ATP-supported5′kinase direction and preserves the printed wording difference. Selectedpublishedprotocoluses20mMperiodate and30minPNK. The associatedmanuscript gives10mMperiodate in the synthetic-model context and60minPNK in Nm-seq; those values are not merged into this selectedpublishedsupplementary route or called a confirmed final-paper error. CompleteAM/VORreconciliation remains open.
+
+The normal graph publication gate passes for this source-qualified preparation,
+with unknown kit geometry/states computed as unresolved. This does not establish
+whole-library sequence, assay performance, purity or complete molecular validation.
+No required source item was excluded or covered without evidence. Earlier prefix-only
+notes describe history. Mandatory bundle scrapers ran during this capped pass; no
+negative sequence-disclosure or complete linked-source audit is claimed.

@@ -32,3 +32,11 @@ Component ancestry: Methods162 cites CITE-seq staining(ref1) and the named histo
 ## Validation
 
 Local source transcription and physical branch/state checks are recorded in the source-review JSON. Full chemical products,library completion and complete source coverage are not established.
+
+## Bounded publication follow-up (2026-10-30)
+
+The required `unassembled` linked-original/full-geometry item remains uncovered. Main Methods162 names historical5′ GEX, mouse-TCR and one combined HTO/ADT preparation, but does not supply the detailed manufacturer chemistry or exact allocation/workup schedule. The private graph now preserves that schedule as an explicitly opaque preparation interface instead of asserting a literal three-way physical split or pure-modality fractionation. These coarse outputs are not promoted to completed DNA libraries.
+
+Lectin–glycan association and subsequent antibody staining are physical binding operations, without glycan→DNA conversion. Protein and DNA-tag component classes derive from the same aggregate actual conjugate supplies; component views are not physical conjugate dissociation or extra fresh free-DNA additions. Whole tag bodies, component multiplicity, link geometry and kit inventories remain unassembled. A literal staining-stage reviewed target list replaces runtime graph enumeration and does not cover unread manufacturer library operations by their presence in the graph.
+
+The historical5′ guides, cited CITE-seq staining source and exact published DC1 supplementary index remain real follow-up targets. The figure-only PMC ZIP is not that chemistry supplement; its historical access limitation is not a new failure claim. Selected SUGAR Methods do not authorize importing75bp RNA/ATAC or screen sequencing settings from separate validation branches. One existing published main original only; no source acquisition or expanded reading. Notes status remains a source-scope hold, not an absence finding.

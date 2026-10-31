@@ -45,6 +45,38 @@
     "reviewer": "coordinator_round27",
     "date": "2026-10-30",
     "scope": "Publishedmain163\u2013187 andactualSITable1p11render. Same2selectedoriginals; nofullAOC/panel/kit/linked-sourceaudit.",
-    "finding": "LiteralpadlockU/orderingsand5terminal2primeO-methylUblockerchecked. Sourcecircle/RCAstock,CTBexosomecaptureandwash-beforeextensionretained. CriticalfirstUNG/Phusionmixnowhasexplicitstructuralprimercomponentsofsamebulkaddition; laterPCRdoesnotinventfreshpolymerasefromPhusionHFbuffername. Cotransferredpriorenzymeamount/activityandfullproducts remainunassigned. Selectedcriticalscopeclosed,notfullreactionvalidation."
+    "finding": "LiteralpadlockU/orderingsand5terminal2primeO-methylUblockerchecked. Sourcecircle/RCAstock,CTBexosomecaptureandwash-beforeextensionretained. CriticalfirstUNG/Phusionmixnowhasexplicitstructuralprimercomponentsofsamebulkaddition; laterPCRdoesnotinventfreshpolymerasefromPhusionHFbuffername. Cotransferredpriorenzymeamount/activityandfullproducts remainunassigned. Selectedcriticalscopeclosed,notfullreactionvalidation.",
+    "public_page_recheck": {
+      "reviewer": "independent_source_reader",
+      "date": "2026-10-30",
+      "scope": "Selected same-published-original implementation/publication recheck only;2originalsPHOTON/PBA,1NJU, no new acquisition or absence audit.",
+      "findings": [
+        "Published main163\u2013187 plusactualSI1Note1/Table1p11; exosome branch distinctfromstarredSTVonly variants.",
+        "NewATP/circlebuffer/RCAdeoxynucleotides and T4extensiondNTPinputssupported bymain167/181; literalmodifiedUUUUUblockernotspacer.",
+        "SourcefirstUNG/Phusionbulk/retainedcatalystindexandlibraryPCR boundarieshonest; nofreshpolymerase inferredfrombuffername. SourceactualPCRproductpool beforeQIAquick directlysupportsotherPCRcontributions; upstreammembers/amountsremainunassigned.",
+        "FinalunpositionedproteinTag/sampleindexfeaturemetadata preservesknownsemanticroleswithoutinventingphysicaltagcoordinates. Actualsourcepoolmembersstayexternalboundary, nocloneofselectedPCRproduct."
+      ],
+      "verification": {
+        "independently_reran_focused_checks": 18,
+        "normal_gate": "PASS",
+        "actual_render": "PASS; completewrapper/fullcollapsedworkflow present, /tmp/positive-b-peer-pba.html",
+        "sourceguard": "Combined3graphs11checked0failed0exemptions3externalunknown",
+        "chemistry": "Combined2established83unresolved0contradictory",
+        "pairing": "Actualrenderedthreepages0problemduplexes",
+        "inventory": "Literal static curated SOURCE_TARGETS, not graph enumeration; originalselected scopedSourceItem retained/modelled, no broadrequireditemremoved/excluded.",
+        "absence_review": "None; same-source implementation/publication review only."
+      },
+      "absence_pass_2": false
+    }
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "ready_source_qualified_preparation",
+    "source_scope": "PublishedmainFig1/Methods163\u2013187 andtagmeaning/sourceanalysisoverview; PublishedSI Note1 andTable1 selectedwholeAb1/padlock/template/blockorderings; originalp11 resolvesfive2primeO-methylUblocker andalternativeSTV-onlystarredrows",
+    "originals": 2,
+    "source_cap": 3,
+    "findings": "Source-qualified public page adds literal inventory with original selected SourceItem retained and covered. RCA ATP/nucleotides and extension dNTP are actual molecular contributions. Same PCR bulk stock exposes physical nucleotide/dye/DMSO inventory without a new enzyme addition. Actual source PCR pool consumes the selected contribution plus other prepared products, not cloned copies of one product. Prepared exosome/AOC input boundaries remain visible. ProteinTag/sample-index meanings are structured unpositioned metadata; index members/whole primer coordinates remain unresolved. Known complexTag/moleculeTag and five2primeO-methylU blocker remain. No STARRED-STV-only recipe or MPX secondcycle imported.",
+    "scope_limit": "Same selected originals only; no new acquisition, inherited vendor recipe, complete version equivalence or accepted absence audit.",
+    "verification": "Normalgate0; focusedchecks/build/sourceguard/chemistry/pairing/HTML in /tmp/unlinked-positive-final-b.json"
   }
 }

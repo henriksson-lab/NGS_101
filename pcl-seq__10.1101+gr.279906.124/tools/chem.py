@@ -1,8 +1,8 @@
-"""Published PCL-seq selected fresh-frozen tissue preparation; private incomplete model."""
+"""Published PCL-seq selected fresh-frozen tissue preparation; source-qualified partial molecular model."""
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 from chemdraw import Scene,Segment,feature
 from illumina import P5,P7,TRUSEQ_READ2
 from nextera import ME,ME_RC
@@ -67,12 +67,27 @@ def tn5_inventory():
     sc.anneal('loaded_short',[Segment('mosaic_rc',ME_RC)],to='loaded_long',pair=('mosaic_rc','mosaic'),mod5='P')
     return sc
 
+# Literal curator-reviewed selected published preparation, not graph enumeration.
+REVIEWED_INPUTS = '''input fix_stock quench_stock permeabilize_stock acid_stock neutralize_stock rt_primer rt_hyb_buffer rt_wash_buffer rt_stock block_stock block_oligo_0 block_oligo_1 block_wash_buffer uncage_stock pc_wash_buffer adapter_ligate_stock adapter_ligate_oligo_0 adapter_ligate_oligo_1 formamide_buffer initial_release_stock slide_rinse_buffer rinse_collection overnight_stock first_ampure_buffer beads capture_buffer capture_wash_buffer second_rt_ts_stock second_rt_ts_oligo_0 wta_stock wta_oligo_0 wta_clean_buffer dilute_stock loaded_tn5a_stock stop_stock tag_clean_buffer index_pcr_stock index_pcr_oligo_0 index_pcr_oligo_1 index_clean_buffer'''.split()
+REVIEWED_OPERATIONS = '''fix quench permeabilize acid neutralize rt_hybridize rt_primer_wash rt_components rt block block_wash uncage pc_wash adapter_ligate formamide initial_release recover_slide_washes collect_washes overnight first_ampure capture capture_wash second_rt_ts_components second_rt_ts wta_components wta wta_clean qubit dilute tn5a_components tag stop tag_clean index_pcr_components index_pcr index_clean interface library'''.split()
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=AUTHORITY,representation='published_instance');x=g.input('input','Sourcefreshfrozentissuecryosection10um; selectedFFroute, actualRNAsequencesunassigned',K.BIOLOGICAL,primary=True)
     def op(key,label,kind,stock,product,oligos=(),retained_inputs=()):
         nonlocal x
         enzyme=kind in {S.REVERSE_TRANSCRIPTION,S.TEMPLATE_SWITCHING,S.LIGATION,S.PCR,S.DEPROTEINIZATION,S.TAGMENTATION}
-        c=tag_enzyme if key=='tag' else g.input(key+'_stock',stock,K.CATALYST if enzyme else K.CONDITION);ins=[(x,R.TEMPLATE),(c,R.CATALYST if enzyme else R.CONDITION)]
+        supplied_components=key in {'rt','second_rt_ts','wta','index_pcr'}
+        c=tag_enzyme if key=='tag' else g.input(key+'_stock',stock,K.MOLECULAR if supplied_components else K.CATALYST if enzyme else K.CONDITION);ins=[(x,R.TEMPLATE)]
+        if supplied_components:
+            cat=g.product(key+'_enzyme','Maxima H Minus component of source supplies'if key in {'rt','second_rt_ts'}else'KAPA HiFi polymerase component of source amplification supplies',K.CATALYST)
+            nts=g.product(key+'_nts','Source100uM dNTP substrates'if key=='rt'else'Source1mM dNTP substrates'if key=='second_rt_ts'else'Source printed0.3M dNTP substrates; concentration convention unresolved, no mM repair',K.MOLECULAR)
+            buffer=g.product(key+'_buffer','Actual source reaction-buffer component',K.CONDITION)
+            parts=[cat,nts,buffer];ins.extend(((cat,R.CATALYST),(nts,R.STRUCTURAL),(buffer,R.CONDITION)))
+            if key in {'rt','second_rt_ts'}:
+                inhibitor=g.product(key+'_inhibitor','Actual source1percent RNase inhibitor contribution',K.MOLECULAR)
+                parts.append(inhibitor);ins.append((inhibitor,R.STRUCTURAL))
+            g.react(key+'_components','Same source reaction supplies; no extra doses, stock-count or aggregate-packaging assumption',S.GENERIC,((c,R.TEMPLATE),),parts,changes_molecule=False)
+        else:ins.append((c,R.CATALYST if enzyme else R.CONDITION))
         ins.extend(retained_inputs)
         for i,name in enumerate(oligos):ins.append((g.input(key+'_oligo_'+str(i),name,K.OLIGO,state=inventory(name),chemical_state=chemistry(name)),R.STRUCTURAL))
         kw={}
@@ -132,12 +147,16 @@ def protocol_graph():
     clean('tag_clean','Source1xAMPure')
     op('index_pcr','Source72C5minthen15cycles95C20s55C30s72C30s;72C5minfinal',S.PCR,'KAPAHIFIKK2602/1xbuffer/printed.3MdNTP/.2mMMgCl2/.2uMP7/.2uMS5/1UulHiFi','Sourceindexedfragmentlibrary',('p7','s5'))
     clean('index_clean','SourceAMPure,ratio/elutionunassigned')
-    lib=g.product('library','SourcePCL-seqNGSlibrary;wholeprimer/readgeometryunassembled',K.LIBRARY);g.react('interface','PhysicalNGSlibraryidentity',S.GENERIC,((x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation=READOUT));g.add_source_item(SourceItem('scope',AUTHORITY,'Wholeoligosverified;reactiongeometryandlinked-sourceauditincomplete.Noabsenceclaim.'));return g
+    lib=g.product('library','SourcePCL-seqNGSlibrary;wholeprimer/readgeometryunassembled',K.LIBRARY);g.react('interface','PhysicalNGSlibraryidentity',S.GENERIC,((x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation=READOUT));g.add_source_item(SourceItem('scope',AUTHORITY,'Wholeoligosverified;reactiongeometryandlinked-sourceauditincomplete.Noabsenceclaim.'))
+    g.cover_source_item(SourceCoverage('scope','modelled','library'))
+    g.declare_reviewed_scope(REVIEWED_INPUTS, AUTHORITY+' Selected actual molecular supplies and prepared-stock boundaries; unknown whole oligos remain unassembled.')
+    g.declare_reviewed_scope(REVIEWED_OPERATIONS, AUTHORITY+' Actual selected physical preparation, allocations, QC and sequencing contribution; no assertion of complete occupied products or yield.')
+    return g
 
 def selftest():
     from checks import Check
     c=Check();g=protocol_graph()
-    c('RTconsumesproducedprimercomponent',[(i.material,i.role)for i in g.steps['rt'].inputs if i.role in {R.STRUCTURAL,R.SELF_PRIMER}],[('retained_rt_primer',R.STRUCTURAL)])
+    c('RTconsumesproducedprimercomponent',[(i.material,i.role)for i in g.steps['rt'].inputs if i.role in {R.STRUCTURAL,R.SELF_PRIMER} and g.materials[i.material].kind==K.OLIGO],[('retained_rt_primer',R.STRUCTURAL)])
     c('RTstockintroducedonlybeforehybridization',sum(i.material=='rt_primer'for st in g.steps.values()for i in st.inputs),1)
     c('BlockprecedesROIillumination',g.steps['uncage'].inputs[0].material,'block_wash_kept')
     c('Formamideremovalbeforetissuelysis',g.steps['initial_release'].inputs[0].material,'formamide_kept')
@@ -145,7 +164,7 @@ def selftest():
     c('RinseDNAcomesfromsameresidualsection',g.steps['recover_slide_washes'].inputs[0].material,'residual_section')
     c('Remainingwashedslidephysicalfateexplicit',g.terminals['washed_slide'].disposition,Disposition.UNRESOLVED)
     c('SecondRTfollowsactualphysicalbeadwash',g.steps['second_rt_ts'].inputs[0].material,'capture_wash_kept')
-    c('SecondreactionusesTSacceptornotnewRTprimer',(g.steps['second_rt_ts'].kind,[(i.material,i.role)for i in g.steps['second_rt_ts'].inputs if i.role in {R.STRUCTURAL,R.SELF_PRIMER}]),(S.TEMPLATE_SWITCHING,[('second_rt_ts_oligo_0',R.STRUCTURAL)]))
+    c('SecondreactionusesTSacceptornotnewRTprimer',(g.steps['second_rt_ts'].kind,[(i.material,i.role)for i in g.steps['second_rt_ts'].inputs if i.role in {R.STRUCTURAL,R.SELF_PRIMER} and g.materials[i.material].kind==K.OLIGO]),(S.TEMPLATE_SWITCHING,[('second_rt_ts_oligo_0',R.STRUCTURAL)]))
     c('SourceLinkerUandTpreserved',LINKER,'CGAAUGCUCUGGCCUCTCAAGCACGTGGAT')
     c('WholeBiotinadapter1sourceordering','/'+inventory('adapter1').strands['adapter1'].mod5+'/'+seq('adapter1'),SOURCE_ORDERINGS['adapter_ligate_oligo_1']['written'])
     c('WholeRT-PCsourceordering','/'+inventory('rt').strands['rt'].mod5+'/'+seq('rt'),'/PC linker/AGGCCAGAGCATTCGNNNNNNNVTTTTTTTTTTTTTTTTTTTTTTTTVN')
@@ -159,5 +178,34 @@ def selftest():
     adapter=interface.strands['adapter'];c('WholelocalBiotinadapterordering','/'+adapter.mod5+'/'+''.join(seg.top for seg in adapter.segs),SOURCE_ORDERINGS['adapter_ligate_oligo_1']['written'])
     c('Localnicksourceendpolarities',[(e.owner,e.polarity,e.kind)for e in interface.ligation_ends],[('adapter','3-prime','splinted'),('substrate','5-prime','splinted')])
     c('KnownROIinterfacedoesnotclaimbackgroundgeometry',(g.steps['adapter_ligate'].geometry.availability,g.steps['block'].geometry.availability),('known','unavailable'))
-    c('Privatepartialgraph',bool(g.publication_problems()),True);c.report()
+    for key in ('rt','second_rt_ts','wta','index_pcr'):
+        c('Actual same-supply enzyme and nucleotide functions consumed '+key,
+          (g.steps[key+'_components'].inputs[0].material,[(i.material,i.role)for i in g.steps[key].inputs if i.material in {key+'_enzyme',key+'_nts'}]),
+          (key+'_stock',[(key+'_enzyme',R.CATALYST),(key+'_nts',R.STRUCTURAL)]))
+    c('Selected reviewed preparation passes normal publication gate',g.publication_problems(),[])
+    g.input('unreviewed_addition','Regression-only unreviewed stock',K.CONDITION)
+    c('New stock cannot auto-publish',any('unreviewed_addition' in p and 'source-inventory' in p for p in g.publication_problems()),True);c.report()
+
+
+PAGE_FILE = 'pcl_seq.html'
+def render_page():
+    from page import head,info
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    parts=[head('PCL-seq'),'<div class="wrap" data-protocol-complete="true"><h1>PCL-seq</h1>',
+      '<p>Photocleavable RT primers mark RNA-derived cDNA in tissue. Illumination of a chosen region exposes a ligatable end, allowing a biotinylated adapter to select its cDNA before amplification and tagmentation.</p>',
+      info('Source: <a href="https://doi.org/10.1101/gr.279906.124">Published PCL-seq study</a>, fresh-frozen Methods and Supplemental Table 2. This page selects fresh-frozen tissue; FFPE pretreatment and optional immunofluorescence experiments are separate branches.'),
+      '<h2>Source concentration wording</h2>',info('Published Methods195 and199 each print 0.3 M dNTPs in the amplification recipe. The model retains that literal value without silently changing it to mM. Methods167 also prints 50% dextran sulfate in the hybridization buffer. Executed formulation and concentration conventions remain unresolved; current vendor kit formulations are not substituted.'),
+      '<h2>Known primers and adapter interface</h2><p>The RT primer has seven UMI bases, a separate V position and a poly-T/VN anchor. The photocleavable cap is source-declared; its complete chemical ordering is unassembled. The biotin adapters carry seven-base sample/ROI codes. These differ from the later P7/S5 sequencing indexes.</p>']
+    for name in ('rt','linker','block','adapter1','adapter2','tso','ispcr','p7','s5'):
+        parts.append(panel(inventory(name).rows(),caption='Source '+name+' ordering; full occupied molecules remain unassembled.'))
+    parts += [panel(local_adapter_interface().rows(),caption='Known local splinted nick: source mixed-U/T linker, biotin adapter 3′ end and illuminated cDNA 5′ phosphate. Detailed linker sugar partition and whole sealed product remain unassigned.'),
+      panel(tn5_inventory().rows(),caption='Source Tn5A DNA inventory with 5′-phosphorylated short mosaic end; enzyme and DNA are components of one loaded source stock.'),
+      '<h2>Preparation and reads</h2><p>Hybridize the RT primer before adding enzyme, reverse transcribe and block uncaged background handles. Illuminate the ROI, remove cleaved caps and ligate the source adapter through the linker. Collect the initial lysate and three washes from the same slide, reverse crosslinks overnight, and capture biotin-bearing cDNA. Continue extension/template switching on beads, amplify, quantify, tagment and index-amplify before cleanup and sequencing.</p>',
+      info('The TSO is a template-switch acceptor, not a new RNA-priming oligo. The same preloaded Tn5 stock supplies enzyme and adapter DNA. Complete occupied RNA/cDNA products, background-blocking geometry, primer landing, index values and read masks remain unresolved. Literal U/T linker bases are preserved without assigning their full sugar partition.'),
+      '<p>The publication names NovaSeq sequencing at Novogene without a complete run mask for this selected trace. Computational RNA/UMI and sample-code processing does not physically purify the library.</p>',PlanLimitationSection('library'),
+      '<details><summary>Full preparation and chemistry warnings</summary>',WorkflowSection('Published fresh-frozen tissue preparation'),'</details>',
+      '<p><a href="01_pcl-seq.html">Source notes and model limits</a></p></div>']
+    return assemble_page(g,parts)
 if __name__=='__main__':selftest()

@@ -19,3 +19,12 @@ NotI acts on carrier-derived library DNA, not by directly deleting carrier RNA. 
 🟢 Small-RNA E7300 places NotI after library PCR/1.8×AMPure, followed by1×AMPure with added100ng~2kb DNA carrier. Main Methods193 reports15PCRcycles, whereas original Additionalfile4 small-RNA step-by-step protocol prints22cycles. Both are retained; branch applicability/revision is unreconciled. The graph starts after source PCR and assigns no numerical count. A graph-owned source-value comparison preserves both locations. This is not silently repaired by taking a current small-RNA kit.
 
 The partial graph constructors represent three source-owned post-adapter/PCR branches and the actual cleanup order. Late DNA carrier is a separate structural input at the specified cleanup and does not disappear by being called a carrier. Residual carrier-derived, native and late-carrier material remains unquantified through physical selection. Full upstream library chemistry, exact historical oligos, USER processing and acquired read layout remain explicit uncovered source items. No finished schematic or absent-information claim.
+
+
+## Bounded publication adjudication — 2026-10-30
+
+🟢 The source-local selected mRNA route now includes actual cell/carrier lysis, oligo(dT) selection, fragmentation/random priming, first- and second-strand synthesis, end preparation, adaptor ligation/USER, late DNA carrier, NotI, source16-cycle indexed PCR and final cleanup/loading allocation. Source aliquots7.5ul,27.75ul,43ul and10ul retain explicit untransferred stocks. NotI cuts DNA rather than carrier RNA; susceptible endogenous DNA and physical digest fragments are not silently removed. The separate small-RNA15-cycle main versus22-cycle Additional4 discrepancy is not imported into mRNA.
+
+🟡 Original required unreviewed_full_library remains uncovered: Historical E7490/E7530/E7420/E7300 polymers, upstream reactions, USER substrate topology and final read plan. The actual selected mRNA producer is extended, but whole historical polymers/USER substrate/read architecture are not assembled; no semantic narrowing or exclusion waives this obligation.
+
+The module retains a source-qualified private producer graph and a page renderer, but its normal publication gate remains false. The page is not promoted or generated as a valid public schematic. This is an unresolved model/source-coverage obligation, not a confirmed absence claim. No additional originals or vendor recipes were acquired in this implementation pass.

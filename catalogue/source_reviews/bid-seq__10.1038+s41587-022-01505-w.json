@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round05_reader",
         "date": "2026-10-28",
-        "locations": "Results81–113, limitations209, Methods231–237, processing281; non-manuscript provenance",
+        "locations": "Results81\u2013113, limitations209, Methods231\u2013237, processing281; non-manuscript provenance",
         "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "rna_round05_reader",
         "date": "2026-10-28",
-        "locations": "Original title/DOI and FigS1 caption264–266 only; graphical panels unreviewed",
+        "locations": "Original title/DOI and FigS1 caption264\u2013266 only; graphical panels unreviewed",
         "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
       },
       "pass_2": null
@@ -284,12 +284,24 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
-      "locations": "Results81–113, limitations209, Methods231–237, processing281; non-manuscript provenance; Original title/DOI and FigS1 caption264–266 only; graphical panels unreviewed",
+      "locations": "Results81\u2013113, limitations209, Methods231\u2013237, processing281; non-manuscript provenance; Original title/DOI and FigS1 caption264\u2013266 only; graphical panels unreviewed",
       "findings": "Upstream ligation geometry; exact applicable NEBNext index/PCR oligos and read plan; conversion/dropout/calibration models; original SI panels/tables.",
       "deferred": [
         "https://doi.org/10.1038/s41596-023-00917-5"
       ],
       "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
     }
-  ]
+  ],
+  "unlinked_page_implementation": {
+    "date": "2026-10-30",
+    "result": "page_ready",
+    "source_scope": "s41587-022-01505-w_PMC10017504.xml.txt231\u2013237 fullactualRNAfragmentation/endwork/3and5adapterligation/input-treatedsplit/BS/desulfonation/RT-RNaseH/cDNAstock/PCR/gel/SE100. ExistingMOESM1.pdf.txt264\u2013267 publishedcaptiononly; graphicalpanels notadopted fromcaption. No detailed2024successor/RBSreferences/vendor/otheroriginalopens. Existingreview identifiesnon-manuscriptpublishedoriginal.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "findings": "Shared source preparation,actual1.5input/8.5treatedRNA allocation,both actualRT/cDNAstock4of20PCRallocation/gel/SE100outputs; RNAadduct/cDNAdeletion distinct; unknown historicalprimers/supplies packaging retained.",
+    "normal_gate": [],
+    "verification": "15focusedPASS; normalgate/build/fullworkflow/completewrapper pass; guard4exact0fail0exceptions4unknownhistoricalPCRprimerinputs; chemistry35steps37unresolved0contradictory; pairing0.",
+    "missing_information_claims": []
+  }
 }

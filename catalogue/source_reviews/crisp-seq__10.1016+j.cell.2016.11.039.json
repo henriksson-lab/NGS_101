@@ -8,7 +8,7 @@
       "locator": "https://www.hubrecht.eu/app/uploads/2017/11/CELL2016.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "InstitutionalpublisherVOR title/DOI/pageschecked;STARMethods vectorpp e2\u2013e3 andlibraryp e4,text2510\u20132540/2603\u20132640/2657\u20132663",
+      "inspection_scope": "InstitutionalpublisherVOR title/DOI/pageschecked;STARMethods vectorpp e2–e3 andlibraryp e4,text2510–2540/2603–2640/2657–2663",
       "local_file": "/husky/henriksson/NGS101_papers/sources/crisp-seq__10.1016+j.cell.2016.11.039/CELL2016.pdf",
       "md5": "e36917e168e5d4c280cf110a9a27190b",
       "source_identity": "Institutional CRISP-seq published main article candidate; why: Exact original route from discovery ledger; verify printed title/DOI before molecular-boundary use."
@@ -21,7 +21,7 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Bounded source-positive component/prefix model; not full preparation/source review",
-      "locations": "InstitutionalpublisherVOR title/DOI/pageschecked;STARMethods vectorpp e2\u2013e3 andlibraryp e4,text2510\u20132540/2603\u20132640/2657\u20132663",
+      "locations": "InstitutionalpublisherVOR title/DOI/pageschecked;STARMethods vectorpp e2–e3 andlibraryp e4,text2510–2540/2603–2640/2657–2663",
       "findings": "See note for exact source-positive molecular distinction and explicit physical fates/unknowns. Independent model review made5P/3C3part of consumedadapterScene, separatelyfromlaterRTprimer; default overhang-not-reported helper replaced by localunreviewedgeometry scene.",
       "deferred": [
         "OriginalJaitin2014MARS-seq detailed recipe, frontend/barcoding/end chemistry and final-library geometry.",
@@ -30,6 +30,20 @@
       ],
       "verification": "After independentreview fixes:local27checks passed(Click6,RAID9,CRISP12);threepreviewsbuild;sourceguard4checked0failed0exemptions;pairing0;chemistry0established26unresolved0contradictory. RAID RNA marker usesU;CRISP consumedreagent carries5P/3C3;localunreviewedgeometry makes no source-absence claim.",
       "oligo_scraper": "Mandatory standard bundle scraper run; pointer hits verified only in stated original scope. CRISP rerun after mainPDFdownload; Clickactualsequenceunassignedinsourceassay, inventoryseparate."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted9",
+      "reviewer": "targeted_bounded_hold_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded existing-original source/model hold assessment; no new acquisitions/builds/modeledlibraryclaims. Investigation closed at cap.",
+      "locations": "Published institutionalCell2016VOR STARMethods libraryp.e4/text2603–2640 andprocessingp.e5/2657–2666 reread; priorrecord validatedtitle/DOI/pagination. No2014/2019 MARSoriginal body opened. Otherfolder manifest metadata only inspected to distinguish original2014JaitinSM from2019protocol.",
+      "findings": "Defining original explicitly produces gene-expression andUGI DNA libraries inparallel. Half aRNA isfragmented for geneexpression;10–12percent unfragmented forUGI. Exact5P/3C3adaptor, secondRT20nt, intermediate10cycle plate-barcodedPCR and separatefinalMARS-likePCR are sourcepositive. Currentmodel stopsintermediatePCR andfragmentedRNA; requiredfullinput/library/readassembly remainsunimplemented. Original2014MARSrecipe is a relevantreal citeddependency; cached2019protocol mustnot be substituted. No acquisition or source gate exclusion.",
+      "deferred": [
+        "Required fullsourceinput/library/final-strand/readassembly not implemented; known finalPCR/pooling endpoint alone does not fulfil obligation."
+      ],
+      "oligo_scraper": "/tmp/unlinked9-crisp-scraper.log:15hits/1representation; sourcecontexts preserved, no sourceabsence inference.",
+      "verification": "12existingfocusedchecksPASS; 6steps/7unresolved0contradictory; requiredsourceitemunchanged/uncovered andsequencingterminalmissing. No modelcodechange/publiccomplete marker."
     }
   ],
   "linked_information": {
@@ -41,5 +55,6 @@
     "OriginalJaitin2014MARS-seq detailed recipe, frontend/barcoding/end chemistry and final-library geometry.",
     "Source intermediate/finalPCR full workup and run-primer/index schedule; no current recipe substitution.",
     "Remaining defining article/supplement material outside selectedSTARMethods."
-  ]
+  ],
+  "conclusion": "Bounded publication hold: blocked_model_scope. Required fullsourceinput/library/final-strand/readassembly not implemented; known finalPCR/pooling endpoint alone does not fulfil obligation."
 }

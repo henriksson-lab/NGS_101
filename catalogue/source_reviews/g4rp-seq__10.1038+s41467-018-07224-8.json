@@ -132,5 +132,58 @@
       "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
       "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 2,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_PMC6226477.xml.txt",
+        "version": "Published non-manuscript defining article",
+        "sections": "Identity1\u20134; limits116; Methods134\u2013148, particularly140/148",
+        "scope": "Actual reagent quantities/workup/capture order, baseline/drug/biotincontrol distinctions, historical library delegation and PE75; dose-response/qPCR separate from NGSproducer."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/g4rp-seq__10.1038+s41467-018-07224-8/s41467-018-07224-8_supp_41467_2018_7224_MOESM1_ESM.pdf.txt",
+        "version": "Published SI",
+        "sections": "Identity1\u201317; Fig6caption261\u2013265/Fig7caption270\u2013275; Table3header612\u2013617 only",
+        "scope": "Crosslink-control validation and computationalworkflow; FRET/validation oligos notNGSlibraryadapters. No full BioTASQ synthesis or graphical/wholetable chemistry audit."
+      }
+    ],
+    "scope": "Actual formaldehyde/glycine/TRIZOL molecularroles and source working-buffer co-components; original unreviewed_kit/fullread scope remains uncovered.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'unreviewed_kit' is not accounted for",
+      "graph input/step 'aliquot' has no source-inventory item",
+      "graph input/step 'beads' has no source-inventory item",
+      "graph input/step 'biotasq' has no source-inventory item",
+      "graph input/step 'buffer_components' has no source-inventory item",
+      "graph input/step 'capture' has no source-inventory item",
+      "graph input/step 'cells' has no source-inventory item",
+      "graph input/step 'crosslink' has no source-inventory item",
+      "graph input/step 'dnase' has no source-inventory item",
+      "graph input/step 'dnase_digest' has no source-inventory item",
+      "graph input/step 'fixation_environment' has no source-inventory item",
+      "graph input/step 'formaldehyde' has no source-inventory item",
+      "graph input/step 'fragment' has no source-inventory item",
+      "graph input/step 'fragment_condition' has no source-inventory item",
+      "graph input/step 'glycine' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'library_prep' has no source-inventory item",
+      "graph input/step 'lysis_buffer' has no source-inventory item",
+      "graph input/step 'probe_binding' has no source-inventory item",
+      "graph input/step 'quench' has no source-inventory item",
+      "graph input/step 'quench_environment' has no source-inventory item",
+      "graph input/step 'release_heat' has no source-inventory item",
+      "graph input/step 'reverse_crosslink' has no source-inventory item",
+      "graph input/step 'ribodeplete' has no source-inventory item",
+      "graph input/step 'ribozero' has no source-inventory item",
+      "graph input/step 'sonicate' has no source-inventory item",
+      "graph input/step 'trizol' has no source-inventory item",
+      "graph input/step 'trizol_reagent' has no source-inventory item",
+      "graph input/step 'truseq' has no source-inventory item"
+    ],
+    "verification": "rG4-seq10PASS/G4RP-seq10PASS; combinedsourceguard4checked0failed1unassigned-index input without exactstate,0exceptions; chemistry6+13unresolved0contradictory. No PAGE_FILE/builders; no failing builder introduced."
+  }
 }

@@ -17,3 +17,8 @@ Footprints are gel-selected into source20–40/41–~80nt classes, extracted, li
 ## Lineage and open questions
 
 Published protocol explicitly cites PAR-CLIP and its streamlined small-RNA cDNA predecessor plus APEX2 proteomic labeling protocol. This is component-strategy evidence; no complete predecessor recipe is imported. Exact historical NEBNext/primer/library geometry, published main applicability and directly cited detailed predecessors remain pending. No finished schematic or two-reader absence audit.
+
+
+## Bounded publication follow-up (2026-10-30)
+
+Bounded private correction: gamma-32P ATP and fresh cold ATP are molecular substrates, with the same retained PNK. RNA, adapter and actual ligation mixture pass through heating before fresh ligase. Source ATP-free 3′ versus ATP-containing 5′ supplies remain separate. GlycoBlue and RT dNTP contributions are explicit. Diagnostic PCR is six actual 10µl tubes (9/11/13/15/17/19 cycles), consumed analytically; preparative PCR is three actual 100µl tubes using a separately allocated cDNA contribution. Each tube has copresent primer/enzyme/nucleotide components from its actual aggregate supplies, without asserting commercial premixing. The downstream three-product workup is compound: pooling versus cleanup scheduling remains unassembled. Actual30 of70µl Pippin selection leaves a separate library remainder. Published main, original Table1 and historical kit/read geometry remain genuinely required/unreviewed; no public promotion or absence finding.

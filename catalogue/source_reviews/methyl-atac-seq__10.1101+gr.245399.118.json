@@ -160,5 +160,82 @@
       "oligo_scraper": "Mandatoryscraper fullcache; pointers independentlychecked in originalselectedMethods/SI; emptyhits are not absence.",
       "verification": "7 local behavior/transcription checks pass. Combined three-protocol source guard4checked/0failed/0exemptions/8unassembled inputs; chemistry71unresolved/0contradictory; schema3pass, notes build and diff whitespace check pass. Independent selected-source implementation review is not a second missing-information audit."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 3,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/methyl-atac-seq__10.1101+gr.245399.118/gr.245399.118_PMC6581052.xml.txt",
+        "version": "Published defining main",
+        "sections": "Identity1\u20135; Methods102\u2013116",
+        "scope": "ActualTn5factory/phosphate/methylatedoligoassemblies, source250000celllysis/7ulloadedstock/lambdacontrol,PK/SPRI/5mdCTPfill/10percentQC/bisulfite/13PCR/NextSeqSE75; OmniQ5recipe separate."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/methyl-atac-seq__10.1101+gr.245399.118/gr.245399.118_supp_supp_gr.245399.118_Supplemental_Table_S1-S3.pdf",
+        "version": "Published supplementalTablesS1\u2013S3",
+        "sections": "Text96\u2013106; actualoriginalPDFp1 rendered /tmp/unlinked-multi37-matac-table1.png",
+        "scope": "WholeS3modifiedoligoorderingincludingwrappedinternal/iMe-dC/token,5P-MErev,i5/i7sourceNexterafamilies. S1samplereplicates/S2genotyping scopeonly, no experimentalindexassignment."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/methyl-atac-seq__10.1101+gr.245399.118/gr.245399.118_supp_supp_gr.245399.118_Supplemental_Fig_S1-S6.pdf.txt",
+        "version": "Published sourcefigure supplement",
+        "sections": "SelectedtextcaptionsS5/S6lines20\u201328",
+        "scope": "Tn5titration andactualpreconverted10percentTaqQCvsPfuTurboCxconvertedlibrary; no fullplotnumericalaudit."
+      }
+    ],
+    "scope": "ActualindependentA/Bduplexfactory\u2192loadedstock\u21927ulallocation\u2192copresentTn5/adaptorclasses; no reusedfreeTn5. ActualPK/SDS/5mdCTPfill/PCRsupplies andSE75; originalpending item retained.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'pending' is not accounted for",
+      "graph input/step 'anneal_a' has no source-inventory item",
+      "graph input/step 'anneal_a_step' has no source-inventory item",
+      "graph input/step 'anneal_b' has no source-inventory item",
+      "graph input/step 'anneal_b_step' has no source-inventory item",
+      "graph input/step 'bisulfite' has no source-inventory item",
+      "graph input/step 'bisulfite_reagent' has no source-inventory item",
+      "graph input/step 'cells' has no source-inventory item",
+      "graph input/step 'fill' has no source-inventory item",
+      "graph input/step 'fill_buffer' has no source-inventory item",
+      "graph input/step 'fill_cleanup' has no source-inventory item",
+      "graph input/step 'fill_cleanup_condition' has no source-inventory item",
+      "graph input/step 'fill_nt' has no source-inventory item",
+      "graph input/step 'fill_reagent' has no source-inventory item",
+      "graph input/step 'final_cleanup' has no source-inventory item",
+      "graph input/step 'final_cleanup_condition' has no source-inventory item",
+      "graph input/step 'glycerol' has no source-inventory item",
+      "graph input/step 'i5' has no source-inventory item",
+      "graph input/step 'i7' has no source-inventory item",
+      "graph input/step 'lambda' has no source-inventory item",
+      "graph input/step 'load_tn5' has no source-inventory item",
+      "graph input/step 'loaded_allocation' has no source-inventory item",
+      "graph input/step 'loaded_components' has no source-inventory item",
+      "graph input/step 'me_a' has no source-inventory item",
+      "graph input/step 'me_b' has no source-inventory item",
+      "graph input/step 'me_rev' has no source-inventory item",
+      "graph input/step 'nuclei' has no source-inventory item",
+      "graph input/step 'nuclei_reagent' has no source-inventory item",
+      "graph input/step 'nuclei_recovery' has no source-inventory item",
+      "graph input/step 'nuclei_recovery_condition' has no source-inventory item",
+      "graph input/step 'pcr' has no source-inventory item",
+      "graph input/step 'pcr_buffer' has no source-inventory item",
+      "graph input/step 'pcr_nt' has no source-inventory item",
+      "graph input/step 'pfu' has no source-inventory item",
+      "graph input/step 'precipitate' has no source-inventory item",
+      "graph input/step 'precipitate_condition' has no source-inventory item",
+      "graph input/step 'proteinase' has no source-inventory item",
+      "graph input/step 'proteinase_reagent' has no source-inventory item",
+      "graph input/step 'qubit' has no source-inventory item",
+      "graph input/step 'qubit_retained' has no source-inventory item",
+      "graph input/step 'reverse_allocations' has no source-inventory item",
+      "graph input/step 'saved_ten_percent' has no source-inventory item",
+      "graph input/step 'sds_buffer' has no source-inventory item",
+      "graph input/step 'size_select' has no source-inventory item",
+      "graph input/step 'size_select_condition' has no source-inventory item",
+      "graph input/step 'tagment' has no source-inventory item",
+      "graph input/step 'tn5' has no source-inventory item"
+    ],
+    "verification": "ChIP12PASS/methylATAC12PASS; ChIP privatebuild/HTML no completionmarker; mATAC noPAGE_FILE/newbuilder; guard3exact0failed7externalunknown0exceptions(produceddiagnostic/loadedclasses outsideexternalguard); chemistryChIP42unresolved/mATAC2localest20unresolved0contradictory; pairing0."
+  }
 }

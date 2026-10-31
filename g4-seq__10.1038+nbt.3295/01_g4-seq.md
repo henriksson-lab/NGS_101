@@ -27,3 +27,9 @@ The graph carries the source-known original-library/flowcell handoffs, first-con
 ## Deferred originals
 
 Full mainMethods: https://doi.org/10.1038/nbt.3295 ; standard retrieval reports no openfulltext, publisher title/abstract only inspected. Source sequencingXMLs MOESM31/32/33 were fetched but not read within the three-original cap. They are condition/instrument-specific originals, not interchangeable script revisions. The short text conversions omit program detail, so future review must inspect their originalXML. Other result workbooks/code were fetched automatically and remain outside substantive chemistry review. No missing-information claim.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked the published SI MOESM27 Fig. 1 caption (text lines 1–9) and Fig. 3 caption (30–38), one existing original. Independent cation experiments and the sequential Na+/Na++PDS comparison support the model's distinction between physical DNA and observed read calls. They do not supply the full main-Methods library producer or the script-controlled template/reset/strand geometry. No model or publication-status change is justified by this pass.
+
+The exact MOESM31/32/33 XML originals are cached but remain unread; their short text conversions are not substitutes for inspecting the program bodies. The earlier deferred main-Methods retrieval record is historical, not a fresh access test. Both original required source items remain open. No missing-information claim is accepted.

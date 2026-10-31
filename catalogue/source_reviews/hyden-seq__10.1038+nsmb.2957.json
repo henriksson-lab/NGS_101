@@ -55,7 +55,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Cappedsource-qualifiedmodelpass,notcompleteindependentreviewormissing-informationacceptance.",
+  "conclusion": "Source-qualified public partial schematic ready after bounded source-provenance and presentation fixes; exact unknown components and version limits retained. No complete chemistry or source-absence claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-expansion-round04",
@@ -72,6 +72,22 @@
       ],
       "oligo_scraper": "Mandatoryfull-bundlescraperoutputread;hitsvalidatedagainstsourcecontext. HydEnTable1rendered. Damagezero-hitsnotabsenceevidence;relevantSIunavailable.",
       "verification": "5source-transcriptionchecks;PCRbinding/productrelationconditional;sourceguardexactpolymerschecked;pairing/buildpass."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted4",
+      "reviewer": "targeted_publication_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded publication readiness pass on existing closed sources only; no acquisition or expanded source identity. Not complete chemistry/absence review.",
+      "locations": "Associated accepted-manuscript Methods134–146: physical HydEn protocol plus processing/background distinction.; Published Table1 actual PDFp4, existing render /tmp/hyden_table.png inspected for whole five selected orderings, PS/5amine-C6 and ARC78/84 names.",
+      "findings": "Single adapter stock enters anneal; produced same-tube retained component consumed at T7 synthesis. Source KAPA ReadyMix decomposed into actual copresent catalyst/nucleotide/buffer classes; synthesis molecular supply boundary unassembled. Actual other library contributions, selected pool/loading aliquots and remainders. ARC140 5amine/C6 and ARC76/77 PS preserved. Shared PCR_PRODUCT assumes every structural input is a primer: the exact geometry remains and local construction validates actual OLIGO ports, actual template and actual output; negative port/output mutation regressions verify rejection, molecular nucleotide input remains STRUCTURAL.",
+      "deferred": [
+        "Associated accepted manuscript is Methods authority; full published VOR Methods equivalence unverified.",
+        "Published Table1 names ARC78 while AM names ARC79; choose unambiguous actual ARC84 as current model does. This is source/version naming difference, not established publication error.",
+        "Exact selected experiment index assignment/run index mask/whole genomic interval unresolved; PE50 source qualified."
+      ],
+      "oligo_scraper": "Mandatory whole existing bundle scraper: /tmp/unlinked-hyden-preflight-scraper.log; Nick941hits/5representations, HydEn12hits/2representations. Nick genomic neighborhoods are not ordering oligos; HydEn concatenated table hit rejected against actual Table1p4. No absence inference.",
+      "verification": "17 focused PASS including5original-order fixtures and2actual-port/output mutation rejection checks; normal publication gate empty; source guard combined5exact0failed0exemptions2wholeunknownexternal; pairing0; scoped chemistry19steps/3established19unresolved0contradictory."
     }
   ]
 }

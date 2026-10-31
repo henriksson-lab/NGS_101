@@ -35,3 +35,10 @@ Manifest wording such as “probably redundant” is a fetcher hint, not an iden
 ## Validation
 
 Protocol-owned `tools/chem.py` has a zero-argument graph and focused state/fate checks. It is an incomplete graph-only implementation, with no public page or completion marker. Source-known late operations/acquisition are retained; unassembled adapters, modifications and fates are not inferred from other families.
+
+
+## Bounded publication review — 2026-10-30
+
+The actual genomic labeling reaction now receives explicit β-GT catalyst and UDP6N3Glc donor. DBCO-disulfide-biotin and DTT are physical molecular contributions, distinct from their source incubation programmes. Reduction retains the DNA-bound thiol-label remnant, followed by actual magnetic separation and source cleanup; it does not restore native 5hmC or itself discard beads. Original `pending` remains unchanged and uncovered: genomic A-tailing SMRTbell construction per Travers2010 and historical PacBioRS standard-protocol applicability are unreviewed. Published SI Table3 synthetic hairpins, four-base overhangs, 5′ phosphates and exonuclease steps are not assigned to genomic libraries. The source 200µg labeling context and 160µg labeled input/1.3µg pulldown recovery context remain distinct; no allocation between those quantities or invented physical pool is supplied.
+
+No additional originals were read or acquired during implementation. This capped pass accepts no missing-information claim and does not publish the graph.

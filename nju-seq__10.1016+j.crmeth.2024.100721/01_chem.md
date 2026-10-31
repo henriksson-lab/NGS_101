@@ -25,3 +25,9 @@ The complete fragmentation-end state, tail-ligation catalyst/conditions, termina
 ## Endpoint and open scope
 
 🟢 The literal source phrase is “Fragments smaller than50nt” extracted from6%PAGE after the kit boundary. The model preserves that wording and leaves insert-versus-whole-library sizing unassigned; it does not silently correct the threshold or claim a sequencing-ready complete molecule below50nt. Source names Illumina X-Ten but not an assigned run/index mask here. Complete end geometry, kit internals and linked precursor/vendor versions remain unreviewed; no absence claim or public schematic is made.
+
+## Source-qualified public preparation page
+
+Source-qualified public page adds literal shared-preparation/TR/NC inventories with original selected SourceItem retained and covered. Both source terminal p marks on the whole polyA-ssRNA tail remain. Actual precipitation reagents and PNK ATP/buffer are explicit; PNK3primephosphataseminus is not used to invent RNA3primehealing. Untransferred fragmentedRNA has unresolved fate, not an invented storage instruction. Actual separate TR/NC producers continue through the source historical kit interface; full kit chemistry/read masks remain unassembled. Source5/3 repeat assignment and less50nt PAGE interpretation are publicly qualified. No broad source obligation waived.
+
+The public page includes a preparation overview, known molecular components, read scope and a collapsed complete workflow with unresolved-chemistry warnings. Full occupied molecules are not supplied as invented biological sequences. This page is a capped source-supported preparation declaration, not a full linked-original or missing-information audit.

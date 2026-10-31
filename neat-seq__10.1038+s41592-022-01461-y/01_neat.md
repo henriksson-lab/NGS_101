@@ -38,3 +38,11 @@ Component ancestry: publishedSI explicitly directs continuation of10xMultiome wi
 ## Validation
 
 Local source transcription and physical branch/state checks are recorded in the source-review JSON. Full chemical products,library completion and complete source coverage are not established.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Published protocolv1.0 specifies one1ul20uM preamplification primer mix. The model now consumes that actual prepared mixture and produces its known ADT and HTO primer components, rather than treating them as independent fresh additions. Each reporter PCR separately receives its actual3ulF+R primer mix and25ul2xNEBNextHiFi master stock. Known PS-modified P5/P7 primers and co-present enzyme/nucleotide/buffer classes arise from those stocks, without duplicate doses or a new undocumented premix. Exact source experimental index values remain unassigned.
+
+Antibody-DNA reagents are now typed as molecular conjugates with source-known partial DNA states, rather than plain oligos. EcoSSB association, distinct disjoint hash tubes, wash/pool order and absence of an intermediate antibody-SSB purification are retained. Final TapeStation/Bioanalyzer analytical material is separated from the retained reporter production library; assay amounts and loaded fraction remain unassembled.
+
+The runtime all-node source declaration was removed: enumerating model nodes is not independent evidence review. No replacement source coverage was generated, and the original explicit unassembled SourceItem remains required and uncovered. Full historical Multiome/whole-library obligations remain unresolved. PublishedSI22ul versus separately qualified AM35ul and HTO-handle/experiment differences are preserved; no source recipe is merged or promoted. This remains a private incomplete preview, not a finished public page.

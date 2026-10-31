@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "round06_coordinator",
         "date": "2026-10-29",
-        "locations": "Published identity/manifest;JATS55–75,119–135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
+        "locations": "Published identity/manifest;JATS55\u201375,119\u2013135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
         "finding": "IMR90 bulk two-dose M.CviPI/SAM, extraction/fragmentation, methylated adapters before bisulfite and single-end76 kept distinct from GBM paired-end runs. GCG ambiguous origin and CCG off-target caveat retained; idealized physicalU versus newDNA-T are local conditional classes, not quantitative prediction."
       },
       "pass_2": null
@@ -34,7 +34,7 @@
     "pass_1": {
       "reviewer": "round06_coordinator",
       "date": "2026-10-29",
-      "locations": "Published identity/manifest;JATS55–75,119–135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
+      "locations": "Published identity/manifest;JATS55\u201375,119\u2013135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
       "finding": "IMR90 bulk two-dose M.CviPI/SAM, extraction/fragmentation, methylated adapters before bisulfite and single-end76 kept distinct from GBM paired-end runs. GCG ambiguous origin and CCG off-target caveat retained; idealized physicalU versus newDNA-T are local conditional classes, not quantitative prediction."
     },
     "pass_2": null
@@ -75,7 +75,7 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Defining published original and attempted chemistry-supplement index before following cited predecessors.",
-      "locations": "Published identity/manifest;JATS55–75,119–135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
+      "locations": "Published identity/manifest;JATS55\u201375,119\u2013135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
       "findings": "IMR90 bulk two-dose M.CviPI/SAM, extraction/fragmentation, methylated adapters before bisulfite and single-end76 kept distinct from GBM paired-end runs. GCG ambiguous origin and CCG off-target caveat retained; idealized physicalU versus newDNA-T are local conditional classes, not quantitative prediction.",
       "deferred": [
         "Publisher supplements",
@@ -94,5 +94,46 @@
     "source_collected": true,
     "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
     "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  },
+  "publication_review_2026_10_30": {
+    "result": "blocked_source_scope",
+    "scope": "Capped main-original review and metadata disposition, not a complete linked-source/absence review.",
+    "source_scopes": "One published main original PMC3514679, Methods115\u2013133 for IMR90nuclear marking/library/readout and direct bibliography identities; manuscriptFalse in originalmanifest. External supplementaryZIP filenames inspected:10mainfigure JPG/GIF representations, not the publisher chemistry supplemental index. No neworiginal or retrieval attempted.",
+    "scraper": "Mandatory cached-bundle scrape0hits, not absence evidence.",
+    "blocker": "Required linked_source_boundaries remains unaccounted: directly cited nuclear-isolation/library originals Miranda2010/Lister2009/Kelly2010/Berman2012 are not reviewed in this capped pass, and actual publisher supplemental index has a recorded priorHTTP403. Exact historical interfaces remain unassembled. The library leaf inventory omission was fixed only after primary Methods123 directly confirmed its PCR-amplified DNA output.",
+    "direct_deferred_originals": [
+      {
+        "name": "Miranda2010",
+        "doi": "10.1002/0471142727.mb2117s89",
+        "role": "Nuclear isolation explicitly delegated by Methods119",
+        "inspection": "Not followed in this capped pass; relevance retained."
+      },
+      {
+        "name": "Lister2009",
+        "doi": "10.1038/nature08514",
+        "role": "Library construction explicitly cited by Methods123",
+        "inspection": "Not followed in this capped pass; relevance retained."
+      },
+      {
+        "name": "Kelly2010",
+        "doi": "10.1016/j.molcel.2010.08.026",
+        "role": "Library construction explicitly cited by Methods123",
+        "inspection": "Not followed in this capped pass; relevance retained."
+      },
+      {
+        "name": "Berman2012",
+        "doi": "10.1038/ng.969",
+        "role": "Library construction and analysis explicitly cited by Methods123",
+        "inspection": "Not followed in this capped pass; relevance retained."
+      }
+    ],
+    "actual_failed_original_locator": {
+      "url": "https://genome.cshlp.org/content/suppl/2012/10/04/gr.143008.112.DC1",
+      "role": "Publisher supplemental index explicitly linked by published main; previous manifestHTTP403, not retried."
+    },
+    "changes": "Only missing library source-inventory leaf added after verifying main explicit PCR-amplified sequenced product; actual required source item remains unchanged and unexcluded. No readiness marker/public promotion.",
+    "source_facts": "Selected IMR90 route has200U M.CviPI+SAM7.5min followed by fresh100U+SAM7.5min;5\u00b5gDNA fragmented~200bp, endrepaired/methylatedadapters/bisulfite/PCR; HiSeq2000SE76. GBMPE50/100 not merged; computational conversion/mapping filters not physical disposal.",
+    "verification": "8existing checks pass; normalgate independently rechecked now has only linked_source_boundaries failure; chemistry11unresolved0contradictory.",
+    "absence_claims": []
   }
 }

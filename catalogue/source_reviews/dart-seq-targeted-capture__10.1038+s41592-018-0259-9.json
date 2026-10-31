@@ -53,6 +53,21 @@
       ],
       "verification": "Protocol-local suites: Han6,epicPCR9,DART8,TAP8 passed (31total); all four private previews build, no completion marker; duplex pairing0problems; scoped chemistry4established,51unresolved,0contradictory. Sourceguard8checked1failed: faithful TAP N7XX8base window fails matcher against source [X]8 notation; reported to coordinator, no exemption added.",
       "oligo_scraper": "Mandatory standard scraper; relevant source hits checked, including modifications. DART large code-reference FASTA skipped, not a chemistry omission."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted7",
+      "reviewer": "targeted_model_scope_owner",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed original set; bounded source-backed private assembly/physical-trace fixes. Required assembly obligation retained; no source acquisition, excluded coverage or public promotion.",
+      "locations": "s41592-018-0259-9_PMC6378878.xml(.txt): Mainresults41/45andMethodsbead/singlecell/libraryworkflow; articleSD2supplementidentitymetadata checked, no laterprotocolsource.; s41592-018-0259-9_supp_NIHMS1512056-supplement-2.pdf: Printedtitle/authoridentity actualPDFp1 /tmp/unlinked7-dart-protocol1.png andprimerp3 /tmp/unlinked7-dart-protocol3.png inspected. Source1primerbeadsynthesis+sections4/5 molecularworkup/library/seq. Firstpagehas no printedrevision/dateidentifier; source is DOI-attachedsupplement, not substitutedcurrentprotocols.io revision.; s41592-018-0259-9_supp_NIHMS1512056-supplement-Sup_Table_1.xlsx: OriginalZIP/XMLSheet1rows34/35 IgGcustom5Phos/splintwholepolymers verified; rows86/96contextdifferentfluor/qPCRroles notassignedlibraryrole.",
+      "findings": "The actual detailed-protocol title/author page and primer page were rechecked. The file's MD5 `287feaffd15ebc1b1b6a48907c7722d2` matches the exact publisher DOI-attached MOESM3 original recorded in the manifest. No printed revision/date identifier appears on its title page. This establishes that supplement-file identity, not complete accepted-main/final-VOR equivalence or applicability of a newer protocol revision.  The model now declares source bead **T7 + PCR handle + J12 + N8 + T30** classes; J12 is the source split-pool cell identifier and N8 the source random UMI, with members unassigned. The selected IgG component appends its known 5′phosphorylated primer. This does not assemble the full biological B-cell primer pool or every occupied RNA/product. Source TSO DNA-prefix plus terminal **rGrGrG**, SMART primer, custom Read1 and custom P5-hybrid **terminal T*A*C** are declared and independently checked against the original protocol. No Drop-seq or modern Nextera constructor supplies those values.  Actual source 6–10 ligation reactions are represented as one representative reaction plus the remaining **5–9** reaction array, with distinct bead/probe allocations and actual product pooling; no arbitrary exact total count is chosen. Other actual B-cell toehold members remain copresent and unassembled, rather than inventing an IgG-only biological experiment. Droplet lysis/capture is followed by actual emulsion break, physical bead recovery/washes and only then bulk RT. One source 200 µl prepared RT mixture supplies copresent primer/TSO, catalyst, nucleotide and buffer components. Selected 2,000-bead PCR contributions, actual 25 µl KAPA ReadyMix components, source cDNA/library Qubit/BioAnalyzer aliquots, selected 600 pg Nextera input and loading/remainders are explicit. The original loaded tagmentation components share a source inventory; free adapters are not invented as an independent fresh addition.  The required `unassembled_source` item remains unchanged and uncovered. Full source-pool, intermediate and final-strand assemblies are still unimplemented, including occupied tagmentation/index interfaces and exact read landing. This is a **blocked model scope**, not a source-absence or fabricated missing-document claim. No complete marker is emitted.",
+      "deferred": [
+        "Full actual B-cell primer-pool assemblies and occupied template-switch/tagmentation/index/final-strand products/read landings.",
+        "Historical Nextera kit original full strands/selected index implementation remain unassembled; no modern default substituted."
+      ],
+      "oligo_scraper": "/tmp/unlinked7-dart-scraper.log:164hits/5representations;11MBsoftware refFASTA skipped, not a missingchemistrysource.; raw selected workbook rows/modified polymer contexts verified; no missing-information inference.",
+      "verification": "26focusedPASS incl4whole publishedprotocol fixtures/sourcefeature-preservation;32steps/4established34unresolved0contradictory. Requiredunassembled_source still onlypublicationfailure; privatebuildPASS/no complete marker; duplex0; combinedsourceguard10exact0failed0exemptions4externalwhole-unassembled inputs. Known produced/bead polymer classes additionally checked in original protocol fixtures."
     }
   ],
   "linked_information": {
@@ -69,5 +84,6 @@
     "date": "2026-10-28",
     "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
     "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
-  }
+  },
+  "conclusion": "BLOCKED MODEL SCOPE: available source pool/intermediate/final-strand assembly obligation remains unfulfilled; source-backed private components/physical traces improved, no source-absence or public promotion."
 }

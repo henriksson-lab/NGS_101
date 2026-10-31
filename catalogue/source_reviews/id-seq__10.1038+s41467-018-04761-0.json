@@ -67,5 +67,18 @@
     "Remaining Data3 families/SI graphics and linked material",
     "Exact sequencing primer/read-cycle geometry",
     "Independent source review"
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_model_scope",
+    "source_scope": "s41467-018-04761-0_PMC6008431.xml.txt126\u2013145 fullactualconjugation/staining/DTTrelease/samplebarcodingandanalysis. MOESM1.pdf.txt20\u201366 sourceDNA-tagandtwoPCRdesign. MOESM6.xlsx.txtREADME andnamedFLD0001/FLD0151/productionFW-RV/plateadapterheaders; existingwholeData3primertranscriptions retainedaspriorproof, remainingfamilies/originalmodificationlayoutnotnewlycurated. No2016conjugationoriginal/vendor/scIDsourceopens orinheritance.",
+    "originals_read": 3,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Physical producer expanded, but unchanged required unassembled_source explicitly includes full reporter/read assembly. Known source-component19bp/20nt-primer relation doesnot establish manufacturedN3duplexends/fullfinalreadassembly; mappingthis item toopaqueproducer/finallibrary wouldoverclaim. Normalgate stillfails ONLYthat item.",
+    "verification": "13focusedPASS; privatebuild/no completewrapper PASS; sourceguard1exact0failed4wholeexternalinputs unassembled; chemistry36steps39unresolved0contradictory; pairing0. Normalgate retains requiredunassembled_source. No sourceexpansion.",
+    "source_items_retained": true,
+    "missing_information_claims": [],
+    "implementation_scope": "Actual N3-dsDNA interface/conjugation/staining/release/wellcontributions/PCRstocks/perplatepool/QA/loading; literalcurator inventory replaces runtimeallnodecoverage. Plate25 referenceonly. Computedsource19bp anchor match+unpaired5primeT; actualmodifiedends/fullreadassembly unassigned."
+  }
 }

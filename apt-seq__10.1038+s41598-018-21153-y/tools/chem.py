@@ -7,12 +7,12 @@ from page import head,info
 PAGE_FILE='chem.html'
 
 def operations(g):
-    def op(key,x,label,reagent=None,state=None,kind=S.GENERIC,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+    def op(key,x,label,reagent=None,state=None,kind=S.GENERIC,reagent_kind=K.CONDITION,reagent_role=R.CONDITION,changes_molecule=True):
         inputs=[(x,R.TEMPLATE)]
         if reagent:
             z=g.input(key+'_reagent',reagent,reagent_kind);inputs.append((z,reagent_role))
         y=g.product(key+'_product',label+'; preparation includes unremoved reaction components',K.MOLECULAR,state=state)
-        g.react(key,label,kind,inputs,(y,));return y
+        g.react(key,label,kind,inputs,(y,),changes_molecule=changes_molecule);return y
     def clean(key,x,label):
         z=g.input(key+'_selection',label,K.SELECTION)
         y=g.product(key+'_kept','Physically retained source fraction: '+label,K.MOLECULAR)
@@ -22,7 +22,7 @@ def operations(g):
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
 def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    g.declare_reviewed_scope(REVIEWED_INPUT_STEPS,SOURCE)
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 from dataclasses import dataclass
@@ -47,27 +47,38 @@ class AptamerPopulation:
         if self.copied:sc.strand('copy',[Segment('copied aptamer component','[cell-labelled DNA copy;full strand unassembled]',placeholder=True)],label='DNA copy made during Maxima reaction;not RNA→DNA conversion')
         sc.aptamer_population=self;return sc
 
+REVIEWED_INPUT_STEPS=('aptamers','fold_reagent','fold','cells','stain','five_washes_selection','five_washes','dilute','bead_primer','encapsulate','capture','tso','maxima','copy_supplies','copy','aptamer_primer','smart','pcr_supplies','pcr_inventory','preamplify','nextera_reagent','nextera')
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE);op,clean=operations(g)
     apt=g.input('aptamers','Source synthetic DNA aptamer panel;TD05 sequence example',K.OLIGO,state=AptamerPopulation(False).scene())
-    folded=op('fold',apt,'0.5uM aptamers inPBS/Mg/glucose:95C5min thenice10min','Source folding conditions',state=AptamerPopulation(True).scene())
+    folded=op('fold',apt,'0.5uM aptamers inPBS/Mg/glucose:95C5min thenice10min','Source folding conditions',state=AptamerPopulation(True).scene(),kind=S.THERMAL_TREATMENT,changes_molecule=False)
     cells=g.input('cells','Source mixed Ramos/3T3 cell suspension',K.BIOLOGICAL,primary=True)
     stained=g.product('stained','Cells with affinity-bound aptamers plus unbound aptamers and buffer',K.MOLECULAR,state=AptamerPopulation(True).scene())
-    g.react('stain','31.25nM each aptamer;30min onice',S.GENERIC,((cells,R.TEMPLATE),(folded,R.STRUCTURAL)),(stained,))
+    g.react('stain','31.25nM each aptamer;30min onice',S.BINDING,((cells,R.TEMPLATE),(folded,R.STRUCTURAL)),(stained,),changes_molecule=False)
     x=clean('five_washes',stained,'Five cold binding-buffer centrifugation/resuspension washes;retain cell pellet')
-    x=op('dilute',x,'Dilute inicePBS/0.1%BSA tosource cell concentration')
+    x=op('dilute',x,'Dilute inicePBS/0.1%BSA tosource cell concentration',changes_molecule=False)
     bead=g.input('bead_primer','Historical Drop-seq bead/polyT/cell identifier/UMI components;whole strand unassembled',K.OLIGO)
     drops=g.product('droplets','Source cell/bead/lysis droplets;DNA aptamers andcellRNA coexist',K.MOLECULAR)
-    g.react('encapsulate','Source Drop-seq encapsulation andcelllysis',S.GENERIC,((x,R.TEMPLATE),(bead,R.STRUCTURAL)),(drops,))
-    x=op('capture',drops,'PolyA-bearing DNA aptamers andRNA bindbeadpolyT;source emulsion/bead workup detailsunreviewed')
+    retained_bead=g.product('retained_bead','Same-droplet bead primer component retained from one actual bead supply; not an isolated physical fraction',K.OLIGO)
+    g.react('encapsulate','Source Drop-seq encapsulation andcelllysis; componentsremaincopresent',S.GENERIC,((x,R.TEMPLATE),(bead,R.STRUCTURAL)),(drops,retained_bead),changes_molecule=False)
+    x=g.product('capture_product','Co-present captured RNA and DNA aptamer classes; emulsion/bead workup geometry unassembled',K.MOLECULAR)
+    capture_bead=g.product('capture_bead','Same bead primer component retained in captured mixture, not a new stock',K.OLIGO)
+    g.react('capture','Source polyA RNA/DNA aptamer binding to retained bead polyT',S.BINDING,((drops,R.TEMPLATE),(retained_bead,R.STRUCTURAL)),(x,capture_bead),changes_molecule=False)
     tso=g.input('tso','Published mixed DNA/RNA template-switch oligo',K.OLIGO,state=tso_inventory())
     rt=g.input('maxima','MaximaHMinus RT;RNA-dependentandDNA-dependent copying classes distinct',K.CATALYST)
     copied=g.product('copied','Source barcoded cDNA–RNA hybrids AND double-strandedaptamerDNA;freeoligos/reagents remain',K.MOLECULAR,state=AptamerPopulation(False,True).scene())
-    g.react('copy','Source Maxima reaction withtemplate switching efficientforcappedmRNA,rare onaptamers',S.REVERSE_TRANSCRIPTION,((x,R.TEMPLATE),(bead,R.STRUCTURAL),(tso,R.STRUCTURAL),(rt,R.CATALYST)),(copied,))
+    copy_supplies=g.input('copy_supplies','Actual source Maxima copying-reaction molecular supplies; nucleotide/primer geometry, dose and packaging unassembled',K.MOLECULAR)
+    g.react('copy','Source Maxima RNA-dependent and DNA-dependent copying with template switching',S.MAGIC,((x,R.TEMPLATE),(capture_bead,R.STRUCTURAL),(tso,R.STRUCTURAL),(rt,R.CATALYST),(copy_supplies,R.STRUCTURAL)),(copied,),reason='Source99 explicitly produces RNA/cDNA hybrids and double-stranded DNA aptamers. Compound copying/TS geometry remains unassembled; DNA aptamer copying is not relabelled ordinary RNA reverse transcription.')
     primer=g.input('aptamer_primer','Published TC/TD/TE Nextera-tailed aptamer primer',K.OLIGO,state=Construct([Segment('source Nextera overhang',APT_EXTENSION),Segment('source aptamer binding flank',APT_HANDLE)]))
     smart=g.input('smart','Published DropSeq smartPCRprimer',K.OLIGO,state=Construct([Segment('smartPCR',SMART)]))
     product=g.product('mixed_amp','Co-amplified transcript andaptamerDNA population;stillone physical mixture',K.MOLECULAR)
-    g.react('preamplify','13cycle jointPCR;aptamer-specificprimers1:20 relative tosmartPCRprimer',S.GENERIC,((copied,R.TEMPLATE),(primer,R.STRUCTURAL),(smart,R.STRUCTURAL)),(product,))
+    supplies=g.input('pcr_supplies','Actual source13cycle jointPCR supply inventory; enzyme identity/dose, thermal recipe and stock packaging unassembled',K.MOLECULAR)
+    polymerase=g.product('pcr_polymerase','Polymerase functional component ofsameactualPCRsupplies; identity unassembled',K.CATALYST)
+    nucleotides=g.product('pcr_nucleotides','Nucleotide functional component ofsameactualPCRsupplies; dose/packaging unassembled',K.MOLECULAR)
+    g.react('pcr_inventory','Functional components of aggregateactualPCRsupplies; no extra fresh doses',S.GENERIC,((supplies,R.TEMPLATE),),(polymerase,nucleotides),changes_molecule=False)
+    from pcr import PCRGeometry
+    g.react('preamplify','13cycle jointPCR;aptamer-specificprimers1:20 relative tosmartPCRprimer',S.PCR,((copied,R.TEMPLATE),(primer,R.STRUCTURAL),(smart,R.STRUCTURAL),(polymerase,R.CATALYST),(nucleotides,R.STRUCTURAL)),(product,),geometry=PCRGeometry.unavailable(Scene(),reason='Source13cycle mixed-library PCR and primerclasses are known; whole barcoded RNA/aptamer copy products and primer landings remain unassembled.'))
     x=op('nextera',product,'Source Nextera tagmentation ofmixedamplifiedsample;transcripts~500bp,sourceexpectsrare aptameraction because short','Historical Nextera reagents;no perfect aptamer exclusion asserted')
     x=op('downstream',x,'Continue source-referenced Drop-seq library processing;exact later recipe unreviewed','Historical referenced Drop-seq indexing/cleanup components')
     end(g,x,'Published MiSeqReagentKitv3 paired-end;aptamersandtranscripts sequencedjointly,computationallyseparated. Exactindex/runlength/readprimerlandingsunassembled.')
@@ -97,4 +108,7 @@ def selftest():
     if p.exists():
         t=p.read_text();c('Published TD05core andNextera-tailedprimer',TD05_CORE in t and APT_EXTENSION+APT_HANDLE in t,True);c('Mixed-sugarTSOnotation',SMART+'GAATrGrGrG' in t,True)
     else:c.skip('PublishedSI transcription','Externaloriginalabsent')
+    bead_input=next(p.material for p in g.steps['copy'].inputs if p.role is R.STRUCTURAL)
+    c('Copying consumes retained bead component rather than a second stock addition',(bead_input in g.steps['capture'].outputs,g.steps['capture'].inputs[1].material in g.steps['encapsulate'].outputs),(True,True))
+    c('DNA/RNA compound copying is not falsely pure RNA RT',g.steps['copy'].kind,S.MAGIC)
     c.report()

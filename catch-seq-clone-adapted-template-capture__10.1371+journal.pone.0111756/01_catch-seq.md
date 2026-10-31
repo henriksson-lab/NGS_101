@@ -27,3 +27,8 @@ Mandatory available-bundle scraper returned4hits/2representations of the main, w
 Methods prescribes40-foldCot-1, while the repeat-blocking Results describes a typically20:1 ratio and a2.5–20fold series. The model selects the Methods reference recipe and preserves both scopes without declaring an error or silently replacing40with20. PCRcycle range, sample DNA mass and historical stock doses remain ranges/unassigned study values. Targeted capture is not perfect purity; DNA/RNA/off-target and workup fractions stay explicit.
 
 Canonical sample adapters, exact T7F identity, full allele/BAC/transcript sequences, reagent kit historical formulations, unassigned barcode/index acquisition and complete occupied products need further source work. The source explicitly credits Dexheimer's inline adapter design/software but does not identify an inspected standalone oligo document in this pass. Desired component specifications are open questions, not fabricated unavailable documents. Ordinary linked predecessors/vendor originals remain unread; no recipe is inherited from similarity.
+
+
+## Public preparation page
+
+The public page displays the source-defined preparation, known local oligos/duplexes, read setup, unresolved molecular boundaries and all material fates. Analytical fractions have the QC material type. A curator-written inventory covers external inputs and operations; repetition is parameterized only by the source-defined sample/IVT counts, without scanning the graph to manufacture coverage. Passing this workflow gate does not establish the unassembled molecular transitions or complete source review.

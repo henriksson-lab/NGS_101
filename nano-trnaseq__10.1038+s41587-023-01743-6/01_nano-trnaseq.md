@@ -36,3 +36,9 @@ Cropped RTA paired-stem fragments only; divergent arms and poly(T) tail are omit
 ```
 {{scene: chem.rta_core_scene()}}
 ```
+
+## Source-qualified public preparation page
+
+The page now publishes the selected commercial total yeast tRNA route, with a curator-written literal inventory linking the source-supported stages to the model. The two existing SourceItems describe the selected branch and computational-setting difference; neither was a broad missing-library obligation. Both remain declared and covered. Whole occupied tRNAs, ligation junctions, RMX/motor and modified-base read behavior remain unassembled, without an absence claim. The complete workflow and unresolved chemistry remain visible in a collapsed section.
+
+Analytical TapeStation/Qubit allocations are typed as QC. Used and remaining padding/RTA stocks retain the same known source oligos and modifications. The three source RNasin contributions (1 µl padding anneal, 1 µl padding ligation, 0.5 µl RTA ligation) are explicit molecular inputs. The residue parser remains unchanged: terminal `rN` is one RNA residue, making RNA5 entirely RNA; it is not a molecular identifier. Source main250 versus Extended Data Fig4caption300 read-classification settings are disclosed on the page. No inferred occupied tRNA or example genome sequence is drawn.

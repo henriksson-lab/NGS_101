@@ -7,7 +7,7 @@ Science 359:343–347.
 ## Source scope
 
 Initial bounded reading, 2026-10-21; a limited construction graph is now implemented below.
-Read the defining article's published-version author manuscript, PMC6261299,
+Historical first pass read the associated author manuscript, PMC6261299,
 own DOI verified: abstract and main-text assembly description, local JATS text
 lines 36–50; source/code statement at line 72 and supplementary inventory.
 This entry concerns the original 2018 method, not DropSynth 2.0.
@@ -61,9 +61,7 @@ product before assembly.
 ## Original figure and repository follow-up, 2026-10-21
 
 Retrieved the university-hosted published PDF `Plesa_Kosuri_2018.pdf`; verified
-title, authors, Science359:343–347, year2018 and own DOI. It is the same defining
-article as the cached published-version author manuscript, not a newer DropSynth
-method. Read the initial assembly description and inspected original Figure1A–D
+title, authors, Science359:343–347, year2018 and own DOI. It is the final defining article; the cached PMC XML is an associated author manuscript. No complete final/manuscript equivalence is asserted. Read the initial assembly description and inspected original Figure1A–D
 from PDF page2 using a temporary `pdftoppm` rendering.
 
 🟢 Figure1A separates array oligo amplification/nicking, selective bead pulldown,
@@ -200,3 +198,34 @@ reconstruct the anchor from its two source tokens, compare the ligation/common a
 and verify the12-mer reverse-complement notation and modifications. This is not an
 exemption from source transcription verification or a missing-information claim.
 Local suite now has12 checks; target-specific assembly and sequencing/QC remain deferred.
+
+
+## Public construction example, 2026-10-30
+
+The current public view is a **construction example**, with invented A/B labels for
+two schematic four-fragment groups. It is not an experimental clone reconstruction.
+The output is an intended expression-plasmid class; exact genes, overlap and cleavage
+coordinates, primer bodies, vector map and cloning junctions remain unassembled.
+The source sequencing and functional-assay branches are outside this view.
+
+Active evidence is the supplied printed final Science article `science.aao5167.pdf`,
+assembly description and Figure 1A–D (actual p2 inspected), plus the published SI
+`aao5167-plesa-sm.pdf`, generic protocol pp3–4 and original Table S6 p52. The PMC
+XML header identifies an associated author manuscript: its identity was checked,
+but it does not establish final-version equivalence. This pass used three originals.
+
+🟢 The final article distinguishes the shared twelve-base bead capture barcode from
+the later random twenty-base clone barcode. Table S6 provides the complete common
+bead oligos and their end modifications; the anchor is wrapped across table lines.
+🟢 SI p4 mixes BSA, KAPA2G Robust Mastermix, twenty-mer assembly primers and BtsI
+with captured beads before emulsification. The graph now includes BSA in that mixture
+and exposes catalyst, nucleotide and buffer components from the same actual named
+Mastermix. These are inventory views, not separate fresh additions; quantitative
+allocations among the illustrative droplets remain unassigned.
+
+🟡 Intended assembled products and recipient arrangement remain inferred by default.
+The common-arm pairing is an exact local check; unknown capture-barcode values do
+not establish specificity, occupancy, enrichment, assembly correctness or yield.
+The complete workflow displays unresolved claims rather than hiding them. Earlier
+notes-only/source-retrieval statements above describe historical passes. No absence
+claim or complete two-reader linked-source review is asserted.

@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,revcomp
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 SOURCE='Khoddami et al.2019 DOI10.1073/pnas.1817334116; published main/SI Methodspp3–6/9–11; linked correction10.1073/pnas.1905628116 CONTENTS UNREAD, applicability provisional'
@@ -60,16 +60,40 @@ def graph_for_sample(fraction='polyA',bs=True):
         g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(reagent,R.SELECTION)),(out,waste));g.discard(waste,'Actual physical purification fractions');scope.extend([key+'_reagent',key]);return out
     if bs:
         formamide=g.input('formamide_heat','45µlRNA+240µlformamide,95°C5min then ice',K.CONDITION)
+        formamide=g.input('formamide','Actual240µldeionizedformamide molecular contribution',K.MOLECULAR)
         den=g.product('denatured','Source denatured RNA; refolding/survival fractions unassigned',K.MOLECULAR)
-        g.react('denature','Source RNA denaturation before BS',S.THERMAL_TREATMENT,((prior,R.TEMPLATE),(formamide,R.CONDITION)),(den,));scope+=['formamide_heat','denature']
+        g.react('denature','Source RNA denaturation before BS',S.THERMAL_TREATMENT,((prior,R.TEMPLATE),(formamide,R.STRUCTURAL),(g.materials['formamide_heat'],R.CONDITION)),(den,));scope+=['formamide_heat','formamide','denature']
         bisulfite=g.input('bisulfite','312µl5Mbisulfite stock+3µl100mMhydroquinone,600µltotal;50°C16h',K.CONDITION)
+        bs_reagent=g.input('bs_reagent','Actual312µlfresh5Msodiumbisulfite stock,pH5',K.MOLECULAR)
+        hydroquinone=g.input('hydroquinone','Actual3µl100mMhydroquinone',K.MOLECULAR)
         changed=g.product('bs_reaction','RNA and reaction products; sulfonated/deaminated/adduct intermediates and survival fractions unresolved',K.MOLECULAR)
-        g.react('bs_treat','Source BS reaction; no physical RNA deletion assigned',S.CHEMICAL_CONVERSION,((den,R.TEMPLATE),(bisulfite,R.CONDITION)),(changed,));scope+=['bisulfite','bs_treat']
+        g.react('bs_treat','Source BS reaction; no physical RNA deletion assigned',S.CHEMICAL_CONVERSION,((den,R.TEMPLATE),(bisulfite,R.CONDITION),(bs_reagent,R.STRUCTURAL),(hydroquinone,R.STRUCTURAL)),(changed,));scope+=['bisulfite','bs_reagent','hydroquinone','bs_treat']
         prior=clean('nap10',changed,'NAP-10-recovered RNA population','Source equilibrated NAP-10 column and water elution')
-        tris=g.input('tris','Mix0.5mlsample+0.5ml2MTris-stock pH9;37°C2h',K.CONDITION)
-        des=g.product('desulfonated','Selected surviving RNA C→U,m5Cretained,m1A→m6A,PsiBS classes; RNA backbone remains, rates/unreacted products unassigned',K.MOLECULAR)
-        g.react('desulfonate','Source complete BS/desulfonation workflow; exact site reaction timing not overassigned',S.CHEMICAL_CONVERSION,((prior,R.TEMPLATE),(tris,R.CONDITION)),(des,));scope+=['tris','desulfonate']
-        prior=clean('ethanol_recovery',des,'Ethanol-recovered source RNA','Source sodiumacetate/GlycoBlue/ethanol;≥30min−80°C, pellet and70%ethanol wash')
+        portions=tuple(g.product('des_portion_'+str(i),'Actual0.5mlportion of1mlNAP10eluate for separate desulfonation',K.MOLECULAR)for i in range(2))
+        g.react('des_allocate','Actual1ml eluate splits into two0.5ml tubes BEFORE desulfonation',S.SPLIT,((prior,R.TEMPLATE),),portions)
+        recovered=[]
+        for i,portion in enumerate(portions):
+            k='tube_'+str(i)
+            tris=g.input(k+'_tris','Actual0.5ml2MTris pH9 stock added to this0.5mlRNA portion',K.MOLECULAR)
+            conditions=g.input(k+'_condition','Actual37°C2h desulfonation',K.CONDITION)
+            ds=g.product(k+'_desulfonated','Source surviving RNA C→U,m5Cretained,m1A→m6A,ΨBS selected classes; actual rates/residuals unassigned',K.MOLECULAR)
+            g.react(k+'_desulfonate','Actual independent desulfonation tube',S.CHEMICAL_CONVERSION,((portion,R.TEMPLATE),(tris,R.STRUCTURAL),(conditions,R.CONDITION)),(ds,))
+            acetate=g.input(k+'_acetate','Actual111µl3Msodiumacetate pH5.5',K.MOLECULAR)
+            glycoblue=g.input(k+'_glycoblue','Actual20µl15mg/mlGlycoBlue carrier',K.MOLECULAR)
+            mix=g.product(k+'_mix','Actual1mlRNA/Tris+111µlacetate+20µlGlycoBlue preparation',K.MOLECULAR)
+            g.react(k+'_mix_prepare','Actual precipitation reagents added before three-way split',S.GENERIC,((ds,R.TEMPLATE),(acetate,R.STRUCTURAL),(glycoblue,R.STRUCTURAL)),(mix,),changes_molecule=False)
+            precip=tuple(g.product(k+'_part_'+str(j),'Actual377µlprecipitation portion, not a cloned reaction product',K.MOLECULAR)for j in range(3))
+            g.react(k+'_split','Actual independent377µl portions; three tubes from each desulfonated preparation',S.SPLIT,((mix,R.TEMPLATE),),precip)
+            for j,part in enumerate(precip):
+                q=k+'_precip_'+str(j)
+                ethanol=g.input(q+'_ethanol','Actual950µlabsoluteethanol then1ml70%ethanolwash for this tube',K.MOLECULAR)
+                environment=g.input(q+'_condition','Actual≥30min−80°C;21,000g20min4°C;wash/airdry;resuspend10µlwater',K.CONDITION)
+                keep=g.product(q+'_kept','Actual10µl recoveredRNA from this independent precipitation tube',K.MOLECULAR)
+                waste=g.product(q+'_waste','Actual precipitation/washsupernatants from this tube',K.WASTE)
+                g.react(q,'Actual independent source precipitation and recovery',S.CLEANUP,((part,R.TEMPLATE),(ethanol,R.STRUCTURAL),(environment,R.CONDITION)),(keep,waste));g.discard(waste,'Actual removed precipitation/wash fractions');recovered.append(keep)
+        prior=g.product('ethanol_pooled','Actual six10µl recoveredRNA contributions pooled to60µl stock',K.MOLECULAR)
+        g.react('ethanol_pool','Pool actual six physically produced RNA fractions after recovery',S.POOL,tuple((x,R.TEMPLATE)for x in recovered),(prior,))
+        g.declare_reviewed_scope(TUBE_TARGETS,SOURCE)
     ap=g.input('antarctic_phosphatase','Source Antarctic phosphatase37°C30min,65°C5min',K.CATALYST)
     repaired=g.product('dephosphorylated','Source RNA after phosphatase/heat; exact end/site class fractions unassigned',K.MOLECULAR)
     g.react('repair3','Source end repair starts with phosphatase',S.DEPHOSPHORYLATION,((prior,R.TEMPLATE),(ap,R.CATALYST)),(repaired,));scope+=['antarctic_phosphatase','repair3']
@@ -99,6 +123,17 @@ def graph_for_sample(fraction='polyA',bs=True):
     g.add_source_item(SourceItem('unreviewed_library_geometry','Original historical full oligos, DatasetS10 and exact heat/Mg/copy/read geometry','Published main/SI and directly cited historical protocols'))
     return g
 
+# Independent curator inventory: actual two desulfonation and six precipitation source tubes.
+TUBE_TARGETS=tuple("""des_allocate des_portion_0 des_portion_1
+ tube_0_tris tube_0_condition tube_0_desulfonate tube_0_desulfonated tube_0_acetate tube_0_glycoblue tube_0_mix_prepare tube_0_mix tube_0_split tube_0_part_0 tube_0_part_1 tube_0_part_2
+ tube_1_tris tube_1_condition tube_1_desulfonate tube_1_desulfonated tube_1_acetate tube_1_glycoblue tube_1_mix_prepare tube_1_mix tube_1_split tube_1_part_0 tube_1_part_1 tube_1_part_2
+ tube_0_precip_0_ethanol tube_0_precip_0_condition tube_0_precip_0 tube_0_precip_0_kept tube_0_precip_0_waste
+ tube_0_precip_1_ethanol tube_0_precip_1_condition tube_0_precip_1 tube_0_precip_1_kept tube_0_precip_1_waste
+ tube_0_precip_2_ethanol tube_0_precip_2_condition tube_0_precip_2 tube_0_precip_2_kept tube_0_precip_2_waste
+ tube_1_precip_0_ethanol tube_1_precip_0_condition tube_1_precip_0 tube_1_precip_0_kept tube_1_precip_0_waste
+ tube_1_precip_1_ethanol tube_1_precip_1_condition tube_1_precip_1 tube_1_precip_1_kept tube_1_precip_1_waste
+ tube_1_precip_2_ethanol tube_1_precip_2_condition tube_1_precip_2 tube_1_precip_2_kept tube_1_precip_2_waste ethanol_pool ethanol_pooled""".split())
+
 def protocol_graph():return graph_for_sample()
 def selftest():
     from checks import Check
@@ -114,5 +149,12 @@ def selftest():
     except ValueError:bad=True
     c('native m1A copying outcome is not silently predicted',bad,True)
     c('explicit native m1A choice permits a selected mismatch',RNA(('m1A',)).copy_selected(native_m1a_choices={0:'C'}).reference_oriented,'G')
-    c.report()
+    g=protocol_graph()
+    c('Actual two RNA portions before desulfonation',tuple(g.steps['des_allocate'].outputs),('des_portion_0','des_portion_1'))
+    c('Six physically produced10µl fractions pooled',len(g.steps['ethanol_pool'].inputs),6)
+    c('Each pooled component has its own source precipitation producer',len({g.producer_of(x.material).id for x in g.steps['ethanol_pool'].inputs}),6)
+    c('Bisulfite is a molecular reactant',g.materials['bs_reagent'].kind,K.MOLECULAR)
+    c('Actual correction source item remains uncovered','unread_correction' in g.source_coverage,False)
+    c('Actual full geometry source item remains uncovered','unreviewed_library_geometry' in g.source_coverage,False)
+    c.report(exit_on_fail=True)
 if __name__=='__main__':selftest()

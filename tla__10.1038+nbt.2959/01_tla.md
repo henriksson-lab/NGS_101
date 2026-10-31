@@ -31,3 +31,13 @@ Molecular validation checks the graph's declared relations and source scope. It 
 ## Deferred source work
 
 The main Methods cites Simonis et al., Nature Genetics 38:1348–1354 (2006), reference 10, and Splinter et al., Methods 58:221–230 (2012), reference 37, for predecessor procedures. These have not been followed in this bounded pass and are not judged irrelevant. The manufacturer's library-preparation document cannot be selected until a particular kit is assigned; an unassigned kit is not an identified unavailable document. A complete linked-source inventory and independent second reading remain pending. No missing-information claim is accepted.
+
+## 2026-10-30 public generic-preparation review
+
+The bounded source pass reinspected the same published main Online Methods and published SI Fig1/generic tissue-culture protocol through PCR. The mandatory scraper returned 66 candidates; no unselected target primer was adopted. The page remains a generic source preparation with inferred molecular order, not an identified experiment or invented literal DNA.
+
+Distinct Roche ligase additions (20U at step24 and 100U at step44) replace reuse of one external enzyme supply. Diagnostic aliquots before/after primary digestion, after first ligation and after secondary digestion, plus a Qubit allocation, remain analytical. Optional failed-control repeats, including the source conditional fresh ATP addition, are outside this selected continuation. No success or complete conversion is asserted.
+
+The source PCR setup uses 800ng template in 200µl, then divides into eight25µl reactions and pools them. Component inventory views expose the contents of those same aliquots; they are not physical fractionation or new additions. The printed combined primer-set contribution is not counted twice as two full doses. Source dNTP and buffer contributions are explicit. Unknown kit processing stays a magic boundary, and loading leaves an unresolved remaining library stock. No adapter recipe, target-specific amplicon or read-cycle count is assigned.
+
+Seven focused checks, normal graph gate, build and pairing pass; 65 narrow claims remain unresolved, none contradictory. This is not a full linked-source/absence review.

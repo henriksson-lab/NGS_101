@@ -38,3 +38,8 @@ Component ancestry: the published main explicitly follows prior single-cell TCR 
 ## Validation
 
 Local source transcription and physical branch/state tests are recorded in the source-review JSON. No finished library or full source review is claimed.
+
+
+## Bounded publication follow-up (2026-10-30)
+
+Runtime graph-enumeration coverage is replaced with a literal selected factory/panel target list. The source250uMdNTPcontribution is present during reporter/template annealing and carried as the same produced component into later Klenow extension; the actual fresh1ulextension preparation supplies catalyst/buffer separately, without another dNTPaddition. EDTA remains a molecular quench, not physical purification. Actual IVTTtemplatePCR primer/enzyme/nucleotide/buffer functions are explicit; source73.3ulwater dilution, selected1ulDNA and selected2ulof20ulPURExpress preparation retain separate stock remainders. Source PCR/extension/RT/IVTT operations with unresolved whole geometry are honest compound molecular transformations, not chemistry-free Generic operations or inherited recipes. The panel contains actual.65ulown contribution, distinct other source panel members, actual400ulFBS/salmonDNA/D-biotin/EDTA/azide staining buffer and concentration; own stock remainder remains. Flowthrough phenotype preparation is retained with unresolved later fate, without invented storage/NGSendpoint. Solulink supplies have an explicit opaque molecular contribution. Source parent TCR/UVexchange/Solulink/fullgeometry obligations remain required/uncovered; concentrator preblock and later PCR full inventory still unassembled. No public promotion.

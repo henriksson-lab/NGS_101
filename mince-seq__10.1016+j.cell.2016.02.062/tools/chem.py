@@ -17,11 +17,11 @@ def mixture(*species):
         sc.strand('s' + str(n), list(parts), label=label)
     return sc
 
-def cleanup(g, ident, source, template, state):
+def cleanup(g, ident, source, template, state, supplies=()):
     reagent = g.input(ident + '_condition', source, K.CONDITION)
     out = g.product(ident, 'recovered source preparation', K.MOLECULAR, state=state)
     waste = g.product(ident + '_waste', 'physically separated workup fractions; exact molecular partition unquantified', K.WASTE)
-    g.react(ident + '_step', source, S.CLEANUP, ((template, R.TEMPLATE), (reagent, R.CONDITION)), (out, waste))
+    g.react(ident + '_step', source, S.CLEANUP, ((template, R.TEMPLATE), (reagent, R.CONDITION))+tuple(supplies), (out, waste))
     g.discard(waste, 'Actual source physical separation; no perfect recovery/depletion asserted.')
     return out
 
@@ -44,12 +44,12 @@ def render_page():
 
 def pop(label):
     return mixture(('source DNA',(role(label),)),('other physical material',(role('other original DNA/RNA/protein or reaction remnants; exact partition and recovery unquantified'),)))
-def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION,extra_inputs=()):
     reagent=g.input(key+'_stock',reagent_label,reagent_kind)
     product=g.product(key+'_product',label,K.MOLECULAR,state=out_state)
     kw={'reason':'Source operation known; exact molecular substrate/product relation and mixture fractions unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
     if kind is S.GENERIC:kw['changes_molecule']=False
-    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role)),(product,),**kw)
+    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role))+tuple(extra_inputs),(product,),**kw)
     return product
 
 
@@ -71,18 +71,27 @@ READOUT='Source input and streptavidin-enrichedDNA sequenced with fragment-captu
 PREVIEWS=(('EdUpulse capture and parallelinput','library_output'),)
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
-    x=g.input('cells','SourceS2 cellpreparation; no pooledcelltypes',K.MOLECULAR,state=pop('chromatinDNA/RNA/proteins and othercellmaterial'),primary=True)
-    x=op(g,'pulse','Source10µMEdU10min; rapid harvest/icePBS',S.MAGIC,x,pop('nascentEdU-bearingDNA and unlabelledDNA/cellmaterial; exactsites and fractions unassigned'),'sourceEdUmetabolicpulse;1h20µMthymidinechase separatecondition')
-    x=op(g,'fix','Source1%formaldehyde15min',S.CROSS_LINKING,x,pop('sourcecrosslinkedchromatin withEdU-bearingDNA and othermaterial'),'sourceformaldehyde')
-    x=op(g,'quench','Source250mMglycine5min',S.QUENCHING,x,x.state,'sourceglycine')
+    x=g.input('cells','SourceS2 cellpreparation; no pooledcelltypes',K.BIOLOGICAL,state=pop('chromatinDNA/RNA/proteins and othercellmaterial'),primary=True)
+    x=op(g,'pulse','Source10µMEdU10min; rapid harvest/icePBS',S.MAGIC,x,pop('nascentEdU-bearingDNA and unlabelledDNA/cellmaterial; exactsites and fractions unassigned'),'Actual EdU contribution10uM;1h20uMthymidinechase is a separate condition, not an extra stock here',K.MOLECULAR,R.STRUCTURAL)
+    fixation=g.input('fix_programme','Source fixation15min',K.CONDITION)
+    x=op(g,'fix','Source1%formaldehyde15min',S.CROSS_LINKING,x,pop('sourcecrosslinkedchromatin withEdU-bearingDNA and othermaterial'),'Actual source formaldehyde contribution1percent',K.MOLECULAR,R.STRUCTURAL,extra_inputs=((fixation,R.CONDITION),))
+    quenching=g.input('quench_programme','Source quench5min',K.CONDITION)
+    x=op(g,'quench','Source250mMglycine5min',S.QUENCHING,x,x.state,'Actual source glycine contribution250mM',K.MOLECULAR,R.STRUCTURAL,extra_inputs=((quenching,R.CONDITION),))
     x=cleanup(g,'fixed_wash','Source3PBSwashes',x,x.state)
-    x=op(g,'permeabilize','Source0.25%Triton/PBS30minRT',S.MAGIC,x,x.state,'sourceTriton')
-    x=cleanup(g,'bsa_wash','Source0.5%BSA/PBSwash/PBSresuspension',x,x.state)
-    x=op(g,'click','Source100µMbiotinTEGazide→10mMascorbate→2mMCuSO4,1hRT',S.CHEMICAL_CONVERSION,x,pop('covalentlyclickedbiotin-EdUDNA and unclicked/unlabelledDNA/proteins/RNA/reagents'),'sourceclickmixture; biotinisaffinitytagnotsequencingidentifier')
+    x=op(g,'permeabilize','Source0.25%Triton/PBS30minRT',S.MAGIC,x,x.state,'Actual source TritonX100 contribution0.25percent',K.MOLECULAR,R.STRUCTURAL)
+    bsa=g.input('bsa','Actual BSA protein contribution in source0.5percentBSA/PBS wash; residual carryover unassigned',K.MOLECULAR)
+    x=cleanup(g,'bsa_wash','Source0.5%BSA/PBSwash/PBSresuspension',x,x.state,supplies=((bsa,R.STRUCTURAL),))
+    tag=g.input('click_tag','Actual source biotinTEGazide first addition100uM; chemical tag, not sequencing identifier',K.MOLECULAR)
+    reductant=g.input('click_ascorbate','Actual source sodiumascorbate second addition10mM',K.MOLECULAR)
+    copper=g.input('click_copper','Actual source CuSO4 third addition2mM',K.MOLECULAR)
+    clicktime=g.input('click_programme','Source1hroomtemperature incubation after ordered additions',K.CONDITION)
+    clicked=g.product('click_product','Source clicked preparation and reaction remnants',K.MOLECULAR,state=pop('covalentlyclickedbiotin-EdUDNA and unclicked/unlabelledDNA/proteins/RNA/reagents'))
+    g.react('click','Source ordered biotinTEGazide→ascorbate→CuSO4 additions,1hRT; no premix assumed',S.CHEMICAL_CONVERSION,((x,R.TEMPLATE),(tag,R.STRUCTURAL),(reductant,R.STRUCTURAL),(copper,R.STRUCTURAL),(clicktime,R.CONDITION)),(clicked,));x=clicked
     x=cleanup(g,'click_wash','Source3PBSwashes afterclick',x,x.state)
     x=op(g,'lysis','SourceSDS/EDTA/Trisice10min,10fold dilutionbuffer andBransonsonication40stotal30%power2.5son/5soff',S.MAGIC,x,x.state,'sourcecelllysis/dilution/sonication; no invariantfragmentends assumed')
     x=op(g,'mnase','Source37C5minprewarm thenMNase; dose/time titratedto di-/trinucleosomes',S.DIGESTION,x,pop('MNasefragmented protein-associatedbiotinDNA plusunlabelledDNA,cleavageremnants/RNA/proteins'),'sourceMNase',K.CATALYST,R.CATALYST)
-    x=op(g,'stop','Source2mMEGTA/0.9%SDS quench plusPK20µg/ml,65C12h crosslinkreversal/proteolysis',S.MAGIC,x,pop('DNA withcovalentclickedEdUbiotin pluspeptides/RNA/remnants; no physicaldebrisdisposal'),'sourceEGTA/SDS/proteinaseK/heat')
+    pk=g.input('stop_pk','Actual source proteinaseK20ug/ml contribution before65C12h',K.CATALYST)
+    x=op(g,'stop','Source2mMEGTA/0.9%SDS quench plusPK20µg/ml,65C12h crosslinkreversal/proteolysis',S.MAGIC,x,pop('DNA withcovalentclickedEdUbiotin pluspeptides/RNA/remnants; no physicaldebrisdisposal'),'Actual source EGTA/SDS contributions;65C12h programme; packaging unassigned',K.MOLECULAR,R.STRUCTURAL,extra_inputs=((pk,R.CATALYST),))
     x=cleanup(g,'organic_one','FirstsourcePCIextraction/aqueousrecovery',x,x.state)
     x=op(g,'rnase','SourceaqueousphaseRNaseA37C30min;RNAfragmentspersist',S.DIGESTION,x,pop('biotinDNA/unlabelledDNA,RNAcleavagefragments/otherremnants'),'sourceRNaseA',K.CATALYST,R.CATALYST)
     x=cleanup(g,'organic_two','SecondsourcePCIextraction',x,x.state)
@@ -107,6 +116,10 @@ def protocol_graph():
 def selftest():
     from checks import Check
     c=Check();g=protocol_graph()
+    c('BSA wash consumes actual protein contribution',g.steps['bsa_wash_step'].inputs[2].material,'bsa')
+    c('Click consumes three actual ordered additions, not a fictitious premix',tuple(i.material for i in g.steps['click'].inputs[1:4]),('click_tag','click_ascorbate','click_copper'))
+    c('Pre-extraction proteolysis consumes actual PK contribution',g.steps['stop'].inputs[2].material,'stop_pk')
+    c('Original detailed sequencing source stays uncovered','gated_si' in g.source_coverage,False)
     c('Sourceinputreservedbeforecapture',g.steps['capture'].inputs[0].material,'capture_input')
     c('Inputandpulldownareseparatesequencinglibraries',set(g.sequencing),{'library_input','library_output'})
     c('RNAcleavageprecedessecondphysicalextraction',g.steps['organic_two_step'].inputs[0].material,'rnase_product')

@@ -352,5 +352,14 @@
       "oligo_scraper": "Mandatoryfullcache scraper; RiboITP21MBMOESM7datatable skippedbymandatorysizelimit, actualadoptedoligosverifiedinoriginalworkbook.",
       "verification": "11 local checks pass after implementation review corrections; affected source guard/chemistry/schema/notes checks rerun. Not a second missing-information audit."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "batch": "24",
+    "result": "blocked_source_model_scope",
+    "scope": "Closed multi39 selected originals only; no acquisition or new source-original inspection during implementation. No absence audit or final-version equivalence claim.",
+    "findings": "The original `pending` item remains required and uncovered: online protocol, buffer Table6, relevant SI, historical D-Plex inventory/assembly and read geometry are still unreviewed. Published main and original MOESM9 scope stay separate from historical Reporting Summary identity-only scope. No public promotion or missing-information claim.",
+    "original_required_item": "pending; unchanged and uncovered",
+    "verification": "Affected focused suites/source guard/chemistry and review schema recorded in /tmp/unlinked-multi40.json."
+  }
 }

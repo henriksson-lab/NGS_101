@@ -23,3 +23,9 @@ Open targets: exact historical LSK109/E6050/M6630 assembly, published main appli
 ## Review limits
 
 Capped first source/model pass, not a missing-information audit. Mandatory full-bundle scraper was run; hits are source pointers, not facts or evidence of absence. Historical kit/whole-polymer/read geometry remains open. Graph/private preview has explicit unreviewedSourceItem and no finished marker. No accepted missing-information claim.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Associated Methods106 identifies BrdU, HU, pronase-mediated release and the thymidine chase as actual physical contributions. The graph now exposes BrdU/HU/pronase classes from an aggregate supply inventory, without asserting a prepared premix. Thymidine-containing chase culture is a molecular contribution; replication still continues during chase. E6050/M6630 remain an honest molecular repair-supply inventory with internal composition/order unassembled. Native library cleanup retains the known library material kind.
+
+The original unreviewed_assembly SourceItem remains uncovered. Exact historical kit/end/motor geometry and final-VOR applicability are unresolved. The current pass checked published TableS1 workbook sample_info header and the HU row18: t4HU(130min), LSK109,10percent nascent-DNA entry. That one reference sample does not establish every harvest schedule, Nanopore tab or actual study-library allocation, and is not automatically assigned as the graph's harvest time. Associated SI was not reopened or merged with published SI. No graph-generated source coverage, full-source equivalence or endpoint-only promotion is claimed.

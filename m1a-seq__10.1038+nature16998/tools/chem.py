@@ -34,6 +34,9 @@ class SelectedRNA:
             else:bases.append(comp[x])
         return ''.join(reversed(bases))
 
+COMMON_SCOPE=('rna','fragment_reagent','fragment','fragment_cleanup_reagent','fragment_cleanup','antibody_beads','ip','competitor','elute')
+REARRANGEMENT_SCOPE=('alkali','dimroth','alkaline_cleanup_reagent','alkaline_cleanup')
+
 def graph_for_branch(rearranged=True):
     g=ProtocolGraph('m1A-seq — published SI and associated AM-qualified route',authority=SOURCE,representation='published_instance')
     current=g.input('rna','Source total or polyA RNA alternative inputs, never an implicit physical pool',K.MOLECULAR,primary=True)
@@ -43,19 +46,20 @@ def graph_for_branch(rearranged=True):
     antibody=g.input('antibody_beads','Anti-m1A pre-coupled ProteinG Dynabeads,3h4°C',K.SELECTION)
     bound=g.product('bound','Selected bead-associated m1A RNA and possible background',K.MOLECULAR);flow=g.product('ip_flow','Separated unbound RNA/fractions; recovery unquantified',K.WASTE)
     g.react('ip','Source m1A immunoprecipitation',S.AFFINITY_CAPTURE,((current,R.TEMPLATE),(antibody,R.SELECTION)),(bound,flow));g.discard(flow,'Selected IP branch, not the separate stoichiometry microarray experiment.')
-    competitor=g.input('competitor','Source free m1A mononucleoside competitive elution alternative; not covalent conversion of RNA',K.CONDITION)
+    competitor=g.input('competitor','Source free m1A mononucleoside molecular competitor; dose/packagingunassigned, notcovalentRNAconversion',K.MOLECULAR)
     out=g.product('eluted','Competitively eluted RNA plus possible m1A competitor/carryover',K.MOLECULAR)
     residual=g.product('residual_beads','Residual beads, possibly retained RNA and reagent background; partition unassembled',K.MOLECULAR)
-    g.react('elute','Published SI Note2 competitive elution branch; PK/TRIzol alternative not merged',S.MAGIC,((bound,R.TEMPLATE),(competitor,R.CONDITION)),(out,residual),reason='Exact molecular binding and separation geometry not assembled.');current=out
+    g.react('elute','Published SI Note2 competitive elution branch; PK/TRIzol alternative not merged',S.MAGIC,((bound,R.TEMPLATE),(competitor,R.STRUCTURAL)),(out,residual),reason='Exact molecular binding and separation geometry not assembled.');current=out
     g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,'Residual bead material disposal/recovery unassembled.'))
     if rearranged:
         alkali=g.input('alkali','Associated AM50mMNa2CO3/2mMEDTApH10.4,1h at source50°C or60°C alternatives; no single temperature chosen',K.CONDITION)
         out=g.product('rearranged','Selected partial m1A→m6A RNA rearrangement population; RNA residues retained, no assumption complete conversion',K.MOLECULAR)
         g.react('dimroth','Published SI Note2 alkaline rearrangement after IP before RT',S.CHEMICAL_CONVERSION,((current,R.TEMPLATE),(alkali,R.CONDITION)),(out,));current=clean(g,'alkaline_cleanup',out,'RNA Clean&Concentrator after rearrangement')
-    kit=g.input('kit','Historical NEBNext Ultra RNA Library Prep for Illumina; exact edition/oligos/strand processing unreviewed',K.CONDITION)
+    kit=g.input('kit','Actual historicalNEBNextUltra RNA library molecularsupplies; exactedition/oligos/strandprocessing/stockpackagingunreviewed',K.MOLECULAR)
     library=g.product('library','Source library population; full DNA polymers/read sites/indices unassembled',K.LIBRARY)
-    g.react('library_prep','Associated AM source first-strand/library kit handoff',S.MAGIC,((current,R.TEMPLATE),(kit,R.CONDITION)),(library,),reason='Named historical kit operation, full source edition and internal transitions unreviewed; no borrowed recipe.')
+    g.react('library_prep','Associated AM source first-strand/library kit handoff',S.MAGIC,((current,R.TEMPLATE),(kit,R.STRUCTURAL)),(library,),reason='Named historical kit operation, full source edition and internal transitions unreviewed; no borrowed recipe.')
     g.sequence(library,SequencingPlan(acquired_roles=('Read 1',),limitation='Associated AM HiSeq2500/TruSeqSRv3; cycles, full primer/index geometry and final-VOR applicability unverified.'))
+    g.declare_reviewed_scope(COMMON_SCOPE+(REARRANGEMENT_SCOPE if rearranged else ()),SOURCE)
     g.add_source_item(SourceItem('pending_historical_kit','Historical NEBNext Ultra kit and complete adapter/read geometry','Associated AM Methods160; published SI Note2'))
     g.add_source_item(SourceItem('pending_vor','Final published Methods applicability','https://doi.org/10.1038/nature16998'))
     return g
@@ -70,5 +74,5 @@ def selftest():
     except ValueError:bad=True
     c('native m1A copying choice remains explicit',bad,True)
     c('partial rearrangement does not mutate untreated RNA',x.residues,('C','m1A','G','U'))
-    c('both source comparison graphs retain publication boundaries',all(graph_for_branch(v).publication_problems() for v in (False,True)),True);c.report()
+    c('both source comparison graphs retain publication boundaries',all(graph_for_branch(v).publication_problems() for v in (False,True)),True);c('Competitiveelution usesmolecular freecompetitor',graph_for_branch().materials['competitor'].kind,K.MOLECULAR);c.report()
 if __name__=='__main__':selftest()

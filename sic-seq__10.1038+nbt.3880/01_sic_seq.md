@@ -59,3 +59,13 @@ Deferred: rendered supplement figures, directly cited barcoding/retention
 originals, historical kit design, exact splicing/product/read geometry, other
 sample branches and independent review. No sequence or reaction is confirmed
 absent. Status remains notes.
+
+## 2026-10-30 public synthetic-community preparation review
+
+The closed two-original pass uses the associated manuscript for Results/workflow, synthetic-community validation and selected Methods, and the corrected publisher SI only for identity/correction notice and Supplementary Fig1 caption. The cell-encapsulation Methods paragraph was partly truncated in the reading output; the aggregate initial encapsulation/cooling/oil-to-aqueous transfer comes from the inspected Results. No uninspected detailed settings or whole-VOR equivalence are claimed. The mandatory bundle scrape returned 10 candidates and the five displayed oligos were checked directly in main text.
+
+The graph exposes source stock and droplet provenance: named Phusion/Platinum/Nextera supplies are molecular preparations with copresent contributing components; component views do not mean physical fractionation or fresh extra doses. Later FL129 is a separate actual addition, not reuse of consumed barcode-factory input. Factory droplet preparation and physical gel/barcode/PCR merger precede chemical barcoding. Genomic gel retention remains qualitative; the old arbitrary 40-base placeholder is replaced by an unknown-length role. Coalesced-droplet removal, analytical aliquots and actual loading/remainder stay separate from computational filtering.
+
+The source reports single-end 150-base MiSeq reads for the synthetic community. The 15-base molecular cell barcode is neither a UMI nor a sample index and does not assign index cycles. Whole occupied libraries, genomic coordinates, kit end chemistry, droplet occupancy/clonality, yield and quantitative retention remain unknown. Eleven source/provenance checks, normal graph gate, build, source guard and pairing pass; this is not a full independent or absence review.
+
+The barcode microscopy branch is an analytical observation reference, not an asserted physical aliquot: the inspected text does not establish its sampling geometry or whether continuing production droplets contacted stain. Those exposures remain unassigned. Bioanalyzer contribution volume is also unassigned. Clonality is a source design intention, not a predicted property of every droplet.

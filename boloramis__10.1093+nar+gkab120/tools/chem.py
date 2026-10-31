@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from chemdraw import Scene,Segment,Construct,revcomp,feature
 from circular import circularize_ssdna,rolling_circle,CircularizationGeometry
 from adapter_ligation import AdapterLigationGeometry
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition,MolecularRelation as MR
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition,SourceCoverage,MolecularRelation as MR
 AUTHORITY='Published2021PMC8191787 main181/227/237/239, originalSupplementaryTablesFinal workbookS1/S3 and SI FigS8actualPDFp12. SelectedACTN1A1 component withinactual96mRNA/77miRNA multiplexexperiment; otherpoolmembers copresent/unexpanded, not a fabricated singleplex.'
 SOURCE_PROBE='/5Phos/AGGTCTGGACAATCTTGGcttcATTAAATCGGTGGCGCGGGCTCTgcaacttcACGTGGT'
 ANCHOR='ATTAAATCGGTGGCGCGGGCTCT'
@@ -66,6 +66,15 @@ class B:
         y=self.g.product(k+'_kept','Actualretainedin-situ preparation; quantitativecarryoverunassigned',K.MOLECULAR,state=state,chemical_state=chemical);w=self.g.product(k+'_removed','Actualremovedwashfraction',K.WASTE)
         self.g.react(k,label,S.CLEANUP,((self.x,R.TEMPLATE),self.cond(k+'_conditions',label))+tuple(extra),(y,w));self.g.discard(w,'Sourcewashfractionremoved; no perfect molecular selectivity assertion.');self.x=y
 
+
+# Curator-reviewed fixed inventories follow source main181/237/239, S3 and S8; never graph reflection.
+PREPARATION_SCOPE = ('source', 'fix', 'pfa', 'fix_conditions', 'pbs', 'pbs_conditions', 'permeabilize', 'permeabilization', 'exact_padlock', 'rca_primer', 'mirna_rca_primer', 'other_probes', 'hybridize', 'hyb_buffer', 'hyb_wash', 'hyb_wash_conditions', 'bound_inventory', 'circle', 'splintr', 'splintr_buffer', 'postlig_wash', 'postlig_wash_conditions', 'rca_mix', 'rca_mix_parts', 'rca', 'rca_wash', 'rca_wash_conditions', 'mes', 'mes_conditions', 'anchor_fix', 'bspeg9', 'initial_fix_mix', 'borate', 'borate_stock', 'quench', 'tris', 'fixed_pbs', 'fixed_pbs_conditions', 'readout', 'library')
+SEQUENCING_SCOPE = ('cycle1_anchor', 'cycle1plus', 'cycle1minus', 'cycle1_mirna_plus', 'cycle1_mirna_minus', 'cycle1_hyb', 'cycle1_wash', 'cycle1_wash_conditions', 'cycle1_ligation_supplies', 'cycle1_mix_parts', 'cycle1_ligate', 'cycle1_postwash', 'cycle1_postwash_conditions', 'cycle1_image', 'cycle1_strip', 'cycle1_strip_buffer', 'cycle1_rinse', 'cycle1_rinse_conditions', 'cycle2_anchor', 'cycle2plus', 'cycle2minus', 'cycle2_mirna_plus', 'cycle2_mirna_minus', 'cycle2_hyb', 'cycle2_wash', 'cycle2_wash_conditions', 'cycle2_ligation_supplies', 'cycle2_mix_parts', 'cycle2_ligate', 'cycle2_postwash', 'cycle2_postwash_conditions', 'cycle2_image', 'cycle2_strip', 'cycle2_strip_buffer', 'cycle2_rinse', 'cycle2_rinse_conditions', 'cycle3_anchor', 'cycle3plus', 'cycle3minus', 'cycle3_mirna_plus', 'cycle3_mirna_minus', 'cycle3_hyb', 'cycle3_wash', 'cycle3_wash_conditions', 'cycle3_ligation_supplies', 'cycle3_mix_parts', 'cycle3_ligate', 'cycle3_postwash', 'cycle3_postwash_conditions', 'cycle3_image', 'cycle3_strip', 'cycle3_strip_buffer', 'cycle3_rinse', 'cycle3_rinse_conditions', 'cycle4_anchor', 'cycle4plus', 'cycle4minus', 'cycle4_mirna_plus', 'cycle4_mirna_minus', 'cycle4_hyb', 'cycle4_wash', 'cycle4_wash_conditions', 'cycle4_ligation_supplies', 'cycle4_mix_parts', 'cycle4_ligate', 'cycle4_postwash', 'cycle4_postwash_conditions', 'cycle4_image', 'cycle4_strip', 'cycle4_strip_buffer', 'cycle4_rinse', 'cycle4_rinse_conditions', 'cycle5_anchor', 'cycle5plus', 'cycle5minus', 'cycle5_mirna_plus', 'cycle5_mirna_minus', 'cycle5_hyb', 'cycle5_wash', 'cycle5_wash_conditions', 'cycle5_ligation_supplies', 'cycle5_mix_parts', 'cycle5_ligate', 'cycle5_postwash', 'cycle5_postwash_conditions', 'cycle5_image', 'cycle5_strip', 'cycle5_strip_buffer', 'cycle5_rinse', 'cycle5_rinse_conditions', 'cycle6_anchor', 'cycle6plus', 'cycle6minus', 'cycle6_mirna_plus', 'cycle6_mirna_minus', 'cycle6_hyb', 'cycle6_wash', 'cycle6_wash_conditions', 'cycle6_ligation_supplies', 'cycle6_mix_parts', 'cycle6_ligate', 'cycle6_postwash', 'cycle6_postwash_conditions', 'cycle6_image', 'cycle6_strip', 'cycle6_strip_buffer', 'cycle6_rinse', 'cycle6_rinse_conditions', 'cycle7_anchor', 'cycle7plus', 'cycle7minus', 'cycle7_mirna_plus', 'cycle7_mirna_minus', 'cycle7_hyb', 'cycle7_wash', 'cycle7_wash_conditions', 'cycle7_ligation_supplies', 'cycle7_mix_parts', 'cycle7_ligate', 'cycle7_postwash', 'cycle7_postwash_conditions', 'cycle7_image', 'cycle7_strip', 'cycle7_strip_buffer', 'cycle7_rinse', 'cycle7_rinse_conditions', 'cycle8_anchor', 'cycle8plus', 'cycle8minus', 'cycle8_mirna_plus', 'cycle8_mirna_minus', 'cycle8_hyb', 'cycle8_wash', 'cycle8_wash_conditions', 'cycle8_ligation_supplies', 'cycle8_mix_parts', 'cycle8_ligate', 'cycle8_postwash', 'cycle8_postwash_conditions', 'cycle8_image')
+def reviewed_inventory(g):
+    g.declare_reviewed_scope(PREPARATION_SCOPE,'PublishedPMC8191787main181/227/237; originalSupplementaryTableS3C3/C4/C6–C9/C12 andactualFigS8p12. Actualmultiplexpoolretained; selectedACTN1perfectRNAalignmentderived/inferred, notgenomic-verified. Wholeotherpoolmembersavailable/unexpanded.')
+    g.declare_reviewed_scope(SEQUENCING_SCOPE,'Publishedmain239 andactualS8p12: eightactualanchor/nonamerligation/imagecycles; sevenbetween-roundstrip/rinses. BothmRNA/miRNAanchorssourceS3; fullnonamerpatterns/cycle-offsetnotassembled. No implicitkitinputs.')
+    g.cover_source_item(SourceCoverage('scope','modelled','library'))
+
 def protocol_graph():
     b=B();g=b.g
     b.op('fix','4percentPFA15min',S.CROSS_LINKING,(b.stock('pfa','Actualparaformaldehydecrosslinker'),b.cond('fix_conditions','Source4percentPFA15min')))
@@ -82,10 +91,10 @@ def protocol_graph():
     prim=g.product('retained_primer','SamepriorhybridizationRCAprimer component, notfresholigoaddition',K.OLIGO,state=strand(RCA_PRIMER,'RCAprimer'))
     proteins=g.product('retained_proteins','Samein-situ surroundingproteincomponent retainedfromoriginalcells for sourceAA-dU/BSPEG9anchoring, notafreshproteinaddition',K.MOLECULAR)
     others=g.product('retained_other_probes','Sameotherretainedpanelprobeclasses pluscopresentmiRNARCAprimer; unexpandedmolecularassemblies',K.MOLECULAR)
-    g.react('bound_inventory','Copresentin-situ components, notphysicalfractionation',S.GENERIC,((b.x,R.TEMPLATE),),(ctx,retained,prim,others,proteins),changes_molecule=False)
+    g.react('bound_inventory','INFERRED — RNA-match view within actual copresent in-situ components; not physical fractionation',S.GENERIC,((b.x,R.TEMPLATE),),(ctx,retained,prim,others,proteins),changes_molecule=False)
     circ=g.product('selected_circle','SelectedsuccessfulACTN1padlockcircleclass; notallinputprobesconverted',K.MOLECULAR,chemical_state=circle())
     off=g.product('ligation_offproducts','Remaining/unligated/off-targetsourceclasses; amountunassigned',K.MOLECULAR)
-    g.react('circle','SplintR210nM1:50in1xbuffer,1hRT; directRNA-splintedDNAclosure(noRT)',S.CIRCULARIZATION,((ctx,R.TEMPLATE),(retained,R.TEMPLATE),b.stock('splintr','ActualSplintRligase210nM',K.CATALYST,R.CATALYST),b.cond('splintr_buffer','Actual1xSplintRbuffer')),(circ,off),geometry=CircularizationGeometry.known('splinted single-strand ligation',statement='Source5P60ntpadlock closesonRNA. Localperfectmatch25ntRNAisderived/inferred; enzymeyield/specificity andactualoccupiedRNAunassembled.'),relations=(MR.CIRCLE_CLOSURE,))
+    g.react('circle','INFERRED — RNA-splint match example; source SplintR210nM1:50/1hRT directRNA-splintedDNAclosure(noRT)',S.CIRCULARIZATION,((ctx,R.TEMPLATE),(retained,R.TEMPLATE),b.stock('splintr','ActualSplintRligase210nM',K.CATALYST,R.CATALYST),b.cond('splintr_buffer','Actual1xSplintRbuffer')),(circ,off),geometry=CircularizationGeometry.known('splinted single-strand ligation',statement='Source5P60ntpadlock closesonRNA. Localperfectmatch25ntRNAisderived/inferred; enzymeyield/specificity andactualoccupiedRNAunassembled.'),relations=(MR.CIRCLE_CLOSURE,))
     g.mark_terminal(Terminal(off.id,Disposition.UNRESOLVED,'Actualunligated/offtargetclasses outside selectedsuccessfulcomponent; subsequentwashremovalnotassumedquantitative.'));b.x=circ
     b.wash('postlig_wash','Threehybridizationbuffer rinses removeunligatedproductsandenzyme',chemical=circle())
     mix=g.input('rca_mix','ONEactualsourceRCAmix in1xPhi29buffer',K.MOLECULAR)
@@ -118,6 +127,7 @@ def protocol_graph():
     lib=g.product('library','ActualfixedBOLORAMISsample readbyeightin-situSBLrounds; completefluorescentligatedstatesunassembled',K.LIBRARY)
     g.react('readout','Sourceeightcycleopticalsequencingendpoint',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(read_lengths={'in_situ_barcode':8},limitation='Source8roundsnonamerSBL ±direction/figureS8. Exactcycle-anchoroffset/dye-to-template-to-reportedbase mapping/readmasknotinferredfromrawprobeDNA; codetargetidentitynotUMI. In-situphysicalsample, notIllumina loadinglibrary.'))
     g.add_source_item(SourceItem('scope',AUTHORITY,'Source-knownmoleculeinterfaces/circlebackbone/RCAcopycheckedlocally; targetRNAperfectmatchinferred, wholesample/aa-dUplacement/BSPEG9adductstoichiometry/sequencingjunctions remainunassembled.'))
+    reviewed_inventory(g)
     return g
 
 def selftest():
@@ -148,5 +158,27 @@ def selftest():
             ss=[''.join(x.itertext())for x in E.fromstring(z.read('xl/sharedStrings.xml')).findall('m:si',ns)];rows=E.fromstring(z.read('xl/worksheets/sheet3.xml')).findall('m:sheetData/m:row',ns);cells={cell.attrib['r']:ss[int(cell.find('m:v',ns).text)]for r in rows for cell in r.findall('m:c',ns)if cell.attrib.get('t')=='s'}
             for label,got,cell in [('WholepadlockoriginalA1',SOURCE_PROBE,'C12'),('WholeRCAprimeroriginal',RCA_PRIMER,'C3'),('Wholeplusanchororiginal',ANCHOR,'C6'),('Wholeminusanchor5Poriginal','/5Phos/'+ANCHOR,'C7'),('WholemiRNARCAoriginal',MIRNA_RCA,'C4'),('WholemiRNAplusanchororiginal',MIRNA_ANCHOR,'C8'),('WholemiRNAminusanchororiginal','/5Phos/'+MIRNA_ANCHOR,'C9')]:c(label,got,cells[cell])
     c('Endpointretainsprimarybiologicalprovenance',any('lacks primary-template provenance' in x for x in g.publication_problems()),False)
-    c('Privateincompletegraph',bool(g.publication_problems()),True);c.report()
+    c('Source-mappedpublicationinventory',g.publication_problems(),[])
+    g.input('unreviewed_added_stock','Regression-only unreviewed input',K.CONDITION)
+    c('Unreviewedadditioncannotautopublish',any('unreviewed_added_stock' in p and 'source-inventory' in p for p in g.publication_problems()),True);c.report()
+
+PAGE_FILE = 'boloramis.html'
+def render_page():
+    from page import head,info
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,OligoSection,OligoEntry,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    entries=[OligoEntry('ACTN1 A1 padlock',tuple(probe()),mods='5′ phosphate'),OligoEntry('mRNA RCA primer',(Segment('RCA primer',RCA_PRIMER),)),OligoEntry('mRNA sequencing anchor +',(Segment('anchor',ANCHOR),)),OligoEntry('mRNA sequencing anchor −',(Segment('anchor',ANCHOR),),mods='5′ phosphate'),OligoEntry('miRNA RCA primer',(Segment('RCA primer',MIRNA_RCA),)),OligoEntry('miRNA sequencing anchor +',(Segment('anchor',MIRNA_ANCHOR),)),OligoEntry('miRNA sequencing anchor −',(Segment('anchor',MIRNA_ANCHOR),),mods='5′ phosphate')]
+    return assemble_page(g,[head('BOLORAMIS — RNA-splinted padlocks'),'<div class="wrap" data-protocol-complete="true"><h1>BOLORAMIS</h1>',
+      '<p>Identify RNA targets directly in fixed cells using barcoded DNA padlocks. SplintR closes probes on RNA without reverse transcription; Phi29 rolling-circle amplification produces localized copies for eight rounds of nonamer sequencing by ligation.</p>',
+      info('Sources: <a href="https://doi.org/10.1093/nar/gkab120">Liu et al., NAR 2021</a>, published main, Supplementary Tables and Figure S8. The actual multiplex experiment contains 957 mRNA probes and 77 miRNA probes. One ACTN1 probe is shown in detail; the other real pool members remain copresent and unexpanded in this model.'),
+      '<h2>Probe and barcode</h2><p>The selected 60-nt probe has an 18-nt arm, a copied 4-nt target code, a 23-nt anchor, the complete 8-nt target code, and a 7-nt arm. The copied code repeats the last four bases of the eight-base code. These codes identify a target gene, not a cell or a unique RNA molecule.</p>',OligoSection('Source oligos',tuple(entries)),
+      '<h2>RNA-splinted closure</h2>',info('INFERRED — the illustrated 25-nt RNA is calculated from perfect complementarity to the source probe arms. Its transcript sequence and actual occupied complex have not been independently verified. Inferred RNA bases are marked below. The two displayed DNA end tracts belong to one covalent padlock whose backbone continues off-panel.'),
+      panel(ConditionalRNAMatch().scene().rows(),caption='INFERRED — conditional perfect-match RNA splint; source probe 5′ phosphate and 3′ hydroxyl meet at the closure nick.'),
+      '<p>The circle and RCA backbone are derived from the exact padlock and primer. This checks strand order and primer landing; it does not predict ligation specificity or conversion yield. Three displayed repeats are an illustration, not an experimental copy count. Aminoallyl-dU positions and occupancy remain unresolved.</p>',panel(rca_scene().rows(),caption='Derived RCA backbone example; target-code meanings are retained in both complementary copies.'),
+      '<h2>Preparation and in-situ reads</h2><p>Fix and permeabilize cells, hybridize the multiplex padlocks with their RCA primers, and wash before SplintR ligation. The retained primer supplies Phi29 RCA with dNTPs, aminoallyl-dUTP and BSA. BS(PEG)9 then links aminoallyl groups to surrounding proteins; borate is added halfway through the 30-minute fixation. Fresh sequencing anchors and fluorescent nonamers are added for each imaging round, with stripping between rounds.</p>',
+      info('Known local anchor pairing, phosphate/hydroxyl polarities and dye ends are displayed in the full graph. Whole nonamer patterns, cycle offsets, exact reported-base mapping and complete sealed junctions remain unresolved. MiRNA reads were excluded during downstream analysis; this does not remove those reagents from the physical preparation.'),PlanLimitationSection('library'),
+      '<details><summary>Full preparation, all eight sequencing rounds and chemistry warnings</summary>',WorkflowSection('Source-qualified multiplex preparation'),'</details>',
+      '<p><a href="01_boloramis.html">Source notes and remaining questions</a></p></div>'])
+
 if __name__=='__main__':selftest()

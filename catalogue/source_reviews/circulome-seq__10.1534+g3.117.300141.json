@@ -77,6 +77,20 @@
       ],
       "oligo_scraper": "Mandatory bundle scans: DM15hits (copyv2Table1 originalp2rendered),TAmCzero,Circulomezero text hits. Empty/partialconversionsnotabsenceevidence.",
       "verification": "25 focused local checks pass across DNA16 (9 DM,8 TAmC,8 Circulome); exact-source guard1checked0failed0exempt across3graphs with8unassembled inputs; literal /5mC/ parser alias independently reviewed against original Table1. Chemistry50unresolved0contradictory; source-review schema3in_progress0blocked; all6 note/ref pages built. This is scoped implementation verification, not a complete chemistry or missing-information review."
+    },
+    {
+      "round": "unlinked-pages-batch25",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed existing-source bounded private correction; no acquisitions, new originals, complete chemistry or accepted absence review.",
+      "locations": "Exact selected originals/sections in /tmp/unlinked-targeted37-preflight.json; counter /tmp/unlinked37-source-counts.json. Circulome publishedmain90–106/Fig1 and originalS1/S2PPTXslide3captions; RAP finalpublishedCaltechPDFMethods655–699 only, earlierAM history notnewauthority.",
+      "findings": "The selected0.5ul source loaded NexteraXT stock now yields copresent Tn5/adaptor/other components. It does not introduce an additional free Tn5 dose. Actual ExoV-regimen enzyme, ATP and DTT/ampicillin contributions are separate functions of source addition groups; per-round allocations and active/inactivated inventory remain unassembled, and heat remains distinct from cleanup. Gap filling and subsequent PCR consume one actual source PCR preparation: its polymerase, nucleotides and primer functions are retained from the first filling cycle into continuation, not supplied as a new PCR enzyme dose. Reported10–12cycle adequacy is not labelled10–12extra cycles after filling. Gel analytical material and final loading contributions remain separate with retained DNA stock. Native circles, gapped intermediates and copied linear products remain distinct; no RCA, modern XT oligo body, unreviewed transfer cleanup or full read geometry is introduced. Original historical XT/transfer obligations remain required/uncovered, and no public page is promoted.",
+      "deferred": [
+        "Actual historical Nextera XT source/oligo/primer scope remains unread and full adapter, priming, run and ExoV transfer geometry unassembled. Main and supplements are available; zero oligo hits are not source absence. Required item stays uncovered, with no current-kit or CircleSeq/CIDER inheritance."
+      ],
+      "oligo_scraper": "Mandatoryclosed-pass /tmp/unlinked37-circulome-scraper.log; zero exacteligible strands doesnotshow absence of sourceoligos.",
+      "verification": "14 focusedchecksPASS; Circulomeexo/gradient/both andRAPallterminalprivate renders/pairingPASS. Combinedguard0exact/0failed/1externalunknown input, producedwhole-unassembledfunction inventories remainoutsideexternalguard. Chemistry32unresolved/0contradictory; originalrequireditems preserved."
     }
   ]
 }

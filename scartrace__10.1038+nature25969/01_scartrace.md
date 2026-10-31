@@ -32,3 +32,10 @@ Ancestry: published Methods expressly directs the transcriptome branch to SORT-s
 ## Validation
 
 Protocol-local source transcription and branch/order checks;sourceguard and scoped molecular audit recorded in source review. No full base-resolved products or chemistry completion claimed.
+
+
+## Bounded publication review — 2026-10-30
+
+The current graph is an illustrative example of one symbolic well, not a reconstructed experimental sample or verified 384-cell pool. Published Figure 1d schematizes 80% transcriptome and 20% scar branches; the inspected main Methods do not specify transfer amounts. This is a split of the pooled aqueous mixture, not purification of DNA from RNA. The selected source RT primer and scar-primer component inventory remain distinct; adjacent scar-primer columns are not silently assembled. Source mineral-oil/dNTP/spike-in/RNase-inhibitor supplies are molecular allocations, and the thermal/storage programme is a condition, rather than both being enzyme catalysts. RT now has an explicit catalyst allocation without importing an unreviewed SORT-seq enzyme identity or dose. The literal reviewed inventory leaves SORT-seq library manufacture unaccounted. Original required item `unassembled` remains unchanged and uncovered: the detailed ScarTrace Protocol Exchange original and SORT-seq predecessor, full nested/adaptor PCR, and molecular/read assembly still require follow-up. Both joint and gDNA-only graphs remain private.
+
+This capped pass accepts no missing-information claim and adds no new originals. Source identity and inspected original locations are recorded in the source-review checklist.

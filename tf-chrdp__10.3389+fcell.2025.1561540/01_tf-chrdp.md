@@ -31,3 +31,13 @@ The selected HCT116/5-FU/p53 route starts with same-treatment cells, applies FA 
 ## Molecular limits
 
 Whole loaded Tn5 adapters, indexed primer bodies, historical kit formulations, exact substrate sequences/crosslinks, transcript priming sites, genomic target junctions and complete read landing remain unassembled. Protein fraction is a non-NGS assay continuation outside this model, not a QC control. Source programme reuse is local and explicit; it does not establish equal DNA/cDNA substrates or products. Testing thresholds are source empirical calibration criteria, not imposed perfect yields. No full-molecule/absence audit or source-missing claim.
+
+## Public workflow scope
+
+The source-qualified page now links the shared capture to the independent DNA and
+RNA-derived sequencing preparations. Its explicit source inventory follows the
+published Methods3.1–3.18, including control/production arms; adding an unreviewed
+input or operation still fails the normal publication gate. Terminal analytical
+aliquots are typed as QC, while the protein fraction remains an unresolved non-NGS
+assay continuation. Whole kit oligos, molecular products and occupied sites remain
+unassembled and visibly qualified; page publication does not establish those claims.

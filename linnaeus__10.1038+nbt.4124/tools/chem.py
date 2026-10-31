@@ -57,11 +57,13 @@ def variant_graph(variant):
     if variant=='single_cell':
         cells=g.input('cells','Source scarred ZebrabowM single-cell suspension',K.BIOLOGICAL,primary=True,state=RecorderContext())
         bead=inp('bead','Historical ChromiumPN120233 bead capture components;exact guide/version unreviewed',K.OLIGO,bead_inventory())
-        droplets=op('encapsulate',cells,'Source single-cell/barcoded-bead droplet encapsulation',S.GENERIC,((bead,R.STRUCTURAL),))
+        droplets=g.product('encapsulate_product','Source droplet cellular component; co-present bead oligo represented separately, not a physical fraction',K.MOLECULAR)
+        retained_bead=g.product('retained_bead','Co-present source bead oligo retained from the one encapsulation supply; not a second addition or isolated fraction',K.OLIGO,state=bead_inventory())
+        g.react('encapsulate','Source single-cell/barcoded-bead droplet encapsulation',S.GENERIC,((cells,R.TEMPLATE),(bead,R.STRUCTURAL)),(droplets,retained_bead),changes_molecule=False)
         lysis=inp('lysis_reagents','Historical source Chromium lysis chemistry unassembled',K.CONDITION)
         lysed=op('cell_lysis',droplets,'Source droplet cell lysis;soluble/insoluble species remain co-present',S.GENERIC,((lysis,R.CONDITION),))
         enzyme=inp('rt_enzyme','Historical source Chromium RT reagents unassembled')
-        cdna=op('capture_rt',lysed,'PolyT reverse transcription introduces cell identifier/UMI',S.REVERSE_TRANSCRIPTION,((bead,R.STRUCTURAL),(enzyme,R.CATALYST)))
+        cdna=op('capture_rt',lysed,'PolyT reverse transcription introduces cell identifier/UMI',S.REVERSE_TRANSCRIPTION,((retained_bead,R.STRUCTURAL),(enzyme,R.CATALYST)))
         pooled=op('pool_cdna',cdna,'Source pooling of droplet-derived material;exact emulsion workup not reviewed',S.GENERIC)
         amp=inp('wta_reagents','Source first-amplification reagents/primers unassembled')
         amplified=op('initial_amplification',pooled,'Source first cDNA amplification',S.GENERIC,((amp,R.CATALYST),))
@@ -96,8 +98,9 @@ def variant_graph(variant):
                 trizol=inp(key+'_trizol','Source TRIzol isolation;vendor detailed phase chemistry unreviewed',K.CONDITION);x=op(key+'_rna_isolation',sample,'Source TRIzol RNA preparation',S.EXTRACTION,((trizol,R.CONDITION),))
                 x=clean(key+'_rna_recovery',x,'Isopropanol RNA precipitation;two75%ethanol pellet washes;air dry')
                 dt=inp(key+'_polyt','Source polyT RT primer;length/full sequence unassembled',K.OLIGO)
-                rt=inp(key+'_ssii','SuperScriptII/RNaseOUT/dNTPs/sourcebuffer42C2h')
-                x=op(key+'_rt',x,'PolyT reverse transcription for bulk RNA scar detection',S.REVERSE_TRANSCRIPTION,((dt,R.STRUCTURAL),(rt,R.CATALYST)))
+                rt=inp(key+'_ssii','Source SuperScriptII and RNaseOUT at42C2h; supply packaging unassigned')
+                nt=inp(key+'_rt_dntps','Source1mMdNTP molecular contribution; total/per-base convention and packaging unassigned',K.MOLECULAR)
+                x=op(key+'_rt',x,'PolyT reverse transcription for bulk RNA scar detection',S.REVERSE_TRANSCRIPTION,((dt,R.STRUCTURAL),(rt,R.CATALYST),(nt,R.STRUCTURAL)))
             f=inp(key+'_bulk_forward','PublishedSI bulk primer member example;experimental sample assignment unassigned',K.OLIGO,bulk_forward(key))
             products.append(pcr(key+'_bulk_pcr',x,f,rv,'Source barcoded RFP scar amplification'))
         pool=g.product('bulk_pool','Pooled sample-barcoded firstPCR products',K.MOLECULAR)
@@ -107,8 +110,14 @@ def variant_graph(variant):
         r=inp('adapter_pcr_reverse','Source Illumina-adapter PCR reverse primer;full identity not located in this source pass',K.OLIGO)
         out=pcr('bulk_adapter_pcr',pool,f,r,'SecondPCR adds Illumina sequencing adapters')
         g.sequence(out,SequencingPlan(acquisition='unspecified',limitation='Source bulk scar assay usesNGS;exact final purification/read/index/primer geometry unassembled.No single-cell UMI or cell barcode inferred for this bulk route.'))
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    g.declare_reviewed_scope(REVIEWED_INPUT_STEPS[variant],SOURCE)
     g.add_source_item(SourceItem('unassembled_source','Historical kit/final-version/whole strand and read geometry',LIMIT));return g
+
+REVIEWED_INPUT_STEPS={
+    'single_cell':('cells','bead','encapsulate','lysis_reagents','cell_lysis','rt_enzyme','capture_rt','pool_cdna','wta_reagents','initial_amplification','library_split','gene_fragmentation','gene_fragment','gene_library_kit','gene_library','rfp_f1','rfp_f2','scar_reverse','scar_pcr1_polymerase','scar_pcr1','scar_pcr2_polymerase','scar_pcr2'),
+    'bulk_dna':('bulk_reverse','a_sample','a_alkali','a_lysis','a_tris','a_neutralize','a_aliquot','a_bulk_forward','a_bulk_pcr_polymerase','a_bulk_pcr','b_sample','b_alkali','b_lysis','b_tris','b_neutralize','b_aliquot','b_bulk_forward','b_bulk_pcr_polymerase','b_bulk_pcr','bulk_pooling','bulk_ampure_selection','bulk_ampure','adapter_pcr_forward','adapter_pcr_reverse','bulk_adapter_pcr_polymerase','bulk_adapter_pcr'),
+    'bulk_rna':('bulk_reverse','a_sample','a_trizol','a_rna_isolation','a_rna_recovery_selection','a_rna_recovery','a_polyt','a_ssii','a_rt_dntps','a_rt','a_bulk_forward','a_bulk_pcr_polymerase','a_bulk_pcr','b_sample','b_trizol','b_rna_isolation','b_rna_recovery_selection','b_rna_recovery','b_polyt','b_ssii','b_rt_dntps','b_rt','b_bulk_forward','b_bulk_pcr_polymerase','b_bulk_pcr','bulk_pooling','bulk_ampure_selection','bulk_ampure','adapter_pcr_forward','adapter_pcr_reverse','bulk_adapter_pcr_polymerase','bulk_adapter_pcr'),
+}
 
 def protocol_graph():return variant_graph('single_cell')
 
@@ -131,4 +140,7 @@ def selftest():
         source=''.join(p.read_text().split())
         for name,seq in (('RFP1',RFP1),('RFP2',RFP2),('reverse',REVERSE),('bulkReverse',BULK_REVERSE),('bulkF1',bulk_forward('a').top()),('bulkF2',bulk_forward('b').top())):c('PublishedTable1transcription '+name,seq in source,True)
     else:c.skip('PublishedTable1primer transcriptions','External original unavailable')
+    single=protocol_graph()
+    rt_bead=next(p.material for p in single.steps['capture_rt'].inputs if p.role is R.STRUCTURAL)
+    c('RT consumes the co-present bead oligo produced by encapsulation',rt_bead in single.steps['encapsulate'].outputs,True)
     c.report()

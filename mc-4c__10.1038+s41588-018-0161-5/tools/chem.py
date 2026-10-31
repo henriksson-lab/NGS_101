@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,revcomp,feature
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 class B:
@@ -57,7 +57,8 @@ def protocol_graph():
         f=g.product(key+'_forward','ActualTable2DNAforwardprimer, NOTfunctionalRNAguide',K.OLIGO,state=scene(name,ORDERS[name]));r=g.product(key+'_reverse','Actualsourceoverlapreverseprimer; citedNakayamaoriginalbodyunassembled',K.OLIGO,state=scene('wholeoverlapreverseunassembled'));mix=g.product(key+'_reaction','Actualsame-stockPCRcatalyst/NT/buffer, wholeformulationunassembled',K.MOLECULAR)
         g.react(key+'_parts','Copresentcomponentsofoneactualoverlap-PCRstock',S.GENERIC,((stock,R.TEMPLATE),),(f,r,mix),changes_molecule=False);b.x=f
         b.op(key+'_template','SourceoverlapPCRmakesT7transcriptiontemplate',S.MAGIC,((r,R.STRUCTURAL),(mix,R.STRUCTURAL)),reason='Actual65ntDNAforwardorderretained; wholeoverlapreverse/template/scaffoldunassembled, notpretendedfullgRNA.')
-        b.op(key+'_ivt','MegashortscriptT7RNAtranscription',S.MAGIC,(b.stock(key+'_ivt_stock','ActualsourceT7kitreaction, catalyst/rNTP/bufferinventoryunassembled',K.MOLECULAR,R.STRUCTURAL),))
+        ivt=components(b,key+'_ivt','Actual selected T7kit reaction inventory; packaging/stockcounts/dosesunassigned',[('enzyme',K.CATALYST,R.CATALYST,'Known source T7 RNA polymerase functional contribution; no dose inferred',None),('nt',K.MOLECULAR,R.STRUCTURAL,'Required rNTP contribution from same selected IVT kit supplies; formulation/dosesunassigned',None),('buffer',K.CONDITION,R.CONDITION,'Buffer conditions from same selected IVT kit supplies; formulation/dosesunassigned',None)])
+        b.op(key+'_ivt','MegashortscriptT7RNAtranscription',S.MAGIC,ivt)
         clean(b,key+'_rna_clean','4xAMPureRNApurification/DEPCwater')
         guide=g.product(key+'_rna','ActualpurifiedRNAguidepreparation; fullRNAsequence/endsunassembled',K.OLIGO,state=scene('RNAguidewholebodyunassembled'),chemical_state={'polymer':'RNA','source_DNA_forward':ORDERS[name],'full_RNA_body':'NotinferredfrompartialDNAforwardprimer'})
         g.react(key+'_guide_stock','SourceRNAguidepreparation usedforRNP, purity/transcriptclassesunassembled',S.GENERIC,((b.x,R.TEMPLATE),),(guide,),changes_molecule=False);b.x=guide
@@ -77,7 +78,7 @@ def protocol_graph():
     b.op('ont_finish','HistoricalONTkitfinish:SQK-NSK007/LSK108/LSK208, actualper-runchoiceunassembled',S.MAGIC,(b.stock('ont_kit','ActualhistoricalONTpreparedlibraryreagents; adapter/motor/NT/catalystformulationunassembled',K.MOLECULAR,R.STRUCTURAL),),reason='Sourcehistoricalkitoptions, no exactkit-flowcellpairing or borrowedcurrentONTconstructor.')
     b.split('loading','Actualsequencingallocation, amount/runpoolingunassembled','ActualNGScontribution','Untransferredlibraryclasses/stock, fateunassembled')
     lib=g.product('library','ActualMC4CMinIONlong-DNAlibraryclass, wholeends/moleculesunassembled',K.LIBRARY);g.react('load','SourceMinIONR9/R9.4/R9.5alternatives, actualassignmentunassembled',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation='SourceMinIONlongreadendpoint. Exacthistoricalkit-flowcellmapping/adapters/endproducts/readlengthunassembled; PCR/read-ligation/duplicatefilteringcomputational. Far-cis/transfragmentfingerprintsNOTsyntheticUMIs.'))
-    g.add_source_item(SourceItem('scope','PublishedTable2HS2DNAguide-template-forwardoligos retainedasDNA, notinferredfullfunctionalRNA. Threeactual600ngRNA/15pmolCas9/300ulpreincubationsaddedto20ugMC4Ctemplate.','96actual100ngtemplatealiquots/96PCRpool/selected1mL andphysicalPippinrange; no copiedwholetemplateor computationalfilterdrawnaswetstep.'));return g
+    g.add_source_item(SourceItem('scope','PublishedTable2HS2DNAguide-template-forwardoligos retainedasDNA, notinferredfullfunctionalRNA. Threeactual600ngRNA/15pmolCas9/300ulpreincubationsaddedto20ugMC4Ctemplate.','96actual100ngtemplatealiquots/96PCRpool/selected1mL andphysicalPippinrange; no copiedwholetemplateor computationalfilterdrawnaswetstep.'));return _publication_scope(g)
 
 def selftest():
     from checks import Check,Source,have
@@ -91,5 +92,36 @@ def selftest():
             v=x.find('s:v',ns)
             if v is not None and x.attrib.get('t')=='s':cells[x.attrib['r']]=ss[int(v.text)]
         for field,col in zip(('FWD','REV','gRNA_A_template','gRNA_VP_template','gRNA_B_template'),'CDEFG'):c('OriginalHS2wholeDNA '+field,cells[col+'4'],ORDERS[field])
-    c('Privatepartialunready',bool(g.publication_problems()),True);c.report()
+    c('Source-qualified page passes normal gate',g.publishable,True);c.report()
+
+
+
+PAGE_FILE='mc-4c.html'
+REVIEWED_BASE=(
+ 'source','dpnii','first_digest_conditions','first_digest','first_ligation_preparation','first_ligation','reverse_crosslink_conditions','reverse_crosslink','first_precip_condition','first_precip_selection','first_precip','hindiii_stock','hindiii_conditions','hindiii','second_ligation_preparation','circularize','circle_precip_condition','circle_precip_selection','circle_precip','column_condition','column_selection','column','cas9_template',
+ 'cas9_deplete','cas9_stop','cas9_inactivate','cas9_clean_condition','cas9_clean_selection','cas9_clean','allocate96','pool96','select_1ml','pcr_cleanup_size_condition','pcr_cleanup_size_selection','pcr_cleanup_size','pippin_selection','pippin','ont_kit','ont_finish','loading','load','library')
+REVIEWED_GUIDE=('pcr_source','parts','template','ivt_stock','ivt_components','ivt','rna_clean_condition','rna_clean_selection','rna_clean','guide_stock','600ng','cas9','rnp_condition','rnp')
+def _publication_scope(g):
+    g.cover_source_item(SourceCoverage('scope','modelled','library'))
+    g.declare_reviewed_scope(REVIEWED_BASE,AUTHORITY)
+    # Source explicitly requires three RNP preparations and96separatePCRs.
+    # These literal templates expand that physical source inventory, never inspect graph nodes.
+    for prefix in ('grna_a_template','grna_vp_template','grna_b_template'):
+        g.declare_reviewed_scope(tuple(prefix+'_'+suffix for suffix in REVIEWED_GUIDE),AUTHORITY)
+    for number in range(96):
+        g.declare_reviewed_scope(('pcr'+str(number)+'_stock','pcr'+str(number)+'_components','pcr'+str(number)),AUTHORITY)
+    return g.require_publishable()
+
+def render_page():
+    from page import head,caveat,table
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph()
+    return assemble_page(g,[head('MC-4C'),'<main class="wrap" data-protocol-complete="true"><h1>MC-4C</h1><p>Long-read multi-contact chromatin libraries with viewpoint-specific amplification and Cas9 depletion of uninformative template classes.</p><p><a href="https://doi.org/10.1038/s41588-018-0161-5">Defining published article</a> · <a href="01_mc-4c.html">Research note</a></p>',
+      caveat('Selected published fetal-liver HS2 preparation, beginning with prepared crosslinked chromatin. Regular4C base conditions, occupied genomic contact molecules, complete guideRNA bodies, ligation/PCR products and historical ONT adapters/kit-flowcell assignment remain unassembled. Partial DNA guide-template primers below are not reconstructed functional guideRNAs. The workflow records source operations and actual stocks, not complete reaction validation or perfect Cas9 depletion.'),
+      '<h2>Preparation</h2>',table(('Stage','Source operation'),(('Template','DpnII first digest/ligation, crosslink reversal and recovery; HindIII second digestion and diluted circularization. Regular4C details remain compound.'),('Deplete','Prepare three RNA guides from overlap-PCR/T7 templates; each600ng guide preincubates with15pmolCas9 in300µl. Add all three preparations to20µg MC4C template.'),('Amplify','Allocate96 separate100ng templates to25µl PhireII reactions,31cycles; pool all96actual products and select1ml for0.6xAMPure cleanup/size selection.'),('Finish','PippinHT1.5–8kb, historicalONT library kit, then selected MinION loading contribution; untransferred stocks remain separate.'))),
+      '<h2>Source HS2 primer inventory</h2>',table(('DNA oligo','Whole source ordering'),tuple((name,ORDERS[name])for name in ('FWD','REV','gRNA_A_template','gRNA_VP_template','gRNA_B_template'))),
+      '<h2>Read setup and scope</h2><p>The source lists SQK-NSK007, SQK-LSK108 or SQK-LSK208 and R9/R9.4/R9.5 flow cells according to the run. Exact kit-to-flowcell assignment and primer landing remain unassembled; no current ONT constructor is substituted.</p><p>Primary/secondary contact classification, validity filtering and far-cis/trans-fragment fingerprints are computational analyses. They do not physically remove molecules and are not synthetic UMIs. Supplementary Figure5 compares ligation-derived contact classes; it is not an extra wet cleanup.</p>',
+      '<details><summary>Complete source preparation, all96PCRs and unresolved transitions</summary>',WorkflowSection('Actual physical preparation and fractions'),PlanLimitationSection('library'),'</details></main>'])
+
 if __name__=='__main__':selftest()

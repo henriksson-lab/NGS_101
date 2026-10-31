@@ -64,5 +64,58 @@
     "scope": "Same three selected published originals only: institute-mirrored published main PDF Methods1602–1653/1670–1682; published SI1 S1 computational-filter caption and actual S5 originalp12 render; published Table2 MOESM4 originalZIP/XML header/context and HS2 C4:G4 wholeorders. No delegated regular4C, Nakayama or historical vendor original read.",
     "findings": "Verified selected fetal-liver DpnII500ul→firstligation2ml→crosslink reversal/Pbeads→HindIII/low-concentration circularization and purification before allocated20ug Cas9 input. Whole HS2 inverse-PCR primers and three DNA guide-template-forward orders match original cells; incomplete overlap reverse and full transcribed RNA guides remain explicitly unassembled. Three separately prepared600ngRNA/15pmolCas9/300ul RNPs precede DNA cleavage/SDS/inactivation. Source96separate100ng templates/25ul PCRs are physically allocated, then all96 pooled before selected1ml cleanup/.6xAMPure/Pippin1.5–8kb. Historical ONT kits/flowcells remain alternatives rather than invented per-run pairings. SI1 far-cis/trans genomic fingerprints/PCR-duplicate filters remain computational and are not synthetic barcode/UMI additions. No whole previous4C constructor imported.",
     "verification": "Independently reran15focused checks PASS including5whole original DNA ordering fixtures. External-input source guard0exact0failed0exempt0unknown reflects produced inventory components rather than complete oligo coverage; full RNA guides/overlap-reverse bodies remain unassembled. Scoped chemistry329unresolved0contradictory. Selected implementation closure only, not full molecular/source or accepted absence audit."
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "scope": "Selected published positive-source preparation; no broad required source item removed, renamed or excluded.",
+    "source_originals": 3,
+    "locations": "/husky/henriksson/NGS101_papers/sources/mc-4c__10.1038+s41588-018-0161-5/DeLaat_2018_Key_Allahyar_Enhancer-hubs-and-loop-collisions-identified-from-single-allele-topologies.pdf: Published2018 author-institute mainMethods1602–1653/1670–1682 actualHS2template/Cas9/96PCR/pool/1ml/Pippin/ONToptions; no2019protocol substitution.; /husky/henriksson/NGS101_papers/sources/mc-4c__10.1038+s41588-018-0161-5/s41588-018-0161-5_41588_2018_161_MOESM1_ESM.pdf: PublishedSI FigS5actualPDFp12 rendered/viewed: primary/secondaryligation computationalcontactclasses, not a newwetcleanup.; /husky/henriksson/NGS101_papers/sources/mc-4c__10.1038+s41588-018-0161-5/s41588-018-0161-5_41588_2018_161_MOESM4_ESM.xlsx: PublishedTable2 actualHS2rowC4:G4 fivewholeDNAorders independentlychecked by rawZIPXMLfixture; otherworksheet rows incidentallyvisible intext, no newchemistryadopted.",
+    "finding": "The MC-4C public page selects published fetal-liverHS2 from prepared crosslinked chromatin, retains compound regular4C base-condition boundaries, and exposes three source600ngRNA/15pmolCas9 preincubations feeding20ugtemplate. Actual96different100ngtemplate aliquots and96PCR products are fully rendered/pool all96/selected1ml/Pippin1.5–8kb/ONTfinish/loading remainder. The unchanged scope SourceItem describes those positive source-defined stocks and fiveTable2DNAorders; fullfunctionalRNAguide bodies are not inferred from partialDNAforwardprimers. Literal source-defined guide and96-PCR target templates expand only the source actual cardinality, never graph enumeration. Unknown occupied contact/junction/end/product states, historical kit-flowcell pairing and full read landing stay explicit. Contact fingerprints and read filters remain computational, not syntheticUMIs or wetcleanup. This is a source-qualified public preparation, not complete molecular validation or an accepted missing-information claim. No additional originals were acquired.",
+    "verification": "15focusedPASS;normalgate0;actualpagebuild/pairingpass. Wholeproducts remain unresolved.",
+    "independent_implementation_recheck": {
+      "date": "2026-10-30",
+      "reviewer": "independent curator",
+      "scope": "Source-qualified public page and literal inventory, same selected originals; no absence audit or complete reaction validation.",
+      "result": "pass",
+      "blockers": [],
+      "findings": [
+        "Published mainMethods1602–1653/1670–1682 independently supports preparedcrosslinkedHS2chromatin, DpnII/2mlfirstligation, crosslinkreversal/precipitation/HindIII/circularization, three600ngRNA/15pmolCas9/300ulpreincubations, allthreeaddedto20ugtemplate,96independent100ng/25ulPCRs andactualpool→selected1ml→AMPure/Pippin1.5–8kb/ONT.",
+        "Same sourceSI1S5p12 view distinguishes primary/secondarycomputedligationclasses, no inventedwetcleanup; originalMOESM4HS2C4:G4fivewholeDNAorders independently verified by rawXMLfixturechecks. PartialDNAguide templates are not recast as fullfunctionalRNA.",
+        "Requested sameactualT7kitinventory→T7CAT/rNTPMOL/bufferCOND consumedbyeachofthreeIVTsteps was applied, withno freshduplicateaddition or inventeddose. Source-defined3guide/96PCRliteralinventory expansion is independent of graph enumeration. Whole RNAguide/scaffold/occupiedtarget/primerlanding and historicalkit-flowcellmapping remain unresolved."
+      ],
+      "source_scopes": [
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/mc-4c__10.1038+s41588-018-0161-5/DeLaat_2018_Key_Allahyar_Enhancer-hubs-and-loop-collisions-identified-from-single-allele-topologies.pdf.txt",
+          "identity": "Published author-institute original",
+          "sections": "Main1602–1653/1670–1682sourcephysicalprep andONTacquisition."
+        },
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/mc-4c__10.1038+s41588-018-0161-5/s41588-018-0161-5_41588_2018_161_MOESM1_ESM.pdf",
+          "identity": "PublishedSI1",
+          "sections": "ActualS5p12 rendered /tmp/positive-mc4c-si12.png viewed; computationalcontactclasses only."
+        },
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/mc-4c__10.1038+s41588-018-0161-5/s41588-018-0161-5_41588_2018_161_MOESM4_ESM.xlsx",
+          "identity": "PublishedMOESM4Table2",
+          "sections": "ActualrawXMLHS2C4:G4fivewholeDNAorders via independentexecutedfixturechecks; notwholeguideRNA."
+        }
+      ],
+      "originals": 3,
+      "cap": 3,
+      "verification": {
+        "focused_checks": 15,
+        "focused_result": "PASS independently rerun after requested fixes",
+        "normal_gate": [],
+        "actual_render": "/tmp/positive-c-peer-mc4c.html",
+        "render_bytes": 507327,
+        "pairing": "PASS/0problemduplexes; all3actualrenders",
+        "complete_wrapper_and_collapsed_full_workflow": true,
+        "sourceguard": "Combined3exact/0failed/0exceptions/6externalunknown; producedknownoligos outsideexternalguard validated by sourcefixtures.",
+        "chemistry": "Combined0established/388unresolved/0contradictory; notfullreactionvalidation.",
+        "source_scraper": "/tmp/positive-c-critical-mc-4c-scraper.log:57candidates/2representations",
+        "absence_pass_2": false,
+        "repository_edits": false
+      }
+    }
   }
 }

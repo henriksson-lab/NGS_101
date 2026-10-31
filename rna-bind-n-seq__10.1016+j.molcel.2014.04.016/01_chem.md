@@ -29,3 +29,13 @@ Deferred actual source targets/questions:
 - Source prepared-input workup/sourcecontrol library continuation,full protein/primer/conjugate/end geometry,all post-PCR cleanup/adapters/acquisition operations
 
 Mandatory standard source retrieval/primer scraper ran;hits are pointers,not evidence,andonly stated original scopes support the model. No two-pass absenceaudit performed.
+
+## Bounded source/model corrections, 30 October 2026
+
+The closed one-original pass re-read associated-manuscript149–155 and repeated mandatory bundle scraping. The named SI originals retain their historical download-gate rows; none was retried or declared universally unavailable. Final published-version comparison remains incomplete.
+
+RNA/protein and SBP/bead association are now binding operations. Physical equilibration/control handling preserves molecular identity; source binding-buffer and40U Superasin contributions are explicit for the protein and zero-protein cases. Actual100µl Tris/EDTA/SDS thermal-elution supply is molecular, with separate70°C10min conditions. No protein reagent is invented in the zero-protein condition.
+
+IVT, RT, PCR and post-PCR continuation remain explicit unassembled interfaces because main153–155 delegates their details to SI. These are source-positive operations, not ordinary validated copying from an invented enzyme/primer recipe. The SI document itself is no longer a graph “reaction reagent”. Source input preparation/workup, control-library producer, complete RNA/primer/adapter/products and run geometry remain unassembled. The RNA comparison stock stays separate from captured RNA and is not relabelled a DNA library.
+
+A literal independently reviewed common/protein-specific source inventory replaces graph-node enumeration. The original `unassembled` requirement remains uncovered, as does final-library typing/assembly. Twelve focused checks and the private build pass; neither that success nor the source's high-level RT/PCR statement establishes complete library or linked-source coverage. No source-absence claim is accepted, and no DNA Bind-n-Seq or later RBNS recipe is imported.

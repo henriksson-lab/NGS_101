@@ -126,6 +126,20 @@
       ],
       "scope": "Capped defining-source pass on a notes-only entry; no schematic, no full chemistry validation, no accepted missing-information claim.",
       "verification": "notes-only: no module/page/suite exists (check_chemistry reports 0 graph declarations; source guard 0 checked/0 graphs); Markdown rebuilt with build_docs.py; review schema checked with audit_protocol_sources --check"
+    },
+    {
+      "round": "unlinked-pages-batch20",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed existing originals only; no acquisitions. Bounded source-supported implementation, not absence audit.",
+      "locations": "/tmp/unlinked-targeted27-preflight.json exact selected originals/sections; SIMPLE originalS1_1 rows3–12 ZIP/XML; SELECTv1 Methods619–708/801–813, citedV.3 identity/selectedsections and actualNRF2Table1rows104–106.",
+      "findings": "Preprint identity and actual ElementAviti endpoint clarified. No molecular model fabricated; retained model-scope hold. Available sources are not relabelled unavailable.",
+      "deferred": [
+        "Unexpanded whole molecular assemblies and actual study-wide member/run assignments; no invented disclosure documents."
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scans /tmp/unlinked27-select-scraper.log and /tmp/unlinked27-simple-scraper.log; large workbook text skip handled through actual selected original ZIP/XML rows.",
+      "verification": "SIMPLE focused suite/public build/known pairing/source guard and chemistry checked; see /tmp/unlinked-targeted28.json final counts. SELECT docs-only, no model tests/build applicable."
     }
   ]
 }

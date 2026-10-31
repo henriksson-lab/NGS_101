@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round11",
         "date": "2026-10-29",
-        "locations": "Published original main39/45/49/55 and Methods151/155\u2013157",
+        "locations": "Published original main39/45/49/55 and Methods151/155–157",
         "finding": "RNA-leader release with separate assay/NGS branches and experiment-specific library/acquisition."
       }
     },
@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round11",
         "date": "2026-10-29",
-        "locations": "Published Supplemental Methods49\u201354 including six-stepNSCR and control oligos51",
+        "locations": "Published Supplemental Methods49–54 including six-stepNSCR and control oligos51",
         "finding": "Selected cellular native preparation and control roles read; synthetic RNA-DNA controls are not library adapters."
       }
     }
@@ -39,7 +39,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Private source-qualified model through source-known downstream preparation/acquisition; original-version and historical kit assembly remain incomplete.",
+  "conclusion": "Bounded publication hold retained after contained physical/source-inventory corrections. Original unreviewed_assembly is untouched and uncovered: Original WGAII/NEBNextChIPSeq/IntegenXPrepX documents and detailed cited NSCR method. Historical library_prep and library_prep_stock are also deliberately outside the current literal reviewed inventory. Typed handoff/physical reagent corrections do not establish full historical source/kit/end/primer assembly or complete library manufacturing.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-11",
@@ -47,13 +47,28 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Published-first bounded pass; associated manuscript and excluded-source identities explicit.",
-      "locations": "Published original main39/45/49/55 and Methods151/155\u2013157; Published Supplemental Methods49\u201354 including six-stepNSCR and control oligos51",
+      "locations": "Published original main39/45/49/55 and Methods151/155–157; Published Supplemental Methods49–54 including six-stepNSCR and control oligos51",
       "findings": "Source operations/physical remnant distinctions/readout preserved; full end/library geometry unassembled. PublishedMethods155 unamplifiedRcontrol saved beforeWGA; SI54 Csupernatant physically separated frompostalkalibeads. Both explicit afterimplementationreview.",
       "deferred": [
         "Directly named historical kit guide/version and original assembly targets in research note; no recursive source chase."
       ],
       "oligo_scraper": "/tmp/nscr11-oligos.log; whole-bundle scan run, relevant hits read in sources; no absence conclusions.",
       "verification": "32localchecks(7nanoNOMe/10NSCR/7D-NAscent/8SAMOSA) passed;4privatebuilds and scopeddocs/pairing/schema passed. Chemistry0established/59unresolved/0contradictory. Sourceguard0checked/0failed,3historicaladapterinputs without exactstates, not exactoligovalidation. Root independentlyspotreviewed nanoNOMe/SAMOSA; multi reviewedNSCR/D-NAscent, identifiedsavedRcontrol/Ccollection omissions now fixed with regressions. These implementation reviews are not independent absence-audit passes. Retrievalsessions42535 interruptedgracefullyexit130/cachepreserved and2412completedexit0; finalscrapers66705completedexit0. No retrievalrunning."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch19",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed source pass reused for bounded component/reagent typing and literal reviewed inventory. The existing two-original source scope was reused without additional source reads/acquisition. No later detailed protocol was substituted as an original2015revision.",
+      "locations": "Methods151–157 native nascent-strand isolation, label/release/yield assay versus actualNGS, saved unamplifiedR control, WGAIISEQX/SEQXE and sourcePE50/PE72 acquisition; Actual text49–54 synthetic RNAleader/DNA controls and complete six-stepNSCR: source lysis/TRIzol/400–2000fractions/thiophosphate+maleimide, F/W/R and postalkaliC physical collection",
+      "findings": "Source proteinaseK and T4PNK are now catalyst contributions. Biotin-maleimide SP1501 is a physical molecular reagent, with unresolved historical MB9001 coupling conditions separately declared; no atom-level linkage/donor recipe is invented. Actual WGA and historical library allocations are physical molecular supplies with packaging/stock count unassigned, not buffer-only conditions or invented premixes. Source F/W/R/C, residual beads, saved unamplifiedR and experiment1/2 distinctions are unchanged. Original unreviewed_assembly is untouched and uncovered: Original WGAII/NEBNextChIPSeq/IntegenXPrepX documents and detailed cited NSCR method. Historical library_prep and library_prep_stock are also deliberately outside the current literal reviewed inventory. Typed handoff/physical reagent corrections do not establish full historical source/kit/end/primer assembly or complete library manufacturing.",
+      "deferred": [
+        "Genuine historical end-labelling/WGAII/experiment-specific library kit originals and detailed cited NSCR source remain unreviewed.",
+        "Remaining original figures and full end/kit/primer/product assembly not followed."
+      ],
+      "oligo_scraper": "16hits in1supplement representation; original selected control roles/chemistry read. No whole synthetic control sequence adopted as a native template/adapter.",
+      "verification": "13focusedPASS; private buildPASS/pairing0problems; normalgatefalse with3actual failures. Combined chemistry32unresolved/0contradictory. No new sequences; no sourceguard rerun or further source-body reading. Produced leaderDNA remains unassembled and outside external-input-only source guard."
     }
   ],
   "work_status_reason": "Next action is ordinary reading/retrieval of identified historical kit/source scopes or independent review. The selected capped pass did not establish a specific access barrier; model geometry remains unresolved. No absence conclusion."

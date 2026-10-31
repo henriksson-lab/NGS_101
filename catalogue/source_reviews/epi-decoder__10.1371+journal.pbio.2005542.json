@@ -48,6 +48,20 @@
         "ADE2 assay and non-library/qPCR oligos not adopted."
       ],
       "oligo_scraper": "Whole bundle40hits/2files; relevant whole source orders verified in actual S7 XLSX; actual S1 TIFF/Fig1 inspected."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-1",
+      "reviewer": "dna_page_owner_1",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Independentboundedreinspectionofpreviouslyselectedsourceoriginals forpublicpage; no missing-informationaudit/recipeexpansion.",
+      "locations": "PublishedPMC6059479 mainMethods170/174/178, originalS1TIFF/file.html(/tmp/epi42-s1-0.png), actualS7s012XLSXsixPCR/readorders/name-rowmapping; same preselected originals aspriorclosedpass, no new originals/fetch.",
+      "findings": "Humanoverview/fourPCRassay/readsetup/sixwholeoligoScenes, sourcefixationratioambiguity andcomputedmolecularvalidationstatus visible; completeWorkflowSection retainsalloperations/warnings/fates. Literalcuratorinventory mapsreviewedsources; no runtimegraphautoaccounting.",
+      "deferred": [
+        "Wholeoccupiedmolecules andhistoricalrecipes outsideexistingdeclarations stayunassembled; publicationgateisnotamolecularcompletenessclaim."
+      ],
+      "oligo_scraper": "Mandatorywholebundle rerun; Epi40hits2files/FastGRO2hits2files, pointersnotfacts. Epi sixwholeorder/namecells independentlyrechecked; FastGROsourceknownclass/noadoptedexactlibraryoligos.",
+      "verification": "17focusedPASS; localpagebuild+note build; sourceguard10exact0failed; chemistry33steps37unresolved0contradictory. Typedpublication_problems=[]; duplexlint0."
     }
   ],
   "linked_information": {

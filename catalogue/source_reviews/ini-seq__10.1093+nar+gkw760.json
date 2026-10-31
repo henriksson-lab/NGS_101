@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round09",
         "date": "2026-10-29",
-        "locations": "Published article Fig1/main54 and Methods62\u201380",
+        "locations": "Published article Fig1/main54 and Methods62–80",
         "finding": "Selected original source scope and version read; source-known operations recorded without full molecular-library completion."
       }
     },
@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round09",
         "date": "2026-10-29",
-        "locations": "FigureS1\u2013S8legends and TableS1identity/experimental use; TableS1is validationqPCR, not library adapters",
+        "locations": "FigureS1–S8legends and TableS1identity/experimental use; TableS1is validationqPCR, not library adapters",
         "finding": "Selected source identity and scope read; unrelated biological results not used for chemistry."
       }
     }
@@ -34,12 +34,12 @@
     "pass_1": {
       "reviewer": "expansion_dna_round09",
       "date": "2026-10-29",
-      "locations": "Published article Fig1/main54 and Methods62\u201380",
+      "locations": "Published article Fig1/main54 and Methods62–80",
       "finding": "Direct pending originals/version and chemistry targets are identified in notes; no recursive source chase or absence acceptance."
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source/model pass; no completed two-reader missing-information review.",
+  "conclusion": "Bounded publication hold retained after contained physical/source-inventory improvements. Original pending_originals is untouched and uncovered: cell-free assay/nuclei preparation and historical IlluminaChIP-seq kit originals. Physical aggregate kit inputs are not the actual full NGS manufacturing producer, and input/IP library-role states are not assigned sequencing terminals. Exact historical versions, read/index geometry and source control/preparation obligations remain unresolved.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-09",
@@ -47,13 +47,29 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Published-first bounded source reading; associated manuscript identity explicit forMapR; other originals deferred.",
-      "locations": "Published article Fig1/main54 and Methods62\u201380",
+      "locations": "Published article Fig1/main54 and Methods62–80",
       "findings": "Known operations through reported NGS endpoint; exact molecular/library/read relations remain explicitly unassembled.",
       "deferred": [
         "Named detailed predecessors, historical library/adapter/primer/run geometry and source-qualified boundaries listed in protocol notes."
       ],
       "oligo_scraper": "Whole-bundle scraper run; MapR14hits/2files(EMSA/fusion-cloning scope), ini-seq19hits/1file(qPCR), BisMapR0hits, Bubble0hits; no absent-information inference.",
       "verification": "23localchecks across4DNA09protocols passed;4builds/pairing/source-review schema passed. Sourceguard0checked/0failed,6inputswithout exact states(customMapR/BisMapR adapter/PCRprimers); no exact oligo transcription validation claimed. Chemistry0established/67unresolved/0contradictory, no complete molecular validation. Source investigation cap closed; fetch process26669completed exit0."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch18",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed originals reused for contained physical catalyst/molecular typing and literal reviewed source inventory; precursor/library obligations remain uncovered. No source acquisition or new controls.",
+      "locations": "Methods62–80 actual nuclei/cell-freeDIGlabel/proteinaseK/RNaseA/shear/IP/input/workup and historicalkit delegation; actualFigure1PDFp3 original initiation/IP/NGSconcept; Actual originalTableS1p9 complete validationPCRprimer role rows; p13TableS1–S3 captions and S1–S8legend scope, no genomicNGSadapter substitution; Firstsheet/title identity and initial coordinate-row scope only: TableS2ini-seqpeakcoordinates, not a kit/primer original; biological coordinate data not adopted",
+      "findings": "Soluble proliferating HeLa extract is now a physical molecular source supply, not merely a condition; no purified replication-enzyme inventory is invented. Input and IP historical kit allocations are physical molecular supplies with packaging/stock count unassigned, not an invented master mix. A literal reviewed inventory records actual main-source input/IP operations; no source inventory is generated from graph nodes or graph calls. Original pending_originals is untouched and uncovered: cell-free assay/nuclei preparation and historical IlluminaChIP-seq kit originals. Physical aggregate kit inputs are not the actual full NGS manufacturing producer, and input/IP library-role states are not assigned sequencing terminals. Exact historical versions, read/index geometry and source control/preparation obligations remain unresolved.",
+      "deferred": [
+        "Genuine references27/28 nuclei/cell-free standard assay originals uninspected; no vendor or predecessor lookup in this pass.",
+        "Historical IlluminaChIP-seq sample-prep kit exact original/revision unidentified; do not invent a failed document URL or use current-kit recipe.",
+        "Remaining biologicalsupplements/results not followed and no accepted absence audit."
+      ],
+      "oligo_scraper": "19hits in1supplement representation; actualTableS1p9 viewed. Some collapsed scraperhits concatenate neighboring rows, so no extracted hit becomes a whole order without original verification.",
+      "verification": "7focusedPASS; private buildPASS/pairing0problems. Actual normal gate remainsfalse with2failures including original pending_originals/no sequencing terminal. Combined sourceguard0exact/0failed/3unrepresented external oligos;45unresolved chemical claims/0contradictory, not complete validation."
     }
   ]
 }

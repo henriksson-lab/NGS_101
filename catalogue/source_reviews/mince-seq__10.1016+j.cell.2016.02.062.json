@@ -1,6 +1,6 @@
 {
   "dir": "mince-seq__10.1016+j.cell.2016.02.062",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original_1",
@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round13",
         "date": "2026-10-29",
-        "locations": "Associated manuscript NIHMS772603; initialResults/Fig1B and Methods1194\u20131198",
+        "locations": "Associated manuscript NIHMS772603; initialResults/Fig1B and Methods1194–1198",
         "finding": "Complete front-end and separately sequenced input/output established; historical library/end geometry behindSI."
       }
     },
@@ -48,13 +48,28 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Max3originals; definingmainandchemistrySI beforelinkedreferences; norecursivechase.",
-      "locations": "Associated manuscript NIHMS772603; initialResults/Fig1B and Methods1194\u20131198; ActualchemistrySI and tables named by mainMethods",
+      "locations": "Associated manuscript NIHMS772603; initialResults/Fig1B and Methods1194–1198; ActualchemistrySI and tables named by mainMethods",
       "findings": "Sourceorder/physicalfractions/chemicaladductversusreportedbases retained; publisherupdateidentifiedonlyasaffiliationcorrection.",
       "deferred": [
         "ActualgatedSIandnamedhistoricalkit/directpredecessortargets inresearchnote; noabsenceconclusion."
       ],
       "oligo_scraper": "/tmp/mince13-oligos.log; mandatorywholebundle scan,0MINCE/0fCAB/57fCCETinitialhits; sourcecontrol/modelprimersnotnativeNGSadapters.",
       "verification": "21localchecks(6MINCE/7fCAB/8fC-CET)passed;3privatebuilds/scopeddocs/pairing0problems andsource-reviewschema passed. Chemistry0established/56unresolved/0contradictory;sourceguard0checked/0failed with6fC-CETprimerinputswithout exactstates,notexactoligovalidation. Retrieval83354/30671completedexit0; externalcachepreserved/noacquisitionrunning."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch22",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed selected associated-main pass followed by bounded physical-input corrections; no additional original or source-equivalence assumption.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/mince-seq__10.1016+j.cell.2016.02.062/j.cell.2016.02.062_PMC4855302.html: MainResults1090–1099; originalFigure1caption1092–1098 (caption-only, no cached image inspected); complete Methods1194 pulse/fix/click/MNase/deproteinization/workup/input/pulldown;1196BG3 distinction;1198spike-in validation; acknowledgment1254Illumina.",
+      "findings": "The selected associated NIHMS772603 main supports the S2 front-end but does not replace its gated detailed sequencing SI or the cited Henikoff2011 library original. The source cells are now biological primary input. EdU, formaldehyde, glycine and Triton are explicit physical molecular contributions rather than condition-only labels; fixation/quench programmes remain distinct conditions. The BSA/PBS wash consumes an actual BSA protein contribution with physical removed wash fractions, leaving residual carryover unassigned and adding no fictitious BSA stock at later capture. Click consumes the actual three source additions in order: biotin TEG-azide, sodium ascorbate, CuSO4; no prepared click premix is asserted. The source pre-extraction proteinase K allocation is explicit alongside EGTA/SDS contributions and the 65°C programme, rather than hiding a known enzyme in a condition label. These are input/provenance corrections, not established complete covalent adducts, reaction yields or whole libraries. Input and captured-DNA libraries remain separate, and their historical production remains opaque/unreviewed. Original required `gated_si` is unchanged and uncovered; full actual producer scope, kit applicability, QC, pooling/loading and read geometry are not waived. No new originals or acquisition occurred during implementation.",
+      "deferred": [
+        "Actual chemistrySI https://pmc.ncbi.nlm.nih.gov/articles/instance/4855302/bin/NIHMS772603-supplement-Supp_Info_and_tables.docx (manifestdownloadgate).",
+        "Directly cited Henikoff2011 fragment-capturing25–500bp library and historicalM280manufacturer actualversion; sourcefinal applicability.",
+        "Existinggatedfigure/legend files remain unread; no actualimage geometry asserted from caption."
+      ],
+      "oligo_scraper": "Wholeexistingbundle mandatoryscan completed:0sequences in0fileswithhits; no absenceclaim. Summary stderr; empty stdout /tmp/mince-dna32-scraper.log."
     }
   ]
 }

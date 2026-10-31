@@ -31,3 +31,18 @@ Illumina Genome Analyzer paired-end contact-pair sequencing; full adapter/run/in
 Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates.
 
 This capped pass is incomplete and makes no accepted missing-information claim. Local preview has no finished-publication marker.
+
+
+## Bounded publication adjudication — 2026-10-30, batch 17
+
+🟢 Selected HindIII contact-library concept is supported. Source describes biotin-marked ligation junctions, HindIII-site loss/NheI-site creation in caption, and paired-end IlluminaGenomeAnalyzer readout. No exact biotin nucleotide identity or full genomic/end sequence is supplied by a platform name or another Hi-C method. Contact matrices and dataset merging are computational, not physical ligation/pooling.
+
+Formaldehyde and the biotin-containing fill supply are now physical molecular/structural contributions. Fixation conditions remain explicitly unassigned pending genuine SI. The biotin nucleotide identity, enzyme inventory, source doses, complete genomic end/ligation relation and final NGS producer remain unresolved; no other Hi-C recipe is inherited.
+
+🟡 Original required pending_assembly remains uncovered: actual Supplementary text and Supplementary Figures are unreviewed. The seven-step associated-manuscript source scope still stops at streptavidin-selected DNA without an actual final NGS producer/terminal. Literal main-only source inventory and physical reagent typing do not fulfill the actual supplement, molecular or library finishing obligation.
+
+Curator-written literal source inventory now records only the reviewed actual inputs/operations. It is not derived from graph calls, graph-node enumeration or the existence of an output. The original broad source item is untouched and uncovered. No endpoint is relabeled as a finished library and no source information is claimed confirmed absent.
+
+Closed inspected scopes: Associated accepted manuscript PMC2858594 JATS: Main112–118 and completeFig1caption320: formaldehyde/restriction5overhang fill with biotin residue/dilute blunt ligation/shearing/streptavidin/pairedend; separateHindIII repeats versusNcoI and computational dataset combination.
+
+No additional originals were acquired and no shared architecture was changed. Both private previews retain incomplete publication gates, without finished-page markers.

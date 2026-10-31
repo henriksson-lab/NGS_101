@@ -65,7 +65,7 @@ def protocol_graph():
     x=clean('capture_wash',x,'Two magnetic PBS/0.05%Tween washes;keep beads and associated classes')
     x=op('probe',x,'50µL paired antibody–DNA probe mix,1.5h RT rotation','Source antibody conjugates carrying5′ or3′ thiol-associated DNA;sequences/conjugation geometry unreviewed',reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL)
     x=clean('probe_wash',x,'Two magnetic washes;keep bead fraction,do not assert perfect binding specificity')
-    splint=g.input('splint','100nM source sliding splint;whole sequence unreviewed in deferred TableS7',K.OLIGO)
+    splint=g.input('splint','100nM source sliding splint;whole sequence unreviewed; inspected TableS7 is the qPCR primer table, not the splint table',K.OLIGO)
     y=g.product('ligation_product','Source ligation preparation;associated DNA/protein/beads,unligated probes/splint and reaction remnants retained',K.MOLECULAR)
     g.react('ligation','50µL AmpLigase/NAD/sliding-splint reaction50°C10min;source intended cognate ligation',S.GENERIC,((x,R.TEMPLATE),(splint,R.STRUCTURAL)),(y,));x=y
     x=clean('ligation_wash',x,'One source bead wash after ligation;associated DNA and proteins remain')

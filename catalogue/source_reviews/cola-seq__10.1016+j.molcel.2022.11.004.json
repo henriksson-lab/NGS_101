@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10448999.1/PMC10448999.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Originalheader identifiesNIHMS1854138/author manuscript; introduction72/workflow90\u201394/Methods216\u2013230/KeyResources1436\u20131438 inspected. No final equivalence.",
+      "inspection_scope": "Originalheader identifiesNIHMS1854138/author manuscript; introduction72/workflow90–94/Methods216–230/KeyResources1436–1438 inspected. No final equivalence.",
       "pass_1": null,
       "pass_2": null
     },
@@ -53,8 +53,8 @@
       "date": "2026-10-30",
       "documents": 2,
       "scope": "One actual acceptedchemistryoriginal plus conservative faileddefinitive-versionidentityslot; source investigation closed beforeimplementation within10minutes. No oligo/figure original fetched from the preprint as authority.",
-      "locations": "AcceptedJATSheader/introduction72/workflow90\u201394/STARMethods216\u2013230/keyresources1436\u20131438; exactfinalDOIroute403.",
-      "findings": "ActualcoldEDTAfractionation/biologicalQC; RNAdepletion keepsC1supernatant; RppH+Terminator notRNaseR; ~500ng/preAppN6UMI/SSIII/ExoSAP/EDTA-NaOH/cDNAcircle/Phusion15\u201318/175\u2013750bp/PE100. Explicit2prime5primeRNAlariat topology distinctfromsimplecircle. Inventedexampleonly, no fabricatedrealgenomicRNA. Known5preApp/UMIend withoutwholeS5/3block assumption.",
+      "locations": "AcceptedJATSheader/introduction72/workflow90–94/STARMethods216–230/keyresources1436–1438; exactfinalDOIroute403.",
+      "findings": "ActualcoldEDTAfractionation/biologicalQC; RNAdepletion keepsC1supernatant; RppH+Terminator notRNaseR; ~500ng/preAppN6UMI/SSIII/ExoSAP/EDTA-NaOH/cDNAcircle/Phusion15–18/175–750bp/PE100. Explicit2prime5primeRNAlariat topology distinctfromsimplecircle. Inventedexampleonly, no fabricatedrealgenomicRNA. Known5preApp/UMIend withoutwholeS5/3block assumption.",
       "deferred": [
         "Actualfinalpublishedarticle/Methods and source-indexedTablesS4/S5; do not replace with supersededpreprintoligos or guessednumberedNIHMSworkbookidentity.",
         "Sourcepreparationunknownwholeadapter/RT/PCRprimerorders, adapter3primeblockingchemistry, indexwidth/assignment/acquisition, genomicRNAbranchcoordinates and completeoccupiedproducts.",
@@ -84,14 +84,23 @@
     "date": "2026-10-30",
     "type": "same_source_implementation_recheck_not_absence_pass_2",
     "documents": 1,
-    "scope": "Same accepted author manuscript NIHMS1854138/PMC10448999 JATS introduction72/workflow90\u201394/Methods216\u2013230 and sourceidentity. No finalbody, TableS4/S5, preprint, vendor or neworiginal opened. FailedfinalDOI identity retained as coordinator-reported conservative slot, not another chemistryoriginal read.",
+    "scope": "Same accepted author manuscript NIHMS1854138/PMC10448999 JATS introduction72/workflow90–94/Methods216–230 and sourceidentity. No finalbody, TableS4/S5, preprint, vendor or neworiginal opened. FailedfinalDOI identity retained as coordinator-reported conservative slot, not another chemistryoriginal read.",
     "findings": [
       "Verified actual200million-cell librarycohort versus50million-cell fractionation reference remains aggregateinventory with unassignedarraymultiplicity/scaling; acceptedJATS literal200mL unit remains unresolved, not silentlyrepaired. Cytoplasmic/nucleoplasmic/chromatinQC and removedphysicalfractions stay distinct.",
-      "Verified C1 retainsRNA supernatant afterbiotinylatedncRNAprobe capture, laterTurboDNase removes excessprobes, RppH plusTerminator5prime\u21923prime treatment differsfromRNaseR validation. Actual500ngRNA\u21925preApp/N6UMIadapter/Rnl2K227Q\u2192SPRI\u2192SSIII/RTprimer\u2192ExoSAP\u2192EDTA/NaOH\u2192cDNAcleanup/circle\u2192Phusion15\u201318\u2192175\u2013750bpgel\u2192selected3nMPE100loading agreeswithacceptedMethods. WholeunretrievedTableS4/S5orders, indexassignment andoccupiedproducts remainunassembled.",
+      "Verified C1 retainsRNA supernatant afterbiotinylatedncRNAprobe capture, laterTurboDNase removes excessprobes, RppH plusTerminator5prime→3prime treatment differsfromRNaseR validation. Actual500ngRNA→5preApp/N6UMIadapter/Rnl2K227Q→SPRI→SSIII/RTprimer→ExoSAP→EDTA/NaOH→cDNAcleanup/circle→Phusion15–18→175–750bpgel→selected3nMPE100loading agreeswithacceptedMethods. WholeunretrievedTableS4/S5orders, indexassignment andoccupiedproducts remainunassembled.",
       "Requestedandverified two contained inventory/typingfixes: source-explicitoligo-basedRiboZero depletionprobe class nowexposedfromsameactualkitinventory, notnewfreeprobe dose; actualPCR nowtypedS.PCR withunavailablewholetemplate/primergeometry. RT/PCRsupplies do notclaiminventedpremixpackaging. Externalguarddoesnotcoverproducedwhole-unassembledRiboZero/PCRprimerclasses; thislimitation remains explicit.",
-      "Reviewed newneutralRNALariatTopology/RNAOxygenBond, material-onlychemistrychecker and25checksuite. Ordinary3prime5primebackbone plusdistinct2prime5primebranch preserveallbases/oxygenports; changed/lostbranchproducescontradiction. SharedFoldLayout validatesgeometry; renderedSVGvisuallyshowsjoined5splicesite andfree3OH. Additionaln2\u20138/allvalidbranchpositions layouts accepted.",
+      "Reviewed newneutralRNALariatTopology/RNAOxygenBond, material-onlychemistrychecker and25checksuite. Ordinary3prime5primebackbone plusdistinct2prime5primebranch preserveallbases/oxygenports; changed/lostbranchproducescontradiction. SharedFoldLayout validatesgeometry; renderedSVGvisuallyshowsjoined5splicesite andfree3OH. Additionaln2–8/allvalidbranchpositions layouts accepted.",
       "Inventedsequence/branch object is separateillustrativecomponentgraph, neveractualK562substrate. Localcola_tail_copy excludesbranch onlyforstatedsource-readoutcontract; neutralhelper doesnotpredictsplicing/RT/nuclease/foldingbehavior. Connectivityestablishedonlyforinventeddeclaredreference; no realCoLa reactionestablished. No final/AMequivalence/fullchemical/absence audit."
     ],
     "verification": "Independently22protocolfocusedPASS andseparate25neutralhelperPASS; defaultsourceguard0exact0failed/3wholeexternaloligosunassembled, plus3producedwhole-unassembledRiboZero/PCRprimerclassesoutsideexternalguard. ActualCoLaprotocol40steps/41unresolved/0contradictory; illustrativeexamplealone1narrowdeclaredconnectivityclaimestablished, notsourceidentityorformation. SelectedcriticalimplementationreviewCLOSED."
+  },
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_2",
+    "date": "2026-10-30",
+    "type": "source_qualified_public_preparation_not_absence_pass_2",
+    "documents": 1,
+    "scope": "Same alreadyselectedacceptedNIHMS1854138/PMC10448999 STARMethods216–230 reread; no finalpublishedbody/preprint/TableS4/S5/vendor/neworiginal opened. Acceptedversionqualification remains explicit.",
+    "changes": "Literalcuratorreviewedtargetgroups assignspecificsourcecontexts; QC/wastematerialkinds corrected toactualfates; usefulpublicoverview/knownparts/readsetup/sourcecaveats/fullcollapsedWorkflowSection; no weakergateorwholekitdefaults.",
+    "verification": "22focusedPASS; source-qualifiedgraphpublication_problems=[]; literalPAGE_FILE/build/completeHTMLmarker/fullWorkflowSectionpresent; pairinglint0/localhref0. Sourceguard0exact0failed/3unassembledexternaloligos plusproducedunknownkit/PCRclasses; chemistry40steps41unresolved0contradictory; illustrativeconnectivitycheckseparatefromactualreaction."
   }
 }

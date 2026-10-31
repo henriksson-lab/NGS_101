@@ -27,3 +27,7 @@ Zhang et al., *HiCoP, a simple and robust method for detecting interactions of r
 ## Scope limits
 
 The generic preceding NGS section describes CoP-seq alternatives including Tn5 and five-cycle/qPCR finishing; these are not automatically HiCoP's actual finishing recipe. No Tn5 branch, qPCR aliquot or HiSeq endpoint is imported. Full contact products, support occupancy, side products and library molecules remain unassembled. Source selection does not establish exclusive regulatory contacts. The local ligation views preserve the intended source dA-tailed substrate 3′ A class; its occupied genomic context is inferred by default. Adapter bodies and contact geometry remain unassembled with positive scope wording, rather than claiming an adapter overhang was not reported. No accepted missing-information claim or absence audit is made.
+
+## Public preparation page
+
+The source-qualified page now has a validated protocol graph with explicit source inventories and correctly typed QC allocations. It shows the source-supported preparation and read setup while retaining unresolved kit bodies, occupied molecular states and complete read geometry. Full workflow fractions and chemistry limitations remain visible in an expandable section. The publication gate does not establish a complete molecular reconstruction or an absence audit.

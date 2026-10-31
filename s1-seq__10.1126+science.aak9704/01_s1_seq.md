@@ -33,3 +33,8 @@ Actual availability is source-specific. Superseded preprint failures, simulation
 ## Local validation
 
 The source-owned graph is incomplete and has no page builder or finished marker. Exact sequence geometry remains unassembled. Local checks distinguish physical workup/copy classes and independently preserved fractions. Canonical source guard can report zero eligible exact strands; that is not complete oligo validation.
+
+
+## Bounded publication follow-up (2026-10-30)
+
+Bounded correction: source agarose is an actual molecular matrix contribution, not only a condition. The actual source low-cycle PCR supply boundary exposes polymerase, nucleotide and other functional components from the same aggregate preparation, without guessing a fresh named mastermix, doses, adapter bodies or platform. Its selected DNA loading contribution and untransferred stock are separate. The source order and resection-versus-native-DSB distinction remain. The genuine required2017Supplemental_material.pdf gate remains untouched; no later2018method, END-seq/BLESS recipe or sequencing configuration substituted. No public page was added or promoted.

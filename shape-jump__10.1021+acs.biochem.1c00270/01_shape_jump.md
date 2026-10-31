@@ -25,3 +25,11 @@ Source142 reports MiSeq300nt kit forP546/MBox/VS,500nt forRNaseP and600nt forgro
 ## Ancestry and remaining scope
 
 Source explicitly derives RT-C8 from RT521K. The structure-cassette citation is Merino et al.2005 (ref5, DOI10.1021/ja043822v), and the two-stage PCR citation is Smola et al.2015 (ref52); neither is the registered Siegfried2014 SHAPE-MaP defining paper. SHAPE-MaP reverse-transcription conditions are named for a separate MMLV-M screen branch. Those directly cited originals are unreviewed and no library recipe imported; a shared SHAPE name alone establishes no inheritance. Specific cassette/library component use is source-qualified to associated main126/136, not evidence of complete source-version equivalence. No finished schematic or accepted missing-information claim.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Associated Methods128 supplies2.5mM each NTP and the transcription buffer separately from T7 polymerase. These contributors are now distinct molecular/buffer classes in the local graph. The main5pmol folded-RNA allocation, molecular TBIA/IA/DMSO input and source-specific reaction time are explicit. The no-reagent control and first-PCR dilution no longer claim a covalent change. Controls remain separate invocations, not an invented shared physical pool.
+
+🟢 Methods136 places10pmol cassette-primer annealing before RT-C8, then adds the actual200uM dNTP and Mg-containing RT buffer/catalyst classes. The RT step consumes that already primed preparation without a second fresh primer dose. The two Q5 PCR stages now declare positive nucleotide/buffer functional contributions while leaving composition, doses and packaging unreviewed; no RT or dUTP recipe is inherited. Known final amplified DNA library kind survives cleanup.
+
+The original pending SourceItem remains uncovered: published-main applicability, actual gated SI/cassettes/primer bodies and library/RT-C8 predecessors are still unreviewed. Main142 independent parallel replicates are not manufactured from one reacted product. Source kit sizes are not acquired read cycles. No Marathon NaOH hydrolysis, Mn-dependent screening recipe, source absence or graph-generated source coverage is introduced. There is no PAGE_FILE or page builder; no new failing builder or finished public page is created.

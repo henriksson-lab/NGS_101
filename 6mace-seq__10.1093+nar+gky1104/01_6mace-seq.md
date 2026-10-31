@@ -63,3 +63,18 @@ The bait/control oligos elsewhere in TableS1 belong to DNA pulldown, demethylati
 ## Component ancestry
 
 Explicit DNA6mACE→RNA m6ACE development: published RNA m6ACE Results39 / Figure1a / reference31, associated source `s41467-019-13561-z_PMC6904561.xml.txt`. The authors state they capitalised on the recent DNA6mA method. Scope: antibody photo-crosslink and exonuclease-protected read-start strategy. DNA Lambda/RecJf/Phi29/adapters are not inherited by the RNA/XRN1 preparation.
+
+
+## Bounded publication adjudication — 2026-10-30, batch 17
+
+🟢 DNA-specific anti6mAUV protection, on-bead reverseadapter/fill/phosphorylation, distinct Lambda thenRecJf with actual intervening washes, SDS/proteinaseK release/ethanol recovery, PG162/Phi29 extension, forwardadapter ligation/1.7xcleanup, human18-orbacterial13cyclePhusionPCR and0.8xcleanup are supported. Source read-start peaks report protected6mA positions computationally; adenine is not chemically converted to another basecall. UVcrosslinks/peptide carryover and exonuclease-resistant background need not disappear completely.
+
+Anti6mA is now a physical molecular binding/crosslink partner, with its source UV programme declared separately as a condition. Source T4DNApolymerase,first/secondPNK and Phi29 fill are typed catalysts rather than only conditions. Whole known PG162 is an OLIGO and reverse/forward source adapter stocks are ADAPTERs; unassembled TruSeq PCR primer stocks are OLIGOs. This makes the five exact PG160–164 polymers visible to the existing source-transcription guard without inventing whole protected genomic products or primer landing.
+
+🟡 Original required pending_assembly remains uncovered: full molecular end-transition assembly and source TruSeq PCR primer/run geometry remain unreviewed. Published source operational stages and known PG components are retained, but the full protected-end/product/TruSeq/run relation and a source-supported sequencing terminal remain unassembled. Literal inventory and typed components are not full molecular completion.
+
+Curator-written literal source inventory now records only the reviewed actual inputs/operations. It is not derived from graph calls, graph-node enumeration or the existence of an output. The original broad source item is untouched and uncovered. No endpoint is relabeled as a finished library and no source information is claimed confirmed absent.
+
+Closed inspected scopes: Published PMC6294517 main JATS/PDF: Full Methods82–84 6mACE-seq preparation and single-end acquisition; actual originalFigure1PDFp4 workflow/caption, distinguishing protection from chemical base conversion; Published TableS1 XLSX: Actual original sharedStrings XML five wholePG160–164 orders and source5PhosPG161; rows3–7 and annealing/extension role labels; Published Supplementary_Methods_and_legends DOCX: Methods/legend scopes: supplementaryDIP as separateassay; FigS1–S2 legends and TableS1/S2 identities; no full supplementary biological result audit.
+
+No additional originals were acquired and no shared architecture was changed. Both private previews retain incomplete publication gates, without finished-page markers.

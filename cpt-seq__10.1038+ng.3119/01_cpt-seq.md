@@ -73,3 +73,63 @@ Four separate `linked_read_barcode` components share one group: transpositionT5/
 The associated article cites Nextera/transposition predecessors Adey et al.2010 and Caruccio2011. This is limited support for the transposition approach, not evidence of equal source adapters, conditions or products. SCI-seq and later linked-read methods are not imported as parents merely because they also use combinatorial indexing.
 
 Deferred: final published procedural applicability of the associated manuscript; historical FC-121-1012 primer members and exact PCR geometry; precise graphic/table connector comparison; custom recipe and physical-cycle mapping; quantitative cut/association/collision behavior; gated Word supplement identity/contents and linked-original review; independent reader. These are source/model tasks, not confirmed omissions.
+
+
+## Public-page hold adjudication, 2026-10-30
+
+**Hold: required molecular/physical-cycle scope remains unresolved.** The actual
+normal graph still reports `authoritative source item
+'historical_pcr_and_cycle_map' is not accounted for`. Its requiredness and
+coverage are unchanged. A coarse preparation, exact local adapter pairing or
+run-primer landing on the conditional A1/B1 reference does not satisfy that
+obligation. No existing molecular result is promoted to a finished page.
+
+The selected originals were: the associated NIHMS681868 manuscript
+[PMC4409979](https://pmc.ncbi.nlm.nih.gov/articles/PMC4409979/),
+`ng.3119_PMC4409979.xml(.txt)`, Methods104–130; publisher corrected
+SupplementaryFigures `ng.3119_41588_2014_BFng3119_MOESM1_ESM.pdf`, original
+Figures3/4 physicalPDFpp4–5; and publisher correctedTable4
+`ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx`, including originalZIP/XML
+correction/header/restored rows. See external MANIFEST.tsv for exact URLs and
+hashes. Accepted-manuscript and final procedural equivalence is not asserted.
+
+The20May2015 correction notice states that the first five Table4rows were
+originally missing and have been restored. Figure3 connectorA appears to end
+`TCCACCC`; the corrected workbook rows print `TCCACGC`. The model uses the
+workbook string and retains the unadjudicated graphic/workbook difference.
+The notice about restored rows is not proof that this separate connector
+difference was corrected or that an entire source version is equivalent.
+
+Figure4 explicitly gives Read1cycles1–51, transposonT7cycles52–59, PCRi7
+cycles60–67, PCRi5cycles68–75, transposonT5cycles76–83 and Read2cycles84–134.
+That logical acquisition scheme does not by itself establish how the custom
+physical recipe crosses the intervening connector sequences. Full historical
+FC-121-1012PCR polymers, their applicability and complete intermediate/primer
+geometry remain unassembled. Do not replace this with ordinary contiguous
+16cycle indexing or an unreviewed newer Nextera recipe. These are open
+component/model questions, not confirmed publication omissions.
+
+An actual linked manuscript supplement,
+[NIHMS681868 Figures and Tables DOC](https://pmc.ncbi.nlm.nih.gov/articles/instance/4409979/bin/NIHMS681868-supplement-Figures___Tables.doc),
+is a manual retrieval-gate entry with no validated local body. Its identity
+and content are unreviewed; the fetcher's “probably redundant” wording is not
+source-equivalence evidence. It is not asserted to contain the desired PCR
+polymers/custom recipe, and no fictional vendor disclosure document is added
+for a desired value.
+
+Additional source-backed model work remains if this hold is revisited. The20
+transposons are loaded individually before making8×12combinations. Catalytic
+Tn5 activity must come from the same actual loaded stock. Each transposition
+contains20µL then receives20µLEDTA; the source pools selected20µL, leaving20µL
+per well. PhysicalPCRwells contain200ngBSA and the same i7primer before SDS.
+Each100µLPCR contributes selected50µL to the final pool, leaving50µL; other
+co-present end products cannot be excluded by an intendedA/Breference. The
+actual NPM components, BioAnalyzer material and source cluster/loading
+stock boundaries also need explicit treatment. These observations do not
+remove the required historical-primer/physical-cycle obligation.
+
+Mandatory scrapers: `/tmp/unlinked-cpt7-scraper.log` and
+`/tmp/unlinked-cpt7-scraper-all.log`; original Figures3/4 and workbook rows
+were inspected. Thirty-one preflight checks passed; chemistry9steps,
+4localpairingrelations,10unresolved,0contradictory. No code or graph gate
+changed; tests were not repeated for this documentation-only adjudication.

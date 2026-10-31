@@ -52,5 +52,12 @@
       "Requested two narrow corrections completed: actual100ulchloroform has a physical supply port in both RNA paths; protein fraction is an unresolved non-NGS assay continuation, not a QC control. The two sequencing endpoints retain separate source150/150 plans; no physical DNA/RNA library pool invented."
     ],
     "verification": "Independently reran49 focused checks PASS, sourceguard0exact0failed10inputswithoutlongexactstates/4producedunknownadapterclasses; chemistry127unresolved0contradictory. Narrow source/implementation review only, not complete molecular validation or absence gate."
+  },
+  "page_publication_review": {
+    "date": "2026-10-30",
+    "originals": 1,
+    "scope": "Reread same published PMC11925928 Methods3.1\u20133.18, with no new acquisition or supplementary/vendor originals. Mandatory bundle scraper rerun. Fixed curator-written source inventories follow shared capture, DNA/RNA control/production recovery, tagmentation/PCR testing and final library selection.",
+    "result": "Public source-qualified capture and separate DNA/RNA workflows; normal source/terminal publication gate passes. Eight terminal analytical fractions correctly typed as QC; non-NGS protein continuation remains unresolved. No invented doses, index sequences, full products or read landing sites.",
+    "verification": "49source/behavior checks pass; source/chemistry/rendering checks pending final batch verification."
   }
 }

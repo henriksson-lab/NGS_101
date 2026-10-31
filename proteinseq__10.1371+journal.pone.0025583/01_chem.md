@@ -26,10 +26,18 @@ Component lineage: main Methods explicitly cites earlier solid-support preparati
 
 Deferred targets (not claims of absence):
 
-- Published TablesS5–S7 (probe bodies and sliding-splint sequence) and FigS1 original geometry; TableS3 source NGS probe concentrations
+- Published TablesS5/S6 and FigS1 original probe/splint geometry remain unreviewed; TableS3 source NGS probe concentrations. Actual TableS7 is the qPCR primer table, not a sliding-splint sequence table
 - Source-cited bead/antibody conjugation predecessors (main refs19/29), full manufacturing and workup
 - Full universal primer sites, complete reporter copy/ligation and read geometry; actual sample/index assignment
 
 Verification: mandatory standard oligo scraper was run over each fetched source bundle; source pointers and relevant modifications were checked against the originals stated above. Local tests check transcription and consequential fraction/order distinctions; graph validation is separate from molecular/source completeness. No absence audit or absence acceptance.
 
 Physical QC branch: analytical aliquots remain separate from the production preparation. MALDI matrix-exposed, qPCR-amplified, gel-analysed or Qubit-assayed material is not automatically pooled for sequencing. Selected source quantities are retained; unreviewed analytical allocation amounts stay unspecified.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Original TableS7 (`s011.docx`) is headed “PCR primer sequences” and its caption specifies multiplex SP-PLA with qPCR readout. It lists the named universal forward/reverse primer pair and the specific qPCR primers. It is not the sliding-splint sequence table previously assigned by the repository note/model; that attribution is corrected here. No conclusion about the disclosure of a splint follows from this correction. TablesS5/S6 and original FigS1 remain unreviewed in the closed pass. The main article205 refers jointly to TablesS5–S8; full probe/splint assembly is still unassembled.
+
+🟢 Main252 requires independently prepared indexed products combined into seven groups of twelve indexes. The current representative preparation followed by a generic pooling label does not establish those independent producers or physical pooling arrays. Reconstructing the array is outside this bounded correction; the actual broad required full-reporter/linked-original item remains uncovered, and the gate remains blocked. No one-product relabeling is accepted as a completed source array, and no opaque endpoint or inventory is counted as full-assembly evidence.
+
+The current pass inspected only published main197–262/FigS1caption270–272 and original TableS7/TableS8 DOCX XML. TableS8 whole NGS primer orders were checked; the qPCR dUTP/15cycle recipe is not substituted for NGS246 dNTPmix/35cycles. Existing physical aliquot/QC distinctions are retained. No public completion marker or new recipe is introduced.

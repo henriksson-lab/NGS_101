@@ -203,5 +203,33 @@
       "oligo_scraper": "Mandatory actual-bundle scan; selected original contexts inspected. Proximity/CAP large-file skips explicit; empty CeFra/TRIBE hits do not establish absence.",
       "verification": "18localbehaviorchecks pass across3chemistrymodels, sourceguard0checked0failed6unassembledinputs, chemistry46unresolved0contradictory. CeFra has no graph/tests and is not chemistry-collected."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "scope": "Documentation-only adjudication of actual predecessor/control/source scopes; code unchanged.",
+    "result": "blocked_source_model_scope",
+    "documents": 1,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/tribe__10.1016+j.cell.2016.03.007/j.cell.2016.03.007_PMC5027142.xml.txt",
+        "version": "Associated accepted manuscript, not final VOR; no whole-version equivalence established",
+        "sections": "Identity1\u201324; limits126\u2013132; Methods140\u2013150",
+        "scope": "Actual selected method branches and named historical preparation interfaces; no comparator workflow inherited."
+      }
+    ],
+    "missing_claims": [],
+    "publication_problems": [
+      "authoritative source item 'gated_procedures' is not accounted for",
+      "authoritative source item 'pending_predecessors' is not accounted for",
+      "graph input/step 'cells' has no source-inventory item",
+      "graph input/step 'editing' has no source-inventory item",
+      "graph input/step 'editing_reagent' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'library_boundary' has no source-inventory item",
+      "graph input/step 'library_reagents' has no source-inventory item",
+      "graph input/step 'rna_preparation' has no source-inventory item",
+      "graph input/step 'rna_preparation_reagent' has no source-inventory item"
+    ],
+    "verification": "STAMP 11 focused PASS; source guard 0 checked/0 failed/0 unknown default-graph oligos. Chemistry STAMP5/TRIBE3 unresolved claims,0contradictory. No PAGE_FILE exists; no new failing builder/private HTML introduced."
+  }
 }

@@ -28,3 +28,11 @@ The PMC supplementary attachment is currently gated, while a publisher Supplemen
 ## Lineage
 
 The article explicitly cites Meissner et al. (2005), DOI 10.1093/nar/gki901, for RRBS/reduced representation; source scope is the restriction-selected bisulfite strategy. The 2008 Illumina adapter chemistry is owned here and is not inherited from that older method. Later RRBS-based methods may cite this paper; each child needs its own component evidence.
+
+## Bounded publication assessment, 30 October 2026 — source hold
+
+Private RRBS model now declares molecular nucleotide supplies for fill-in/3A extension and preparativePCR, aggregate kit ligating catalyst class, actual reactive bisulfite-containing supply and actual SYBR-green stain. The manual unavailable junction includes an inferred contextual source3A substrate-only Scene/typed3prime end, with opposite adapter/end and full junction unassembled. Source size-fraction collection selection and loading stock/remainders are explicit without asserting an unreported fraction pool. No full historical kit formula or polymer is invented.
+
+The required SourceItem unreviewed_original remains unchanged: full publishedVOR comparison and original cited Illumina DNA preparation/EpiTectworkup instructions remain relevant and unreviewed. AssociatedAM+publishedSI are not fullVOR or original kit instruction equivalence. No excluded/not-applicable coverage was added.
+
+The normal publication gate still rejects the source obligation. The generated page is a private source-scope preview, with no protocol-complete marker; this pass does not recommend catalogue promotion. Source acquisition was not expanded.

@@ -218,5 +218,74 @@
       "oligo_scraper": "Mandatory acquired-bundle scan; source contexts/modifications inspected where relevant. Superseded preprint hits excluded; APEX-RIP two large dataworkbooks unscanned by default, no absence conclusion.",
       "verification": "17localbehaviorchecks pass across3models; sourceguard0exactchecked0failed2unassembledinputs; chemistry45unresolved0contradictory. Not full chemical validation."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 3,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_PMC8887463.xml.txt",
+        "version": "Published non-manuscript defining article",
+        "sections": "Identity1\u20134; Methods83\u2013115; mechanism159\u2013165",
+        "scope": "Actual DBF/PA/light/RNA extraction/click/pulldown/releases/kitinput/PCR/readout and controls; dotblot/imaging distinctassays."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_SUPPLEMENTARY_DATA_LEGENDS.docx",
+        "version": "Published SI legends original",
+        "sections": "Original DOCX word/document.xml whole TableS1\u20134descriptions/FigS1\u20134legends",
+        "scope": "Analysis/input-pulldown and imagingcontrol context; no NGS adapters or wholechemistry inheritance."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/halo-seq__10.1093+nar+gkab1185/nar_gkab1185_supp_gkab1185_supplemental_files_SupplementaryFigures.pdf",
+        "version": "Published SI original",
+        "sections": "Actual FigS1p1 rendered /tmp/unlinked-multi27-halo-si1.png; extracted labels opening/selectedremainingfigures",
+        "scope": "Visualcontrol/imaging and input/pulldown distinctions; whole remaining graphic panels not audited."
+      }
+    ],
+    "scope": "Actual molecular DBF/PA/CuAAC/Trizol contributors, no fake premix or fresh photostep duplicates, actual100ng libraryallocation and remainingstock.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'pending_originals' is not accounted for",
+      "graph input/step 'bead_separation' has no source-inventory item",
+      "graph input/step 'bead_separation_condition' has no source-inventory item",
+      "graph input/step 'beads' has no source-inventory item",
+      "graph input/step 'capture' has no source-inventory item",
+      "graph input/step 'cells' has no source-inventory item",
+      "graph input/step 'click' has no source-inventory item",
+      "graph input/step 'click_components' has no source-inventory item",
+      "graph input/step 'click_environment' has no source-inventory item",
+      "graph input/step 'click_supplies' has no source-inventory item",
+      "graph input/step 'dbf' has no source-inventory item",
+      "graph input/step 'dbf_environment' has no source-inventory item",
+      "graph input/step 'dbf_stock' has no source-inventory item",
+      "graph input/step 'directzol' has no source-inventory item",
+      "graph input/step 'directzol_condition' has no source-inventory item",
+      "graph input/step 'dnase' has no source-inventory item",
+      "graph input/step 'dnase_stock' has no source-inventory item",
+      "graph input/step 'ethanol' has no source-inventory item",
+      "graph input/step 'ethanol_condition' has no source-inventory item",
+      "graph input/step 'kapa' has no source-inventory item",
+      "graph input/step 'kit_handoff' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'library_input_allocation' has no source-inventory item",
+      "graph input/step 'media_washes' has no source-inventory item",
+      "graph input/step 'media_washes_condition' has no source-inventory item",
+      "graph input/step 'pa' has no source-inventory item",
+      "graph input/step 'pa_stock' has no source-inventory item",
+      "graph input/step 'pcr' has no source-inventory item",
+      "graph input/step 'pcr_enzyme' has no source-inventory item",
+      "graph input/step 'pcr_forward' has no source-inventory item",
+      "graph input/step 'pcr_reverse' has no source-inventory item",
+      "graph input/step 'photolabel' has no source-inventory item",
+      "graph input/step 'photolabel_stock' has no source-inventory item",
+      "graph input/step 'release' has no source-inventory item",
+      "graph input/step 'release_stock' has no source-inventory item",
+      "graph input/step 'trizol1' has no source-inventory item",
+      "graph input/step 'trizol1_condition' has no source-inventory item",
+      "graph input/step 'trizol2' has no source-inventory item",
+      "graph input/step 'trizol2_condition' has no source-inventory item"
+    ],
+    "verification": "Halo11PASS/SMRF14PASS; sourceguard0checked0failed4unknownprimerinputs0exceptions; chemistry18+15unresolved0contradictory. SMRF privatebuild/HTML no completionmarker; Halo noPAGE_FILE/newbuilder."
+  }
 }

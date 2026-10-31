@@ -45,6 +45,37 @@
     "reviewer": "coordinator_round27",
     "date": "2026-10-30",
     "scope": "Publishedmain192\u2013222 andmain62/ref17; originalSI Table1p6render. Same2selectedoriginals; no kit/guide-panel/linked-sourceaudit.",
-    "finding": "DualcagedRTmodifiedorderings,postlysisadapter50ulstock/10ulallocation,knownlocal15+15splintnick,biotincapture,continuedRT/TSO,5cycleQCallocation/continuedPCRandselectedDASHroute consistent. SourcePSSancestrylimitedtoimaging/photoselectiondesign, notTn5/RTchemistry. Fullstates/cyclemaskunassembled; selectedcriticalscopeclosed."
+    "finding": "DualcagedRTmodifiedorderings,postlysisadapter50ulstock/10ulallocation,knownlocal15+15splintnick,biotincapture,continuedRT/TSO,5cycleQCallocation/continuedPCRandselectedDASHroute consistent. SourcePSSancestrylimitedtoimaging/photoselectiondesign, notTn5/RTchemistry. Fullstates/cyclemaskunassembled; selectedcriticalscopeclosed.",
+    "public_page_recheck": {
+      "reviewer": "independent_source_reader",
+      "date": "2026-10-30",
+      "scope": "Selected same-published-original implementation/publication recheck only;2originalsPHOTON/PBA,1NJU, no new acquisition or absence audit.",
+      "findings": [
+        "Published main192\u2013222 plus actualSI1Table1p6, modifiedwholeRT/random/splint/P7/TSO inventory and localnick sourceconsistent.",
+        "ActualRT/TS/PCRsupplies decomposed into source enzyme/NT/bufferfunctions withoutextraenzymeaddition. HistoricalNexteraXT/DASHbranch scope and unknownguides/runmasks explicit.",
+        "RequestedactualQubitafterWTArecovery andpost-DASHTapeStationQC fixed asdistinctanalyticalallocationswithretainedproduction; preDASHQAretained. Actualrendermissingtemplateinventoryrolefixedsoleaggregate-stockport toTEMPLATE initsownnontransformingcomponentbranch, not biological template substitution. RerenderPASS."
+      ],
+      "verification": {
+        "independently_reran_focused_checks": 14,
+        "normal_gate": "PASS",
+        "actual_render": "PASS; completewrapper/fullcollapsedworkflow present, /tmp/positive-b-peer-photon.html",
+        "sourceguard": "Combined3graphs11checked0failed0exemptions3externalunknown",
+        "chemistry": "Combined2established83unresolved0contradictory",
+        "pairing": "Actualrenderedthreepages0problemduplexes",
+        "inventory": "Literal static curated SOURCE_TARGETS, not graph enumeration; originalselected scopedSourceItem retained/modelled, no broadrequireditemremoved/excluded.",
+        "absence_review": "None; same-source implementation/publication review only."
+      },
+      "absence_pass_2": false
+    }
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "ready_source_qualified_preparation",
+    "source_scope": "PublishedmainFig1/Methods192\u2013222 selectedHeLaSGroute; PublishedSI/Table1 originalp6 wholemodifiedorderings; Table text checked against rendering",
+    "originals": 2,
+    "source_cap": 3,
+    "findings": "Source-qualified public page adds literal stage/reagent inventory with original selected SourceItem retained and covered. Same RT/TS/Q5 supplies expose enzyme, nucleotide and buffer components without fresh duplicate additions. Actual post-WTA Qubit and separate final post-DASH TapeStation allocations preserve analytical/production separation; pre-DASH TapeStation is distinct. Prepared HeLa SG input boundary, exact modified Table1 oligos/local splint, actual10of50ul stock and retainedPCR/no freshenzyme are preserved. Historical NexteraXT/RNP/full occupied cDNA/read geometry remain unassembled. No broad unread obligation was removed.",
+    "scope_limit": "Same selected originals only; no new acquisition, inherited vendor recipe, complete version equivalence or accepted absence audit.",
+    "verification": "Normalgate0; focusedchecks/build/sourceguard/chemistry/pairing/HTML in /tmp/unlinked-positive-final-b.json"
   }
 }

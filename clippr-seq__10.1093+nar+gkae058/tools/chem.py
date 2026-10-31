@@ -1,9 +1,9 @@
-"""Private source-qualified partial preparation; no full source/absence audit."""
+"""Source-qualified public preparation with partial molecular detail; no full source/absence audit."""
 from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parents[1]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem,SourceCoverage
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from chemdraw import Scene,Segment
@@ -22,7 +22,7 @@ class T:
   y=self.g.product(k+'_kept','Actual retained source workup fraction',K.MOLECULAR);w=self.g.product(k+'_excluded','Actual excluded source fraction; purity not asserted',K.WASTE)
   self.g.react(k,label,S.CLEANUP,((self.x,R.TEMPLATE),)+tuple(ports)+(self.inp(k+'_condition',label),),(y,w));self.g.discard(w,'Actual excluded workup fraction; no invented molecular partition or complete purification');self.x=y;return y
  def aliquot(self,k,label,qc=False):
-  y=self.g.product(k+'_selected','Actual allocation: '+label,K.MOLECULAR);r=self.g.product(k+'_remainder','Untransferred source stock; actual amount/later fate unassigned',K.MOLECULAR)
+  y=self.g.product(k+'_selected','Actual allocation: '+label,K.QC if qc else K.MOLECULAR);r=self.g.product(k+'_remainder','Untransferred source stock; actual amount/later fate unassigned',K.MOLECULAR)
   self.g.react(k,label,S.SPLIT,((self.x,R.TEMPLATE),),(y,r))
   self.g.mark_terminal(Terminal(y.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,label if qc else 'Untransferred stock not silently consumed/discarded'))
   self.x=r if qc else y;return y
@@ -73,7 +73,7 @@ def protocol_graph():
  g.react('branch_halves','Actual source half/half physical split before RNaseR',S.SPLIT,((b.x,R.TEMPLATE),),(treated,control))
  b.x=treated;b.op('rnase_r','Source RNaseR enrichment; detailed citedref20 conditions unreviewed',(b.inp('rnase_r_enzyme','Actual RNaseR exonuclease class; dose unassigned',K.CATALYST,R.CATALYST),),kind=S.DIGESTION,chemical_state={'RNA':'CircularRNA-enriched heterogeneous preparation with copresent degradation products; no instantaneous separation or perfect specificity'})
  _finish(g,b.x,'clippr',10);_finish(g,control,'clipp',25)
- return g
+ return _publication_coverage(g)
 
 def selftest():
  from checks import Check,Source,have
@@ -98,5 +98,47 @@ def selftest():
  p=sources_root()/HERE.parent.name/'nar_gkae058_PMC11014417.pdf.txt'
  if have(c,Source(p,'https://doi.org/10.1093/nar/gkae058')):
   t=p.read_text();c('Printed published identity','Nucleic Acids Research, 2024'in t,True);c('Source single-end150','150 bp single-end sequencing'in t,True)
- c('Private incomplete graph',bool(g.publication_problems()),True);c.report()
+ c('Publication graph validates with declared limitations',g.publication_problems(),[]);c.report()
+
+
+def _cover_reviewed_targets(g, groups):
+ """Only the literal curator-reviewed targets below receive these source assignments."""
+ for source,targets in groups:
+  for target in targets:
+   label=g.materials[target].label if target in g.materials else g.steps[target].label
+   key='reviewed_'+target
+   g.add_source_item(SourceItem(key,label,source))
+   g.cover_source_item(SourceCoverage(key,'modelled',target))
+
+PAGE_FILE='clippr-seq.html'
+SOURCE_TARGETS=(
+ ('Printed published OUP/NAR2024 Methods77–108: selected betaTC6 AMT/TRIzol/DNase and10ugpolyA isolation/QC; inventory views are bookkeeping, not separate fresh doses.',
+  ('cells','amt','uv_conditions','crosslink','trizol_supplies','rna_isolation_condition','rna_isolation','dnase_enzyme','dnase','total_rna_qc','capture_rna_input','polya_module','capture_inventory','polya_capture','polya_elution','polya_qc')),
+ ('Same published Methods109–114 and Results methodologyPDFp4/Fig1p5: photoreversal, physicalhalves andRNaseR enrichment; detailed ref20 conditions not inherited.',
+  ('photoreversal_conditions','photoreverse','branch_halves','rnase_r_enzyme','rnase_r')),
+ ('Same published Methods115–122/Fig1:10ngtreated and25nguntreatedCollibrilibraries/DNAScreenTapeQC/NextSeq550SE150. Componentviews are class-level inventories; wholekitrecipe/bodies unassembled.',
+  ('clippr_rna_input','clippr_kit_inventory','clippr_kit_components','clippr_library_finish','clippr_library_qc','clippr_loading_allocation','clippr_loading','clippr_library',
+   'clipp_rna_input','clipp_kit_inventory','clipp_kit_components','clipp_library_finish','clipp_library_qc','clipp_loading_allocation','clipp_loading','clipp_library')),
+)
+
+def _publication_coverage(g):
+ g.cover_source_item(SourceCoverage('terminology','modelled','crosslink'))
+ g.cover_source_item(SourceCoverage('wavelength','modelled','photoreverse'))
+ g.cover_source_item(SourceCoverage('bounded_exception','excluded',reason='Historical source-identity/cap record, not a molecular operation; recorded in the source review and publicly qualified source scope.'))
+ _cover_reviewed_targets(g,SOURCE_TARGETS)
+ return g.require_publishable()
+
+def render_page():
+ from page import head,caveat,table
+ from protocol_views import assemble_page,WorkflowSection
+ g=protocol_graph()
+ return assemble_page(g,[head('CLiPPR-seq — capture of mRNA-associated circular RNA'),
+ '<main class="wrap" data-protocol-complete="true"><h1>CLiPPR-seq</h1><p>AMT crosslinking preserves RNA-duplex associations before poly(A) capture. Photoreversal releases the associated RNAs; RNase R enriches circular RNA for sequencing. A separate untreated CLiPP library supplies the mRNA comparison.</p><p><a href="https://doi.org/10.1093/nar/gkae058">Singh et al., Nucleic Acids Research (2024)</a> · <a href="01_clippr-seq.html">Research note and evidence scope</a></p>',
+ caveat('<strong>Source-qualified preparation, with partial molecular detail.</strong> The published PDF supports the betaTC6 workflow below. RNA sequences, occupied crosslinks, capture-oligo length and complete Collibri library molecules remain unassembled. The method enriches candidate associations; it does not establish exclusive direct binding or a covalently joined partner read.'),
+ '<h2>Preparation</h2><ol><li>Incubate cells with AMT at 20 µg/ml for 30 min at 37°C, then give two 7 min 365-nm UV exposures on ice.</li><li>Isolate RNA using the selected TRIzol route, treat with DNase and allocate 10 µg for oligo-dT magnetic capture.</li><li>Photoreverse for 5 min and split the recovered RNA into halves. Treat one half with RNase R; retain the other as CLiPP control.</li><li>Prepare separate Collibri stranded libraries from 10 ng treated RNA and 25 ng untreated RNA, then allocate DNA for TapeStation QC and sequencing.</li></ol>',
+ '<h2>Known molecular parts</h2>',table(('Part','Role and limit'),(('AMT plus 365-nm UV','RNA-duplex crosslinking class; occupied sites and atom maps unassembled.'),('Oligo-dT magnetic support','Captures poly(A) RNA and associated crosslinked RNA. Whole support oligo and hybrid occupancy remain unresolved.'),('RNase R','Circular-RNA enrichment; linear fragments and incompletely digested material are not assumed absent.'),('Collibri stranded RNA preparation','Actual kit oligo, catalyst and nucleotide inventory classes are retained; exact bodies, packaging and finishing order are unresolved.'))),
+ '<h2>Read setup</h2><p>Illumina NextSeq 550, single-end 150 bases for each library. No physical pooling is asserted. Whole read-primer landing sites and index layout remain unassembled; candidate partners are inferred by comparing circRNA sequences with the CLiPP mRNA library and by validation.</p>',
+ '<h2>Source wording and scope</h2><p>The abstract and Methods heading say “proximity ligation”; Figure 1 and the executed overview describe AMT crosslinking and photoreversal. This page models that physical capture without inventing a phosphodiester RNA–RNA join. Methods prints “254 nM”; Figure 1 and Results identify 254 nm UV. The page uses the figure wavelength interpretation and preserves both source values.</p><p>The PMC-hosted PDF visibly uses the published OUP/NAR2024 layout. Associated supplement index and TableS8 were checked for reagent roles; their validation, knockdown and reporter oligos are not assigned as sequencing adapters. The associated author manuscript is not used as a substitute for the inspected published chemistry. Detailed RNase R and kit originals remain outside this source pass.</p>',
+ '<details><summary>Full molecular workflow, physical fractions and unresolved chemistry</summary>',WorkflowSection('Source-qualified molecular workflow'),'</details></main>'])
+
 if __name__=='__main__':selftest()

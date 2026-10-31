@@ -67,6 +67,21 @@
       ],
       "oligo_scraper": "Mandatory full-bundle scrapers run after fetch; G4seq95hits/5files, SMRF0hits, ssDNA0hits. Hits reviewed as pointers; no exact library oligo or absence claim derived.",
       "verification": "22localchecks(6G4/9SMRF/7ssDNA)passed;3builds/pairing and source-review schema passed. Sourceguard0checked/0failed with2unrepresented SMRF locus-primer inputs; no exact oligo validation claimed. Chemistry0established/25unresolved/0contradictory, not full chemical validation. Independent implementation review found no critical molecular/fate/version defect; it was not an absence-audit pass. Fetch session10000completed exit0, no process running."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch16",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published SI MOESM27 only; no new acquisition, rendered-figure or XML-program review.",
+      "locations": "Fig1 caption lines1\u20139 and Fig3 caption lines30\u201338 in published SI text.",
+      "findings": "Independent cation comparisons and sequential Na+/Na++PDS observations are source-positive. Reported mismatches are measured calls, not original-template base conversion. Separate K+ and Na++PDS branches are retained. Existing model already makes these distinctions; no endpoint or required-source waiver justified.",
+      "deferred": [
+        "Full defining main Methods/library construction remains unresolved at the existing blocked_main item.",
+        "MOESM31/32/33 exact original XML programs are locally available but unreviewed, not inaccessible; complete template/reset/strand/run geometry remains the existing unreviewed_scripts item."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper completed: /tmp/unlinked16-g4-scraper.log. Genomic/control/code hits do not establish library ordering oligos or absence.",
+      "verification": "No model edit; source checklist schema and normal hold gates will be checked during combined batch validation. No accepted missing-information claim."
     }
   ]
 }

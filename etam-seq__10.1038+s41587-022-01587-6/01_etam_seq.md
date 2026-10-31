@@ -43,3 +43,40 @@ The IVT target is modification-free RNA produced through oligo(dT), a biotin/T7 
 **Explicit library-strategy predecessor:** `m6a-sac-seq__10.1038+s41587-022-01243-z` → this eTAM-seq directory. Methods 205 and 211 cite ref. 14, which resolves to Hu 2022 m6A-SAC-seq. Scope: poly(A) removal/end repair/RNA-adapter and cDNA-adapter library subroute, with local changes. It does not establish inherited allylation/cyclization chemistry or equal adapter sequences, enzyme conditions, controls or readout. Each remains declared locally; no recipe constructor is imported.
 
 Proposed metadata: RNA; bulk poly(A)+ input; enzyme-assisted deamination; affinity-tethered treatment; RNA/cDNA adapter ligation; RT/PCR; IVT/FTO/calibration controls; dual-index Illumina library; published instance. Keep `notes`/`pending_source_review`. Deferred: final VOR comparison, remaining supplements, full IVT/spike-in states, exact cDNA adapter/PCR products/index assignments/acquisition, and statistical correction. No confirmed missing-information claim.
+
+## Unlinked-page adjudication: preparation/model hold
+
+The 30 October 2026 bounded pass revisited only the existing accepted manuscript
+(Methods 173–217) and publisher supplement Notes 1–2. No additional original,
+reference or vendor source was opened; whole final-version/manuscript
+equivalence remains unestablished.
+
+The default three-step graph begins with prepared bead-bound RNA and ends at
+an unresolved selected-site RNA–cDNA hybrid. Its normal gate reports
+`no terminal output is designated for sequencing`. This reflects substantive
+preparation work, not a label that can safely be added to the hybrid.
+
+Methods 205–211 specifies separate 50 ng poly(A)+ target and 25 ng IVT control
+preparations, poly(A) removal, zinc fragmentation, end treatment, cleanup, 2%
+calibration probes, activated biotin-adapter ligation and sequential deadenylase
+and RecJf digestion. The ligated target is divided into actual FTO− and FTO+
+halves; IVT is independently prepared. Modification-free IVT target does not
+make the subsequently added methylated calibration probes modification-free.
+
+The three TadA treatments require fresh mixtures and drained supernatants
+between the 53 °C and two 44 °C rounds. FTO buffer includes actual cofactors,
+BSA and inhibitor. Source washing, RT supplies, heat/SDS release, recovered
+eluate and residual beads require explicit physical fates. The subsequent
+cDNA-adapter ligation, cleanup, Q5 master-mix components, historical E6440S
+primer inventory, PCR and AMPure purification are still unmodeled. Exact
+primer/index choices and read geometry must not be supplied from a modern kit.
+
+The NGS RT nucleotide dose remains unassigned in this scoped model; no dose
+is inferred. The source N6 adapter identifier's UMI interpretation
+remains an inference. Selected RNA I, complementary DNA C and reference G
+remain distinct, with residual conversion fractions unassigned.
+
+The current component model remains unchanged. A later scoped implementation
+must preserve the actual upstream preparations, controls, supplies, aliquots
+and downstream library construction before claiming a sequencing endpoint.
+This is a model hold, not an absence claim or a completed disclosure review.

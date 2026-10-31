@@ -34,3 +34,8 @@ The export also prints **10006×g** for a wash spin; no automatic10000×g repair
 ## Remaining limits
 
 Whole RNA/engaged-complex/adduct structures, exact4sU occupancy, specificity/recovery, nonlabelled/off-target products and complete kit/read geometry remain unassembled. Superseded preprint material was automatically fetched but excluded from authority. The low-input export and separate supplement1 are ordinary unread originals under the cap. No new vendor or predecessor recipe is inherited solely by kit name. Source-review history records a late first manuscript-identity header counter entry; total unique originals remained three. No complete missing-information audit or accepted absence claim is made.
+
+
+## Public page scope
+
+The public page follows the selected published standard preparation and displays the source/protocol differences above. Four analytical allocations are typed QC materials. A literal curator-written source inventory covers each external input, operation and sequencing endpoint. Passing that gate establishes reviewed workflow coverage and terminal fates, while the computed molecular relations remain unresolved. Historical kit/index/readout facets are labelled unassigned in the model rather than filled from a modern kit recipe.

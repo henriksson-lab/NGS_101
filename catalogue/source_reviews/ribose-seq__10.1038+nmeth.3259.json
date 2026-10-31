@@ -76,7 +76,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped source/model pass only. Source-qualified partial graph, not full chemistry validation or a completed missing-information audit.",
+  "conclusion": "Eligible for source-qualified public preparation page; representation published_instance is scoped to the declared preparation and role-level classes. Whole-library architecture and the explicitly named source/model questions remain unresolved. No complete chemistry claim or accepted absence conclusion.",
   "bounded_checks": [
     {
       "round": "2026-10-28-expansion-pair2",
@@ -85,7 +85,7 @@
       "documents": 3,
       "scope": "Bounded source investigation, no more than3chemistry originals; source qualifications retained. Not a completed review or absence acceptance.",
       "locations": "Manifest author-manuscript status; Results mechanism, library construction Methods lines105-109, sequencing111-121, analysis123-125; reference24.; Full primary publisher2019Addendum notice;19July2019.; Corrected Supplementary Table8, physical PDF page20 rendered and text lines936-1210; Figure1 and chemical capture/bypass captions.",
-      "findings": "Local typed RiboseState separates linear terminal classes from closed circles and junction2primeP status. Source AtRNL geometry does not invoke3primeOH helper. T5 debris stays molecular through Tpt1 until actual AMPуре cleanup. Exact circular-PCR endpoint unassembled; printed primer example/index/UMI roles kept positive.",
+      "findings": "Local typed RiboseState separates linear terminal classes from closed circles and junction2primeP status. Source AtRNL geometry does not invoke3primeOH helper. T5 debris stays molecular through Tpt1 until actual AMP\u0443\u0440\u0435 cleanup. Exact circular-PCR endpoint unassembled; printed primer example/index/UMI roles kept positive.",
       "deferred": [
         "Independent second reader; complete corrected VOR Methods and source-linked predecessor original.",
         "Noncanonical AtRNL site/end/strand preservation relation and exact circular-PCR amplicon/read-primer derivation.",
@@ -93,6 +93,23 @@
       ],
       "oligo_scraper": "Mandatory full-bundle scraper run; source lines and modifications read. Ribose corrected Table8 rendered. Hits are not absence evidence.",
       "verification": "7source transcription checks pass; page build/pairing pass; chemistry0contradictory; sourceguard5checked acrosspair,0failed,1scopedS-Am notation exception backed by rendered-original/localtest."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-4",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Bounded source-qualified public-page pass; not independent absence audit or complete chemistry review",
+      "locations": "Associated nmeth.3259_PMC4686381.xml.txt Methods105-125; associated s41592-019-0505-9_PMC7181330.xml.txt correction text; published revised MOESM1 original Table8 physicalPDFp20, rendered and inspected.",
+      "findings": "Source dATP, ATP and NAD+ are explicit molecular inputs rather than text hidden in enzyme names. The existing source-compatible AtRNL end classes and Tpt1 junction phosphate distinction remain unchanged. An analytical PAGE aliquot is separated from retained library material; its amount and gel recovery convention are unassigned. The source equimolar multi-library pool is now an actual pool operation with other library members/counts unresolved, a selected contribution and untransferred library remainder. The final loading aliquot leaves an explicit untransferred pool remainder. No exact amount, pool size, new primer or complete circular-PCR amplicon is inferred.",
+      "oligo_scraper": "Mandatory full protocol and addendum bundle scrapers rerun in preflight: /tmp/unlinked-ribose4-scraper.log and /tmp/unlinked-ribose4-revised-scraper.log. Relevant Table8 original verified; no sequence-absence inference.",
+      "deferred": [
+        "Complete final corrected article Methods and cited AtRNL/Tpt1 predecessor",
+        "Exact circular-PCR strand assembly and study-specific index/run mask"
+      ],
+      "verification": "13 focused PASS; typed graph gate[];19steps2localestablished20unresolved0contradictory; HTML build/pairing0."
     }
-  ]
+  ],
+  "pass_1": null,
+  "pass_2": null
 }

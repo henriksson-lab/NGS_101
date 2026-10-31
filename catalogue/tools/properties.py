@@ -97,13 +97,17 @@ FACETS = OrderedDict([
 # This value records curation state, never that a publication omitted a detail.
 # It is rejected for every status other than notes when loading the table.
 UNASSIGNED = "not yet curated"
-FACETS = OrderedDict((key, (label, allowed + (UNASSIGNED,)))
-                     for key, (label, allowed) in FACETS.items())
+MODEL_UNASSIGNED = "unassigned in model"
+# Reviewed protocol scope may retain explicit molecular/metadata limits.
+# Keep this separate from unfinished source curation and from absence claims.
+FACETS = OrderedDict(
+    (key, (label, tuple(dict.fromkeys(allowed + (MODEL_UNASSIGNED, UNASSIGNED)))))
+    for key, (label, allowed) in FACETS.items())
 
 # Values below are computed from the required molecular facets.  They are exposed to the
 # finder like ordinary facets but are never hand-maintained in properties.tsv.
 DERIVED_FACETS = OrderedDict([
-    ("scale", ("Bulk or single-cell", ("bulk", "single-cell", "spatial / in situ", UNASSIGNED))),
+    ("scale", ("Bulk or single-cell", ("bulk", "single-cell", "spatial / in situ", MODEL_UNASSIGNED, UNASSIGNED))),
 ])
 FILTER_FACETS = FACETS | DERIVED_FACETS
 
@@ -331,6 +335,7 @@ def load(expected_dirs: set[str] | None = None, path: Path = TSV) -> dict[str, d
         # Plate/well is a container, not proof of single-cell resolution. Anything not
         # explicitly single-cell or spatial is therefore bulk.
         rec["scale"] = ((UNASSIGNED,) if UNASSIGNED in partitioning
+                        else (MODEL_UNASSIGNED,) if MODEL_UNASSIGNED in partitioning
                         else tuple(scales or ["bulk"]))
         out[d] = rec
     if expected_dirs is not None and set(out) != expected_dirs:

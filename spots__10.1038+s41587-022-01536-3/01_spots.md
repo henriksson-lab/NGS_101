@@ -34,3 +34,11 @@ Component ancestry: the published SI explicitly continues Visium Spatial Gene Ex
 ## Validation
 
 Protocol-local source transcription and branch/order checks;sourceguard and scoped molecular audit recorded in source review. No full base-resolved products or chemistry completion claimed.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked two existing originals: published SI MOESM1 text669–691,920–1107,1107–1170 and associated AM PMC10272089 identity1–3/Methods84–102. The SI is operational authority; no final-VOR equivalence is inferred for the AM. The mandatory bundle scraper completed204hits/2files; pointers do not supply new facts. No new rendered oligo table or MOESM3 identity review is claimed. Existing verified oligo transcription remains unchanged.
+
+Actual formaldehyde, blocking, saponin and amplification supplies now contribute molecular material rather than all being called catalysts. Staining is physical binding; imaging/saponin handling do not declare a covalent transformation. Historical RT, strand synthesis and PCR remain opaque molecular operations, not generic chemistry claimed complete. qPCR has a separate analytical fate. The fresh1µl0.2µM FB additive dose at cDNA amplification is distinct from the earlier2µl100µM second-strand dose; actual AmpMix/cDNA-primer contributions and the50µl ADT AmpMix are explicit. These stock groups do not establish internal kit ingredients or a new premix.
+
+A literal inspected source inventory replaces graph-node enumeration and excludes unreviewed Visium internals and complete products. Original `unassembled` remains required: historical guide/revision, whole capture/ADT polymers and full product/read geometry. Both0.6xSPRI fractions are retained as source says. No missing-information claim or public completion marker is accepted.

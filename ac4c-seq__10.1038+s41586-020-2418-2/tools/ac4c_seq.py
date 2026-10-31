@@ -49,8 +49,10 @@ def graph_for_control(control='reduced'):
         g.react('deacetylate','Source deacetylation control; complete conversion not predicted',S.CHEMICAL_CONVERSION,((prior,R.TEMPLATE),(alk,R.CONDITION)),(out,));prior=out;scope+=['deacetylate']
     condition=g.input('reduction_condition','AcidicNaCNBH3' if control!='mock' else 'Source mock chemical treatment; sequencing branch buffer/workup unreviewed',K.CONDITION)
     if control!='mock':site=site.reduce_selected()
+    reduction_reagent=None
+    if control!='mock':reduction_reagent=g.input('reduction_reagent','Source NaCNBH3 molecular reductant; actual NGS dose/acidity/workup remain unreviewed, no validation dose imported',K.MOLECULAR);scope+=['reduction_reagent']
     changed=g.product('treated','Selected RNA residue '+site.residue+'; free reagents/other products retained, rates unassigned',K.MOLECULAR,chemical_state=site)
-    g.react('treat','Source reduction/mock chemistry; validation timing not substituted for NGS branch',S.CHEMICAL_CONVERSION,((prior,R.TEMPLATE),(condition,R.CONDITION)),(changed,));scope+=['reduction_condition','treat']
+    g.react('treat','Source reduction/mock chemistry; validation timing not substituted for NGS branch',S.CHEMICAL_CONVERSION,((prior,R.TEMPLATE),(condition,R.CONDITION))+(((reduction_reagent,R.STRUCTURAL),) if reduction_reagent is not None else ()),(changed,));scope+=['reduction_condition','treat']
     ready=g.product('ready','Source-treated RNA entering library preparation; actual chemical workup unassembled',K.MOLECULAR,chemical_state=site)
     g.react('unreviewed_workup','Unreviewed source chemical cleanup/handoff',S.MAGIC,((changed,R.TEMPLATE),),(ready,),reason='Do not infer an uninspected quench/purification or disappear reaction products.')
     ap=g.input('fastap','FastAP thermosensitive alkaline phosphatase',K.CATALYST)
@@ -62,9 +64,14 @@ def graph_for_control(control='reduced'):
     g.react('rna_ligation','Source3′RNA adapter ligation',S.LIGATION,((repaired,R.TEMPLATE),(adapter,R.STRUCTURAL),(ligase,R.CATALYST)),(tagged,),geometry=unreviewed_geometry('Source adapter end/polymer and complete ligation-ready RNA geometry not reviewed.'));scope+=['rna_adapter','t4_ligase','rna_ligation']
     primer=g.input('rt_primer','RT-priming reagent of cited strand-specific protocol; original sequence/version unreviewed',K.OLIGO)
     rt=g.input('tgirt','TGIRT-III',K.CATALYST)
+    supplies=g.input('rt_supplies','Actual TGIRT copying aggregate supplies; nucleotide/buffer amounts and stock packaging unreviewed',K.MOLECULAR)
+    nts=g.product('rt_nts','Copresent DNA nucleotide functional class for actual copying; no additional dose',K.MOLECULAR)
+    buffer=g.product('rt_buffer','Copresent RT buffer functional class; exact source formulation unreviewed',K.CONDITION)
+    g.react('rt_inventory','Copresent actual copying-supply classes; not physical separation or a claimed premix',S.GENERIC,((supplies,R.TEMPLATE),),(nts,buffer),changes_molecule=False)
+    scope+=['rt_supplies','rt_inventory','rt_nts','rt_buffer']
     copied=site.copy_selected('A' if site.residue=='N4-acetyltetrahydrocytidine' else 'G')
     hybrid=g.product('hybrid','Selected complementary DNA path with original RNA retained; C>T is a reference-oriented report, not RNA thymidine',K.MOLECULAR,chemical_state={'site':copied,'RNA_retained':True},inferred=True)
-    g.react('rt','Source TGIRT copying; selected mismatch/nonmutation class only',S.REVERSE_TRANSCRIPTION,((tagged,R.TEMPLATE),(primer,R.STRUCTURAL),(rt,R.CATALYST)),(hybrid,));scope+=['tgirt','rt']
+    g.react('rt','Source TGIRT copying; selected mismatch/nonmutation class only',S.REVERSE_TRANSCRIPTION,((tagged,R.TEMPLATE),(primer,R.STRUCTURAL),(rt,R.CATALYST),(nts,R.STRUCTURAL),(buffer,R.CONDITION)),(hybrid,));scope+=['tgirt','rt']
     g.mark_terminal(Terminal(hybrid.id,Disposition.UNRESOLVED,'RNA/cDNA separation, cDNA3′adapter ligation/PCR/read geometry and exact chemical conditions remain unassembled; final VOR/SI reconciliation incomplete.'))
     g.declare_reviewed_scope(scope,SOURCE)
     g.add_source_item(SourceItem('unreviewed_chemistry_library','Publisher chemistry SI, exact treatment/adapter/RT-primer versions, predecessors39/40 and read plan','Published DOI10.1038/s41586-020-2418-2 and cited strand-specific library protocols'))
@@ -79,5 +86,9 @@ def selftest():
     c('deacetylated origin survives control and preserves released-material bookkeeping',(q.origin,q.residue,q.reported,q.acetyl_products),('ac4C','C','C',True))
     c('reduced template permits selected nonmutation copy',Site().reduce_selected().copy_selected('G').reported,'C')
     c('RNA retained after selected RT',protocol_graph().materials['hybrid'].chemical_state['RNA_retained'],True)
-    c.report()
+    g=protocol_graph()
+    c('Reduction uses molecular reagent without invented NGS dose',g.materials['reduction_reagent'].kind,K.MOLECULAR)
+    c('RT nucleotide class derives from actual supplies',g.producer_of('rt_nts').id,'rt_inventory')
+    c('Original broad source obligation stays uncovered','unreviewed_chemistry_library' in g.source_coverage,False)
+    c.report(exit_on_fail=True)
 if __name__=='__main__':selftest()

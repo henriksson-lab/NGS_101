@@ -51,6 +51,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle /tmp/ngs42-sif-scraper.log; actualpublishedSI19Table2firstsixwholemodifiedordersverifiedagainstoriginalrenderp9. Longvector/validation/AMsupplementhitspointersnotadoptedautomatically.",
       "verification": "38focusedchecksPASS including6wholepublishedTableS2orders/PS5P/14bpcore/29ntprimers/inferredreferenceconstructors, actualBP10of15/LR1ul/10independenttransfections/2x5independentPCRs/templateallocations/pools/remainders/actualPacBioendpoint. Sourceguard4exactchecked/0failed/0exceptions/0unrepresentedexternaloligos. Chemistry108steps/4localestablished/119unresolved/0contradictory afterpreventingfalseinitialYfilledduplexassumption; sourceYcoreandconditionalcompleted-referenceprimerlandingsretainedlocally. Note/refbuilt; reviewschemaPASS; independentselectedpeerpending, notfullchemical/sourceaudit."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted1",
+      "reviewer": "targeted_publication_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Boundedpublicationreadinesspass; SameassociatedAMPMC4008384Methods113\u2013145 andpublishedSI19actualTableS2p9firstsixwholeorders/FigS1p2/Notevectorroles; no neworiginalidentity/retrieval. Closed2actualsourceoriginals rechecked.",
+      "locations": "SameassociatedAMPMC4008384Methods113\u2013145 andpublishedSI19actualTableS2p9firstsixwholeorders/FigS1p2/Notevectorroles; no neworiginalidentity/retrieval. Closed2actualsourceoriginals rechecked.",
+      "findings": "Fixedcurator-written source-inventorygroups mapped to actualsourceparagraphs, never runtimegraph-keyreflection. Sourceversion/branchlimits andwholeunknownfinishing/readgeometry explicitlydisplayed; fullgraphandchemistrywarnings retained in collapsedWorkflowSection. No source-absence or wholechemistry-completion claim. ActualQubitanalyticalfraction nowK.QC; knownYadaptor/oligosandunresolvedSMRTfinishingdisplayed.",
+      "deferred": [
+        "Full final/main-manuscriptequivalence remainsunverified asbefore; no newaccessattempt.",
+        "Citedfinishing/vendor/predecessorfullmolecularrecipes remainunreviewed; unknownfacets explicitunassignedinmodel, notreportedabsence."
+      ],
+      "oligo_scraper": "Mandatoryexistingbundlescraper124hits/2representations; actualpublishedSI19TableS2p9 sixwholeorders/modifications rechecked; analyticalYFPprimersnotNGSrecoveryprimers.",
+      "verification": "40focusedPASS; wrapperfreepagebuildPASS; publication_problems=[]; duplexlint0; sourceguardcombined4exact0failed0exemptions; 108steps/4localrelationsestablished/119unresolved/0contradictory. Regression verifiesa newunreviewedinput remainsa publicationerror."
     }
   ],
   "linked_information": {
@@ -72,7 +87,7 @@
       "why": "ExactofficialpublishedmainPDFreturnedHTMLnotPDF; fullfinal/associatedAMpreparationequivalenceunverified."
     }
   ],
-  "conclusion": "SourcequalifiedassociatedAM/publishedSI mNanogSIFconstruct-selection-DNArecovery preparationcollectedasprivatepartialgraph; actualPacBioRSsequencingpositive, fullmolecular/SMRTgeometryunassembled.",
+  "conclusion": "Source-qualifiedpublicschematicreadywithversionandmolecularlimits; graphpublicationchecks pass, completechemistry/sourceabsenceaudit notclaimed.",
   "independent_implementation_recheck": {
     "reviewer": "dna_peer_round42",
     "date": "2026-10-30",

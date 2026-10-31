@@ -8,7 +8,7 @@
       "locator": "https://www.nature.com/articles/nature18647",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published defining Nature HTML abstract593/ExtendedData captions/source index1365\u20131380; subscription preview only, full Methods unavailable in this response.",
+      "inspection_scope": "Published defining Nature HTML abstract593/ExtendedData captions/source index1365–1380; subscription preview only, full Methods unavailable in this response.",
       "pass_1": null,
       "pass_2": null
     },
@@ -18,7 +18,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature18647/MediaObjects/41586_2016_BFnature18647_MOESM91_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published SupplementaryDiscussion2a286\u2013340 applied fixation/first sedimentation/PDD and footprint size-selection scope; opening theoretical context read, not a detailed recipe.",
+      "inspection_scope": "Published SupplementaryDiscussion2a286–340 applied fixation/first sedimentation/PDD and footprint size-selection scope; opening theoretical context read, not a detailed recipe.",
       "pass_1": null,
       "pass_2": null
     },
@@ -39,8 +39,8 @@
       "reviewer": "targeted_owner_round42",
       "date": "2026-10-30",
       "documents": 3,
-      "scope": "Published applied in-vivo fixation\u2192initial translating-mRNP sedimentation\u2192opaque SSU/ribosome footprint fractions\u2192selectedSSU cDNA boundary\u2192all50sourceTable3 PDD DNA probes\u2192opaque finish/readout. Actual full2016Methods unavailable;2017recipe not inherited.",
-      "locations": "Published defining Nature HTML abstract593/ExtendedData captions/source index1365\u20131380; subscription preview only, full Methods unavailable in this response.; Published SupplementaryDiscussion2a286\u2013340 applied fixation/first sedimentation/PDD and footprint size-selection scope; opening theoretical context read, not a detailed recipe.; Published SupplementaryTable3 original XLSX A4:D53 all50whole DNA orderings/headers/target labels independently verified ZIP/XML, not internal misleading sheetname as authority.",
+      "scope": "Published applied in-vivo fixation→initial translating-mRNP sedimentation→opaque SSU/ribosome footprint fractions→selectedSSU cDNA boundary→all50sourceTable3 PDD DNA probes→opaque finish/readout. Actual full2016Methods unavailable;2017recipe not inherited.",
+      "locations": "Published defining Nature HTML abstract593/ExtendedData captions/source index1365–1380; subscription preview only, full Methods unavailable in this response.; Published SupplementaryDiscussion2a286–340 applied fixation/first sedimentation/PDD and footprint size-selection scope; opening theoretical context read, not a detailed recipe.; Published SupplementaryTable3 original XLSX A4:D53 all50whole DNA orderings/headers/target labels independently verified ZIP/XML, not internal misleading sheetname as authority.",
       "findings": "SupplementaryDiscussion2a explicitly records applied formaldehyde fixation, first sedimentation requiring at least one translating ribosome and cDNA PDD; physical SSU footprint selection differs from ordinary Ribo-seq, not merely a new read-analysis label.",
       "deferred": [
         "Full defining2016Methods response still needed; actual Nature subscriptionpreview did not supply it.",
@@ -65,12 +65,21 @@
     "date": "2026-10-30",
     "type": "same_source_implementation_recheck_not_absence_pass_2",
     "documents": 3,
-    "scope": "Same published Nature subscription preview identity/abstract/source-role map; published SupplementaryDiscussion2a286\u2013340; original published MOESM90 Table3 A1:D53 raw ZIP/XML including all50 DNA orders and last-row5S-1/5.8S target label. No2017protocol/predecessor/vendor/neworiginal opened.",
+    "scope": "Same published Nature subscription preview identity/abstract/source-role map; published SupplementaryDiscussion2a286–340; original published MOESM90 Table3 A1:D53 raw ZIP/XML including all50 DNA orders and last-row5S-1/5.8S target label. No2017protocol/predecessor/vendor/neworiginal opened.",
     "findings": [
-      "Applied in-vivo fixation is separated from prior-report1\u20133percent concentration; first translating-mRNP sediment and excluded fraction retained as physical fractions. SSU and other ribosome branches not implicitly pooled.",
-      "PDD operates on actual cDNA library, with all50 source-table DNA probes preserved; dose/stock packaging/reaction details remain unassigned. Observed19\u201375nt footprint range is not invented size selection. Full initial cDNA/PCR/whole library/read geometry remains unassembled.",
+      "Applied in-vivo fixation is separated from prior-report1–3percent concentration; first translating-mRNP sediment and excluded fraction retained as physical fractions. SSU and other ribosome branches not implicitly pooled.",
+      "PDD operates on actual cDNA library, with all50 source-table DNA probes preserved; dose/stock packaging/reaction details remain unassigned. Observed19–75nt footprint range is not invented size selection. Full initial cDNA/PCR/whole library/read geometry remains unassembled.",
       "Independently inspected original workbook headers/all50 orders, including literal5S-1 name with5.8S target label; no silent source repair or source-absence claim."
     ],
     "verification": "Independently59focusedPASS/50wholeoriginalorderingfixtures; sourceguard50exact0failed0exemptions/1unassembledexternalfinisholigo; chemistry8unresolved0contradictory. Selected same3original implementation review closed."
+  },
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_2",
+    "date": "2026-10-30",
+    "type": "source_qualified_public_preparation_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Same alreadyselected published2016SupplementaryDiscussion2a286–340 reread; existingTable3wholeorderfixtures/rawXLSX checked byprotocolsuite. No full2016main/new2017/predecessor source opened.",
+    "changes": "Literalcuratorreviewedtargetgroups assignspecificsourcecontexts; QC/wastematerialkinds corrected toactualfates; usefulpublicoverview/knownparts/readsetup/sourcecaveats/fullcollapsedWorkflowSection; no weakergateorwholekitdefaults.",
+    "verification": "59focusedPASS; source-qualifiedgraphpublication_problems=[]; literalPAGE_FILE/build/completeHTMLmarker/fullWorkflowSectionpresent; pairinglint0/localhref0. 50exactwholeprobeinputs0failed/1unassembledexternalfinishinput; chemistry8unresolved0contradictory."
   }
 }

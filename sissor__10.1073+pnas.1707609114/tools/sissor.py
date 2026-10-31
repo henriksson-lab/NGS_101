@@ -59,38 +59,42 @@ def index_inventory(label):
 
 def graph_for_route(route='core'):
     if route not in {'core','transposon'}:raise ValueError('Choose a source-described library route')
-    g=ProtocolGraph('SISSOR / '+route,authority=SOURCE,representation='published_instance');scope=[]
-    def inp(key,label,kind=K.CATALYST,state=None,**kw):scope.append(key);return g.input(key,label,kind,state=state,**kw)
+    g=ProtocolGraph('SISSOR / '+route,authority=SOURCE,representation='published_instance')
+    def inp(key,label,kind=K.CATALYST,state=None,**kw):return g.input(key,label,kind,state=state,**kw)
     def op(key,x,label,kind,reagents=(),**kw):
         y=g.product(key+'_mixture',label+' preparation;original and reaction species retained until actual workup',K.MOLECULAR)
         templates=tuple((part,R.TEMPLATE) for part in x) if isinstance(x,tuple) else ((x,R.TEMPLATE),)
-        g.react(key,label,kind,(*templates,*reagents),(y,),**kw);scope.append(key);return y
+        g.react(key,label,kind,(*templates,*reagents),(y,),**kw);return y
     def separate(key,x,label,reagents):
         strands=tuple(g.product(key+'_'+side,'Separated '+side+' DNA strand population in the SAME source mixture;residual duplex/lysate fate unquantified',K.MOLECULAR) for side in ('first','complementary'))
-        g.react(key,label,S.STRAND_SEPARATION,((x,R.TEMPLATE),*reagents),strands);scope.append(key);return strands
+        g.react(key,label,S.STRAND_SEPARATION,((x,R.TEMPLATE),*reagents),strands);return strands
     def clean(key,x,label):
         condition=inp(key+'_procedure',label,K.SELECTION);y=g.product(key,'Recovered source DNA;carryover/recovery unquantified',K.MOLECULAR)
         waste=g.product(key+'_reject','Physically removed workup fractions;exact composition unassigned',K.WASTE)
-        g.react(key+'_step',label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.SELECTION)),(y,waste));scope.append(key+'_step');g.discard(waste,'Actual source physical separation;no perfect recovery or chemical-class purity predicted.');return y
+        g.react(key+'_step',label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.SELECTION)),(y,waste));g.discard(waste,'Actual source physical separation;no perfect recovery or chemical-class purity predicted.');return y
     def pcr(key,x,f,r,poly,label):
         return op(key,x,label,S.PCR,((f,R.STRUCTURAL),(r,R.STRUCTURAL),(poly,R.CATALYST)),geometry=PCRGeometry.unavailable(Scene(),reason='Source reaction/primer roles known;full source primers,genomic strands and historical kit end geometry unassembled.'))
     cell=inp('cell',('SourcePGP1Cell3 CoREroute' if route=='core' else 'SourcePGP1Cell2 transposonroute')+';culture/harvest outside graph',K.BIOLOGICAL,primary=True)
     device=inp('device','Pre-coated PDMS device:sourceBSA/randomhexamer/dNTP coating,purge/dry,UV15min BEFOREcellloading;full hardwarepreparation outside graph',K.CONDITION)
-    x=op('capture',cell,'Source-imaged cell capture in the prepared device',S.GENERIC,((device,R.CONDITION),))
+    x=op('capture',cell,'Source-imaged cell capture in the prepared device',S.GENERIC,((device,R.CONDITION),),changes_molecule=False)
     als=inp('als','SourceALS400mMKOH/10mMDTT/1%Tween20;ringmixer5Hz10min20°C',K.CONDITION)
     x=separate('lyse_separate',x,'Source alkaline cell lysis and chromosomal strand separation',((als,R.CONDITION),))
     representative=g.product('representative','One representative source partition;actual strand/homolog mixture unknown',K.MOLECULAR,state=unknown('Separated source ssDNA fragments in one chamber'))
     remaining=g.product('remaining_partitions','Other23source chamber preparations;actual strand/homolog mixtures unknown',K.MOLECULAR)
     unrecovered=g.product('unrecovered','Possible DNA/material not recovered to anychamber;amount unknown,may be empty',K.MOLECULAR)
-    g.react('partition','Randomly distribute source fragments into24chambers;one representative class expanded',S.PARTITION,tuple((part,R.TEMPLATE) for part in x),(representative,remaining,unrecovered));scope.append('partition')
+    g.react('partition','Randomly distribute source fragments into24chambers;one representative class expanded',S.PARTITION,tuple((part,R.TEMPLATE) for part in x),(representative,remaining,unrecovered))
     g.mark_terminal(Terminal(unrecovered.id,Disposition.UNRESOLVED,'Source discusses possible material loss;not assigned a quantity,genotype or disposal fate.'))
     ns=inp('ns','Source on-chipNS400mMHCl/600mMTrisHCl/1%Tween20',K.CONDITION)
     x=op('neutralize',representative,'Neutralize source partition and push into MDA chamber',S.QUENCHING,((ns,R.CONDITION),))
-    primer=inp('mda_hexamers',PRIMER_NOTE,K.OLIGO,state=unknown('Source randomhexamer/MDA end notation unresolved'))
-    mix=inp('mda_mix','Source namedNexteraMDA mastermix/Phi29/dNTPs+dUTP;full historical formulation/initiation unassembled')
-    x=op('mda',x,'Source MDA30°C15h in separate chambers;original templates and dU-containing copies/carryover',S.MAGIC,((primer,R.STRUCTURAL),(mix,R.CATALYST)),reason=PRIMER_NOTE+' Observed amplification is source-reported;this is not a modeled extension from a guessed primer terminus.')
+    mix=inp('mda_mix','Actual source NexteraMDA mastermix allocation; source1xbuffer/84uM3prime-phosphorylatedhexamers/2mMdNTPs/150uMdUTP/0.84ugPhi29; stockvolume/per-chamberdose and initiation unassembled',K.MOLECULAR)
+    primer=g.product('mda_hexamers','Primer component of same actual MDA stock. '+PRIMER_NOTE,K.OLIGO,state=unknown('Source randomhexamer/MDA end notation unresolved'))
+    phi=g.product('mda_phi29','Phi29 component of same actual MDA stock; not an additional enzyme dose',K.CATALYST)
+    nt=g.product('mda_nucleotides','Copresent dNTP/dUTP molecular substrates in same actual MDA stock',K.MOLECULAR)
+    buf=g.product('mda_buffer','Buffer component of same actual MDA stock; historical formulation unassembled',K.CONDITION)
+    g.react('mda_components','Functional component views of one actual source MDA stock',S.MAGIC,((mix,R.TEMPLATE),),(primer,phi,nt,buf),changes_molecule=False,reason='Source main164 explicitly lists these copresent MasterMix components. This is inventory, not physical separation, independent fresh doses or a verified molecular initiation mechanism.')
+    x=op('mda',x,'Source MDA30°C15h in separate chambers;original templates and dU-containing copies/carryover',S.MAGIC,((primer,R.STRUCTURAL),(phi,R.CATALYST),(nt,R.STRUCTURAL),(buf,R.CONDITION)),reason=PRIMER_NOTE+' Observed amplification is source-reported;this is not a modeled extension from a guessed primer terminus.')
     retrieve=inp('retrieval','Flushfeedlinesair/TE;push eachchamber product to its own tip withTE;collect5µL',K.CONDITION)
-    x=op('retrieve',x,'Separately recover one source chamber product;no chamber pooling',S.GENERIC,((retrieve,R.CONDITION),))
+    x=op('retrieve',x,'Separately recover one source chamber product;no chamber pooling',S.GENERIC,((retrieve,R.CONDITION),),changes_molecule=False)
     heat=inp('inactivate_phi29','65°C15min',K.CONDITION);x=op('mda_heat',x,'Heat-inactivate Phi29;not physical purification',S.THERMAL_TREATMENT,((heat,R.CONDITION),))
     if route=='core':
         q=inp('core_enzymes','SourceUDG+EndonucleaseIV/exo-Klenowbuffer37°C2h,65°C15min')
@@ -136,13 +140,20 @@ def graph_for_route(route='core'):
         x=pcr('tag_pcr2',x,p1,p2,kapa,'Second source7cyclePCR;no unprinted interveningcleanup added')
         out=clean('tag_library',x,'SourcePAGEQC/AMPurepurification then300–700bpgel recovery')
     parallel=g.product('other_chamber_libraries','Other23individually amplified/barcoded same-cell chamber libraries;matched source route,full molecular geometry unassembled',K.LIBRARY)
-    g.react('parallel_preparations','Summarize known parallel neutralization/MDA/recovery/'+route+' library processing forother23chambers',S.MAGIC,((remaining,R.TEMPLATE),),(parallel,),reason='Same source operation program as representative chamber;separate molecular assignments,barcodes and exact products not individually expanded. No unrecovered DNA is assigned to these libraries.');scope.append('parallel_preparations')
+    g.react('parallel_preparations','Summarize known parallel neutralization/MDA/recovery/'+route+' library processing forother23chambers',S.MAGIC,((remaining,R.TEMPLATE),),(parallel,),reason='Same source operation program as representative chamber;separate molecular assignments,barcodes and exact products not individually expanded. No unrecovered DNA is assigned to these libraries.')
     pooled=g.product('cell_pool','Physical pool of separately barcoded chamber libraries from the SAME source cell',K.LIBRARY)
-    g.react('pool_libraries','Source combine separately indexed same-cell chamber libraries before sequencing',S.POOL,((out,R.TEMPLATE),(parallel,R.TEMPLATE)),(pooled,));scope.append('pool_libraries')
+    g.react('pool_libraries','Source combine separately indexed same-cell chamber libraries before sequencing',S.POOL,((out,R.TEMPLATE),(parallel,R.TEMPLATE)),(pooled,))
     g.sequence(pooled,SequencingPlan(acquired_roles=('Read 1','Read 2'),read_lengths={'Read 1':100,'Read 2':100},limitation='Source main reports deepPE100. SIpilotSE36/50 andadditionalSE100/PE100 acquisitions are separate options. Full historical primers/adapter/index landing and exact per-run assignments remain unassembled.'))
-    g.declare_reviewed_scope(scope,SOURCE)
+    g.declare_reviewed_scope(COMMON_SCOPE+(CORE_SCOPE if route=='core' else TRANSPOSON_SCOPE),SOURCE)
     g.add_source_item(SourceItem('historical_geometry','Historical MDA/end chemistry,NEBNext/tagmentation primers and product/read geometry','Source main164 andSI I.3–I.5;citedPeters2012/Adey2010 originals remain unreviewed.'))
     return g
+
+
+# Literal source inventory from main Fig1/Results74/Methods164 and SI I.3-I.5.
+# Source-dependent unresolved polymers stay behind historical_geometry.
+COMMON_SCOPE=tuple('cell device capture als lyse_separate partition ns neutralize mda_mix mda_components mda retrieval retrieve inactivate_phi29 mda_heat parallel_preparations pool_libraries cell_pool'.split())
+CORE_SCOPE=tuple('core_enzymes core_incision core_klenow core_fill neb_loop core_ligation core_ligate loop_user loop_open loop_cleanup_procedure loop_cleanup_step core_f core_index core_poly core_pcr core_library_procedure core_library_step'.split())
+TRANSPOSON_SCOPE=tuple('library_als mda_denature library_ns library_neutralize unmodified_hexamers pol1 second_strand ampligase nick_seal ethanol_recovery_procedure ethanol_recovery_step nextera tag_adapters tagment transposase_protease inactivate_transposase tag_klenow tag_fill adapter1 barcode_adapter tag_poly tag_pcr1 illumina1 illumina2 tag_pcr2 tag_library_procedure tag_library_step'.split())
 
 def protocol_graph():return graph_for_route('core')
 def render_page():
@@ -165,6 +176,10 @@ def selftest():
     c('Destinations must be within the explicit chamber set',bad,True)
     c('Caller-supplied unverified sequences are inferred by default',a.inferred,True)
     g=protocol_graph();t=graph_for_route('transposon')
+    c('Capture/retrieval preserve molecular identity',(g.steps['capture'].changes_molecule,g.steps['retrieve'].changes_molecule),(False,False))
+    c('One stock supplies primer and nucleotide components',tuple(g.steps['mda_components'].outputs),('mda_hexamers','mda_phi29','mda_nucleotides','mda_buffer'))
+    c('MDA nucleotide contribution is molecular substrate',next(i.role for i in g.steps['mda'].inputs if i.material=='mda_nucleotides'),R.STRUCTURAL)
+    c('Required historical geometry remains uncovered',(g.publication_problems(),t.publication_problems()),(["authoritative source item 'historical_geometry' is not accounted for"],)*2)
     c('Both source routes remain incomplete',(g.publishable,t.publishable),(False,False))
     c('No finished-page marker','data-protocol-complete=' in render_page(),False)
     c('Separate bulk library routes do not physically combine','core_pcr' not in t.steps and 'tag_pcr1' not in g.steps,True)

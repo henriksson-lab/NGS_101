@@ -32,3 +32,9 @@ Blocking oligo, original p11: `CTAGTGCTGGATGATCGTCCmUmUmUmUmU` (five 2′-O-meth
 ## Endpoint and open questions
 
 🟢 Source names MiSeq v2 300 cycles or NextSeq75SE. Exact per-run masks, full circle/extension/product/primer geometry and the mapping of source PCR names remain unassigned locally. Indexing and physical reagent transfers are source-positive; complete NGS readiness is not claimed. The source's singleton/read-count filtering occurs computationally, never as physical removal of DNA. No source-information absence is claimed; linked component originals and complete antibody/sequence mapping remain unreviewed.
+
+## Source-qualified public preparation page
+
+Source-qualified public page adds literal inventory with original selected SourceItem retained and covered. RCA ATP/nucleotides and extension dNTP are actual molecular contributions. Same PCR bulk stock exposes physical nucleotide/dye/DMSO inventory without a new enzyme addition. Actual source PCR pool consumes the selected contribution plus other prepared products, not cloned copies of one product. Prepared exosome/AOC input boundaries remain visible. ProteinTag/sample-index meanings are structured unpositioned metadata; index members/whole primer coordinates remain unresolved. Known complexTag/moleculeTag and five2primeO-methylU blocker remain. No STARRED-STV-only recipe or MPX secondcycle imported.
+
+The public page includes a preparation overview, known molecular components, read scope and a collapsed complete workflow with unresolved-chemistry warnings. Full occupied molecules are not supplied as invented biological sequences. This page is a capped source-supported preparation declaration, not a full linked-original or missing-information audit.

@@ -61,8 +61,8 @@
     "Replicate2 oligo/orientation comparison; explicit BamHI circular opening and PCR product.",
     "Upstream IP graph, molecular RNA removal and gel reject branches; exact acquired run-primer geometry."
   ],
-  "proposed_status": "notes",
-  "model_scope": "Explicit unresolved terminal prevents sequencing publishability.",
+  "proposed_status": "documented",
+  "model_scope": "Source-qualified selected preparation with actual source sequencing finish; whole occupied products and stated source/version limits remain unresolved.",
   "missing_claims": [],
   "linked_information": {
     "result": "enumerated",
@@ -84,6 +84,24 @@
       ],
       "oligo_scraper": "Full source-bundle scrape_primers run 2026-10-28 before source transcription.",
       "verification": "Protocol-local partial graph suite/build; no sequencing-publishability claim."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted5",
+      "reviewer": "targeted_publication_owner",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded source-supported public preparation completion using existing closed source set only; no new acquisition/original. Not an absence pass2.",
+      "locations": "nsmb.1838_41594_2010_BFnsmb1838_MOESM21_ESM.pdf: Methods2048–2195, actualPDF15/16 (printed2/3) reread; UV/IP/sourceRNA selection, 7wholeoligoorderings, circle/BamHI/PCR/GA2run54. Existing /tmp/iclip_supp_page15.png and16.png inspected. Main/AMsupp not reopened.",
+      "findings": "The source-supported public schematic preserves the actual post-IP boundary and replicate-1 selection. It exposes bead-release residuals, other selected membrane/cDNA fractions, aqueous transfers, molecular carriers, primer/nucleotide-containing annealing mixture, RNA digestion products until physical cleanup, cDNA circle, source BamHI-site annealing and cleavage, actual two-primer/Immomix supplies and G-25 finishing. Unknown occupied products, primer sites and source efficiency remain explicit; no exact full amplicon has been invented.  The publisher original visibly prints **1 ml** of 10 mM dNTPs and **400 ml** TE; the RT mixture is called **6 µl** while its listed components sum to **7 µl**. The page retains these unresolved source quantities/conventions rather than silently changing units or endorsing an executable recipe. Source replicate-2 versus mapping-label comparison also remains open. The full graph and unresolved chemical checks are available in an expandable section. The original legacy builder/selftest entry points remain; only their publication-only negative assertion was replaced by the valid normal gate and new actual-source/provenance checks.",
+      "deferred": [
+        "Publisherprints1ml10mMdNTP and400mlTE; originalimagep16 confirms literalml. RTmixcalled6ul but listed5+1+0.5+0.5=7ul. Preserve printed quantities/component-sum convention unresolved; no silent repair.",
+        "Replicate2 primer GA/shorter suffix differs from mapping text identifier setTG/TC/CA; this preflight does not establish an error. Selectreplicate1CA explicitly, preserve unresolvedcross-replicate comparison.",
+        "Run54nt is explicit, PCRprimerscalledpaired-end does NOT alone establish acquiredRead2. Do not invent PE54/indexread mask or exactcustomsequencingprimer.",
+        "Original CLIP predecessors/remainingarticlebody/AMsuppcounterpart ordinaryunread thispass; no fullsource/completeness claim."
+      ],
+      "oligo_scraper": "/tmp/unlinked5-iclip-scraper.log (104hits/2representations); whole bundle, original modified orderings verified in stated publisher images/AM passages; source fixture checks retain full orders. No absence inference.",
+      "verification": "18 focused PASS incl5whole-sourcefixtures/source-inventory-negative test; graph27steps/1conditional27unresolved0contradictory. Combinedguard4exact0failed0exemptions2wholeunknownexternal; normalgate[]/legacybuildcomplete marker/duplexlint0."
     }
-  ]
+  ],
+  "conclusion": "Normal source/inventory/endpoint gate passes for this selected public preparation; complete molecular mechanism, source review and missing-information acceptance are not claimed."
 }

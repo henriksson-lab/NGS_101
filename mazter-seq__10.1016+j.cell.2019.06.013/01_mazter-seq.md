@@ -37,3 +37,11 @@ The graph follows the source operations through the library but retains unresolv
 - Inspect the directly cited Imanishi et al.2017 MazF methyl-sensitivity original and historical reagent documentation for the terminal chemistry; no mechanism is asserted from the reagent name alone.
 - Inspect remaining original figures/tables and the optional IP/calibration routes and their source-linked predecessors. Results describe the synthetic calibration RNA as88nt, whereas the IVT Methods describe103nt; the model does not select a value or reconstruct those controls before the Table S7 comparison.
 - Reconstruct run primers, actual index membership and cycle layout. A second independent source/linked-material review has not occurred; no missing-information claim is accepted.
+
+## Bounded publication review, 30 October 2026
+
+The DOI-qualified institutional published PDF was re-read at STAR Methods3330–3378: IVT control context, mRNA/MazF treatment, barcoding/pooling and the selected no-IP library preparation. Mandatory bundle scraping was repeated. This pass read one actual published original; it did not reuse the superseded preprint or treat unrelated sequence-bias/validation oligos as the library adapters.
+
+The actual source repeatedly refers to TableS7 for 3iLL, rTd, 5iLL-22 and PCR F/R polymers. Required `table_s7` remains, with unresolved exact attachment identity: the manifest records HTTP403 for the actual published supplement index, not a failed request to a guessed workbook URL. This does not establish that TableS7 is inaccessible everywhere or that the authors omitted it. Its complete modified library oligos remain necessary to discharge the current model's declared exact-polymer scope.
+
+The available main positively describes RNA barcoding/pooling, SSIII RT, ExoSAP-IT/EDTA, NaOH/HCl, cDNA ligation, 13-cycle KAPA PCR, AMPure cleanup, Qubit/TapeStation and NextSeq500. That preparation/readout remains distinct from exact full adapter/primer geometry, physical source pool/stock/QC/loading accounting and the optional IP/IVT controls. The graph remains private with its actual unassembled sequencing handoff. No modern kit, MAZTER-relative method or preprint supplies unreviewed TableS7 content; no source-absence claim is accepted.

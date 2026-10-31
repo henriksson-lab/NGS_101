@@ -9,11 +9,11 @@
       "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3646335.1/PMC3646335.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "Associated manuscript NIHMS465877; Results40\u201354; OnlineMethods68\u201384/94.",
+      "source_version": "Associated manuscript NIHMS465877; Results40–54; OnlineMethods68–84/94.",
       "pass_1": {
         "reviewer": "dna_round14",
         "date": "2026-10-29",
-        "locations": "Associated manuscript NIHMS465877; Results40\u201354; OnlineMethods68\u201384/94.",
+        "locations": "Associated manuscript NIHMS465877; Results40–54; OnlineMethods68–84/94.",
         "finding": "Actual genomic labeling/capture/disulfide reduction/workup and historical A-tailing SMRTbell/PacBioRS route; synthetic/control branches kept separate."
       },
       "pass_2": null
@@ -25,11 +25,11 @@
       "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.1779/MediaObjects/41592_2012_BFnmeth1779_MOESM18_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309\u20138374/footnotes.",
+      "source_version": "Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309–8374/footnotes.",
       "pass_1": {
         "reviewer": "dna_round14",
         "date": "2026-10-29",
-        "locations": "Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309\u20138374/footnotes.",
+        "locations": "Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309–8374/footnotes.",
         "finding": "Synthetic specificity/SMRTbell/validation sequences inspected in their named scopes; no assignment of synthetic hairpins/overhang recipe to genomic libraries."
       },
       "pass_2": null
@@ -64,13 +64,28 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "At most10min/3originals; originals/supplements first; no recursive reference acquisition.",
-      "locations": "Associated manuscript NIHMS465877; Results40\u201354; OnlineMethods68\u201384/94.; Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309\u20138374/footnotes.",
+      "locations": "Associated manuscript NIHMS465877; Results40–54; OnlineMethods68–84/94.; Published supplement DOI/title identity; Fig1chemical classes and Table3 source8309–8374/footnotes.",
       "findings": "Known physical steps through acquisition represented; native chemical inventory distinguished from copying/kinetic computational calls.",
       "deferred": [
         "Exact directly named kit/predecessor/onlineMethods targets and actual barriers detailed in note."
       ],
       "oligo_scraper": "Mandatory bundle scraper: TOP19hits, hmC-Seal0hits, chemical-labelSMRT13hits. Hits interpreted against originals; empty/partial extraction not absence evidence.",
       "verification": "21local checks pass (TOP7/hmC-Seal5/SMRT9); exact-source guard2checked0failed0exempt with4TOPmodifiedprimerinputswithout exactstates;3graphs. Chemistry33unresolved0contradictory (not reaction completion). All6notes/refpages build; scoped source-review schema passes (2blocked/1in_progress); diffcheck clean. Graph-only/no page builders or duplex pages, so schematic build/pairing not applicable. Retrieval82569terminalexit0; no additional acquisition."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch23",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed selected original scope followed by bounded explicit physical-contributor corrections; no new source, final-equivalence assumption or absence audit.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/5hmc-chemical-label-smrt-sequencing__10.1038+nmeth.1779/nmeth.1779_PMC3646335.xml: OnlineMethods68–84/94: genomicvs syntheticlabeling/cleavablecapture and genomicA-tailingSMRTbell ref14 versus synthetic4ntoverhang/exoIII/VII; distinct validationPCR.; /husky/henriksson/NGS101_papers/sources/5hmc-chemical-label-smrt-sequencing__10.1038+nmeth.1779/nmeth.1779_41592_2012_BFnmeth1779_MOESM18_ESM.pdf: OriginalPDFp2FigS1chemical structures and DTTthiolremnant; actualp23Table3wholeoligos/threepurposes andfootnotes (renders/tmp/smrt34-fig2.png,/tmp/smrt34-table23.png); text8309–8374. SyntheticSMRTbell and validationorders not adopted as genomiclibrary.",
+      "findings": "The actual genomic labeling reaction now receives explicit β-GT catalyst and UDP6N3Glc donor. DBCO-disulfide-biotin and DTT are physical molecular contributions, distinct from their source incubation programmes. Reduction retains the DNA-bound thiol-label remnant, followed by actual magnetic separation and source cleanup; it does not restore native 5hmC or itself discard beads. Original `pending` remains unchanged and uncovered: genomic A-tailing SMRTbell construction per Travers2010 and historical PacBioRS standard-protocol applicability are unreviewed. Published SI Table3 synthetic hairpins, four-base overhangs, 5′ phosphates and exonuclease steps are not assigned to genomic libraries. The source 200µg labeling context and 160µg labeled input/1.3µg pulldown recovery context remain distinct; no allocation between those quantities or invented physical pool is supplied.",
+      "deferred": [
+        "DirectlycitedTravers2010 DOI10.1093/nar/gkq543 genomicA-tailingSMRTbell and historicalPacBioRSsmallinsertprotocol.",
+        "GatedassociatedSIalias https://pmc.ncbi.nlm.nih.gov/articles/instance/3646335/bin/NIHMS465877-supplement-SI.pdf not equated to publishedMOESM18; no retry/absencereasoning.",
+        "EarliercitedgenomicDNA/betaGTprep originals and final-VOR applicability; no recursivechase."
+      ],
+      "oligo_scraper": "Wholebundle scan13hits/1file; actualSI originaltable/syntheticroles independently viewed."
     }
   ]
 }

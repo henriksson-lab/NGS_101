@@ -8,7 +8,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3662/MediaObjects/41587_2016_BFnbt3662_MOESM2_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published SI FigS1 caption2\u201326 and Table1 lines119\u2013193; rendered original p11 checked for Biotin/primer/6N/25nt/annealing color boundaries"
+      "inspection_scope": "Published SI FigS1 caption2–26 and Table1 lines119–193; rendered original p11 checked for Biotin/primer/6N/25nt/annealing color boundaries"
     },
     {
       "id": "source2",
@@ -16,7 +16,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3662/MediaObjects/41587_2016_BFnbt3662_MOESM3_ESM.xlsx",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published Table2 workbook header and B1\u2013B24, exact B1 body and named component roles"
+      "inspection_scope": "Published Table2 workbook header and B1–B24, exact B1 body and named component roles"
     },
     {
       "id": "source3",
@@ -43,7 +43,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Published-first bounded source-local partial model; no absence audit or whole-version equivalence claim",
-      "locations": "Published SI FigS1 caption2\u201326 and Table1 lines119\u2013193; rendered original p11 checked for Biotin/primer/6N/25nt/annealing color boundaries; Published Table2 workbook header and B1\u2013B24, exact B1 body and named component roles; Published Table3 F1 and R1 whole primer strings and all source named columns; F1 rich-text XML inspected, no unsupported fine linker/sample boundary inferred",
+      "locations": "Published SI FigS1 caption2–26 and Table1 lines119–193; rendered original p11 checked for Biotin/primer/6N/25nt/annealing color boundaries; Published Table2 workbook header and B1–B24, exact B1 body and named component roles; Published Table3 F1 and R1 whole primer strings and all source named columns; F1 rich-text XML inspected, no unsupported fine linker/sample boundary inferred",
       "findings": "Positive selected-source operations/components retained; unknown exact molecular geometry and linked-source coverage remain explicit.",
       "deferred": [
         "Defining published main Online Methods: reporter extension/assembly, staining, recovery, all library PCR/cleanup/acquisition order",
@@ -52,6 +52,20 @@
       ],
       "verification": "Local 7 behavioral/transcription checks and private build pass. Combined three-protocol guard:7 checked,0failed,1explicit A1 table-extraction exemption,3unassembled ProteinSeq inputs. Pairing0problems;chemistry0established41unresolved0contradictory. Schema check passes. A1 whole strand independently rendered-original checked by two readers;not absence audit.",
       "oligo_scraper": "Mandatory full bundle scraper completed; relevant original pointers verified, uninspected hits not adopted."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch12",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed-source bounded publication hold; no new originals or model changes",
+      "locations": "nbt.3662_41587_2016_BFnbt3662_MOESM2_ESM.pdf(.txt): FigS1caption2–26,Table1heading129–133 andactualp11render/tmp/pmhc-table1.png firstA1wholemodifiedrow/colorroles independentlyviewed; nbt.3662_41587_2016_BFnbt3662_MOESM3_ESM.xlsx(.txt): Table2header/roles/firstB1–B4 extractedrows; no new wholeworkbookproof or newprimeradoption; nbt.3662_41587_2016_BFnbt3662_MOESM4_ESM.xlsx(.txt): Table3headerplatform/sample/linkerrolekeyandF1–F4 extractedrows; no new fine linker/sampleboundary claim",
+      "findings": "Defining fullmainOnlineMethods unread; SIoverview+componenttables establish actualassembly/staining/sorting/primerinventory, not complete extension/recovery/libraryPCR/cleanup/acquisition order. Required broadoriginal/assemblyscope unmet. Generic pMHCassembly andnonlibrarysequencingterminal are additionalmodelgates, notwaived. Required source item remains uncovered; no inventory-based waiver or source exclusion.",
+      "deferred": [
+        "unassembled"
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scraper completed during closed preflight. pMHC actualTable1A1 image checked; no new whole library asserted from component matches. CARLIN superseded preprint hits excluded from active authority.",
+      "verification": "Documentation only. Models, required source items, private preview/gates unchanged. No builds/tests repeated for unchanged modules; no source acquisition or absence audit."
     }
   ],
   "linked_information": {

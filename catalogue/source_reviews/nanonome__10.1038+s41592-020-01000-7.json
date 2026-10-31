@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round11",
         "date": "2026-10-29",
-        "locations": "Associated manuscript NIHMS1638772; main71/Methods139\u2013145",
+        "locations": "Associated manuscript NIHMS1638772; main71/Methods139–145",
         "finding": "Native GpC labeling, nuclear handling, extraction,10kbLSK-SQK108 library preparation and native acquisition. FinalVOR method applicability not established."
       }
     },
@@ -52,7 +52,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Private source-qualified model through source-known downstream preparation/acquisition; original-version and historical kit assembly remain incomplete.",
+  "conclusion": "Bounded publication hold retained after contained physical/source-inventory corrections. Original historical_kit is untouched and uncovered: Original LSK-SQK108 and NEBNextUltraII documents; finalVOR applicability. Literal associated-main scope and same-stock motor/DNA decomposition do not fulfill historical whole adaptor/end/library documents or final-main equivalence. Actual sequencing eluate remains incorrectly typed and normal publication gate remains false.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-11",
@@ -60,13 +60,28 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Published-first bounded pass; associated manuscript and excluded-source identities explicit.",
-      "locations": "Associated manuscript NIHMS1638772; main71/Methods139\u2013145; Associated SI Figure1/call-context scope; Published SI cover/TOC/Figure1",
+      "locations": "Associated manuscript NIHMS1638772; main71/Methods139–145; Associated SI Figure1/call-context scope; Published SI cover/TOC/Figure1",
       "findings": "Source operations/physical remnant distinctions/readout preserved; full end/library geometry unassembled.",
       "deferred": [
         "Directly named historical kit guide/version and original assembly targets in research note; no recursive source chase."
       ],
       "oligo_scraper": "/tmp/nanonome11-oligos.log; whole-bundle scan run, relevant hits read in sources; no absence conclusions.",
       "verification": "32localchecks(7nanoNOMe/10NSCR/7D-NAscent/8SAMOSA) passed;4privatebuilds and scopeddocs/pairing/schema passed. Chemistry0established/59unresolved/0contradictory. Sourceguard0checked/0failed,3historicaladapterinputs without exactstates, not exactoligovalidation. Root independentlyspotreviewed nanoNOMe/SAMOSA; multi reviewedNSCR/D-NAscent, identifiedsavedRcontrol/Ccollection omissions now fixed with regressions. These implementation reviews are not independent absence-audit passes. Retrievalsessions42535 interruptedgracefullyexit130/cachepreserved and2412completedexit0; finalscrapers66705completedexit0. No retrievalrunning."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch19",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 4,
+      "scope": "Closed source pass reused for bounded component/reagent typing and literal reviewed inventory. The closed read-only preflight accidentally read a fourth original: an overbroad MOESM1 text glob matched the MOESM11 results table, printing its header and initial12rows. The source cap deviation was reported; no chemistry, numerical result or biological conclusion was adopted from that table. Three originals were selected, four were actually touched. Investigation was closed and absolutely no additional originals or source-body expansion occurred during implementation.",
+      "locations": "Methods139–145 nuclear isolation/GpC/SAM marking, stop/proteinaseK/extraction, selected10kb G-tube/end-prep/adaptor ligation/nativeONT acquisition; current pass did not inspect new figure bodies; Currentpass SupplementaryInformation cover/TOC identities and namedCpG/GpC dualcall context; no additional chemistry/body adopted; Actual publisher DOI/title cover and SupplementaryInformation/TOC identity; published call-context scope retained, no complete chemistry/version equivalence inferred; Overbroad *MOESM1*.txt glob also printed MOESM11 header and initial12resultrows. No chemistry, values or biological results adopted. This was not a selected original.",
+      "findings": "One actual source LSK-SQK108 adaptor supply is now decomposed into a DNA-adaptor component and a motor-protein catalyst component. Both are produced from the same stock, which is consumed once; no independent free motor input or dose is invented. Motor protein is no longer drawn as a DNA strand. Its occupancy/association, whole leaderDNA/end chemistry and kit version remain unassembled. The old sequencing-eluate type error is deliberately retained rather than treating a rename as completion. Original historical_kit is untouched and uncovered: Original LSK-SQK108 and NEBNextUltraII documents; finalVOR applicability. Literal associated-main scope and same-stock motor/DNA decomposition do not fulfill historical whole adaptor/end/library documents or final-main equivalence. Actual sequencing eluate remains incorrectly typed and normal publication gate remains false.",
+      "deferred": [
+        "Actual historical LSK-SQK108/NEBNextUltraII source/version identities and finalVOR comparison remain unreviewed.",
+        "Remaining actual main/SI figure bodies/results and full adaptor/end/read geometry not pursued."
+      ],
+      "oligo_scraper": "13hits across3representations;37MB data workbook skipped by normal10MBlimit, not an absence result. No result-table values or unselected hits adopted.",
+      "verification": "10focusedPASS; private buildPASS/pairing0problems; normalgatefalse with2actual failures. Combined chemistry32unresolved/0contradictory. No new sequences; no sourceguard rerun or further source-body reading. Produced leaderDNA remains unassembled and outside external-input-only source guard."
     }
   ],
   "work_status_reason": "Next action is ordinary reading/retrieval of identified historical kit/source scopes or independent review. The selected capped pass did not establish a specific access barrier; model geometry remains unresolved. No absence conclusion."

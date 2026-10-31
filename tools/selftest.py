@@ -126,6 +126,21 @@ with TemporaryDirectory() as _prop_temp:
             check(f"{_prop_status} protocols cannot use unknown source-review facets",
                   _rejected_unassigned, True)
 
+    _prop_file.write_text("dir\tprofile\toverrides\nsource-notes\tillumina_rna\t"
+        "index_introduction=unassigned in model;index_architecture=unassigned in model;"
+        "partitioning=unassigned in model;amplification=unassigned in model\n")
+    with patch.object(build_index.cat, "ours", return_value=(
+            {"dir": "source-notes", "status": "documented"},)):
+        _reviewed_limits = properties.load(path=_prop_file)["source-notes"]
+        check("reviewed unresolved indexing does not force a guessed preparation",
+              _reviewed_limits["index_introduction"], (properties.MODEL_UNASSIGNED,))
+        check("reviewed unresolved amplification stays distinct from source curation",
+              _reviewed_limits["amplification"], (properties.MODEL_UNASSIGNED,))
+        check("unassigned model partitioning does not invent bulk resolution",
+              _reviewed_limits["scale"], (properties.MODEL_UNASSIGNED,))
+        check("model-limit metadata never becomes a published-absence claim",
+              "not reported" in _reviewed_limits["index_architecture"], False)
+
 check.section("unfinished schematic publication")
 import build_site
 import json as _publication_json

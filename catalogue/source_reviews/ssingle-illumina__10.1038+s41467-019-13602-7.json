@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round07",
         "date": "2026-10-29",
-        "locations": "Principle77; ILM rationale93; common Methods203–213; ILM219–223; Illumina analysis229",
+        "locations": "Principle77; ILM rationale93; common Methods203\u2013213; ILM219\u2013223; Illumina analysis229",
         "finding": "Published main: MNase3P vs native3OH, polyA/ddN, dT50-rT3/Taq linear amplification, polyC/ddC, source primers andPE150; SMS and optional validation separate."
       }
     },
@@ -47,7 +47,7 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Published-first source pass; accepted manuscript identities explicit; no recipe inheritance by resemblance.",
-      "locations": "Principle77; ILM rationale93; common Methods203–213; ILM219–223; Illumina analysis229; Supplementary Note1 opening",
+      "locations": "Principle77; ILM rationale93; common Methods203\u2013213; ILM219\u2013223; Illumina analysis229; Supplementary Note1 opening",
       "findings": "Published main: MNase3P vs native3OH, polyA/ddN, dT50-rT3/Taq linear amplification, polyC/ddC, source primers andPE150; SMS and optional validation separate.; Read validation context only; does not supply a different native-break library recipe. Remaining SI uninspected.",
       "deferred": [
         "Exact complete RNA/DNA intermediate and final primer/template/run architecture, tail distributions and physical index meaning.",
@@ -57,5 +57,21 @@
       "oligo_scraper": "9hits in2files; main P5G10/P7T12 checked; source dT50-rT3 prose preserves RNA chemistry.",
       "verification": "Five local checks pass: two defining-source oligo transcriptions,terminal-rT source wording and publication/private-page guards. Build/pairing/schema pass; source guard2strands pass,one modified RNA/DNA primer unrepresented rather than flattened into DNA or exempted. Chemistry24unresolved,zero contradictory. Final scraper rerun9hits/2hitfiles."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "source_scope": "s41467-019-13602-7_PMC6925131.xml.txt203\u2013229 actualcommoncell/nucleus/MNase/PK/DNAprep,polyA/cap,ILMlinearamplification/polyC/cap/PCR/finalQubit/PE150/Read1G10Read2T12analysis. PublishedMOESM1.pdf.txtopeningtitle/Note1AsiSIvalidationcontext only; remainingSI notchemicallyadjudicated. SMS/optionalnicking/SAP/AsiSIvalidation distinctfromselectednativecell-lineILMroute.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "normal_gate": [
+      "no terminal output is designated for sequencing",
+      "authoritative source item 'remaining_source_and_assembly' is not accounted for"
+    ],
+    "blocker": "Current23steps supportactualwholeDNAproduction up toPCR, but requiredremaining_source_and_assembly explicitly includesremainingSI andcompleteRNA/DNA/primer/runassembly. Existingrole-onlyEndHistory states donotestablishthatfullscope; sourcepositivePE150alone cannotwaiveit. FullmixedDNA-rTprimer/copy/polyC/anchoredPCRrelation andsourceoriginalscope remainunassembled. Free mixed-sugar primer,100ng/wholetransfer/QA andcarriedTdT corrections implemented; actualnucleusarray/HMWcontrol/fullcopy-primerassembly remains unassembled.",
+    "verification": "10focusedPASS/privatebuild/pairing0; sourceguard2exact0failed1narrowmixed-sugarquantifiedexception0unknowninputs; chemistry26steps27unresolved0contradictory.",
+    "source_item_not_excluded_or_redefined": true,
+    "missing_information_claims": []
+  }
 }

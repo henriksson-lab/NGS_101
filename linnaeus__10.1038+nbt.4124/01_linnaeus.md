@@ -40,3 +40,11 @@ The forward bulk primers differ in their inline sample barcode. The displayed tw
 ## Boundaries and remaining work
 
 No scGESTALT/inDrops or CARLIN recipe is imported. Related recording concepts alone do not establish exact method ancestry. Full final-version Methods, historical Chromium chemistry/version, recorder/primer/product/end geometry, bulk adapter-PCR oligos, exact run/primer geometry, remaining original/linked sources and independent review remain pending. All previews are private and incomplete; no absent-information claim is accepted.
+
+## Bounded publication follow-up (2026-10-30)
+
+The associated accepted manuscript Methods82–90 provides the operational bulk and single-cell recovery routes. Published SI Table1p41 separately supplies selected source primers; it does not establish whole final/accepted Methods equivalence. The required `unassembled_source` historical-kit/final-version/whole-strand/read scope remains uncovered. Historical ChromiumPN120233 identity and full primer/product chemistry remain unassembled; changing an endpoint kind is not a substitute for that source/model work.
+
+The limited provenance fix represents the bead oligo introduced once during encapsulation as a co-present produced component subsequently used by RT. This is bookkeeping of the same droplet mixture, not an isolated physical fraction or a second fresh bead addition. Cell-identity/UMI metadata remain attached to the retained oligo component; full historical body/order/widths are not supplied by platform name. The independent bulk-RNA route now types the source1mMdNTP contribution separately from SuperScriptII/RNaseOUT catalytic supplies, with packaging and per-base/total concentration convention unassigned. Literal per-variant reviewed input/step lists replace runtime graph enumeration.
+
+The accepted operational sequence and published primer inventory remain separately qualified. Half of the amplified whole-cDNA mixture goes to transcriptome fragmentation and half remains unfragmented for nested scar PCR; this is an allocation, not perfect modality purification. Computational75nt trimming remains separate from reported sequencing runs. Two existing originals only; no new acquisition/source expansion, final-version equivalence or accepted absence finding. Private model and notes status retained.

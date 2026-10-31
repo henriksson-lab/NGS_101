@@ -35,3 +35,24 @@ Full bead-formation/lysis route, all exact primer pools, qPCR aliquot details, s
 ## Completion and verification
 
 Private incomplete source-local graph. Required source inventory explicitly retains unassembled full-strand chemistry; a valid local reaction contract does not establish source-review completion. Mandatory primer scraper was run against fetched sources and relevant hits checked in originals. No two-reader missing-information pass has been completed.
+
+## Bounded publication-preflight hold
+
+The existing supplement `ismej2015124x1.pdf.txt` lines 118–158 (printed
+pages 2–3) positively specifies fusion-emulsion aliquots before cycling and
+pooling afterwards, four independent 25 µl nested reactions before pooling,
+and four independent adapter-PCR reactions before pooling. It also specifies
+the separate cycle-selection qPCR, equal-stoichiometry barcoded sample pool,
+20% PhiX and an eight-base index read. The current six-step local graph is a
+single-reaction chain and does not represent these actual allocations/arrays.
+Its unassembled-source gate is retained. Clearing that source item, relabeling
+one PCR product or splitting it into supposed reaction replicates would not
+repair the physical preparation. A later model pass must allocate templates
+before each independent reaction array and pool the distinct produced classes
+after cycling, retaining stock and analytical fates. This is a model hold,
+not a claim that the source lacks the chemistry.
+
+The existing main-source review calls the main an associated accepted
+manuscript, whereas its fetch manifest labels author-manuscript false. This
+bounded pass preserves the unresolved version qualification; no additional
+identity record or final/AM equivalence is adopted.

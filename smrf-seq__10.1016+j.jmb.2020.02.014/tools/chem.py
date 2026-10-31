@@ -54,6 +54,12 @@ def selftest():
     c('PCR report does not alter original DNA chemical class',(selected.original_dna,selected.chemical_dna),('ACCGC','AUCGU'))
     c.raises('Cannot bisulfite-convert a supplied guanine as cytosine',lambda:FootprintDNA('ACCGC',frozenset({3})))
     c.raises('Cannot silently combine directlysis with S9.6 enrichment',lambda:graph_for_branch(True,True))
+    c('Genomic bisulfite receives the actual spiked preparation',g.steps['bisulfite'].inputs[0].material,'spiked_genomic')
+    c('Control physical class is retained through downstream population states',all(g.materials[k].state.control for k in ('spiked_genomic','bisulfite_product','amplified','pooled','library')),True)
+    c('Control spike requires linearization then denaturation',g.steps['control_denaturation'].inputs[0].material,'linearized_control')
+    c('Control is copresent rather than a separate terminal',('denatured_control' in g.terminals,tuple(p.material for p in g.steps['control_spike'].inputs)),(False,('restriction_cleanup','denatured_control')))
+    c('Optional S9.6 route does not assert a source-specified post-IP spike schedule','control_spike' in graph_for_branch(False,True).steps,False)
+    c('Separate direct-lysis paragraph does not acquire an invented control spike','control_spike' in graph_for_branch(True,False).steps,False)
     c('Source direct and optionalIP branches retain publication boundaries',all(graph_for_branch(a,b).publication_problems() for a,b in ((True,False),(False,True))),True)
     c.report()
 
@@ -92,6 +98,7 @@ class FootprintDNA:
 @dataclass(frozen=True)
 class SMRFPopulation:
     stage:str
+    control:bool=False
     def rows(self):
         if self.stage not in {'native','restricted','bisulfite','amplified','library'}:raise ValueError('unsupported SMRF-seq population')
         sc=Scene()
@@ -99,6 +106,7 @@ class SMRFPopulation:
         sc.strand('paired_dna',[role('other original genomic DNA including hybrid-paired strand; no ideal protection or conversion rate asserted')],label='other original DNA')
         sc.strand('rna',[role('original hybrid-associated RNA and possible residual/degraded RNA; no physical RNA deletion by DNA bisulfite/PCR assumed')],label='RNA-associated material')
         if self.stage in {'amplified','library'}:sc.strand('daughter',[role('selected PCR descendant duplexes; DNA-U copying yields reference-orientedT calls, no remaining uracil required in descendants')],label='daughter DNA, independent molecules')
+        if self.control:sc.strand('plasmid_control',[role('source linearized/denatured plasmid spike and possible descendants; conversion, recovery and any copying unassembled')],label='source plasmid-control material')
         sc.strand('other',[role('other nucleic acids, protein/reagent fragments and possible background; recovery unquantified')],label='other physical material')
         return sc.rows()
 
@@ -121,21 +129,30 @@ def graph_for_branch(direct=False,enriched=False):
             g.react('s96_enrich','Source optionalS9.6 enrichment before bisulfite, not mandatory',S.AFFINITY_CAPTURE,((current,R.TEMPLATE),(antibody,R.SELECTION)),(selected,other))
             g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,'Detailed source-cited DRIP wash/elution/disposal remains unreviewed.'));current=selected
         reagent='source ZymoD5030conversion reagent37C2h, gentle rotation, NO prior DNA denaturation'
-    current=op(g,'bisulfite','Source non-denaturing DNA bisulfite; selected exposed C-to-U chemical footprints',S.CHEMICAL_CONVERSION,current,SMRFPopulation('bisulfite'),reagent)
+    if not direct and not enriched:
+        control=g.input('control_plasmid','Source positive-control plasmid stock; actual identity, whole sequence and amount unassembled',K.MOLECULAR)
+        linear=g.product('linearized_control','Source linearized control plasmid; actual restriction enzyme, junctions and end geometry unassembled',K.MOLECULAR)
+        g.react('control_linearization','Source positive-control plasmid linearization; no enzyme or end recipe invented',S.MAGIC,((control,R.TEMPLATE),),(linear,),reason='Associated Methods138 explicitly specifies a linearized control; exact production chemistry unreviewed.')
+        denatured=g.product('denatured_control','Source denatured linearized plasmid control; whole strand distribution/conditions unassembled',K.MOLECULAR)
+        g.react('control_denaturation','Source denatured positive control; temperature, mechanism and duration unassembled',S.MAGIC,((linear,R.TEMPLATE),),(denatured,),reason='Associated Methods138 explicitly specifies denatured plasmid; no thermal or chemical denaturation recipe supplied.')
+        spiked=g.product('spiked_genomic','Actual genomic preparation copresent with source linearized/denatured plasmid spike; amounts and sequence geometry unassembled',K.MOLECULAR,state=SMRFPopulation('restricted',control=True))
+        g.react('control_spike','Source Methods138 positive-control plasmid spiked into genomic samples and treated accordingly',S.POOL,((current,R.TEMPLATE),(denatured,R.TEMPLATE)),(spiked,))
+        current=spiked
+    current=op(g,'bisulfite','Source non-denaturing DNA bisulfite; selected exposed C-to-U chemical footprints',S.CHEMICAL_CONVERSION,current,SMRFPopulation('bisulfite',control=not direct and not enriched),reagent)
     current=op(g,'desulfonate','Source kit desulfonation; exact historical conditions unreviewed',S.CHEMICAL_CONVERSION,current,current.state,'source D5020orD5030manufacturer desulfonation instruction; selected branch retained')
     current=cleanup(g,'bisulfite_recovery','Source kit sample recovery after desulfonation; detailed vendor operation unassembled',current,current.state)
     f=g.input('forward','source locus-specificTableS2forward primer, exact gated sequence unreviewed',K.OLIGO)
     r=g.input('reverse','source locus-specificTableS2reverse primer, exact gated sequence unreviewed',K.OLIGO)
     enzyme=g.input('phusion_u','source PhusionU F555S;0.2mMdNTPs,0.8µMprimers,30–35cycles; optional1Mbetaine',K.CATALYST)
-    amplified=g.product('amplified','source2–4kb locus amplicons plus original/carryover material',K.MOLECULAR,state=SMRFPopulation('amplified'))
+    amplified=g.product('amplified','source2–4kb locus amplicons plus original/carryover material',K.MOLECULAR,state=SMRFPopulation('amplified',control=not direct and not enriched))
     g.react('pcr','Source uracil-tolerant PhusionU locusPCR; original DNA/RNA not physically erased',S.PCR,((current,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(enzyme,R.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(Scene(),reason='Exact gated locus-specific primers and template/strand assembly unreviewed.'))
     current=cleanup(g,'pcr_cleanup','Source1xAMPure after PCR',amplified,amplified.state)
     other=g.input('other_amplicons','source other nonoverlapping amplicons, less20products per run; equal amounts',K.MOLECULAR,state=population('independently prepared source target amplicons'))
-    pooled=g.product('pooled','source pooled nonoverlapping amplicons; no synthetic sample index assumed',K.MOLECULAR,state=SMRFPopulation('amplified'))
+    pooled=g.product('pooled','source pooled nonoverlapping amplicons; no synthetic sample index assumed',K.MOLECULAR,state=SMRFPopulation('amplified',control=not direct and not enriched))
     g.react('pool','Source equal-amount amplicon pool',S.POOL,((current,R.TEMPLATE),(other,R.TEMPLATE)),(pooled,))
     current=cleanup(g,'concentrate','Source1–2µg pooled PCRproducts concentrated with1xAMPure',pooled,pooled.state)
     kit=g.input('pacbio_kit','source PacBio2kbTemplatePreparation PN001-143-835-08; NO prior damage repair, all kit washes0.8xAMPure, ligation25C1h',K.CONDITION)
-    library=g.product('library','source SMRTbell library; exact ends/adapters/ligation junctions and remaining kit operations unassembled',K.LIBRARY,state=SMRFPopulation('library'))
+    library=g.product('library','source SMRTbell library; exact ends/adapters/ligation junctions and remaining kit operations unassembled',K.LIBRARY,state=SMRFPopulation('library',control=not direct and not enriched))
     g.react('smrtbell_boundary','Source historical SMRTbell construction with explicit reported modifications; no modern kit substitute',S.MAGIC,((current,R.TEMPLATE),(kit,R.CONDITION)),(library,),reason='Main reports historical protocol/version, omission and modified ligation/washes; exact ordered internal kit geometry unavailable without its original.')
     g.mark_terminal(Terminal(library.id,Disposition.UNRESOLVED,'Source PacBioRSII6h movies with QC sizing/quantitation; exact SMRTbell/run-primer geometry unassembled.'))
     g.add_source_item(SourceItem('gated_si','Original supplementalMethods/figures/tables, including target primerTableS2','PMC7669280 NIHMS1568681supplements1–13 canonical requests gated; original contents uninspected.'))

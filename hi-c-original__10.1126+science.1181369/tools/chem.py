@@ -46,6 +46,7 @@ def selftest():
     from checks import Check
     c = Check(); g = protocol_graph()
     c('Pending source/assembly boundary prevents finished publication', bool(g.publication_problems()))
+    c('Actual unread SI obligation stays uncovered','pending_assembly' in g.source_coverage,False)
     c('Private preview has no finished marker', 'data-protocol-complete=' not in render_page())
     c('Every physical DNA output has a declared downstream operation or terminal', not any(m.kind in {K.MOLECULAR,K.LIBRARY} and m.id not in g.terminals and not any(port.material==m.id for step in g.steps.values() for port in step.inputs) for m in g.materials.values()))
     c.report()
@@ -61,17 +62,18 @@ PREVIEWS=(("Source-qualified partial molecular route","output"),)
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE)
     current=g.input('dna','source genomic DNA/chromatin; genomic bases unassigned',K.MOLECULAR,state=molecule('source DNA',(role('genomic DNA; coordinates and sequence unassigned'),)),primary=True)
-    reagent=g.input('fix_reagent','Formaldehyde crosslink spatially adjacent chromatin',K.CONDITION)
+    reagent=g.input('fix_reagent','Formaldehyde crosslink spatially adjacent chromatin: actual molecular reagent; source dose unassigned',K.MOLECULAR)
     product=g.product('fix_product','Formaldehyde crosslink spatially adjacent chromatin',K.MOLECULAR,state=molecule('source product classes',(role('crosslinked DNA and associated protein complexes; no fixed genomic coordinates'),)))
-    g.react('fix','Formaldehyde crosslink spatially adjacent chromatin',S.CHEMICAL_CONVERSION,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,))
+    fix_conditions=g.input('fix_conditions','Source formaldehyde fixation; dose/time/temperature remain unassigned pending actual SI, no invented conditions',K.CONDITION)
+    g.react('fix','Formaldehyde crosslink spatially adjacent chromatin',S.CHEMICAL_CONVERSION,((current,R.TEMPLATE),(reagent,R.STRUCTURAL),(fix_conditions,R.CONDITION)),(product,))
     current=product
     reagent=g.input('digest_reagent','HindIII digestion; source five-prime-overhang class',K.CATALYST)
     product=g.product('digest_product','HindIII digestion; source five-prime-overhang class',K.MOLECULAR,state=molecule('source product classes',(role('crosslinked restriction fragments with source5′overhangs; small fragments retained'),)))
     g.react('digest','HindIII digestion; source five-prime-overhang class',S.DIGESTION,((current,R.TEMPLATE),(reagent,R.CATALYST)),(product,))
     current=product
-    reagent=g.input('fill_reagent','Fill overhangs including a biotinylated residue; nucleotide identity pending SI',K.CONDITION)
+    reagent=g.input('fill_reagent','Actual fill-in nucleotide-containing supply including biotin residue; nucleotide identity and enzyme inventory pending genuine SI',K.MOLECULAR)
     product=g.product('fill_product','Fill overhangs including a biotinylated residue; nucleotide identity pending SI',K.MOLECULAR,state=molecule('source product classes',(role('blunt genomic ends with incorporated biotinylated nucleotide; exact position and molecular assembly unreviewed'),)))
-    g.react('fill','Fill overhangs including a biotinylated residue; nucleotide identity pending SI',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Main specifies fill-in; biotin nucleotide identity and exact molecular geometry await SI.')
+    g.react('fill','Fill overhangs including a biotinylated residue; nucleotide identity pending SI',S.MAGIC,((current,R.TEMPLATE),(reagent,R.STRUCTURAL)),(product,),reason='Main specifies fill-in; biotin nucleotide identity and exact molecular geometry await SI.')
     current=product
     reagent=g.input('join_reagent','Source dilute blunt-end ligation',K.CATALYST)
     product=g.product('join_product','Source dilute blunt-end ligation',K.MOLECULAR,state=molecule('source product classes',(role('ligation-product population including biotin-marked contact junctions and unligated/background classes'),)))
@@ -89,5 +91,7 @@ def protocol_graph():
     g.discard(other,'Actual source isolation/washes; no perfect specificity asserted.')
     current=product
     g.mark_terminal(Terminal(current.id,Disposition.UNRESOLVED,'Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates.'))
+    # Literal main-only operational inventory; this does not cover unavailable SI.
+    g.declare_reviewed_scope(('dna','fix_reagent','fix_conditions','fix','digest_reagent','digest','fill_reagent','fill','join_reagent','join','purify_product_condition','purify_product_step','shear_reagent','shear','capture_reagent','capture'),g.authority)
     g.add_source_item(SourceItem('pending_assembly','Unreviewed source/assembly boundary','Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates.'))
     return g

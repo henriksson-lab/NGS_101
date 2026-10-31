@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,feature
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 from pcr import PCRGeometry
 class B:
     def __init__(self,title,authority,start,kind=K.BIOLOGICAL,state=None):
@@ -24,7 +24,7 @@ class B:
 
 def unknown_scene():
     s=Scene();s.strand('unassembled',[Segment('source products unassembled','[unassembled]',placeholder=True)]);return s
-AUTHORITY='Published PLOS2018 PMC6059479 Methods174/178/182, Fig1 original PDFp3; actual S1Fig TIFF and S7Table XLSX. HO/KanMX route only, not ADE2.'
+AUTHORITY='Published PLOS2018 PMC6059479 Methods170/174/178, Fig1 original PDFp3; actual S1Fig TIFF and S7Table XLSX. HO/KanMX route only, not ADE2.'
 ORDERS={
 '2B_UP_Fw':'AATGATACGGCGACCACCGAGATCTACACCTTCCGATCTAGATGTCCACGAGGTCTCT',
 '2B_DN_Fw':'AATGATACGGCGACCACCGAGATCTACACTCTTCCGATCTACGGTGTCGGTCTCGTAG',
@@ -89,14 +89,19 @@ def protocol_graph():
     seq=[b.stock('read_'+loc,'Actual custom sequencing primer '+name,K.OLIGO,R.STRUCTURAL,state=oligo(name))for loc,name in [('up','2B_UP_Seq'),('dn','2B_DN_Seq')]]
     lib=g.product('library','Selected barcode library loading mixture; actual complete allele/index geometry unassembled',K.LIBRARY);g.react('load','Custom UP/DN primer mixture; single-end HiSeq2500/MiSeq',S.MAGIC,((b.x,R.TEMPLATE),)+tuple(seq),(lib,),reason='Source custom primers one or mixture; selected mixed UP/DN library uses both. Complete selected genomic insert and landing/read-index allocation unresolved.')
     g.sequence(lib,SequencingPlan(read_lengths={},limitation='Source single-end >50bp; exact cycle count unassigned; index read-cycle allocation and whole allele remain unassembled. Computational six-index/20barcode extraction is not a physical trim.'))
-    g.add_source_item(SourceItem('source_scope',AUTHORITY,'Private source-qualified partial graph; barcode identifies clone-linked protein/locus, not a cell or molecular deduplication UMI.'))
-    g.add_source_item(SourceItem('run_scope','Source single-end >50bp; exact cycle count unassigned.','No invented integer cycle count or sequencing construct/landing proof.'));return g
+    declare_page_scope(g)
+    g.add_source_item(SourceItem('source_scope',AUTHORITY,'Source-qualified partial graph; barcode identifies clone-linked protein/locus, not a cell or molecular deduplication UMI.'))
+    g.add_source_item(SourceItem('run_scope','Source single-end >50bp; exact cycle count unassigned.','No invented integer cycle count or sequencing construct/landing proof.'))
+    g.cover_source_item(SourceCoverage('source_scope','modelled','source'))
+    g.cover_source_item(SourceCoverage('run_scope','modelled','load'))
+    return g
 
 def selftest():
     from checks import Check,Source,have
     from storage import sources_root
     import zipfile,xml.etree.ElementTree as ET
     c=Check();g=protocol_graph()
+    c('Typed publication gate',g.publication_problems(),[])
     c('Actual input and IP allocated before capture',g.producer_of('input100').id,g.producer_of('ip1000').id)
     c('Capture consumes prewashed beads, not fresh PBSB',g.steps['tap_capture'].inputs[1].material,'igg_beads_washed')
     c('BSA wash component from actual PBSB stock',g.producer_of('pbsb_bsa').id,'pbsb_parts')
@@ -113,4 +118,77 @@ def selftest():
             ss=ET.fromstring(z.read('xl/sharedStrings.xml'));ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'};strings=[''.join(t.itertext())for t in ss.findall('m:si',ns)]
             for name,seq in ORDERS.items():c('Whole original order '+name,seq in strings,True)
     c.report()
+
+# Curator-written inventory: source main170/174/178, S7 whole orders and S1 layout.
+# Deliberately independent of runtime graph traversal.
+def declare_page_scope(g):
+    g.declare_reviewed_scope((
+        'source','fix','fix_conditions','crosslink','glycine','quench',
+        'cells_condition','cells','lysis_supplies','lyse','fa_condition','fa',
+        'sonication','sonicate','clarify_condition','clarify','chromatin_allocate',
+        'igg_beads_raw','pbsb_stock','pbsb_parts','igg_prewash','tap_capture',
+        'ip_wash_condition','ip_wash','ip_elute_condition','ip_elute',
+        'input_rnase','input_pk','input_te','input_deproteinize',
+        'input_column_condition','input_column','input_pcr_allocate',
+        'input_up_fw','input_up_rv','input_up_pol','input_up_supplies',
+        'input_up_pcr','input_up_pool_select',
+        'input_dn_fw','input_dn_rv','input_dn_pol','input_dn_supplies',
+        'input_dn_pcr','input_dn_pool_select',
+        'ip_rnase','ip_pk','ip_te','ip_deproteinize',
+        'ip_column_condition','ip_column','ip_pcr_allocate',
+        'ip_up_fw','ip_up_rv','ip_up_pol','ip_up_supplies',
+        'ip_up_pcr','ip_up_pool_select',
+        'ip_dn_fw','ip_dn_rv','ip_dn_pol','ip_dn_supplies',
+        'ip_dn_pcr','ip_dn_pool_select',
+        'equimolar_pool','gel_condition','gel','master_select','other_pools',
+        'masterpool','load_select','read_up','read_dn','load','library',
+    ), AUTHORITY)
+
+PAGE_FILE = 'epi-decoder.html'
+
+def render_page():
+    from page import head,info,caveat,table
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    from chemistry_validation import check_graph,Status
+    g=protocol_graph();g.require_publishable()
+    overview=(
+        '<div class="wrap" data-protocol-complete="true"><h1>Epi-Decoder</h1>'
+        '<p>Measure protein binding at one genomic locus by sequencing yeast reporter barcodes. '
+        'Each clone carries a tagged protein and two known barcodes around the HO/KanMX reporter. '
+        'TAP immunoprecipitation enriches protein-associated reporter DNA; input DNA measures clone abundance.</p>'
+        +info('Source: <a href="https://doi.org/10.1371/journal.pbio.2005542">Korthout et al., PLOS Biology (2018)</a>. '
+              'Selected HO/KanMX preparation: published Methods, S1 Figure and S7 oligonucleotide table. '
+              'The ADE2 construction and validation-qPCR branches are separate.')
+        +caveat('The preparation and six whole PCR/read-primer orders are declared. Selected genomic alleles, '
+                'barcode values and complete occupied PCR/read-landing geometry remain unassembled. '
+                'A passing workflow gate checks source coverage and material fates; it does not establish every molecular reaction.')
+        +'<h2>How the assay works</h2>'
+        +table(('Stage','Physical preparation','What it preserves'),(
+            ('Chromatin','Fix, lyse and sonicate the pooled yeast culture.','Clone-specific reporter DNA and protein-associated chromatin.'),
+            ('Input and ChIP','Allocate 100 µl input and 1 ml separately for IgG-Sepharose TAP-ChIP.','Input abundance and protein-associated DNA remain separate.'),
+            ('Four PCRs','Amplify UP and DN regions separately from both input and ChIP DNA.','A six-base sample index distinguishes the source input/IP plate.'),
+            ('Sequence','Select equimolar PCR contributions, pool and gel-select 100–150 bp DNA.','Reporter counts support a computational ChIP/input comparison.'),
+        ))
+        +info('The genomic barcodes identify clone-linked protein/locus reporters. They are not single-cell barcodes or deduplication UMIs. '
+              'Counting, filtering and normalization are computational analyses, not additional DNA-cleavage steps.')
+        +'<h2>Read setup</h2>'
+        +table(('Item','Source-defined scope'),(
+            ('Platform','HiSeq2500 or MiSeq; single-end, more than 50 bases. No exact integer cycle count is invented.'),
+            ('Custom read primers','2B_UP_Seq and 2B_DN_Seq, one or a mixture; this mixed UP/DN model declares both.'),
+            ('Reporter/index','The HO analysis extracts 20-base reporter barcodes and six-base sample indices. Exact read-cycle placement and a separate index-read recipe are unassembled.'),
+        ))
+        +'<h2>Source wording to retain</h2>'
+        +caveat('The source adds one-tenth culture volume of Fix Solution, printed as 1% formaldehyde. '
+                'The model preserves both the stock wording and volume ratio; it does not silently call 1% the final culture concentration.')
+        +'<h2>Known PCR and sequencing oligos</h2>'
+        +'<p>Whole source orders from S7 Table. NNNNNN denotes the six-base sample-index window; selected index values are unassigned. '
+        'The source S1 Figure places P5–seq–U1/D1 forward primers and P7–index–U2/D2 reverse primers on the two reporter regions.</p>'
+    )
+    oligos=''.join('<h3>'+name+'</h3>'+panel(oligo(name).rows(),caption='Whole source oligo; complete selected genomic amplicon is not implied.')for name in ORDERS)
+    claims=check_graph(g)
+    audit=('<h2>Molecular validation scope</h2>'+table(('Claim status','Computed count'),tuple((s.value,str(sum(c.status==s for c in claims)))for s in Status))
+           +'<p>Unresolved molecular relations and all side-fraction fates remain visible in the complete source-qualified workflow below.</p>')
+    return assemble_page(g,[head('Epi-Decoder — reporter barcodes and TAP-ChIP'),overview,oligos,audit,WorkflowSection('Complete preparation and material fates'),PlanLimitationSection('library'),'<p><a href="01_epi-decoder.html">Research note and open boundaries</a></p></div>'])
+
 if __name__=='__main__':selftest()

@@ -1,8 +1,8 @@
-"""Published2026 BALI, selected single-digit RNA demonstration; private incomplete graph."""
+"""Published2026 BALI, selected single-digit RNA demonstration; source-qualified partial molecular graph."""
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 from chemdraw import Scene,Segment,feature
 from illumina import P7,TRUSEQ_READ1,TRUSEQ_READ2,NEBNEXT_UNIVERSAL_PRIMER
 from pcr import PCRGeometry
@@ -44,13 +44,26 @@ def paired_index(top_name,bottom_name):
 def unknown():
     sc=Scene();sc.strand('unassembled',[Segment('geometry','[unassembled]',placeholder=True)]);return sc
 
+# Literal curator-reviewed selected published preparation, not graph enumeration.
+REVIEWED_INPUTS = '''input equilibrate_stock oct_buffer fix_stock quench_stock pbs_buffer permeabilize_stock perm_wash_buffer acid_stock acid_wash_buffer heat_stock rt_switch_stock rt_switch_oligo_0 rt_switch_oligo_1 rt_wash_buffer stain_stock stain_wash_buffer svz_index_top svz_index_bottom svz_anneal_condition svz_uncage_stock svz_uncage_wash_buffer svz_ligate_stock svz_lig_wash_buffer cortex_index_top cortex_index_bottom cortex_anneal_condition cortex_uncage_stock cortex_uncage_wash_buffer cortex_ligate_stock cortex_lig_wash_buffer lysis_stock minelute_buffer qpcr_forward qpcr_reverse qpcr_mix pcr_stock pcr_oligo_0 pcr_oligo_1 ampure_buffer other_libraries'''.split()
+REVIEWED_OPERATIONS = '''equilibrate oct fix quench pbs permeabilize perm_wash acid acid_wash heat rt_switch_components rt_switch rt_wash stain stain_wash svz_index_anneal svz_index_aliquot svz_uncage svz_uncage_wash svz_ligate svz_lig_wash cortex_index_anneal cortex_index_aliquot cortex_uncage cortex_uncage_wash cortex_ligate cortex_lig_wash lysis minelute qpcr_input qpcr_components qpcr unused_lysate pcr_components pcr ampure tapestation pool interface library'''.split()
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=AUTHORITY,representation='published_instance');x=g.input('input','SourcefreshfrozenE16.5embryonicbraincoronalcryosection; selectedRNAbranch',K.BIOLOGICAL,primary=True)
     def op(key,label,kind,stock,product,oligos=(),retained_inputs=(),adapter_geometry=None,catalyst=None,magic_reason=None):
         nonlocal x
         enzyme=kind in {S.REVERSE_TRANSCRIPTION,S.DEPROTEINIZATION,S.PCR,S.LIGATION,S.DIGESTION}
         if catalyst is not None:enzyme=catalyst
-        c=g.input(key+'_stock',stock,K.CATALYST if enzyme else K.CONDITION);ins=[(x,R.TEMPLATE),(c,R.CATALYST if enzyme else R.CONDITION)]
+        component_supply=key in {'rt_switch','pcr'}
+        c=g.input(key+'_stock',stock,K.MOLECULAR if component_supply else K.CATALYST if enzyme else K.CONDITION);ins=[(x,R.TEMPLATE)]
+        if component_supply:
+            enz=g.product(key+'_enzyme','Actual SSIV enzyme component'if key=='rt_switch'else'Q5 polymerase component of actual25ul2xQ5 master mix',K.CATALYST)
+            nts=g.product(key+'_nts','Actual source dNTP substrates from the same reaction supplies',K.MOLECULAR)
+            buf=g.product(key+'_buffer','Actual source reaction buffer component',K.CONDITION)
+            companion=g.product(key+'_companions','Actual source RNAsin/ETSSB proteins, betaine/DTT companions'if key=='rt_switch'else'Actual source2.5ul20xEvaGreen dye contribution',K.MOLECULAR)
+            g.react(key+'_components','Co-present supply functions; no extra doses or assumed aggregate premix/stock count',S.GENERIC,((c,R.TEMPLATE),),(enz,nts,buf,companion),changes_molecule=False)
+            ins.extend(((enz,R.CATALYST),(nts,R.STRUCTURAL),(buf,R.CONDITION),(companion,R.STRUCTURAL)))
+        else:ins.append((c,R.CATALYST if enzyme else R.CONDITION))
         ins.extend(retained_inputs)
         for i,name in enumerate(oligos):ins.append((g.input(key+'_oligo_'+str(i),name,K.OLIGO,state=inventory(name),chemical_state=chemistry(name)),R.STRUCTURAL))
         kw={}
@@ -81,8 +94,8 @@ def protocol_graph():
         cond=g.input(region+'_anneal_condition','Sourceindexpair45uM2xSSC95C5min→65C5min→4C;.1Csecramps',K.CONDITION)
         ds=g.product(region+'_index_stock','Sourcepreannealedindexstock;wholewrittenstrands/12bppairedstem/7nt5primeoverhangknown',K.ADAPTER,state=paired_index(*pair))
         g.react(region+'_index_anneal','Sourceindexstockannealingbeforeligation',S.HYBRIDIZATION,((top,R.TEMPLATE),(bottom,R.STRUCTURAL),(cond,R.CONDITION)),(ds,))
-        used=g.product(region+'_index_used','Sourceindexstockaliquotforfinal3uM50ulligation;exactpreparedstockvolumeunassigned',K.ADAPTER)
-        rest=g.product(region+'_index_rest','Untransferredsourcepairedindexstock;exactvolume/fateunassigned',K.ADAPTER)
+        used=g.product(region+'_index_used','Sourceindexstockaliquotforfinal3uM50ulligation;exactpreparedstockvolumeunassigned',K.ADAPTER,state=paired_index(*pair))
+        rest=g.product(region+'_index_rest','Untransferredsourcepairedindexstock;exactvolume/fateunassigned',K.ADAPTER,state=paired_index(*pair))
         g.react(region+'_index_aliquot','Sourcepairedindexstockallocatedtochosenligation',S.SPLIT,((ds,R.TEMPLATE),),(used,rest));g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,'Indexstocknotconsumedinfullwithoutsourceallocation.'))
         geometry=AdapterLigationGeometry.known('cohesive',paired_index(*pair),statement='PublishedSITableS2p32/sourceRNApairs:12bpCG+8ntcode+GCstem,top5primeGGTTATT7ntoverhang,bottom5deSBioTEG/6NUMI/PCRtail. Mainallows6or7ntinterfaces; completeRNA/cDNAsubstrateandsealedjunctionremainunassembled.')
         op(region+'_uncage','SP5confocal30mW405nmmaxpower5minselectedROI;200ul2xSSC/coverslip',S.CHEMICAL_CONVERSION,'Sourceillumination','SourceROI5primephosphateexposed; nonilluminatedmaterialnotphysicallyremoved')
@@ -93,12 +106,19 @@ def protocol_graph():
     wash('minelute','SourceMinEluteReactionCleanup/elute25ulEB')
     allocation('qpcr_input','Source2ulqPCRaliquot;Q5/EvaGreen/universal+A012;40cycles98C15s68C20s72C20safter98C3min;thresholdone-thirdplateau',None)
     # qPCR has its own source primer inventory; analytical rather than production output.
-    qf=g.input('qpcr_forward','universal',K.OLIGO,state=inventory('universal'));qr=g.input('qpcr_reverse','A012',K.OLIGO,state=inventory('A012'));qc=g.input('qpcr_mix','Source25ul2xQ5/.25ul50uMuniversal/.5ul50uMA012/2.5ul20xEvaGreen;50ul',K.CATALYST);qout=g.product('qpcr_readout','AnalyticalqPCRsignal;notreturnedtoproduction',K.QC)
-    g.react('qpcr','Sourcealiquotdeterminescycles',S.PCR,((g.materials['qpcr_input_allocated'],R.TEMPLATE),(qf,R.STRUCTURAL),(qr,R.STRUCTURAL),(qc,R.CATALYST)),(qout,),geometry=PCRGeometry.unavailable(unknown(),reason='Analyticalampliconunassembled.'));g.mark_terminal(Terminal(qout.id,Disposition.QC,'Analyticalmaterial.'))
+    qf=g.input('qpcr_forward','Actual.25ul50uM universal primer',K.OLIGO,state=inventory('universal'));qr=g.input('qpcr_reverse','Actual.5ul50uM A012 primer',K.OLIGO,state=inventory('A012'));qc=g.input('qpcr_mix','Actual25ul2xQ5 and2.5ul20xEvaGreen source supplies; primers separately inventoried',K.MOLECULAR)
+    qe=g.product('qpcr_enzyme','Q5 polymerase component of actual master mix',K.CATALYST);qn=g.product('qpcr_nts','dNTP component of same actual master mix',K.MOLECULAR);qb=g.product('qpcr_buffer','Buffer component of same actual master mix',K.CONDITION);qd=g.product('qpcr_dye','Actual2.5ul20xEvaGreen component',K.MOLECULAR)
+    g.react('qpcr_components','Source analytical supplies component bookkeeping; no fresh enzyme/NT doses or assumed Q5+dye premix',S.GENERIC,((qc,R.TEMPLATE),),(qe,qn,qb,qd),changes_molecule=False)
+    qout=g.product('qpcr_readout','AnalyticalqPCRsignal;notreturnedtoproduction',K.QC)
+    g.react('qpcr','Sourcealiquotdeterminescycles',S.PCR,((g.materials['qpcr_input_allocated'],R.TEMPLATE),(qf,R.STRUCTURAL),(qr,R.STRUCTURAL),(qe,R.CATALYST),(qn,R.STRUCTURAL),(qb,R.CONDITION),(qd,R.STRUCTURAL)),(qout,),geometry=PCRGeometry.unavailable(unknown(),reason='Analyticalampliconunassembled.'));g.mark_terminal(Terminal(qout.id,Disposition.QC,'Analyticalmaterial.'))
     allocation('unused_lysate','Source13ulremainingafter2ulQCand10ulproduction; actualstoredfateunassigned',Disposition.UNRESOLVED)
-    op('pcr','Source10ulproductionintoQ5/EvaGreenPCR;cyclesfromqPCRthreshold',S.PCR,'25ul2xQ5/.25ul50uMuniversal/.5ul50uMA0XX/2.5ul20xEvaGreen;listedreactionsetas50ul','SourceamplifiedspatialRNApreparation; exactampliconunassembled',('universal','A0XX'))
+    op('pcr','Source10ulproductionintoQ5/EvaGreenPCR;cyclesfromqPCRthreshold',S.PCR,'Actual25ul2xQ5 and2.5ul20xEvaGreen supplies; .25ul50uM universal/.5ul50uM A0XX are separate oligo inputs; listedreactionsetas50ul','SourceamplifiedspatialRNApreparation; exactampliconunassembled',('universal','A0XX'))
     wash('ampure','.8xAMPure/elute20ulEB');allocation('tapestation','SourceTapestationD5000andKAPAlibraryquantificationanalyticalallocations',Disposition.QC)
-    others=g.input('other_libraries','Sourceotherindependentlypreparedlibraries;actualpoolmembers/volumesunassigned',K.LIBRARY,primary=True);pool=g.product('pooled','Physicalsequencingpool',K.MOLECULAR);g.react('pool','SourcepoolafterlibraryQC',S.POOL,((x,R.TEMPLATE),(others,R.TEMPLATE)),(pool,));lib=g.product('library','SourceBALIspatialRNAlibrary;wholegeometryunassembled',K.LIBRARY);g.react('interface','NGSpreparationidentity',S.GENERIC,((pool,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation=READOUT));g.add_source_item(SourceItem('scope',AUTHORITY,'Noabsenceclaim/completechemistry/publicpage.'));return g
+    others=g.input('other_libraries','Sourceotherindependentlypreparedlibraries;actualpoolmembers/volumesunassigned',K.LIBRARY,primary=True);pool=g.product('pooled','Physicalsequencingpool',K.MOLECULAR);g.react('pool','SourcepoolafterlibraryQC',S.POOL,((x,R.TEMPLATE),(others,R.TEMPLATE)),(pool,));lib=g.product('library','SourceBALIspatialRNAlibrary;wholegeometryunassembled',K.LIBRARY);g.react('interface','NGSpreparationidentity',S.GENERIC,((pool,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation=READOUT));g.add_source_item(SourceItem('scope',AUTHORITY,'Selected source-qualified preparation; no complete chemistry or absence audit.'))
+    g.cover_source_item(SourceCoverage('scope','modelled','library'))
+    g.declare_reviewed_scope(REVIEWED_INPUTS, AUTHORITY+' Selected actual molecular supplies and prepared-stock boundaries; unknown whole oligos remain unassembled.')
+    g.declare_reviewed_scope(REVIEWED_OPERATIONS, AUTHORITY+' Actual selected physical preparation, allocations, QC and sequencing contribution; no assertion of complete occupied products or yield.')
+    return g
 
 def selftest():
     from checks import Check
@@ -119,6 +139,36 @@ def selftest():
         geo=g.steps[region+'_ligate'].geometry;c('Sourceknowncohesiveindexend '+region,(geo.availability,geo.kind),('known','cohesive'))
         c('Ligationconsumespreparedindexaliquot '+region,[(i.material,i.role)for i in g.steps[region+'_ligate'].inputs if i.role==R.STRUCTURAL],[(region+'_index_used',R.STRUCTURAL)])
     c('RNAlysisdoesnotinheritjointprotease',(g.steps['lysis'].kind,g.materials['lysis_stock'].kind),(S.MAGIC,K.CONDITION))
-    c('KnownSSIVretainscatalystrole',g.materials['rt_switch_stock'].kind,K.CATALYST)
-    c('Privatepartialgraph',bool(g.publication_problems()),True);c.report()
+    c('KnownSSIVretainscatalystrole',[(i.material,i.role)for i in g.steps['rt_switch'].inputs if i.role==R.CATALYST],[('rt_switch_enzyme',R.CATALYST)])
+    for key in ('rt_switch','pcr','qpcr'):
+        c('Actual same-supply nucleotide component consumed '+key,
+          [(i.material,i.role) for i in g.steps[key].inputs if i.material==key+'_nts'],[(key+'_nts',R.STRUCTURAL)])
+    for region in ('svz','cortex'):
+        c('Selected and remaining index stock retain known paired ends '+region,
+          [len(g.materials[region+'_index_'+part].state.ligation_ends) for part in ('used','rest')],[1,1])
+    c('Selected reviewed preparation passes normal publication gate',g.publication_problems(),[])
+    g.input('unreviewed_addition','Regression-only unreviewed stock',K.CONDITION)
+    c('New stock cannot auto-publish',any('unreviewed_addition' in p and 'source-inventory' in p for p in g.publication_problems()),True);c.report()
+
+
+PAGE_FILE = 'bali.html'
+def render_page():
+    from page import head,info
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    parts=[head('BALI — light-directed spatial barcoding'),'<div class="wrap" data-protocol-complete="true"><h1>BALI</h1>',
+      '<p>Light exposes a ligatable phosphate in selected tissue regions. Source index duplexes append spatial codes to cDNA; terminal index strands also supply a UMI and an amplification handle.</p>',
+      info('Source: <a href="https://doi.org/10.1073/pnas.2527896123">Published BALI study, 2026</a>, main and SI Appendix RNA preparation/Table S2. This page selects the single-digit E16.5 brain RNA demonstration: successive illumination/ligation marks SVZ and cortex. The general multidigit, chromatin and joint assays are separate source branches, not extra cycles invented for this specimen.'),
+      '<h2>Known source components</h2><p>BL621 contains an internal photocleavable linker after its first three bases. Its N8 window is retained with function unassigned. BL617 has three terminal RNA guanosines. The selected terminal indexes have spatial codes, six-base molecular UMIs and 5′ desthiobiotin–TEG modifications; these differ from the PCR sample index.</p>']
+    for name in ('BL621','BL617','universal','A012','A0XX'):
+        parts.append(panel(inventory(name).rows(),caption='Source '+name+' ordering; modification/sugar details remain in the full preparation.'))
+    for top,bottom,label in [('BL599','BL623','SVZ'),('BL601','BL624','Cortex')]:
+        parts.append(panel(paired_index(top,bottom).rows(),caption=label+' source index pair: known 12-bp stem and 7-nt 5′ overhang; whole occupied cDNA junction remains unassembled.'))
+    parts += ['<h2>Preparation and reads</h2><p>Reverse transcribe the section with the caged primer and TSO, stain nuclei and select regions. Illuminate and ligate each selected spatial index, then wash before the next region. Recover lysate and use 2 µl of the 25-µl preparation for analytical qPCR; amplify a separate 10-µl portion, leaving 13 µl outside production. Clean and quantify before pooling actual libraries.</p>',
+      info('The selected RNA SI specifies 0.8 U/ml in RIPA for overnight lysis without naming that active component. Lysis remains an opaque source boundary; a protease is not borrowed from the joint assay. The main describes a generic 6-nt root and allows 6- or 7-nt ligation interfaces; the selected Table S2 RNA pair has a 7-nt overhang. These are scoped source components, not a silent six-to-seven correction.'),
+      '<p>The source uses NovaSeq with Read 1 = 100 bases for RNA mapping and Read 2 = 200 bases for the spatial barcode. Complete primer landing, sample-index read masks, photocleavage products and sealed junctions remain unresolved. Spatial decoding filters do not physically remove molecules.</p>',PlanLimitationSection('library'),
+      '<details><summary>Full preparation and chemistry warnings</summary>',WorkflowSection('Selected spatial RNA demonstration'),'</details>',
+      '<p><a href="01_bali.html">Source notes and model limits</a></p></div>']
+    return assemble_page(g,parts)
 if __name__=='__main__':selftest()

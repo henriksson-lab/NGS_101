@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round08",
         "date": "2026-10-29",
-        "locations": "Published main Methods82\u201384; published TableS1 rows3\u20137; Supplementary Methods/legends relevant headings and FigS1\u2013S2",
+        "locations": "Published main Methods82–84; published TableS1 rows3–7; Supplementary Methods/legends relevant headings and FigS1–S2",
         "finding": "DNA-specific protection branch. Antibody protection is incomplete/selective in practice; no perfect specificity, complete digestion or complete protein removal is asserted. Exact assembled end transitions and full TruSeq PCR/read geometry are deferred. Lambda and RecJf are separate reactions with washes; RNA XRN1 is not substituted."
       }
     },
@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round08",
         "date": "2026-10-29",
-        "locations": "TableS1rows3\u20137 and experimental uses in remaining rows",
+        "locations": "TableS1rows3–7 and experimental uses in remaining rows",
         "finding": "Verified selected source components/version and boundaries; not a whole-document absence audit."
       }
     },
@@ -37,7 +37,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round08",
         "date": "2026-10-29",
-        "locations": "Supplementary Methods headings, FigS1\u2013S2legends and TableS1/S2identity",
+        "locations": "Supplementary Methods headings, FigS1–S2legends and TableS1/S2identity",
         "finding": "Verified selected source components/version and boundaries; not a whole-document absence audit."
       }
     }
@@ -47,26 +47,41 @@
     "pass_1": {
       "reviewer": "expansion_dna_round08",
       "date": "2026-10-29",
-      "locations": "Published main Methods82\u201384; published TableS1 rows3\u20137; Supplementary Methods/legends relevant headings and FigS1\u2013S2",
+      "locations": "Published main Methods82–84; published TableS1 rows3–7; Supplementary Methods/legends relevant headings and FigS1–S2",
       "finding": "Full molecular end-transition assembly and source TruSeq PCR primer/run geometry remain unreviewed. No sequence-absence claim."
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source/model pass only; no two-reader missing-information acceptance.",
+  "conclusion": "Bounded publication hold retained after contained physical/inventory improvements. Original required pending_assembly remains uncovered: full molecular end-transition assembly and source TruSeq PCR primer/run geometry remain unreviewed. Published source operational stages and known PG components are retained, but the full protected-end/product/TruSeq/run relation and a source-supported sequencing terminal remain unassembled. Literal inventory and typed components are not full molecular completion.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-08",
       "reviewer": "expansion_dna_round08",
       "date": "2026-10-29",
       "documents": 3,
-      "locations": "Published main Methods82\u201384; published TableS1 rows3\u20137; Supplementary Methods/legends relevant headings and FigS1\u2013S2",
+      "locations": "Published main Methods82–84; published TableS1 rows3–7; Supplementary Methods/legends relevant headings and FigS1–S2",
       "findings": "DNA-specific protection branch. Antibody protection is incomplete/selective in practice; no perfect specificity, complete digestion or complete protein removal is asserted. Exact assembled end transitions and full TruSeq PCR/read geometry are deferred. Lambda and RecJf are separate reactions with washes; RNA XRN1 is not substituted.",
       "deferred": [
         "Exact nucleotide/end-state assembly through protection and ligations; full source TruSeq primer/run/index geometry. Full source-known operation sequence is represented, including post-release library operations."
       ],
       "oligo_scraper": "Whole bundle run; source hits reviewed; Hi-C zero hits is not absence evidence.",
       "scope": "Published-first capped source inspection; source-qualified incomplete private molecular preview, no recipe inheritance or absence acceptance.",
-      "verification": "Nineteen checks across the three Round08DNA protocols passed, including five exact PG160\u2013164 source-table checks and reaction-fate/branch boundaries. Three builds and pairing passed. Shared source-oligo guard0eligible exact constructs,0failed; standalone Scene inventories are not automatically checked by that guard. Chemistry58unresolved,0established,0contradictory across all three: no exact product relation validation claimed. Source schema passed."
+      "verification": "Nineteen checks across the three Round08DNA protocols passed, including five exact PG160–164 source-table checks and reaction-fate/branch boundaries. Three builds and pairing passed. Shared source-oligo guard0eligible exact constructs,0failed; standalone Scene inventories are not automatically checked by that guard. Chemistry58unresolved,0established,0contradictory across all three: no exact product relation validation claimed. Source schema passed."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch17",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed originals reused for bounded physical catalyst/structural typing and literal independently reviewed operational inventory. No new originals or source expansion.",
+      "locations": "Full Methods82–84 6mACE-seq preparation and single-end acquisition; actual originalFigure1PDFp4 workflow/caption, distinguishing protection from chemical base conversion; Actual original sharedStrings XML five wholePG160–164 orders and source5PhosPG161; rows3–7 and annealing/extension role labels; Methods/legend scopes: supplementaryDIP as separateassay; FigS1–S2 legends and TableS1/S2 identities; no full supplementary biological result audit",
+      "findings": "Anti6mA is now a physical molecular binding/crosslink partner, with its source UV programme declared separately as a condition. Source T4DNApolymerase,first/secondPNK and Phi29 fill are typed catalysts rather than only conditions. Whole known PG162 is an OLIGO and reverse/forward source adapter stocks are ADAPTERs; unassembled TruSeq PCR primer stocks are OLIGOs. This makes the five exact PG160–164 polymers visible to the existing source-transcription guard without inventing whole protected genomic products or primer landing. Original required pending_assembly remains uncovered: full molecular end-transition assembly and source TruSeq PCR primer/run geometry remain unreviewed. Published source operational stages and known PG components are retained, but the full protected-end/product/TruSeq/run relation and a source-supported sequencing terminal remain unassembled. Literal inventory and typed components are not full molecular completion.",
+      "deferred": [
+        "Exact protected-strand/genomic-end/ligation and fullTruSeqprimer/run geometry remain actual model/unreviewed-source scope, not an invented unavailable disclosure document.",
+        "Other genuine supplementary biological analyses/assays not followed or borrowed as the selectedDNA library route."
+      ],
+      "oligo_scraper": "20hits in1workbook representation; actual originalXLSX rows and publishedFigure1p4 independently checked, not absence/full-geometry proof",
+      "verification": "12focusedPASS including5wholeoligo fixtures and source-guard candidate visibility; private buildPASS/pairing0problems. Both normal gates remainfalse with no sequencing terminal and original pending_assembly uncovered. Combined sourceguard5checked/0failed/0exempt/2wholeTruSeqprimerinputs unrepresented; combined chemistry31unresolved/0contradictory, no full molecular validation."
     }
   ]
 }

@@ -51,6 +51,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle0hits/0representations; actualpublishedFig1PDFp3andmainmethodsverified. No exactoligoconclusionfromemptyhitlist; gatedtablesnotinspected.",
       "verification": "18focusedPASSincludingprimarybiologicalprovenanceandRCAfunctionalcomponentsfromsameactualinventory. Noexactwholeoligointroduced;2unknownexternaloligoinventoriesplus2producedRT/RCAprimingclassesoutsideexternalguard. Chemistry18steps18unresolved0contradictory. IndependentselectedcriticalpeerCLOSEDsame1printedpublishedoriginal; SM/tableunread/gated."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted2",
+      "reviewer": "targeted_publication_owner",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Boundedpublicationreadinesspass using samecuratedsource scopes. Same1printedpublishedScience371eaax2656/29Jan2021 authorPDF: MethodsSummary2136\u20132148/2329\u20132342,selectedResults224\u2013240/565\u2013572/Fig1PDFp3. DetailedSI/tablesremainunreviewed; no neworiginal/retrieval.",
+      "locations": "Same1printedpublishedScience371eaax2656/29Jan2021 authorPDF: MethodsSummary2136\u20132148/2329\u20132342,selectedResults224\u2013240/565\u2013572/Fig1PDFp3. DetailedSI/tablesremainunreviewed; no neworiginal/retrieval.",
+      "findings": "Explicitfixedcurator-reviewed sourceinventorygroups andSourceCoverageaccounting; neverruntimegraph-keyautocover. Usefuloverview/readsetup/knownparts/caveats plusfullcollapsedWorkflowSection andallwarnings. Publicationdeclaresmodelscope, notfullreactionresolution/absence. Finalmainauthorityexplicit, no supplementaryrecipeorFISSEQconstructorinherited; physicallyrecoveredampliconsdistinctfromcomputationalmatching.",
+      "deferred": [
+        "Existingwholeoligo/molecularproduct/readgeometrylimitsunchanged; no sourceabsence/pass2claim.",
+        "Supplement/predecessor/vendor originals outsideclosedsourcecap notfollowed."
+      ],
+      "oligo_scraper": "Mandatorywholeexistingbundlescraper0hits/0representations; no absenceconclusion, finalmainactualpreparationpositive.",
+      "verification": "19focusedPASS; buildPASS; publication_problems=[]; wrappercomplete-marker/H1/H2/details/captionsparsed; duplexlint0; combinedsourceguard35exact0failed0exemptions/3unassembledexternalinventories; 18steps/18unresolved/0contradictory. Newunreviewedgraphinputregressionstillrejectspublication."
     }
   ],
   "linked_information": {
@@ -60,7 +75,7 @@
     "notes": "Cappedselectedsourcepassonly. ActualassociatedMethodsDOCX/tablesXLSXgatedunread; fullpublishedSM/tableversionidentityandcontentsremainunverified. PublishedSMlandinghttps://science.sciencemag.org/content/371/6528/eaax2656/suppl/DC1printed, ordinaryunread; no inventedexactfileURL. AssociatedAMandpreprintnotread/substituted; fullLabelX/gel/passivation/recovery/FISSEQ/wholeoligo/circle/RCArecipeunassembled."
   },
   "missing_claims": [],
-  "conclusion": "Source-positiveprivatepartialpreparation; completechemistry/source/absenceauditnotachieved.",
+  "conclusion": "Source-qualifiedpublicschematicreadywithallsourceversion/molecularlimitsretained; completechemistry/sourceabsenceauditnotclaimed.",
   "independent_implementation_recheck": {
     "reviewer": "dna_peer_round43",
     "date": "2026-10-30",

@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,feature,revcomp
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 class B:
     def __init__(self,title,authority,label,kind=K.MOLECULAR):
         self.g=ProtocolGraph(title,authority=authority,representation='published_instance');self.x=self.g.input('source',label,kind,primary=True)
@@ -32,6 +32,23 @@ from illumina import P5,P7,TRUSEQ_READ1
 AUTHORITY='PublishedPMC6821191 FICCMethods/introductionFig1/computation plusoriginalSupplementaryMethodsDOCXfullselectedrecipe. EndogenousHEK293TRMT2A/5FU only; noHAP1/iCLIP/mutantmiCLIP/LCMSrecipeinheritance. Twooriginals; cappedpartialnotabsenceaudit.'
 SOURCE_ORDERS={'l3':'rAppAGATCGGAAGAGCGGTTCAG/ddC/','rt':'5Phos/NNXXXXNNNAGATCGGAAGAGCGTCGTGGATCCTGAACCGC','bamhi':'GTTCAGGATCCACGACGCTCTTCAAAA','p5':'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT','p3':'CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT'}
 L3='AGATCGGAAGAGCGGTTCAG';RT_FIXED=revcomp(TRUSEQ_READ1[-18:])+'GGATCC'+'TGAACCGC'
+# Literal curator-reviewed inventories: adding graph targets does not extend review.
+REVIEWED_TRAP = '''source fu_reagent fu_conditions lysis_buffer turbo_dnase rnase_i
+clarify_condition protein_g_beads anti_trmt2a antibody_buffer ip_wash_condition
+fu_exposure lysis nuclease clarify prepare_antibody_beads ip ip_wash'''.split()
+REVIEWED_RNA = '''pnk3_enzyme pnk3_conditions pnk3_wash_condition l3_adapter l3_ligase
+l3_conditions l3_wash_condition radio_pnk_enzyme gamma_atp radio_conditions
+radio_supernatant_condition heat_conditions gel_transfer_conditions pk pk_urea_conditions
+phenol_condition rna_glycoblue rna_precip_condition pnk3 pnk3_wash l3_ligation l3_wash
+radio_pnk radio_supernatant heat_elute gel_transfer membrane_select pk_urea phenol rna_precip'''.split()
+REVIEWED_DNA = '''rt_primer rt_dntp ssii rt_conditions cdna_glycoblue cdna_precip_condition
+cdna_gel_conditions cdna_extract_condition size_glycogen size_precip_condition circligase
+circle_conditions bamhi_oligo bamhi_anneal_conditions bamhi linear_glycoblue
+linear_precip_condition p5 p3 accuprime_master pcr_conditions sybr library_gel_conditions
+library_extract_condition library_glycogen library_precip_condition rt_anneal rt_components
+rt cdna_precip cdna_gel cdna_band cdna_extract size_precip circle bamhi_anneal bamhi_digest
+linear_precip pcr_input accuprime_components pcr library_gel library_band library_extract
+library_precip loading load library'''.split()
 def rt_parts():
     return [Segment('umi_first','NN',feature=feature('ficc.molecule','umi','random',group='ficc.molecule',note='Sourcefive randomdeduplicationbases,firsttwohere')),Segment('sample_index','XXXX',placeholder=True,feature=feature('ficc.sample','sample_index','fixed',note='Sourcefixed4ntsampledemultiplexingcode; actualsequenceunassigned')),Segment('umi_last','NNN',feature=feature('ficc.molecule','umi','random',group='ficc.molecule',note='Remainingthree randomdeduplicationbases')),Segment('fixed_adapter_prefix',RT_FIXED[:6]),Segment('bamhi_binding_window',RT_FIXED[6:29]),Segment('fixed_rt_suffix',RT_FIXED[29:])]
 def oligo_scene(name):
@@ -98,6 +115,11 @@ def protocol_graph():
     b.clean('library_precip','Source40ulNaOAc/1mlEtOH/overnightminus20/pellet/wash/resuspend20ul',inputs=(b.stock('library_glycogen','Actual1ulglycogencarrier'),))
     b.aliquot('loading','ActualHiSeq4000loadingallocation; amountunassigned')
     lib=g.product('library','SourceFICCSeqDNAsequencinglibraryclass; wholemolecules/readlandingunassembled',K.LIBRARY);g.react('load','SourceHiSeq4000singleend50cycles',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(read_lengths={'R1':50},limitation='PublishedSupplementaryMethodssingleend50cycles. N2+N3randomUMI/X4samplecode sourcequalified, actualfixedcode/readprimerbindingandwholeduplexunassembled. Truncation/readassignmentcomputationalnotphysicalbaseconversion.'))
+    g.cover_source_item(SourceCoverage('catalytic_trap','modelled','fu_exposure'))
+    g.cover_source_item(SourceCoverage('source_units','modelled','cdna_extract'))
+    g.declare_reviewed_scope(REVIEWED_TRAP,'Published PMC6821191 main52/56/78 and SupplementaryMethods FICC opening: endogenous HEK293/5FU, actual prepared antibody bead capture, not mutant/UV/iCLIP comparison.')
+    g.declare_reviewed_scope(REVIEWED_RNA,'Published SupplementaryMethods FICC: source PNK/ligation/radioactive donor, RNP membrane selection, proteolysis and recovered RNA; whole adducts/recovery unassembled.')
+    g.declare_reviewed_scope(REVIEWED_DNA,'Published SupplementaryMethods FICC: five whole source oligos, RNA/primer/dNTP annealing, SSII, size selection/circle/BamHI, 10of20ul PCR, gel selection and actual HiSeq4000SE50 contribution. Literal400ml TE retained; actual extraction volume unassigned.')
     return g
 
 def selftest():
@@ -125,5 +147,28 @@ def selftest():
         for name,raw in SOURCE_ORDERS.items():c('OriginalDOCXwholemodifiedordering '+name,raw in text,True)
         c('Literal400mlTEsourcewordingretained','400ml TE buffer' in text,True)
         c('SourceSE50','single end using 50 cycles' in text,True)
-    c('Privatepartial',bool(g.publication_problems()),True);c.report()
+    c('Source-reviewed preparation satisfies normal public gate',g.publication_problems(),[])
+    g.input('unreviewed_addition','Regression-only stock not in curated source inventory',K.CONDITION)
+    c('New source input cannot auto-publish',any('unreviewed_addition' in x and 'source-inventory' in x for x in g.publication_problems()),True)
+    c.report()
+
+PAGE_FILE = 'ficc_seq.html'
+def render_page():
+    from page import head,info
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    parts=[head('FICC-Seq'),'<div class="wrap" data-protocol-complete="true"><h1>FICC-Seq</h1>',
+      '<p>Fluorouracil-induced catalytic crosslinking captures RNA substrates of endogenous TRMT2A. Metabolically incorporated fluorouridine traps the enzyme–RNA catalytic intermediate; reverse transcription can stop at the recovered peptide–RNA crosslink.</p>',
+      info('Source: <a href="https://doi.org/10.1093/nar/gkz658">FICC-Seq: a method for enzyme-specified profiling of methyl-5-uridine in cellular RNA</a>, published article and Supplementary Methods. This schematic selects endogenous TRMT2A in HEK293 cells treated with 100 µM 5-fluorouracil for 24 hours. HAP1, mutant miCLIP, UV-iCLIP and LC–MS comparisons are separate branches; their recipes are not substituted here.'),
+      '<h2>Source volume ambiguity</h2>',info('The Supplementary Methods print “400ml TE buffer” twice: after the 70–150-nt cDNA gel and after the final 150–200-nt library gel. Each extraction subsequently collects flow-through into a 1.5-ml tube. The model preserves 400 ml as printed and leaves the executed volume unresolved; it does not silently replace it with 400 µl. The listed ligation additions total 12 µl, with no extra water invented.'),
+      '<h2>Known oligos and identifiers</h2><p>The preadenylated L3 adapter ends in an additional physical ddC nucleotide. The 5′-phosphorylated RT primer carries a split five-base UMI (N2 + N3) and a fixed four-base sample code (X4). The actual sample-code value is unassigned. The BamHI oligo pairs with a known local RT-derived window; a complete occupied circle is not inferred.</p>']
+    for name,caption in [('l3','Source L3 adapter: 5′ adenylation and terminal physical ddC.'),('rt','Source RT primer: N2–X4–N3 identifier arrangement and 5′ phosphate.'),('bamhi','Source BamHI annealing oligo; its terminal AAAA is retained.'),('p5','Source P5 amplification primer.'),('p3','Source custom P3 amplification primer.')]:
+        parts.append(panel(oligo_scene(name).rows(),caption=caption))
+    parts += [panel(local_bamhi_interface().rows(),caption='Known local 23-bp BamHI-oligo pairing; whole circle, remote flanks and occupied products remain unassembled.'),
+      '<h2>Preparation and reads</h2><p>Trim lysate RNA and capture endogenous TRMT2A complexes on antibody beads. Dephosphorylate RNA 3′ ends, ligate L3 and radiolabel 5′ ends with fresh PNK and gamma-32P-ATP. Resolve the complexes, transfer to nitrocellulose and excise the radioactive region. Proteolyze, recover RNA and reverse transcribe with the source primer. Select 70–150-nt cDNA, circularize, anneal the BamHI oligo and linearize. Use 10 µl of the 20-µl stock for PCR, select the 150–200-nt library band and allocate material for sequencing.</p>',
+      info('Intracellular 5FU metabolism, adduct occupancy, peptide remnants, complete RNA/cDNA/circle structures, ligation junctions, yields and primer landing remain unresolved. The local duplex checks complementarity only. The source library is sequenced single-end for 50 cycles on HiSeq 4000; exact identifier cycle spans and read orientation are not computed from a complete construct. Computational duplicate removal does not physically purify the preparation.'),PlanLimitationSection('library'),
+      '<details><summary>Full preparation and chemistry warnings</summary>',WorkflowSection('Published endogenous TRMT2A preparation'),'</details>',
+      '<p><a href="01_ficc-seq.html">Source notes and model limits</a></p></div>']
+    return assemble_page(g,parts)
 if __name__=='__main__':selftest()

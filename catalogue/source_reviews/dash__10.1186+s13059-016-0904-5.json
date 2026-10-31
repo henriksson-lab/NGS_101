@@ -1,6 +1,6 @@
 {
   "dir": "dash__10.1186+s13059-016-0904-5",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "source_1",
@@ -114,7 +114,7 @@
   "open_questions": [
     "DNA-library Cas9 cut and both products, RNA-seq-specific proteolysis/workup and full downstream library operations; full historical polymers remain unassembled."
   ],
-  "conclusion": "Capped first source/implementation pass only; notes status, no full publication or missing-information claim.",
+  "conclusion": "Bounded source/model hold; required item retained, no accepted missing-information claim.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-08",
@@ -130,6 +130,21 @@
       ],
       "oligo_scraper": "Mandatory full downloaded bundle run; hits verified in source contexts. Empty output is not evidence of absence.",
       "verification": "17 local behavioral/transcription checks pass across3models. Source guard0checked/0failed/13inputs without exact states; chemistry audit43unresolved/0contradictory. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch9",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "scope": "One published defining original only, no linked-source/absence completion.",
+      "locations": "PMC4778327 Methods191\u2013211, input preparation, guide-template/IVT and RNP/workup/PCR/pooling/acquisition.",
+      "findings": "Verified final pooled-library source inventory omission fixed literally; actual required full-input/guide/primer scope retained. Available guide-transcription facts distinguished from unreviewed linked sources.",
+      "deferred": [
+        "Source-local full guide producer, control/stock/QC/pooling repair and input/strand/index/read geometry.",
+        "Directly cited NuGEN/Nextera input-preparation/scaffold/guide-assembly originals; exact revisions and applicability not adjudicated here."
+      ],
+      "oligo_scraper": "Repeated full-bundle scraper /tmp/unlinked9-dash-scraper.log; printed T7-template source paragraph independently read.",
+      "documents": 1
     }
-  ]
+  ],
+  "blocking_condition": "Required unreviewed_full_input_geometry retained: complete NuGEN/Nextera input, printed available guide-transcription producer and historical indexing/read geometry remain unassembled. Actual main Methods197 has guide-template/IVT information; source access is not the sole blocker. Remaining controls/stocks/QC/pooling scope needs local repair; directly cited input/scaffold/assembly originals remain unreviewed."
 }

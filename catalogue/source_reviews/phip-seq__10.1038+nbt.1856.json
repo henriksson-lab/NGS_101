@@ -8,11 +8,11 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/phip-seq__10.1038+nbt.1856/nbt.1856_PMC4169279.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Identity and manuscript flags; Introduction/Results60–93; background101–103; Discussion127–135; Fig1caption353.",
+      "inspection_scope": "Identity and manuscript flags; Introduction/Results60\u201393; background101\u2013103; Discussion127\u2013135; Fig1caption353.",
       "pass_1": {
         "reviewer": "coordinator_bounded_pass",
         "date": "2026-10-28",
-        "locations": "Identity and manuscript flags; Introduction/Results60–93; background101–103; Discussion127–135; Fig1caption353.",
+        "locations": "Identity and manuscript flags; Introduction/Results60\u201393; background101\u2013103; Discussion127\u2013135; Fig1caption353.",
         "finding": "Associated accepted manuscript; final version-of-record procedural text not reconciled."
       }
     },
@@ -22,11 +22,11 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/phip-seq__10.1038+nbt.1856/nbt.1856_supp_NIHMS284271-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Methods1055–1088; detailed protocol1107–1178; originalPDFpp14–15 rendered including color/underline primer marks and image-based PCR table.",
+      "inspection_scope": "Methods1055\u20131088; detailed protocol1107\u20131178; originalPDFpp14\u201315 rendered including color/underline primer marks and image-based PCR table.",
       "pass_1": {
         "reviewer": "coordinator_bounded_pass",
         "date": "2026-10-28",
-        "locations": "Methods1055–1088; detailed protocol1107–1178; originalPDFpp14–15 rendered including color/underline primer marks and image-based PCR table.",
+        "locations": "Methods1055\u20131088; detailed protocol1107\u20131178; originalPDFpp14\u201315 rendered including color/underline primer marks and image-based PCR table.",
         "finding": "Detailed assay and oligos recorded provisionally, not promoted over final published source."
       }
     },
@@ -50,7 +50,7 @@
       "locator": "https://www.nature.com/articles/nbt.1856",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Retrieved nbt.1856.html/.txt:publisher identity/abstract around615;explicit subscription-preview/access-options statement around640–700. No final procedural text inspected."
+      "inspection_scope": "Retrieved nbt.1856.html/.txt:publisher identity/abstract around615;explicit subscription-preview/access-options statement around640\u2013700. No final procedural text inspected."
     },
     {
       "id": "vor_pdf",
@@ -73,7 +73,7 @@
       "date": "2026-10-28",
       "documents": 3,
       "scope": "Capped source pass; provisional author-supplement assay branch only.",
-      "locations": "Identity and manuscript flags; Introduction/Results60–93; background101–103; Discussion127–135; Fig1caption353.; Methods1055–1088; detailed protocol1107–1178; originalPDFpp14–15 rendered including color/underline primer marks and image-based PCR table.; Document identity;13pages; rendered finalp13 Table3 and reference. Remaining pages uninspected.",
+      "locations": "Identity and manuscript flags; Introduction/Results60\u201393; background101\u2013103; Discussion127\u2013135; Fig1caption353.; Methods1055\u20131088; detailed protocol1107\u20131178; originalPDFpp14\u201315 rendered including color/underline primer marks and image-based PCR table.; Document identity;13pages; rendered finalp13 Table3 and reference. Remaining pages uninspected.",
       "findings": "Qualitative phage genotype/display association, antibody incubation and physical bead selection, heat release, inline-barcoded PCR, gel purification and mass pooling. Exact PCR geometry and final procedural applicability unverified.",
       "deferred": [
         "Version-of-record procedural text at https://doi.org/10.1038/nbt.1856 and remaining publisher-supplement pages.",
@@ -97,5 +97,26 @@
       ],
       "verification": "Complete bundle mandatory scraper rerun after preview retrieval;no new chemistry oligo hits or new proof of author/publisher equivalence."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_model_scope",
+    "source_scope": "nbt.1856_PMC4169279.xml.txt60\u201385 actualmanuscript flags and conceptual preparation;139\u2013141 directs detailedMethods to online materials;349\u2013355 Fig1caption. AuthorSI nbt.1856_supp_NIHMS284271-supplement-1.pdf.txt1055\u20131088 actual23independentoligopools/constructfactory and1107\u20131178 printedprimerfamily, independentIPreplicates, beadwash/release/PCR/pooling protocol. Existing originalimage/color/PCR-table proof retained as historical source review; not newly reopened or independently reverified. PublishedMOESM57SI remains unexpanded.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Real upstream_display_library source obligation is still unaccounted: synthetic oligo pools/T7FNS2 cloning/packaging/propagation. Source also explicitly requires two independent IP reactions per sample; current single-IP chain and external other_libraries do not represent those independent preparations. Author-supplement procedural applicability to publication remains unresolved after previously documented actual final-PDF failure; no new source evidence resolves it.",
+    "positive_preparation_obligations": [
+      "MainFig1 describes actual413611DNA sequences encoding36aa tiles,140mer syntheticoligos, PCR/cloning into FLAG-modifiedT7Select10-3b, then antibody/proteinA-G selection and DNA-adapterPCR. This is actual construct-factory scope and cannot be excluded merely to qualify a coarse assay endpoint.",
+      "AuthorSI describes23independent amplifiedpools, EcoRI/SalI insertion intoT7FNS2 and NotI/XhoIFLAG modification. Fullfactory sequence/packaging remains unassembled. SI72nttile/main36aa source/version statements cannot be silently normalized.",
+      "DetailedauthorSI requires two independentIPreactions per sample after library/control/patientantibody setup:1mlM9LB,5e10pfu/mlT7Pep,2ng/mlSAPK4and2ug/mlpatientantibody;24h4C then40ul1:1A/Gbeads4h;6x500ulwashes;30ulwater90C10min. Entire30ulreleasedtemplate enters actual50ulPCR, ratherthan arbitrarytemplateallocation.",
+      "Gelproducts quantified then500ng/sample pooled; truepreparation-contributionallocations and residualstocks requirehonestpool class. Currentother_libraries externalinput is not evidence that currentlinkedtemplate produced all samples.",
+      "Known3ntsamplefamily+fixedGCGC andcustomRead1primer remain source-qualified; acquiredtotalcycles/instrument unassigned. Conditionalprimer-derivedlibrary does not prove exactphage/template PCRgeometry."
+    ],
+    "normal_gate": [
+      "authoritative source item 'upstream_display_library' is not accounted for"
+    ],
+    "verification": "Actual normal gate confirmed by prior read-only Python-B import in this same bounded pass: [\"authoritative source item 'upstream_display_library' is not accounted for\"]. No complete wrapper. Source obligations retained; no code changes or unchanged-test reruns.",
+    "missing_information_claims": []
+  }
 }

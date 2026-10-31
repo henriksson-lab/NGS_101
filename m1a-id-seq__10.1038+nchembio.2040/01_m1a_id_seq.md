@@ -21,3 +21,9 @@ The rendered original SI p1 (not merely its extraction) prints footer DOI `10.10
 ## Distinctness, lineage and open work
 
 This source-supported demethylation/AMV comparison differs from Dominissini2016's published SI alkaline m1A→m6A comparison. These two independent originals therefore have a chemical boundary beyond their names. Native m1A can cause multiple RT outcomes; no universal mismatch is assigned. Later m1A-MAP is not imported as a library recipe. Complete main Methods, exact protein/cofactor recipe, adapters/end processing/primer identities and acquisition remain blocked/unreviewed, not confirmed absent. No two-reader source/linked-material absence audit.
+
+## Bounded publication hold, 30 October 2026
+
+SIestablishes IP-RNA demethylationcomparison, pH6.5/protein:RNA2:1 andnoaddedBSA, AMV0.2mMdNTP/10mMMg optimizedbackground. Exact demethylase/cofactor/fullreactionorder andactualNGSlibraryproducer are notestablished byselectedSI. Table1is qRTPCRvalidation, not NGSadapterinventory. Keep blocked_mainrequired/uncovered; do notinventRT/PCR/libraryfinish fromcontemporaneousm1Aseq/MAP. Existing printedSIfooter nbt.2040 versus title/authors/publisherattachmentnchembio.2040 qualification retained; not a chemistry conflict.
+
+Required item **blocked_main** remains unchanged and uncovered: Real required definingMethods unavailable/unreviewed; selectedSIcomparisons do not supplyactualNGSlibraryworkflow. No source-obligationexclusion or absenceclaim. The source investigation stopped at the capped original scope; no source/body expansion, acquisition, gate exclusion or public promotion occurred. Current model/renderer code was left unchanged.

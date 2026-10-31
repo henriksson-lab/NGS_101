@@ -1,7 +1,7 @@
 # SIMPLE-seq — source intake
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published. This is a notes-only entry: there is no model or schematic page yet.
+> published. The source-qualified physical preparation and selected known interfaces are now modelled in `tools/chem.py`; whole occupied genomic products remain unassembled.
 > Relationships marked 🟡 *(computed)* were worked out with `lib/chemdraw.revcomp`.
 > The scg_lib_structs drawn page is not a source here.
 
@@ -199,3 +199,14 @@ this order (computed above).
 - The hmC-CATCH and TAPS/TET-pic-borane predecessor methods (refs. 43, 44) were not read.
 - The bench protocol uses an Expi293 plasmid named both "pcDNA4-Flag-Tet1CD" and
   "pcDNA3-Flag-mTET1CD"; the Methods name pCDNA3-Flag-mTET1CD. Irrelevant to the library.
+
+
+## Source-owned physical model (2026-10-30)
+
+The model follows the **published article**, not the authors’ later bench-protocol variant: loaded transposome preparation, actual48-well/12-barcode tagmentation array, two ligation-barcode reaction arrays and their physical pooling, selected~2,000nucleus sublibrary, genomic-DNA recovery, bridge ligation,5hmC recording,5mC treatment, final indexPCR and actual selected sequencing contribution. Reaction arrays remain explicit compound interfaces with pre-reaction distribution; they do not imply one physical tube. Individual study-wide barcode-pool members remain unexpanded. Untransferred loaded stock, other nuclei and final library stock have explicit unresolved fates.
+
+Known local structures retain source5′P, the **additional terminal ddC nucleotide** in pMENTs, the bridge5′P and N6/3′amine partner, exact known linkers/blockers and the two5caC indicator sites. Original whole orderings are retained; canonical fixed bodies are reused only where they exactly match the source. The representative Tn5 barcode is one component of joint cell identity. Published processing assigns the first10bases of Read2 as the UMI; this model does not claim an independently verified physicalR02 installation/whole-member coordinate map.
+
+Actual loaded-stock enzymes/adapters, ligation barcode/linker/enzyme/BSA/buffer supplies, blocking/termination components and final PCR enzyme/nucleotides/primer functions are copresent components of their actual source supplies. Their bookkeeping is not a fresh duplicate reagent addition or an assertion that every source recipe was sold premixed. The final KAPAU+HiFi master mix is explicitly named by the publication.
+
+5hmC-derived complementary copied DNA and5mC-derived original DNA remain distinct source-qualified classes. Oxidation, malononitrile and pic-borane steps are not implemented as quantitative universal literal C-to-T mutation. Whole occupied genomic strands, conversion/yield, primer landings, exact library junctions and a complete acquired read mask remain unassembled. The public page retains the published-versus-workbook5′phosphate difference, published-versus-bench versions and unresolved run/index details listed above.

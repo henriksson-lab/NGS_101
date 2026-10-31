@@ -105,3 +105,9 @@ the inherited RNA-processing and bead-primer platform and cite Zheng et al.,
 10.1038/ncomms14049. This is component-scoped inheritance of the v1 capture/RNA
 branch, not evidence for a current kit revision or CITE-seq ancestry. Similarity
 to CITE-seq is a modality/architecture comparison only.
+
+## 2026-10-30 bounded publication preflight
+
+The current model remains a post-SPRI protein-branch reference. The normal publication gate still rejects its unaccounted `cell_to_libraries` source item: upstream antibody/cell labelling, droplet synthesis, the physical size split and full RNA branch are not represented. Eleven existing partial-reference checks passing do not satisfy that required coverage.
+
+This bounded pass reinspected published MOESM5 Discussion/Tables 6–7 (original Table 7 PDF p35) and identified MOESM6 as the 23 August 2017 reporting summary, not a bench protocol. The main institutional PDF remains HTTP403 at `https://rnajc.ucsf.edu/sites/rnajc.ucsf.edu/files/nbt.3973_0.pdf`; no retrieval retry or modern 10x recipe substitution was attempted. Main Methods, applicable predecessor/vendor originals and exact P7/priming orientation remain deferred. The source item stays required, the existing model is unchanged and unpublished, and no information is claimed absent from publication.

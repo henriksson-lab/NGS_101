@@ -60,3 +60,33 @@ Version-of-record article/online Methods at the defining DOI; final procedural a
 ## Round04 final-publication retrieval follow-up
 
 The exact publisher article HTML was retrieved and inspected: it exposes identity and abstract but explicitly says it is subscription-preview content. Its `citation_pdf_url`, `https://www.nature.com/articles/nbt.1856.pdf`, was then requested through the standard fetcher; the response was HTML, not a PDF, and was rejected. The final procedural original remains a real access blocker. The bundle scraper was rerun; no new chemistry evidence or author/publisher equivalence was established. The provisional model and all existing limits remain unchanged.
+
+## Unlinked-page adjudication: required preparation scope retained
+
+The bounded read-only pass on 30 October 2026 revisited only the existing
+accepted-manuscript main (identity, Methods pointer and Figure 1 caption) and
+the associated author supplement, lines 1055–1088 and 1107–1178. No publisher
+original, vendor source or reference was added. The final-published procedure
+and author-supplement applicability remain qualified by the existing actual
+rejected publisher-PDF response; this pass makes no new availability claim.
+
+The current normal graph gate still reports the unaccounted authoritative
+source item `upstream_display_library`. That is a real preparation obligation,
+not coverage to exclude merely to publish a coarse assay endpoint. The author
+supplement specifies 23 independent oligo pools for amplification and cloning
+into T7FNS2, with subsequent packaging/propagation still unassembled locally.
+It also explicitly requires two independent immunoprecipitation reactions per
+sample after the initial phage/antibody setup. Those preparations must exist
+before selection; a single completed IP or PCR cannot be relabeled or split
+into supposed independent preparations.
+
+The detailed assay transfers the entire 30 µl heat-released aqueous DNA into
+a 50 µl PCR. Individually gel-purified samples are quantified and contribute
+500 ng each to the sequencing pool. Actual independent preparations, retained
+stock, analytical allocations and pool contributions therefore need a faithful
+model before publication. The current external other-library input does not
+prove those source preparations were produced by the modeled lineage.
+
+The model and private page remain unchanged. This is a source-qualified
+preparation/model hold, not an accepted absence claim or a completed review of
+the remaining published supplement, vector originals or whole library.

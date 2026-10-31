@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,revcomp,feature
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SourceItem,SequencingPlan
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SourceItem,SourceCoverage,SequencingPlan
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 AUTHORITY='Published2014PMC4214737 mainMethods47–66/Results76–85, actualoriginalPDFp2–4; actualTableS1s005DOCX header/region6cells. Twooriginals. Standard24plex reference recipe; region6PE100 acquisitionexample, not invented exact historical sample recipes.'
@@ -36,10 +36,10 @@ class T:
     def clean(self,key,label,selection=True,preserve=False,selection_profile=None):
         y=self.g.product(key+'_kept','Actual retained '+label+' fraction; recovery/selectivity unassigned',K.MOLECULAR,**(same(self.x)if preserve else{}));w=self.g.product(key+'_removed','Actual removed workup fraction',K.WASTE)
         ports=((self.x,R.TEMPLATE),self.cond(key+'_conditions',label))
-        if selection:ports+=(self.stock(key+'_beads',selection_profile or 'ActualSeraMag1.8xstockallocation,1:40in2.5MNaCl/20percentPEG8000;70percentEtOHwash twice/dry10min',K.SELECTION,R.SELECTION,chemical_state={'physical_stock':'SourcebeadsinNaCl/PEGbindingbuffer; no independentextraPEGdose','selection':'Source actual retained bead-boundfraction; no perfectselectivity'}),)
+        if selection:ports+=(self.stock(key+'_beads',selection_profile or 'ActualSeraMag1.8xstockallocation,1:40in2.5MNaCl/20percentPEG8000;70percentEtOHwash twice/dry10min',K.SELECTION,R.SELECTION,chemical_state={'physical_stock':selection_profile or 'SourcebeadsinNaCl/PEGbindingbuffer; no independentextraPEGdose','selection':'Source actual retained bead-boundfraction; no perfectselectivity'}),)
         self.g.react(key,label,S.CLEANUP,ports,(y,w));self.g.discard(w,'Actual excluded sourceworkup fraction; no perfectmolecular specificity claim');self.x=y
     def take(self,key,label,rest,qc=False):
-        a=self.g.product(key+'_selected',label,K.MOLECULAR,**same(self.x));r=self.g.product(key+'_rest',rest,K.MOLECULAR,**same(self.x));self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(a,r));self.g.mark_terminal(Terminal(a.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,label if qc else rest));self.x=r if qc else a;return self.x
+        a=self.g.product(key+'_selected',label,K.QC if qc else K.MOLECULAR,**same(self.x));r=self.g.product(key+'_rest',rest,K.MOLECULAR,**same(self.x));self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(a,r));self.g.mark_terminal(Terminal(a.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,label if qc else rest));self.x=r if qc else a;return self.x
     def components(self,key,label,items):
         st=self.g.input(key+'_inventory',label,K.MOLECULAR);xs=[self.g.product(key+'_'+name,caption,kind)for name,caption,kind,role in items];self.g.react(key+'_components','Same actual aggregate supply inventory; packaging/stockcounts unassigned unless source names mix',S.GENERIC,((st,R.TEMPLATE),),tuple(xs),changes_molecule=False);return tuple((x,item[3])for x,item in zip(xs,items))
 
@@ -118,15 +118,21 @@ def protocol_graph():
     t.take('library_qc','ActualBioanalyzerHS/KAPAqPCRanalyticalallocations','Finalcapturedlibrarypool afterQC',qc=True)
     t.take('loading','Actualselectedfinalpooledloadingaliquot; concentration/volumeunassigned','UntransferredQCedcapturedlibrarypool')
     lib=g.product('library','ActualselectedstandardCATCH-Seqloadingmixture; completeproducts/readlandingunassembled',K.LIBRARY);g.react('load','SourceTableS1region6HiSeqPE100 acquisitionexample',S.GENERIC,((t.x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(read_lengths={'R1':100,'R2':100},limitation='PublishedTableS1region6 actual24plex/HiSeqPE100. Genericreferencechemistrydoesnotassign everyrange/dose to historicalindividualsamples; wholeinlineindexes/PCR/readprimerlandingunassembled.'))
-    g.add_source_item(SourceItem('scope',AUTHORITY,'Private source-richpartialgraph; not fullmolecule/assaypurity/absence validation.'))
+    declare_page_scope(g)
+    g.add_source_item(SourceItem('scope',AUTHORITY,'Source-qualified partial graph; not fullmolecule/assaypurity/absence validation.'))
     g.add_source_item(SourceItem('cot1_scope','Methods40foldCot1 recipe; Results typically20:1 and2.5–20series.','SelectMethodsreference40fold, preserveResultsconditions separately, not publication-errorclaim orsilent40→20repair.'))
-    g.add_source_item(SourceItem('geometry_scope','Known27/26T7adapterorders yield26bpcore/3T.','Orderedendmods/T7Ffullorderassignment/occupiedBACorDNAjunctions unassembled; no inferred5P orwholecanonicalIlluminalibrary.'));return g
+    g.add_source_item(SourceItem('geometry_scope','Known27/26T7adapterorders yield26bpcore/3T.','Orderedendmods/T7Ffullorderassignment/occupiedBACorDNAjunctions unassembled; no inferred5P orwholecanonicalIlluminalibrary.'))
+    g.cover_source_item(SourceCoverage('scope','modelled','library'))
+    g.cover_source_item(SourceCoverage('cot1_scope','modelled','cot1'))
+    g.cover_source_item(SourceCoverage('geometry_scope','modelled','t7_adapter_anneal'))
+    return g
 
 def selftest():
     from checks import Check,Source,have
     from storage import sources_root
     import zipfile,xml.etree.ElementTree as ET
     c=Check();g=protocol_graph();t7_duplex()
+    c('Typed publication gate',g.publication_problems(),[])
     c('Known adapter core computed from whole orders',T7_ORDERS[0][:-1],revcomp(T7_ORDERS[1]))
     c('Known adapter terminalT typed3prime',[(e.owner,e.polarity)for e in t7_duplex().ligation_ends],[('adapter','3-prime')])
     c('No invented sourceordered5P',g.materials['t7_adapter_stock'].chemical_state['ordered_endmods'],'unassigned; no5P invented')
@@ -145,6 +151,7 @@ def selftest():
     c('PCR uses selected capturealiquot',g.steps['postcapture_pcr'].inputs[0].material,'pcr_template_selected')
     c('Unknown standardPCR pair remains typed',g.steps['postcapture_pcr'].kind,S.PCR)
     c('FinalcaptureSPRIratio not inheritedfrominitiallibraries','ratio/stockformulationunassigned'in g.materials['capture_clean_beads'].label,True)
+    c('Postcapture selection state does not inherit initial PEG recipe',g.materials['capture_clean_beads'].chemical_state['physical_stock'],'ActualpostcaptureSPRIallocation; ratio/stockformulationunassigned')
     c('Finalloading preserves pooled remainder',g.steps['load'].inputs[0].material,'loading_selected')
     c('SourceTableS1actualPE100',g.sequencing['library'].read_lengths,{'R1':100,'R2':100})
     root=sources_root()/Path(__file__).resolve().parents[1].name
@@ -157,4 +164,100 @@ def selftest():
         with zipfile.ZipFile(p)as z:
             root=ET.fromstring(z.read('word/document.xml'));ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'};rows=[[''.join(cell.itertext())for cell in row.findall('w:tc',ns)]for row in root.findall('.//w:tr',ns)];row=next(row for row in rows if row[0]=='region 6j');c('OriginalTableS1region6plex/run row',row[:6],['region 6j','3.62','24','24','144','HiSeq 2x100bp'])
     c.report()
+
+# Curator-authored inventories parameterized ONLY by the source's actual24
+# independent samples and THREE IVTs. Never enumerate graph keys to cover them.
+def declare_page_scope(g):
+    sample_targets=(
+        'dna','input_qc','water','volume','covaris','shear','repair_inventory',
+        'repair_components','end_repair','repair_clean_conditions','repair_clean_beads',
+        'repair_clean','tail_inventory','tail_components','a_tail','tail_clean_conditions',
+        'tail_clean_beads','tail_clean','adapter_inventory','adapter_anneal','adapter_take',
+        'ligation_inventory','ligation_components','adapter_ligate','library_clean_conditions',
+        'library_clean_beads','library_clean','library_qc','pool_quant','pool_share',
+    )
+    for sample in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24):
+        g.declare_reviewed_scope(tuple(f's{sample}_{target}'for target in sample_targets),
+                                'Published main47–50 individual sample library; standard24plex main60/TableS1region6; '+AUTHORITY)
+    g.declare_reviewed_scope((
+        'sample_pool','bac_stocks','bac_identity_qc','bac_pool_shares','bac_pool_boundary',
+        'bac_pool','bac_shear_conditions','bac_shear','bac_repair_inventory',
+        'bac_repair_components','bac_end_repair','bac_repair_clean_conditions',
+        'bac_repair_clean_beads','bac_repair_clean','bac_tail_inventory','bac_tail_components',
+        'bac_a_tail','bac_tail_clean_conditions','bac_tail_clean_beads','bac_tail_clean',
+        't7_first','t7_second','t7_adapter_anneal','t7_adapter_take','bac_ligation_inventory',
+        'bac_ligation_components','bac_t7_ligate','bac_lig_clean_conditions',
+        'bac_lig_clean_beads','bac_lig_clean','t7f','t7f_conditions','t7f_anneal',
+        'ivt_template_clean_conditions','ivt_template_clean','ivt_allocate',
+        'ivt_pool_step','probe_gel_qc','nucaway_conditions','nucaway','probe_quant','probe_share',
+        'cot1_dna','cot1','speedvac','library_heat','library_denature','superase',
+        'probe_working_volume','probe_prepare','hyb_buffer','hybridize','c1_raw',
+        'c1_prewash_conditions','c1_prewash','capture','capture_wash_conditions',
+        'capture_wash','naoh','standard_elute','tris','neutralize_conditions','neutralize',
+        'capture_clean_conditions','capture_clean_beads','capture_clean','pcr_template',
+        'pcr_primer_inventory','pcr_primer_classes','platinum','pcr_dntp','betaine',
+        'pcr_conditions','postcapture_pcr','postpcr_clean_conditions','postpcr_clean_beads',
+        'postpcr_clean','library_qc','loading','load','library',
+    ),AUTHORITY)
+    ivt_targets=('kit_inventory','kit_components','bio_utp','transcribe',
+                 'dnase_stock','dnase','edta','heat','stop')
+    for reaction in (1,2,3):
+        g.declare_reviewed_scope(tuple(f'ivt{reaction}_{target}'for target in ivt_targets),
+                                'Published main56: each of three actual12ul-template IVTs; '+AUTHORITY)
+
+PAGE_FILE = 'catch-seq.html'
+
+def render_page():
+    from page import head,info,caveat,table
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    from chemistry_validation import check_graph,Status
+    g=protocol_graph();g.require_publishable()
+    overview=(
+        '<div class="wrap" data-protocol-complete="true"><h1>CATCH-Seq</h1>'
+        '<p>Make biotinylated RNA capture probes from selected BAC clones, then enrich independently prepared genomic DNA libraries. '
+        'CATCH-Seq here means clone-adapted template capture hybridization; it is separate from Cas9-assisted CATCH and CATCH-IT.</p>'
+        +info('Source: <a href="https://doi.org/10.1371/journal.pone.0111756">Day et al., PLOS ONE (2014)</a>, '
+              'published Methods and Table S1. The model follows the standard 24-plex recipe; Table S1 region6 supplies a source-declared '
+              '24-plex HiSeq paired-end100 acquisition example. It does not assign every generic recipe range to that historical cohort.')
+        +caveat('The two T7-adapter orders and their local duplex are known. Whole inline sample adapters, later T7F oligo assignment, '
+                'standard PCR primers, genomic/transcript sequences and complete occupied junctions remain unassembled. '
+                'The bisulfite branch is not merged into this standard preparation. Passing the workflow gate is not complete molecular validation.')
+        +'<h2>Two preparations meet at capture</h2>'
+        +table(('Branch','Source-defined preparation','Actual allocation or pool'),(
+            ('Sample libraries','QC and shear each genomic sample; repair ends, dA-tail and ligate one inline-barcode adapter set per sample.','24 independent sample inputs are prepared separately before selected balanced contributions form a 2 µg reference capture pool.'),
+            ('BAC templates','QC selected BAC stocks, take weighted contributions and physically pool before shearing and T7-adapter ligation.','Unused BAC stocks remain separate; clone number and exact individual masses are unassigned.'),
+            ('RNA probes','Anneal source T7F after ligation, clean up and elute 36 µl DNA template.','Three actual 12 µl template allocations feed separate T7 IVTs with biotin-11-UTP.'),
+            ('Finish probes','DNase-treat and quench each IVT, then physically pool; remove 2 µl for gel QC and clean with NucAway.','Probe QC and a selected capture-probe share leave untransferred RNA-probe stock.'),
+            ('Capture','Hybridize probe and pooled libraries, bind streptavidin C1 beads and wash.','Retain the bead-associated fraction; source capture is enrichment, not perfect target purity.'),
+            ('Standard release','Elute with NaOH, transfer to Tris, clean up and amplify for 18–22 cycles.','Keep the standard DNA eluate separate from residual beads and the alternative bisulfite route.'),
+            ('Sequence','QC the captured library and select a final loading aliquot.','Unused library and QC fractions have explicit fates; no whole-stock loading is assumed.'),
+        ))
+        +'<h2>Known T7-adapter duplex</h2>'
+        +'<p>The source orders are 27 and 26 nucleotides. Their computed 26-base-pair core leaves a 3′ T protrusion. '
+        'Ordered 5′ phosphate/end distributions are unassigned; the model does not infer them from successful ligation. '
+        'The later source-named T7F oligo remains a separately declared, whole-unassembled input.</p>'
+    )
+    molecules=''.join(panel(t7_oligo(i).rows(),caption='Whole source T7-adapter order '+str(i+1)+'.')for i in (0,1))
+    molecules+=panel(t7_duplex().rows(),caption='Computed local T7-adapter pairing and 3′ T; whole BAC junction and opposing end chemistry remain unassembled.')
+    readout=('<h2>Capture conditions and read setup</h2>'
+        +table(('Item','Source-defined scope'),(
+            ('Reference hybridization','24-plex standard library pool, 2 µg; nominal 104 µl reaction, 65°C for 24–60 hours.'),
+            ('Cot-1 wording','Methods prescribe 40-fold Cot-1. Results describe a typical 20:1 ratio and a 2.5–20-fold comparison series. The model selects the Methods reference and preserves these different scopes.'),
+            ('Bead scaling','The source gives 35 µl C1 beads per 52 µl reference reaction. Exact execution/scaling for the selected 104 µl workflow remains unassigned.'),
+            ('Readout example','Table S1 region6: 24-plex capture and sequencing; HiSeq 2×100 bases.'),
+            ('Barcode / index layout','Inline sample-barcode meaning is known. Whole custom adapter/PCR primer bodies, selected values and precise acquired index/barcode cycle placement remain unassembled.'),
+        ))
+        +caveat('The nominal hybridization recipe retains its probe-volume and inhibitor-addition wording without silently normalizing volumes. '
+                'Reference doses, historical sample-specific optimizations and the differing Cot-1 Results conditions are not claimed to be identical.')
+    )
+    claims=check_graph(g)
+    audit=('<h2>Molecular validation scope</h2>'+table(('Claim status','Computed count'),tuple((s.value,str(sum(c.status==s for c in claims)))for s in Status))
+           +'<p>The expanded workflow has all 24 sample preparations and three IVTs, including every QC allocation, warning and terminal fate. '
+           'The repeated source inventory is parameterized by those source-declared counts, not inferred by scanning graph nodes.</p>')
+    return assemble_page(g,[head('CATCH-Seq — BAC-derived RNA probes and targeted DNA capture'),overview,molecules,readout,audit,
+        '<details><summary>Complete 24-sample preparation, validation warnings and material fates</summary>',
+        WorkflowSection('Complete source-qualified workflow'),PlanLimitationSection('library'),'</details>',
+        '<p><a href="01_catch-seq.html">Research note and source boundaries</a></p></div>'])
+
 if __name__=='__main__':selftest()

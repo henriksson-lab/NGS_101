@@ -52,6 +52,20 @@
       ],
       "oligo_scraper": "Mandatory source-bundle run after XML text conversion; zero hits used as no oligo evidence, never absence proof.",
       "verification": "7 focused checks pass; source guard and chemistry checks separately recorded."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch16",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed-source bounded provenance/selection/inventory fixes; full original publication obligations retained",
+      "locations": "science.aao4277_PMC7234837.xml(.txt): Same selectedmain47/49/51 naiveLNfrontend andMARSdelegation; no supplement/originalMARSbody.",
+      "findings": "Realrequired localdetailedSupplementaryMethods andwholelibraryscope unread. Actual820nmproteinactivation/940nmimaging→dissociation→physicalFACS→MARSdelegation is sourcepositive, but notcompleteDNA-producing librarytrace/geometry. ExistingK.LIBRARYopaqueMARSproduct is not sufficient towaivebroadpendingitem orsourceinventory. Literal selected optical/FACSfrontend inventory; requiredMARS/localSI/finalscope retained. Required source item preserved uncovered; no opaque-library coverage waiver.",
+      "deferred": [
+        "pending: actualsource-specificwholelibrary andlinkedhistorical/localoriginals"
+      ],
+      "oligo_scraper": "Mandatory closed-preflight existing-bundle scraper completed; no exact oligo bodies newly adopted and no absent-information inference.",
+      "verification": "7focusedchecksPASS; directmoduleentry points retained(noPAGE_FILE); temporaryprivategraph renders/pairing0; combinedguard0eligible0failed0exempt0unknownexternaloligos (notsequencevalidation), chemistry13unresolved0contradictory. No new sources or public promotion."
     }
   ],
   "linked_information": {
@@ -66,7 +80,7 @@
     "reviewer": "independent_targeted_reader_round30",
     "date": "2026-10-30",
     "scope": "Same exact associated manuscript science.aao4277_PMC7234837.xml main47/49/51 and ref7; one combined original, no further document opened.",
-    "findings": "Selected naiveLN prepared PA-GFP/landmark cells\u2192source activation/imaging wavelengths\u2192opaque dissociation\u2192physical PA-GFP FACS with unselected remainder\u2192opaque MARS molecular stocks matches inspected source. No DNA spatial barcode, whole MARS inheritance or read mask asserted. AM and gated SI scope explicit; no critical issue.",
+    "findings": "Selected naiveLN prepared PA-GFP/landmark cells→source activation/imaging wavelengths→opaque dissociation→physical PA-GFP FACS with unselected remainder→opaque MARS molecular stocks matches inspected source. No DNA spatial barcode, whole MARS inheritance or read mask asserted. AM and gated SI scope explicit; no critical issue.",
     "verification": "7 checks pass; not a full chemistry/source/absence audit."
   }
 }

@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round06",
         "date": "2026-10-29",
-        "locations": "Results50–62,70,78–88; Methods110–122",
+        "locations": "Results50\u201362,70,78\u201388; Methods110\u2013122",
         "finding": "Published main distinguishes pre/post-digestion, UDG/abasic/gap classes and amplification selection; detailed recipes assigned to Supplemental Methods."
       }
     },
@@ -21,7 +21,8 @@
       "locator": "https://doi.org/10.1101/gr.174052.114",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Main explicitly cites published Supplemental Methods; attachment identity unresolved in current export. EuropePMC ZIP has figure files only; availability elsewhere not assessed."
+      "reason": "Actual cited SupplementalMethods remains unavailable to this local reading because exact attachmentidentity is unresolved; articleDOI is only a definingarticle pointer, not a known failedmethodsURL. LocalEuropePMCZIP has articlefigure representations only; availability elsewhere nottested. No absent-disclosure conclusion.",
+      "inspection_scope": "PublishedmainMethodsStrainsandoligonucleotides andExcision-seqlibrarymethods explicitly cite SupplementalMethods; mainJATSlinkattributes/ZIPmembers inspected, no actualmethodsbody identified."
     }
   ],
   "linked_information": {
@@ -34,7 +35,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source/model pass only; original versions and unresolved chemistry explicit. No accepted missing-information claim.",
+  "conclusion": "Required supplemental_methods remains unreviewed with unresolved attachmentidentity. Main explicitly assigns strains,oligos and detailedpre/postlibraryconstruction to SupplementalMethods. Main/actualFigure1show sourcepositiveDNAlibraries, but thisparticularEuropePMCZIP containsarticlefigures only; no methodsoriginal is identified/read. This is an unresolved originaldocumentidentity/access task, not a failedknownURL or proofmethodsarenotpublished. Required source item and nonpublication state preserved. No whole-geometry blanket prerequisite, sourceabsence claim, fullreview or performance assertion.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-06",
@@ -42,15 +43,32 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Published-first bounded source pass; accepted-manuscript status preserved where applicable.",
-      "locations": "Results50–62,70,78–88; Methods110–122",
+      "locations": "Results50\u201362,70,78\u201388; Methods110\u2013122",
       "findings": "Published main distinguishes pre/post-digestion, UDG/abasic/gap classes and amplification selection; detailed recipes assigned to Supplemental Methods.",
       "deferred": [
         "Identify/read actual published Supplemental Methods and oligo table before assigning library polymers or reaction conditions.",
-        "Source-printed “T4 endonuclease IV” identity and exact uracil/AP/gap end chemistry.",
+        "Source-printed \u201cT4 endonuclease IV\u201d identity and exact uracil/AP/gap end chemistry.",
         "UVDE/photolyase branches, original direct links and independent review."
       ],
       "oligo_scraper": "Whole bundle scraper0hits; this is not evidence of unpublished oligos. Figure ZIP inventory contains figure files only.",
       "verification": "Two local construction/rendering and incomplete/no-marker checks pass; build and pairing lint pass. Chemistry:8unresolved,zero contradictory. No exact oligo candidates or source-absence claim. Actual Supplemental Methods remains a required unreviewed source; graph has separate pre/post branches and preserves broken DNA physically."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-sourcehold-10",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded read-only preflight then documentation-only adjudication; no code/gate alteration or absence audit",
+      "locations": "Publishedmain gr.174052.114_PMC4158761.xml.txt actualidentity/manifestCCBYnonmanuscript, Results50-62/Fig1caption and actualFig1JPG, Methods110-122. ActualnamedSupplementalMethods and oligos explicitly delegated; no supplementarymethodbody or vendor/predecessor original opened. ActualexternalMANIFEST/mainJATSdirectlinkattributes and EuropePMCZIP membernames inspected. This particularZIP has eight figureJPG/GIF representations only. Figure1JPG extracted and viewed as samearticleoriginal, not independent supplementation. No exactSupplementalMethods attachmentURI exported; accessibilityelsewhere nottested.",
+      "findings": "Required supplemental_methods remains unreviewed with unresolved attachmentidentity. Main explicitly assigns strains,oligos and detailedpre/postlibraryconstruction to SupplementalMethods. Main/actualFigure1show sourcepositiveDNAlibraries, but thisparticularEuropePMCZIP containsarticlefigures only; no methodsoriginal is identified/read. This is an unresolved originaldocumentidentity/access task, not a failedknownURL or proofmethodsarenotpublished. EmbeddedU is deoxyuridine in DNA, not RNA. UDG excises freeuracil nucleobase and leavesAP-DNA; nuclease/chewback/fillin chemistry is distinct from U-to-Tconversion. Predigestionreadstart isdownstreamofexcisedsite: referenceT immediatelyupstream representsformeruracil, not a retainedUreadbase. Postdigestioncoverage is relativesurvival/amplification, not exactsite/absoluteUstoichiometry; brokenstrands remain physicalmaterial. Main repeatedlyprintsT4endonucleaseIV; actualFig1labelsUDG/EndoIV. Preserve literalT4name andunresolvedenzymeidentity; do notsilently substituteE.coliEndoIV,T4EndoV or claimconfirmedpublicationerror without SupplementalMethods.",
+      "oligo_scraper": "/tmp/unlinked-excision9-scraper.log;0hitsnotabsenceevidence; relevantoriginalcontextchecked.",
+      "deferred": [
+        "Keepactualpre/postdigestionbranches/species/sample contexts separate; do notinventonephysicalsampleallocation where sourceexperimentidentity unresolved.",
+        "ActualFig1predigestion includeschewback/fillin beforeendpolishing/adaptorligation; fullenzymes/endstates/workups requireSupplementalMethods. PreserveAP/gap/freebase/productclasses without importingfamilydefault.",
+        "Postdigestion starts fromsheared/adaptedDNA beforeexcision/PCR; intactoriginalstrands canamplify whilebrokenDNA remains intube. No catalyticstep maydeletebrokenmaterial asphysicalpurification.",
+        "Main namesMiSeq/HiSeq2000butnotexact acquiredmasks ininspectedsections. SourceactualNGSlibraryfinishing andselectedloading canonlybeextended afterrequiredoriginalscoopcovered; no sequencingtag onearlycomponent or excludedcoverage."
+      ],
+      "verification": "2preflight sourceboundary/no-marker checksPASS; actualnormalgate ['no terminal output is designated for sequencing', \"authoritative source item 'supplemental_methods' is not accounted for\"]; codeunchanged, no repeatedtests/builds/sourceacquisition."
     }
   ],
   "integration_verification": {
@@ -58,5 +76,7 @@
     "source_collected": true,
     "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
     "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
-  }
+  },
+  "pass_1": null,
+  "pass_2": null
 }

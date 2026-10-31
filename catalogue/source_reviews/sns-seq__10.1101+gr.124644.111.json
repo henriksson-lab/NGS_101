@@ -1,6 +1,6 @@
 {
   "dir": "sns-seq__10.1101+gr.124644.111",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original_1",
@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round12",
         "date": "2026-10-29",
-        "locations": "Published PMC fullarticle; Resultsinitialoverview and Methods1364\u20131380 Nascentstrandabundanceassay",
+        "locations": "Published PMC fullarticle; Resultsinitialoverview and Methods1364–1380 Nascentstrandabundanceassay",
         "finding": "NativeRNA-primer/lambdaexonuclease enrichment, duplexconversion andGAII acquisition. HTML original cached after XMLrouteHTTP500; no sourceversion substitution."
       }
     },
@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round12",
         "date": "2026-10-29",
-        "locations": "Main footnotes1411\u20131413 citeSupplementalMethods/Table1 andDataAnalysis at publisheroriginal",
+        "locations": "Main footnotes1411–1413 citeSupplementalMethods/Table1 andDataAnalysis at publisheroriginal",
         "finding": "Exact supplementalfile identity not recovered by standardfetcher; publisherweb request returned403. Chemistry-relevant supplement remains unresolved, not confirmed absent."
       },
       "reason": "Exact supplementalfile identity not recovered by standardfetcher; publisherweb request returned403. Chemistry-relevant supplement remains unresolved, not confirmed absent."
@@ -48,17 +48,32 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Published-first boundedpass; associatedmainidentities explicit; no morethan3originals/protocol.",
-      "locations": "Published PMC fullarticle; Resultsinitialoverview and Methods1364\u20131380 Nascentstrandabundanceassay; Main footnotes1411\u20131413 citeSupplementalMethods/Table1 andDataAnalysis at publisheroriginal",
+      "locations": "Published PMC fullarticle; Resultsinitialoverview and Methods1364–1380 Nascentstrandabundanceassay; Main footnotes1411–1413 citeSupplementalMethods/Table1 andDataAnalysis at publisheroriginal",
       "findings": "Knownsourceoperationorder, chemicalmarkers versusreportedbases and physicalfractionfates retained; no familyrecipe import.",
       "deferred": [
         "Direct actual originals/kit versions and accessbarriers in researchnote; no recursivechase."
       ],
       "oligo_scraper": "/tmp/sns12-oligos.log; mandatory wholebundle scan returned0hits; no sequenceabsenceconclusion.",
       "verification": "21localchecks(6eSPAN/7SNS/8Pu)passed;3privatebuilds/scopeddocs and pairing0problems. Sourceguard0checked/0failed,3Puinputswithout exactstates;notexactoligovalidation. Chemistry0established/30unresolved/0contradictory. Fourfetchsessions35603/79241/9946/66750 terminalexit0; externalcachepreserved; noacquisitionrunning."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch21",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed read-only main-original pass followed by bounded local contributor/QC corrections; no new original during implementation, no final-version equivalence or absence audit.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/sns-seq__10.1101+gr.124644.111/gr.124644.111_PMC3205567.html: Methods1364–1380 nascentstrandabundanceassay; footnotes1411–1413; Table2validation heading/data-analysis context. No chemistry figure image/oligo table original was acquired or inferred.",
+      "findings": "The source cell preparation is now typed biological, and the actual analytical known-origin validation aliquot is typed QC; it does not return to the library route. The named Klenow/DNA Prime supplies expose produced Klenow catalyst and random-primer functional contributions from one aggregate source inventory; this is not an asserted single premix, physical separation or invented independent fresh stocks. A nucleotide contribution is explicitly an inferred-required DNA-synthesis functional class, with formulation, doses, packaging, oligo bodies and copied products unassembled. The default external-input oligo guard does not inspect these produced unknown oligo components; its zero exact checks are not molecular validation. The source sample split remains before plasmid addition to only the companion control. K562 and MCF7 preparations and the independently prepared sheared-genomic sequencing control are not fabricated as one physical pool. Original required items `supplement` and `linked_isolation` remain exact and uncovered. Actual SupplementalMethods/Table1/DataAnalysis identity, Wang2004 modified isolation, DNAPrime applicability and historical GAII complete library production remain unresolved; the library handoff is not accepted as a reviewed producer. The 1µg source DNA input, stock allocations and complete sequencing-library finish still need that source scope.",
+      "deferred": [
+        "Actual cited SupplementalMethods/Table1/DataAnalysis at publisher DOI10.1101/gr.124644.111; exact file identity not recovered, so no guessed supplemental failed URL.",
+        "Source Wang2004 MolCellBiol24:3373–3386 isolation with local modifications.",
+        "Historical DNAPrime and actual GAII adapter/amplification/read preparation; separate sheared-genomic control not expanded."
+      ],
+      "oligo_scraper": "Completed standard wholebundle scan;0 sequences in0 files with hits. Not a source absence claim. /tmp/sns-dna30-scraper.log (stdout empty; summary printed to stderr)."
     }
   ],
   "implementation_review": {
-    "scope": "Published selected Methods1368\u20131380 versus model;not full linked-source/absence pass.",
+    "scope": "Published selected Methods1368–1380 versus model;not full linked-source/absence pass.",
     "finding": "Pre-addition carrier aliquot corrected;original source splits before adding plasmid. Separately sequenced sheared-genomic control now explicitly outside selected graph.",
     "checks": 8,
     "result": "pass"

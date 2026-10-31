@@ -50,6 +50,20 @@
       "oligo_scraper": "Mandatorywholebundle2hits/2representations, follow-upwithinselectedpublishedPDFidentifiesRT-qPCRTable2, not NGSkitprimers; sourceactualp16unitsrendered.",
       "verification": "19focusedPASS; sourceguard0exact0fail0unknownexternaloligos; ONEproducedwhole-unassembledkitoligoinventoryoutsideexternalguard withstructuredunknownsample_index. Chemistry34unresolved0contradictory. IndependentselectedcriticalpeerCLOSEDsame3originals afterexplicitHPDPdisulfide/DTT-releasedthiolRNAstatefix.",
       "counter_recording_issue": "First6-lineAMidentityheaderreadbeforecounterentry; bodyreads followed recordedentry; all3uniqueoriginalscounted."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-1",
+      "reviewer": "dna_page_owner_1",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Independentboundedreinspectionofpreviouslyselectedsourceoriginals forpublicpage; no missing-informationaudit/recipeexpansion.",
+      "locations": "PublishedCellReports33,108373 PDFactualp16/e3 Methods2218\u20132240/Results492\u2013508 andexactcitedprotocol-exportID32136 selectedstandardrecipe/freezing/biotinylation/releasesections. Samealreadyselectedoriginals; no newAM/vendor/preprint/SI originals orfetch.",
+      "findings": "FouranalyticalallocationsnowK.QC; humanrunon/HPDPdisulfide/M280capture/DTTreleaseoverview, bufferconcentrationconvention/readsetup/kitlimits andpublicMethods-versus-exportdifferences; literalcuratorinventory andcompleteWorkflowSectionwarnings/fates. No historicalkitrecipe/unknownfacetdefaultadded.",
+      "deferred": [
+        "Wholeoccupiedmolecules andhistoricalrecipes outsideexistingdeclarations stayunassembled; publicationgateisnotamolecularcompletenessclaim."
+      ],
+      "oligo_scraper": "Mandatorywholebundle rerun; Epi40hits2files/FastGRO2hits2files, pointersnotfacts. Epi sixwholeorder/namecells independentlyrechecked; FastGROsourceknownclass/noadoptedexactlibraryoligos.",
+      "verification": "19focusedPASS; localpagebuild+note build; sourceguard0exact0failed (oneproducedwholekitoligoinventoryoutsideexternalguardexplicit); chemistry34steps34unresolved0contradictory. Typedpublication_problems=[]; duplexlint0."
     }
   ],
   "linked_information": {

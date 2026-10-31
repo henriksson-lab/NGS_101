@@ -61,6 +61,7 @@ def protocol_graph():
                'primer landing unassembled. PA-GFP is a protein fluorescence label; no inline spatial DNA index '
                'is inferred. Unactivated controls and other tissue/application cohorts are separate comparisons, '
                'not extra collected protocols.'))
+    g.declare_reviewed_scope(('prepared_ln','activation_condition','photoactivate','imaging_condition','image','dissociation_condition','dissociate','facs_condition','facs'),AUTHORITY)
     g.add_source_item(SourceItem('pending', AUTHORITY,
                       'Selected frontend only; full supplementary Methods, whole library and final-version applicability remain open. No confirmed absence.'))
     return g

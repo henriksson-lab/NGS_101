@@ -29,3 +29,13 @@ Five microlitres enter18cycle Phusion PCR; the independent remainder has an expl
 🟢 Source reports Illumina Genome Analyzer/Solexa sequencing; exact acquired cycles and primer/end geometry remain unassembled. Methods145 trims reads to barcode plus26nt computationally, which is not an assigned physical run length. The discussion's paired-end future application is not an acquired paired-end run for the selected original preparation.
 
 Source Results72/Fig1 cites Coyne2004 (DOI10.1128/AEM.70.9.5298-5304.2004) for the divergent Y design, not a complete inherited library. Earlier RAD microarray methods establish historical development but are not counted as NGS protocols or imported as equivalent recipes. The private graph retains explicit preparative steps and unresolved molecular geometry; no accepted missing-information or complete chemical-validation claim.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked one published main original, PMC2557064 Methods141 and Results104. The mandatory scraper reported20hits/2files; actual P1/P2/PCR orderings and barcode/phosphate notation were inspected in the main text. No new chemistry supplement or historical vendor recipe was obtained.
+
+P1 ligation now receives actual rATP and buffer/water supplies. Quick Blunting is an opaque source-named molecular-supply interface rather than an entire kit called a catalyst. The A-tail donor remains the source-written adenine supply with chemical form unreviewed. The P2 functional ligase is constructor-inferred and marked in the preamble and step caption; no particular enzyme or dose is asserted from the historical protocol reference.
+
+The actual5µl amplification-primer mix yields its copresent forward/reverse components. The50µl Phusion master mix similarly supplies polymerase, nucleotide and other components without adding fresh independent doses;40µl water is explicit. Known produced primer bodies now have original-source regression checks because the external-only guard excludes these inventory views. Existing whole P1 fixtures and the precise lowercase-barcode matcher exemption remain unchanged.
+
+Literal inspected source coverage does not cover whole Y/genomic junctions, exact historical products or acquired primer/read geometry. Original `historical_readout` remains required and uncovered. No source-absence claim or public completion marker is introduced.

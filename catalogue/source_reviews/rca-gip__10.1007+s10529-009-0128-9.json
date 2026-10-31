@@ -6,8 +6,11 @@
       "id": "pubmed_abstract",
       "role": "defining",
       "locator": "https://pubmed.ncbi.nlm.nih.gov/19760115/",
-      "availability": "available",
-      "relevance": "relevant"
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Definingauthorabstract in indexedprimaryPubMed19760115 independentlyread: title/DOI/online2009-versusissue2010 identity, circles/phi29/linearconcatemers/inversePCR/noanchor/downstreamcloningorsequencing. DirectsamePubMedbrowserresponsefooter-onlynotarticlebody; no newfullpaperorotheroriginal.",
+      "pass_1": null,
+      "pass_2": null
     },
     {
       "id": "published_article",
@@ -32,6 +35,21 @@
         "Published Tsaftaris/Pasentzis/Argiriou article doi10.1007/s10529-009-0128-9: full methods and associated chemistry material; linked inventory deferred until original obtained."
       ],
       "verification": "1 check passed; source-dependent group skipped because local primary abstract text is unavailable; protocol page build and pairing lint passed; source-review schema validated."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted3",
+      "reviewer": "targeted_publication_owner",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Boundedabstract-scopedillustrativemethodpublicationpass, notanoriginalexperimentreconstruction.",
+      "locations": "Definingauthorabstract in indexedprimaryPubMed19760115 independentlyread: title/DOI/online2009-versusissue2010 identity, circles/phi29/linearconcatemers/inversePCR/noanchor/downstreamcloningorsequencing. DirectsamePubMedbrowserresponsefooter-onlynotarticlebody; no newfullpaperorotheroriginal.",
+      "findings": "Explicitillustrative_example/example_description andnormalrequired_output.CONSTRUCT gate preserved; noNGSendpoint/readlayoutcreated. Existingbuilderretained, completeandconstructmarkersverified. Rolelayoutsareinferred, noliteralDNA/primersequencesinvented. Functionalnucleotidecontributorsnowexplicitwithformulation/dose/stockpackagingunassigned; fixedsourceinventoryincludesintroducedclasses.",
+      "deferred": [
+        "Fulloriginalmethods, actualprimerpairs/templates, circleendchemistry/repeatcoordinatesandquantitativeexperimentalconditionsremainunreviewed.",
+        "Noacceptedabsence/sourcepass2claim; downstreamcloning/sequencingnotmodeledasNGS."
+      ],
+      "oligo_scraper": "Mandatoryexistingbundlescraper0hits/0representations; notsourceabsenceevidence.",
+      "verification": "6focusedPASS /1source-dependentgroupskipped(localprimarycachemissing); wrapperpagebuild/normalconstructgate/HTMLcomplete-construct-examplemarkers/inferredmarkup PASS; duplexlint0; combinedsourceguard0exact0failed5whole-unassembledpriminginputs; 3steps/6unresolved/0contradictory."
     }
   ],
   "missing_claims": [],
@@ -41,5 +59,6 @@
   "linked_information": {
     "result": "blocked",
     "reason": "Defining-source access/scope and named predecessor boundaries recorded. Full linked-source enumeration and independent review remain pending; no confirmed absence claim."
-  }
+  },
+  "conclusion": "Publicillustrativemethodschematicreadywithnormalconstructed-DNAendpoint; abstract-onlysource/wholechemistrylimitsretained, nofulloriginalreconstructionorabsenceclaim."
 }

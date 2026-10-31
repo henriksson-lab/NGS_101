@@ -28,3 +28,11 @@ The cited expression/purification sources (ref22, COMPARE-MS, DOI 10.1093/nar/gn
 ## Lineage
 
 Explicit component ancestry: the article says recombinant MBD2 domain expression/purification follows refs22/26. That does not establish inheritance of an NGS library recipe, nor identity with MIRA's MBD2b/MBD3L1 complex. The pCR4-TOPO blocker is a reagent; it is not evidence that a cloning protocol is the parent NGS chemistry.
+
+## Bounded publication assessment, 30 October 2026 — source hold
+
+Private MiGS model retains original washed conjugate provenance and possible independent blockingDNA species. Actual gelQC, selected5µggenomicDNA/5mlwashedconjugate/10ngkit contributions, residualstocks, BioAnalyzerQC and selectedloadingstock are explicit. The mixed washed-conjugate STOCK is molecular material before an actual5ml aliquot is assigned selection-reagent function. Aggregate source kit oligo/nucleotide/catalyst inventory classes remain unassembled in identity/dose/packaging, not imported Illumina polymers or an inferred specific PCR recipe. Literal20mlTris is preserved after verifying actual publishedPDFp2, not repaired as an extraction artifact.
+
+The required SourceItem unreviewed_original remains unchanged: the manufacturer protocol actually cited for the Illumina ChIP-Seq Sample Prep Kit remains relevant/unreviewed. Its study-used revision and direct documentURL remain unassigned, not a fabricated unavailable disclosure document or an observed download failure. No excluded/not-applicable coverage was added.
+
+The normal publication gate still rejects the source obligation. The generated page is a private source-scope preview, with no protocol-complete marker; this pass does not recommend catalogue promotion. Source acquisition was not expanded.

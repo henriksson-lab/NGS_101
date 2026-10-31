@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round06_reader",
         "date": "2026-10-29",
-        "locations": "Original title/DOI, FigS1 caption48, FigS2 workflow85–141, FigS4 caption441–446",
+        "locations": "Original title/DOI, FigS1 caption48, FigS2 workflow85\u2013141, FigS4 caption441\u2013446",
         "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
       },
       "pass_2": null
@@ -106,7 +106,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Identity/processing source check only; insufficient accessible preparative chemistry for a molecular review/model",
-      "locations": "Original title/DOI, FigS1 caption48, FigS2 workflow85–141, FigS4 caption441–446; First library-information table headers; scraper validation-primer/dataset false-hit contexts only; rest unreviewed; Published article identity/abstract only; full Methods gated",
+      "locations": "Original title/DOI, FigS1 caption48, FigS2 workflow85\u2013141, FigS4 caption441\u2013446; First library-information table headers; scraper validation-primer/dataset false-hit contexts only; rest unreviewed; Published article identity/abstract only; full Methods gated",
       "findings": "Full defining biochemical Methods, RNA ends/tails/adapters, actual pore substrate and sequencing preparation are unreviewed. No source-specific ancestry established.",
       "deferred": [
         "https://doi.org/10.1038/s41477-020-0688-1",
@@ -120,5 +120,27 @@
     "source_collected": false,
     "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
     "result": "Identity-only excluded from collected count;no graph/test fabricated."
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_scope",
+    "documents": 2,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/flep-seq__10.1038+s41477-020-0688-1/s41477-020-0688-1_41477_2020_688_MOESM1_ESM.pdf",
+        "version": "Published publisher SI DOIheader",
+        "sections": "Identity1\u201318; FigS1caption49\u201350; FigS2processingtext80\u2013141+actualPDFp3render /tmp/unlinked-multi31-flep-si3.png; FigS4caption445\u2013450",
+        "scope": "Cell-fraction marker validation, Nanoporeprocessing filters/adapterfinding/polyAcaller; no biochemicaladapter/order/reactionproducer inferred."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/flep-seq__10.1038+s41477-020-0688-1/s41477-020-0688-1_41477_2020_688_MOESM3_ESM.xlsx",
+        "version": "Published publisherworkbook",
+        "sections": "OriginalXLSX workbook sheetnames, firstsheetrows1\u20138/headerA3:F3",
+        "scope": "Firsttable explicitlyIlluminaRNAseqsampleinfo(CB/NP fractions/replicates/readcounts); not aNanoporeFLEPlibraryoligo/protocoltable. Otherdata/primer/tablebodies unreviewed."
+      }
+    ],
+    "scope": "Published SI actualprocessingFigS2p3 and original workbook firsttable is Illumina statistics; no RNA\u2192pore-library molecular producer established or fabricated. Existing actual fullMethods target retained.",
+    "missing_claims": [],
+    "verification": "No tools/*.py/PAGE_FILE/graph/builders; no normal gate/test/render fabricated. Mandatoryscraper3sequences/1file; no absence inference. Review schema and note render verified."
   }
 }

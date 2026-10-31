@@ -13,11 +13,11 @@ def scene(name,text):
 
 def clean(g,key,x,label):
     condition=g.input(key+'_condition',label,K.CONDITION)
-    kept=g.product(key+'_kept','Source recovered material; no perfect purity or quantitative partition assumed',K.MOLECULAR)
+    kept=g.product(key+'_kept','Source recovered material; no perfect purity or quantitative partition assumed',K.LIBRARY if x.kind is K.LIBRARY else K.MOLECULAR)
     waste=g.product(key+'_waste','Actually separated cleanup fractions with unquantified molecular carryover',K.WASTE)
     g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.CONDITION)),(kept,waste));g.discard(waste,'Source physical separation, not perfect molecular classification.');return kept
 
-def op(g,key,x,label,kind=S.MAGIC,*,reagent='source mixture',catalyst=False,product=None,state=None,chemical_state=None):
+def op(g,key,x,label,kind=S.MAGIC,*,reagent='source mixture',catalyst=False,product=None,state=None,chemical_state=None,additional=()):
     stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.CONDITION)
     y=g.product(key+'_product',product or label+'; all physical reaction companions retained until separation',K.MOLECULAR,state=state,chemical_state=chemical_state)
     kwargs={}
@@ -32,11 +32,11 @@ def op(g,key,x,label,kind=S.MAGIC,*,reagent='source mixture',catalyst=False,prod
     if kind==S.PCR:
         for arm in ('f','r'):
             primer=g.input(key+'_primer_'+arm,'Source PCR primer family; exact oligo/endpoint unassembled',K.OLIGO,state=scene(key+'_primer_'+arm,'[source primer body/index geometry unassembled]'));inputs.append((primer,R.STRUCTURAL))
-    g.react(key,label,kind,inputs,(y,),**kwargs);return y
+    g.react(key,label,kind,tuple(inputs)+tuple(additional),(y,),**kwargs);return y
 
 def qc_split(g,key,x,label):
     assay=g.product(key+'_assay','Physically separate source analytical aliquot',K.QC)
-    kept=g.product(key+'_retained','Unassayed retained preparation for downstream library work',K.MOLECULAR)
+    kept=g.product(key+'_retained','Unassayed retained preparation for downstream library work',K.LIBRARY if x.kind is K.LIBRARY else K.MOLECULAR)
     g.react(key,label,S.SPLIT,((x,R.TEMPLATE),),(assay,kept));g.mark_terminal(Terminal(assay.id,Disposition.QC,'Source analytical aliquot never feeds retained library.'));return kept
 from nextera import ADAPTOR_S5,ADAPTOR_S7,ME_RC,S5,S7
 from illumina import P5,P7
@@ -81,25 +81,52 @@ def protocol_graph():
     for key in ('a','b'):
         a=adapter(key);g.input('me_'+key,'Published methylated ME-'+key.upper()+' oligo; source tokens retained',K.OLIGO,state=a.scene('me_'+key),chemical_state=a)
     sc=Scene();sc.strand('me_rev',[Segment('me_rev',ME_RC)],mod5='phosphate');g.input('me_rev','Published Tn5MErev /5Phos/ oligo',K.OLIGO,state=sc)
-    assembly=g.product('transposome','Source methylated A/B/Tn5 complex; occupancy/distribution unassembled',K.MOLECULAR)
-    enzyme=g.input('tn5','Source Picelli2014-produced Tn5, production original unreviewed',K.CATALYST)
-    g.react('load_tn5','Source adapter anneal94C2min→25C0.1C/s andTn5 loading',S.BINDING,tuple((g.materials[k],R.TEMPLATE if k=='me_a' else R.STRUCTURAL) for k in ('me_a','me_b','me_rev'))+((enzyme,R.CATALYST),),(assembly,))
+    reverse_stock=g.materials['me_rev']
+    rev_a=g.product('me_rev_a','Actual MErev aliquot for independent A duplex preparation; amount unassigned',K.OLIGO,state=sc)
+    rev_b=g.product('me_rev_b','Actual MErev aliquot for independent B duplex preparation; amount unassigned',K.OLIGO,state=sc)
+    g.react('reverse_allocations','Allocate source reverse-oligo contributions before separate A/B annealing',S.SPLIT,((reverse_stock,R.TEMPLATE),),(rev_a,rev_b))
+    duplexes=[]
+    for key,reverse in (('a',rev_a),('b',rev_b)):
+        known=adapter(key);duplex_scene=Scene()
+        duplex_scene.strand('top',[Segment('prefix',known.sequence[:-len(ME_RC)]),Segment('ME',known.sequence[-len(ME_RC):])])
+        duplex_scene.anneal('bottom',[Segment('MErev',ME_RC)],to='top',pair=('MErev','ME'),mod5='phosphate')
+        duplex=g.product('duplex_'+key,'Actual source methylated '+key.upper()+' duplex stock; paired nucleotide relation known, source methyl tokens preserved separately',K.ADAPTER,state=duplex_scene,chemical_state=known)
+        anneal=g.input('anneal_'+key,'Actual94C2min then0.1C/sec ramp to25C',K.CONDITION)
+        g.react('anneal_'+key+'_step','Independent source '+key.upper()+'/MErev duplex annealing',S.HYBRIDIZATION,((g.materials['me_'+key],R.TEMPLATE),(reverse,R.STRUCTURAL),(anneal,R.CONDITION)),(duplex,))
+        duplexes.append(duplex)
+    glycerol=g.input('glycerol','Actual50ul glycerol contribution to25ul20uM A plus25ul20uM B duplex stocks',K.MOLECULAR)
+    assembly=g.product('transposome','Actual loaded-source stock:25ulA+25ulB+50ulglycerol mixed with equal-volume Tn5; occupied stoichiometry/free companions unassembled',K.MOLECULAR)
+    enzyme=g.input('tn5','Actual source Picelli-produced Tn5 stock atA2803.0; production original unreviewed',K.CATALYST)
+    g.react('load_tn5','Load actual mixed source A/B duplex/glycerol preparation with Tn5; no exact occupancy asserted',S.BINDING,((duplexes[0],R.TEMPLATE),(duplexes[1],R.STRUCTURAL),(glycerol,R.STRUCTURAL),(enzyme,R.CATALYST)),(assembly,))
+    selected=g.product('loaded_7ul','Actual7ul source loaded-transposome contribution',K.MOLECULAR)
+    remainder=g.product('loaded_stock','Untransferred source loaded stock; later use/actual amount unassigned',K.MOLECULAR)
+    g.react('loaded_allocation','Actual7ul library-reaction contribution selected from prepared loaded stock',S.SPLIT,((assembly,R.TEMPLATE),),(selected,remainder))
+    g.mark_terminal(Terminal(remainder.id,Disposition.UNRESOLVED,'Prepared factory stock retained separately; no assumed disposal.'))
+    loaded_enzyme=g.product('loaded_enzyme','Catalytic Tn5 class co-present in actual7ul loaded stock',K.CATALYST)
+    loaded_adapters=g.product('loaded_adapters','Methylated A/B donor classes co-present in same7ul; whole occupied complex geometry unassembled',K.ADAPTER)
+    loaded_other=g.product('loaded_other','Other actual7ul loaded-stock material, including unreacted/buffer companions',K.MOLECULAR)
+    g.react('loaded_components','Expose same actual loaded-stock components, not new free Tn5/adaptor doses',S.GENERIC,((selected,R.STRUCTURAL),),(loaded_enzyme,loaded_adapters,loaded_other),changes_molecule=False)
     spike=g.input('lambda','Source0.01ng unmethylated lambda DNA conversion control',K.MOLECULAR)
     y=g.product('tagged','Tagmented chromatin/lambda with methylated adapter strands, other end combinations and physical Tn5 companions; no endpoint composition predicted',K.MOLECULAR)
-    g.react('tagment','Source7ul methylated transposome37C30min',S.TAGMENTATION,((x,R.TEMPLATE),(assembly,R.STRUCTURAL),(enzyme,R.CATALYST),(spike,R.SPIKE_IN)),(y,))
-    x=op(g,'proteinase',y,'SourceSDS/100ugPK55C30min inactivation',S.DEPROTEINIZATION,reagent='SourceSDS/proteinaseK mixture')
+    g.react('tagment','Source7ul methylated transposome37C30min',S.TAGMENTATION,((x,R.TEMPLATE),(loaded_adapters,R.STRUCTURAL),(loaded_enzyme,R.CATALYST),(loaded_other,R.STRUCTURAL),(spike,R.SPIKE_IN)),(y,))
+    sds=g.input('sds_buffer','Actual5volumesSDSlysisbuffer(100mMTris7.4/50mMNaCl/10mMEDTA/.5percentSDS), source totalvolume unassigned',K.MOLECULAR)
+    x=op(g,'proteinase',y,'SourceSDS/100ugPK55C30min inactivation',S.DEPROTEINIZATION,reagent='Actual100ugProteinaseK',catalyst=True,additional=((sds,R.STRUCTURAL),))
     x=clean(g,'precipitate',x,'Sourceisopropanol/GlycoBlue DNA recovery')
     x=clean(g,'size_select',x,'Source0.5x large-fragment bead removal then1.8x finalSPRI recovery')
-    x=op(g,'fill',x,'SourceKlenowexo-minus37C30min end repair with5-methyl-dCTP',S.END_REPAIR,reagent='SourceKlenowexo-minus/dATP/dGTP/dTTP/5-mdCTP mixture',product='End-repaired DNA with synthetic5mC in newly copied C positions; original biological marks and companion material retained, exact gaps unassembled')
+    fill_nt=g.input('fill_nt','Actual0.5mM each dATP,dGTP,dTTP,5-methyl-dCTP molecular contribution',K.MOLECULAR)
+    fill_buffer=g.input('fill_buffer','Actual1xNEBBuffer2',K.CONDITION)
+    x=op(g,'fill',x,'SourceKlenowexo-minus37C30min end repair with5-methyl-dCTP',S.END_REPAIR,reagent='Actual5UKlenowexo-minus',catalyst=True,additional=((fill_nt,R.STRUCTURAL),(fill_buffer,R.CONDITION)),product='End-repaired DNA with synthetic5mC in newly copied C positions; original biological marks and companion material retained, exact gaps unassembled')
     x=clean(g,'fill_cleanup',x,'Source1.8xAMPure cleanup')
     x=qc_split(g,'saved_ten_percent',x,'Source ten percent saved for QC PCR, remaining preparation for bisulfite')
     x=op(g,'bisulfite',x,'SourceEZ DNA Methylation-Lightning D5030T conversion',reagent='Source historicalZymoD5030T, kit internals unreviewed',product='Bisulfite-converted recovered DNA population: selected unprotectedC→U, protectedC retained; other base chemistry/kit losses unassembled')
     for key in ('i5','i7'):g.input(key,'Published '+key+' PCR primer family; exact study member unassigned',K.OLIGO,state=index_primer(key))
-    enzyme=g.input('pfu','SourcePfuTurboCx',K.CATALYST);amp=g.product('amp','PCR DNA descendants plus source converted templates/unextended primers/remnants; no synthetic mark inheritance to unmodified PCR dCTP asserted',K.MOLECULAR)
-    g.react('pcr','Source immediate13-cyclePfuTurboCx PCR after conversion',S.PCR,((x,R.TEMPLATE),(g.materials['i5'],R.STRUCTURAL),(g.materials['i7'],R.STRUCTURAL),(enzyme,R.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(Scene(),reason='Exact converted-end/product geometry and index members unassembled; source primer bodies known.'))
+    pcr_nt=g.input('pcr_nt','Actual PCR nucleotide functional class; composition unreviewed, no repair5mdCTP inherited',K.MOLECULAR)
+    pcr_buffer=g.input('pcr_buffer','Actual PfuTurboCx reaction-buffer class; recipe unreviewed',K.CONDITION)
+    enzyme=g.input('pfu','SourcePfuTurboCx',K.CATALYST);amp=g.product('amp','PCR DNA descendants plus source converted templates/unextended primers/remnants; no synthetic mark inheritance to PCR copies asserted',K.LIBRARY)
+    g.react('pcr','Source immediate13-cyclePfuTurboCx PCR after conversion',S.PCR,((x,R.TEMPLATE),(g.materials['i5'],R.STRUCTURAL),(g.materials['i7'],R.STRUCTURAL),(enzyme,R.CATALYST),(pcr_nt,R.STRUCTURAL),(pcr_buffer,R.CONDITION)),(amp,),geometry=PCRGeometry.unavailable(Scene(),reason='Exact converted-end/product geometry and index members unassembled; source primer bodies known.'))
     x=clean(g,'final_cleanup',amp,'Source1.8xAMPure cleanup')
     x=qc_split(g,'qubit',x,'SourceQubit measurement and retained sequencing preparation')
-    g.sequence(x,SequencingPlan(acquisition='unspecified',limitation='SourceNextSeq500single-end75bp; exact converted primer/cycle geometry unassembled. Computational exclusion of9nt atbothends does not physically trim DNA.'))
+    g.sequence(x,SequencingPlan(acquired_roles=('Read 1',),read_lengths={'Read 1':75},limitation='SourceNextSeq500single-end75bp; exact converted primer/cycle geometry unassembled. Computational exclusion of9nt atbothends does not physically trim DNA.'))
     g.add_source_item(SourceItem('pending','Picelli2014Tn5 production; Omni2017 protocol; historicalZymoD5030T andPfuTurboCx instructions','Direct named originals unreviewed within cap; full end/primer/acquisition assembly remains open.'))
     return g
 
@@ -115,6 +142,11 @@ def selftest():
     c('constructor rejects methyl mark on nonC',bad,True)
     g=protocol_graph();c('saved QC does not feed converted preparation','saved_ten_percent_assay' not in tuple(i.material for i in g.steps['bisulfite'].inputs),True)
     c('Qubit assayed fraction is QC',g.materials['qubit_assay'].kind,K.QC)
+    c('A and B receive distinct pre-anneal reverse allocations',tuple(g.steps['reverse_allocations'].outputs),('me_rev_a','me_rev_b'))
+    c('Actual7ul comes from prepared loaded factory stock',g.steps['loaded_allocation'].inputs[0].material,'transposome')
+    c('Tagmentation catalyst derives from same7ul, not fresh Tn5',g.producer_of('loaded_enzyme').id,'loaded_components')
+    c('Original free Tn5 not supplied again to tagmentation',any(i.material=='tn5' for i in g.steps['tagment'].inputs),False)
+    c('Fill uses actual protected nucleotide contribution',any(i.material=='fill_nt' for i in g.steps['fill'].inputs),True)
     p=Source(sources_root()/'methyl-atac-seq__10.1101+gr.245399.118'/'gr.245399.118_supp_supp_gr.245399.118_Supplemental_Table_S1-S3.pdf.txt','get_sources --slugs methyl-atac-seq__10.1101+gr.245399.118; originalS3render inspected')
     if have(c,p,label='sourceS3'):
         t=p.path.read_text();c('source explicitphosphate andmethyl-dC tokens','/5Phos/'+ME_RC in t and '/iMe-dC/' in t,True)

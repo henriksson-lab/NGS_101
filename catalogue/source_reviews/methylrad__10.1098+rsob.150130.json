@@ -71,6 +71,21 @@
       ],
       "oligo_scraper": "Mandatorybundle /tmp/ngs41-methylrad-scraper.log; mergedTableS5hitswerecheckedagainstactualrenderedp6, nojoinedoligosadopted. Resultsworkbookhitsremainunadoptedpointers.",
       "verification": "27focusedPASS; sourceguard4PCRprimerenvelopeschecked/0failed/0exceptions/0unrepresentedexternalinputs. Producedadaptercomponentsoutsideguardhavewholeorderfixtures. Chemistry4narrowduplicatedadapterpairingrelationsestablished/17unresolved/0contradictory; notwholeligationvalidation. Independentimplementationrecheckpending."
+    },
+    {
+      "round": "2026-10-30-unlinked-final",
+      "reviewer": "coordinator_methylrad",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Publishedmain and actualpublishedSI only; <=10min source investigation. Standard NNNN preparation, no predecessor/vendor/results-workbook chemistry adoption.",
+      "locations": "Main PMC4680569 XML60/70/74/368\u2013382; actualrendered TableS5PDFp6 and extracted350\u2013410.",
+      "findings": "Positive main/s5SourceItems preserved and represented, literal independentlyreviewed operationalinventory. QCkindcorrected, sourcepolaritydifferencepublic, wholeproducts/primer/readlimitationsretained.",
+      "deferred": [
+        "2bRADpredecessor chemistry not inherited",
+        "Historicalformulations/occupiedgenomicproducts/wholejunctions and exactsampleindex/readlanding remain unresolved; no invented unavailable disclosure document."
+      ],
+      "oligo_scraper": "153candidates/2files; actualTableS5 rendered and whole9orderingfixture checks pass. Resulttagworkbookhits not adopted.",
+      "verification": "26focusedPASS; sourceguard4checked/0fail/0exempt/0unknownexternal; knownproducedadaptercomponents have original-dependent wholefixtures. Pairing0; narrowchemistry4established/17unresolved/0contradictory, notwholeligationvalidation."
     }
   ],
   "linked_information": {
@@ -86,7 +101,7 @@
     ]
   },
   "missing_claims": [],
-  "conclusion": "Source-positiveprivatepartialstandardMethylRADpreparation; nofinishedschematic/completechemistry/sourceabsenceaudit.",
+  "conclusion": "Source-qualified public standard preparation with explicit unassembled genomic products, end/read chemistry and source polarity discrepancy; no complete chemistry or accepted absence claim.",
   "independent_implementation_recheck": [
     {
       "round": "2026-10-30-ngs-expansion-41",
@@ -94,6 +109,51 @@
       "date": "2026-10-30",
       "scope": "SameTWOselectedactualchemistryoriginals only: publishedPMC4680569mainoverview70/Fig1caption74/Methods376 andoriginalFig1PDFp3; publishedSI1actualTableS5PDFp6 whole9orderingclasses. Noextraoriginals/retrieval orunselectedworkbookadoption.",
       "findings": "Criticalsource/modelreviewCLOSED withoutmodelchanges. SourceNNNN5adapterend/local13bpScene pairing/physical3AminoC6blocker checkedagainstactualTableS5; main5overhangversuscaption3wordingretained withgenomicendsunassembled. Actual5of15ulanalyticalremoval\u219210ulactualcopresentligationmastercomponents\u21927ulPCR1\u2192gel/waterrecovery\u219225ngindexPCR\u2192selectedpool/loadingfates verified. SE36only; sourceX6sampleindexenvelopeunassignedacquisition/identity preserved. Independently27focusedPASS;guard4exact0failed0unassembled/0exempt;chemistry4narrowlocalduplexrelationsestablished/17unresolved0contradictory. Narrowimplementationrecheck, notabsencepass2/fullchemicalaudit."
+    }
+  ],
+  "publication_review": [
+    {
+      "verdict": "pass_selected_source_and_publication_scope",
+      "blockers": [],
+      "protocol": "methylrad__10.1098+rsob.150130",
+      "review_scope": "Independent same-original critical source/model/page-scope review, not a complete molecular or absence audit. No source/model/publication-gate weakening identified.",
+      "originals_read": 2,
+      "source_scopes": [
+        {
+          "original": "/husky/henriksson/NGS101_papers/sources/methylrad__10.1098+rsob.150130/rsob.150130_PMC4680569.xml",
+          "identity": "Published OpenBiology DOI10.1098/rsob.150130 and printedtitle/header verified; manifest author_manuscript=False.",
+          "sections": "Header1\u20136,overview2.1/XML60\u201374 including5prime versusFigure1caption3prime overhang wording;Methods5.1\u20135.3/XML368\u2013382 input/digest/QC/master/PCR/gel/index/SE36. No otheroriginal read."
+        },
+        {
+          "original": "/husky/henriksson/NGS101_papers/sources/methylrad__10.1098+rsob.150130/rsob.150130_supp_rsob150130supp1.pdf",
+          "identity": "Published associatedSI actualTableS5/p6, manifest exactPMCCloud pointer verified.",
+          "sections": "Original p6 rendered /tmp/unlinked-final-methylrad-s5.png independently viewed; all whole standard/RTR adapter andP1/P2/P3/index envelopes and3primeamine footnote checked against model. Text365\u2013399 corroborates raw orderings."
+        }
+      ],
+      "findings": [
+        "Original required SourceItems main ands5 retain their exact prior labels/source wording; gitdiffHEAD shows coverage additions but no replacement/semantic narrowing of an old broad unreviewed requirement. Both describe positive selected-source findings.",
+        "Literal reviewed target list is curator-written, not generated from graph materials/steps. It corresponds to selected standardNNNN source preparation and physical contributions; RTR order fixtures remain separate from chosen reaction branch.",
+        "Actual5of15ul digestQC is excluded from production; one actual10ulmaster supplies produced adapter/ATP/ligase components once;7ulPCR1 and25ngindextemplate allocations retain stock remainders. Analytical and production fates are coherent.",
+        "Source finalsamplepool/loading use selected contributions with untransferred remainder, rather than assuming all stocks loaded. SE36 is not confused with sixXindexprimer positions; indexacquisition remains unknown.",
+        "All nine unique whole sequence envelopes match original S5; AminoC6 remains physical3primeblock, NNNN is cohesive degeneracy notUMI, no unprinted5primephosphate added. Computed13bp localadapterpairing is distinct from unresolved full genomic junctions.",
+        "Mainoverview5prime vsFigure1caption3prime discrepancy remains public and model-qualified. Model follows actualS5written5primeNNNN localends without establishing complete enzymeproductgeometry.",
+        "Source-positive public preparation scope with unresolved genomic products/readlanding is permitted by existing contract; this page does not claim complete chemical validation, perfect FspEI specificity/yield or sourceabsence."
+      ],
+      "verification": {
+        "focused_tests": "26 PASS independently rerun current owner suite, including18 whole-source equality checks and8 behavior/scope checks.",
+        "normal_publication_problems": [],
+        "source_guard": "4 exact checked/0failed/0unknownexternal; local master-produced adaptergeometry remains covered by independently inspected whole-order fixtures.",
+        "chemistry": "17steps;4 narrow established adapter-pairing relations/17 unresolved/0contradictory. This is not17validated complete reactions.",
+        "in_memory_render": "Passed45077characters; data-protocol-complete=true and collapsed fullworkflow present. No repository build output written.",
+        "mandatory_scraper": "Owner mandatorywholebundle /tmp/unlinked-final-methylrad-scraper.log already ran; inspected relevantS5 pointers and modifications, actualS5image independentlyverified. No newsource fetch orabsence inference.",
+        "repo_writes": false,
+        "source_acquisition": false,
+        "additional_originals": false
+      },
+      "remaining_limits": [
+        "Full occupied genomic molecules, enzymaticcutdistributions, terminalphosphorylation, sealedligation/PCRproducts, studyindexassignments and complete readprimerlanding remain unassembled and visibly qualified.",
+        "Independent review is scoped to these two source originals and current implementation, not full linked-source or missing-information pass2."
+      ]
     }
   ]
 }

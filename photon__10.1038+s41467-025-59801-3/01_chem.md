@@ -36,3 +36,9 @@ The table's unblocked control RT oligos are not substituted for experimental cag
 ## Endpoint and limits
 
 🟢 The source names NexteraXT, NextSeq2000 or NovaSeqXPlus; specific index primers, guide panel, complete kit internals, product/primer/read geometry and cycle masks remain unassigned locally. No predecessor kit constructor is imported to fill them. No sequence/reagent absence is claimed. Linked cited-component/vendor originals remain unreviewed within this capped pass.
+
+## Source-qualified public preparation page
+
+Source-qualified public page adds literal stage/reagent inventory with original selected SourceItem retained and covered. Same RT/TS/Q5 supplies expose enzyme, nucleotide and buffer components without fresh duplicate additions. Actual post-WTA Qubit and separate final post-DASH TapeStation allocations preserve analytical/production separation; pre-DASH TapeStation is distinct. Prepared HeLa SG input boundary, exact modified Table1 oligos/local splint, actual10of50ul stock and retainedPCR/no freshenzyme are preserved. Historical NexteraXT/RNP/full occupied cDNA/read geometry remain unassembled. No broad unread obligation was removed.
+
+The public page includes a preparation overview, known molecular components, read scope and a collapsed complete workflow with unresolved-chemistry warnings. Full occupied molecules are not supplied as invented biological sequences. This page is a capped source-supported preparation declaration, not a full linked-original or missing-information audit.

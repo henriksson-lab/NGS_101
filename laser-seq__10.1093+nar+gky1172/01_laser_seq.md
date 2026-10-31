@@ -25,3 +25,8 @@ E.coli RNA is split to TGIRTIII60°C1h or SSII/Mn2+42°C1h; other samples use SS
 ## Lineage
 
 Methods76 explicitly adapts library preparation from references22,23,31, not a whole imported family recipe. These predecessors and NAz-synthesis reference8 remain directly linked pending originals. Similarities to other two-spacer RT primers alone establish no ancestry. Proposed mRNA rRNA-depletion/polyA-selection extension in Discussion is not inserted into actual ribosome/K562 source routes. No confirmed absence or two-reader absence audit.
+
+
+## Bounded publication follow-up (2026-10-30)
+
+Bounded corrections declare NAz/ZnCl2/EDTA/NaOH molecular contributions separately from source UV/temperature conditions and retain source precipitation-carrier material. EcoliRNA has separate selected RTbranch and companion allocation. SSII RNA and actual oBZ192 primer pass through the source65/55/45/42C annealing sequence before fresh6ulextensionmix; the same produced retained primer entersRT. Actual source RT enzyme/nucleotide/protective/buffer components and CircLigaseI/ATP/Mn-buffer components derive from their actual source preparations, not extra fresh doses. PCR is represented through completed source preparation components with actual forward/reverse classes, catalytic/nucleotide functions and supply provenance unassembled; no source-unverified fresh polymerase identity or commercial premix is inferred. FinalDNA loading leaves an untransferredstock. Both18atom spacers, terminalphysicalddC, RNA/remnant companions, RTstop/MaP distinctions and actualSE50 endpoint remain. The existing required predecessors item remains uncovered; no circle-to-PCR spacer traversal recipe, kitdefault, source waiver or public promotion.

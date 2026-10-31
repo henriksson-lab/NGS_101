@@ -39,3 +39,10 @@ Availablepublishedsupplements were read where stated; failedPMC aliases and supe
 ## Local validation
 
 Privategraph-onlyimplementation; no page builder or completionmarker. Focusedtests cover selected chemical identity/copying/fates. Fullhistoricalmolecular/end/readgeometry remains unassembled. Exact sequenceguard results and independent critical review will be recorded in the source-review JSON.
+
+
+## Bounded publication review — 2026-10-30
+
+Spike addition now explicitly changes no covalent molecule, preserving the three distinct control species. The optimized Bst copy reaction receives actual dATP, dGTP, dTTP and dmCTP contributions rather than hiding all nucleotides inside an enzyme label; the published v2 fully methylated primer remains exact and physically distinct from native genomic methylation. Actual β-GT/UDP-glucose, MBP-M.MpeI-N374K/CxSAM and branch-specific A3A or commercial APOBEC catalyst contributions are explicit. The optimized main A3A dose/conditions remain delegated to the actual ACE reference; no commercial APOBEC/formamide substitution is made. Index PCR consumes enzyme, nucleotide and buffer components from one actual named KAPA Uracil+ ReadyMix allocation, not fresh duplicate component additions. The SI states a 25µL master allocation; the optimized-main physical allocation volume is left unassigned rather than declaring full branch equivalence. Selected loading material and an untransferred production remainder follow actual analytical QC. The SI 10µL deamination elution versus 19µL indexing-DNA allocation remains unassembled and is not silently normalized. Original `pending` remains exact and uncovered: full 5pyC adapter/indexing-primer originals, ACE applicability and full copy/end/read geometry still require review. No copy-strand disappearance is inferred from poor amplification or computational filtering.
+
+No additional originals were read or acquired during implementation. This capped pass accepts no missing-information claim. Existing full source obligations prevent publication.

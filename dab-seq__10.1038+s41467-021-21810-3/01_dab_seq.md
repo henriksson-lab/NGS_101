@@ -90,3 +90,21 @@ not inheritance of Abseq's thiol conjugation or clonal randomer barcode recipe:
 DAb-seq supplies different click chemistry and a commercial bead-PCR workflow.
 Mission Bio AML V1 is another explicit platform/component parent whose historical
 original remains deferred. No RNA branch is implied by the multiomic label.
+
+
+## Public preparation view, 2026-10-30
+
+The public representation is **published_instance** for the selected patient preparation, with anonymous technical slots rather than assigned patient/barcode identities. Actual first-stage cell/lysis encapsulation precedes protease incubation/inactivation. A second module encapsulates lysed-cell droplets with the barcoding supplies. That emulsion is distributed into eight source PCRtubes, each with UV primer release and20cycle amplification; the tubes are pooled as four pairs before independent recoveries. Namesp1a/p1b throughp4a/p4b describe pair membership only, not actual tube labels or eight cells. Continuous emulsion phase stays in the physical transfer/distribution interfaces. Each of four recoveries retains both DNAbead and antibody-supernatant fractions, so there are eight subsequent library contributions. The full workflow stays available in a labelled expandable section; no all-eight pool/split or false joint DNA/antibody assay pool is substituted.
+
+Prepared antibodyconjugates are source inputs with whole residualadduct geometry unassembled. Actual Fcblock, dextransulfate, salmonDNA and PBS/FBS supplies remain separate from catalytic roles. Named source lysis/barcoding/LibraryMix components are views of the same actual supplies, not duplicate new stocks or an imported historical kit recipe. Source thermal programs are explicit. The captureprobe is added before95Cdenaturation/snapcool and reused as a copresent reagent at hybridization. Probe biotin/3C6, RUNX1_4/site specificity, sourcePSorders and one5+5splitUMI around the antibodybarcode remain preserved. The reversepool omission is explicit; the remaining whole reversepool and full beadbarcode handles are unexpanded in this capped model, not declared missing.
+
+Source DNA eluate is30uL, but the PCRtemplate is4ng in15uLwater: the consumed eluate volume is **unassigned**, not automatically15uL. Antibody template is explicitly15uL of30uL bead suspension, leaving an untransferred15uL class. DNA10cycles and antibody20cycles remain separate; both produce12uL eluates, with final BioAnalyzer/Qubit material selected separately. Sequencing contribution interfaces include actual source20percentPhiX, unassigned fraction convention/doses, and final loading/untransferred mixture stocks. Run-grouping of technical/patient libraries remains unassigned. DNA uses NovaSeq2x150, antibody NextSeq38/39; eight graph sequencing terminals are **contributions**, not a claim of eight independent runs. Printed Index1 examples are reference orders, not sample assignments; actual index-family members remain unknown in graph states.
+
+Two selected published originals: mainPMC7952600Methods138–176 and MOESM1Tables1/2/6, with actualTable2PDFp15/Table6p19 inspected in this pass. Local detailedprotocolV2/vendor/preprint bodies were not read or substituted; existing deferred source obligations remain. The source gap is whole intermediate geometry and further curation, not confirmed missing disclosure.
+
+Source investigation closed before implementation; mandatory scrapers ran during the
+read-only preflight. Literal curator source inventories include the stated technical
+slot/pair counts, not graph-enumerated automatic coverage. Normal gates, source
+transcription, physical-fate checks and full workflow rendering pass with unresolved
+chemistry visible. No sequence-exact final product, assay performance, full independent
+source audit or accepted missing-information claim is asserted.

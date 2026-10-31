@@ -46,6 +46,8 @@ def selftest():
     from checks import Check
     c = Check(); g = protocol_graph()
     c('Pending source/assembly boundary prevents finished publication', bool(g.publication_problems()))
+    c('Original nuclei assay and historical kit obligation stays uncovered','pending_originals' in g.source_coverage,False)
+    c('HeLa extract contributes physical source material',next(p.role for p in g.steps['initiate'].inputs if p.material=='hela_extract'),R.STRUCTURAL)
     c('Private preview has no finished marker', 'data-protocol-complete=' not in render_page())
     c('Every DNA molecular output continues to an operation or explicit terminal',not any(m.kind in {K.MOLECULAR,K.LIBRARY} and m.id not in g.terminals and not any(port.material==m.id for step in g.steps.values() for port in step.inputs) for m in g.materials.values()))
     c('Source input and IP remain separate downstream libraries',{'library','input_library'}<=set(g.terminals))
@@ -104,10 +106,10 @@ class DigPopulation:
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
     current=g.input('nuclei','source mimosine-arrested lateG1EJ30 nuclei; preparation defers to cited predecessor',K.MOLECULAR,state=DigPopulation('nuclei'),primary=True)
-    extract=g.input('hela_extract','source soluble proliferating HeLa cell extract, standard cell-free initiation conditions unreviewed',K.CONDITION)
+    extract=g.input('hela_extract','Actual soluble proliferating HeLa cell extract; source catalytic mixture/composition and standard cell-free conditions unreviewed, not a buffer-only condition',K.MOLECULAR)
     nucleotide=g.input('dig_dutp','source digoxigenin-11-dUTP plus standard exogenous nucleotides',K.MOLECULAR,state=molecule('source nucleotide pool',(role('DIG-11-dUTP and nucleotides; exact standard-assay concentrations unassigned'),)))
     labelled=g.product('labelled','source15min initiation/elongation population, no complete origin specificity asserted',K.MOLECULAR,state=DigPopulation('replicated'))
-    g.react('initiate','Cell-free replication initiation and DIG-dUTP incorporation15min',S.MAGIC,((current,R.TEMPLATE),(extract,R.CONDITION),(nucleotide,R.STRUCTURAL)),(labelled,),reason='Source cell-free reaction known; named predecessor standard composition/replication molecular geometry unreviewed.')
+    g.react('initiate','Cell-free replication initiation and DIG-dUTP incorporation15min',S.MAGIC,((current,R.TEMPLATE),(extract,R.STRUCTURAL),(nucleotide,R.STRUCTURAL)),(labelled,),reason='Source cell-free reaction known; named predecessor standard composition/replication molecular geometry unreviewed.')
     current=operation(g,'stop','Source stop by ice-coldPBS',S.QUENCHING,labelled,labelled.state,'ice-coldPBS')
     current=cleanup(g,'nuclei_recovery','Source centrifugation recovery of nuclei',current,current.state)
     current=operation(g,'proteolyze','Source sarcosinate/proteinaseK2mg/ml55C18h',S.DEPROTEINIZATION,current,DigPopulation('proteolyzed'),'source proteinaseK inDNApurificationbuffer',reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
@@ -126,9 +128,14 @@ def protocol_graph():
     for ident,branch in (('ip',current),('input',control)):
         recovered=cleanup(g,ident+'_organic','Source phenol/chloroform extraction of '+ident+'DNA',branch,unassembled('source '+ident+' DNA; residual tag/protein/RNA recovery unquantified'))
         recovered=cleanup(g,ident+'_ethanol','Source ethanol precipitation of '+ident+'DNA',recovered,recovered.state)
-        kit=g.input(ident+'_kit','source IlluminaChIP-seq sample-prep kit according manufacturer; historical version/full operations unreviewed',K.CONDITION)
+        kit=g.input(ident+'_kit','Aggregate actual Illumina ChIP-seq kit reagent allocations; historical version, packaging/stock count and full operations unreviewed; no invented single premix',K.MOLECULAR)
         library=g.product('library' if ident=='ip' else 'input_library','source '+ident+' HiSeq2000 library roles',K.LIBRARY,state=unassembled('source '+ident+' ChIP-kit-derived library; exact ends/PCR/run/index geometry unassembled'))
-        g.react(ident+'_library_boundary','Named historical kit boundary for '+ident+'DNA',S.MAGIC,((recovered,R.TEMPLATE),(kit,R.CONDITION)),(library,),reason='Source names kit/readout; no actual constituent library operations inferred from modern kits or matching endpoint.')
+        g.react(ident+'_library_boundary','Named historical kit boundary for '+ident+'DNA',S.MAGIC,((recovered,R.TEMPLATE),(kit,R.STRUCTURAL)),(library,),reason='Source names kit/readout; no actual constituent library operations inferred from modern kits or matching endpoint.')
         g.mark_terminal(Terminal(library.id,Disposition.UNRESOLVED,'Source HiSeq2000 endpoint; full molecular/read geometry remains unassembled.'))
+    # Literal independently reviewed source inventory. The two branch labels are
+    # the actual matched input/IP source scopes, not graph-discovered targets.
+    g.declare_reviewed_scope(('nuclei','hela_extract','dig_dutp','initiate','stop_stock','stop','nuclei_recovery_condition','nuclei_recovery_step','proteolyze_stock','proteolyze','organic_first_condition','organic_first_step','rnase_stock','rnase','organic_second_condition','organic_second_step','shear_stock','shear','debris_spin_condition','debris_spin_step','allocate_input','capture_stock','capture','ip_wash_condition','ip_wash_step','elute_stock','elute'),g.authority)
+    for k in ('ip','input'):
+        g.declare_reviewed_scope(tuple(k+t for t in ('_organic_condition','_organic_step','_ethanol_condition','_ethanol_step','_kit','_library_boundary')),g.authority)
     g.add_source_item(SourceItem('pending_originals','Cell-free assay/nuclei preparation and historical IlluminaChIP-seq kit originals','Main Methods64/68 refs27/28 and Methods80 named kit; source-specific complete versions remain unreviewed.'))
     return g

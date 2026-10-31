@@ -177,7 +177,7 @@
       "pass_1": {
         "reviewer": "rna_round10_reader",
         "date": "2026-10-29",
-        "locations": "Provenance71; Results93\u201399; Methods223/229/245/249",
+        "locations": "Provenance71; Results93–99; Methods223/229/245/249",
         "finding": "Direct RNA labeling and source-known RNA extraction/capture/proteinase/cleanup/TruSeq/PE75 route; not APEX-RIP protein-label capture. Actual chemical adduct and full final-VOR/supplement/kit geometry unassembled."
       },
       "pass_2": null,
@@ -224,7 +224,7 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Defining and chemistry originals first; no recursive predecessor chase",
-      "locations": "Provenance71; Results93\u201399; Methods223/229/245/249",
+      "locations": "Provenance71; Results93–99; Methods223/229/245/249",
       "findings": "Direct RNA labeling and source-known RNA extraction/capture/proteinase/cleanup/TruSeq/PE75 route; not APEX-RIP protein-label capture. Actual chemical adduct and full final-VOR/supplement/kit geometry unassembled.",
       "deferred": [
         "https://doi.org/10.1016/j.cell.2019.05.027",
@@ -234,6 +234,21 @@
       ],
       "oligo_scraper": "Mandatory acquired-bundle scan; source contexts/modifications inspected where relevant. Superseded preprint hits excluded; APEX-RIP two large dataworkbooks unscanned by default, no absence conclusion.",
       "verification": "17localbehaviorchecks pass across3models; sourceguard0exactchecked0failed2unassembledinputs; chemistry45unresolved0contradictory. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch18",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed-source bounded physical/reagent/QC/allocation corrections; original broad source obligations preserved",
+      "locations": "j.cell.2019.05.027_PMC6786773.xml(.txt): Main223BP/H2O2/quench;229extractionsectionidentity;245RNAcapture/proteinase/cleanup;249polyA-TruSeq/MiSeqQC/HiSeq4000PE75 andMITOalternative distinction. No gatedsupplement/preprintoriginal reopened.",
+      "findings": "RequiredpublishedfinalMethods/gatedchemistrysupplements andnamedhistoricalextraction/TruSeq/cleanuporiginals/fullgeometry remainunreviewed. SourceAM249 namesRNA-derivedlibraryproducer andPE75, butopaqueK.LIBRARYclassdoesnotwaiveexistingwholelibrary/sourceobligations. BP/oxidant/quench molecularsupplies andmediumreplacement; MiSeqQA/libraryloadaliquots; kitphysicalinventory/literalreviewsubset. No opaque-library source waiver or source-item exclusion.",
+      "deferred": [
+        "pending_vor",
+        "pending_kit"
+      ],
+      "oligo_scraper": "Mandatory cached-bundle scraper completed in closed preflight. No sequencing oligos newly asserted from qPCR/construct workbooks; superseded preprint not authority. No zero-hit absence inference.",
+      "verification": "6focusedchecksPASS; existingmodule/selftestentrypoints preserved; temporaryprivateHTMLrenderPASS. Combinedguard0eligible0failed0exempt0unknownexternaloligos (notoligovalidation); chemistry43unresolved0contradictory/pairing0. No complete marker or publicpromotion."
     }
   ]
 }

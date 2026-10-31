@@ -60,7 +60,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source/model pass only; original versions and unresolved chemistry explicit. No accepted missing-information claim.",
+  "conclusion": "Bounded publication hold retained. Original required unreviewed_vor_and_assembly remains uncovered: complete defining VOR comparison and post-ligation strand assembly. Actual local defining body is associated accepted manuscript PMC4281301, not final-version-equivalent. Publisher SI and workbook support known components, but do not complete that required main-version/strand assembly comparison. This is unreviewed scope, not evidence that final publication omits detail.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-06",
@@ -77,6 +77,21 @@
       ],
       "oligo_scraper": "19 hits in Table23; short bridge/blocker rows inspected manually because below normal scraper minimum.",
       "verification": "Seven local checks pass (four exact short bridge/blocker source transcriptions, incomplete/no-marker guards and washed-capture-reagent ordering). Build and pairing lint pass. Chemistry: four established input-pairing relations only,39unresolved,zero contradictory. Source guard: five unrepresented inputs (two short bridge/blocker stocks below minimum and three unassembled historical library reagents); no failures or exemptions. Final whole-bundle scraper rerun19hits. Private unresolved graph retained."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch11",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Existing defining originals reviewed in closed read-only preflight, followed by documentation and contained source-discrepancy annotation only. No source acquisition.",
+      "locations": "Online Methods114–158 K562 whole-genome fixation through library; three source end-prep tubes/in-gel handling; source approximately10–100ul PCR wording, Nanodrop and PE150; targeted capture separately excluded from selected whole-genome boundary; Supplementary Note2 original text7983–8026 / printedp36–37 DNase5P/3OH and in-gel proximity rationale; Actual original sharedStrings XML and table text: all four bridge/blocker whole orders; sequencing adapter pair with top PS and bottom5P; indexed/universal PCR and separate pre-capture/blocking roles",
+      "findings": "Source whole-genome K562 route contains actual fixation/DNase/end-repair/dA-tail/biotin bridge+blunt blocker, PNK/in-gel ligation, protein/agarose digestion/workup, dangling treatment/shearing, separate sequencing-adapter ligation, prepared streptavidin beads,9–11cycle library PCR and PE150. Known whole sequencing adapters and primers are available in inspected S23; they must not remain generic placeholders in a future whole-order implementation. Original required unreviewed_vor_and_assembly remains uncovered: complete defining VOR comparison and post-ligation strand assembly. Actual local defining body is associated accepted manuscript PMC4281301, not final-version-equivalent. Publisher SI and workbook support known components, but do not complete that required main-version/strand assembly comparison. This is unreviewed scope, not evidence that final publication omits detail.",
+      "deferred": [
+        "Defining final publication DOI10.1038/nmeth.3205 is a genuine required original but no final body was inspected locally in this pass; no retrieval failure invented.",
+        "Targeted SeqCap route and cited guide are separate branch, no whole-genome recipe inheritance."
+      ],
+      "oligo_scraper": "19hits in1workbook representation; short bridge orders below ordinary length threshold separately verified in original XML, as were full modified adapter strings after resolving rich-text runs",
+      "verification": "7PASS via tools/protocol.py test; no wrapper selftest exists in closed preflight; actual normal source/terminal gate remains false. No complete chemical or absence audit."
     }
   ],
   "integration_verification": {

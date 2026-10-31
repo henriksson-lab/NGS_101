@@ -1,6 +1,6 @@
 {
   "dir": "hi-c-original__10.1126+science.1181369",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "article",
@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round08",
         "date": "2026-10-29",
-        "locations": "Associated author manuscript PMC2858594, main112\u2013118 and Fig1caption320",
+        "locations": "Associated author manuscript PMC2858594, main112–118 and Fig1caption320",
         "finding": "Main-only selected HindIII branch. Biotin nucleotide identity, enzyme/end geometry, cleanup recipe and final adapters require the linked gated Supplementary text. The NcoI replicate is separate. No in-situ or DNase Hi-C recipe is inherited."
       }
     },
@@ -37,26 +37,41 @@
     "pass_1": {
       "reviewer": "expansion_dna_round08",
       "date": "2026-10-29",
-      "locations": "Associated author manuscript PMC2858594, main112\u2013118 and Fig1caption320",
+      "locations": "Associated author manuscript PMC2858594, main112–118 and Fig1caption320",
       "finding": "Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates."
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source/model pass only; no two-reader missing-information acceptance.",
+  "conclusion": "Bounded publication hold retained after contained physical/inventory improvements. Original required pending_assembly remains uncovered: actual Supplementary text and Supplementary Figures are unreviewed. The seven-step associated-manuscript source scope still stops at streptavidin-selected DNA without an actual final NGS producer/terminal. Literal main-only source inventory and physical reagent typing do not fulfill the actual supplement, molecular or library finishing obligation.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-08",
       "reviewer": "expansion_dna_round08",
       "date": "2026-10-29",
       "documents": 1,
-      "locations": "Associated author manuscript PMC2858594, main112\u2013118 and Fig1caption320",
+      "locations": "Associated author manuscript PMC2858594, main112–118 and Fig1caption320",
       "findings": "Main-only selected HindIII branch. Biotin nucleotide identity, enzyme/end geometry, cleanup recipe and final adapters require the linked gated Supplementary text. The NcoI replicate is separate. No in-situ or DNase Hi-C recipe is inherited.",
       "deferred": [
         "Supplementary text and Supplementary Figures linked from PMC2858594, canonical requests returned PMC preparing-download gates."
       ],
       "oligo_scraper": "Whole bundle run; source hits reviewed; Hi-C zero hits is not absence evidence.",
       "scope": "Published-first capped source inspection; source-qualified incomplete private molecular preview, no recipe inheritance or absence acceptance.",
-      "verification": "Nineteen checks across the three Round08DNA protocols passed, including five exact PG160\u2013164 source-table checks and reaction-fate/branch boundaries. Three builds and pairing passed. Shared source-oligo guard0eligible exact constructs,0failed; standalone Scene inventories are not automatically checked by that guard. Chemistry58unresolved,0established,0contradictory across all three: no exact product relation validation claimed. Source schema passed."
+      "verification": "Nineteen checks across the three Round08DNA protocols passed, including five exact PG160–164 source-table checks and reaction-fate/branch boundaries. Three builds and pairing passed. Shared source-oligo guard0eligible exact constructs,0failed; standalone Scene inventories are not automatically checked by that guard. Chemistry58unresolved,0established,0contradictory across all three: no exact product relation validation claimed. Source schema passed."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch17",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed originals reused for bounded physical catalyst/structural typing and literal independently reviewed operational inventory. No new originals or source expansion.",
+      "locations": "Main112–118 and completeFig1caption320: formaldehyde/restriction5overhang fill with biotin residue/dilute blunt ligation/shearing/streptavidin/pairedend; separateHindIII repeats versusNcoI and computational dataset combination",
+      "findings": "Formaldehyde and the biotin-containing fill supply are now physical molecular/structural contributions. Fixation conditions remain explicitly unassigned pending genuine SI. The biotin nucleotide identity, enzyme inventory, source doses, complete genomic end/ligation relation and final NGS producer remain unresolved; no other Hi-C recipe is inherited. Original required pending_assembly remains uncovered: actual Supplementary text and Supplementary Figures are unreviewed. The seven-step associated-manuscript source scope still stops at streptavidin-selected DNA without an actual final NGS producer/terminal. Literal main-only source inventory and physical reagent typing do not fulfill the actual supplement, molecular or library finishing obligation.",
+      "deferred": [
+        "Genuine supplementary text and figures, prior manifest-gated requests not retried.",
+        "Original final publication/source-version comparison and exact originalFig1inset not read; no guessed replacement or library geometry."
+      ],
+      "oligo_scraper": "0hits/0eligible representations; main and caption independently read, no absence claim",
+      "verification": "4focusedPASS; private buildPASS/pairing0problems. Both normal gates remainfalse with no sequencing terminal and original pending_assembly uncovered. Combined sourceguard5checked/0failed/0exempt/2wholeTruSeqprimerinputs unrepresented; combined chemistry31unresolved/0contradictory, no full molecular validation."
     }
   ]
 }

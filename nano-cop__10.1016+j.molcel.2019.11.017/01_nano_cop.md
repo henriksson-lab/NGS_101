@@ -2,7 +2,7 @@
 
 Drexler et al., *Molecular Cell* (2020), [doi:10.1016/j.molcel.2019.11.017](https://doi.org/10.1016/j.molcel.2019.11.017).
 
-This is a capped accepted-manuscript source pass. The graph retains native RNA and its poly(A)/poly(I) branch identity through supportive RT, then stops before the complete historical ONT motor-adapter/readout model. Final published procedural applicability and gated supplements remain unresolved.
+This is an accepted-manuscript-qualified preparation. The selected poly(I) graph now follows the source through supportive RT, motor-adapter attachment, two RNA cleanups and flow-cell loading of native RNA. Complete occupied molecular geometry, final published procedural applicability and gated supplements remain unresolved. Poly(A) and no-tailing alternatives remain separate source-local prefixes.
 
 ## Sources and actual reading
 
@@ -37,4 +37,14 @@ Explicit conceptual predecessor: Garalde 2018, [doi:10.1038/nmeth.4577](https://
 
 Nascent RNA 3′ ends support transcription-position/splicing analyses, but alignment/basecalling uncertainty, native polyadenylation and splicing intermediates require the source's computational filtering; none is a physical molecular discard in the graph. The present model does not implement those analyses.
 
-Proposed metadata: RNA; bulk cells; metabolic labeling plus chromatin enrichment; affinity purification; alternative poly(A)/poly(I) tailing; splinted adapter ligation; supportive RT; **native RNA** nanopore readout; no amplification; published instance. Keep `notes`/`pending_source_review`. Deferred: VOR comparison, gated Tables S1/S4, exact adapter/RT/motor geometry, rRNA-kit mechanics and remaining source review. No accepted missing-disclosure claim.
+The public scope is the source-selected poly(I) native-RNA preparation, not complete chemical reconstruction of every historical kit or sample. Deferred: VOR comparison, gated TablesS1/S4, exact adapter/RT/motor geometry, rRNA-kit mechanics and remaining source review. No accepted missing-disclosure claim.
+
+## Source-positive sequencing preparation (bounded follow-up, 2026-10-30)
+
+🟢 Associated-manuscript Methods176 explicitly purifies the supportive-RT sample with RNACleanXP beads, ligates a sequencing adapter with preloaded motor protein, performs a second RNACleanXP purification, resuspends in ElutionBuffer, mixes with RNA RunningBuffer and loads a primed FLO-MIN106 flowcell for48h using MINKNOW direct-RNA defaults. These operations are now modeled. Native RNA is the sequencing-library substrate; its copresent supportive cDNA is not a substitute DNA endpoint. No fixed base-cycle count is inferred from run duration.
+
+The selected source500ng RNA contribution and final loading contribution retain separately marked untransferred stocks with unassigned presence/amount/fate. SourceHPDP and DTT are molecular contributions; precipitation, columns and washes provide the actual physical rejects. The two named custom adapter oligos and preloaded motor/adapter are components of their aggregate source inventories, not invented additional free-reagent doses. Stock count/packaging remains unassigned unless the original explicitly specifies a preloaded stock.
+
+The partial C10 recognition view places unknown context on both sides: it does not assign a reviewed whole TableS4 oligo, terminal polarity or exact ligation-ready end. Supportive RT remains an opaque source-positive RNA-to-cDNA operation with exact priming/nucleotide relation unassembled, avoiding a guessed fresh primer. Motor attachment likewise does not select an unreported fresh ligase or modern motor identity. RNA001 versus RNA002 and rRNA-kit alternatives remain unresolved sample assignments from unread TableS1; this is not a whole-version-equivalence claim.
+
+A literal reviewed input/step inventory covers the selected Methods160/176 operations only. No SourceItem was deleted or excluded. The existing alternative A/no-tail prefixes retain their earlier limitations. This follow-up uses the same one accepted-manuscript original and mandatory cached-bundle scraper, with no acquisition or source expansion.

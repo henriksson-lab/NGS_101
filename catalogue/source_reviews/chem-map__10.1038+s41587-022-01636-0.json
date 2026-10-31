@@ -48,6 +48,20 @@
         "Upstreamref24proteinexpression/plasmidconstruction/wholeG4 cellularassay outsideadoptedcomponent scope; onlyspecificDNA-loading component inherited."
       ],
       "oligo_scraper": "Wholeavailablebundle9hits/2files aftercomponentfetch; originalref24SIp6\u20137orders/phosphate andChem-mapFig1actuallyrendered/inspected."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-2",
+      "reviewer": "dna_page_owner_2",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Boundedindependentreinspectionofpreviouslyselectedoriginals forpublicpage; no recipe/sourceexpansion orabsencepass.",
+      "locations": "PublishedChem-mapPMC10497411Methods131\u2013159; explicitlydelegatedref24PMC8654944main87rolemapandactualpublishedSI1PDFp6\u20137/printed143\u2013151. Samepreselected3originalsreinspected, no newvendor/preprint/original/fetch.",
+      "findings": "Fiveactualtechnicalsamplebatches andphysicalstock/QC/loadingfatesretained; fiveanalyticalmaterialstypedK.QC. Literalcuratorinventory plusliteral5sampleparameterization, no graph-scanningautocover. Publicdrug-recruitmentoverview/knownthreewholeoligos/twoduplexes/PE36/readlimits/536.7and507.5ulrecipeconventions andcompleteWorkflowSection.",
+      "deferred": [
+        "Completeoccupiedgenomicproducts, wholevendor/customoligos andsource-executedunknownparameters remainunassembled. Publicationgateisnotfullmolecularvalidation."
+      ],
+      "oligo_scraper": "Mandatorywholeavailablebundlererun:Chem-map9hits2files/CATCH4hits2representations. Relevantoriginalwholeoligos/figures andTableS1rowinspected; pointerhitsnotfacts.",
+      "verification": "36focusedPASS; localpage/notebuild; sourceguard4exact0failed10wholeexternalPCRprimersunassembled; chemistry131steps6localduplexclaimsestablished136unresolved0contradictory. Typedgraphpublication_problems=[]; pairinglint0."
     }
   ],
   "linked_information": {
@@ -57,7 +71,7 @@
     "notes": "Specificref24component inspected; ref40primer/ownFRET/controldocuments deferred undercap, notabsence."
   },
   "missing_claims": [],
-  "conclusion": "Source-positive privatepartialfive-sample preparation and fullsource-knownlocaladapterduplexes; independent implementation recheck pending. No acceptedabsence orfullgenomicproduct claim.",
+  "conclusion": "Source-qualifiedpublicpreparationpage withreviewedinventory/typedQC/completeworkflowfates; molecular/sourcecompleteness remainsboundedandpartial, noacceptedabsence.",
   "independent_implementation_recheck": {
     "reviewer": "independent_targeted_round42_peer",
     "date": "2026-10-30",

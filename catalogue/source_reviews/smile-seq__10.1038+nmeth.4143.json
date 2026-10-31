@@ -52,6 +52,20 @@
       ],
       "verification": "Combined21 local checks (7 SMiLE/14 SEQRS),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt27unassembled inputs (not sequence validation);chemistry0established74unresolved0contradictory. Independent selected-source review/recheck closed;not absence audit.",
       "oligo_scraper": "Mandatory bundle scraper run;selected source pointers/modifications verified,ORFs not treated as libraryoligos,zero hits/files not absence evidence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch13",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded private-model provenance/physical-operation fixes and retained publication source hold",
+      "locations": "nmeth.4143_41592_2017_BFnmeth4143_MOESM206_ESM.pdf(.txt): Fig1caption3–9 setup; Fig5acaption59–64 andactualp5render/tmp/smile17-fig5.png fourphysicalstages. Other workbookheaders not reopened/unnecessarily counted.",
+      "findings": "Defining publishedmainMethods unread. InspectedSI only supports microfluidicantibody/TF/Cy5dsDNAcapture/trap/wash andfluorescentheterodimerreadout. Actualrelease/recovery/PCR/DNA-libraryfinish/acquisition unresolved, notprovided bysourcecomponentnames. Current libraryboundary cannotestablishsequencingreadyDNA. Requiredlinked-original/fullgeometryitem cannotbeexcluded. Required broad item stays uncovered. Physical-only operation semantics and literalcaptureinventory; unreadlibraryboundaryuncovered",
+      "deferred": [
+        "unassembled"
+      ],
+      "oligo_scraper": "Mandatory cached-bundle scraper completed in the closed preflight. Actual SMILEFig5 and LINNAEUSTable1p41 images inspected; no new full library or absence claim.",
+      "verification": "8focusedchecksPASS/privatebuildPASS; combinedguard3exact0failed0exempt2unassembledexternalinputs; producedretainedbeadoligowholebodyalsoexplicitlyunassembled. Combinedchemistry18unresolved0contradictory; pairing0. Notfullchemistry/sourcevalidation."
     }
   ],
   "linked_information": {

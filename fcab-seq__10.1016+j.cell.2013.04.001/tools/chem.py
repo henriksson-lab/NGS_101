@@ -44,12 +44,12 @@ def render_page():
 
 def pop(label):
     return mixture(('source DNA',(role(label),)),('other physical material',(role('other original DNA/RNA/protein or reaction remnants; exact partition and recovery unquantified'),)))
-def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION,extra_inputs=()):
     reagent=g.input(key+'_stock',reagent_label,reagent_kind)
     product=g.product(key+'_product',label,K.MOLECULAR,state=out_state)
     kw={'reason':'Source operation known; exact molecular substrate/product relation and mixture fractions unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
     if kind is S.GENERIC:kw['changes_molecule']=False
-    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role)),(product,),**kw)
+    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role))+tuple(extra_inputs),(product,),**kw)
     return product
 
 
@@ -66,7 +66,7 @@ PAGE_FILE='fcab-seq.html'
 TITLE='fCAB-seq'
 NOTES='01_fcab-seq.html'
 SOURCE='AssociatedmanuscriptNIHMS463944 mainResultsbase-resolutionsection/Methods146–148/Fig6; DOI10.1016/j.cell.2013.04.001. ChemistrySI01/02gated.'
-CAVEAT='SelectedsourceampliconfCABroute; ChIP-fCAB and separatefC-Sealaffinityassay aredistinctsourcebranches. O-ethylhydroxylamine protection isnot sodiumborohydridereduction. No wholelibrary/sourceprimerbody or idealconversiondistribution inferred.'
+CAVEAT='Main148 says bisulfite thermal programme run twice or high-throughput bisulfite amplicon sequencing (see Extended Procedures); exact applicability of twice-program to this selectedamplicon route is unreviewed, not silently assumed or declared a publication error. SelectedsourceampliconfCABroute; ChIP-fCAB and separatefC-Sealaffinityassay aredistinctsourcebranches. O-ethylhydroxylamine protection isnot sodiumborohydridereduction. No wholelibrary/sourceprimerbody or idealconversiondistribution inferred.'
 READOUT='SourceFig6deepampliconNGS ofprotectedandordinarybisulfitepreparations; exactplatform/cycles/primergeometry unreviewed.5fCis computationallyinferred bycomparison ofprotectedC-likecalls withordinarybisulfite; protectiondoesnotchemicallyreplace5fCwithC.'
 PREVIEWS=(('ProtectedfCABampliconpreparation','library_protected'),)
 @dataclass(frozen=True)
@@ -87,10 +87,11 @@ def protocol_graph():
     x=op(g,'sonicate','Source sonicatedgenomicDNA average400bp; synthetic76mer/ChIPDNA areseparatesubstrates',S.FRAGMENTATION,dna,dna.state,'sourcesonication')
     prot=g.product('protected_input','SourcealiquotselectedforEtONH2',K.MOLECULAR,state=x.state);bs=g.product('bs_input','SourceordinaryBScomparisonaliquot',K.MOLECULAR,state=x.state)
     g.react('compare_split','Sourceprotectedversusordinarybisulfitecomparisonpreparations',S.SPLIT,((x,R.TEMPLATE),),(prot,bs))
-    prot=op(g,'protect','Source10mMO-ethylhydroxylamine/100mMMESpH5,37C2h',S.CHEMICAL_CONVERSION,prot,pop('5fCoxime-protectedDNA pluspossibleunprotected5fC/othercytosines/reagentremnants'),'sourceO-ethylhydroxylamine; no NaBH4reduction/5hmCsubstitution')
+    protection=g.input('protection_programme','Source100mMMESpH5 and37C2h condition; physical EtONH2 supplied separately',K.CONDITION)
+    prot=op(g,'protect','Source10mMO-ethylhydroxylamine/100mMMESpH5,37C2h',S.CHEMICAL_CONVERSION,prot,pop('5fCoxime-protectedDNA pluspossibleunprotected5fC/othercytosines/reagentremnants'),'Actual source O-ethylhydroxylamine contribution10mM; no NaBH4reduction/5hmCsubstitution',K.MOLECULAR,R.STRUCTURAL,extra_inputs=((protection,R.CONDITION),))
     prot=cleanup(g,'protect_cleanup','SourceQiagennucleotideremovalkit',prot,prot.state)
     for branch,current in (('protected',prot),('ordinary',bs)):
-        current=op(g,'bisulfite_'+branch,'SourceEpiTectBisulfitekit withthermalcycleprogramruntwice',S.MAGIC,current,pop('sourcebisulfiteprocessedDNA,'+('protected5fC-derivativeclasses/' if branch=='protected' else 'ordinaryunprotected5fC-derivedclasses/')+'othercytosineproducts andpossibledegradation/carryover; exactdistributionsunassembled'),'historicalEpiTectBisulfitekit; fullphysicalbaseproductclassesunreviewed')
+        current=op(g,'bisulfite_'+branch,'SourceEpiTect/delegated highthroughputbisulfite route; general twice-program wording, selectedamplicon applicability unreviewed',S.MAGIC,current,pop('sourcebisulfiteprocessedDNA,'+('protected5fC-derivativeclasses/' if branch=='protected' else 'ordinaryunprotected5fC-derivedclasses/')+'othercytosineproducts andpossibledegradation/carryover; exactdistributionsunassembled'),'HistoricalEpiTect/amplicon supplies; main148 says twice-program or highthroughputamplicon sequencing, exact selectedbranch programme/fullphysicalbaseproducts unreviewed')
         kit=g.input('amplicon_'+branch,'SourceExtendedProcedureshighthroughputbisulfiteampliconandlibraryrecipe; originalgated',K.CONDITION)
         lib=g.product('library_'+branch,'Source'+branch+'deepampliconsequencinglibrary',K.LIBRARY,state=current.state)
         g.react('library_'+branch+'_prep','Source '+branch+' amplicon/librarycontinuation',S.MAGIC,((current,R.TEMPLATE),(kit,R.CONDITION)),(lib,),reason='OriginalFig6establishesNGS butpreciseprimer/PCR/adapter/recoverygeometrybehindunreadSI; no inheritedrecipe.')
@@ -101,6 +102,8 @@ def protocol_graph():
 def selftest():
     from checks import Check
     c=Check();x=FormylDNA('ACCG',frozenset({1}));p=x.protect_selected();g=protocol_graph()
+    c('Protection consumes actual chemical contributor rather than only a programme',g.materials['protect_stock'].kind,K.MOLECULAR)
+    c('Original ExtendedProcedures obligation remains uncovered','gated_si' in g.source_coverage,False)
     c('ProtectionretainsC-originDNAsequence',p.reference,x.reference)
     c('PhysicaloximederivativediffersfromreportedC-likebase',p.modifications[1],'EtONH2-protected5fCoxime')
     c('Comparativecallsdonotreplacephysicaltemplate',p.source_reported_class()[1],'C-like')

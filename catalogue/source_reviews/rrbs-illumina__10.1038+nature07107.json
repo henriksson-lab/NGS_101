@@ -68,7 +68,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source pass; source versions explicit. Not a complete independent two-reader review or accepted absence finding.",
+  "conclusion": "SOURCE-SCOPE HOLD: required relevant historical original remains unreviewed and unaccounted for; consistent private-model fixes verified, no public promotion or accepted source absence.",
   "bounded_checks": [
     {
       "round": "2026-10-28-expansion-round05",
@@ -86,6 +86,22 @@
       ],
       "oligo_scraper": "3 scraper hits, all illustrative source/reference genome strings in Supplementary Figure S2, checked in context; not adapter disclosures. Final rerun after supplementary XLS download gave the same three illustrative hits.",
       "verification": "Local test/build and pairing lint pass; explicit pending original blocks publication; no finished-page marker. Chemistry claims unresolved12/contradictory0; three library oligo inputs unassembled. No exact oligo transcript assertions."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted6",
+      "reviewer": "targeted_source_scope_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Source-closed bounded private-model corrections; required historical original source gate retained; no acquisition or promotion.",
+      "locations": "nature07107_PMC2896277.xml(.txt): MethodsSummary112–120 reread:1–10µg/MspI/fractions/Aextension/methylatedadapter/Illuminakit/EpiTect/PCR/QIAquick/finalgel; no full linkedkit source read.; nature07107_41586_2008_BFnature07107_MOESM261_ESM.pdf: S1caption/36bp5primeendread references and S2text1010–1186; actualS2PDFp11 freshly rendered /tmp/unlinked6-rrbs-si11.png inspected. Genomic strings are illustrations, not ordering oligos.",
+      "findings": "Private RRBS model now declares molecular nucleotide supplies for fill-in/3A extension and preparativePCR, aggregate kit ligating catalyst class, actual reactive bisulfite-containing supply and actual SYBR-green stain. The manual unavailable junction includes an inferred contextual source3A substrate-only Scene/typed3prime end, with opposite adapter/end and full junction unassembled. Source size-fraction collection selection and loading stock/remainders are explicit without asserting an unreported fraction pool. No full historical kit formula or polymer is invented. The required SourceItem unreviewed_original remains unchanged: full publishedVOR comparison and original cited Illumina DNA preparation/EpiTectworkup instructions remain relevant and unreviewed. AssociatedAM+publishedSI are not fullVOR or original kit instruction equivalence. No excluded/not-applicable coverage was added.",
+      "deferred": [
+        "Full publishedVOR and actual historicalIllumina/EpiTectkit originals unreviewed. No final/AM equivalence or earlier2005RRBS complete recipe inherited.",
+        "S2 depicts idealized C→U then PCRcopyU→T and5mC-retainedclass→Ccopy; this is not conversionefficiency, complete methylation-specificity or quantitative error proof.",
+        "Actual36bp5prime-end sequencing supported publishedS1/S2; exact runprimers/indexmask/barcodes unassigned."
+      ],
+      "oligo_scraper": "/tmp/unlinked6-rrbs-scraper.log:3hits/1representation, all genomic illustration context; original source illustration/validation contexts distinguished from library polymers. No source absence claim.",
+      "verification": "12focusedPASS;14steps/15unresolved0contradictory. Both normalgates retain exactly one unaccounted required sourceitem; buildprivatepreviewPASS/nocomplete marker; duplex0; guard0exact0failed0exemptions4wholeunassembledexternal acrossboth. Required sourceitem not removed/excluded."
     }
   ]
 }

@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "dna_round17",
         "date": "2026-10-29",
-        "locations": "FigS1–5,Table1–2;FigS2originalp3/Table1p11/FigS5p6rendered",
+        "locations": "FigS1\u20135,Table1\u20132;FigS2originalp3/Table1p11/FigS5p6rendered",
         "finding": "SelectedK562HindIIIphosphorylatedhalflinkers,40bplinkercore,20bptags,two-base3primeNNsequencingadapteroverhang/sourceknownoperationorder. ExactA/Ballocation/mainconditions andfulladapter/PCR/readgeometryunassembled."
       },
       "pass_2": null
@@ -47,7 +47,7 @@
     "pass_1": {
       "reviewer": "dna_round17",
       "date": "2026-10-29",
-      "locations": "PublishedSI FigS1–5/Table1–2;renderedp3/p6/p11. MainHTMLidentity/previewclassificationonly.",
+      "locations": "PublishedSI FigS1\u20135/Table1\u20132;renderedp3/p6/p11. MainHTMLidentity/previewclassificationonly.",
       "finding": "Actualaccessbarriers/deferredoriginalsrecorded;noabsenceverdict."
     },
     "pass_2": null
@@ -61,7 +61,7 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Atmost10min/3originals;publishedfirst,no recursivechasing.",
-      "locations": "PublishedSI FigS1–5/Table1–2;renderedp3/p6/p11. MainHTMLidentity/previewclassificationonly.",
+      "locations": "PublishedSI FigS1\u20135/Table1\u20132;renderedp3/p6/p11. MainHTMLidentity/previewclassificationonly.",
       "findings": "Physicalmodifications/fragments/fractionsdistinctfromcomputationalcalls;noanalogousmethodrecipeimport.",
       "deferred": [
         "DefiningfullmainMethodsandpublishedchemistrySIwhereunavailable;sourcehistoricalreagent/adapter/PCR/rungeometryremainingunreviewed."
@@ -69,5 +69,14 @@
       "oligo_scraper": "DLO15candidates/1SIfile;others0hits/0files. OriginalimageinspectionforDLOFigS2/Table1;noemptyextractionabsenceclaim.",
       "verification": "8localcheckspass;sourceguard4checked0failed0exempt,3unassembledinputs,1graph. No publicpromotion/acceptedabsence. Chemistry2established14unresolved0contradictory;3reviewrecordsvalidateblockedagainstactualbarriers;6note/refpagesbuilt;pairing0problems(noteonly,noschematic);scopeddiffwhitespaceclean. All3sourcefetchsessionsterminalexit0."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "batch": "25",
+    "result": "blocked_source_model_scope",
+    "scope": "Closed multi41 originals only; no new acquisition/inspection or absence audit.",
+    "findings": "The bounded pass adds source-positive EGS/formaldehyde molecular contributions without assigning unread main doses or packaging. Published SI FigS2 (actual p3) adapter1 and adapter2 are computed duplexes using their source-matching canonical fixed arms, two-base 3\u2032 NN cohesive ends and 5\u2032/3\u2032 OH annotations. The NN is a degenerate cohesive-end ordering, not a sample barcode. Adapter components are produced from the actual aggregate source inventory, with no premix factory or fresh duplicate dose asserted. Their local known geometry does not assemble an occupied genomic contact library. FigS2 primer1 is the whole 58-nt source ordering; primer2 has P7, an unassigned-width/member sample index and the source literal tail ending GATC. That tail is represented as canonical TRUSEQ_READ2 minus its final T strictly to match the printed source, without claiming a publication error or silently completing it. PCR catalyst/nucleotide/buffer and actual primer classes derive from the aggregate source supplies; kit identity/doses and packaging remain unresolved. Original input half-linkers still preserve whole source orders and phosphorylation. A/B allocation, whole first-copy/contact assembly, full main Methods and experimental read geometry remain required in the unchanged uncovered `pending` item. No public page or source-absence conclusion.",
+    "original_required_item": "pending; unchanged and uncovered",
+    "verification": "Focused checks, source guard, chemistry and schema in /tmp/unlinked-multi42.json."
+  }
 }

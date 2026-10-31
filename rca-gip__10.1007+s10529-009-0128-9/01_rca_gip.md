@@ -4,11 +4,13 @@ Tsaftaris, Pasentzis and Argiriou. Rolling circle amplification of genomic templ
 
 ## Review scope
 
-Abstract-scoped draft. The initial curation pass read the author abstract on the primary PubMed record. The current documentation pass checked the existing module and external manifest; it did not independently re-read the online abstract. The local PubMed retrieval returned an invalid HTTP 203 response and the full article was not obtained. There is consequently no cached article text to treat as read. The primer scraper was run against this manifest-only bundle and returned no eligible files/hits; this does not establish missing published primers.
+Abstract-scoped illustrative method example. The original author abstract was independently rechecked in the indexed primary [PubMed record](https://pubmed.ncbi.nlm.nih.gov/19760115/) during the publication pass. It explicitly identifies circular genomic fragments, phi29 amplification into linear concatemers, inverse PCR and downstream cloning/sequencing options. Direct browser extraction of the same PubMed page returned only a footer; that response was not treated as article text. The full paper and cached primary-abstract text remain unavailable, so local source-transcription tests still skip their source-dependent group. No broader source retrieval or alternate protocol was followed.
+
+The primer scraper was rerun on the existing manifest-only bundle and returned no eligible files/hits. This does not establish missing published primers.
 
 ## Declared molecular classes
 
-The prior abstract reading supports circular genomic fragments, phi29-mediated rolling-circle amplification to linear concatemers and use of the amplified material for inverse PCR. The module deliberately separates this scope from unreviewed details.
+The rechecked defining abstract supports circular genomic fragments, phi29-mediated rolling-circle amplification to linear concatemers and use of the amplified material for inverse PCR. The module deliberately separates this scope from unreviewed details.
 
 🟡 Generic locus, circle and amplicon layouts are inferred role placeholders. Circle generation is an explicit unresolved operation: its enzymes, end geometry and fragment selection are not borrowed from classical inverse PCR or a later application. RCA priming identity, strand composition, repeat copy number, selected inverse primers and their template coordinates remain unassigned. No exact oligo sequence or modification is transcribed.
 
@@ -19,3 +21,7 @@ The graph ends at a genome-walking amplicon class, with a constructed-DNA termin
 ## Deferred work
 
 Obtain and inspect the defining published article and associated chemistry material before assigning the circle-generation recipe, primers or repeat-traversal geometry. Enumerate linked material from that original once accessible. No absence conclusion or independent two-reader audit is claimed.
+
+## Public example classification
+
+The page and graph explicitly use `illustrative_example`, with a normal constructed-DNA endpoint. Generic region ordering and amplicon classes are schematic, not a reconstruction of any of the four Crocus promoter experiments. No literal DNA bases, primer sequence or copy count is invented. Functional nucleotide contributors are exposed for the amplification classes with their formulations, doses and packaging unassigned. Publication checks do not establish a complete reaction recipe or recovery efficiency.

@@ -1,6 +1,6 @@
 {
   "dir": "clash__10.1073+pnas.1017386108",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "read_1",
@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round06_reader",
         "date": "2026-10-29",
-        "locations": "Title/abstract1121, rationale1127–1129, Fig1caption1137, Results1142–1151, Methods1218–1220, ref2",
+        "locations": "Title/abstract1121, rationale1127\u20131129, Fig1caption1137, Results1142\u20131151, Methods1218\u20131220, ref2",
         "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
       },
       "pass_2": null
@@ -72,7 +72,7 @@
   "open_questions": [
     "SI Materials/Methods and cited CRAC predecessor needed for exact ligase, RNA ends/adapters, PCR and read geometry. Direct RNA joining only; no RT-switch inheritance."
   ],
-  "conclusion": "One capped source-limited pass; retain notes status. No finished schematic, full source completion or absent-information claim.",
+  "conclusion": "Bounded source/model hold. No missing-information claim accepted; direct SI/CRAC originals remain unresolved targets.",
   "preliminary_history": "2026-10-28 task paused before completed source review. Preliminary pointers/fetches are not a separate independent reader or completed pass. Resumed2026-10-29 inspection scope is listed here.",
   "bounded_checks": [
     {
@@ -81,13 +81,29 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Bounded originals-first source review; partial protocol-owned model with explicit unreviewed SourceItems",
-      "locations": "Title/abstract1121, rationale1127–1129, Fig1caption1137, Results1142–1151, Methods1218–1220, ref2",
+      "locations": "Title/abstract1121, rationale1127\u20131129, Fig1caption1137, Results1142\u20131151, Methods1218\u20131220, ref2",
       "findings": "SI Materials/Methods and cited CRAC predecessor needed for exact ligase, RNA ends/adapters, PCR and read geometry. Direct RNA joining only; no RT-switch inheritance.",
       "deferred": [
         "https://doi.org/10.1073/pnas.0901997106"
       ],
       "oligo_scraper": "Mandatory complete downloaded-bundle scan; selected source hits verified in Methods/original tables as noted.",
       "verification": "Local suites: CLASH4, hiCLIP8, Smart-seq-total9 checks pass. Across three graphs source guard3 exact input oligos pass; one typed modified TSO lacks Construct state. Chemistry audit11 unresolved claims,0contradictions; no shared reaction relations declared. Notes/ref docs build. Not validation of full preparation/readout."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch11",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published defining HTML only; not a complete source/linked-source/absence review.",
+      "locations": "Published PMC3116431 HTML original1121\u20131153 abstract/rationale/Fig1/Results and1215\u20131226 strains/library/bioinformatics. One existing original; actualmanifestURL/MD5qualified, notsuperseded2013ArgonauteCLASH.",
+      "findings": "Main reports UV/HTPcapture/IgG-TEV/6Mguanidine/Niaffinity and16\u00b0C/25\u00b0C linkerligation with retainedRNAduplexes. Readsare IlluminaSolexa50nt; RNAarmjoining is physical anddistinct frombioinformaticchimeraassignment, notRTtemplateswitching proof bymodel. Source-dependent purification/library, controls and realSI/CRACdocument identity/scope remain directdeferredtargets; no2013miRNACLASH defaults.",
+      "deferred": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_pnas.201017386SI.pdf",
+        "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_sd01.xls",
+        "https://doi.org/10.1073/pnas.0901997106"
+      ],
+      "oligo_scraper": "/tmp/unlinked11-clash-scraper.log; no libraryadapter extracted from unrelatedNorthernprobe.",
+      "verification": "Module unchanged; actual unreviewed_chemistry, unreviewedligationinput gaps and missingsequencingterminal remain. Review schema and normalgate checked by coordinator."
     }
   ],
   "integration_verification": {
@@ -95,5 +111,6 @@
     "source_collected": true,
     "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
     "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
-  }
+  },
+  "blocking_condition": "Actualunreviewed_chemistry item plus absentsequencingterminal and two unreviewedligation-condition/ligase inputs remain. Definingmain1218\u20131220 explicitlydelegateslibrary to CRAC2009 ref2(10.1073/pnas.0901997106) andSImethods. RealSI PDF/dataXLS/index havepriorrecordedPMCdownload gates; no freshrequest and no missinginformationclaim. Exactenzyme/ends/adapters/RT/PCR/sourceproducer scope cannot be assigned from highlevelmain alone."
 }

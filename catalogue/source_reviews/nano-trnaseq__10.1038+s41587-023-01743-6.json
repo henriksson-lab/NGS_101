@@ -60,5 +60,55 @@
     "scope": "Same published main87/202/206/250/300, actualFig1p3 render and originalMOESM3sheet25rawXMLA4:B9; selected implementation only, no absence pass2.",
     "findings": "Verified all6wholeorders,24RNA5and30RNA+3DNA3 sugar tokens, NCCA-bindingrNnotUMI, computed20bpRNApadding/RTAcores and divergentYtails. Actual200ngproduction/QC/stockremainders, one25ulRTmasteraddedto15ulreaction andfresh1.5ulversuspostcleanup3ulligase preservephysicalcontributions. NativeRNAreadout retained. Main/ED4computationalthresholdconflictvisible, fulltRNA/RMX/polyAregisterunassembled.16checksPASS; guard4checked0fail1RMXunknown;4localestablishedrelations/20unresolved/0contradictory. No criticaldefect found withinselectedscope. Subsequent note-only projection crops divergentYarms fromplainpairedstemdisplay; wholeoligos/graphgeometryunchanged,16checksandtargetedduplexlintpass. Finalshared2088/fullsiteverificationpasses.",
     "absence_pass_2": false
-  }
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "ready_source_qualified_preparation",
+    "scope": "Same two published originals only: mainPMC10791586Methods202/206/250,ED4caption300 and actualFig1bPDFp3; originalMOESM3TableS25B4:B9 rawXML. No new original/acquisition or absence audit.",
+    "source_coverage": "Literal curator-written stage/reagent target groups. Original selected_branch/computational_settings finding items retained and covered; no broad source item deleted or reclassified.",
+    "findings": "QC material kinds, known used/rest adapter-stock states and three actual molecular RNasin additions corrected; full occupied products/RMX/read geometry stay unassembled. Source rN token parser unchanged; whole RNA5 remains24RNA, RNA3 remains30RNA+3DNA.",
+    "verification": "21focusedPASS/normalgate0/build/pairing; finalguard/chemistry/helper /tmp/unlinked-final-nanotrna.json."
+  },
+  "publication_review": [
+    {
+      "protocol": "nano-trnaseq__10.1038+s41587-023-01743-6",
+      "verdict": "pass_selected_source_and_publication_scope",
+      "blockers": [],
+      "source_originals": 2,
+      "source_scopes": [
+        {
+          "original": "/husky/henriksson/NGS101_papers/sources/nano-trnaseq__10.1038+s41587-023-01743-6/s41587-023-01743-6_PMC10791586.xml",
+          "identity": "PublishedCCBY mainPMC10791586, sameoriginal publishedPDFp3 actualFig1b independentlyviewed /tmp/nano39-main3.png; no associatedAM or newerRNA004 equivalence.",
+          "sections": "Methods202/206 complete selectedcommercialtotalyeasttRNA deacylation/nativeRNA002route; main250 computationalthreshold and ED4caption300 differingthreshold text; actualFig1b sourceconstructclass."
+        },
+        {
+          "original": "/husky/henriksson/NGS101_papers/sources/nano-trnaseq__10.1038+s41587-023-01743-6/s41587-023-01743-6_supp_41587_2023_1743_MOESM3_ESM.xlsx",
+          "identity": "PublishedTableS25 originalZIPXML sheetname/relation resolved; actualA4:B9 independentlyread, no extra workbookoriginal.",
+          "sections": "All6wholemodifiedorderingcellsB4:B9 andnamesA4:A9. RAWRNA5 endsrUrGrGrN, already24RNAincludingrN; selectedmixedRNA3 is30RNA+3DNA. Comparatorwholeorders notassignedtoselectedroute."
+        }
+      ],
+      "findings": [
+        "Original selected_branch and computational_settings SourceItem labels/scope remain positive selected findings, not broad unreviewed obligations replaced or waived. Literal SOURCE_TARGETS groups are independently written targets, not runtime graph enumeration.",
+        "Sourcefull selectedphysicalfinish exists inMethods206 throughnativeRNA loading; unknownoccupiedtRNA/RTA/RMX/cDNA molecules/readlanding remain visible permitted model limits, not sourceabsence claims.",
+        "QC allocations nowK.QC, production200ngselectedstock separate; knownpadding/RTA sourceScenes andchemicaldescriptors survive used/rest allocations, not erased.",
+        "One actual25ulMaxima masteradded directly to15ulRTA reaction suppliesenzyme/NT/buffer once; originalRNA remains sequencing substrate. Freshpostcleanup3ulligase distinctfromprior1.5ul RTAligase.",
+        "ThreeexplicitfreshRNasincontributions atRNApaddinganneal/paddingligation/RTAligation matchsource1ul/1ul/0.5ul; notcatalyst-default orduplicateconditionstocks.",
+        "Unnecessary proposedRNA5sugaroverride removed after rawXMLcheck: genericparser already reads terminalrN asRNA. Added24RNAregression retained, no falsesourceabbreviation/correctionclaim.",
+        "Sourcecomputationalmain1sadapter/2sstrand versusED4caption2sadapter/1sstrand remainspublic, not converted to physicalsizefilter.",
+        "Researchnotehref corrected toactual01_nano-trnaseq.html. FullRTAdivergent-arm panel andwholeworkflow passpairing; publicpreamble scopes products andhistoricalmotorinventory honestly."
+      ],
+      "verification": {
+        "focused_tests": "21 PASS independently rerun",
+        "normal_gate": [],
+        "source_guard": "4exact/0failed/1unknownRMX input",
+        "chemistry": "20steps;8narrowlocalestablishedduplexrelations/20unresolved/0contradictory, not20fullyvalidatedreactions.",
+        "in_memory_render": "49216chars;complete marker present; /tmp/nanotrna-final-peer.html pairing0problems.",
+        "mandatory_scraper": "Ownercompleted /tmp/final-nanotrna-scraper.log; relevantactualwholeorders independently verified in raworiginalXML, not accepted fromscraperalone.",
+        "repo_writes": false,
+        "source_acquisition": false,
+        "additional_originals": false
+      },
+      "review_limits": "Same2originals and boundedselectedimplementation only; no absencepass2, fullkit/sourceaudit or completechemicalvalidation."
+    }
+  ]
 }

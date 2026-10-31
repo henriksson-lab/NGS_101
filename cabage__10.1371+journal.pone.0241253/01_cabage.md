@@ -129,3 +129,23 @@ or quantitative survival. The local preview is a review artifact. Its LSK109
 ligation uses `AdapterLigationGeometry.unavailable`, not an inferred exact T:A
 junction. No predecessor constructor supplies nCATS dephosphorylation, LFB washes
 or other unsupported defaults.
+
+
+## Source-qualified public preparation, 2026-10-30
+
+The public page declares `published_instance` for the selected source preparation,
+with all unassembled molecular states and material fates left visible. A passing
+typed publication gate does not establish sequence-exact end products or assay
+performance. Source investigation was closed before implementation; no new
+predecessor/vendor source or whole recipe was imported.
+
+The published native-genomic branch now explicitly preassembles the source Cas9/guide RNPs before genomic cleavage. Known C9 spacer strings are preserved as partial source components, not full ordered crRNA/tracrRNA polymers. The45-character genomic target display is inferred scale only, not a mapped target or footprint. Source dATP is distinct from Taq. Heat-released/inactivated protein material and background digestion products continue to cleanup rather than disappearing at catalysis. Figure1 motor/adapter classes are exposed as views of the same actual adapter supply, with packaging/whole-polymers/occupied junction unassembled; there is no additional fresh motor stock or nCATS dephosphorylation. Elution16.6uL, retained15.8uL and derived untransferred0.8uL are explicit. Source loading/priming supplies are preserved. Cas9 protection remains a qualitative source declaration, not computed resistance, purity, specificity or yield.
+
+The source SFB choice is declared from main Methods; unavailable S1Figure is not used to claim superiority over LFB. The exact historical kit recipe/adapter geometry remains a deferred source/model question, not information declared absent.
+
+The current source scope remains two published originals: main PMC8031414 Methods198–226 and original Figure1 PDFp5/captionp6, plus S1Table original workbook C9 rows3–4 (raw ZIP/XML name/spacer/coordinate/strand). The native genomic branch is not the separate997bp gBlock experiment.
+
+Mandatory bundle scrapers ran during the closed read-only preflight. Literal curator
+inventory targets were updated without graph enumeration. Research notes and source
+checklists retain deferred linked originals; no accepted absence claim or complete
+chemistry/source audit is asserted.

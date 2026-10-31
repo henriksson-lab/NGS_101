@@ -8,7 +8,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/subassembly-hiatt__10.1038+nmeth.1416/nmeth.1416_41592_2010_BFnmeth1416_MOESM439_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published publisherSI,MD5 26bb14af6e4c525034e9b54afa9cb32a;Table4printedp11/PDFp12rendered original checked for row assignments/5primeP/terminalPS;Protocols1\u20133,metagenomic route and optional8d mergingbranch;Protocol3endprep/sizeworkup."
+      "inspection_scope": "Published publisherSI,MD5 26bb14af6e4c525034e9b54afa9cb32a;Table4printedp11/PDFp12rendered original checked for row assignments/5primeP/terminalPS;Protocols1–3,metagenomic route and optional8d mergingbranch;Protocol3endprep/sizeworkup."
     },
     {
       "id": "accepted_article",
@@ -44,7 +44,7 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "PublishedSI metagenomic input/endprep/adapter/bottleneck/resizing/reamp/concatemer/breakpoint/twoendpointPCR route and physicallyindependent8dtagpairreadout;fullmolecular/rungeometryunassembled.",
-      "locations": "Published publisherSI,MD5 26bb14af6e4c525034e9b54afa9cb32a;Table4printedp11/PDFp12rendered original checked for row assignments/5primeP/terminalPS;Protocols1\u20133,metagenomic route and optional8d mergingbranch;Protocol3endprep/sizeworkup.; Accepted author manuscript,TDM (manifestauthor manuscriptTrue);Introduction/native-fragment tag explanation and Methods overview only,orientation;publishedSI owns modeled recipe,no whole-version equivalence asserted.",
+      "locations": "Published publisherSI,MD5 26bb14af6e4c525034e9b54afa9cb32a;Table4printedp11/PDFp12rendered original checked for row assignments/5primeP/terminalPS;Protocols1–3,metagenomic route and optional8d mergingbranch;Protocol3endprep/sizeworkup.; Accepted author manuscript,TDM (manifestauthor manuscriptTrue);Introduction/native-fragment tag explanation and Methods overview only,orientation;publishedSI owns modeled recipe,no whole-version equivalence asserted.",
       "findings": "Native20basefragment-end identifiers are not addedrandomUMIs. TwoT-tailedsourceadapterduplexes reconstructed with5primePbottom;PCRsourceprimers5primeP;breakpointadapterterminalPSphysicalstate preserved. SourcePCRpopulation supplies bothconcatemerligationpartners,no freshprimeradded. Readout20x76 and independent8d36x36declared perpublishedSI,without merging acceptedMSread-description. Untransferredfractions explicit;physicalworkups govern disposal.",
       "deferred": [
         "Publishedfinal mainarticle/Methods and exactacceptedMSscope comparison",
@@ -55,6 +55,22 @@
       ],
       "verification": "LocalSubassembly12+Stapleton20=32checks pass;bothprivatebuilds pass;sourceguard21checked0failed0unrepresented0exceptions;pairing0;scopedchemistry6established(pairing-only),91unresolved,0contradictory. Molecular/sourcecompleteness not implied.",
       "oligo_scraper": "/tmp/round09-subassembly-hits.log;6oligolikehits in1file;Table4originalrendered plus sourcewritten modifications read independently."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch13",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing-source preflight followed by documentation-only source/model hold adjudication; no module changes, acquisitions or source expansion.",
+      "locations": "Actual Table4 originalPDFp12/printedp11 all modified rows; Protocol1 overview of native-tag/concatemer/breakpoint route; Protocol2 metagenomic finalPCR/size-selection/readout1310–1436; optional8d scope pointers; no full result-figure audit; Actual version metadata header and introduction/native-fragment tag overview, unequal20+76nt paired reads; no whole final comparison",
+      "findings": "Published SI defines a complete metagenomic preparation with two T-tailed tag-adjacent adapter duplexes, phosphorylated source bottleneck primers, physical bottleneck and repeated amplification, concatemer formation/reshearing, breakpoint-adjacent adapter and two separate endpoint PCRs/readouts. Main native20nt fragment-end read is a tag directing computational assembly, not an added random dedup UMI. Optional8d36x36 merging library remains physically independent of main20x76 endpoint libraries. Original required unassembled_source remains uncovered: Full molecular/read geometry and remaining original scope. Its source LIMIT explicitly includes heterogeneous source DNA, concatemer/breakpoint and final run-primer geometry, which the model has not assembled. Three endpoint K.MOLECULAR problems are not the only barriers. Source inventory is currently runtime enumeration of graph nodes, not independently reviewed literal inventory. The main article body on disk is explicitly associated accepted manuscript, while published SI independently supports this selected recipe; no final-main equivalence is asserted.",
+      "deferred": [
+        "Defining final main DOI10.1038/nmeth.1416, not locally read; no new retry or guessed file.",
+        "Remaining actual publishedSI result figures/sections and directly linked historical kit originals; no recursive chase.",
+        "Exact molecular/product/read geometry remains a model obligation, not an invented unavailable document."
+      ],
+      "oligo_scraper": "6hits in1representation; actual published Table4 modification/row roles visually inspected",
+      "verification": "12PASS via tools/protocol.py test in closed preflight. Actual39-step graph, four failures retained. No code changed, so no repeated builds/tests or new HTML/pairing acceptance claimed."
     }
   ],
   "linked_information": {
@@ -68,5 +84,6 @@
     "Uninspected publishedSIfigures/results and linked historicalkit documentation",
     "FullnativeDNA/concatemer/product/end/primer/read geometry and physicalmodifiedstrand propagation",
     "Independent source review"
-  ]
+  ],
+  "conclusion": "Bounded publication hold retained. Original required unassembled_source remains uncovered: Full molecular/read geometry and remaining original scope. Its source LIMIT explicitly includes heterogeneous source DNA, concatemer/breakpoint and final run-primer geometry, which the model has not assembled. Three endpoint K.MOLECULAR problems are not the only barriers. Source inventory is currently runtime enumeration of graph nodes, not independently reviewed literal inventory. The main article body on disk is explicitly associated accepted manuscript, while published SI independently supports this selected recipe; no final-main equivalence is asserted."
 }

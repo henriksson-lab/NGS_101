@@ -2,7 +2,7 @@
 
 König et al., *Nature Structural & Molecular Biology* (2010), [doi:10.1038/nsmb.1838](https://doi.org/10.1038/nsmb.1838).
 
-This is a capped first source pass, not a finished protocol review. The local graph stops at the replicate-1 cDNA circle and intentionally fails the sequencing publishability gate. The full original protocol continues through BamHI opening and PCR. Their exact reconstruction is deferred, not declared unavailable.
+This is a capped first source pass, not a finished protocol review. The current public graph follows the selected replicate-1 post-IP preparation through source circularization, BamHI reopening, PCR and sequencing. Whole occupied cDNA/PCR geometry remains unassembled; exact reconstruction is deferred, not declared unavailable.
 
 ## Sources actually inspected
 
@@ -43,11 +43,11 @@ The printed replicate-2 primer is shorter and carries `GA` where mapping text re
 3. 🟢 Gel electrophoresis and nitrocellulose transfer isolate the complexes. Proteinase K followed by urea/proteinase K extraction recovers peptide-bearing RNA.
 4. 🟢 SuperScript III extends the phosphorylated RT primer. Heating and RNase A remove RNA. Denaturing-gel fractions contain 100–175 or 175–350 nt cDNA. The compact graph groups these source operations; it does not claim nucleotide-level peptide chemistry or quantitative recovery.
 5. 🟢 CircLigase II joins the cDNA ends at 60 °C for 1 h with MnCl₂. The local circle preserves the complete primer and copied RNA order, with a structured circle-closure relation.
-6. 🟢 A complementary oligo exposes the internal BamHI site; FastDigest BamHI acts for 30 min at 37 °C. Illumina paired-end PCR primers and Immomix amplify the linearized template (35 cycles), followed by G-25 desalting. These downstream states are read but not yet modelled.
+6. 🟢 A complementary oligo exposes the internal BamHI site; FastDigest BamHI acts for 30 min at 37 °C. Illumina paired-end PCR primers and Immomix amplify the linearized template (35 cycles), followed by G-25 desalting. The graph now declares these actual downstream operations with known primer polymers and explicitly unassembled whole occupied products.
 
 ## Reported readout and open work
 
-🟢 The original reports one Illumina GA2 lane for three hnRNP C replicates, 54-nt sequence reads, experiment/random identifiers and genomic mapping after adapter removal. Calling the PCR primers “paired-end” does not establish that both reads were acquired. The local graph declares no sequencing terminal, index read, run-primer identity or invented read cycles.
+🟢 The original reports one Illumina GA2 lane for three hnRNP C replicates, 54-nt sequence reads, experiment/random identifiers and genomic mapping after adapter removal. Calling the PCR primers “paired-end” does not establish that both reads were acquired. The graph declares the source sequencing endpoint with its reported 54-nt readout; it invents no acquired Read 2, separate index read or exact run-primer landing.
 
 Deferred: explicit upstream biological/IP graph, complete paired RT scene, chemical RNA-removal states, gel kept/rejected branches, linearization oligo's nonmatching terminal tail, BamHI cut coordinates on the circular substrate, actual PCR binding/product calculation, replicate-2 reconciliation, and exact acquisition geometry. The source checklist in `catalogue/source_reviews/` records this first pass; a second reader and linked-source review are still required before any missing-information assertion.
 
@@ -56,3 +56,11 @@ Deferred: explicit upstream biological/IP graph, complete paired RT scene, chemi
 The original explicitly describes extending earlier CLIP by recovering crosslink-truncated cDNA with circularization (article Introduction 71–83, Discussion 288–296). Its cited earlier CLIP originals are uninspected in this cap and have no established parent directory in this note. This supports a conceptual CLIP → iCLIP link with scope limited to crosslink/IP/RNA recovery, not inheritance of exact adapter chemistry.
 
 Existing eCLIP notes name iCLIP predecessors but explicitly say they were not re-read. Candidate `iclip__10.1038+nsmb.1838` → `eclip__10.1038+nmeth.3810` therefore remains a lineage-review suggestion until the eCLIP defining source's specific inherited component is checked. Shared primers alone supply no ancestry claim.
+
+## Source-qualified public preparation, 30 October 2026
+
+The source-supported public schematic preserves the actual post-IP boundary and replicate-1 selection. It exposes bead-release residuals, other selected membrane/cDNA fractions, aqueous transfers, molecular carriers, primer/nucleotide-containing annealing mixture, RNA digestion products until physical cleanup, cDNA circle, source BamHI-site annealing and cleavage, actual two-primer/Immomix supplies and G-25 finishing. Unknown occupied products, primer sites and source efficiency remain explicit; no exact full amplicon has been invented.
+
+The publisher original visibly prints **1 ml** of 10 mM dNTPs and **400 ml** TE; the RT mixture is called **6 µl** while its listed components sum to **7 µl**. The page retains these unresolved source quantities/conventions rather than silently changing units or endorsing an executable recipe. Source replicate-2 versus mapping-label comparison also remains open. The full graph and unresolved chemical checks are available in an expandable section. The original legacy builder/selftest entry points remain; only their publication-only negative assertion was replaced by the valid normal gate and new actual-source/provenance checks.
+
+This bounded follow-up used only the closed original source set above. It is not a complete chemistry or missing-information audit.

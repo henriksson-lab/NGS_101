@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "JATS323–325,405–409,487–503,515–521; reference bib37",
+        "locations": "JATS323\u2013325,405\u2013409,487\u2013503,515\u2013521; reference bib37",
         "finding": "Published isolation and three kit branches inspected. Default seq prefix and alternative5/nano prefixes remain source-limited; direct-cDNA RNA precursor is distinct from native-RNA sequencing."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "Supplement FigS1caption346–373 and FigS5caption1303–1312; mmc2 opening identity and repeated primer hit only",
+        "locations": "Supplement FigS1caption346\u2013373 and FigS5caption1303\u20131312; mmc2 opening identity and repeated primer hit only",
         "finding": "Inspected only stated sections; no complete panel/table or absence review."
       },
       "pass_2": null
@@ -51,7 +51,7 @@
     "pass_1": {
       "reviewer": "rna_round04_reader",
       "date": "2026-10-28",
-      "locations": "JATS323–325,405–409,487–503,515–521; reference bib37; Supplement FigS1caption346–373 and FigS5caption1303–1312; mmc2 opening identity and repeated primer hit only",
+      "locations": "JATS323\u2013325,405\u2013409,487\u2013503,515\u2013521; reference bib37; Supplement FigS1caption346\u2013373 and FigS5caption1303\u20131312; mmc2 opening identity and repeated primer hit only",
       "finding": "Published isolation and three kit branches inspected. Default seq prefix and alternative5/nano prefixes remain source-limited; direct-cDNA RNA precursor is distinct from native-RNA sequencing."
     },
     "pass_2": null
@@ -68,7 +68,7 @@
     "Actual barcode members, acquired cycles and remaining original panels."
   ],
   "source_version_limit": "VOR; CC BY, author-manuscript false",
-  "conclusion": "Capped source pass at stated sections; not full chemical/source review, no second independent reader or accepted absence. Proposed notes/pending_source_review retained.",
+  "conclusion": "Selected POINT-seq source-qualified preparation is eligible; exact kit chemistry/read geometry and otherbranch producers remain unassembled. No accepted missing-information claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-04",
@@ -76,12 +76,28 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
-      "locations": "JATS323–325,405–409,487–503,515–521; reference bib37; Supplement FigS1caption346–373 and FigS5caption1303–1312; mmc2 opening identity and repeated primer hit only",
+      "locations": "JATS323\u2013325,405\u2013409,487\u2013503,515\u2013521; reference bib37; Supplement FigS1caption346\u2013373 and FigS5caption1303\u20131312; mmc2 opening identity and repeated primer hit only",
       "findings": "Published isolation and three kit branches inspected. Default seq prefix and alternative5/nano prefixes remain source-limited; direct-cDNA RNA precursor is distinct from native-RNA sequencing.",
       "deferred": [
         "Exact historical kit revisions, oligos and molecular library/read plans for E7760S,634836,SQK-DCS109.",
         "Actual barcode members, acquired cycles and remaining original panels."
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch11",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published defining main487\u2013503/resources405\u2013409; selected POINT-seq preparation from existing nuclear/chromatin boundary, kit internals unassembled. Not complete source/linked-source/absence review.",
+      "locations": "PMC8122139 resources405\u2013409 and STARMethods489\u2013503.",
+      "findings": "ActualNUN/capture/doubleDirectzol/freshDNase/RNA-QA/fragmentation/source-reportedPCR-DNA library/NovaSeq flow represented with explicit unknown historicalkit/read geometry. OtherPOINTbranches remain distinct RNA-prefix models. Literalindependentlyreviewed inventory, no requireditemremoved or sourcecoverage exclusions.",
+      "deferred": [
+        "Initial crude-nuclear isolation delegated to actualcitedmNET-seq original, outside selected boundary.",
+        "Historical E7760S internalrecipe/fullmolecules/primer-read/index geometry; remaining figure/linked-source scope.",
+        "Distinct POINT5/nano full library producers remain unassembled."
+      ],
+      "oligo_scraper": "Repeated /tmp/unlinked11-point-scraper.log; known orientation-analysis oligo is not a full ONT primer and is not a POINT-seq adapter.",
+      "verification": "10focusedchecks pass; normalgatepass. Independent reader /tmp/unlinked11-point-review.json found no critical defect in samepublishedsource scope; not an absence pass."
     }
   ],
   "superseded_sources": [

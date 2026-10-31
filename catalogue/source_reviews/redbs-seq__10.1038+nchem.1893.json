@@ -73,5 +73,15 @@
       "oligo_scraper": "Mandatoryfull-bundlescraperoutputread;hitsvalidatedagainstsourcecontext. HydEnTable1rendered. Damagezero-hitsnotabsenceevidence;relevantSIunavailable.",
       "verification": "Graph/render/build/pairingpass;1explicitTruSeqMAGICboundary,2genomicprimerinputswithoutpolymers;noexactoligoassertions."
     }
-  ]
+  ],
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_4",
+    "date": "2026-10-30",
+    "type": "bounded_publication_scope_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Two existingoriginals only: publishedMOESM165SIexperimentalMethodsPDFpp2–5/genomiclibraryparagraph/control-rolecontext; acceptedPMC4188980chemicalrationale44–61. No newsource orgenomicprimerinheritancefromTable3controlrecipe. Sourcepassclosed.",
+    "changes": "No modelpromotion; concreteindependent-preparationmismatchrecordedforboundedfollowup. Sourceavailabilityisnot theblocker; no missing-informationclaim.",
+    "verification": "Read-onlypreflight: existingnormalgraphgatepasses/rendercontainsmarker, but source/modelarraymismatch blocks promotion. Mandatoryscraper18sequence-likehits/1file; no repository model/page edits.",
+    "blocker": "Substantive source/model array mismatch: publisherSI MOESM165 experimentalMethodsPDFp5, paragraph Preparation and Sequencing of RRBS-Seq,RRredBS-Seq andRRoxBS-Seq libraries, explicitly describes twelve independentMspI/TruSeq preparations followed by4red/4ox/4untreated allocations. CurrentgraphusesoneDNApreparation/oneTruSeqproduct relabeledasindependentlibraries andSPLITintoarms. Requiresactualindependentprepared-template arrays, not renaming/cloning one product. Genomicparagraphdoesnotjustifycurrentfinalcleanup label pool; synthetic-controlpoolingmustnotbleedintogenomicroute. Prepared25ulKAPAmastermix/5ulprimermix andknownmolecularNaBH4/acetate inventories also needsource-backeddecomposition; QC/10ulPCRinputallocation mustremainphysical. Existinggreen gate/generatedmarker is not sufficient promotion evidence."
+  }
 }

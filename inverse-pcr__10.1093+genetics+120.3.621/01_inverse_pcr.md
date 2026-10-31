@@ -21,3 +21,7 @@ The endpoint is constructed amplicon DNA. There is no declared sequencing librar
 ## Deferred work
 
 Read the original full methods and Figure 1, then enumerate their chemistry-relevant linked methods. Select and verify any source primer pair and corresponding template before assigning exact geometry. No missing-information claim has passed the independent-reader gate. The source-review record remains in progress.
+
+## Public example classification
+
+The public schematic explicitly uses `illustrative_example`: generic locus, circle and amplicon role layouts rather than the source IS1/E. coli experiment. No literal DNA bases or measured segment lengths are invented. Functional PCR nucleotide contributors remain formulation/dose-unassigned. The normal construct gate passes for the declared amplicon endpoint without assigning a sequencing library; full experimental chemistry remains unreviewed.

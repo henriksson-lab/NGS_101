@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round06_reader",
         "date": "2026-10-29",
-        "locations": "Provenance44, Introduction46–48, detailed hiCLIP Methods104–174; actual adapter modifications/RT primers verified; sequencing206; barcode-processing240/290",
+        "locations": "Provenance44, Introduction46\u201348, detailed hiCLIP Methods104\u2013174; actual adapter modifications/RT primers verified; sequencing206; barcode-processing240/290",
         "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
       },
       "pass_2": null
@@ -194,7 +194,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Bounded originals-first source review; partial protocol-owned model with explicit unreviewed SourceItems",
-      "locations": "Provenance44, Introduction46–48, detailed hiCLIP Methods104–174; actual adapter modifications/RT primers verified; Opening inventory identifying supplementary note and two result tables; Opening title/discussion scope only; embedded reference-code noise not treated as chemistry",
+      "locations": "Provenance44, Introduction46\u201348, detailed hiCLIP Methods104\u2013174; actual adapter modifications/RT primers verified; Opening inventory identifying supplementary note and two result tables; Opening title/discussion scope only; embedded reference-code noise not treated as chemistry",
       "findings": "Final VOR procedure applicability, upstream purification and downstream RT/circle/cut/PCR/read geometry unresolved. Selected A/B bridge class modeled locally; no inherited recipe.",
       "deferred": [
         "https://doi.org/10.1038/nature14280",
@@ -209,5 +209,17 @@
     "source_collected": true,
     "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
     "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "source_scope": "nature14280_PMC4376666.xml.txt104\u2013174: actualadapteradenylationfactory,cellUV/capture/twoligations/deblocking/ureasecondIP/radiolabelarray/membranePK/RTalkalihydrolysis/cDNAgel/circle/BamHI/PCR;202\u2013207 distinguishingseparateRibo/mRNAseqfinishingfromhiCLIP/MiSeq196cycles. Associated accepted manuscript, notwholeVORreconciliation; priorGuide/Notehistorynotcountedasnewlyread. Nofigurelayout/modifiedmarks newlyadoptedfromuninspectedpublisheroriginals.",
+    "originals_read": 1,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Current6stepgraph startsaftercapture/dephosphorylation andendsafterconditionalRNAbridge washes. Actualadapterfactory,cell/capture/stringentIP,20/80radiolabelrecombination,membraneRNAisolation,RT/cDNAcircle/cut/PCR andsourcekit/stockfates areoutsideit. Existingunreviewed_final_vor isunaccounted andmustnot beexcluded justforcoarsegateeligibility. This pass hasnotverifiedafinalVORaccessfailure; itremainsunperformedapplicability/source scope, notaccessblocked.",
+    "verification": "Unchanged6stepmodel/sourceitem gate verified in closedpreflight. Documentation-onlyfinalization; no model/build/repeatedtest changes or sourceaccessretry.",
+    "source_items_retained": true,
+    "missing_information_claims": []
   }
 }

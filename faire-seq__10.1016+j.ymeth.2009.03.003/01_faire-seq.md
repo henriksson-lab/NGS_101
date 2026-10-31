@@ -29,3 +29,11 @@ The article mentions one-page cell/tissue supplementary protocols, but their ori
 ## Lineage
 
 The article explicitly cites the original FAIRE report by Giresi et al. (2007), DOI 10.1101/gr.5533506. Component scope is formaldehyde/phenol fractionation for nucleosome-depleted DNA; the present 2009 Illumina preparation is not inherited merely from the assay name. LM-PCR microarray references establish a different branch and do not establish NGS adapter inheritance.
+
+## 2026-10-30 bounded publication review: hold
+
+The associated accepted manuscript was reinspected for identity, cell/tissue preparation, FAIRE extraction/precipitation/RNaseA and high-throughput sequencing (text99–103). The bundle scraper returned one candidate; microarray linker/PCR oligos are not the GAII sequencing oligos. This is one original, not a complete linked-source or absence review.
+
+The actual required `unreviewed_original` item stays unaccounted. The manuscript explicitly names one-page cell and tissue supplementary protocols; neither is in the local manifest or was inspected here, and their filenames/direct attachment links are not encoded in this cached XML. No retrieval was attempted, so this is not an observed access failure. They are genuine cited documents, while the exact Illumina #1000521 adapter and #1000537/#1000538 primer bodies remain open component questions rather than invented missing disclosure documents. No unknown historical guide revision or URL is supplied.
+
+The positive source paragraph identifies 100–200ng input DNA, Epicentre ER0720/KL06041K end processing, T-overhang adapter ligation, 125–275bp gel selection and PfuUltraII. Reported 36bp reads are extended to200bp computationally; neither physical200base reads nor paired acquisition follow from that analysis description. Source stock, reagent and analytical/loading fates still need review before publication. Existing construction/render smoke and scoped chemistry pass (16 unresolved,0 contradictory), but the normal gate remains false. Model/module and required item are unchanged; move on without a missing-information claim.

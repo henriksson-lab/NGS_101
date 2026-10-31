@@ -52,7 +52,7 @@
       "reviewer": "bounded-source-model-pass",
       "date": "2026-10-28",
       "scope": "Original Abseq droplet SOE-PCR overview; source-limited graph with no full tag/amplicon sequence reconstruction",
-      "locations": "Article XML Results paragraphs46\u201394 and Methods116\u2013150; rendered Fig1 PDF page2; exact source sections listed in note",
+      "locations": "Article XML Results paragraphs46–94 and Methods116–150; rendered Fig1 PDF page2; exact source sections listed in note",
       "findings": "Thiol/SM(PEG)6 conjugation; proteinaseK droplet release/heat inactivation; separate clonal barcode PCR; merged-droplet SOE-PCR; column, ExoI and bulk PCR. Results barcode10 versus Methods eight-N notation retained as structured discrepancy. UMI8 and CD3/CD19 identities sourced; tag full strands not invented.",
       "documents": 1,
       "deferred": [
@@ -79,5 +79,14 @@
     "Resolve cell-barcode width disagreement",
     "Exact sequencing primer/cycle map",
     "Complete original/linked-material inventory and independent reading"
-  ]
+  ],
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_5",
+    "date": "2026-10-30",
+    "type": "bounded_source_qualified_public_preparation_not_absence_pass_2",
+    "documents": 1,
+    "scope": "SamepublishedPMC5349531 Results68–82/Methods116–150sourceonly; no predecessor/figurearchivebody/newsource. Source investigation remainedclosed before edits; no further original/acquisition.",
+    "changes": "Protein-DNAconjugatekind/actualblockingcarriers; sourcePCRmixcomponents andseparateunassignedbulkPCRsupplies; actualfourpre-PCRdaughterportions; QC/15pMloadingstock; barcodefeature/10vs8discrepancyretained.",
+    "verification": "14focusedPASS; sourceguard2exact0failed5wholeexternalinputs unassembled; chemistry16steps19unresolved0contradictory. Normalpublicationgate/build/fullWorkflowSection/completewrapper/independentliteralinventory pass; pairing0/localhref0 and actualHTMLheading/caption/inference/discrepancy review completed."
+  }
 }

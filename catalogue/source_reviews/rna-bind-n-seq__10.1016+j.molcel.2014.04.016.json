@@ -55,6 +55,21 @@
       ],
       "verification": "Combined16 focused localchecks(8+8),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt8unassembled inputs (not sequence validation);chemistry0established22unresolved0contradictory. No fullchemistry/sourcevalidation claimed.",
       "oligo_scraper": "Mandatory fullbundle scraper run;sourcepointers checked in selected scopes. Zero hits/retrievedfiles do not establish absence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch15",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "AssociatedAM main149\u2013155 only; not finalVOR/linked-source/absence completion.",
+      "locations": "PMC4142047 protein/RBNS ExperimentalProcedures149\u2013155.",
+      "findings": "Actualbinding/physicalhandling/buffer-Superasin/thermaleluents typed; unreviewedIVT-RT-PCR explicitlyopaque; SI documentnotreactionreagent. Literalreviewinventory derivesfromclosedsource scope; originalunassembled and finalclass gap remain.",
+      "deferred": [
+        "ActualSI01/02/03 original identity/contents and finalpublishedcomparison; no freshaccessattempt.",
+        "FullpreparedRNA/control library/primer/adapter/product/read andpostPCRphysical scope."
+      ],
+      "oligo_scraper": "Repeated /tmp/unlinked15-rbns-scraper.log in closedpass; zero/partialhits notabsence.",
+      "verification": "12focusedchecks/privatebuild/pairing0 pass; normalgate stillfailsactualunassembled+finalclass. No publicpromotion."
     }
   ],
   "linked_information": {
@@ -67,5 +82,7 @@
     "Associated supplements02XLSX/03PDF original scopes and source identities versus final published supplements;actual primary linked documents,not invented missing-disclosure files",
     "Final published main Methods/version applicability of associated accepted manuscript",
     "Source prepared-input workup/sourcecontrol library continuation,full protein/primer/conjugate/end geometry,all post-PCR cleanup/adapters/acquisition operations"
-  ]
+  ],
+  "blocking_condition": "Original unassembled linkedSI/fullRNA-primer-product/read geometry remains. Source-positive binding/physicalinputs/opaqueIVT-RT-PCR andliteralreviewinventory fixed withoutsource recipeinvention; SI document no longerreactionreagent. Actualpreparedinput/control library/postPCRacquisition scope and finalK.LIBRARYtyping unassembled, no SourceItemwaiver.",
+  "conclusion": "Bounded source/model hold with source-positive local corrections; no acceptedabsenceclaim."
 }

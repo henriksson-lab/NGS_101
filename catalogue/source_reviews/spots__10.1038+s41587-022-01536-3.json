@@ -52,6 +52,21 @@
       ],
       "oligo_scraper": "/tmp/round11-spots-hits.log;selectedoligoscheckedagainstorignalpointers;SPOTSmodifiedoligosrenderedoriginalp21.",
       "verification": "SPOTS8+ScarTrace8+DNATypewriter6=22localchecks pass;3privatebuilds pass;defaultsourceguard7checked0failed/0exemptions/1unassembledsourceprimerinventory;pairing0problems;scopedchemistry0established40unresolved0contradictory;3in_progressreviewrecords valid. SPOTSactualblockerstrandretains3primeinverteddTmodificationandvisiblephysicalnotation. ScarTraceTable2componentsremainoneunassembledprimerreagent;independentsourcetranscriptioncheckcoverscomponentswithoutjoining. Checks establishselectedtranscription/orderfacts,notcompletechemistry/sourcecoverage."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch19",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published SI operational authority plus explicitly qualified associated AM; no source acquisition or new rendered oligo review.",
+      "locations": "MOESM1text669\u2013691,920\u20131107,1107\u20131170; AMidentity1\u20133/Methods84\u2013102.",
+      "findings": "Physical contributor/operation roles corrected, qPCR separated, fresh amplification additive and actual AmpMix allocations explicit; no retained-old-primer dose substituted for fresh addition. Unknown Visium reactions are MAGIC interfaces. Literal inventory replaces graph enumeration; original whole-library/source obligation retained.",
+      "deferred": [
+        "Exact historical Visium guide/revision and complete RT/GEX/internal-kit producers.",
+        "Whole capture/antibody-conjugate polymers, full product/end/index/read geometry; independent absence gate not undertaken."
+      ],
+      "oligo_scraper": "/tmp/unlinked19-spots-scraper.log completed204hits/2files; no new whole oligo adopted by scraping.",
+      "verification": "8focusedPASS/private render/pairing0; original unassembled remains uncovered. No source-absence claim or finished marker."
     }
   ],
   "linked_information": {

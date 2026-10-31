@@ -2,7 +2,7 @@
 
 Hafner et al., *Cell* (2010), [doi:10.1016/j.cell.2010.03.009](https://doi.org/10.1016/j.cell.2010.03.009).
 
-This is a bounded first source pass. The local graph captures the 4SU crosslink/recovery front end and deliberately stops before the unresolved library implementation. It is not a sequencing-ready schematic. Source availability and remaining linked sources are recorded in `catalogue/source_reviews/par-clip__10.1016+j.cell.2010.03.009.json`; no missing-disclosure claim is accepted.
+This is a bounded first source pass. The local graph now continues from the selected 4SU crosslink/recovery front end into the explicitly cited small-RNA RT/PCR DNA-library route. Exact inherited reagent variants and whole occupied strands remain unassigned. Source availability and remaining linked sources are recorded in `catalogue/source_reviews/par-clip__10.1016+j.cell.2010.03.009.json`; no missing-disclosure claim is accepted.
 
 ## Sources inspected
 
@@ -52,3 +52,13 @@ Deferred: retrieve the defining supplement and linked tables; compare its actual
 Explicit predecessor: Hafner 2008 (DOI above) → this PAR-CLIP directory, limited to recovered-RNA cDNA library preparation; evidence is original Methods 205 and reference 365–367. The predecessor's own sequence tables were read, but the original supplement remains unavailable and exact variant inheritance is not established. That predecessor does not yet have a registered directory.
 
 Conceptual CLIP precedent is explicit in Introduction 71–73 (Ule 2003 and later CLIP originals); its component scope is UV crosslink/IP/RNA-fragment isolation, not adapters or photoactivatable labeling. Existing eCLIP's original also cites PAR-CLIP as an earlier CLIP improvement, but that comparative citation does not prove direct component inheritance. Similar primers establish no ancestry.
+
+## Source-qualified DNA-library completion, 30 October 2026
+
+Original Methods 205 explicitly says recovered RNA was converted to cDNA libraries as described by Hafner 2008 and Solexa sequenced. The public graph now declares that actual source-positive common-core path: adapter ligation, carrier-primer recovery, RNA→DNA reverse transcription, post-RT RNA hydrolysis/neutralization, DNA PCR and finishing. The sequencing terminal receives PCR-derived DNA, not recovered RNA relabelled as a library.
+
+The original Solexa adapter/primer polymers are **inferred source-specific references by constructor**, because exact 2010 variants and defining-supplement applicability remain unresolved. They retain App/L, RNA5 sugar identity and historical PCR bodies, with no modern tail filling or arbitrary Rnl2-vs-K227Q choice. Actual control/calibrator/marker/pooling schedules and guide worked-example doses are not assigned to the 2010 experiments by default. The precursor's carrier-primer and common RT/PCR route are represented; exact occupied products, recovery and run geometry remain unassembled. No full defining/predecessor VOR equivalence is asserted; both inspected originals are author manuscripts.
+
+The source fresh on-bead RNase T1 addition is now distinct from the lysate dose. Radioactive ATP is a contributing molecular phosphate donor, not buffer-only. The T→C read signature is not literal RNA U→C chemistry, and 32-nt representative context versus 40-nt mutation-control context is not converted into one universal run. QKI oligo controls are not fabricated as paired control lysates. Guide control/titration/marker and accessory-buffer/carryover details remain qualified, not complete measured target-study operations.
+
+The full graph, uncertain reference polymers and unresolved molecular checks remain visible under an expandable section. Existing legacy selftest entry points remain; a single wrapper-free page declaration was added to the existing protocol module. No source acquisition or source-obligation exclusion occurred.

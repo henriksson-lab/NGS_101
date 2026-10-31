@@ -63,6 +63,21 @@
       ],
       "verification": "LocalSubassembly12+Stapleton20=32checks pass;bothprivatebuilds pass;sourceguard21checked0failed0unrepresented0exceptions;pairing0;scopedchemistry6established(pairing-only),91unresolved,0contradictory. Molecular/sourcecompleteness not implied. Additional explicitvariant transcription passes:dna_single_tube8checked/rna_two_tube10checked,both0failed0skipped0unrepresented;defaultguarddoesnotauto-discover parameterizedvariants.",
       "oligo_scraper": "/tmp/round09-stapleton-hits.log;20oligolikehits across3files;S13selected oligos/modifications andsixbaseIndexkey verified inoriginalTable,not inferredfromscraper."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch12",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed preflight published originals reused, no additional originals or retrieval. Documentation plus contained physical nucleotide typing only.",
+      "locations": "Methods183–205 genomic/two-tube/single-tube preparations and RNA-front boundary; actual genomic reagents, eight-tube PCR,15percent bead split, main/pairing library1–5percent physical run pool; All whole order/key rows in extracted text and actual original document.xml16-row table; selected Oligo2 internal-dU variant,PS/phosphate/RNA/LNA notation, six-base Index key; Complete three-paragraph alternative pairing note: experiment-specific variant assignments and separate physical15percent two-tube bead fraction; computational barcode pairing not DNA ligation",
+      "findings": "Original required unassembled_source remains uncovered: Remaining source/variant and exact polymer/read assembly, with explicit complete dU/USER-cut/barcode/circle/biotin-bound products, end geometry and sequencing-primer assembly. Default genomic two-tube graph has positive source order but these original molecular obligations are not assembled. Fixing run_pool K.LIBRARY alone or replacing this requirement by generic continuity is insufficient. Current reviewed-scope declaration also enumerates graph materials/steps at runtime, not an independent literal inventory. The source explicitly adds50µM each dGTP,dTTP,dATP after the initial biotin-dCTP-only treatment. These later nucleotides are now typed as a physical molecular supply and structural contribution, rather than only a condition. No fresh T4/Klenow catalyst is introduced in that later stage. This contained typing correction does not assemble the preceding unknown biotin-bound products or waive the original broad source obligation.",
+      "deferred": [
+        "Exact polymer/USER/biotin/circle/genomic product and final read assembly remain model obligations, not fictitious unavailable documents.",
+        "Other genuine published variant figures/S14 are unreviewed in currentcap; cited SmartSeq2 defining/detailed originals not followed for the selected DNA scope."
+      ],
+      "oligo_scraper": "43hits across4representations; entire bundle includes excluded preprint text, which was not adopted. Published S13 pointer/order/modification original verified independently.",
+      "verification": "22focusedPASS/private buildPASS/pairing0problems; no finished-page marker; two original normal-gate failures remain"
     }
   ],
   "linked_information": {
@@ -77,5 +92,6 @@
     "Directly cited2014full-lengthRTprotocol and definingSmartseq2original",
     "Historical kit sources and independentlinked-source review"
   ],
-  "index_width_validation": "Source S13 Index=n-base key is parsed;both actual model primer feature widths are compared to that source value. Unknown-width generic matching alone cannot establish the width."
+  "index_width_validation": "Source S13 Index=n-base key is parsed;both actual model primer feature widths are compared to that source value. Unknown-width generic matching alone cannot establish the width.",
+  "conclusion": "Bounded publication hold retained. Original required unassembled_source remains uncovered: Remaining source/variant and exact polymer/read assembly, with explicit complete dU/USER-cut/barcode/circle/biotin-bound products, end geometry and sequencing-primer assembly. Default genomic two-tube graph has positive source order but these original molecular obligations are not assembled. Fixing run_pool K.LIBRARY alone or replacing this requirement by generic continuity is insufficient. Current reviewed-scope declaration also enumerates graph materials/steps at runtime, not an independent literal inventory."
 }

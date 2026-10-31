@@ -1,6 +1,6 @@
 {
   "dir": "m6a-ref-seq__10.1126+sciadv.aax0250",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "vor",
@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "round05_coordinator",
         "date": "2026-10-28",
-        "locations": "Identity/manifest;JATS49–69,139–169,171–175,177–183",
+        "locations": "Identity/manifest;JATS49\u201369,139\u2013169,171\u2013175,177\u2013183",
         "finding": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "round05_coordinator",
         "date": "2026-10-28",
-        "locations": "Printed identity/contents;FigS1–S3/S15captions,TableS1 headings/treatments;TableS2/S3 validation-only headings",
+        "locations": "Printed identity/contents;FigS1\u2013S3/S15captions,TableS1 headings/treatments;TableS2/S3 validation-only headings",
         "finding": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters."
       },
       "pass_2": null
@@ -40,7 +40,7 @@
     "pass_1": {
       "reviewer": "round05_coordinator",
       "date": "2026-10-28",
-      "locations": "JATS49–69; Methods139–169; read analysis171–175; separate validation177–183. SI identity/contents,FigS1–S3/S15captions,TableS1 headings/treatments,TableS2/S3 headings.",
+      "locations": "JATS49\u201369; Methods139\u2013169; read analysis171\u2013175; separate validation177\u2013183. SI identity/contents,FigS1\u2013S3/S15captions,TableS1 headings/treatments,TableS2/S3 headings.",
       "finding": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters."
     },
     "pass_2": null
@@ -69,7 +69,7 @@
     "Exact MazF scission/PNK end chemistry and residual/intermediate modification populations.",
     "Remaining original panels/tables/linked material and independent reader."
   ],
-  "conclusion": "Two-original capped review; source-limited prefixes, no absence accepted and no second independent pass.",
+  "conclusion": "Bounded model/source hold with positive published preparation facts; no accepted absence claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-05",
@@ -77,13 +77,28 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "Defining published article and chemistry supplement before linked-source following.",
-      "locations": "JATS49–69; Methods139–169; read analysis171–175; separate validation177–183. SI identity/contents,FigS1–S3/S15captions,TableS1 headings/treatments,TableS2/S3 headings.",
+      "locations": "JATS49\u201369; Methods139\u2013169; read analysis171\u2013175; separate validation177\u2013183. SI identity/contents,FigS1\u2013S3/S15captions,TableS1 headings/treatments,TableS2/S3 headings.",
       "findings": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters.",
       "deferred": [
         "Historical kit/reagent originals",
         "Exact molecular end/library/read assembly",
         "Remaining original/control branches and independent reader"
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published main only; not a supplemental/linked-source/absence completion.",
+      "locations": "PMC6609220 Methods139\u2013175, especially Library construction167\u2013169 and read analysis171\u2013175.",
+      "findings": "Source-positive matchedFTO/MazF/PNK and10ngNR801/15cyclePCR/ureaPAGE/HiSeqX10 verified; actual required historical_nr801 and RNA terminal retained.",
+      "deferred": [
+        "HistoricalNR801 original identity/revision, full source-local producer and molecular/read geometry.",
+        "Actual Qubit/input allocation/remainder, gel/library loading fates and directly linked supporting source scope."
+      ],
+      "oligo_scraper": "Repeated bundle /tmp/unlinked10-ref-scraper.log; validation substrates/source paragraph independently checked.",
+      "verification": "Module unchanged; actual requiredhistorical_nr801 and missingsequencingterminal retained. Review schema/gate checked by coordinator."
     }
   ],
   "superseded_sources": [
@@ -102,5 +117,6 @@
     "scope": "Independent code/order review against already inspected source sections, not an absence audit or new source investigation.",
     "findings": "Added omitted source thermal operation: RNA+3iLL heat/snap-cool before MAZTER ligation; first pre-FTO heating distinct from second pre-MazF heating in m6A-REF. Explicit unreviewed adapter-end state replaces an unsupported not-reported placeholder.",
     "verification": "Local suites6/7pass; both private pages rebuilt without finished marker."
-  }
+  },
+  "blocking_condition": "Required historical_nr801 remains: historical kit molecular/end/adapter/RT/PCR/run geometry and local RNA-to-DNA producer/stock/QC/gel/loading scope remain unassembled. Main positively states10ngNR801/15cyclePCR/8%ureaPAGE/HiSeqX10; not evidence that chemistry is absent. Exact applicable kit-document identity/revision and linked-source disposition remain open, no unavailable document invented."
 }

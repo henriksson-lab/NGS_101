@@ -1,5 +1,18 @@
 # CapSeq — capsule-based single-cell RNA sequencing
 
+## Current bounded publication decision (2026-10-30)
+
+🟢 The exact cached author-deposited GEO original `geo-GSM8830586-self-quick.txt` is available and was read at accession/date fields, library protocol14–15, processing18–25, instrument34 and library/series fields35–37/62. The previous source-review `geo_library` unavailable status is stale and is corrected. This is a usable September2025 sample record, not a newly retrieved source or a complete Science version. It describes WBC handling and a downstream library route starting with already amplified cDNA, including the source modified adapter pair, FS/end preparation, ligation, indexed PCR and SPRI transfers. Exact upstream capsule/cDNA production and the TableS25 indexing-primer bodies are not reconstructed by that record.
+
+The processed Read1 layout follows linker removal and read reassembly; it is not an acquired-cycle or whole-molecule declaration. The Science defining full article/SI remains an actual manual source target in the manifest. Final-VOR applicability is unresolved; the preprint, later patent, later GEO sample and CapMux claims are not substituted for it. The old failed source routes below are history, not new access attempts or evidence that relevant information is absent.
+
+No chemistry graph, public builder or finished page exists. A future source-qualified GEO downstream component could start at amplified cDNA, but would not document the whole unread Science method. This bounded pass therefore retains a published-source-scope hold. The existing blocked oligo questions remain open; earlier preprint audit/absence wording is historical and establishes no accepted missing-information claim. No source acquisition, new preprint/patent reading or model fabrication was performed.
+
+## Earlier reference notes (history)
+
+The source scopes and versions in the following older notes are retained as history. Their preprint-derived chemistry is not active authority for the published Science preparation without a verified applicability boundary.
+
+
 > **Evidence marks:** 🟢 stated in a source examined here · 🟡 interpretation or
 > derived consequence · 🔴 unresolved. This is a reference note, not a finished
 > base-by-base schematic: the barcode oligo tables cited by the methods still need review.

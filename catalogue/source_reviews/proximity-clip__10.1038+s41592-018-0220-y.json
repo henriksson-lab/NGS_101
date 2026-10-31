@@ -23,8 +23,8 @@
       "pass_1": {
         "reviewer": "rna_round11_reader",
         "date": "2026-10-29",
-        "locations": "Labeling steps and steps33\u2013109; source499\u2013880: capture/split/T1/CIP/PNK/PK/workup/intactRNAkit/footprintadapters/RT/PCR/size selection",
-        "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled. Implementation review correction: step46/source533\u2013534 saved50\u00b5l radioactive first-wash Urea-PAGE marker preserved as separate QC material, remaining washes discarded without a perfect molecular partition."
+        "locations": "Labeling steps and steps33–109; source499–880: capture/split/T1/CIP/PNK/PK/workup/intactRNAkit/footprintadapters/RT/PCR/size selection",
+        "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled. Implementation review correction: step46/source533–534 saved50µl radioactive first-wash Urea-PAGE marker preserved as separate QC material, remaining washes discarded without a perfect molecular partition."
       },
       "pass_2": null,
       "source_version": "Published publisher protocol original, active operational authority"
@@ -116,7 +116,7 @@
       "pass_1": {
         "reviewer": "rna_round11_reader",
         "date": "2026-10-29",
-        "locations": "Provenance22; overview32\u201348; acquisition/analysis184",
+        "locations": "Provenance22; overview32–48; acquisition/analysis184",
         "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled."
       },
       "pass_2": null,
@@ -143,7 +143,7 @@
       "pass_1": {
         "reviewer": "rna_round11_reader",
         "date": "2026-10-29",
-        "locations": "Source154\u2013196/209\u2013307 selected preparation/library sections; not assumed whole-version equivalent",
+        "locations": "Source154–196/209–307 selected preparation/library sections; not assumed whole-version equivalent",
         "finding": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled."
       },
       "pass_2": null,
@@ -208,7 +208,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Defining/chemistry originals first; no recursive chase. Identity-only/uncollected if original blocked.",
-      "locations": "Provenance22; overview32\u201348; acquisition/analysis184; Source154\u2013196/209\u2013307 selected preparation/library sections; not assumed whole-version equivalent; Labeling steps and steps33\u2013109; source499\u2013880: capture/split/T1/CIP/PNK/PK/workup/intactRNAkit/footprintadapters/RT/PCR/size selection",
+      "locations": "Provenance22; overview32–48; acquisition/analysis184; Source154–196/209–307 selected preparation/library sections; not assumed whole-version equivalent; Labeling steps and steps33–109; source499–880: capture/split/T1/CIP/PNK/PK/workup/intactRNAkit/footprintadapters/RT/PCR/size selection",
       "findings": "Published-protocol wholeRNA and footprint order; selected4SU-copying report separate from physical RNA/protein adduct. Exact original oligos and full readout geometry unassembled.",
       "deferred": [
         "Published oligoTable1 in MOESM1; available but unreviewed at three-original cap",
@@ -217,6 +217,20 @@
       ],
       "oligo_scraper": "Mandatory actual-bundle scan; selected original contexts inspected. Proximity/CAP large-file skips explicit; empty CeFra/TRIBE hits do not establish absence.",
       "verification": "Proximity-CLIP affected suite8checks pass after published step46 QC-fate correction; sourceguard0checked0failed0bundlesskipped5inputswithout exactstates1graph. Other-protocol checks unchanged."
+    },
+    {
+      "round": "unlinked-pages-batch19",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed selected-original pass; bounded private molecular/provenance fixes, no acquisition.",
+      "locations": "Published MOESM3 steps33–109; hot/cold PNK steps44–47, adapter ligations85–94, PCR104–109.",
+      "findings": "Bounded private correction: gamma-32P ATP and fresh cold ATP are molecular substrates, with the same retained PNK. RNA, adapter and actual ligation mixture pass through heating before fresh ligase. Source ATP-free 3′ versus ATP-containing 5′ supplies remain separate. GlycoBlue and RT dNTP contributions are explicit. Diagnostic PCR is six actual 10µl tubes (9/11/13/15/17/19 cycles), consumed analytically; preparative PCR is three actual 100µl tubes using a separately allocated cDNA contribution. Each tube has copresent primer/enzyme/nucleotide components from its actual aggregate supplies, without asserting commercial premixing. The downstream three-product workup is compound: pooling versus cleanup scheduling remains unassembled. Actual30 of70µl Pippin selection leaves a separate library remainder. Published main, original Table1 and historical kit/read geometry remain genuinely required/unreviewed; no public promotion or absence finding.",
+      "deferred": [
+        "Actualrequiredpublishedmain/originaloligoTable1/historicalkit-read/fulladaptergeometry remainunreviewed/unassembled. Detailedpublishedprotocolsupports actualRNA-to-cDNA librarypreparation, butopaqueproducts/operatorcontinuity cannotwaivethisbroaditem."
+      ],
+      "oligo_scraper": "Mandatory existing bundle scan: /tmp/unlinked25-proximityclip-scraper.log; no exact new oligo ordering adopted.",
+      "verification": "14 direct chem.py checks pass; both private endpoint renders/pairing pass; combined chemistry81 unresolved,0 contradictory; external source guard0 exact/0 failed/4 unknown input states. Required source items unchanged."
     }
   ]
 }

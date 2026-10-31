@@ -55,7 +55,7 @@ Exact acquired cycles and terminal priming sites remain unassigned here.
 The graph separates antigen and BCR outputs; receptor heavy/light identities are
 linked through cellular barcodes, not through an invented physical VH:VL junction.
 Complete 10x V(D)J amplification/library chemistry and exact antigen library
-primer geometry remain source-limited handoffs. Status remains notes.
+primer geometry remain source-limited handoffs. The public page is a source-qualified partial published instance; it does not reconstruct complete historical kit molecules.
 
 The Methods explicitly follows **CITE-seq** library preparation with more antigen
 PCR cycles; this supports a component-scoped CITE-seq → LIBRA edge, not transfer
@@ -64,3 +64,22 @@ solution is another explicit platform parent, with exact historical revision
 unresolved. Deferred: supplements, cited CITE protocol version, 10x guide,
 full bead/TSO/primer mapping, antigen panel variants and independent review.
 No absence claim is accepted.
+
+## Bounded public-page preparation
+
+The same final-version author manuscript Methods 198–220 supports the public
+13-base antigen branch. Whole version-of-record equivalence remains unestablished;
+no supplements or historical kit guides were added to this pass. 4FB/S-HyNic
+are molecular reactants, while FPLC is an apparatus-qualified operation with
+unassembled column/mobile-phase inventory. Actual BCA/NanoDrop and conjugate
+SDS-PAGE checks consume separate analytical allocations; no aliquot amounts
+are invented. PBS/1% BSA and staining-marker contributions remain molecular
+inputs. Streptavidin-PE is supplied incrementally from its actual stock at the
+source 5:1 antigen:streptavidin molar ratio.
+
+RT and the two PCR stages expose copresent enzyme/nucleotide/buffer functional
+classes from their respective actual aggregate supplies. This bookkeeping
+does not assert commercial premix packaging, new duplicate doses, exact
+formulations or primer bodies. Final library loading allocations and unresolved
+stock remainders stay separate for BCR and antigen outputs; no cross-branch
+physical pool is inferred. The full workflow remains visible on the page.

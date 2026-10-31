@@ -39,6 +39,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle5hits/1representation; actualallfivewholeorderings/modificationsverifiedfromoriginalSupplementaryMethodsDOCXXML.",
       "verification": "22focusedPASS,5wholemodifiedsourceordersoriginalDOCXXMLverified; externalguard5exact0fail0exceptions0unassembledinputs; retainedproducedRTprimeralsosource-exact. Chemistry40unresolved0contradictory; independentselectedcriticalpeerclosed/same2originals."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-final-ficc",
+      "reviewer": "protocol_curator",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Same published main and SupplementaryMethods originals reread for literal selected source inventory/public preparation page. No acquisition, predecessor substitution or absence audit.",
+      "locations": "Published main52/56/78 mechanism/figure-caption/FICCMethods and original SupplementaryMethods DOCX full selected FICC preparation, all five modified oligos, literal400ml TE occurrences and finalSE50 wording.",
+      "findings": "Actual preparation supports complete operational trace to amplified gel-purified DNA/HiSeq4000SE50. Required catalytic_trap/source_units findings remain and are mapped to local operations. Literal three-group input/step inventory independently reviewed, no runtime graph auto-coverage. No reaction or ingredient changed. Public page includes actualfivewholeoligos, N2+N3UMI/X4samplemeaning, knownlocalBamHIduplex/fullproductlimits and400ml-versus1.5mltube ambiguity without repair.",
+      "deferred": [
+        "Whole occupied RNA/cDNA/circle/sealed products, read-primer landing, identifier spans and conversion/yield remain unassembled; no absence claim.",
+        "Comparison experiments, vendor/predecessor full recipes and unread results/figure originals not imported into selected source-local preparation."
+      ],
+      "oligo_scraper": "Mandatory bundle scrape5hits/1representation; originalDOCXfullmodifiedsourcefixtures checked5exact0failed0exemptions.",
+      "verification": "23focusedPASS, normalgatePASS, actualpagebuild/pairingPASS,5sourceexact0failed0exemptions0externalunknown, chemistry40unresolved0contradictory; new-unreviewed-input regression fails publication as intended."
     }
   ],
   "linked_information": {
@@ -62,5 +77,16 @@
       "Size-selectedcDNAgelpieces andlater150\u2013200ntlibrarygelpieces havephysicalfates. Source20ullinearizedDNA\u219210ulPCR/10ulstock;20ulAccuprimeSupermixco-componentsnotduplicateadditions. Source400mlTEversus1.5mltubelimit andlisted12ulligmix retainedwithoutnormalization. SourceHiSeq4000SE50 metadata scoped. No blocking implementationdefectfound."
     ],
     "verification": "22focusedchecksPASS including5originalDOCXwholemodifiedorders/literal400ml/SE50; sourceguard5exactchecked/0failed/0exceptions/0unrepresentedexternalinputs; chemistry40steps/40unresolved/0contradictory. Narrow implementation recheck only, notabsencepass2/fullchemicalaudit."
-  }
+  },
+  "publication_review": [
+    {
+      "verdict": "pass",
+      "reviewer": "coordinator_independent",
+      "source_scope": "Two selected published originals: PMC6821191 main introduction/Fig1/MethodsFICC (48\u201380); actual SupplementaryMethods DOCX selectedrecipe singlelongtextline4. Title/lysis/capture opening and detailed library/wholeordering/unit/readout sections inspected. No other supplement/vendor originals adopted.",
+      "findings": "Originalcatalytic_trap/source_unitspositiveSourceItems preserved and represented; literal operationalinventory matches selectedendogenousHEK293TRMT2A source route. SplitN2+N3UMI versusX4sampleindex, preApp/physicaladditionalddC, sourceRT/P5/P3/BamHIenvelopes retained. Sameactualprimer/NT inventories, 10of20ulPCR and distinctloading/physicalremainders maintained. Two400mlTEprints remainpublicwith1.5mltubecontradiction; no400ulrepair/12ulnormalization. Wholeproducts/readgeometryexplicitlyunresolved, no sourceabsenceclaim.",
+      "scraper": "/tmp/unlinked-final-ficc-scraper.log5candidates/1file; followed actualDOCXsource, no oligosfrom separatecomparators.",
+      "verification": "23focusedchecks/publicbuild/pairing0; buildernormalgatepasses. Independentdiffcheck no chemistryrecipechanges or sourcewaiver.",
+      "limits": "Not complete reaction validation or full linked-source/absence audit."
+    }
+  ]
 }

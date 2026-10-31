@@ -9,11 +9,11 @@
       "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5234563.1/PMC5234563.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36\u201338 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
+      "source_version": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36–38 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
       "pass_1": {
         "reviewer": "dna_round15",
         "date": "2026-10-29",
-        "locations": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36\u201338 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
+        "locations": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36–38 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
         "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
       },
       "pass_2": null
@@ -48,13 +48,27 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "At most10min/3originals; published-first, no recursive source chase. CIDER scope analytical extractedDNA only.",
-      "locations": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36\u201338 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
+      "locations": "Associated accepted manuscriptNIHMS841208, exact title/DOI, Introduction30/Results36–38 and Fig1A440; originalSupplemental_material.pdf gated. No detailed2018method substitution.",
       "findings": "Source physical reactions, retained debris/fractions and computational/native DNA distinctions explicit.",
       "deferred": [
         "Exact historicalkit/primer/end/readgeometry and directly named originals in note; S1 actualchemistrySI gated."
       ],
       "oligo_scraper": "Mandatory wholebundle scans: mTAG14hits/2files, CIDER4hits/1file, S1zero; pointers read in their actual assay/chemistry scopes.",
       "verification": "22localchecks pass (mTAG7/CIDER9/S1six), including independent CIDER QCprovenance correction: analyticalaliquot isQCterminal, retainedproductionlibrary alonefeedsP6. Sourceguard0eligibleexactstrands/0failed/9inputswithout exactstates/3graphs; notsequencecompletion. Chemistry42unresolved0contradictory; sixnotes/refbuilds,pairing0problems,source-review schema2in_progress/1blocked,diffcheck clean. No finishedpages. Retrieval18717/39123terminalexit0."
+    },
+    {
+      "round": "unlinked-pages-batch24",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed existing originals only; bounded private physical/molecular corrections, not complete chemistry/source/absence review.",
+      "locations": "Exactsourceidentities/sections in /tmp/unlinked-targeted35-preflight.json andcounter /tmp/unlinked35-source-counts.json. S1associatedmain30–38/Fig1A440. ProtSeqpublishedmainResults262–278/STARMethods588–609,643–657,669–673; selectedpublishedS2/S4/FigS3 inventory.",
+      "findings": "Bounded correction: source agarose is an actual molecular matrix contribution, not only a condition. The actual source low-cycle PCR supply boundary exposes polymerase, nucleotide and other functional components from the same aggregate preparation, without guessing a fresh named mastermix, doses, adapter bodies or platform. Its selected DNA loading contribution and untransferred stock are separate. The source order and resection-versus-native-DSB distinction remain. The genuine required2017Supplemental_material.pdf gate remains untouched; no later2018method, END-seq/BLESS recipe or sequencing configuration substituted. No public page was added or promoted.",
+      "deferred": [
+        "Defining2017MaterialsMethods/TablesS1–2actualchemistryoriginal remainsgated/unread inexistingretrievalhistory. MainFig1A positiveproducer cannotwaive fulladapter/reagent/readgeometry scope. Later2018detailedprotocol,2020adaptation,moviesorsupersededpreprint donot replaceit."
+      ],
+      "oligo_scraper": "Mandatoryclosed-pass /tmp/unlinked35-s1-scraper.log. Genericexternalguard doesnot validateproducedstocks/5NitIndclass; localconstructedNGSadaptor/bridge whole-source fixtures tie producedbodies toactualmaintext.",
+      "verification": "9 focusedchecksPASS; privatebuild/render andpairingPASS. Combinedguard6exact/0fail/15externalunknownstates; producedunknown/modifiedinventory remainsunassembled. Chemistry76unresolved/0contradictory; requireditems preserved."
     }
   ]
 }

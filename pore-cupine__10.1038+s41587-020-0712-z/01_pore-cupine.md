@@ -25,3 +25,11 @@ Both correction bodies were actually read. Neither states a chemistry change. Th
 ## Deferred scope
 
 The full published main Methods are subscription-gated in the fetched main page. Obtain that actual source before assembling the complete cellular preparation or detailed sequencing workflow. Current SI files are cached but ordinary unread, not described as inaccessible or absent. Exact source oligos, modified end geometry, control allocation, actual kit revision and all full molecular products remain unassembled. No missing-information or complete validation claim is made.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+The Bioanalyzer analytical allocation is now typed as QC material, matching its existing analytical terminal. The separate remaining RNA preparation continues into the unresolved native-RNA finishing interface. The published ExtendedData4 caption establishes the analytical comparison and direct-RNA sequencing, while analytical amounts, ordering in a full recipe and loading allocation quantities remain unassembled. This is a local typing correction, not verification of a quantitative aliquot recipe.
+
+The original selected-scope and both correction SourceItems remain uncovered; no runtime graph-derived coverage is added. The source-positive 100mM/5min NAI-N3 Tetrahymena example does not reconstruct the full original RNA synthesis, workup, adapter/motor or sequencing preparation. Unmodified and25min examples are separate source comparisons, not invented common-stock aliquots or a physical pool. Native modified RNA remains the readout polymer; protective cDNA presence or absence is not inferred from the caption.
+
+The closed pass reread only the published main preview abstract/ExtendedData4 and the actual two correction bodies. The author correction concerns affiliation/acknowledgment; the publisher correction concerns an initially wrong reporting summary. Those scoped findings establish neither whole-recipe equivalence nor the chemistry of the replacement summary. Current SI originals remain ordinary unread, not inaccessible or confirmed lacking information. No original acquisition, new access failure, public builder or completion marker is introduced.

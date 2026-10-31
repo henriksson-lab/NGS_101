@@ -55,7 +55,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source pass; source versions explicit. Not a complete independent two-reader review or accepted absence finding.",
+  "conclusion": "SOURCE-SCOPE HOLD: required relevant historical original remains unreviewed and unaccounted for; consistent private-model fixes verified, no public promotion or accepted source absence.",
   "bounded_checks": [
     {
       "round": "2026-10-28-expansion-round05",
@@ -73,6 +73,22 @@
       ],
       "oligo_scraper": "44 supplement sequence hits, inspected in validation bisulfite-primer Table1 context; not substituted for library oligos.",
       "verification": "Eight local checks pass, including pre-capture conjugate-wash ordering/physical waste and independent possible blocking-DNA retention through capture, release, recovered DNA and kit output. Build, pairing lint and review schema pass. Source guard: no exact oligo candidates, zero failures/exemptions. Chemistry: eight unresolved step relations, zero established/conditional/contradictory; no complete chemical validation claimed. Both reagent-preparation and genomic branches are rendered on the private preview without a finished marker."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted6",
+      "reviewer": "targeted_source_scope_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Source-closed bounded private-model corrections; required historical original source gate retained; no acquisition or promotion.",
+      "locations": "nar_gkp992_PMC2811030.xml(.txt)/samepublishedPDF: Methods38–52 reread; sameoriginalPDFp2 rendered /tmp/unlinked6-migs-main2.png visually confirms actual20mlTris unit, beadprewash, source5µgcapture/10ngkit/BioAnalyzer.; nar_gkp992_supp_gkp992_1.pdf(.txt): Fig1–5captions/Table1heading androwcontext reread. Table1 explicitly PCRprimers forbisulfitevalidation, notMiGS library primers. Originaltablebasecolumnsnot adopted.",
+      "findings": "Private MiGS model retains original washed conjugate provenance and possible independent blockingDNA species. Actual gelQC, selected5µggenomicDNA/5mlwashedconjugate/10ngkit contributions, residualstocks, BioAnalyzerQC and selectedloadingstock are explicit. The mixed washed-conjugate STOCK is molecular material before an actual5ml aliquot is assigned selection-reagent function. Aggregate source kit oligo/nucleotide/catalyst inventory classes remain unassembled in identity/dose/packaging, not imported Illumina polymers or an inferred specific PCR recipe. Literal20mlTris is preserved after verifying actual publishedPDFp2, not repaired as an extraction artifact. The required SourceItem unreviewed_original remains unchanged: the manufacturer protocol actually cited for the Illumina ChIP-Seq Sample Prep Kit remains relevant/unreviewed. Its study-used revision and direct documentURL remain unassigned, not a fabricated unavailable disclosure document or an observed download failure. No excluded/not-applicable coverage was added.",
+      "deferred": [
+        "Actual originalPDFp2 prints20mlTris(pH8), not an extraction artifact. Preserve literalvalue and unresolved formulation; do not silently replace with20mM.",
+        "His-MBD2 expression/purification refs22/26 and historicalIlluminaChIPSeqkit protocol unreviewed; onlypreparedproteinstock/kitboundary source-supported.",
+        "36bpGAII readout explicit; completeprimer/indexarchitecture/readendacquisition unassigned. Current source does not justify importing modernTruSeq/ChIPseq chemistry or UMI."
+      ],
+      "oligo_scraper": "/tmp/unlinked6-migs-scraper.log:44hits/1representation; only validation-context oligos, no source-library adoption; original source illustration/validation contexts distinguished from library polymers. No source absence claim.",
+      "verification": "18focusedPASS;14steps/14unresolved0contradictory. Both normalgates retain exactly one unaccounted required sourceitem; buildprivatepreviewPASS/nocomplete marker; duplex0; guard0exact0failed0exemptions4wholeunassembledexternal acrossboth. Required sourceitem not removed/excluded."
     }
   ]
 }

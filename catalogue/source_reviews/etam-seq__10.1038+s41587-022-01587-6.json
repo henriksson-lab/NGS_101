@@ -13,8 +13,8 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "JATS173–195,203–217,843–845; refR14; cached source checks205/211",
-        "finding": "FTO-/FTO+/IVT target branches preserve selected RNAA→I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT."
+        "locations": "JATS173\u2013195,203\u2013217,843\u2013845; refR14; cached source checks205/211",
+        "finding": "FTO-/FTO+/IVT target branches preserve selected RNAA\u2192I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT."
       },
       "pass_2": null
     },
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "Publisher SI identity and actual Notes1–2 lines90–128; remaining statistical notes/tables/panels uninspected",
+        "locations": "Publisher SI identity and actual Notes1\u20132 lines90\u2013128; remaining statistical notes/tables/panels uninspected",
         "finding": "Inspected only stated sections; no complete panel/table or absence review."
       },
       "pass_2": null
@@ -95,8 +95,8 @@
     "pass_1": {
       "reviewer": "rna_round04_reader",
       "date": "2026-10-28",
-      "locations": "JATS173–195,203–217,843–845; refR14; cached source checks205/211; Publisher SI identity and actual Notes1–2 lines90–128; remaining statistical notes/tables/panels uninspected",
-      "finding": "FTO-/FTO+/IVT target branches preserve selected RNAA→I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT."
+      "locations": "JATS173\u2013195,203\u2013217,843\u2013845; refR14; cached source checks205/211; Publisher SI identity and actual Notes1\u20132 lines90\u2013128; remaining statistical notes/tables/panels uninspected",
+      "finding": "FTO-/FTO+/IVT target branches preserve selected RNAA\u2192I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT."
     },
     "pass_2": null
   },
@@ -124,8 +124,8 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
-      "locations": "JATS173–195,203–217,843–845; refR14; cached source checks205/211; Publisher SI identity and actual Notes1–2 lines90–128; remaining statistical notes/tables/panels uninspected",
-      "findings": "FTO-/FTO+/IVT target branches preserve selected RNAA→I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT.",
+      "locations": "JATS173\u2013195,203\u2013217,843\u2013845; refR14; cached source checks205/211; Publisher SI identity and actual Notes1\u20132 lines90\u2013128; remaining statistical notes/tables/panels uninspected",
+      "findings": "FTO-/FTO+/IVT target branches preserve selected RNAA\u2192I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT.",
       "deferred": [
         "Final VOR comparison and remaining original supplement/statistical model review.",
         "Full IVT/spike-in material states, upstream preparation, exact cDNA-adapter/PCR/index/read geometry and run cycles."
@@ -146,5 +146,27 @@
     "selftest_checks": 9,
     "result": "pass",
     "scope": "Local behavior/source-transcription checks only. Default-graph shared chemistry claims remain unresolved; not complete reaction/source validation."
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_model_scope",
+    "source_scope": "Existing accepted-manuscript PMC10625715.xml.txt173\u2013217: spike-in mixture, IVT control preparation, biochemical assay distinction, actualNGSlibrary205\u2013211 and separate site-specific assay. Existing publisherMOESM1.pdf.txt90\u2013128 Notes1\u20132 only: temperature/freshenzyme and statisticalaccessibility assumption. Same2originals; no remainingSI/statisticaltable/workbook/mainVOR/predecessor or vendor opens. Whole VOR/AM equivalence not adopted.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Current source-qualified graph starts with prepared bead-bound RNA and ends at an unresolved selected-site RNA\u2013cDNA hybrid. The actual upstream prepared RNA/adapters/spike-ins/control allocations and downstream cDNA release, ligation, PCR, cleanup and sequencing preparation are unmodeled. A sequencing label on the hybrid would fabricate actual library preparation.",
+    "positive_preparation_obligations": [
+      "Actual50ngpolyA target and25ngseparateIVTcontrol: oligo(dT)/RNaseH\u2192zincfragment70C5min/EDTA/PNK\u2192cleanup\u21922%massspike-ins\u2192actual20pmol5rApp/3BioDNAadapter/Rnl2KQ\u2192deadenylase THENRecJf. Prepared material has heterogeneoustarget andcalibration populations, not one idealmethylatedsite.",
+      "Targetadapterligatedstock split into actualFTO-minus andFTO-plus halves; IVTcontrol separatelyprepared, thenC1binding. IVT modificationfree target mustnot implycalibrationprobes areunmodified. Actual upstreamIVTtemplatefactory remains unassembled.",
+      "FTOplus usesactualcofactor/BSA/inhibitor/buffer contributions andwashes. ThreeTadA treatments usefreshmixtures andactualsupernatantdrains between53C1h/two44C1hrounds. One catalystnode+caption doesnot inventory actualfreshmixtureallocation/fates.",
+      "RT actual2pmolprimer/MaximaH-minus/buffer/inhibitor; source doesnot explicitlygiveNGSRTdNTPdose here, so do not inventdose. Heat/SDSrelease actualeluate andresidualbeads\u2192DNAcleanup\u21925P/N6/C3adaptor/Rnl1ligation\u2192cleanup\u2192actualQ5preparedmastermix+E6440SUDIprimerinventory\u219210\u201311PCRcycles\u2192AMPure. Exact indexchoices/wholeprimers/readlanding remain unassembled.",
+      "RNAI/complementaryDNA-C/referenceG distinctions remain correct; residualnativeA/resistantm6A andFTOconversionfractions stayunassigned. SourceN6identifierUMImeaning remains inferred, not metadata certainty. Actualsource sequence/readcycles unassigned in scoped pass."
+    ],
+    "normal_gate": [
+      "no terminal output is designated for sequencing"
+    ],
+    "verification": "Read-only Python-B import confirms 3defaultgraphsteps/noPAGE_FILE/no sequencingterminal. Existing wrappers onlyselftest. No modelcode changes, build or repeatedtests; documentedhold preserves fullsourcepreparation.",
+    "oligo_scraper": "/tmp/unlinked-multi8-etam-scraper.log:40 sequence-likehits in4files; sourcepointers only, other originals not adopted as chemistry.",
+    "missing_information_claims": []
   }
 }

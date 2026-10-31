@@ -8,7 +8,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/carlin__10.1016+j.cell.2020.04.048/j.cell.2020.04.048_PMC7529102.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Accepted manuscript Methods 193\u2013203 recorder/guide design, 232\u2013236 bulk DNA/RNA, 238\u2013244 single-cell library operations. JATS media explicitly identifies Table S1 as NIHMS1594358-supplement-8.xlsx, not supplement-7.docx."
+      "inspection_scope": "Accepted manuscript Methods 193–203 recorder/guide design, 232–236 bulk DNA/RNA, 238–244 single-cell library operations. JATS media explicitly identifies Table S1 as NIHMS1594358-supplement-8.xlsx, not supplement-7.docx."
     },
     {
       "id": "published_main",
@@ -63,7 +63,7 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Five conditional accepted-manuscript recovery variants: single-cell v2/v3, genomic DNA, in-vitro bulk RNA and in-vivo bulk RNA. Recorder engineering is upstream context, not caused by library PCR.",
-      "locations": "Accepted manuscript Methods 193\u2013203 recorder/guide design, 232\u2013236 bulk DNA/RNA, 238\u2013244 single-cell library operations. JATS media explicitly identifies Table S1 as NIHMS1594358-supplement-8.xlsx, not supplement-7.docx.",
+      "locations": "Accepted manuscript Methods 193–203 recorder/guide design, 232–236 bulk DNA/RNA, 238–244 single-cell library operations. JATS media explicitly identifies Table S1 as NIHMS1594358-supplement-8.xlsx, not supplement-7.docx.",
       "findings": "Biotin is represented on the actual source primer and its derived strand; attachment position is unknown, not assigned to every new copy. Capture 3 h, half-bead nested PCR, magnet removal, SPRI and one-tenth indexing are preserved. Bulk DNA five anneal/extend ramps have no repeated denaturation. Bulk RNA Platinum-Taq 35-cycle and Q5 15+15-cycle routes remain separate. Source guide subset and UMI-strategy ancestry do not import a full GESTALT recipe.",
       "deferred": [
         "Final published main, actual Table S1 workbook and other final-era supplements",
@@ -73,6 +73,20 @@
       ],
       "verification": "Local GESTALT 6 + LINNAEUS 12 + CARLIN 12 = 30 checks pass; three private builds pass; default source guard 3 exact primers checked, 0 failed/exemptions, 9 unassembled inputs; pairing 0; scoped chemistry 0 established, 29 unresolved, 0 contradictory. These checks do not establish complete source or molecular coverage.",
       "oligo_scraper": "/tmp/round10-carlin-hits.log: 91 hits are from superseded preprint SI, excluded from active chemistry evidence. Actual final-era Table S1 was not retrieved; no absence conclusion."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch12",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed-source bounded publication hold; no new originals or model changes",
+      "locations": "j.cell.2020.04.048_PMC7529102.xml(.txt): Methods233–243 allbulkDNA/bulkRNA/singlecell recoverybranches, exactTable1referral233 andstockallocations243; no newpublishedmain/TableS1/vendororiginal.",
+      "findings": "RealrequiredTableS1 primers/recorderoriginal is unread; fullpublishedmainalsohistoricallyblocked. Currentdefaultsinglecellgraphhasmolecularratherthanlibrarysequencingoutputs, but merelyretypingendpointdoesnotfulfilrequiredoriginal/wholeprimerproductscope. Variantsremainacceptedqualified. Required source item remains uncovered; no inventory-based waiver or source exclusion.",
+      "deferred": [
+        "actual_source_table"
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scraper completed during closed preflight. pMHC actualTable1A1 image checked; no new whole library asserted from component matches. CARLIN superseded preprint hits excluded from active authority.",
+      "verification": "Documentation only. Models, required source items, private preview/gates unchanged. No builds/tests repeated for unchanged modules; no source acquisition or absence audit."
     }
   ],
   "linked_information": {

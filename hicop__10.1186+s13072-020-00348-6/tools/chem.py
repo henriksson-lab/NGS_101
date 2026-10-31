@@ -1,9 +1,9 @@
-"""Private source-qualified partial preparation; no full source/absence audit."""
+"""Source-qualified public preparation with partial molecular detail; no full source/absence audit."""
 from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parents[1]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem,SourceCoverage
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from chemdraw import Scene,Segment
@@ -22,7 +22,7 @@ class T:
   y=self.g.product(k+'_kept','Actual retained source workup fraction',K.MOLECULAR);w=self.g.product(k+'_excluded','Actual excluded source fraction; purity not asserted',K.WASTE)
   self.g.react(k,label,S.CLEANUP,((self.x,R.TEMPLATE),)+tuple(ports)+(self.inp(k+'_condition',label),),(y,w));self.g.discard(w,'Actual excluded workup fraction; no invented molecular partition or complete purification');self.x=y;return y
  def aliquot(self,k,label,qc=False):
-  y=self.g.product(k+'_selected','Actual allocation: '+label,K.MOLECULAR);r=self.g.product(k+'_remainder','Untransferred source stock; actual amount/later fate unassigned',K.MOLECULAR)
+  y=self.g.product(k+'_selected','Actual allocation: '+label,K.QC if qc else K.MOLECULAR);r=self.g.product(k+'_remainder','Untransferred source stock; actual amount/later fate unassigned',K.MOLECULAR)
   self.g.react(k,label,S.SPLIT,((self.x,R.TEMPLATE),),(y,r))
   self.g.mark_terminal(Terminal(y.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,label if qc else 'Untransferred stock not silently consumed/discarded'))
   self.x=r if qc else y;return y
@@ -53,7 +53,7 @@ def protocol_graph():
  b.op('mboi_digest','ActualMboIdigestion of crosslinkedcells; dose/endoccupancy unassembled',(b.inp('mboi','ActualMboI enzyme',K.CATALYST,R.CATALYST),),kind=S.DIGESTION)
  supplies=g.input('fill_supplies','Aggregate actual source fill-in supplies; number/stockpackaging/doses unassembled',K.MOLECULAR)
  pol=g.product('fill_polymerase','Actual polymerase catalyst class performing sourcefill-in; identity/dose unassembled',K.CATALYST)
- bio=g.product('biotin_dctp','Actual source biotin-labelleddCTP nucleotide contributor; attachment atom/linker unassigned',K.MOLECULAR,chemical_state={'nucleotide':'biotin-labelleddCTP','meaning':'Affinity handle; not sampleindex/UMI','attachment':'Source name alone does not define exact modified atom/linker'})
+ bio=g.product('biotin_dctp','Actual source biotin-labelled dCTP nucleotide contributor; attachment atom/linker unassigned',K.MOLECULAR,chemical_state={'nucleotide':'biotin-labelled dCTP','meaning':'Affinity handle; not sampleindex/UMI','attachment':'Source name alone does not define exact modified atom/linker'})
  other=g.product('fill_other','Other actual fill-in molecular supplies; exactNTmix/buffers unassembled',K.MOLECULAR)
  g.react('fill_inventory','Component inventory view, not documented premix or extra fresh doses',S.GENERIC,((supplies,R.TEMPLATE),),(pol,bio,other),changes_molecule=False)
  b.op('fill','ActualbiotindCTPfill-in; localcovalentincorporationclass only',((pol,R.CATALYST),(bio,R.STRUCTURAL),(other,R.STRUCTURAL)),kind=S.EXTENSION,chemical_state={'DNA':'Intendedsourcebiotinylatedfilledcontact-fragmentclass; occupiedends/wholeproducts/unincorporatedNTclassesunassembled'})
@@ -68,7 +68,7 @@ def protocol_graph():
  captured=g.product('column_bound','Actualcolumn-retainedprotein-freecontactfragmentpopulation; specificitynotabsolute',K.MOLECULAR);flow=g.product('column_nonselected','Actualnonselectedprotein-bound/othercolumnfraction',K.WASTE)
  g.react('cop_select','SourceCoPsilica-columnselection BEFORE decrosslinking',S.SELECTION,((b.x,R.TEMPLATE),(column,R.SELECTION)),(captured,flow));g.discard(flow,'Actualnonselectedcolumnfraction; noperfectaccessibilityclaim');b.x=captured
  b.clean('column_elute','Actual40ulEBelution; retainedcolumnmaterial excluded, not magicallydecrosslinked')
- b.op('rnase','Actual1ul100mgmlRNaseA37C30min',(b.inp('rnase_a','ActualRNaseA1ul100mgml',K.CATALYST,R.CATALYST),),kind=S.DIGESTION)
+ b.op('rnase','Actual1ul100mgmlRNase A37C30min',(b.inp('rnase_a','ActualRNase A1ul100mgml',K.CATALYST,R.CATALYST),),kind=S.DIGESTION)
  b.op('pk','Actual5ul10mgmlProteinaseK55C30min',(b.inp('proteinase_k','ActualProteinaseK5ul10mgml',K.CATALYST,R.CATALYST),),kind=S.DEPROTEINIZATION)
  b.op('reverse_crosslinks','Actual65Covernight afterPK',(b.inp('reverse_conditions','Actualsourceovernight65C'),))
  b.clean('dna_purify','ActualPCRcolumnDNApurification/elute50ulEB')
@@ -94,7 +94,7 @@ def protocol_graph():
  b.aliquot('library_qc','ActualsourceQubitlibraryQCallocation;amountunassigned',True)
  b.aliquot('loading_allocation','Actualsequencingloadingallocation;amountunassigned')
  b.library('hicop','ActualHiCoPlibrary','IlluminaNovaSeq',{'Read1':150,'Read2':150})
- return g
+ return _publication_coverage(g)
 
 def selftest():
  from checks import Check,Source,have
@@ -123,5 +123,49 @@ def selftest():
   t=p.read_text();c('Actualsourceinputallocation','40 μl of chromatin was spared as input'in ' '.join(t.split()),True);c('ActualsourcePCRrange','13 to 19 cycles'in t,True);c('ActualsourceNovaSeq','Novaseq-PE150'in t,True)
  c('SourceintendedAendretainedwithoutknownadapter',[(e.owner,e.polarity)for e in intended_atail_scene().ligation_ends],[('substrate','3-prime')])
  c('Occupiedsubstrateviewinferredbydefault',all(seg.inferred for st in intended_atail_scene().strands.values() for seg in st.segs),True)
- c('Privateincompletegraph',bool(g.publication_problems()),True);c.report()
+ c('Publication graph validates with declared limitations',g.publication_problems(),[]);c.report()
+
+
+def _cover_reviewed_targets(g, groups):
+ """Only the literal curator-reviewed targets below receive these source assignments."""
+ for source,targets in groups:
+  for target in targets:
+   label=g.materials[target].label if target in g.materials else g.steps[target].label
+   key='reviewed_'+target
+   g.add_source_item(SourceItem(key,label,source))
+   g.cover_source_item(SourceCoverage(key,'modelled',target))
+
+PAGE_FILE='hicop.html'
+SOURCE_TARGETS=(
+ ('Published HiCoP2020 mainMethods143/Fig3PDFp5: preparedcrosslinkedcells/MboI/biotindCTPfill/T4joining/wash/400ulTEsonication and40ulinput/360ulcolumnallocation. Ingredient inventories are bookkeeping; full ends unassembled.',
+  ('crosslinked_cells','mboi','mboi_digest','fill_supplies','fill_inventory','fill','t4_ligase','joining_inventory','contact_join','contact_wash_condition','contact_wash','sonication_conditions','sonicate','input_split')),
+ ('Same publishedMethods143 and Results67–71/Fig1PDFp2: actual silica selection before de-crosslinking,40ulEB/RNase A/PK/65Cover night/DNAcleanup50ulEB/Qubit.',
+  ('cop_column','cop_select','column_elute_condition','column_elute','rnase_a','rnase','proteinase_k','pk','reverse_conditions','reverse_crosslinks','dna_purify_condition','dna_purify','dna_qc')),
+ ('Same publishedMethods143:5ulC1/200ulprewash/50ulbindingbuffer/RT15mincapture/repeatedTWB55C2minwash. Whole capture occupancy unassembled.',
+  ('c1_raw','c1_prewash_conditions','c1_prewash','c1_binding_buffer','c1_resuspend','biotin_capture','capture_wash_condition','capture_wash')),
+ ('Same publishedMethods143: endrepair/dAtail/adapteraddition/13–19cyclesPCR/0.55–0.75xbeads/Qubit/NovaSeqPE150. Actual supply classes and inferred intended3Aprimeend only; ref17kitrecipes/wholeoligos not inherited.',
+  ('finishing_supplies','finishing_inventory','end_repair_atail','adapter_ligation_supplies','adapter_ligation','pcr_supplies','pcr_inventory','pcr','size_beads','size_select_condition','size_select','library_qc','loading_allocation','hicop_loading','hicop_library')),
+)
+
+def _publication_coverage(g):
+ g.cover_source_item(SourceCoverage('selection_boundary','modelled','cop_select'))
+ g.cover_source_item(SourceCoverage('branch_scope','modelled','hicop_library'))
+ _cover_reviewed_targets(g,SOURCE_TARGETS)
+ return g.require_publishable()
+
+def render_page():
+ from page import head,caveat,table
+ from chemdraw import panel
+ from protocol_views import assemble_page,WorkflowSection
+ g=protocol_graph()
+ return assemble_page(g,[head('HiCoP — column-selected accessible chromatin contacts'),
+ '<main class="wrap" data-protocol-complete="true"><h1>HiCoP</h1><p>HiCoP combines contact ligation with silica-column enrichment of protein-free chromatin fragments. Biotin capture then retains contact-library DNA for adapter addition, PCR and paired-end sequencing.</p><p><a href="https://doi.org/10.1186/s13072-020-00348-6">Zhang et al., Epigenetics &amp; Chromatin (2020)</a> · <a href="01_hicop.html">Research note and evidence scope</a></p>',
+ caveat('<strong>Partial molecular declaration from the published HiCoP procedure.</strong> Complete genomic contact products, occupied ends, exact adapter/primer bodies and read-primer landing sites remain unassembled. Column and affinity selection do not establish exclusive regulatory contacts. The intended substrate A-tail view below is inferred in an unresolved genomic context.'),
+ '<h2>Preparation</h2><ol><li>Digest 10⁷ source-prepared crosslinked cells with MboI, fill with biotin-labelled dCTP and join contacts with T4 ligase.</li><li>Sonicate in 400 µl TE. Save 40 µl as input and column-select the remaining 360 µl before de-crosslinking.</li><li>Elute 40 µl, treat with RNase A and proteinase K, reverse crosslinks and purify DNA into 50 µl EB; retain an actual Qubit allocation.</li><li>Capture DNA on prepared C1 streptavidin beads and wash. Retain bead-associated DNA for end repair/dA-tailing and adapter addition.</li><li>Amplify 13–19 cycles, select with 0.55–0.75× VAHTS beads, quantify and allocate the library for sequencing.</li></ol>',
+ '<h2>Known molecular parts</h2>',table(('Part','Role and limit'),(('Biotin-labelled dCTP','Source fill-in nucleotide and affinity handle; exact modified atom/linker and occupied sites unassembled.'),('Silica column','Physical enrichment occurs before crosslink reversal. Excluded material and saved input remain separate.'),('C1 streptavidin beads','5 µl at 10 mg/ml, prewashed and resuspended in 50 µl binding buffer; retained DNA proceeds to library finishing.'),('Illumina primer pair','Both PCR functional classes are explicit; whole bodies, sample-index architecture and occupied sites remain unresolved.'))),
+ panel(intended_atail_scene().rows(),caption='INFERRED — intended source dA-tailed substrate class; occupied genomic fragment and adapter geometry unassembled'),
+ '<h2>Read setup</h2><p>Illumina NovaSeq, paired-end 150 bases. Exact read-primer sites, index cycles and complete library molecules remain unresolved. No physical sample pool is invented.</p>',
+ '<h2>Source boundary</h2><p>The defining article contrasts OCEAN-C’s FAIRE selection with HiCoP’s silica-column selection. This comparison is qualified to the HiCoP article; OCEAN-C’s full original was not reviewed. CoP-only accessibility, its Tn5/HiSeq alternatives and its five-cycle/qPCR workflow are not merged into the selected HiCoP preparation. The upstream fixation allocation and the detailed cited in-situ Hi-C finishing recipe remain unresolved; no canonical kit oligos are supplied by name.</p>',
+ '<details><summary>Full molecular workflow, physical fractions and unresolved chemistry</summary>',WorkflowSection('Source-qualified molecular workflow'),'</details></main>'])
+
 if __name__=='__main__':selftest()

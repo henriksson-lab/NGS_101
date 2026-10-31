@@ -70,5 +70,17 @@
     "Remainder MOESM5 including Table1 and Table8",
     "MOESM6 inspection",
     "Zheng2017 defining original and revision-qualified 10x v1 documents"
-  ]
+  ],
+  "publication_review_2026_10_30": {
+    "result": "blocked_required_coverage",
+    "scope": "Bounded read-only source/model preflight; not a complete independent source or absence review.",
+    "originals_reinspected": 2,
+    "source_scopes": "Published MOESM5 supplement Discussion1-34/Tables6-7; originalTable7 physicalPDFp35 inspected. MOESM6 identified from original text as Life Sciences Reporting Summary datedAug23,2017; not a bench protocol and no chemistry adopted. Actual main institutional mirror manifestHTTP403, no retry. CitedZheng2017/vendor originals not opened.",
+    "blocker": "Normal graph gate deliberately fails: required cell_to_libraries source item is not covered. Only two post-SPRI operations are modelled; upstream antibody/cell labelling, droplet synthesis, physical size split and full RNA branch are unmet source obligations. MainMethods unavailable locally. Do not remove that source item, change requiredness or present existing read-site panel as a completed protocol.",
+    "needed_urls": [
+      "https://rnajc.ucsf.edu/sites/rnajc.ucsf.edu/files/nbt.3973_0.pdf"
+    ],
+    "root_verification": "Actual existing graph publication problems independently checked: required cell_to_libraries unaccounted. Existing source item remains required and no model was changed.",
+    "absence_claims": []
+  }
 }

@@ -1,6 +1,6 @@
 {
   "dir": "prim-seq__10.1038+s41587-025-02780-z",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "published_main_preview",
@@ -8,7 +8,7 @@
       "locator": "https://www.nature.com/articles/s41587-025-02780-z",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published2025/issue2026indexedpreviewidentity/abstract/ED1\u20132captions/supplementmaponly; fulldefiningbody/Methodsunread. Directpageidentityredirect; officialPDFreturnedHTMLnotPDF.",
+      "inspection_scope": "Published2025/issue2026indexedpreviewidentity/abstract/ED1–2captions/supplementmaponly; fulldefiningbody/Methodsunread. Directpageidentityredirect; officialPDFreturnedHTMLnotPDF.",
       "pass_1": null,
       "pass_2": null
     },
@@ -18,7 +18,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-025-02780-z/MediaObjects/41587_2025_2780_MOESM1_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "PublishedSI1contents/Fig9actualPDFp13printed12/extracted958\u20131006: whole44ntbottomprinted3to5/5App/internalbiotinmarkand44nt5Phostop/RNA-linkerannealingcomponent. Table6RNA-PLAprobeidentityonlynotcorePRIMoligos.",
+      "inspection_scope": "PublishedSI1contents/Fig9actualPDFp13printed12/extracted958–1006: whole44ntbottomprinted3to5/5App/internalbiotinmarkand44nt5Phostop/RNA-linkerannealingcomponent. Table6RNA-PLAprobeidentityonlynotcorePRIMoligos.",
       "pass_1": null,
       "pass_2": null
     }
@@ -30,7 +30,7 @@
       "date": "2026-10-30",
       "documents": 2,
       "scope": "Publishedversionfirst; two-originalsourcepassclosedwithunusedthirdslot. ActualchemistrylimitedtoSI1RNA-linkercomponent, notfullNGSpreparation.",
-      "locations": "Published2025/issue2026indexedpreviewidentity/abstract/ED1\u20132captions/supplementmaponly; fulldefiningbody/Methodsunread. Directpageidentityredirect; officialPDFreturnedHTMLnotPDF.; PublishedSI1contents/Fig9actualPDFp13printed12/extracted958\u20131006: whole44ntbottomprinted3to5/5App/internalbiotinmarkand44nt5Phostop/RNA-linkerannealingcomponent. Table6RNA-PLAprobeidentityonlynotcorePRIMoligos.",
+      "locations": "Published2025/issue2026indexedpreviewidentity/abstract/ED1–2captions/supplementmaponly; fulldefiningbody/Methodsunread. Directpageidentityredirect; officialPDFreturnedHTMLnotPDF.; PublishedSI1contents/Fig9actualPDFp13printed12/extracted958–1006: whole44ntbottomprinted3to5/5App/internalbiotinmarkand44nt5Phostop/RNA-linkerannealingcomponent. Table6RNA-PLAprobeidentityonlynotcorePRIMoligos.",
       "findings": "Source5AppisbottomDNA5enddespite3to5printing; reverse44ntbottomorder/44nt5Phostopcomputes41bpduplex+3nt5overhangs. RNArecipient/intended3OHviewinferreddefault. JoinedpartialviewdoesnotretainactivationApp; releasedAMPremainscopresentmixture/unassignedfate. NoSMART-display/REILISorNGSfinishinginvented; collectedfalse.",
       "deferred": [
         "Actualpublishedmainbody/Methodsneeded forSMART-display/REILISpreparation/actualstocks/samples/pools/aliquots/NGSfinishing.",
@@ -40,6 +40,21 @@
       ],
       "oligo_scraper": "Mandatorybundle10sequences/1file /tmp/ngs40-prim-scraper.log. Fig9actualp13render /tmp/prim40-si13.png independentlyread; source5DNAadenylationcaptionoverridesorientation-blindscraper3Appannotation. No sharedparserchange.",
       "verification": "11componentchecksPASS; sourceguard2exactchecked/0failed/0exceptions/0unrepresented; chemicalclaims3steps1localestablished3unresolved0contradictory. ComponentterminalUNRESOLVED/noNGSendpoint; collectedfalse. Note/refrender/schemaPASS; same2closedpublishedoriginals, independentcomponentpeerpending."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch14",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed existing-source preflight followed by bounded documentation and source-local constant oligo inventory correction only. No acquisition or preparation-scope expansion.",
+      "locations": "Actual original Fig9PDFp13/printed12 and text958–1009: bottom printed3to5, explicit5prime DNAadenylation, source5Ptop/internalbiotin and RNA-linker annealing; Existing source-review published identity/abstract/supplement-map scope and actual manifest row for final PDF returningHTML; no current main-body read or new request",
+      "findings": "Only a three-step RNA-linker component graph is source-supported locally; no actual complete SMART-display/REILIS producer or final DNA-library preparation is modeled. Defining published full body/Methods is not present among valid cached originals. A linker-RNA annealing product cannot be labeled a sequencing library, and source_orientation/remaining inventory obligations remain uncovered. Published preview metadata and other automatically cached supplements do not establish the uninspected full preparation. No component module or page-publication wiring changed. The directly inspected Fig9 RNA-linker component does not include SMART-display/REILIS sample preparation or final DNA-library finishing. It remains an unresolved component terminal, not a completed sequencing protocol.",
+      "deferred": [
+        "Defining published fullbody/Methods actual PDF URL already manifest-marked HTML-not-PDF; no retry attempted.",
+        "Directly cited GEO/sample applicability and remaining actual publishedSI originals unreviewed; no data fanout or platform default recipes."
+      ],
+      "oligo_scraper": "10hits in1representation; actual original Fig9 rendered and viewed, scraper3App orientation never treated as authority",
+      "verification": "Unchanged component module11PASS in preflight; protocol has no public PAGE_FILE. Actual original body unavailable locally; no new request."
     }
   ],
   "linked_information": {
@@ -61,7 +76,7 @@
       "why": "ActualofficialpublishedmainPDFstandardattemptreturnedHTMLnotPDF; full2025Methods/recipeunread, no supersededpreprintsubstitution."
     }
   ],
-  "conclusion": "Uncollectedfullpreparation; sourcepositivepublishedSIcomponentonly privatepartialgraph. No completechemistry/source/absenceaudit.",
+  "conclusion": "Bounded publication hold retained. Only a three-step RNA-linker component graph is source-supported locally; no actual complete SMART-display/REILIS producer or final DNA-library preparation is modeled. Defining published full body/Methods is not present among valid cached originals. A linker-RNA annealing product cannot be labeled a sequencing library, and source_orientation/remaining inventory obligations remain uncovered. Published preview metadata and other automatically cached supplements do not establish the uninspected full preparation.",
   "independent_implementation_recheck": {
     "reviewer": "coordinator_round40",
     "date": "2026-10-30",

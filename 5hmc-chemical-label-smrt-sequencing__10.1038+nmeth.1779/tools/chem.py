@@ -11,11 +11,11 @@ from pcr import PCRGeometry
 def scene(label):
     sc=Scene();sc.strand('preparation',[Segment('population','['+label+']',placeholder=True)]);return sc
 
-def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; geometry unassembled',product=None,state=None):
+def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; geometry unassembled',product=None,state=None,extra_inputs=()):
     stock=g.input(key+'_stock',reagent,K.CONDITION)
     out=g.product(key+'_product',product or label+'; molecular mixture/remnants unassembled',K.MOLECULAR,state=state)
     kw={'reason':'Source operation established; exact molecular ends, companion species and geometry unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
-    g.react(key,label,kind,((x,R.TEMPLATE),(stock,R.CONDITION)),(out,),**kw);return out
+    g.react(key,label,kind,((x,R.TEMPLATE),(stock,R.CONDITION))+tuple(extra_inputs),(out,),**kw);return out
 
 def cleanup(g,key,x,label):
     stock=g.input(key+'_condition',label,K.CONDITION)
@@ -51,13 +51,17 @@ def protocol_graph():
     g=ProtocolGraph('5hmC chemical-label SMRT sequencing',authority=SOURCE,representation='published_instance')
     x=g.input('genomic','SourcemESC E14Tg2A genomicDNA;5hmCsites/occupancy not instantiated',K.MOLECULAR,primary=True)
     x=op(g,'sonicate',x,'Source sonication100–500bp',S.FRAGMENTATION)
-    x=op(g,'label',x,'Source200µgDNA/UDP6N3Glc100µM/betaGT2µM37°C1h',S.CHEMICAL_CONVERSION,reagent='Source50mMHEPESpH7.9/25mMMgCl2',product='SelectedN3-glucosyl5hmCDNA plus unreactedDNA/enzyme/cofactor remnants')
+    gt=g.input('label_gt','Actual genomic-labeling betaGT2uM contribution',K.CATALYST)
+    sugar=g.input('label_sugar','Actual genomic-labeling UDP6N3Glc100uM contribution',K.MOLECULAR)
+    x=op(g,'label',x,'Source200µgDNA/UDP6N3Glc100µM/betaGT2µM37°C1h',S.CHEMICAL_CONVERSION,reagent='Source50mMHEPESpH7.9/25mMMgCl2',product='SelectedN3-glucosyl5hmCDNA plus unreactedDNA/enzyme/cofactor remnants',extra_inputs=((gt,R.CATALYST),(sugar,R.STRUCTURAL)))
     x=cleanup(g,'label_clean',x,'SourceBioRadMicroBioSpin6 desalting')
-    x=op(g,'click',x,'Source150µM DBCOdisulfidebiotin37°C2h',S.CHEMICAL_CONVERSION,product='Sourcebiotin-S-S-N3-5gmC DNA classes plus freeclickreagent/unreactedDNA; no baseconversion')
+    linker=g.input('click_linker','Actual source DBCOdisulfidebiotin150uM contribution',K.MOLECULAR)
+    x=op(g,'click',x,'Source150µM DBCOdisulfidebiotin37°C2h',S.CHEMICAL_CONVERSION,reagent='Source37C2h incubation after actual click-reagent addition',product='Sourcebiotin-S-S-N3-5gmC DNA classes plus freeclickreagent/unreactedDNA; no baseconversion',extra_inputs=((linker,R.STRUCTURAL),))
     x=cleanup(g,'click_clean',x,'SourceQiagennucleotideremoval purification')
     beads=g.input('beads','Source100µlMyOneStreptavidinC1beads/B&W0.01%Tween20',K.SELECTION);bound=g.product('bound','Sourcebead-associated labeledDNA plus unquantified nonspecific companions',K.MOLECULAR);flow=g.product('flowthrough','Source separated captureflowthrough/washes',K.WASTE)
     g.react('capture','SourcebiotinDNA binding and washing',S.AFFINITY_CAPTURE,((x,R.TEMPLATE),(beads,R.SELECTION)),(bound,flow));g.discard(flow,'Actual removed binding/wash fraction; no perfect specificity asserted.')
-    y=op(g,'dtt',bound,'Source50mMDTT100µl25°C2hgentlerotation',S.CHEMICAL_CONVERSION,product='ReleasedHS-N3-5gmCDNA plus beads with residualbiotin/linker products and DTT/reactionremnants; no physical separation yet')
+    reductant=g.input('dtt_reductant','Actual source DTT50mM in100ul release solution',K.MOLECULAR)
+    y=op(g,'dtt',bound,'Source50mMDTT100µl25°C2hgentlerotation',S.CHEMICAL_CONVERSION,reagent='Source25C2hgentlerotation release programme',product='ReleasedHS-N3-5gmCDNA plus beads with residualbiotin/linker products and DTT/reactionremnants; no physical separation yet',extra_inputs=((reductant,R.STRUCTURAL),))
     stock=g.input('magnet','Source magneticsegregation',K.CONDITION);x=g.product('released','SourcecollectedDNA solution retainsHS-labeladduct; no restoration to native5hmC',K.MOLECULAR);beadrest=g.product('retained_beads','Source magnet-separatedbeads/biotin-linkerremnants and possible retainedDNA',K.WASTE)
     g.react('magnet_collect','Sourcecollect releasedDNA supernatant',S.CLEANUP,((y,R.TEMPLATE),(stock,R.CONDITION)),(x,beadrest));g.discard(beadrest,'Actual magnetic bead separation; recovery incomplete/unspecified.')
     x=cleanup(g,'desalt',x,'SourceBioRadMicroBioSpin6 removesDTT')
@@ -84,6 +88,10 @@ def selftest():
     try:native.reduce();bad=False
     except ValueError:bad=True
     c('no reduction-release from native or non-disulfide class',bad,True)
-    g=protocol_graph();c('beads are physically removed after chemicalreduction',g.steps['magnet_collect'].inputs[0].material,'dtt_product')
+    g=protocol_graph()
+    c('Labeling consumes actual source betaGT catalyst',g.steps['label'].inputs[2].material,'label_gt')
+    c('DTT release consumes physical reducing reagent before magnetic separation',g.steps['dtt'].inputs[2].material,'dtt_reductant')
+    c('Genomic historical SMRTbell scope remains uncovered','pending' in g.source_coverage,False)
+    c('beads are physically removed after chemicalreduction',g.steps['magnet_collect'].inputs[0].material,'dtt_product')
     c.report()
 if __name__=='__main__':selftest()

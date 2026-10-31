@@ -28,3 +28,11 @@ Deferred sources/questions:
 - Other SI figures/tables/code and source-linked molecular predecessors remain unreviewed; no full source or absence audit
 
 Mandatory standard primer scraper completed;source pointers were verified only in the scopes stated. No complete source/absence audit or two-reader irrelevance decision claimed.
+
+## Bounded publication follow-up (2026-10-30)
+
+The inspected published SI Fig1 setup and Fig5a (text3–9/59–64; actualFig5p5) support the physical antibody-surface preparation, loading of TF1-eGFP/TF2-mCherry/Cy5-dsDNA, trapping, fluorescence observation and washing. They do not supply the defining main's release, recovery, PCR or sequencing-library production. The required `unassembled` original/geometry item remains uncovered. The current molecular endpoint is not promoted to a library merely because it follows captured DNA.
+
+The limited fixes distinguish physical surface/complex preparation from DNA chemistry: source-positive surface/loading boundaries are explicitly opaque physical operations; trapping and fluorescent observation do not claim copied/ligated DNA. A literal curator-reviewed capture inventory replaces runtime graph enumeration. The unread library continuation is deliberately outside that reviewed capture list. Exact immobilization/linkage, full DNA bait/dye placement and downstream library chemistry remain unresolved.
+
+One existing published SI original was reread in this bounded pass, with its actual figure inspected. Defining main Methods remain unread under the historical standard-manifest limitation; no new acquisition/current access claim, absence audit or full-source coverage. Private model and notes status retained.

@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round05",
         "date": "2026-10-28",
-        "locations": "Methods 41–71; branch distinction 87–91; High-throughput sequencing 99–103",
+        "locations": "Methods 41\u201371; branch distinction 87\u201391; High-throughput sequencing 99\u2013103",
         "finding": "Accepted author manuscript: phase-based FAIRE enrichment; RNase followed by cleanup; source-positive A/T-overhang GAII branch and 36bp reads."
       }
     },
@@ -50,7 +50,7 @@
       "date": "2026-10-28",
       "documents": 1,
       "scope": "Bounded defining-original and chemistry-supplement pass; no family recipe import.",
-      "locations": "Methods 41–71; branch distinction 87–91; High-throughput sequencing 99–103",
+      "locations": "Methods 41\u201371; branch distinction 87\u201391; High-throughput sequencing 99\u2013103",
       "findings": "Accepted author manuscript: phase-based FAIRE enrichment; RNase followed by cleanup; source-positive A/T-overhang GAII branch and 36bp reads.",
       "deferred": [
         "Resolve original one-page supplementary cell/tissue protocol attachment identities mentioned in Methods.",
@@ -60,5 +60,27 @@
       "oligo_scraper": "One collapsed sequence family, verified as the microarray LM-PCR branch; not used as NGS library adapters.",
       "verification": "Local test/build and pairing lint pass; required pending original blocks publication; no finished-page marker. Chemistry unresolved16/contradictory0; three historical adapter/primer inputs unassembled."
     }
-  ]
+  ],
+  "publication_review_2026_10_30": {
+    "result": "blocked_source_scope",
+    "scope": "Bounded source/model pass; one existing original, no source acquisition or complete independent absence audit.",
+    "source_scopes": "One existing associatedAM PMC2710428: identity header/Methods cell/tissue preparation and FAIRE extraction/precipitation/RNaseA, High-throughput sequencing99\u2013103 and manuscript XML supplementary-locator scan. Some initial broad output truncated; relevant extraction/tissue/sequencing paragraphs reread separately. No one-page supplement or historical supplier original read, no retrieval attempt.",
+    "scraper": "Mandatory bundle scrape1hit; microarray LM-PCR oligos must not substitute for GAII adapters/primers.",
+    "blocker": "Actual required unreviewed_original source item remains unaccounted: article explicitly names one-page cell/tissue supplementary protocols, not collected/inspected in this local bundle. Historical adapter1000521/PCR1000537/1000538 polymers and interfaces remain unassembled; those are component questions, not invented inaccessible documents.",
+    "actual_document_targets": [
+      "One-page cultured-cell supplementary protocol explicitly named by associatedAM FAIRE procedure; exact filename/link not encoded in this cached XML.",
+      "One-page tissue supplementary protocol explicitly named in same paragraph; no relevance exclusion made without inspection."
+    ],
+    "open_component_questions": [
+      "Source Illumina1000521 double-stranded T-overhang adapter body/complete end state",
+      "Source Illumina1000537 and1000538 PCR primer bodies and historical supplier scope; no directURL/revision invented"
+    ],
+    "source_facts": "AssociatedAM reports100\u2013200ngDNA, EpicentreER0720 blunting/KL06041K A tailing, T-overhangadapterligation,125\u2013275bpgel selection andPfuUltraII.36bp reads are described before computational extension to200bp; do not treat computational extension as a physical read or infer paired acquisition from either-end prose.",
+    "model_followups": [
+      "Actual reagent contribution/analytical aliquot/input-stock/loading fates need bounded review before eventual public promotion.",
+      "No original guide/document is claimed unavailable merely because a component is unassembled."
+    ],
+    "verification": "Current actual publication_problems independently checked: unreviewed_original unaccounted. Existing graph/render smoke passes;16unresolved narrow relations/0contradictory. Module unchanged, no page rebuild needed.",
+    "absence_claims": []
+  }
 }

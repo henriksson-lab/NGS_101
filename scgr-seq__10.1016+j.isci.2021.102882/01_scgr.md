@@ -34,3 +34,11 @@ Component ancestry: published Methods350 explicitly directs the RNA branch to th
 ## Validation
 
 Local source transcription and physical branch/state tests are recorded in the source-review JSON. No finished library or full source review is claimed.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Published Methods340 places MultiNA size/quantity assessment after AMPure cleanup and before the source 4nM barcode-library sequencing preparation. Methods350 separately specifies PowerUp SYBR/CFX library qPCR with DNA standards and 10nM RNA-derived library sequencing preparation. The local model now separates analytical allocations, production libraries, loading allocations and untransferred stocks. Analytical amounts, loading volumes, dilution recipes and stock quantities remain unassembled; a concentration label does not supply an unreported material addition.
+
+The actual PowerUp master-stock contribution exposes its co-present catalyst, dNTPs, buffer and SYBR reporter without fresh duplicate additions. Takara DNA standards remain a separate calibration preparation, never a spike into sample qPCR or production libraries. Calibration assay internals and the sample qPCR primer/amplicon geometry remain explicit limits. No exact analytical primer is borrowed from the preparative library.
+
+The original required full-geometry/linked-original item remains uncovered. Historical GenNext RamDA RNA-library production, exact linker/released end chemistry and independent cell-library array allocations remain substantive limits. Existing runtime all-node inventory is not an independent curator review and is not used to promote this page. The source pass is closed on published main Methods328–350/Results88, original TableS1 header/rPVL row and TableS15 whole primer/index table; no other original or kit recipe is adopted. This is a verified private partial model, not a finished public schematic.

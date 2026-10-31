@@ -1,6 +1,6 @@
 {
   "dir": "sissor__10.1073+pnas.1707609114",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "main",
@@ -13,8 +13,8 @@
       "pass_1": {
         "reviewer": "round10_coordinator",
         "date": "2026-10-29",
-        "locations": "Publishedidentity/mainResults64–74/Fig1,Methods164,mapping168;originalPDFp6rendered",
-        "finding": "Alkalinepaired-strandseparation/random24chamberpartition/separateMDA/indexedlibrarypooling;source3′phosphorylatedhexamerwordingretained,notreinterpreted."
+        "locations": "Publishedidentity/mainResults64\u201374/Fig1,Methods164,mapping168;originalPDFp6rendered",
+        "finding": "Alkalinepaired-strandseparation/random24chamberpartition/separateMDA/indexedlibrarypooling;source3\u2032phosphorylatedhexamerwordingretained,notreinterpreted."
       },
       "pass_2": null
     },
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "round10_coordinator",
         "date": "2026-10-29",
-        "locations": "PublishedSIAppendixI.1–I.5;I.7–I.8overview;QCprimercontextsTableS9/text1761–1767",
+        "locations": "PublishedSIAppendixI.1\u2013I.5;I.7\u2013I.8overview;QCprimercontextsTableS9/text1761\u20131767",
         "finding": "DistinctCoRECell3/transposonCell2libraryoperationroutesandrunoptionssource-qualified;notinventedCell1same-chambersplit."
       },
       "pass_2": null
@@ -48,7 +48,7 @@
   "missing_claims": [],
   "pending_linked_targets": [
     {
-      "locator": "Peters etal2012Nature487:190–195,mainRef18/SIRef1",
+      "locator": "Peters etal2012Nature487:190\u2013195,mainRef18/SIRef1",
       "scope": "ActualCoRE/librarypredecessor;notentiremethodinheritance."
     },
     {
@@ -57,7 +57,7 @@
     }
   ],
   "open_questions": [
-    "HistoricalMDApriming/endnotationandformulation,notassumedordinary3′OH/PS.",
+    "HistoricalMDApriming/endnotationandformulation,notassumedordinary3\u2032OH/PS.",
     "Fullsourcegenomic/fragment/adapter/index/PCR/rungeometry.",
     "Remainingresulttablesandindependentoriginal/linked-materialreview."
   ],
@@ -75,6 +75,21 @@
         "Independentcompleteoriginal/linkedmaterialreview"
       ],
       "oligo_scraper": "Wholebundle8hits;4publishedQCprimerhitsand4supersededpreprintsupplementhits. PublishedQCcontextschecked;preprintnotused;notabsenceevidence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch12",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published mainFig1/Results64\u201374/Methods164 andpublishedSI I.3\u2013I.5; capped positive preparation review, not full linked-source/absence review.",
+      "locations": "Main64\u201374/164; SI105\u2013173.",
+      "findings": "Capture/retrieve preserve molecularidentity, sameactualMDAstockproducesprimer/Phi29/NT/bufferviews, actualsamecellpoolsource verified, sourceinventoryliteralinsteadconstruction-derived. Originalhistorical_geometry and3primephosphorylatedprimerwording retained.",
+      "deferred": [
+        "HistoricalMDA/initiation/end/adapter/primer/product/read geometry and actualcitedPeters/Adey originals.",
+        "Individualparallelchamber production/stock/QC/loading and remaining downstreamNT/kit scope."
+      ],
+      "oligo_scraper": "Repeated /tmp/unlinked12-sissor-scraper.log in closedsourcepass; publishedQCprimers not libraryprimers, supersededpreprint excluded.",
+      "verification": "15focusedchecks,privatebuild,pairing0 pass. Bothroute normalgates now fail exactlyoriginalhistorical_geometry; no fullgeometry/absenceclaim."
     }
   ],
   "superseded_sources": [
@@ -83,9 +98,10 @@
       "disposition": "Automaticallyfetchedpreprintv1/supplementexcluded;publishedoriginalsavailable. No chemical equivalence assumed."
     }
   ],
-  "conclusion": "Cappedpublished-sourcepass,privateincompletegraphs;noacceptedmissinginformationorfullchemicalvalidation.",
+  "conclusion": "Bounded source/model hold; source-positive local corrections do not waive historical geometry.",
   "local_validation": {
     "selftest_checks": 11,
     "result": "pass"
-  }
+  },
+  "blocking_condition": "Original historical_geometry remains: historicalMDA/end/initiation, NEBNext/tagmentation/primer-product/read geometry and citedPeters/Adey scope unassembled. Genericcapture/retrieve and actualpoolinventory corrected; MDAcomponents fromoneactualstock nowphysical, but source3primephosphorylatedprimer ends not silently repaired. Representative/other23summary notfullarrayassembly; no geometrycoveragewaiver."
 }

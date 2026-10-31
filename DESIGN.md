@@ -1119,3 +1119,19 @@ work and illustrative examples remain excluded. The normal offline build exports
 the relationship payload, full SVG viewer and collapsed local parent/child views
 on protocol pages. Evidence remains visible when a link is selected. Neither the
 public payload nor the graph includes third-party source documents.
+
+## 2026-10-30 — Reviewed model limits apply to every finder facet
+
+A source-qualified public workflow may retain `unassigned in model` for any finder
+facet, including index introduction and amplification. This value describes the
+explicit boundary of the declared model; it does not assert published absence or
+inherit a current kit recipe. The page must identify its reviewed preparation and
+remaining limits, and still pass the unchanged graph, source-inventory and public
+page gates. Unknown partitioning also produces an unassigned derived scale, never
+an invented bulk designation.
+
+`not yet curated` remains reserved for notes and rejected for published schematics.
+These two states must stay distinct: a reviewed source-limited preparation can be
+useful publicly, while an identity-only registration remains unfinished. A generic
+profile must not supply unsupported indexing, amplification or identifier choices
+merely to make a source-qualified page linkable.

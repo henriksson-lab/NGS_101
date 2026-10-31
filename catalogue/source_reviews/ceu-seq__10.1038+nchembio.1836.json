@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round05_reader",
         "date": "2026-10-28",
-        "locations": "Title/DOI, original rendered FigS2(b) pageS10; captions916–935; synthesis NoteS21–S22 lines1040–end",
+        "locations": "Title/DOI, original rendered FigS2(b) pageS10; captions916\u2013935; synthesis NoteS21\u2013S22 lines1040\u2013end",
         "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
       },
       "pass_2": null
@@ -70,7 +70,7 @@
       "date": "2026-10-28",
       "documents": 1,
       "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
-      "locations": "Title/DOI, original rendered FigS2(b) pageS10; captions916–935; synthesis NoteS21–S22 lines1040–end",
+      "locations": "Title/DOI, original rendered FigS2(b) pageS10; captions916\u2013935; synthesis NoteS21\u2013S22 lines1040\u2013end",
       "findings": "Defining article full Methods; preparative capture/workup, RT stop geometry, adapters/PCR/index/read layout; remaining SI tables/figures and workbook.",
       "deferred": [
         "https://doi.org/10.1038/nchembio.1836"
@@ -78,5 +78,20 @@
       "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
     }
   ],
-  "blocking_condition": "Defining main article/Methods inaccessible after publisher authorization failure; read publisher SI supports only selected label/click chemistry."
+  "blocking_condition": "Defining main article/Methods inaccessible after publisher authorization failure; read publisher SI supports only selected label/click chemistry.",
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_scope",
+    "source_scope": "Existingnchembio.1836_41589_2015_BFnchembio1836_MOESM157_ESM.pdf.txt916\u2013935 FigS2/S3captions: selectedN3CMC/DBCO-biotinlabelingandpulldown/readending relations. Contextualtextsearchforlibrary/methodlocations only, not full SIoriginal or reaction-layoutreview. PriororiginalFigS2pS10/S21\u201322synthesis checks retained aspriorreview, not newlyassertedindependentimageverification. No mainaccessrequest, resultworkbook orvendor/referencebodyopened.",
+    "originals_read": 1,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "findings": "Existing source-review blocking_condition records defining main/Methods authorizationfailure; externalMANIFEST manual nchembio.1836 fulltext at actualDOI records noopenfulltext. AccessibleSIselectedcaptions establish chemicalevent/pulldown/readending signal but this pass doesnotestablish actualcompleteRNA\u2192DNA-library preparation, capture/workup/order/RT/adapter/PCR/readscope. Currenttwoeventprobegraph cannot be sequenced or source-cleared bylabelalone.",
+    "normal_gate": [
+      "no terminal output is designated for sequencing",
+      "graph input/step 'unreviewed_conditions' has no source-inventory item"
+    ],
+    "verification": "Same read-only preflight confirms2steps and two actual gate problems; no code/build/test changes in documentation-only hold. Source-review/manifest hold locators retained, no retry or absence claim.",
+    "missing_information_claims": []
+  }
 }

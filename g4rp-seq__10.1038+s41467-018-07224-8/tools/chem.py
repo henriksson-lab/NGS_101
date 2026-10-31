@@ -11,10 +11,10 @@ def state(label):
     sc=Scene();sc.strand('population',[Segment(label,'['+label+']',placeholder=True)]);return sc
 
 def clean(g,key,current,procedure):
-    reagent=g.input(key+'_reagent',procedure,K.SELECTION)
+    reagent=g.input(key+'_reagent','Actual TRIZOL molecular extraction reagent; quantity/partition chemistry unassembled',K.MOLECULAR)
     kept=g.product(key+'_kept','Recovered '+procedure+'; exact molecular recovery/carryover unquantified',K.MOLECULAR)
     waste=g.product(key+'_waste','Physical separation fractions; no complete target specificity assumed',K.WASTE)
-    g.react(key,procedure,S.CLEANUP,((current,R.TEMPLATE),(reagent,R.SELECTION)),(kept,waste));g.discard(waste,'Actual source physical separation only.');return kept
+    g.react(key,procedure,S.CLEANUP,((current,R.TEMPLATE),(reagent,R.STRUCTURAL)),(kept,waste));g.discard(waste,'Actual source physical separation only.');return kept
 SOURCE='Yang et al.2018 DOI10.1038/s41467-018-07224-8; published non-manuscript PMC6226477 Methods138–148, limitations116 and SI Fig6/7. Exact historical kits unreviewed.'
 @dataclass(frozen=True)
 class SelectedPartition:
@@ -31,14 +31,19 @@ class SelectedPartition:
 def protocol_graph():
     g=ProtocolGraph('G4RP-seq — source baseline MCF7 route',authority=SOURCE,representation='published_instance')
     current=g.input('cells','Source baseline MCF7 cells; optional drug-treated experiments remain separate inputs, no ligand exposure inferred',K.MOLECULAR,primary=True)
-    fa=g.input('formaldehyde','Source1%formaldehyde/PBS5min25°C',K.CONDITION)
+    fa=g.input('formaldehyde','Actual source 1% formaldehyde/PBS molecular crosslinking contribution',K.MOLECULAR)
+    fixation_environment=g.input('fixation_environment','Source 5min25°C fixation environment',K.CONDITION)
     out=g.product('crosslinked','Crosslinked cellular RNA/protein/nucleic acid complexes; no guarantee all folds trapped or direct interactions only',K.MOLECULAR)
-    g.react('crosslink','Source formaldehyde crosslink before BioTASQ exposure',S.CROSS_LINKING,((current,R.TEMPLATE),(fa,R.CONDITION)),(out,))
-    gly=g.input('glycine','Source0.125Mglycine5min',K.CONDITION);quenched=g.product('quenched','Quenched crosslinked material plus residual reagents/products',K.MOLECULAR)
-    g.react('quench','Source glycine quench',S.GENERIC,((out,R.TEMPLATE),(gly,R.CONDITION)),(quenched,),reason='Reaction product identities and exact quench stoichiometry unassembled.')
-    buffer=g.input('lysis_buffer','Source G4RP buffer including150mMKCl; scraped/resuspended cells',K.CONDITION)
+    g.react('crosslink','Source formaldehyde crosslink before BioTASQ exposure',S.CROSS_LINKING,((current,R.TEMPLATE),(fa,R.STRUCTURAL),(fixation_environment,R.CONDITION)),(out,))
+    gly=g.input('glycine','Actual source0.125M glycine molecular quencher',K.MOLECULAR);quench_environment=g.input('quench_environment','Source glycine quench5min; exact stoichiometry unassembled',K.CONDITION);quenched=g.product('quenched','Quenched crosslinked material plus residual reagents/products',K.MOLECULAR)
+    g.react('quench','Source glycine quench',S.QUENCHING,((out,R.TEMPLATE),(gly,R.STRUCTURAL),(quench_environment,R.CONDITION)),(quenched,),reason='Reaction product identities and exact quench stoichiometry unassembled.')
+    buffer=g.input('lysis_buffer','Actual source G4RP working-buffer aliquot for scraped/resuspended cells; totalvolume unassembled',K.MOLECULAR)
+    components=[]
+    for key,label in (('kcl','150mM KCl'),('tris','25mM Tris pH7.4'),('edta','5mM EDTA'),('dtt','0.5mM DTT'),('np40','0.5% NP40'),('rnase_inhibitor','Roche RNase inhibitor; dose unassembled'),('protease_inhibitors','Homebrew protease inhibitor cocktail; components/dose unassembled')):
+        components.append(g.product('g4rp_'+key,'Co-present '+label+' from actual G4RP buffer, not a fresh addition',K.MOLECULAR))
+    g.react('buffer_components','Expose source working-buffer co-components; no extra doses or invented cocktail',S.GENERIC,((buffer,R.STRUCTURAL),),tuple(components),changes_molecule=False)
     lysate=g.product('lysate','Sonicated crosslinked cell extract with RNA, DNA/protein/debris retained',K.MOLECULAR)
-    g.react('sonicate','Source Covarism22010%duty2min after scraping/resuspension',S.MAGIC,((quenched,R.TEMPLATE),(buffer,R.CONDITION)),(lysate,),reason='Source extraction/sonication operation known; molecular break/retention distributions unassembled.')
+    g.react('sonicate','Source Covarism22010%duty2min after scraping/resuspension',S.MAGIC,((quenched,R.TEMPLATE),)+tuple((z,R.STRUCTURAL) for z in components),(lysate,),reason='Source extraction/sonication operation known; molecular break/retention distributions unassembled.')
     probe=g.input('biotasq','Source100µMBioTASQ overnight4°C, biotinylated G4-binding probe; noncovalent association, not RNA-biotin covalent labeling',K.MOLECULAR)
     association=g.product('probe_associated','BioTASQ-associated crosslinked RNA complexes plus free probe and nonspecific/background material',K.MOLECULAR)
     g.react('probe_binding','Source noncovalent BioTASQ association; source-specific folding/binding not automatically predicted',S.BINDING,((lysate,R.TEMPLATE),(probe,R.STRUCTURAL)),(association,))
@@ -79,5 +84,11 @@ def selftest():
     try:x.recovered(frozenset({'inventedRNA'}));bad=False
     except ValueError:bad=True
     c('release cannot invent RNA identities',bad,True)
+    g=protocol_graph()
+    c('Actual formaldehyde and glycine are molecular contributors',(g.materials['formaldehyde'].kind,g.materials['glycine'].kind),(K.MOLECULAR,K.MOLECULAR))
+    c('Source glycine has typed quenching operation',g.steps['quench'].kind,S.QUENCHING)
+    c('Known G4RP co-components derive from one working buffer',all(g.producer_of(x).id=='buffer_components' for x in ('g4rp_kcl','g4rp_tris','g4rp_edta','g4rp_dtt','g4rp_np40','g4rp_rnase_inhibitor','g4rp_protease_inhibitors')),True)
+    c('TRIZOL extraction reagent is not a selection matrix',(g.materials['trizol_reagent'].kind,g.steps['trizol'].inputs[1].role),(K.MOLECULAR,R.STRUCTURAL))
+    c('Actual historical-kit/fullread item remains uncovered',any("'unreviewed_kit'" in p for p in g.publication_problems()),True)
     c('known downstream route remains publication-limited',bool(protocol_graph().publication_problems()),True);c.report()
 if __name__=='__main__':selftest()

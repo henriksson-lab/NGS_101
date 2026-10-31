@@ -13,10 +13,13 @@ def clean(g,key,x,label):
     rest=g.product(key+'_rest','Actual physically separated workup fractions; no perfect molecular partition inferred',K.WASTE)
     g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.CONDITION)),(kept,rest));g.discard(rest,'Actual source workup separation.');return kept
 
-def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; precise geometry unassembled',catalyst=False,product=None,reason='Source operation known; internal molecular geometry and remnant fates unassembled.'):
-    stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.CONDITION)
+def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; precise geometry unassembled',catalyst=False,molecular=False,additional=(),product=None,reason='Source operation known; internal molecular geometry and remnant fates unassembled.'):
+    stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.MOLECULAR if molecular else K.CONDITION)
     out=g.product(key+'_product',product or label+'; accompanying physical reaction remnants retained',K.MOLECULAR)
-    g.react(key,label,kind,((x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.CONDITION)),(out,),reason=reason);return out
+    ports=((x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.STRUCTURAL if molecular else R.CONDITION))+tuple(additional)
+    if molecular and kind in {S.CHEMICAL_CONVERSION,S.QUENCHING}:
+        condition=g.input(key+'_conditions',label+'; source exposure, not an extra reagent dose',K.CONDITION);ports+=((condition,R.CONDITION),)
+    g.react(key,label,kind,ports,(out,),reason=reason);return out
 
 def oligo_scene(name,sequence,*,mod5='',mod3=''):
     sc=Scene();sc.strand(name,[Segment(name,sequence)],mod5=mod5,mod3=mod3);return sc
@@ -90,34 +93,47 @@ SOURCE_OLIGO_EXCEPTIONS={'reverse':CORRECTION+' No claim of absence; local main 
 def graph_for_control(control='dms'):
     if control not in {'dms','none','stop'}:raise ValueError('source DMS/noDMS/postquenchDMScontrol required')
     g=ProtocolGraph('Mod-seq — '+control,authority=SOURCE,representation='published_instance')
-    x=g.input('cells','Source WT orrpl26-deletion yeast population',K.MOLECULAR,primary=True)
-    if control=='dms':x=op(g,'probe',x,'Source100mMDMS30°C2min',S.CHEMICAL_CONVERSION,reagent='freshDMS/ethanol',product='RNA/cell material with chemically methylated RNA classes; stop probabilities/site occupancy not predicted')
-    x=op(g,'quench',x,'Source ice and0.6Mbeta-mercaptoethanol/isoamylalcohol quench',S.QUENCHING,reagent='source quenching solution')
-    if control=='stop':x=op(g,'postquench_dms',x,'Source STOPcontrol receivesDMS only after quencher addition',S.CHEMICAL_CONVERSION,reagent='sourceDMS afterquencher; validates quenching, no assumed zero residual reaction')
+    x=g.input('cells','Source WT orrpl26-deletion yeast population',K.BIOLOGICAL,primary=True)
+    if control=='dms':x=op(g,'probe',x,'Source100mMDMS30°C2min',S.CHEMICAL_CONVERSION,reagent='Actual DMS/ethanol molecular contribution',molecular=True,product='RNA/cell material with chemically methylated RNA classes; stop probabilities/site occupancy not predicted')
+    x=op(g,'quench',x,'Source ice and0.6Mbeta-mercaptoethanol/isoamylalcohol quench',S.QUENCHING,reagent='Actual source molecular quenching solution',molecular=True)
+    if control=='stop':x=op(g,'postquench_dms',x,'Source STOPcontrol receivesDMS only after quencher addition',S.CHEMICAL_CONVERSION,reagent='Actual sourceDMS afterquencher; no assumed zero residual reaction',molecular=True)
     x=clean(g,'harvest',x,'Source5000g5min pellet/wash, phenolRNAextraction andethanolrecovery')
     x=op(g,'fragment',x,'Source3µgtotalRNA AmbionFragmentationReagents70°C3min',S.FRAGMENTATION,reagent='source historicalfragmentation reagents')
     x=clean(g,'fragment_cleanup',x,'SourceZymoRNAclean>17ntprotocol')
-    x=op(g,'dephosphorylate',x,'SourceT4PNK37°C1h phosphatase reaction for fragmentedRNA2prime/3primecyclicphosphates',S.DEPHOSPHORYLATION,catalyst=True,reagent='sourceT4PNK/SUPERaseIn mixture withoutaddedATP; fullenddistribution unassembled')
-    x=op(g,'phosphorylate',x,'SourceT4PNK/ATP1mM37°C1h5primephosphorylation',S.PHOSPHORYLATION,catalyst=True,reagent='sourceT4PNK plusATP')
+    inhibitor=g.input('end_rnase_inhibitor','Actual20U SUPERase-In in first PNK reaction',K.MOLECULAR)
+    x=op(g,'dephosphorylate',x,'SourceT4PNK37°C1h phosphatase reaction for fragmentedRNA2prime/3primecyclicphosphates',S.DEPHOSPHORYLATION,catalyst=True,reagent='Actual initial15U T4PNK dose; fullenddistribution unassembled',additional=((inhibitor,R.STRUCTURAL),))
+    atp=g.input('end_atp','Actual ATP addition to1mM for second PNK stage',K.MOLECULAR)
+    supplement=g.input('end_supplement','Actual12.5uLwater and2uL10xPNKbuffer additions; stock packaging unassigned',K.MOLECULAR)
+    x=op(g,'phosphorylate',x,'SourceT4PNK/ATP1mM37°C1h5primephosphorylation',S.PHOSPHORYLATION,catalyst=True,reagent='Actual second15U T4PNK dose; first enzyme remains in preparation',additional=((atp,R.STRUCTURAL),(supplement,R.STRUCTURAL)))
     x=clean(g,'end_cleanup',x,'SourceZymoRNAclean column')
     a=g.input('three_adapter','Source universalmiRNA linker5-rAppCTGTAGGCACCATCAAT-NH2-3; NH2block not an extra nucleotide',K.ADAPTER,state=oligo_scene('three_adapter','CTGTAGGCACCATCAAT',mod5='rApp',mod3='NH2'))
+    heat=g.input('lig3_heat','Source RNA+3prime linker80C2min thenice',K.CONDITION)
+    warmed=g.product('lig3_heated_rna','Same source RNA preparation after copresent linker heating',K.MOLECULAR)
+    heated_adapter=g.product('lig3_heated_adapter','Same copresent3prime linker after heating; not a fresh addition',K.ADAPTER,state=a.state)
+    g.react('lig3_coheat','Source heats RNA and3prime linker together',S.THERMAL_TREATMENT,((x,R.TEMPLATE),(a,R.STRUCTURAL),(heat,R.CONDITION)),(warmed,heated_adapter))
     cat=g.input('rnl2','SourceT4RNAligase2truncated16°Covernight',K.CATALYST);y=g.product('lig3_mix','3prime-adapter-ligated RNA plus unligated RNA/adapter/enzyme remnants',K.MOLECULAR)
-    g.react('lig3','Source3prime adapterligation after80°C2min/ice',S.LIGATION,((x,R.TEMPLATE),(a,R.STRUCTURAL),(cat,R.CATALYST)),(y,),geometry=unknown_ligation('Source3prime adenylated17base/NH2adapter; populationend/junction geometry unassembled.'))
+    g.react('lig3','Source3prime adapterligation after80°C2min/ice',S.LIGATION,((warmed,R.TEMPLATE),(heated_adapter,R.STRUCTURAL),(cat,R.CATALYST)),(y,),geometry=unknown_ligation('Source3prime adenylated17base/NH2adapter; populationend/junction geometry unassembled.'))
     x=clean(g,'lig3_clean',y,'SourceZymo>200ntprotocol')
     a=g.input('five_adapter','Source mixed-sugar5primeEndAcceptor17.93R',K.ADAPTER,state=MixedLinker().scene(),chemical_state=MixedLinker())
+    heat=g.input('lig5_heat','Source5prime linker alone70C2min thenice, before RNA addition',K.CONDITION)
+    heated_adapter=g.product('lig5_heated_adapter','Same source mixed-sugar linker after separate heating',K.ADAPTER,state=a.state,chemical_state=a.chemical_state)
+    g.react('lig5_linker_heat','Source heats5prime linker separately',S.THERMAL_TREATMENT,((a,R.TEMPLATE),(heat,R.CONDITION)),(heated_adapter,))
     cat=g.input('rnl1','SourceT4RNAligase1/QuickLigasebuffer22°Covernight',K.CATALYST);y=g.product('lig5_mix','5prime-linkered RNA population plus unligated material and source reaction remnants',K.MOLECULAR)
-    g.react('lig5','Source5prime linkerligation afterlinker70°C2min/ice',S.LIGATION,((x,R.TEMPLATE),(a,R.STRUCTURAL),(cat,R.CATALYST)),(y,),geometry=unknown_ligation('Source source-known mixedDNA/RNA5linker; complete ligatingends not assembled from predecessor.'))
+    g.react('lig5','Source5prime linkerligation afterlinker70°C2min/ice',S.LIGATION,((x,R.TEMPLATE),(heated_adapter,R.STRUCTURAL),(cat,R.CATALYST)),(y,),geometry=unknown_ligation('Source source-known mixedDNA/RNA5linker; complete ligatingends not assembled from predecessor.'))
     x=clean(g,'lig5_clean',y,'SourceZymo>200ntprotocol')
     probe=g.input('rna_capture_probe','Source5-TTTCAGGTGCCTACGAT-3-BiotinTEG',K.OLIGO,state=oligo_scene('rna_probe',MixedLinker().capture_probe(),mod3='Biotin-TEG'))
+    anneal=g.input('rna_probe_conditions','Source RNA+0.67uMprobe90C90sec in1.3xSSC then37C→RT3C/min',K.CONDITION)
+    hybrid=g.product('rna_probe_mixture','Source RNA/probe annealing mixture, with unbound/nonspecific classes unassigned',K.MOLECULAR)
+    g.react('rna_probe_anneal','Source copresent RNA/probe denaturation and cooling',S.HYBRIDIZATION,((x,R.TEMPLATE),(probe,R.STRUCTURAL),(anneal,R.CONDITION)),(hybrid,))
     bead=g.input('capture_beads','Source streptavidinMyOneC1beads',K.SELECTION)
     bound=g.product('rna_bound','5linker-enriched RNA/bead/probe population, not perfectspecificity',K.MOLECULAR);unbound=g.product('rna_unbound','Separatedcaptureflowthrough; exact composition/fateunassembled',K.MOLECULAR)
-    g.react('rna_capture','Sourceprobe0.67µM90°C90s,37°C→RT3°C/min,streptavidincapture',S.AFFINITY_CAPTURE,((x,R.TEMPLATE),(probe,R.STRUCTURAL),(bead,R.SELECTION)),(bound,unbound));g.mark_terminal(Terminal(unbound.id,Disposition.UNRESOLVED,'Actual removed capturefraction, no downstreamfate inferred.'))
+    g.react('rna_capture','Source streptavidin capture of actual RNA/probe mixture',S.AFFINITY_CAPTURE,((hybrid,R.TEMPLATE),(bead,R.SELECTION)),(bound,unbound));g.mark_terminal(Terminal(unbound.id,Disposition.UNRESOLVED,'Actual removed capturefraction, no downstreamfate inferred.'))
     x=g.product('rna_eluted','Source80°C2minTEmagnet-recovered RNA-supernatant',K.MOLECULAR);beads=g.product('elution_beads','Separatedbead/probe/retainedRNAcompanion, dispositionunassembled',K.MOLECULAR)
     condition=g.input('elution','SourceTE/80°C2min/immediatemagnet',K.CONDITION);g.react('rna_elute','Source thermalRNAelution and magnetseparation',S.CLEANUP,((bound,R.TEMPLATE),(condition,R.CONDITION)),(x,beads));g.mark_terminal(Terminal(beads.id,Disposition.UNRESOLVED,'No perfect release or beadfate inferred.'))
     p=g.input('rt_primer','Source5phosphateDNAprimer withtwoC18nodes; specificBrar2012component cited',K.OLIGO,state=rt_primer().scene(),chemical_state=rt_primer());rt=g.input('ssii','SourceSuperScriptII50°C',K.CATALYST)
     mix=RTMixture(rt_primer().extend());y=g.product('rt_mix','Actual RTmixture retaining RNA and spacer-containing cDNA class',K.MOLECULAR,state=mix.scene(),chemical_state=mix)
     g.react('rt','Source reverse transcription',S.REVERSE_TRANSCRIPTION,((x,R.TEMPLATE),(p,R.STRUCTURAL),(rt,R.CATALYST)),(y,))
-    x=op(g,'hydrolyze',y,'Source100mMNaOH98°C20minRNAhydrolysis',S.CHEMICAL_CONVERSION,reagent='sourceNaOH/heat',product='C18cDNA plusRNAhydrolysisproducts/reagents, not physical removal untilprecipitation/gel')
+    x=op(g,'hydrolyze',y,'Source100mMNaOH98°C20minRNAhydrolysis',S.CHEMICAL_CONVERSION,reagent='Actual source NaOH molecular contribution',molecular=True,product='C18cDNA plusRNAhydrolysisproducts/reagents, not physical removal untilprecipitation/gel')
     x=clean(g,'cdna_size',x,'Sourceethanolprecipitation then8%ureaPAGE150–330bpclass')
     cat=g.input('circligase','SourceCircLigase100U60°C1.5h',K.CATALYST);circle=rt_primer().extend().close();y=g.product('cdna_circle','SelectedcircularcDNAclass retainingC18nodes, plus unclosed/remnantpopulation unquantified',K.MOLECULAR,state=circle.scene(),chemical_state=circle)
     g.react('circularize','SourcecDNAcircularization',S.CIRCULARIZATION,((x,R.TEMPLATE),(cat,R.CATALYST)),(y,),geometry=CircularizationGeometry.known('single-strand intramolecular ligation',statement='SourceMethods114; exactpriming/spacertraversalPCRpath unassembled.'))
@@ -129,6 +145,7 @@ def graph_for_control(control='dms'):
     g.react('pcr','Source12cyclePhusionPCR usingofficialcorrectedreversearm',S.PCR,((x,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(poly,R.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(Scene(),reason='ExactC18-circlepolymerasetraversal/product/priminggeometryunassembled; no erasedspacers.'))
     x=clean(g,'final_cleanup',amp,'SourceMinElutePCRpurification thenTapeStationQC/pooling')
     g.sequence(x,SequencingPlan(acquisition='unspecified',limitation='Publishedmain116HiSeq2000; acquiredcycles/primergeometryunassembled. Computational5adapterreadfilter is separate from physicalsubtraction. '+CORRECTION))
+    g.declare_reviewed_scope(('end_rnase_inhibitor','dephosphorylate_reagent','dephosphorylate','end_atp','end_supplement','phosphorylate_reagent','phosphorylate','three_adapter','lig3_heat','lig3_coheat','rnl2','lig3','five_adapter','lig5_heat','lig5_linker_heat','rnl1','lig5','rna_capture_probe','rna_probe_conditions','rna_probe_anneal','capture_beads','rna_capture','hydrolyze_reagent','hydrolyze_conditions','hydrolyze'),'Published archived main PMC3988572 Methods106–112. Literal inspected end-preparation, heating and capture scope only; whole junctions and historical/predecessor obligations not fulfilled.')
     g.add_source_item(SourceItem('pending','ActualSupplementalFiles, historicalvendors and specificBrar/Laupredecessors','MainSupplementalMaterial named; EuropePMCzipcontainsfigurealiasesonly. Correctionfile retrievalfailed; exactprimarypublishercorrectiontext inspectedonline. Noabsenceclaim.'))
     return g
 
@@ -137,6 +154,10 @@ def selftest():
     from checks import Check,Source,have
     from storage import sources_root
     c=Check();link=MixedLinker();circle=rt_primer().extend().close()
+    g=protocol_graph()
+    c('3prime ligation carries the copresent heated adapter',g.producer_of(g.steps['lig3'].inputs[1].material).id,'lig3_coheat')
+    c('5prime heating has only the adapter as molecular template',tuple(g.materials[p.material].kind for p in g.steps['lig5_linker_heat'].inputs if p.role is R.TEMPLATE),(K.ADAPTER,))
+    c('Capture receives actual annealed RNA/probe mixture without a fresh probe dose',(g.producer_of(g.steps['rna_capture'].inputs[0].material).kind,any(p.role is R.STRUCTURAL for p in g.steps['rna_capture'].inputs)),(S.HYBRIDIZATION,False))
     c('mixedsugarRNAacceptor yields complementaryDNAcaptureprobe',link.capture_probe(),'TTTCAGGTGCCTACGAT')
     c('RNAcaptureprobe3biotin is distinct from cDNAdepletion5biotin',graph_for_control().materials['rna_capture_probe'].state.strands['rna_probe'].mod3,'Biotin-TEG')
     c('closure retains two actual non-nucleotideC18nodes',len([n for n in circle.nodes if isinstance(n,CarbonSpacer)]),2)

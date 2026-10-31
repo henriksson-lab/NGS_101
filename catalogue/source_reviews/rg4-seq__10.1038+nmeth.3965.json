@@ -236,5 +236,47 @@
       "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
       "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 2,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM355_ESM.pdf",
+        "version": "Published defining SI",
+        "sections": "Actual PDFp1 Fig1 inspected/render /tmp/unlinked-multi25-rg4-fig1.png; text1\u201333(Fig1\u20133captions) and180\u2013196Notes2/3",
+        "scope": "Actual ligation/folding/RT/cDNA-ligation/PCR/NGS overview; in-vitro/coverage limits; Fig3 four independent biological replicates per condition, no complete Methods recipe."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/rg4-seq__10.1038+nmeth.3965/nmeth.3965_41592_2016_BFnmeth3965_MOESM356_ESM.xlsx",
+        "version": "Published SupplementaryTable1 original",
+        "sections": "Original XLSX sheet1XML header/rows1\u201318; text18\u201337 remaininglibrary/PCRrows and controlRNA/context footnote",
+        "scope": "Whole DNA3adapter/RTprimer/DNA5adapter and PCRforward/reverse source orderings, C3 nonnucleotideblockers; no full RNA molecular producer or studyindex assignment."
+      }
+    ],
+    "scope": "Known PCR primer bodies/unassigned sampleindex and actualPDS contributor; original blocked_main scope remains uncovered.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'blocked_main' is not accounted for",
+      "graph input/step 'adapter3' has no source-inventory item",
+      "graph input/step 'adapter5' has no source-inventory item",
+      "graph input/step 'fold' has no source-inventory item",
+      "graph input/step 'fold_condition' has no source-inventory item",
+      "graph input/step 'forward' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'ligase3' has no source-inventory item",
+      "graph input/step 'ligase5' has no source-inventory item",
+      "graph input/step 'ligate3' has no source-inventory item",
+      "graph input/step 'ligate5' has no source-inventory item",
+      "graph input/step 'pcr' has no source-inventory item",
+      "graph input/step 'polymerase' has no source-inventory item",
+      "graph input/step 'reverse' has no source-inventory item",
+      "graph input/step 'rna' has no source-inventory item",
+      "graph input/step 'rt' has no source-inventory item",
+      "graph input/step 'rt_enzyme' has no source-inventory item",
+      "graph input/step 'rt_primer' has no source-inventory item"
+    ],
+    "verification": "rG4-seq10PASS/G4RP-seq10PASS; combinedsourceguard4checked0failed1unassigned-index input without exactstate,0exceptions; chemistry6+13unresolved0contradictory. No PAGE_FILE/builders; no failing builder introduced."
+  }
 }

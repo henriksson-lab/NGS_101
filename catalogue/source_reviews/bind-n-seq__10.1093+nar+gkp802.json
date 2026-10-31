@@ -1,6 +1,6 @@
 {
   "dir": "bind-n-seq__10.1093+nar+gkp802",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "source1",
@@ -53,6 +53,21 @@
       ],
       "verification": "Combined16 focused localchecks(8+8),two private builds,schema/pairing0problems pass. Sourceguard0eligible/0failed/0exempt8unassembled inputs (not sequence validation);chemistry0established22unresolved0contradictory. No fullchemistry/sourcevalidation claimed.",
       "oligo_scraper": "Mandatory fullbundle scraper run;sourcepointers checked in selected scopes. Zero hits/retrievedfiles do not establish absence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch13",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Published mainMethods25\u201359, sameoriginal positivepreparation check; not complete linked-source/absence review.",
+      "locations": "PMC2794170 mainMethods25\u201359.",
+      "findings": "ActualTaqPro/QAassay supplies andmaltosemolecularinput, bindingclassification, identity-preservingphysicalops and independently literalreviewtargets corrected. QCvsproduction andN21vsbarcode roles retained; actualrequiredunassembled unchanged.",
+      "deferred": [
+        "Whole93mer/Pr4-f/Pr3-r andactualproductionnormalization/stock/pool/run assembly.",
+        "Actuallinkedoriginal/remainingpublishedSI and sourcevariant scope; no universalmissing/inaccessibility finding."
+      ],
+      "oligo_scraper": "Repeated /tmp/unlinked13-bind-scraper.log in closedpreflight; no unrelated/libraryprimer substitution.",
+      "verification": "12focusedchecks/privatebuild/pairing checked bycoordinator; originalsourceitem+unassembledterminalclass preventpromotion."
     }
   ],
   "linked_information": {
@@ -64,5 +79,7 @@
     "Full93mer/Pr4-f/Pr3-r primer sequences and exact geometry;Figure1 rendered original inspected as design diagram,not oligo table",
     "Exact source production amplification/normalization workup and run-specific readcycles/primer landing;analytical real-timePCR not silently substituted",
     "Source optional longwash,extra selection round/gelconditions,protein manufacturing predecessors and other supplementary figure scopes deferred"
-  ]
+  ],
+  "blocking_condition": "Original unassembled item retains unreviewedlinkedoriginal/full93mer/Pr4-f/Pr3-r/product/read geometry. Source-positive extension/binding/physical/QCPCR fixes and literalinventory do not complete production-normalization/pool-stock/terminalDNA-library assembly; finaltargetstillwrongK.MOLECULAR. No unknownprimer/end filledfrommodernIllumina defaults or analyticaltubeusedasproduction.",
+  "conclusion": "Bounded source/model hold with source-positive local fixes; no acceptedabsenceclaim."
 }

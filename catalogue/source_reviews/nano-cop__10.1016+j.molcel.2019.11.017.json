@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round04_reader",
         "date": "2026-10-28",
-        "locations": "JATS44–68,160,176,180,192,269,688,764; referenceR27",
+        "locations": "JATS44\u201368,160,176,180,192,269,688,764; referenceR27",
         "finding": "Native RNA plus artificial A/I tails and supportive cDNA retained as typed states. CustomC10 sequences and per-sample RNA001/002 assignments remain blocked by real source supplements."
       },
       "pass_2": null
@@ -64,7 +64,7 @@
     "pass_1": {
       "reviewer": "rna_round04_reader",
       "date": "2026-10-28",
-      "locations": "JATS44–68,160,176,180,192,269,688,764; referenceR27; Defining supplements all gated; no original supplement content inspected",
+      "locations": "JATS44\u201368,160,176,180,192,269,688,764; referenceR27; Defining supplements all gated; no original supplement content inspected",
       "finding": "Native RNA plus artificial A/I tails and supportive cDNA retained as typed states. CustomC10 sequences and per-sample RNA001/002 assignments remain blocked by real source supplements."
     },
     "pass_2": null
@@ -85,7 +85,7 @@
     "Sample-specific historical kit/rRNA choices, rRNA-kit internals and rejected-material physical fate."
   ],
   "source_version_limit": "Accepted author manuscript, not final publisher VOR",
-  "conclusion": "Capped source pass at stated sections; not full chemical/source review, no second independent reader or accepted absence. Proposed notes/pending_source_review retained.",
+  "conclusion": "Selected accepted-manuscript physical poly(I) native-RNA preparation documented through loading; final-version equivalence, full molecular geometry and linked-source review remain unresolved. No accepted absence claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-04",
@@ -93,17 +93,42 @@
       "date": "2026-10-28",
       "documents": 1,
       "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
-      "locations": "JATS44–68,160,176,180,192,269,688,764; referenceR27; Defining supplements all gated; no original supplement content inspected",
+      "locations": "JATS44\u201368,160,176,180,192,269,688,764; referenceR27; Defining supplements all gated; no original supplement content inspected",
       "findings": "Native RNA plus artificial A/I tails and supportive cDNA retained as typed states. CustomC10 sequences and per-sample RNA001/002 assignments remain blocked by real source supplements.",
       "deferred": [
         "Final VOR comparison; exact C10/T10 ligation/RT/motor inputs and tail lengths.",
         "Sample-specific historical kit/rRNA choices, rRNA-kit internals and rejected-material physical fate."
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch14",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed-source bounded implementation; detailed scope/limits remain distinct from chemistry completeness",
+      "locations": "AssociatedAM160/176 only: selection/tailing/supportiveRT/motorattachment/twocleanups/EB/runningbuffer/FLOMIN10648h",
+      "findings": "Source-positive completephysical nativeRNA finish nowmodeled with RNA library output; moleculargeometry/historicalsampleassignment/VORlimits preserved. No SourceItemsdeleted/excluded.",
+      "deferred": [
+        "FinalVOR comparison",
+        "ActualTableS1 sampleassignments/TableS4fulloligos",
+        "WholeRNA/cDNA/motor occupiedgeometry andexacthistoricalkitrecipe"
+      ],
+      "oligo_scraper": "Mandatory closedpass existing-bundle scan; no new source acquisition or absent-information inference. Apt actualTD05tableimage inspected; nano fullTableS4 notread.",
+      "verification": "13focusedchecksPASS; private/publicbuildsPASS; combinedguard4exact0failed0exempt3externalunknown andproducedunassembledoligocomponentsoutsidedefaultguard; chemistry32unresolved0contradictory/pairing0. Molecularcompleteness notasserted. Coordinator strengthened physical-transfer metadata: library/loaded/flowcell endpoint retain structured RNA carrier and supportingcDNA; existing endpoint test now checks actual sequencing target. Prefix3+selected10checks and privatebuild pass; nano chemistry0established/20unresolved/0contradictory unchanged."
     }
   ],
   "local_validation": {
     "selftest_checks": 3,
     "result": "pass",
     "scope": "Local behavior/source-transcription checks only. Default-graph shared chemistry claims remain unresolved; not complete reaction/source validation."
-  }
+  },
+  "independent_implementation_recheck": [
+    {
+      "reviewer": "coordinator_independent_reader",
+      "date": "2026-10-30",
+      "scope": "Same associatedAM160/176 andselected_graph physicalnativeRNAfinish; no neworiginals or absencepass2",
+      "locations": "AM160/176; selected_graph sourcephysicalRNACleanXP/motoradapter/secondcleanup/EB-runningbuffer/FLOMIN10648h",
+      "findings": "No criticalsource/scope defect. Source explicitly says cDNAisnotsequenced; same-stockmotorinventory views/nativeRNAendpoint retainfullC10orderings, ends, kit001/002 andsampleassignmentunassembled. No oldbroadSourceItemremoved. Not fullchemical/sourcecompleteness review."
+    }
+  ]
 }

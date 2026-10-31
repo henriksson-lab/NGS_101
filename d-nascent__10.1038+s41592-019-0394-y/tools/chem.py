@@ -19,7 +19,7 @@ def mixture(*species):
 
 def cleanup(g, ident, source, template, state):
     reagent = g.input(ident + '_condition', source, K.CONDITION)
-    out = g.product(ident, 'recovered source preparation', K.MOLECULAR, state=state)
+    out = g.product(ident, 'recovered source preparation', K.LIBRARY if template.kind is K.LIBRARY else K.MOLECULAR, state=state)
     waste = g.product(ident + '_waste', 'physically separated workup fractions; exact molecular partition unquantified', K.WASTE)
     g.react(ident + '_step', source, S.CLEANUP, ((template, R.TEMPLATE), (reagent, R.CONDITION)), (out, waste))
     g.discard(waste, 'Actual source physical separation; no perfect recovery/depletion asserted.')
@@ -56,16 +56,19 @@ def selftest():
     except ValueError:bad=True
     c('Analogue cannot silentlylabelreferenceadenine',bad)
     c('Thymidinechase still permits physicalreplication',g.steps['chase'].changes_molecule,True)
+    c('Actual BrdU/HU/pronase derive from grouped source supplies',all(g.producer_of(k).id=='label_components' for k in ('brdu','hu','pronase')),True)
+    c('Thymidine chase contributes actual molecules',g.materials['chase_stock'].kind,K.MOLECULAR)
+    c('Native cleanup preserves DNA library kind',g.materials['library'].kind,K.LIBRARY)
     c('Selected genomicbranch remains unsheared',all(s.kind is not S.FRAGMENTATION for s in g.steps.values()),True)
     c.report()
 def pop(label):
     return mixture(('source DNA',(role(label),)),('other physical material',(role('other original DNA/RNA/protein or reaction remnants; exact partition and recovery unquantified'),)))
-def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION,additional=()):
     reagent=g.input(key+'_stock',reagent_label,reagent_kind)
     product=g.product(key+'_product',label,K.MOLECULAR,state=out_state)
     kw={'reason':'Source operation known; exact molecular substrate/product relation and mixture fractions unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
     if kind is S.GENERIC:kw['changes_molecule']=False
-    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role)),(product,),**kw)
+    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role))+tuple(additional),(product,),**kw)
     return product
 
 
@@ -99,10 +102,15 @@ def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
     x=g.input('yeast','source E3087 yeast population',K.MOLECULAR,state=pop('source yeastDNA with no caller-assigned BrdU positions'),primary=True)
     x=op(g,'arrest','Source alpha-factorG1 arrest',S.MAGIC,x,x.state,'source culture/arrest conditions')
-    x=op(g,'label','SelectedHU branch:40µg/mlBrdU plus200mMHU25min before pronaseS-release, then45minS-phase',S.MAGIC,x,pop('physical BrdU-bearing newly replicatedDNA plus unlabelledDNA/cellular components; incorporation positions/fractions unassigned'),'source BrdU/HU/pronase and replication conditions')
-    x=op(g,'chase','Source400µg/mlthymidine chase;15minlater freshYPD+thymidine; replication continues, harvest times unresolved TableS1',S.MAGIC,x,x.state,'source thymidine/chase culture, nocodazoleG2/M scope as selected sampling requires')
+    label_supplies=g.input('label_supplies','Actual HU/BrdU/pronase supply inventory; packaging and stock count unassigned',K.MOLECULAR)
+    brdu=g.product('brdu','Actual40ug/ml BrdU molecular contribution',K.MOLECULAR)
+    hu=g.product('hu','Actual200mM HU molecular contribution',K.MOLECULAR)
+    pronase=g.product('pronase','Actual pronase-mediated release catalyst; dose unassembled',K.CATALYST)
+    g.react('label_components','Expose actual source contributor classes; not a documented premix',S.GENERIC,((label_supplies,R.STRUCTURAL),),(brdu,hu,pronase),changes_molecule=False)
+    x=op(g,'label','SelectedHU branch:40µg/mlBrdU plus200mMHU25min before pronaseS-release, then45minS-phase',S.MAGIC,x,pop('physical BrdU-bearing newly replicatedDNA plus unlabelledDNA/cellular components; incorporation positions/fractions unassigned'),'Source cell-replication/incubation environment; actual contributors supplied separately',additional=((brdu,R.STRUCTURAL),(hu,R.STRUCTURAL),(pronase,R.CATALYST)))
+    x=op(g,'chase','Source400µg/mlthymidine chase;15minlater freshYPD+thymidine; replication continues, harvest times unresolved TableS1',S.MAGIC,x,x.state,'Actual400ug/ml thymidine-containing chase culture; nocodazoleG2/M timing unassembled',K.MOLECULAR,R.STRUCTURAL)
     x=op(g,'extract','Source genomicDNA extraction envelope:phenol/chloroform,RNaseA,proteinaseK,ethanol; exact internal order unassembled',S.MAGIC,x,pop('recovered BrdU-containingHMWgenomicDNA and possible carryover; extraction physical partitions unassembled'),'source genomic extraction conditions; no flow-cytometry SYTOX or BrdU-IP substitution')
-    x=op(g,'repair','Source NEBE6050 end repair and genomic M6630FFPErepair; exact internal order/mark retention at repaired sites unreviewed',S.MAGIC,x,pop('source repaired HMWgenomicDNA; no added unsourced dA-tail; actual analogue retention at repaired sites unresolved'),'source E6050/M6630 modules; unsheared genomic route')
+    x=op(g,'repair','Source NEBE6050 end repair and genomic M6630FFPErepair; exact internal order/mark retention at repaired sites unreviewed',S.MAGIC,x,pop('source repaired HMWgenomicDNA; no added unsourced dA-tail; actual analogue retention at repaired sites unresolved'),'Actual E6050 and M6630 repair-supply inventory; packaging/component recipes unassembled, no premix asserted',K.MOLECULAR,R.STRUCTURAL)
     x=cleanup(g,'repair_cleanup','SelectedHU/depletion source0.4xAMPureXP cleanup',x,x.state)
     ds=mixture(('source1D adaptor',(role('originalLSK109 adaptor polymer and motor association; exact geometry unreviewed'),)))
     donor=g.input('adapter','source1DLSK109 adaptor',K.ADAPTER,state=ds);enzyme=g.input('ligase','source QuickT4DNA ligaseE6065',K.CATALYST)

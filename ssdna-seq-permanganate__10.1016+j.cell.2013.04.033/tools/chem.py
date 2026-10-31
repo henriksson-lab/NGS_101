@@ -58,12 +58,12 @@ def selftest():
 def population(label):
     return mixture(('source DNA',(role(label),)),('other physical material',(role('other template strands, RNA/protein or reaction fragments; actual molecular recovery unquantified'),)))
 
-def op(g,ident,label,kind,current,new_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+def op(g,ident,label,kind,current,new_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION,*,additional=()):
     reagent=g.input(ident+'_reagent',reagent_label,reagent_kind)
     product=g.product(ident+'_product',label,K.MOLECULAR,state=new_state)
     kw={'reason':'Source operation established; exact molecular reaction geometry and population fractions unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
     if kind is S.GENERIC:kw['changes_molecule']=False
-    g.react(ident,label,kind,((current,R.TEMPLATE),(reagent,reagent_role)),(product,),**kw)
+    g.react(ident,label,kind,((current,R.TEMPLATE),(reagent,reagent_role))+tuple(additional),(product,),**kw)
     return product
 
 PAGE_FILE='ssdna-seq.html'
@@ -99,7 +99,8 @@ class EndHistory:
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
     current=g.input('cells','source Raji or mouseBcells; separate biological experiments, not an implicit physical pool',K.MOLECULAR,state=EndHistory('native'),primary=True)
-    current=op(g,'permanganate','Source living-cell KMnO4 oxidation, preferential exposed pyrimidines/T; no arbitrary genomic coordinate assigned',S.CHEMICAL_CONVERSION,current,EndHistory('oxidized'),'source permanganate conditions; exact originalSI recipe uninspected')
+    exposure=g.input('permanganate_environment','Source living-cell oxidation environment; actual concentration, time and temperature unreviewed in original SI',K.CONDITION)
+    current=op(g,'permanganate','Source living-cell KMnO4 oxidation, preferential exposed pyrimidines/T; no arbitrary genomic coordinate assigned',S.CHEMICAL_CONVERSION,current,EndHistory('oxidized'),'Actual source KMnO4 molecular oxidant; dose/workup and exact originalSI recipe uninspected',K.MOLECULAR,R.STRUCTURAL,additional=((exposure,R.CONDITION),))
     current=op(g,'recovery_boundary','Original genomicDNA isolation/quenches/workups before end processing; detailedSI uninspected',S.MAGIC,current,current.state,'source original preparation boundary, not2017S1recipe; physical partition and RNase/protease details unreviewed')
     tdt=g.input('blocking_tdt','source TdT for original-end chain termination',K.CATALYST)
     cord=g.input('cordycepin','source chain-terminating cordycepin5′triphosphate',K.MOLECULAR,state=molecule('source blocking nucleotide',(role('cordycepin5′triphosphate; exact incorporation assembly unreviewed'),)))
@@ -116,9 +117,12 @@ def protocol_graph():
     other=g.product('nonselected','source nonselected companion fractions; exact physical fate/workup unassembled',K.MOLECULAR,state=population('unlabelled/other genomic fragments and preparation material'))
     g.react('capture','Source physical streptavidin selection after sonication',S.AFFINITY_CAPTURE,((current,R.TEMPLATE),(beads,R.SELECTION)),(selected,other))
     g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,'Do not assign uninspected original wash/disposal recipe.'))
-    prep=g.input('illumina_prep','source original Illumina library preparation; exact tail removal/end repair/adapters/PCR unreviewed',K.CONDITION)
+    prep=g.input('illumina_prep','Actual source-delegated Illumina library molecular supplies; stock packaging, tail removal/end repair/adapters/PCR unreviewed',K.MOLECULAR)
     library=g.product('library','source Illumina end-associated genomic library roles',K.LIBRARY,state=EndHistory('library'))
-    g.react('library_boundary','Original genomic Illumina library boundary; no2017S1/tail-removal/adapter recipe inherited',S.MAGIC,((selected,R.TEMPLATE),(prep,R.CONDITION)),(library,),reason='Source main/Fig3 establishes Illumina endpoint; gated2013SI determines actual molecular construction and biotin-tail fate.')
+    g.react('library_boundary','Original genomic Illumina library boundary; no2017S1/tail-removal/adapter recipe inherited',S.MAGIC,((selected,R.TEMPLATE),(prep,R.STRUCTURAL)),(library,),reason='Source main/Fig3 establishes Illumina endpoint; gated2013SI determines actual molecular construction and biotin-tail fate.')
     g.mark_terminal(Terminal(library.id,Disposition.UNRESOLVED,'Source deep sequencing; full strand/end/run geometry remains unassembled.'))
+    # Literal main-supported inputs/operations; unread workups and library
+    # construction are deliberately outside this source inventory.
+    g.declare_reviewed_scope(('cells','permanganate_reagent','permanganate_environment','permanganate','blocking_tdt','cordycepin','block_original_ends','mungbean_reagent','mungbean','tagging_tdt','biotin_nucleotides','biotin_tail','sonicate_reagent','sonicate','streptavidin','capture'),'Associated manuscript PMC3684982 Results104–106. Selected operational classes only; exact molecular ends, doses, recovery and Illumina producer remain unreviewed.')
     g.add_source_item(SourceItem('gated_original_si','Original2013ExtendedExperimentalProcedures/figures and tables','https://pmc.ncbi.nlm.nih.gov/articles/instance/3684982/bin/NIHMS472536-supplement-01.pdf ; actual preparing-download gate. Companion02.xls also gated.'))
     return g

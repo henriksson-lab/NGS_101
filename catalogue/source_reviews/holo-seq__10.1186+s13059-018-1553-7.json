@@ -115,7 +115,7 @@
   "open_questions": [
     "Actual historical E7490/E7530/E7420/E7300 adapter/USER/primer/read architecture; full carrier-template sequences and exact end chemistry; smallRNA main15cycles/protocol22cycles applicability."
   ],
-  "conclusion": "One capped source-qualified local chemistry pass; notes status. No full source/chemical/readout completion, finished schematic or accepted missing-information claim.",
+  "conclusion": "Bounded producer improvements retained as model hold. Original required unreviewed_full_library remains uncovered: Historical E7490/E7530/E7420/E7300 polymers, upstream reactions, USER substrate topology and final read plan. The actual selected mRNA producer is extended, but whole historical polymers/USER substrate/read architecture are not assembled; no semantic narrowing or exclusion waives this obligation. No accepted missing-information absence audit.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-07",
@@ -130,6 +130,18 @@
       ],
       "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
       "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10",
+      "reviewer": "bounded_source_producer_review",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed preflight originals reused for contained producer extension; no acquisition or investigation expansion. Required original obligations retained uncovered.",
+      "locations": "Methods163–197; captured-library primer experiment216–233; selected mRNA branch181–185; mRNA step-by-step1–90; small RNA215–248; dual249–268; Actual embedded image1 FigS1a carrier DNA/NotI sites; actual image14 FigS14 small-RNA workflow",
+      "findings": "The source-local selected mRNA route now includes actual cell/carrier lysis, oligo(dT) selection, fragmentation/random priming, first- and second-strand synthesis, end preparation, adaptor ligation/USER, late DNA carrier, NotI, source16-cycle indexed PCR and final cleanup/loading allocation. Source aliquots7.5ul,27.75ul,43ul and10ul retain explicit untransferred stocks. NotI cuts DNA rather than carrier RNA; susceptible endogenous DNA and physical digest fragments are not silently removed. The separate small-RNA15-cycle main versus22-cycle Additional4 discrepancy is not imported into mRNA. Original required unreviewed_full_library remains uncovered: Historical E7490/E7530/E7420/E7300 polymers, upstream reactions, USER substrate topology and final read plan. The actual selected mRNA producer is extended, but whole historical polymers/USER substrate/read architecture are not assembled; no semantic narrowing or exclusion waives this obligation.",
+      "deferred": [],
+      "oligo_scraper": "10 sequence hits in4 representations, reviewed pointers; carrier figure is image-based and inspected directly",
+      "verification": "12 focused checks PASS; source guard combined1exact/0fail/12unknownwholeinputs, no exemptions. Combined122unresolved chemical claims/0contradictions. Normal page builds deliberately rejected by unchanged required-source gate; no public HTML/pairing acceptance claimed."
     }
   ]
 }

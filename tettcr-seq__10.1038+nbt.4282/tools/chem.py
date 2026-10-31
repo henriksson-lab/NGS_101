@@ -7,12 +7,14 @@ from page import head,info
 PAGE_FILE='chem.html'
 
 def operations(g):
-    def op(key,x,label,reagent=None,state=None,kind=S.GENERIC,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+    def op(key,x,label,reagent=None,state=None,kind=S.MAGIC,reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL):
         inputs=[(x,R.TEMPLATE)]
         if reagent:
             z=g.input(key+'_reagent',reagent,reagent_kind);inputs.append((z,reagent_role))
         y=g.product(key+'_product',label+'; preparation includes unremoved reaction components',K.MOLECULAR,state=state)
-        g.react(key,label,kind,inputs,(y,));return y
+        kw={'reason':'Actualsourceoperation; occupiedmolecules/internalrecipe unassembled, no genericrecipe inheritance.'} if kind==S.MAGIC else {}
+        if kind==S.GENERIC:kw['changes_molecule']=False
+        g.react(key,label,kind,inputs,(y,),**kw);return y
     def clean(key,x,label):
         z=g.input(key+'_selection',label,K.SELECTION)
         y=g.product(key+'_kept','Physically retained source fraction: '+label,K.MOLECULAR)
@@ -22,7 +24,7 @@ def operations(g):
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
 def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    g.declare_reviewed_scope(('linker','fluor_streptavidin','conjugation_supplies','conjugate','conj_cleanup_selection','conj_cleanup','reporter_template','anneal_condition','encoding_nt','anneal_reporter','encoding_mix','encoding_components','encoding_enzyme','encoding_buffer','encode','stop_extension_reagent','stop_extension','ivtt_template','ivtt_f','ivtt_r','ivtt_pcr_supplies','ivtt_pcr_components','ivtt_polymerase','ivtt_nt','ivtt_buffer','ivtt_pcr','ivtt_water','ivtt_dilute','ivtt_allocation','ivtt_stock','ivtt_mix_allocation','ivtt','pmhc','uv_condition','uv_exchange','tetramerize','panel_allocate','other_panel','panel_pool','stain_buffer','panel_concentrate_selection','panel_concentrate'),SOURCE+'; fixed selectedfactory/panel targets only; unreadlinkedTCR/Solulink/pMHC/fullgeometry scope notcovered.')
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 
@@ -59,28 +61,56 @@ def illumina_primer(which):
     raise ValueError(which)
 
 def protocol_graph():
-    g=ProtocolGraph(TITLE,authority=SOURCE);op,clean=operations(g)
+    g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance');op,clean=operations(g)
+    def select(k,x,label):
+        take=g.product(k+'_selected',label,K.MOLECULAR);rest=g.product(k+'_remainder','Untransferred source stock; amount/fateunassigned',K.MOLECULAR)
+        g.react(k,label,S.SPLIT,((x,R.TEMPLATE),),(take,rest));g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,'Actualuntransferredstock.'));return take
     linker=g.input('linker','Source5amineC12/iSp18DNA linker',K.OLIGO,state=LinkerDNA().scene())
     protein=g.input('fluor_streptavidin','SourcePE-orAPC-streptavidin;conjugationkit-specificgeometryunreviewed',K.MOLECULAR)
     conj=g.product('linker_conjugate','SourceDNA–fluorescentstreptavidinconjugatesplusunreactedcomponents',K.MOLECULAR,state=LinkerDNA(True).scene())
-    g.react('conjugate','SourceSolulinkcoupling;fullsite/chemistryunreviewed',S.MAGIC,((protein,R.TEMPLATE),(linker,R.STRUCTURAL)),(conj,),reason='Sourceconjugationreported;manufacturerrecipeandexactsiteunknown,notinvented.')
+    conjugation=g.input('conjugation_supplies','ActualsourceSolulinkconjugation supplies; identities/doses/revisionunreviewed, no reactionrecipeborrowed',K.MOLECULAR)
+    g.react('conjugate','SourceSolulinkcoupling;fullsite/chemistryunreviewed',S.MAGIC,((protein,R.TEMPLATE),(linker,R.STRUCTURAL),(conjugation,R.STRUCTURAL)),(conj,),reason='Sourceconjugationreported;manufacturerrecipeandexactsiteunknown,notinvented.')
     conj=clean('conj_cleanup',conj,'SixVivaspin100kDawashes,concentrate,0.2umfilter;retainconjugatefraction')
     reporter_template=g.input('reporter_template','SourceHCV-KLV(WT)DNAoligoaliquotforreporterencoding',K.OLIGO,state=template())
     annealed=g.product('annealed_reporter','Source linker/template annealingpreparation;exactcompletegeometryunassembled',K.MOLECULAR)
-    conditions=g.input('anneal_condition','55C5min→25Catminus0.1C/s;Cutsmart/dNTP',K.CONDITION)
-    g.react('anneal_reporter','AnnealpeptideencodingDNAtoattachedlinker',S.GENERIC,((conj,R.TEMPLATE),(reporter_template,R.STRUCTURAL),(conditions,R.CONDITION)),(annealed,))
-    encoded=op('encode',annealed,'Sourceexo-minusKlenow37C1h encodingextension','SourceKlenowexo-minus/dNTP',state=LinkerDNA(True,True).scene(),reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
-    encoded=op('stop_extension',encoded,'StopsourceextensionwithEDTA;no physicalpurification','EDTAquench',state=LinkerDNA(True,True).scene())
+    conditions=g.input('anneal_condition','55C5min→25Catminus0.1C/s;actualCutsmartbuffer',K.CONDITION)
+    nt=g.input('encoding_nt','Actual250uMdNTPs addedBEFORElinker/templateannealing',K.MOLECULAR)
+    retained_nt=g.product('encoding_retained_nt','SameactualdNTPcomponent carriedthroughannealing, notnewaddition',K.MOLECULAR)
+    g.react('anneal_reporter','AnnealpeptideDNAtoattachedlinker withcopresentdNTPs',S.HYBRIDIZATION,((conj,R.TEMPLATE),(reporter_template,R.STRUCTURAL),(nt,R.STRUCTURAL),(conditions,R.CONDITION)),(annealed,retained_nt))
+    mix=g.input('encoding_mix','Actualsource1ulextensionmixture:.1ul10xCutsmart+.125ulKlenowexo-minus;remainingvolumeunassigned',K.MOLECULAR)
+    enzyme=g.product('encoding_enzyme','CopresentactualKlenowexo-minus catalyst',K.CATALYST);buffer=g.product('encoding_buffer','Copresentactualsourcebuffer;37C1h',K.CONDITION)
+    g.react('encoding_components','Sameactualextensionmixcomponents, noextra doses',S.GENERIC,((mix,R.TEMPLATE),),(enzyme,buffer),changes_molecule=False)
+    encoded=g.product('encode_product','Actualsource encodedreporterconjugatepreparation; fulloccupiedduplex/junctionunassembled',K.MOLECULAR,state=LinkerDNA(True,True).scene())
+    g.react('encode','Sourceexo-minusKlenow37C1h extendsattachedlinker',S.MAGIC,((annealed,R.TEMPLATE),(retained_nt,R.STRUCTURAL),(enzyme,R.CATALYST),(buffer,R.CONDITION)),(encoded,),reason='Actualsourceextension; wholeprimer/template/productgeometryunassembled, nofreshdNTPaddition.')
+    encoded=op('stop_extension',encoded,'StopsourceextensionwithEDTA;no physicalpurification','ActualEDTAmolecularquench',state=LinkerDNA(True,True).scene(),reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL)
     ivtt_dna=g.input('ivtt_template','PhysicallyseparatealiquotofsamepeptideDNAidentityforIVTT',K.OLIGO,state=template())
-    ivtt=op('ivtt_pcr',ivtt_dna,'SourceIVTTtemplatePCR:ExTaqHS30cycles,thenwaterdilution','SourceIVTT_f/IVTT_rprimersandExTaqHS;fullampliconunassembled')
-    peptide=op('ivtt',ivtt,'SourcePURExpressIVTT30C4h;releasefactors/enterokinase/RNaseinhibitor;DNAtemplate/RNA/protein/reagentmixture remains','SourcePURExpresssolutionsA/B andsupplements')
+    f=g.input('ivtt_f','Actual1uMIVTT_f sourcePCRprimer; wholebodyavailableinTable10/unexpandedhere',K.OLIGO);r=g.input('ivtt_r','Actual1.05uMIVTT_r sourcePCRprimer; wholebodyavailable/unexpanded',K.OLIGO)
+    supplies=g.input('ivtt_pcr_supplies','Aggregateactualsource ExTaqHS/dNTP/buffer supplies; stockcount/packagingunassigned',K.MOLECULAR)
+    pol=g.product('ivtt_polymerase','ActualsourceExTaqHS.0375Uulcomponent',K.CATALYST);nt=g.product('ivtt_nt','Actualsource400uMdNTPcomponent',K.MOLECULAR);buf=g.product('ivtt_buffer','ActualsourcePCRconditions95C3min/30×95C20s52C40s72C45s/72C5min',K.CONDITION)
+    g.react('ivtt_pcr_components','ActualPCRsupplycomponents, notassumedpremix ornewdoses',S.GENERIC,((supplies,R.TEMPLATE),),(pol,nt,buf),changes_molecule=False)
+    ivtt=g.product('ivtt_pcr_product','ActualsourceIVTTtemplatePCRDNAplusremainingreagents; wholeampliconunassembled',K.MOLECULAR)
+    g.react('ivtt_pcr','Source30cycleIVTTtemplatePCR',S.MAGIC,((ivtt_dna,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(pol,R.CATALYST),(nt,R.STRUCTURAL),(buf,R.CONDITION)),(ivtt,),reason='ActualsourcePCR; wholeinputprimer/amplicongeometryunassembled.')
+    water=g.input('ivtt_water','Actual73.3ulwater dilutionaddition; finaldilutionfactorunassigned',K.CONDITION)
+    diluted=g.product('ivtt_diluted','Actual dilutedIVTTtemplatePCRstock',K.MOLECULAR);g.react('ivtt_dilute','SourcedilutePCRproductwith73.3ulwater',S.GENERIC,((ivtt,R.TEMPLATE),(water,R.CONDITION)),(diluted,),changes_molecule=False)
+    ivtt=select('ivtt_allocation',diluted,'Actual1uldilutedPCRDNA contribution toIVTT')
+    stock=g.input('ivtt_stock','Actualsource20ul1.5xPURExpresspreparedmastermix:10ulA/7.5ulB/.8ulRF1+2+3/.25ulenterokinase/.25ulRNaseinhibitor/1.2ulwater',K.MOLECULAR)
+    selected=select('ivtt_mix_allocation',stock,'Actual2ulpreparedPURExpressmastermix; nominal18ulstockrestnotdiscarded')
+    peptide=g.product('ivtt_product','ActualcompletedIVTTmixture includesDNAtemplate/RNA/peptide/enzymes/nucleotide/aminoacid/reagentremainders; no perfectconversion',K.MOLECULAR)
+    g.react('ivtt','Source1ultemplate+2ulactualIVTTmix,30C4h',S.MAGIC,((ivtt,R.TEMPLATE),(selected,R.STRUCTURAL)),(peptide,),reason='ActualsourceRNA/proteinproducer; PURExpressfunctionaltranslation/transcriptionstock known, detailedkitmolecularcomposition/occupiedproducts unassembled. NoT7/ribosomerecipeinherited.')
     mhc=g.input('pmhc','SourcebiotinylatedpMHCwithUV-labilepeptide',K.MOLECULAR)
     exchanged=g.product('exchanged','UV-exchangedpMHCpreparation;IVTTtemplates/RNA/peptide/reagentcarryoverunquantified',K.MOLECULAR)
     uv=g.input('uv_condition','SourceUVexchange60minonice,then4Catleast12h',K.CONDITION)
     g.react('uv_exchange','AddpMHCdirectlytocompletedIVTTreaction;sourceUVexchange,notDNAphotocleavage',S.GENERIC,((peptide,R.TEMPLATE),(mhc,R.STRUCTURAL),(uv,R.CONDITION)),(exchanged,))
     tetramer=g.product('tetramers','SourcematchedDNA-barcodedpMHCtetramerpreparationplusunremovedreactioncomponents',K.MOLECULAR,state=LinkerDNA(True,True).scene())
     g.react('tetramerize','AddmatchedDNA-streptavidintopMHC1:6.7,4C1h',S.GENERIC,((exchanged,R.TEMPLATE),(encoded,R.STRUCTURAL)),(tetramer,))
-    tetramer=clean('panel_pool',tetramer,'Sourcepanelpooling/100kDaVivaspinconcentrationinstainingbuffer;oneantigenmemberdisplayed')
+    own=select('panel_allocate',tetramer,'Actual.65ulown tetramerstockcontribution topanel')
+    other_panel=g.input('other_panel','Actual.65uleachotherpaneltetramercontributions; membership/sourcefactorydetailsunexpanded, notcopiesofownmember',K.MOLECULAR)
+    panel=g.product('panel_combined','ActualcombinedDNA-pMHCtetramerpanelpreparation',K.MOLECULAR)
+    g.react('panel_pool','Actualphysicalpoolofdistincttetramerstockcontributions',S.POOL,((own,R.TEMPLATE),(other_panel,R.TEMPLATE)),(panel,))
+    stainbuffer=g.input('stain_buffer','Actual400ulsourcePBS/5mMEDTA/2percentFBS/100ugmlsalmonDNA/100uMD-biotin/.05percentazidebuffer; concentratorpreblockhistoryunassembled',K.MOLECULAR)
+    buffered=g.product('buffered_panel','Actualsourcepanelplusstainingbuffermaterial',K.MOLECULAR)
+    g.react('panel_buffer','Source400ulstainingbufferaddition',S.GENERIC,((panel,R.TEMPLATE),(stainbuffer,R.STRUCTURAL)),(buffered,),changes_molecule=False)
+    tetramer=clean('panel_concentrate',buffered,'Actual100kDaVivaspinconcentration7000g10minorlonger to~50ul; preblockprotocolnotexpanded')
     cells=g.input('cells','SourceCD8Tcells;RosetteSep/Ficollpreparation',K.BIOLOGICAL,primary=True)
     stained=g.product('stained','Tetramer-stainedcellsplusunboundreporterpanel/cellreagents',K.MOLECULAR)
     g.react('stain','Source~60nMeachtetramer+CD8Ab,4C1h',S.GENERIC,((cells,R.TEMPLATE),(tetramer,R.STRUCTURAL)),(stained,))
@@ -91,7 +121,7 @@ def protocol_graph():
     depleted=g.product('depleted','Retainedtetramer-depletedflowthroughcontrolfraction',K.MOLECULAR)
     g.react('enrich','PhysicalLScolumnfractionation;bothenrichedandflowthroughfractionsretained',S.AFFINITY_CAPTURE,((x,R.TEMPLATE),(beads,R.SELECTION)),(enriched,depleted))
     depleted=op('flow_control_stain',depleted,'Sourceflowthroughphenotypingwithsamepanel;notassignedaDNA/RNAlibrary','SourceFACSAbpanel')
-    g.mark_terminal(Terminal(depleted.id,Disposition.STORED,'Sourceflowthroughcontrolprepared;notassumeddiscardedorsequenced.'))
+    g.mark_terminal(Terminal(depleted.id,Disposition.UNRESOLVED,'Sourceflowthroughphenotypingprepared; no inventedstorage/discard/NGSendpoint.'))
     x=clean('facs_wash',enriched,'WashintoFACSbuffer;sourcephenotypicpanelstaining;sourceindividualwellmaybetetramerpositiveornegative')
     chosen=g.product('single_well','OnesourceFACS-sortedcellin4uLlysisbuffer;representativewell',K.MOLECULAR)
     other=g.product('not_chosen','Otherenrichedcells/unselectedsortfractions',K.MOLECULAR)
@@ -100,7 +130,8 @@ def protocol_graph():
     p1=g.input('p1','SourceP1primerforDNA-BCfirstPCR',K.OLIGO,state=Construct([Segment('P1',P1)]))
     p2=g.input('p2','SourceP2primerforDNA-BCfirstPCR',K.OLIGO,state=Construct([Segment('P2',P2)]))
     first=g.product('first_pcr','JointfirstPCRpopulation:TCRcDNAandDNA-BCampliconsplusoriginalreporter/cellreagents',K.MOLECULAR)
-    g.react('joint_pcr','SourcefirstTCRPCRwithP1/P2each100nMforconcurrentDNA-BCamplification',S.GENERIC,((x,R.TEMPLATE),(p1,R.STRUCTURAL),(p2,R.STRUCTURAL)),(first,))
+    joint=g.input('joint_supplies','ActualsourcecitedfirstPCRsupplies; parentrecipe/nucleotide/catalystprovenanceunassembled',K.MOLECULAR)
+    g.react('joint_pcr','SourcefirstTCRPCRwithP1/P2each100nMforconcurrentDNA-BCamplification',S.MAGIC,((x,R.TEMPLATE),(p1,R.STRUCTURAL),(p2,R.STRUCTURAL),(joint,R.STRUCTURAL)),(first,),reason='ActualsourcePCRproducer; parentrecipeunreviewed, no genericchemistry-freePCRorborrowedpolymeraseidentity.')
     dna_part=g.product('dna_aliquot','Source1uLfirstPCRallocatedtoDNA-BCsecondPCR',K.MOLECULAR)
     tcr_part=g.product('tcr_aliquot','SourceparallelTCRPCRaliquot;volumeunassembled',K.MOLECULAR)
     rest=g.product('first_remaining','UnallocatedfirstPCRmaterial',K.MOLECULAR)
@@ -112,11 +143,11 @@ def protocol_graph():
     r=g.input('well_r','SourceV1R_rxn2_1example;notassignedtoexperimentalwell',K.OLIGO,state=well_primer('r'))
     second=g.product('second_pcr','DNA-BCampliconswithsourcewellbarcodesandpartialadapters;remnantsretained',K.MOLECULAR)
     pol=g.input('ex_taq','SourceExTaqHS;5uLreaction10cycles95/55/72',K.CATALYST)
-    g.react('dna_pcr2','Source10cycleDNA-BCsecondPCRwithwellprimers',S.GENERIC,((dna_part,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(pol,R.CATALYST)),(second,))
+    g.react('dna_pcr2','Source10cycleDNA-BCsecondPCRwithwellprimers',S.MAGIC,((dna_part,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(pol,R.CATALYST)),(second,),reason='Actualsource10cyclePCR; fullnucleotide/sourcebuffer/occupiedampliconunassembled, notgenericno-changeoperation.')
     f3=g.input('illu_f','SourceILLU_f',K.OLIGO,state=illumina_primer('f'))
     r3=g.input('illu_r','SourceILLU_r6Xwindow;acquiredindexboundaryunassembled',K.OLIGO,state=illumina_primer('r'))
     third=g.product('third_pcr','DNA-BCIlluminaadapterPCRpopulation',K.MOLECULAR)
-    g.react('dna_pcr3','Source5cyclethirdPCRsameprogramwithILLU_f/ILLU_r',S.GENERIC,((second,R.TEMPLATE),(f3,R.STRUCTURAL),(r3,R.STRUCTURAL)),(third,))
+    g.react('dna_pcr3','Source5cyclethirdPCRsameprogramwithILLU_f/ILLU_r',S.MAGIC,((second,R.TEMPLATE),(f3,R.STRUCTURAL),(r3,R.STRUCTURAL)),(third,),reason='Actualsource5cyclePCR; additionalreactioninventory/occupiedampliconunassembled, no namednewenzymeinvented.')
     lib=clean('dna_pool_gel',third,'Poolmultiplewells;gelelectrophoresisandgelextraction')
     end(g,lib,'SourceDNA-BClibrarysequencedatleast6000reads/cell;exactrun/read/indexgeometryunassembled. Synthetic12NMIDisnotlaterNHNHNpatternorwellbarcode.')
     return incomplete(g)
@@ -130,9 +161,14 @@ def selftest():
     c('LinkeriSp18notcountedasDNA',len(g.materials['linker'].state.strands['linker'].segs),3)
     c('IVTTandreporterencodingusedistinctDNAaliquots',g.steps['ivtt_pcr'].inputs[0].material!=g.steps['anneal_reporter'].inputs[1].material,True)
     c('EDTAquenchdoesnotphysicallypurifyencodedDNA',g.steps['tetramerize'].inputs[1].material,'stop_extension_product')
-    c('Flowthroughcontrolretained',g.terminals['flow_control_stain_product'].disposition,Disposition.STORED)
+    c('Flowthroughcontrolretained',g.terminals['flow_control_stain_product'].disposition,Disposition.UNRESOLVED)
     c('JointfirstPCRbeforelibrarysplit',g.steps['split_libraries'].inputs[0].material,'first_pcr')
     c('DNAsecondPCRusesallocated1uL',g.steps['dna_pcr2'].inputs[0].material,'dna_aliquot')
+    c('Reporterextensionusespreannealednucleotides',g.steps['encode'].inputs[1].material,'encoding_retained_nt')
+    c('IVTTusesselected1uldilutedDNA',g.steps['ivtt'].inputs[0].material,'ivtt_allocation_selected')
+    c('IVTTpreparedstockremainderretained',g.terminals['ivtt_mix_allocation_remainder'].disposition,Disposition.UNRESOLVED)
+    c('Actualpanelpoolhasdistinctsourcecontributions',len(g.steps['panel_pool'].inputs),2)
+    c('ChemicalPCRnotgenericno-change',g.steps['dna_pcr2'].kind,S.MAGIC)
     c('Modelprivate',g.publishable,False)
     p=sources_root()/Path(__file__).resolve().parents[1].name/'nbt.4282_supp_NIHMS1508189-supplement-11.xlsx.txt'
     if p.exists():

@@ -19,3 +19,13 @@ The AM rearranges input/IP fragments in50mMNa2CO3/2mMEDTApH10.4,1h at50°C or60�
 ## Boundary and lineage
 
 Distinct from Li2016 m1A-ID-seq demethylation/AMV comparison. Published SI explicitly calls m1A-seq modeled after m6A-seq, supporting an explicit component-strategy lineage to the cited m6A-seq predecessor, not inheritance of all adapters/end chemistry or a later kit edition. That predecessor and historical kit originals remain deferred. Main VOR applicability, exact full library geometry and controls remain open; no absence claim or finished schematic.
+
+## Bounded publication follow-up (2026-10-30)
+
+The required `pending_historical_kit` and `pending_vor` items remain uncovered. Associated-manuscript Methods160 and published SI Note2 are separate authorities: they support fragmentation, anti-m1A IP, competitive elution, partial Dimroth rearrangement and a historical NEBNext library handoff, but do not establish whole final-Methods or kit-edition equivalence. An opaque named kit output is not a waiver of the original requirements.
+
+The limited private fix represents free m1A mononucleoside as an actual molecular competitive-elution reagent rather than a condition. It may remain with the RNA until a later physical cleanup; it is not covalent conversion of RNA. The historical kit likewise contributes physical molecular supplies, with its internal stock packaging, sequences and geometry unassigned. A literal reviewed subset covers the selected fragmentation/IP/elution and optional partial rearrangement only, deliberately leaving the full historical library handoff and final-version applicability unresolved.
+
+Competitive elution remains separate from the ProteinaseK/TRIzol alternative. Total-RNA and poly(A)-RNA inputs are alternatives rather than an invented pool. Alkaline treatment changes selected m1A residues to m6A without removing methyl groups or assuming complete conversion; no Li-method demethylation, AMV recipe or universal RT mismatch is imported. Source50°C/60°C alternatives are not called a publication error.
+
+Only the same two closed originals were used, with no acquisition or expanded reading. Six focused checks and a temporary private graph render pass; no public builder or completion marker was added. Notes status remains a source-scope hold with no absence claim.

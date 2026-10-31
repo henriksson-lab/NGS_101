@@ -27,3 +27,9 @@ The private model owns these exact source oligos and source-described end histor
 ## Lineage and deferred work
 
 Main Methods1268 explicitly adopts emRiboSeq with altered cleavage chemistry; ref19 resolves at1387 to Ding et al., NatProtoc2015 DOI10.1038/nprot.2015.099. That is a companion protocol, not the registered emRiboSeq Nature14183 defining original. Component ancestry must preserve this cited version; source-local oligos were read independently and not imported. Direct enzyme reference35, historical Ion sequencing documentation, complete duplex/junction validation and independent review remain deferred.
+
+## Bounded publication follow-up (2026-10-30)
+
+Main Methods1268 explicitly adapts CPD-seq from the emRiboSeq/EndoSeq protocol cited as reference19 (text1387), DOI10.1038/nprot.2015.099. That exact relevant original remains unreviewed. The required `companion_protocol` item is preserved and uncovered: the positive inline-SI summary1295 does not waive it or establish complete historical recipe equivalence. Source-known oligos/end histories and coarse DNA-copying/PCR steps remain private; full strand, primer and run assembly is unimplemented.
+
+The limited local fix exposes dideoxyATP as an actual molecular substrate of the TdT end-blocking step, separately typed from the catalytic enzyme. Dose, packaging and quantitative blocking remain unassigned; no new fresh-stock recipe is inferred. All other source-scope obligations, background/offset qualifications and nonbiotin-release fates remain intact. This pass reread only the existing published main/inline-SI original; no acquisition or additional original. Notes status remains a source-scope hold.

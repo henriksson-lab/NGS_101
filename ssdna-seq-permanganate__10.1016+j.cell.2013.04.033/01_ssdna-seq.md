@@ -27,3 +27,11 @@ Mungbean cleavage and sonication retain physical labelled/unlabelled/genomic-fra
 ## Version/source boundary
 
 The actual2013ExtendedExperimentalProcedures NIHMS472536-supplement-01.pdf request returned a PMC Preparing-to-download gate; companion02.xls was also gated. MainMethods146–148 describes biological preparation but does not replace that detailed chemical original. A later2017paper DOI10.1016/j.cels.2017.01.013 describes relatedS1/mungbean and tail-processing chemistry; it was a discovery comparison, not an adopted2013recipe. It is neither silently merged nor an additional protocol admission here. ProteinChIP assays at resectedDNA and KAS-seq chemicalG-labeling are distinct molecular strategies; no whole-protocol lineage edge is inferred merely because all detectssDNA.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked one existing associated author manuscript, PMC3684982: identity lines1–5, Results104–106 and Methods146–148. The mandatory bundle scraper completed with zero eligible hits; the actual main text was read directly. This is not a sequence-absence finding or a final-publication equivalence claim.
+
+KMnO4 is now a molecular oxidant contribution, separate from the unreviewed exposure conditions. The delegated Illumina preparation likewise receives molecular supplies with unassigned identities/packaging, rather than only a condition. Neither change supplies the unknown reaction products, workups, whole adapters or tail fate. A literal source inventory covers only the inspected operational classes; original-DNA end blocking, nuclease-created ends and subsequent biotin tailing remain distinct.
+
+The original `gated_original_si` item is still required and uncovered. Its historical retrieval record is not a new access test. Original2013 extended procedures, figures and workbook, exact lesions/ends and complete library/read geometry remain deferred. No later2017 S1 recipe is substituted and no missing-information claim is accepted.

@@ -94,17 +94,16 @@ def unassembled_ligation(which, group):
 def protocol_graph():
     g = ProtocolGraph('m1A-MAP — source input/IP/demethylase library branches', authority=SOURCE,
                       representation='published_instance')
-    reviewed = []
 
     def inp(key, label, kind, **kwargs):
-        value = g.input(key, label, kind, **kwargs); reviewed.append(key); return value
+        return g.input(key, label, kind, **kwargs)
 
     def react(key, label, kind, inputs, outputs, **kwargs):
-        value = g.react(key, label, kind, inputs, outputs, **kwargs); reviewed.append(key); return value
+        return g.react(key, label, kind, inputs, outputs, **kwargs)
 
-    def cleanup(key, material, label, procedure):
+    def cleanup(key, material, label, procedure, kind=K.MOLECULAR):
         condition = inp(key + '_procedure', procedure, K.SELECTION)
-        kept = g.product(key, label, K.MOLECULAR)
+        kept = g.product(key, label, kind)
         reject = g.product(key + '_waste', 'Physical purification rejects; exact composition/recovery unquantified', K.WASTE)
         react(key + '_cleanup', procedure, S.CLEANUP, ((material, R.TEMPLATE), (condition, R.SELECTION)), (kept, reject))
         g.discard(reject, 'Source-described physical separation; no perfect molecular-class removal asserted')
@@ -127,9 +126,11 @@ def protocol_graph():
     plus = g.product('plus_rna', 'IP RNA allocated to AlkB treatment; source10ng', K.MOLECULAR)
     react('allocate_demethylase', 'Represent minus/plus demethylase preparations', S.SPLIT, ((enriched, R.TEMPLATE),), (minus, plus))
     alkb = inp('alkb', 'Source ΔN11 AlkB0.4pmol;20µL/MESpH6.5/FeII/alphaKG/ascorbate/RNase inhibitor,37°C2h', K.CATALYST)
+    cofactors=inp('alkb_cofactors','Actual main-MAP Fe(II)283µM/alpha-ketoglutarate300µM/ascorbate2mM/RNaseinhibitor0.4Uµl contributions; stock packaging unassigned',K.MOLECULAR)
+    alkb_buffer=inp('alkb_buffer','Actual50mMMESpH6.5/20µlreaction; source37°C2h',K.CONDITION)
     treated = g.product('treated', 'AlkB-treated RNA plus reaction products; residual/intermediate fractions unassigned', K.MOLECULAR)
     react('demethylate', 'Source main-MAP AlkB treatment; no complete-erasure assumption', S.CHEMICAL_CONVERSION,
-          ((plus, R.TEMPLATE), (alkb, R.CATALYST)), (treated,))
+          ((plus, R.TEMPLATE), (alkb, R.CATALYST),(cofactors,R.STRUCTURAL),(alkb_buffer,R.CONDITION)), (treated,))
     edta = inp('edta', 'Source5mM EDTA quench', K.CONDITION)
     stopped = g.product('stopped', 'Quenched AlkB reaction mixture', K.MOLECULAR)
     react('quench_alkb', 'Stop demethylase reaction', S.QUENCHING, ((treated, R.TEMPLATE), (edta, R.CONDITION)), (stopped,))
@@ -163,9 +164,13 @@ def protocol_graph():
         react(key('rt_denature'), 'Heat RNA with RT primer before adding TGIRT', S.THERMAL_TREATMENT,
               ((recovered, R.TEMPLATE), (primer, R.STRUCTURAL), (heat, R.CONDITION)), (heated_rna, heated_primer))
         rt = inp(key('tgirt'), 'TGIRT,57°C2h in source RT mixture; no efficiency/mismatch distribution predicted', K.CATALYST)
+        rt_nt=inp(key('rt_nts'),'Actual1mMdNTP contribution to sourceRTreaction; packaging unassigned',K.MOLECULAR)
+        rt_dtt=inp(key('rt_dtt'),'Actual5mMDTT contribution',K.MOLECULAR)
+        rt_inhib=inp(key('rt_inhibitor'),'Actual1UµlRNaseinhibitor contribution',K.MOLECULAR)
+        rt_buffer=inp(key('rt_buffer'),'Actual50mMTrisHCl8.3/75mMKCl/3mMMg sourceRTbuffer',K.CONDITION)
         cdna_mix = g.product(key('rt_mix'), 'cDNA products plus RNA, unextended primers and possible arrested products', K.MOLECULAR)
         react(key('reverse_transcribe'), 'TGIRT copying; RNA modification and DNA base outcomes remain distinct', S.REVERSE_TRANSCRIPTION,
-              ((heated_rna, R.TEMPLATE), (heated_primer, R.STRUCTURAL), (rt, R.CATALYST)), (cdna_mix,))
+              ((heated_rna, R.TEMPLATE), (heated_primer, R.STRUCTURAL), (rt, R.CATALYST),(rt_nt,R.STRUCTURAL),(rt_dtt,R.STRUCTURAL),(rt_inhib,R.STRUCTURAL),(rt_buffer,R.CONDITION)), (cdna_mix,))
         exoi = inp(key('exoi'), 'ExonucleaseI,37°C30min', K.CATALYST)
         after_exo = g.product(key('after_exo'), 'Reaction after excess-primer digestion, including RNA and soluble products', K.MOLECULAR)
         react(key('digest_primer'), 'Source RT-primer processing', S.DIGESTION,
@@ -179,19 +184,28 @@ def protocol_graph():
         adapted = cleanup(key('adapted_clean'), adapted, 'Silane-recovered adapted cDNA', 'Source silane purification after cDNA ligation')
         forward = inp(key('pcr_f'), 'Printed unindexed forward PCR primer', K.OLIGO, state=Construct([Segment('PCR forward', PCR_F)]))
         reverse = inp(key('pcr_r'), 'Printed reverse PCR primer with unknown6base sample index', K.OLIGO, state=reverse_primer(group))
-        polymerase = inp(key('pcr_mix'), 'Source PCR amplification; full program/polymerase in uninspected MethodsS1', K.CONDITION)
+        pcr_supplies=inp(key('pcr_mix'),'Actual PCR aggregate functional supplies; stock count/packaging, enzyme identity and program remain unreviewed in MethodsS1',K.MOLECULAR)
+        polymerase=g.product(key('pcr_polymerase'),'Actual DNA-polymerase functional class from source amplification supplies',K.CATALYST)
+        pcr_nt=g.product(key('pcr_nts'),'Copresent actual PCR nucleotide functional class; no extra dose',K.MOLECULAR)
+        pcr_buffer=g.product(key('pcr_buffer'),'Copresent PCR buffer functional class; formulation unreviewed',K.CONDITION)
+        react(key('pcr_mix_inventory'),'Actual supply-class bookkeeping, not physical separation or a claimed premix factory',S.GENERIC,((pcr_supplies,R.TEMPLATE),),(polymerase,pcr_nt,pcr_buffer),changes_molecule=False)
         amplified = g.product(key('amplified'), 'Library PCR population; full genomic strand/product geometry unassembled', K.MOLECULAR)
         react(key('pcr'), 'Amplify source library with printed primers', S.PCR,
-              ((adapted, R.TEMPLATE), (forward, R.STRUCTURAL), (reverse, R.STRUCTURAL), (polymerase, R.CONDITION)), (amplified,),
+              ((adapted, R.TEMPLATE), (forward, R.STRUCTURAL), (reverse, R.STRUCTURAL), (polymerase, R.CATALYST),(pcr_nt,R.STRUCTURAL),(pcr_buffer,R.CONDITION)), (amplified,),
               geometry=PCRGeometry.unavailable(Scene(), reason='Full RNA/cDNA strand assembly and historical detailed MethodsS1 remain unreviewed; known binding subrelations are not complete PCR validation.'))
-        library = cleanup(key('library'), amplified, '8%TBE-gel recovered library', 'Source8%TBE-gel purification')
+        library = cleanup(key('library'), amplified, '8%TBE-gel recovered library', 'Source8%TBE-gel purification',kind=K.LIBRARY)
         g.sequence(library, SequencingPlan(acquired_roles=('Read 1', 'Read 2'), read_lengths={'Read 1':READ_LENGTH, 'Read 2':READ_LENGTH},
                                          limitation='Associated manuscript reports HiSeqX10 PE150. Methods268–272 computationally trim the first10bases of Read2 as the random barcode. Exact physical run-primer landing and index acquisition remain unassembled.'))
-    g.declare_reviewed_scope(reviewed, SOURCE)
+    g.declare_reviewed_scope(COMMON_TARGETS,SOURCE)
+    for prefix in ('input_','minus_','plus_'):g.declare_reviewed_scope(tuple(prefix+k for k in LIBRARY_TARGETS),SOURCE)
     g.add_source_item(SourceItem('detailed_source_and_geometry', 'Published MethodsS1, prior IP original and complete RNA/cDNA/PCR/read geometry',
                                 'Actual cited originals/source-version applicability remain unresolved; no confirmed absence claimed.'))
     return g
 
+
+# Curator-written inventory for the main-MAP route; not collected from graph builders.
+COMMON_TARGETS=tuple("""polya_rna fragmentation fragment allocate_input antibody ip allocate_demethylase alkb alkb_cofactors alkb_buffer demethylate edta quench_alkb demethylated_clean_procedure demethylated_clean_cleanup""".split())
+LIBRARY_TARGETS=tuple("""pnk dephosphorylate repaired_clean_procedure repaired_clean_cleanup rna_linker ligase2 rna_ligation deadenylase deadenylate recj digest_adapter rna_clean_procedure rna_clean_cleanup rt_primer rt_heat rt_denature tgirt rt_nts rt_dtt rt_inhibitor rt_buffer reverse_transcribe exoi digest_primer cdna_clean_procedure cdna_clean_cleanup cdna_adapter ligase1 cdna_ligation adapted_clean_procedure adapted_clean_cleanup pcr_f pcr_r pcr_mix pcr_mix_inventory pcr_polymerase pcr_nts pcr_buffer pcr library_procedure library_cleanup library""".split())
 
 def render_page():
     g = protocol_graph()
@@ -223,7 +237,11 @@ def selftest():
     c('Arrest does not manufacture a DNA nucleotide',SelectedRTOutcome('m1A',None).physical_cdna_base,None)
     c('A control RNA is not constrained to perfect copying',SelectedRTOutcome('A','C').physical_cdna_base,'G')
     c('Library branches and unknown source keep publication blocked',protocol_graph().publishable,False)
-    c.report()
+    g=protocol_graph()
+    c('Actual gel-purified DNA outputs typed as libraries',tuple(g.materials[k+'_library'].kind for k in ('input','minus','plus')),(K.LIBRARY,)*3)
+    c('Source-wide required item stays uncovered','detailed_source_and_geometry' in g.source_coverage,False)
+    c('Only actual broad source obligation blocks publication',g.publication_problems(),["authoritative source item 'detailed_source_and_geometry' is not accounted for"])
+    c.report(exit_on_fail=True)
 
 
 if __name__ == '__main__':

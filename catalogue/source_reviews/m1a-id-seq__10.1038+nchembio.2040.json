@@ -23,7 +23,7 @@
       "pass_1": {
         "reviewer": "rna_round09_reader",
         "date": "2026-10-29",
-        "locations": "Title/authors/Table1p2, Fig2\u20135pp4\u20137/source109\u2013169; originalp1render /tmp/rna09-m1aid-page1.png",
+        "locations": "Title/authors/Table1p2, Fig2–5pp4–7/source109–169; originalp1render /tmp/rna09-m1aid-page1.png",
         "finding": "Source SI establishes IP-RNA demethylation comparison and AMV optimization; full main Methods blocked. Abstract ALKBH3 biology is not assigned as exact library demethylase reagent."
       },
       "pass_2": null,
@@ -77,7 +77,7 @@
   "open_questions": [
     "Actual full main procedure, exact demethylase/cofactor/workup, complete library oligos/end/run geometry. No absence claim."
   ],
-  "conclusion": "Notes-only capped first source/implementation pass. No full chemical/readout/source completion, finished schematic or accepted missing-information claim.",
+  "conclusion": "Bounded publication hold: blocked_source_scope. Real required definingMethods unavailable/unreviewed; selectedSIcomparisons do not supplyactualNGSlibraryworkflow. No source-obligationexclusion or absenceclaim.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-09",
@@ -85,13 +85,27 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Defining/chemistry originals first, no recursive source chase",
-      "locations": "Title/authors/Table1p2, Fig2\u20135pp4\u20137/source109\u2013169; originalp1render /tmp/rna09-m1aid-page1.png",
+      "locations": "Title/authors/Table1p2, Fig2–5pp4–7/source109–169; originalp1render /tmp/rna09-m1aid-page1.png",
       "findings": "Source SI establishes IP-RNA demethylation comparison and AMV optimization; full main Methods blocked. Abstract ALKBH3 biology is not assigned as exact library demethylase reagent.",
       "deferred": [
         "https://doi.org/10.1038/nchembio.2040"
       ],
       "oligo_scraper": "Mandatory full acquired-bundle scan; selected original contexts/modifications inspected. Zero/concatenated hits are not absence or oligo identity evidence.",
       "verification": "22localbehavior/transcriptionchecks pass across4models. Sourceguard2exactchecked0failed4unassembledinputs; chemistry27unresolved0contradictory. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted9",
+      "reviewer": "targeted_bounded_hold_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded existing-original source/model hold assessment; no new acquisitions/builds/modeledlibraryclaims. Investigation closed at cap.",
+      "locations": "PublishedSI title/authors/Table1validationprimerheading, Fig2/3/5captions at109–169 reread. Definingmain andresultsworkbook not newlyopened. MainMANIFEST checked only: actual historicalmanual noopenfulltext entry, no newrequest.",
+      "findings": "SIestablishes IP-RNA demethylationcomparison, pH6.5/protein:RNA2:1 andnoaddedBSA, AMV0.2mMdNTP/10mMMg optimizedbackground. Exact demethylase/cofactor/fullreactionorder andactualNGSlibraryproducer are notestablished byselectedSI. Table1is qRTPCRvalidation, not NGSadapterinventory. Keep blocked_mainrequired/uncovered; do notinventRT/PCR/libraryfinish fromcontemporaneousm1Aseq/MAP. Existing printedSIfooter nbt.2040 versus title/authors/publisherattachmentnchembio.2040 qualification retained; not a chemistry conflict.",
+      "deferred": [
+        "Real required definingMethods unavailable/unreviewed; selectedSIcomparisons do not supplyactualNGSlibraryworkflow. No source-obligationexclusion or absenceclaim."
+      ],
+      "oligo_scraper": "/tmp/unlinked9-m1aid-scraper.log:5hits/1representation; sourcecontexts preserved, no sourceabsence inference.",
+      "verification": "5existingfocusedchecksPASS; 2steps/2unresolved0contradictory; requiredsourceitemunchanged/uncovered andsequencingterminalmissing. No modelcodechange/publiccomplete marker."
     }
   ]
 }

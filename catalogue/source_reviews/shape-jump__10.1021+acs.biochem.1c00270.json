@@ -89,5 +89,71 @@
       "oligo_scraper": "Mandatory bundle scraper and main original modification pointers inspected. SHARC2large source-data skips remain unreviewed. Empty SHAPE-JuMP hits do not imply absent SI sequences.",
       "verification": "29 local checks pass (Mod9,SHAPE-JuMP7,SHARC13); sourceguard6checked0failed0bundlesskipped1explicit formal-corrected-primer exemption7unassembledinputs3graphs; chemistry65unresolved0contradictory. Canonical source-review schema passes (2in_progress,1blocked). Notes build and git diff --check pass; no preview/finished schematic."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 1,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/shape-jump__10.1021+acs.biochem.1c00270/acs.biochem.1c00270_PMC8256721.xml.txt",
+        "version": "Associated accepted manuscript NIHMS1716012; final-VOR procedural applicability unverified",
+        "sections": "Identity1\u20135; mainMethods126\u2013142",
+        "scope": "ActualT7transcription/folding/5pmolTBIA-IA-DMSO/RT-C8/2stagePCR/kitacquisition; separatesMarathonhydrolysis andenzyme-screen routes. No SIoriginal opened."
+      }
+    ],
+    "scope": "Actual T7NTP/buffer,5pmolprobe/molecularcontrols,10pmolprimeranneal\u2192RTNT/buffer andQ5PCRfunctionalclasses. NoMarathonNaOH/Mn variant or kitcycles/readcycles inherited; originalpending sourceitem retained.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'pending' is not accounted for",
+      "graph input/step 'allocate1' has no source-inventory item",
+      "graph input/step 'allocate2' has no source-inventory item",
+      "graph input/step 'desalt' has no source-inventory item",
+      "graph input/step 'desalt_condition' has no source-inventory item",
+      "graph input/step 'dilute' has no source-inventory item",
+      "graph input/step 'dilute_reagent' has no source-inventory item",
+      "graph input/step 'dnase' has no source-inventory item",
+      "graph input/step 'dnase_reagent' has no source-inventory item",
+      "graph input/step 'pcr1' has no source-inventory item",
+      "graph input/step 'pcr1_buffer' has no source-inventory item",
+      "graph input/step 'pcr1_clean' has no source-inventory item",
+      "graph input/step 'pcr1_clean_condition' has no source-inventory item",
+      "graph input/step 'pcr1_f' has no source-inventory item",
+      "graph input/step 'pcr1_nt' has no source-inventory item",
+      "graph input/step 'pcr1_r' has no source-inventory item",
+      "graph input/step 'pcr2' has no source-inventory item",
+      "graph input/step 'pcr2_buffer' has no source-inventory item",
+      "graph input/step 'pcr2_clean' has no source-inventory item",
+      "graph input/step 'pcr2_clean_condition' has no source-inventory item",
+      "graph input/step 'pcr2_clean_kept' has no source-inventory item",
+      "graph input/step 'pcr2_f' has no source-inventory item",
+      "graph input/step 'pcr2_nt' has no source-inventory item",
+      "graph input/step 'pcr2_r' has no source-inventory item",
+      "graph input/step 'post_rt' has no source-inventory item",
+      "graph input/step 'post_rt_condition' has no source-inventory item",
+      "graph input/step 'primer_anneal' has no source-inventory item",
+      "graph input/step 'primer_anneal_conditions' has no source-inventory item",
+      "graph input/step 'probe' has no source-inventory item",
+      "graph input/step 'probe_allocation' has no source-inventory item",
+      "graph input/step 'probe_environment' has no source-inventory item",
+      "graph input/step 'probe_reagent' has no source-inventory item",
+      "graph input/step 'q5_1' has no source-inventory item",
+      "graph input/step 'q5_2' has no source-inventory item",
+      "graph input/step 'refold' has no source-inventory item",
+      "graph input/step 'refold_reagent' has no source-inventory item",
+      "graph input/step 'rna_cleanup' has no source-inventory item",
+      "graph input/step 'rna_cleanup_condition' has no source-inventory item",
+      "graph input/step 'rt_buffer' has no source-inventory item",
+      "graph input/step 'rt_c8' has no source-inventory item",
+      "graph input/step 'rt_jump' has no source-inventory item",
+      "graph input/step 'rt_nt' has no source-inventory item",
+      "graph input/step 'rt_primer' has no source-inventory item",
+      "graph input/step 'template' has no source-inventory item",
+      "graph input/step 'transcribe' has no source-inventory item",
+      "graph input/step 'transcribe_reagent' has no source-inventory item",
+      "graph input/step 'transcription_buffer' has no source-inventory item",
+      "graph input/step 'transcription_ntp' has no source-inventory item"
+    ],
+    "verification": "SHAPE12PASS/SHARC18PASS; guard1exact0failed6externalunknown0exceptions; chemistry19+28unresolved0contradictory. No PAGE_FILE or existing builder/renderers, so no new failing private/public builder fabricated."
+  }
 }

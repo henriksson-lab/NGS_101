@@ -105,9 +105,24 @@
         "Independentreview"
       ],
       "oligo_scraper": "Onehitinmain:canonicalS7analysissearchmotif;notwholeprimerandnooligoabsenceclaim."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch15",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing-source preflight followed by documentation-only hold adjudication. No new sources, module/builder changes or source-coverage exclusions.",
+      "locations": "Actual version header; Methods711–754 ATPS/capsule formation and782–887 lysis/MDA/tagmentation/coencapsulation/linearbarcoding/alkaline dissolution/PCR/ONT; originalPDFp22 rendered barcoding mixture, oil exchange and DNA recovery; Cached title/anchor inventory only, exactrevision links to main PDF; actual Table1 file identity not resolved in this pass",
+      "findings": "Original required supplementary_table1, historical_ont and source_recipe remain uncovered. Real version-specific DNA capsule/barcoding/ONT operations are present, but actual cited primer Table1 identity/location is unresolved; historical ONT kit/reagent/end geometry and instrument identity plus mix/MDA/compartment recipe obligations remain unreviewed. Six generic construct-changing steps/non-library endpoint/missing terminal coverage also fail normal gates. Neither ONT kit names nor a sequencing label fulfill these original obligations. The selected original remains bioRxiv v3, posted13October2025. No later published-version equivalence or present-day publication-status conclusion is asserted. Actual originalp22 prints a348µL barcoding mix, while its listed120+16+16+12+64+64+64+16µL components sum372µL. Both descriptions remain visible with no intended total chosen. The same source combines GridIONMK1 withP2solo, PromethIONFlowCell andFLO-MIN114 labels; instrument/flow-cell identity remains unresolved, without an independent vendor-error claim. Actual SupplementaryTable1 is cited, but its original file identity/location is unresolved rather than proven inaccessible or absent.",
+      "deferred": [
+        "Actual cited SupplementaryTable1 identity/location unresolved, no invented disclosure file/URL.",
+        "Historical ONT/manufacturer and bead-material originals with revision applicability unreviewed; later published version status not investigated in source-restricted pass."
+      ],
+      "oligo_scraper": "1hit in1main representation, analysis motif only; original Methods/p22 independently checked. No oligo absence claim.",
+      "verification": "7PASS via tools/protocol.py test in closed preflight; Actual22step graph,11failures retained. Unchanged code, so tests/builds/source scans are not repeated; no new HTML/pairing acceptance claim."
     }
   ],
-  "conclusion": "Cappedsource-readpreprintmodel,notes-only/private/incomplete;noabsentinformationorcompletedchemicalvalidationclaim.",
+  "conclusion": "Bounded publication hold retained. Original required supplementary_table1, historical_ont and source_recipe remain uncovered. Real version-specific DNA capsule/barcoding/ONT operations are present, but actual cited primer Table1 identity/location is unresolved; historical ONT kit/reagent/end geometry and instrument identity plus mix/MDA/compartment recipe obligations remain unreviewed. Six generic construct-changing steps/non-library endpoint/missing terminal coverage also fail normal gates. Neither ONT kit names nor a sequencing label fulfill these original obligations.",
   "local_validation": {
     "selftest_checks": 7,
     "result": "pass"

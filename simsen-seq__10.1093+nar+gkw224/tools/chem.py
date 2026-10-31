@@ -4,31 +4,33 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from dataclasses import dataclass,replace
 from chemdraw import Scene,Segment,Construct,feature,workflow_from_protocol_graph,workflow_panel
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from pcr import PCRGeometry
 from page import head,info
 PAGE_FILE='chem.html'
 
 class Operations:
     def __init__(self,g):self.g=g
-    def op(self,key,x,label,reagent=None,state=None,chemical_state=None):
+    def op(self,key,x,label,reagent=None,state=None,chemical_state=None,kind=S.GENERIC,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
         g=self.g;inputs=[(x,R.TEMPLATE)]
         if reagent:
-            y=g.input(key+'_condition',reagent,K.CONDITION);inputs.append((y,R.CONDITION))
-        y=g.product(key+'_out',label+'; preparation includes unremoved companion species',K.MOLECULAR,state=state,chemical_state=chemical_state)
-        g.react(key,label,S.GENERIC,inputs,(y,));return y
-    def join(self,key,inputs,label,state=None,chemical_state=None):
-        g=self.g;y=g.product(key+'_out',label+'; reaction components remain until an explicit separation',K.MOLECULAR,state=state,chemical_state=chemical_state)
-        g.react(key,label,S.GENERIC,tuple((x,R.TEMPLATE if i==0 else R.STRUCTURAL) for i,x in enumerate(inputs)),(y,));return y
+            y=g.input(key+'_condition',reagent,reagent_kind);inputs.append((y,reagent_role))
+        y=g.product(key+'_out',label+'; preparation includes unremoved companion species',x.kind,state=state,chemical_state=chemical_state)
+        g.react(key,label,kind,inputs,(y,),changes_molecule=kind is not S.GENERIC);return y
+    def join(self,key,inputs,label,state=None,chemical_state=None,kind=S.POOL,extras=(),outkind=K.MOLECULAR):
+        g=self.g;y=g.product(key+'_out',label+'; reaction components remain until an explicit separation',outkind,state=state,chemical_state=chemical_state)
+        geom=PCRGeometry.unavailable(Scene(),reason='Actual source PCR; whole target/primer/product/read geometry unassembled.') if kind is S.PCR else None
+        g.react(key,label,kind,tuple((x,R.TEMPLATE if i==0 or kind is S.POOL else R.STRUCTURAL) for i,x in enumerate(inputs))+tuple(extras),(y,),geometry=geom);return y
     def clean(self,key,x,label):
         g=self.g;z=g.input(key+'_selection',label,K.SELECTION)
-        y=g.product(key+'_kept','Source physically retained fraction: '+label,K.MOLECULAR)
+        y=g.product(key+'_kept','Source physically retained fraction: '+label,x.kind)
         w=g.product(key+'_removed','Source physically removed fractions; exact composition/purity unassigned',K.WASTE)
         g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(z,R.SELECTION)),(y,w));g.discard(w,'Only the source physical separation; no perfect selectivity asserted.');return y
     def split(self,key,x,label,other_label,other=Disposition.UNRESOLVED):
-        g=self.g;y=g.product(key+'_production',label,K.MOLECULAR)
-        z=g.product(key+'_other',other_label,K.MOLECULAR)
+        g=self.g;y=g.product(key+'_production',label,x.kind)
+        z=g.product(key+'_other',other_label,x.kind)
         g.react(key,'Source physical allocation: '+label,S.SPLIT,((x,R.TEMPLATE),),(y,z));g.terminals[z.id]=Terminal(z.id,other,other_label);return y,z
     def qc(self,key,x,label):
-        g=self.g;y=g.product(key+'_production','Production preparation retained independently from analytical aliquot',K.MOLECULAR)
+        g=self.g;y=g.product(key+'_production','Production preparation retained independently from analytical aliquot',x.kind)
         z=g.product(key+'_assay',label,K.QC)
         g.react(key,label,S.SPLIT,((x,R.TEMPLATE),),(y,z));g.terminals[z.id]=Terminal(z.id,Disposition.QC,'Analytical aliquot does not become the sequencing substrate.');return y
     def opaque(self,key,x,label):
@@ -37,7 +39,7 @@ class Operations:
 
 def finish(g,x,readout):
     g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=readout))
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    g.declare_reviewed_scope(REVIEWED_TARGETS,SOURCE)
     g.add_source_item(SourceItem('unassembled','Unassembled source inputs, molecular geometry and directly linked targets',LIMIT));return g
 
 def render_page():
@@ -81,24 +83,39 @@ def protocol_graph():
     x=g.input('dna','Source5–100nggDNAorcfDNA;DNAextraction/shearing/cell-versusplasmaapplicationnotforcedonepreparation',K.MOLECULAR,primary=True)
     f=g.input('forward','Sourcehairpin-protectedforwardprimerpool;shownstandardGGcomponentexampleonly,SMAnoGG/GGGvariantsandactualpanelallocationunassembled',K.OLIGO,state=primer_inventory())
     r=g.input('reverse','Sourceuniversalreverse-targetprimer;fullspecifictargetbodyunassembled',K.OLIGO)
-    x=o.join('barcode_pcr',(x,f,r),'AccuPrime3cyclebarcoding,98°C10s/62°C6min/72°C30s after98°C3min;newDNAcopiescarrysourcebarcodewhileoriginaltemplates/reagentsremain')
-    x=o.op('dilute_protease',x,'Add20µLTE/protease30ngperµL;65°C15mindigestsTaq,not physicalDNAcleanup','TE/protease')
-    x=o.op('inactivate',x,'95°C15mininactivatesprotease; fragments/unusedprimers/barcodedcopiesremain')
+    ap=g.input('accuprime','Actual source0.2UAccuPrimeTaqHighFidelity',K.CATALYST)
+    ab=g.input('accuprime_buffer','Actual1xAccuPrimePCRBufferII contributions; internal nucleotide/formulation inventory unassembled',K.MOLECULAR)
+    x=o.join('barcode_pcr',(x,f,r),'AccuPrime3cyclebarcoding,98°C10s/62°C6min/72°C30s after98°C3min;newDNAcopiescarrysourcebarcodewhileoriginaltemplates/reagentsremain',kind=S.PCR,extras=((ap,R.CATALYST),(ab,R.STRUCTURAL)))
+    x=o.op('dilute_protease',x,'Add20µLTE/protease30ngperµL;65°C15mindigestsTaq,not physicalDNAcleanup','Actual20ulTE/protease contribution; sourcefinal30ngperul protease, not a new independent dose',kind=S.DEPROTEINIZATION,reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
+    x=o.op('inactivate',x,'95°C15mininactivatesprotease; fragments/unusedprimers/barcodedcopiesremain','Source95C15min physical conditions',kind=S.THERMAL_TREATMENT)
     x,rest=o.split('pcr2_allocate',x,'Source10µLbarcodingreactiontransferinto40µLPCR2','Otherbarcodingreactionaftertransfer;laterfateunassigned')
     f=g.input('illumina_f','PublishedIlluminaforwardPCRprimer',K.OLIGO,state=Construct([Segment('sourceprimer',il.NEBNEXT_UNIVERSAL_PRIMER)]))
     r=g.input('illumina_r','PublishedP7/six-baseindex/universalreversearmprimer;memberunassigned',K.OLIGO,state=sample_primer())
-    x=o.join('library_pcr',(x,f,r),'Q5HotStartPCR18–30cyclesaddscompleteIlluminalibraryarms;source80→72→76°Cslowramp,notidenticalbarcodingcycleprogram')
+    q5=g.input('q5_supplies','Actual source Q5HotStartHighFidelityMasterMix contribution for final1xPCR; stock volume/packaging unassigned',K.MOLECULAR)
+    qp=g.product('q5_enzyme','Polymerase component of same actual Q5 supply',K.CATALYST);qn=g.product('q5_nucleotides','Copresent nucleotide component of same Q5 supply',K.MOLECULAR);qb=g.product('q5_buffer','Buffer component of same Q5 supply',K.CONDITION)
+    g.react('q5_components','Inventory views of same actual Q5MasterMix contribution',S.MAGIC,((q5,R.TEMPLATE),),(qp,qn,qb),changes_molecule=False,reason='Functional inventory, not physical separation, extra fresh doses or a reconstructed vendor formulation.')
+    x=o.join('library_pcr',(x,f,r),'Q5HotStartPCR18–30cyclesaddscompleteIlluminalibraryarms;source80→72→76°Cslowramp,notidenticalbarcodingcycleprogram',kind=S.PCR,extras=((qp,R.CATALYST),(qn,R.STRUCTURAL),(qb,R.CONDITION)),outkind=K.LIBRARY)
     x,rest=o.split('clean_allocate',x,'Source36µLPCR2productforpurification','OtherPCR2materialnotforcedintocleanup')
     x=o.clean('ampure',x,'Source0.83–1.0xAMPuredependingampliconlength;20µLTEelution')
     x=o.qc('fragment_analyzer',x,'SeparateFragmentAnalyzeranalyticalsizeassessment')
-    x=o.op('normalize',x,'Sourceconcentrationnormalizationbeforemultiplexsequencing;exactworkupunassembled')
-    peers=g.input('other_samples','Othersourceindependentlypreparednormalizedlibraries;batchmembershipunassigned',K.MOLECULAR)
-    x=o.join('pool',(x,peers),'Sourcepoollibrariesforsequencing;noone-to-onerawread/moleculeguarantee')
+    x=o.op('normalize',x,'Carry clean library stock toward source multiplex sequencing; concentration/normalization workup unassembled')
+    peers=g.input('other_samples','Othersourceindependentlypreparednormalizedlibraries;batchmembershipunassigned',K.LIBRARY)
+    x=o.join('pool',(x,peers),'Sourcepoollibrariesforsequencing;noone-to-onerawread/moleculeguarantee',kind=S.POOL,outkind=K.LIBRARY)
     return finish(g,x,'Publishedlow-depthMiSeqNanoV2SE150versusfullMiSeq/HiSeq2500SEorPE150;actualcohortallocation/fullprimerlandingunassembled. N12molecularfamilies/consensuscallingnotphysicalDNAdeletionorcorrection.')
+
+
+# Literal independently reviewed inventory: published main67-69 and TableS1.
+# Full variant/target/product geometry remains behind original unassembled.
+REVIEWED_TARGETS=tuple('dna forward reverse accuprime accuprime_buffer barcode_pcr dilute_protease_condition dilute_protease inactivate_condition inactivate pcr2_allocate illumina_f illumina_r q5_supplies q5_components library_pcr clean_allocate ampure_selection ampure fragment_analyzer normalize other_samples pool pool_out'.split())
 
 def selftest():
     from checks import Check
     c=Check();p=StandardProtectedPrimer('GACCTCAGGCGGCTCATAG');h=p.hairpin();g=protocol_graph()
+    c('Source PCR reactions are typed',(g.steps['barcode_pcr'].kind,g.steps['library_pcr'].kind),(S.PCR,S.PCR))
+    c('Q5 nucleotides derive from actual same stock',g.steps['q5_components'].outputs,('q5_enzyme','q5_nucleotides','q5_buffer'))
+    c('Library stock handoff preserves library class',g.materials['normalize_out'].kind,K.LIBRARY)
+    c('Source declares PCR2 products sequencer-ready',g.materials['pool_out'].kind,K.LIBRARY)
+    c('Full original assembly obligation retained',g.publication_problems(),["authoritative source item 'unassembled' is not accounted for"])
     c('Sourcehairpinrightstemcomputedfromleft',h.right_stem,revcomp(h.left_stem))
     c('Sourcehairpintargetarmremainsoutsidefold',h.overhang_3,p.target)
     c('BarcodeandATretainedinhairpinloop',h.loop.endswith('N'*12+'AT'),True)

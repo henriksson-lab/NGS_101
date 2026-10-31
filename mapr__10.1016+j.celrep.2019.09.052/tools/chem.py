@@ -121,14 +121,18 @@ def protocol_graph():
     current=operation(g,'permeabilize','Source0.02%digitonin Dig-wash permeabilization',S.GENERIC,current,current.state,'source Dig-wash buffer')
     current=operation(g,'target','Source GST-RHdelta-MNase1µM overnight4C; MNase-only separate control',S.MAGIC,current,current.state,'purified source RNaseH-inactive/MNase fusion',reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
     current=cleanup(g,'target_washes','Three source Dig-wash magnetic washes',current,current.state)
-    calcium=g.input('calcium','source calcium activation of already introduced fusion',K.CONDITION)
+    calcium=g.input('calcium','Source 2µL 100mM CaCl2 molecular addition activates already introduced fusion',K.MOLECULAR)
     fragmented=g.product('mnase_product','source fusion-targeted cleavage population before physical release',K.MOLECULAR,state=HybridPopulation('cut'))
-    g.react('mnase','Activate already bound MNase with source calcium; do not add another enzyme aliquot',S.DIGESTION,((current,R.TEMPLATE),(g.materials['target_stock'],R.CATALYST),(calcium,R.CONDITION)),(fragmented,))
+    g.react('mnase','Activate already bound MNase with source calcium; do not add another enzyme aliquot',S.DIGESTION,((current,R.TEMPLATE),(g.materials['target_stock'],R.CATALYST),(calcium,R.STRUCTURAL)),(fragmented,))
     current=fragmented
-    spike=g.input('yeast_spike','source heterologous yeast DNA in STOP buffer; no exact sequence assigned',K.MOLECULAR,state=unassembled('source spike-in genomic DNA'))
-    stop=g.input('stop_buffer','source EDTA/EGTA STOP mixture with RNaseA; detailed printed5 0µg versus short5µg; numerical typography unresolved',K.CONDITION)
+    # Copresent components of the one source-named 2X STOP stock. These views
+    # neither prescribe separate additions nor introduce an extra enzyme dose.
+    spike=g.input('yeast_spike','Copresent heterologous yeast DNA component of source 2X STOP buffer; no exact sequence assigned',K.MOLECULAR,state=unassembled('source spike-in genomic DNA'))
+    stop=g.input('stop_buffer','Other copresent components of source 100µL 2X STOP: NaCl, EDTA, EGTA, digitonin and linear acrylamide; excludes separately represented RNaseA and yeast DNA',K.MOLECULAR)
+    rnase=g.input('stop_rnase','Copresent RNaseA component of the same STOP stock, not an extra dose; detailed printed5 0µg versus short5µg remains unresolved',K.CATALYST)
+    release_condition=g.input('release_condition','Source 37°C10min release after STOP addition',K.CONDITION)
     released=g.product('release_mixture','stopped,37C10min RNaseA/release mixture, before physical centrifugation',K.MOLECULAR,state=HybridPopulation('rna_processed'))
-    g.react('stop_rna_release','Source STOP/RNaseA and37C10min release; no physical deletion of RNA products',S.MAGIC,((current,R.TEMPLATE),(spike,R.STRUCTURAL),(stop,R.CONDITION)),(released,),reason='Coupled source stop/RNaseA/release envelope; exact RNA digestion and reannealing not predicted.')
+    g.react('stop_rna_release','Source STOP/RNaseA and37C10min release; no physical deletion of RNA products',S.MAGIC,((current,R.TEMPLATE),(spike,R.STRUCTURAL),(stop,R.STRUCTURAL),(rnase,R.CATALYST),(release_condition,R.CONDITION)),(released,),reason='Coupled source stop/RNaseA/release envelope; exact RNA digestion and reannealing not predicted.')
     current=cleanup(g,'supernatant','Source16000g5min4C and magnetic separation; transfer supernatant',released,released.state)
     current=operation(g,'proteolyze','SDS/proteinaseK70C10min; detailed2.5µl20mg/ml(50µg) versus short5µg discrepancy',S.DEPROTEINIZATION,current,current.state,'source ProteinaseK withSDS; peptide products retained',reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
     current=cleanup(g,'organic','Source phenol/chloroform/isoamyl extraction and phase-lock aqueous transfer',current,unassembled('recovered MapR DNA; RNA/protein-product carryover unquantified'))
@@ -140,5 +144,6 @@ def protocol_graph():
     current=amplify(g,'lm_pcr','Source Q5 ligation-mediated PCR; cycle count unassigned',current,'source custom barcoded Illumina primers')
     g.mark_terminal(Terminal(current.id,Disposition.UNRESOLVED,'Source NextSeq500 endpoint; complete molecular/read geometry and named source discrepancies unresolved.'))
     # Display terminal aliases are physical material IDs, not new molecular transformations.
+    g.declare_reviewed_scope(('calcium','mnase','yeast_spike','stop_buffer','stop_rnase','release_condition','stop_rna_release'),'Associated manuscript PMC6870988 main Methods162 and detailed steps208–216. One STOP stock is represented by copresent components; no extra dosing or exact RNA/product geometry is claimed.')
     g.add_source_item(SourceItem('pending_originals','CUT&RUN2018 original and historical custom adapter/run construction','Main Methods162 cites Skene2018 DOI10.1038/nprot.2018.015; exact component/version and adapters unreviewed.'))
     return g

@@ -62,6 +62,21 @@
       ],
       "verification": "Seven local checks and preview build pass. Round04 modeled trio sourceguard9checked0failed,no exemptions;pairing0. No complete amplicon or exact read-cycle claim.",
       "oligo_scraper": "Ran standard bundle scrape: /tmp/scid-seq-primer-hits.log. Relevant published hits verified. A zero-hit blocked bundle does not establish absence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-6",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "scope": "Bounded source-qualified public-page pass, not full chemistry or absence audit",
+      "documents": 3,
+      "locations": "Three selected published originals: mainPMC6249387 ResultsUMI/workflow; TransparentMethodsmmc1 text135\u2013185 with actualPDFp12; TableS1mmc2 originalZIP/XML headers/Actinrow3. No predecessor original or bulkRNA/ChIP recipe adopted.",
+      "findings": "The public representation is explicitly **illustrative_example**: two invented symbolic well classes illustrate the source per-well procedure and all-material per-plate pooling. They are not two experimental cell identities or a claim of96occupied wells. The source96wellplate capacity is stated separately. Input cells are already fixed, immunostained and sorted; manufacture/staining of the antibody reporters remains an explicit preparation boundary. Source Actinbarcode1 and UMI15 are separate identity fragments, not an assembled full reporter. DTT is a molecular contribution in the actual1uL releasebuffer under7uL Vaporlock. PCR1adds4uL enzyme/dNTP/buffer/primer mix; PCR2adds1uL buffer/forward/wellreverse mix and uses enzyme/nucleotide carryover. These component ports do not mean fresh independent additions at PCR2. PCR3after two purifications receives a fresh supply interface with enzyme identity/formulation unassigned in the inspected20uL recipe, rather than presumed PCR1enzyme carryover. Final agarose/BioAnalyzer material, retained library, loading aliquot and untransferred stock remain distinct. NextSeq500 alone does not assign a readlength, acquired indexmask, sequencing-primer landing or complete well/plate barcode position. Full ID-seq predecessor strands and exact well/plate primer sequences remain unassembled; the known local amplification primers remain source-exact. No bulk RNA/ChIP validation library is used as an extra scID output. ",
+      "oligo_scraper": "/tmp/unlinked-scid6b-scraper.log; original source orders and workbook mapping checked, no absence inference.",
+      "deferred": [
+        "IDseq2018/conjugation2016 originals and full exact reporter/well/plate designs",
+        "Full readgeometry and linked-source/independent audit"
+      ],
+      "verification": "13focusedPASS;14steps19unresolved0contradictory; gate[]; pagebuild/pairing0."
     }
   ],
   "linked_information": {
@@ -74,5 +89,8 @@
     "Conjugation2016 original and exact modified dsDNA design",
     "Complete well/plate library/read geometry",
     "Remaining original sections and independent source review"
-  ]
+  ],
+  "conclusion": "Eligible for source-qualified public page with explicit illustrative two-well representation and unassembled full reporter/library geometry. No molecular completeness, actual assay performance or missing-information acceptance is asserted.",
+  "pass_1": null,
+  "pass_2": null
 }

@@ -1,6 +1,6 @@
 {
   "dir": "cpt-seq__10.1038+ng.3119",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "manuscript",
@@ -8,7 +8,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/cpt-seq__10.1038+ng.3119/ng.3119_PMC4409979.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Associated manuscript identity/flags;Results54–66;Methods104–130."
+      "inspection_scope": "Associated manuscript identity/flags;Results54\u201366;Methods104\u2013130."
     },
     {
       "id": "publisher_figures",
@@ -16,7 +16,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/cpt-seq__10.1038+ng.3119/ng.3119_41588_2014_BFng3119_MOESM1_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Correction notice;Figures1–4captions;Figure3/4originalPDFpp4–5 rendered,Figure3 enlarged for connector typography."
+      "inspection_scope": "Correction notice;Figures1\u20134captions;Figure3/4originalPDFpp4\u20135 rendered,Figure3 enlarged for connector typography."
     },
     {
       "id": "corrected_table4",
@@ -25,6 +25,14 @@
       "availability": "read",
       "relevance": "relevant",
       "inspection_scope": "Both workbook sheets including20May2015notice;all20transferred oligos,3runprimers and pMENTS."
+    },
+    {
+      "id": "linked_manuscript_word",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4409979/bin/NIHMS681868-supplement-Figures___Tables.doc",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actually linked NIHMS681868Figures/TablesWord original has a manualPreparing-to-download manifest row, no validated local body. Identity/content unreviewed; not asserted equivalent to corrected publisher supplements or to contain requested PCR/cycle details."
     }
   ],
   "linked_information": {
@@ -39,7 +47,7 @@
       "date": "2026-10-28",
       "documents": 3,
       "scope": "Capped source pass and private representative route,not full protocol/absence review.",
-      "locations": "Associated manuscript identity/flags;Results54–66;Methods104–130.; Correction notice;Figures1–4captions;Figure3/4originalPDFpp4–5 rendered,Figure3 enlarged for connector typography.; Both workbook sheets including20May2015notice;all20transferred oligos,3runprimers and pMENTS.",
+      "locations": "Associated manuscript identity/flags;Results54\u201366;Methods104\u2013130.; Correction notice;Figures1\u20134captions;Figure3/4originalPDFpp4\u20135 rendered,Figure3 enlarged for connector typography.; Both workbook sheets including20May2015notice;all20transferred oligos,3runprimers and pMENTS.",
       "findings": "Protein-held contiguity,EDTA/dilution/SDS order,two indexing tiers and historical kit IDs;not version-of-record procedural identity.; Restored Table4 notice and distinct molecular/index-cycle layouts;connectorA appears TCCACCC ingraphic vsTCCACGC in workbook,unadjudicated.; All24source transcriptions and5prime phosphate retained;no historical PCR oligos invented.",
       "deferred": [
         "Historical PCR primer members,final published procedural applicability and exact PCR product geometry.",
@@ -48,6 +56,29 @@
       ],
       "oligo_scraper": "Mandatory complete-bundle --all;all24workbook hits checked in original rows.",
       "verification": "31local checks and private preview pass;known run primers bind conditional reference without fabricating acquisition-cycle map. Sourceguard3checked0failed2unrepresented;chemistry4established10unresolved0contradictory;pairing0."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-7",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Bounded read-only preflight followed by documentation-only hold adjudication; no model/gate change or absence audit",
+      "locations": "Associated manuscript ng.3119_PMC4409979.xml.txt Methods104-130; published correctedSupplementaryFigures MOESM1 originalFig3/4 PDFp4-5 rendered and inspected, including correctionnotice; correctedTable4 MOESM2 XLSX actualZIP/XML sheets/header/firstrestoredrows plus sourcewhole-order fixtures. No wholeAM/VOR equivalence; no historicalvendor/preprint/gatedWordbody adopted.",
+      "findings": "Normal gate preserves required historical_pcr_and_cycle_map: historicalPCRprimer polymers and custom physical index-cycle acquisition remain unassembled/version-qualified. CorrectedFig4 gives logical51/16/16/51 readsegments, but does not alone establish how sourcecustomrecipe traverses intervening connectors. Conditional runprimer landing and restoredTable4 do not satisfy this obligation; preserve it and hold. 20May2015 publishernotice restores firstfiveTable4rows. OriginalFig3 connectorA appearsTCCACCC, correctedworkbookhasTCCACGC; preservebothlocations/values, workbookchoiceandunadjudicatedchemicalapplicability. No silent repair or claim of completeversionequivalence.",
+      "oligo_scraper": "/tmp/unlinked-cpt7-scraper.log; /tmp/unlinked-cpt7-scraper-all.log; relevant original source pointers inspected. No negative disclosure conclusion.",
+      "deferred": [
+        "Actual20 indexedtransposonoligos are annealed and individually loaded withEZTn5 first, THEN8x12 combinations are formed. Current combinedA1/B1loading operation should not imply co-loading a heterodimer. Preserve unknown dimercomposition; derive catalystview from the actual loadedstock instead of fresh independent tn5_activity input.",
+        "Actual96 transpositions each1ng/20uL receive20uLEDTA, then selected20uLof40uL perwell is pooled. Current whole-stopped-stock pooling needs selectedaliquots and untransferred20uLperwell; do not silently pool all40uL.",
+        "Source96physicalPCRwells are preloaded with10uL5uMi7primer and200ngBSA BEFORE SDS. BSA is molecular and the sameactuali7stock must be present as surfaceblocker before acting asPCRprimer; not only a conditionlabel.",
+        "Actual30uLNexteraNPM plus i5/water creates100uLPCR perwell; expose sameactualNPMenzyme/nucleotide/buffercomponents without inherited wholeprimer recipe. Later50uLof100uLfromeachwell ispooled, leaving untransferred50uLstocks. Co-present otherendproducts must not be selectively excluded by an unvalidated A/Breference.",
+        "Maintain protein-held association versus covalentDNA, EDTA\u2192dilution\u2192allocation\u2192SDS order, fourlinkedreadidentityparts notUMIs, and fullcorrection/connector/readmapping caveats.",
+        "Final BioAnalyzeranalytical material, source8pMcluster preparation and chosen loading/stockremainders require explicitsourcefates ifpublished; current exactfinalreference isconditional.",
+        "Historicalprimer polymers/customrecipe are openquestions; do not invent an unavailable vendor document/URL to stand in for an unassigned value. No gateitemrequirednesschange or familydefault."
+      ],
+      "verification": "31preflight checksPASS; actualgate [\"authoritative source item 'historical_pcr_and_cycle_map' is not accounted for\"]; codeunchanged so testsnotrepeated. No rendered/build outputs written in this pass."
     }
-  ]
+  ],
+  "conclusion": "Normal gate preserves required historical_pcr_and_cycle_map: historicalPCRprimer polymers and custom physical index-cycle acquisition remain unassembled/version-qualified. CorrectedFig4 gives logical51/16/16/51 readsegments, but does not alone establish how sourcecustomrecipe traverses intervening connectors. Conditional runprimer landing and restoredTable4 do not satisfy this obligation; preserve it and hold. Current public-page result is a hold; no required source item removed/excluded/covered without evidence. No accepted missing-information or complete-source/chemistry claim.",
+  "pass_1": null,
+  "pass_2": null
 }

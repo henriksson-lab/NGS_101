@@ -34,7 +34,7 @@ SOURCE = "Ochman, Gerber and Hartl, Genetics120:621–623 (1988), doi10.1093/gen
 
 
 def protocol_graph():
-    g = ProtocolGraph(TITLE, authority=SOURCE, required_output=Disposition.CONSTRUCT)
+    g = ProtocolGraph(TITLE, authority=SOURCE, required_output=Disposition.CONSTRUCT, representation='illustrative_example', example_description='Generic locus/circle/amplicon role layouts illustrate the abstract-supported method; no literal DNA, source primer pair, organism-specific template or experimental recovery is reconstructed.')
     dna = g.input("dna", "genomic DNA containing a known region", K.MOLECULAR,
         state=duplex("INFERRED schematic locus", "unknown left flank", "known region", "unknown right flank"), primary=True)
     nuclease = g.input("nuclease", "restriction enzyme; original methods not assigned", K.CATALYST)
@@ -51,10 +51,11 @@ def protocol_graph():
     forward = g.input("forward", "known-region outward primer A; sequence deferred", K.OLIGO)
     reverse = g.input("reverse", "known-region outward primer B; sequence deferred", K.OLIGO)
     polymerase = g.input("polymerase", "PCR polymerase; original identity deferred", K.CATALYST)
+    pcr_nt = g.input("pcr_nucleotides", "Functional PCR nucleotide contributors; formulation/dose/stock packaging unassigned", K.MOLECULAR)
     product = g.product("amplicon", "linear flanking-sequence amplicon", K.MOLECULAR,
         state=duplex("INFERRED circle-spanning amplicon order", "known-region boundary A", "flanking DNA across restriction-fragment closure", "known-region boundary B"))
     g.react("ipcr", "INFERRED amplicon layout — inverse PCR across the circularized flanks", S.PCR,
-        [(circular,R.TEMPLATE),(forward,R.STRUCTURAL),(reverse,R.STRUCTURAL),(polymerase,R.CATALYST)], [product],
+        [(circular,R.TEMPLATE),(forward,R.STRUCTURAL),(reverse,R.STRUCTURAL),(polymerase,R.CATALYST),(pcr_nt,R.STRUCTURAL)], [product],
         geometry=PCRGeometry.unavailable(duplex("INFERRED opened-circle reference", "known-region primer sites; coordinates deferred", "circularized flanking DNA"),
             reason="The original abstract specifies reverse-oriented primers on a self-ligated restriction fragment. Their actual sequences/sites and the retained known-region gap await the full original; no exact primer-placement claim is made."))
     g.constructed(product, "Scoped amplification product, not a sequencing-ready library. Downstream analysis and complete original method remain outside the abstract-scoped draft.")
@@ -62,16 +63,19 @@ def protocol_graph():
     return g.require_publishable()
 
 
-SOURCE_INVENTORY = ("dna","nuclease","digest","ligase","circularize","forward","reverse","polymerase","ipcr","amplicon")
+SOURCE_INVENTORY = ("dna","nuclease","digest","ligase","circularize","forward","reverse","polymerase","pcr_nucleotides","ipcr","amplicon")
 
 
 def render_page():
-    return assemble_page(protocol_graph(), (head(TITLE), '<div class="wrap">',
-        '<h1>'+TITLE+'</h1><p class="research-notes"><a href="01_inverse_pcr.html">Research notes</a></p>',
-        info('<a href="https://doi.org/10.1093/genetics/120.3.621">Ochman et al., Genetics (1988)</a>'),
-        info("DRAFT — abstract-scoped architecture. INFERRED region order is schematic; exact bases, primer sites, end chemistry and full original methods remain unassigned. Generic locus placeholders do not select the original organism or insertion sequence."),
-        WorkflowSection("Restriction fragment → circle → flanking amplicon"),
-        info("The outward-facing primers become convergent around the circle's flanking arc. The graph ends at constructed DNA; sequencing adapters, indexes and a sequencing run are not inferred."), '</div>'))
+    g=protocol_graph().require_publishable()
+    return assemble_page(g,(head(TITLE),'<div class="wrap" data-protocol-complete="true">',
+        '<h1>Inverse PCR</h1><p>Recover DNA flanking a known region by circularizing a restriction fragment and amplifying around its flanking arc with outward-facing primers.</p>',
+        info('<a href="https://doi.org/10.1093/genetics/120.3.621">Ochman, Gerber and Hartl, Genetics 120:621–623 (1988)</a>. The current source scope is the defining abstract. The paper reports recovery around an IS1 element in an Escherichia coli isolate; its full methods and original Figure 1 remain unreviewed.'),
+        info('ILLUSTRATIVE EXAMPLE — generic known-region and flanking-region layouts. INFERRED drawings do not reproduce the original IS1 template, primer sites or restriction junction. No literal DNA bases or measurable segment lengths have been invented.'),
+        '<h2>Why outward primers work</h2><p>A genomic restriction fragment is ligated into a circle. Primers that face away from each other on the original linear locus become convergent around the circularized flanking arc. PCR therefore recovers adjacent unknown DNA. Enzyme identities, actual primers, fragment sizes, end chemistry and reaction conditions remain unresolved in this scoped illustration.</p>',
+        '<h2>Constructed output</h2><p>The endpoint is a linear flanking-sequence amplicon class, not a sequencing-ready library. No downstream cloning vector, sequencing adapter, barcode or run layout is assigned. The graph checks its stated molecular declarations; it does not establish recovery efficiency or a complete experimental recipe.</p>',
+        '<details open><summary>Inferred preparation graph and unresolved chemistry</summary>',WorkflowSection('Restriction fragment → circle → flanking amplicon'),'</details>',
+        '<p><a class="research-notes" href="01_inverse_pcr.html">Source notes and remaining questions</a></p></div>'))
 
 
 def selftest():
@@ -85,4 +89,9 @@ def selftest():
         text=' '.join(source.path.read_text().split())
         check("original abstract establishes self-ligated restriction-fragment template", "restriction fragment that has been ligated upon itself to form a circle" in text, True)
         check("original abstract establishes reverse primer orientation", "primers oriented in the reverse direction" in text, True)
+    g=protocol_graph()
+    check("construct gate passes",g.publication_problems(),[])
+    check("illustrative representation is explicit",g.representation,"illustrative_example")
+    check("no invented sequencing endpoint",bool(g.sequencing),False)
+    check("PCR consumes nucleotide contributors",any(p.material=="pcr_nucleotides" and p.role==R.STRUCTURAL for p in g.steps["ipcr"].inputs),True)
     check.report()

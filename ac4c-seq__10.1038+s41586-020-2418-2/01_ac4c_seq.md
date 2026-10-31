@@ -13,3 +13,19 @@ Sas-Chen et al.(2020), *Dynamic RNA acetylation revealed by quantitative cross-e
 The local graph covers reduction/mock/alkali-control site classes, explicitly unresolved chemical workup, FastAP treatment, reported3′RNA adapter ligation and TGIRT copying. Unknown adapters/primer geometry remain uncovered source items. No RNaseH or RNA disappearance is inserted: the copied RNA template remains in the hybrid. The source's subsequent cDNA3′adapter ligation, PCR9–12cycles and NextSeq500/NovaSeq6000 short paired reads25–55bp are recorded but not assembled into a finished endpoint.
 
 The manuscript's numerical20min/20°C and specific TGIRT/dNTP conditions in the Sanger-validation subsection are not silently substituted for NGS treatment conditions. Exact sequencing-branch reduction/alkali conditions and full original SI must be reconciled first. No family recipe is imported from a similarly named ligation library.
+
+## Bounded physical-inventory correction with source hold retained
+
+Using only the same closed sources, the selected reduction path now has a
+physical NaCNBH3 reagent input, separate from its unresolved NGS condition.
+No validation dose, pH, timing or workup was assigned to the sequencing branch.
+The actual RT supply interface exposes copresent nucleotide and buffer
+functional components from an aggregate source inventory, without claiming
+a particular premix factory, extra doses or an unread primer version.
+
+Seven focused checks pass and chemical claims remain scoped. The original
+`unreviewed_chemistry_library` item remains uncovered, as do the unreviewed
+workup and primer scope. There is no library sequencing endpoint or PAGE_FILE
+builder. Actual reduced RNA, complementary DNA and reference-oriented T remain
+distinct; no RNA thymidine or physical RNA deletion is invented. No new source,
+access failure or confirmed absence claim was added.

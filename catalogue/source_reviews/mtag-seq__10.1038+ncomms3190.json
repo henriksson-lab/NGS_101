@@ -9,11 +9,11 @@
       "original": "https://www.nature.com/articles/ncomms3190",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "Published defining Nature article, exactDOI/title/fullmainMethods883\u2013904, Results822\u2013855/Fig1. CachedHTML contains actualmTAG-seq paragraph902\u2013904, not subscriptionpreview.",
+      "source_version": "Published defining Nature article, exactDOI/title/fullmainMethods883–904, Results822–855/Fig1. CachedHTML contains actualmTAG-seq paragraph902–904, not subscriptionpreview.",
       "pass_1": {
         "reviewer": "dna_round15",
         "date": "2026-10-29",
-        "locations": "Published defining Nature article, exactDOI/title/fullmainMethods883\u2013904, Results822\u2013855/Fig1. CachedHTML contains actualmTAG-seq paragraph902\u2013904, not subscriptionpreview.",
+        "locations": "Published defining Nature article, exactDOI/title/fullmainMethods883–904, Results822–855/Fig1. CachedHTML contains actualmTAG-seq paragraph902–904, not subscriptionpreview.",
         "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
       },
       "pass_2": null
@@ -25,11 +25,11 @@
       "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fncomms3190/MediaObjects/41467_2013_BFncomms3190_MOESM598_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "PublishedSI matching title/authors; FigS1/2, TableS1identity/validationoligos, highthroughputMethodsS19lines333\u2013366. Enzyme-expression details not part of analyticalgraph.",
+      "source_version": "PublishedSI matching title/authors; FigS1/2, TableS1identity/validationoligos, highthroughputMethodsS19lines333–366. Enzyme-expression details not part of analyticalgraph.",
       "pass_1": {
         "reviewer": "dna_round15",
         "date": "2026-10-29",
-        "locations": "PublishedSI matching title/authors; FigS1/2, TableS1identity/validationoligos, highthroughputMethodsS19lines333\u2013366. Enzyme-expression details not part of analyticalgraph.",
+        "locations": "PublishedSI matching title/authors; FigS1/2, TableS1identity/validationoligos, highthroughputMethodsS19lines333–366. Enzyme-expression details not part of analyticalgraph.",
         "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
       },
       "pass_2": null
@@ -54,13 +54,27 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "At most10min/3originals; published-first, no recursive source chase. CIDER scope analytical extractedDNA only.",
-      "locations": "Published defining Nature article, exactDOI/title/fullmainMethods883\u2013904, Results822\u2013855/Fig1. CachedHTML contains actualmTAG-seq paragraph902\u2013904, not subscriptionpreview.; PublishedSI matching title/authors; FigS1/2, TableS1identity/validationoligos, highthroughputMethodsS19lines333\u2013366. Enzyme-expression details not part of analyticalgraph.",
+      "locations": "Published defining Nature article, exactDOI/title/fullmainMethods883–904, Results822–855/Fig1. CachedHTML contains actualmTAG-seq paragraph902–904, not subscriptionpreview.; PublishedSI matching title/authors; FigS1/2, TableS1identity/validationoligos, highthroughputMethodsS19lines333–366. Enzyme-expression details not part of analyticalgraph.",
       "findings": "Source physical reactions, retained debris/fractions and computational/native DNA distinctions explicit.",
       "deferred": [
         "Exact historicalkit/primer/end/readgeometry and directly named originals in note; S1 actualchemistrySI gated."
       ],
       "oligo_scraper": "Mandatory wholebundle scans: mTAG14hits/2files, CIDER4hits/1file, S1zero; pointers read in their actual assay/chemistry scopes.",
       "verification": "22localchecks pass (mTAG7/CIDER9/S1six), including independent CIDER QCprovenance correction: analyticalaliquot isQCterminal, retainedproductionlibrary alonefeedsP6. Sourceguard0eligibleexactstrands/0failed/9inputswithout exactstates/3graphs; notsequencecompletion. Chemistry42unresolved0contradictory; sixnotes/refbuilds,pairing0problems,source-review schema2in_progress/1blocked,diffcheck clean. No finishedpages. Retrieval18717/39123terminalexit0."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch24",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed selected published main/SI pass followed by bounded physical-contributor/stock corrections; no new original or absence audit.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/mtag-seq__10.1038+ncomms3190/ncomms3190.html: Main883mTAG-clickmedium90nMeM.SssI/25uMAdo6azide vs distinctamine-NHS andmainC1; main902–904 actualNGS300bp/highthroughputcapture/BGI/14PCR/PE90. Microarraymethods read only to distinguish recipes, not import intoNGS.; /husky/henriksson/NGS101_papers/sources/mtag-seq__10.1038+ncomms3190/ncomms3190_41467_2013_BFncomms3190_MOESM598_ESM.pdf: HighthroughputMethods333–366/p19 orderedrepair→MediumIntensityclick/T1capture→50mMDTT1hmagneticrelease; subsequentmicroarrayligation/twoPCR branch notNGS. Incidentalsameoriginaloptimizationlines142–145180nMconditions noted as differentcontext, not overrides/confirmedsourceerror.",
+      "findings": "Actual Medium click eM.SssI90nM catalyst and Ado6azide25µM donor now contribute explicitly. The published high-throughput 5µL click addition is one actual source stock containing 4.4µL Tris and 0.6µL 20mM DBCO-S-S-PEG3-biotin in DMF; produced functional reagent/solvent components come from that stock, without duplicated fresh additions or physical-separation claims. The actual 50mM DTT contribution in 20µL release solution and the NGS-specific 10mM 2-mercaptoethanol contribution are molecular inputs distinct from incubation conditions. The source high-throughput T1/50mM-DTT capture route stays separate from standalone C1/200mM-DTT; NGS 10mM reducing treatment and 14-cycle PCR stay separate from microarray 32/100mM treatments and two-round PCR. The unnamed 0.1mg/mL main buffer component is not guessed to be BSA. Original required `pending` historical Illumina Multiplexing Sample Preparation Oligonucleotide kit/version/full-library scope remains unchanged and uncovered; the independent sheared input control, exact oligos/geometry, full production/QC/loading and read assembly are not waived. No microarray A25/A19/Ad1/Ad2 recipe is imported.",
+      "deferred": [
+        "Actual named historicalIlluminaMultiplexingSamplePreparationOligonucleotidekit/version/directoriginal applicability, not a guesseddefaultIlluminarecipe.",
+        "Separateinputcontrol fullNGSlibrary finish and actualstudyphysicalsamplepool/readgeometry; notmicroarrayadapter inheritance."
+      ],
+      "oligo_scraper": "Wholebundle14hits/2files; verifiedselectedsourcebranch ratherthan allmicroarrayoligos"
     }
   ]
 }

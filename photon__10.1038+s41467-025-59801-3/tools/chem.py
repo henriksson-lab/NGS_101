@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition,SourceCoverage
 from chemdraw import Scene,Segment
 from nextera import ADAPTOR_S7,S7_RC
 from illumina import P7
@@ -51,7 +51,22 @@ def protocol_graph():
     def op(key,label,kind,stock,product,oligos=(),extra=()):
         nonlocal x
         cat=kind in {S.REVERSE_TRANSCRIPTION,S.TEMPLATE_SWITCHING,S.LIGATION,S.PCR,S.DEPROTEINIZATION,S.DIGESTION} and key!='dash'
-        c=g.input(key+'_stock',stock,K.MOLECULAR if key=='xt' else K.CATALYST if cat else K.CONDITION);ins=[(x,R.TEMPLATE),(c,R.STRUCTURAL if key=='xt' else R.CATALYST if cat else R.CONDITION),*extra]
+        physical=key in {'fix','permeabilize','dilute','xt'}
+        c=g.input(key+'_stock',stock,K.MOLECULAR if physical or key in {'rt','ts','pcr5'} else K.CATALYST if cat else K.CONDITION)
+        ins=[(x,R.TEMPLATE),*extra]
+        if key in {'rt','ts','pcr5'}:
+            enz=g.product(key+'_enzyme','Actual source enzyme component of supplied reaction mix',K.CATALYST)
+            nts=g.product(key+'_nts','Actual source nucleotide substrates of same reaction mix',K.MOLECULAR)
+            buffer=g.product(key+'_buffer','Actual source buffer component of same reaction mix',K.CONDITION)
+            components=[enz,nts,buffer]
+            if key=='rt':
+                inhibitor=g.product(key+'_inhibitor','Actual0.4Uul RNase inhibitor in source RTmix',K.MOLECULAR);components.append(inhibitor);ins.append((inhibitor,R.STRUCTURAL))
+            g.react(key+'_components','Copresent source reaction-mix components; no extra fresh doses',S.GENERIC,((c,R.TEMPLATE),),components,changes_molecule=False)
+            ins.extend(((enz,R.CATALYST),(nts,R.STRUCTURAL),(buffer,R.CONDITION)))
+        else:
+            ins.append((c,R.STRUCTURAL if physical else R.CATALYST if cat else R.CONDITION))
+            if physical and kind in {S.CROSS_LINKING,S.PERMEABILIZATION}:
+                env=g.input(key+'_environment','Source exposure/incubation conditions; physical reagent stock separately inventoried',K.CONDITION);ins.append((env,R.CONDITION))
         for i,name in enumerate(oligos):ins.append((g.input(key+'_oligo_'+str(i),name,K.OLIGO,state=inventory(name),chemical_state=chemistry(name)),R.STRUCTURAL))
         kw={}
         if kind==S.PCR:kw['geometry']=PCRGeometry.unavailable(unknown(),reason='WholeboundcDNA/TSOampliconandlandingunassembled;sourceprimerinventoryknown.')
@@ -62,6 +77,13 @@ def protocol_graph():
     def clean(key,label):
         nonlocal x
         b=g.input(key+'_buffer',label,K.CONDITION);y=g.product(key+'_kept','Physicalretainedsourcepreparation; purity/recoveryunassigned',K.MOLECULAR);w=g.product(key+'_waste','Actualworkupwash/supernatantfraction',K.WASTE);g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(b,R.CONDITION)),(y,w));g.discard(w,'Physicalremovalnotperfectselectivity');x=y
+    def analytical_allocation(key,label):
+        nonlocal x
+        assay=g.product(key+'_assay',label,K.QC)
+        kept=g.product(key+'_retained','Actual unassayed production stock; aliquot volume unassigned',K.MOLECULAR)
+        g.react(key,label,S.SPLIT,((x,R.TEMPLATE),),(kept,assay))
+        g.mark_terminal(Terminal(assay.id,Disposition.QC,'Analytical material does not return to production'))
+        x=kept
     op('fix','Source.4percentPFA10minRT',S.CROSS_LINKING,'SourcePFA','Fixedcells');clean('pbs1','Source3PBSwashes')
     op('permeabilize','Source.5percentTriton/.4UulRNaseinh15minRT',S.PERMEABILIZATION,'SourceTriton/RNaseinh','Permeabilizedcells');clean('pbs2','Source3PBSwashes')
     op('rt','Source.5uMeachRT/random/Maxima10Uul30minRTthen37Covernight/dark',S.REVERSE_TRANSCRIPTION,'SourceMaxima/dNTP1mM/RTbuffer/RNaseinh','SourcephotocagedRNA-cDNAmixture; wholeproductsunassembled',('rt','random'))
@@ -78,13 +100,15 @@ def protocol_graph():
     qc=g.product('qpcr_2_5ul','Source2.5ulsupernatantfor10ulqPCR;35cycleprogramme',K.QC);ret=g.product('production_remainder','RemainingproductionPCRstockincludingbeads; notanalyticalreaction',K.MOLECULAR);g.react('qpcr_split','ActualsourceqPCRallocation',S.SPLIT,((x,R.TEMPLATE),),(ret,qc));g.mark_terminal(Terminal(qc.id,Disposition.QC,'AnalyticalqPCR1thirdsaturationguidesproductioncycles; DNA notreturned'));x=ret
     op('pcr_extra','Sourceadditionalcyclesfromanalytical1thirdsaturation;retainedPCRmix',S.THERMAL_TREATMENT,'Sourcecontinuedthermocycling/noexternalenzymeaddition','SourceproductionWTAproduct')
     clean('pcr_recover','Sourcecollectsupernatant/magneticbeadsremovedthen.8xAMPure');
+    analytical_allocation('qubit_qc','Actual source Qubit dsDNA HS aliquot after WTA recovery; volume unassigned')
     op('xt','SourceNexteraXTmanufacturerboundary',S.MAGIC,'SourceNexteraXTkit FC1311024','Sourcekitfragmentlibrary; exactloadedends/indexprimersunassembled');clean('xtclean','Source.7xSPRISelect')
     q=g.product('tapestation_qc','SourceTapeStationanalyticalallocation;volumeunassigned',K.QC);ret=g.product('pre_dash','SourceproductionlibraryafterQC',K.MOLECULAR);g.react('qc','Physicalanalyticalallocation',S.SPLIT,((x,R.TEMPLATE),),(ret,q));g.mark_terminal(Terminal(q.id,Disposition.QC,'Actualanalysisnotreturned'));x=ret
     rnp=g.input('cas9_rnp','SourcepreassembledDASHCas9/pooledcrRNA:tracrRNAstock; guidesunassembled',K.CATALYST)
     op('dash','Source20ullibrary10nM+70ulRNP+10ulbuffer37C60min',S.DIGESTION,'Source10ul10xCas9NucleaseReactionBuffer;RNPinputseparate','SourceDASHcleavedtargetandremaininglibrarymixture',extra=((rnp,R.CATALYST),))
     op('dash_release','SourcePK1ul56C10min',S.DEPROTEINIZATION,'SourceproteinaseK','SourceproteinreleasedDASHmixture');clean('dashclean','Source.8xSPRISelect')
+    analytical_allocation('post_dash_qc','Actual final post-DASH TapeStation concentration/size assay; volume unassigned')
     lib=g.product('library','SourcePHOTONsequencinglibrary; completeproduct/readgeometryunassembled',K.LIBRARY);g.react('identity','PhysicalfinalNGSlibrary',S.GENERIC,((x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation='SourceNextSeq2000orNovaSeqXPlus; exactcyclemasksunassigned. RandomRT6NisnotdeclaredUMI. DASHsubsetroute selected; mitochondriaSEQuoiaalternative notmerged.'))
-    g.add_source_item(SourceItem('selected',AUTHORITY,'Source-knownlocaladapterinterfaceonly;wholeproducts/readoutunassembled.'));return g
+    g.add_source_item(SourceItem('selected',AUTHORITY,'Source-knownlocaladapterinterfaceonly;wholeproducts/readoutunassembled.'));return _publication_coverage(g)
 
 def selftest():
     from checks import Check
@@ -100,5 +124,31 @@ def selftest():
     c('AnalyticalPCRnotreturned',g.terminals['qpcr_2_5ul'].disposition,Disposition.QC)
     c('ContinuedPCRdoesnotaddstockenzyme',[(i.material,i.role)for i in g.steps['pcr_extra'].inputs if i.role==R.CATALYST],[])
     c('Knownlocaladapterend',g.steps['ligation'].geometry.availability,'known')
-    c('Privatepartialgraph',bool(g.publication_problems()),True);c.report()
+    c('Distinct source preXT and postDASH analytical allocations',g.steps['qubit_qc'].inputs[0].material=='pcr_recover_kept' and g.steps['post_dash_qc'].inputs[0].material=='dashclean_kept',True)
+    c('RT nucleotide class derives from actual source RT mix',g.producer_of('rt_nts').id,'rt_components')
+    c('Source-qualified publication gate',g.publication_problems(),[]);c.report()
+
+
+PAGE_FILE='photon.html'
+SOURCE_TARGETS=(('Publishedmain192–200 selectedpreparedHeLaSG/fix/permeabilize/RT/uncaging/release andSI1Table1 originalp6wholemodifiedprimers; fixedcells are sourceinputs, not invented biologicalsequence.', ('cells', 'fix_stock', 'fix_environment', 'fix', 'pbs1_buffer', 'pbs1', 'permeabilize_stock', 'permeabilize_environment', 'permeabilize', 'pbs2_buffer', 'pbs2', 'rt_stock', 'rt_components', 'rt', 'rt_oligo_0', 'rt_oligo_1', 'uncage_stock', 'uncage', 'release_stock', 'release', 'extract_buffer', 'extract')), ('Publishedmain200–210 adapterstock10of50ul/splintedligation/C1capture/continuedTS/5cycleQ5/actualqPCRaliquot/retainedPCR; exactlocalinterface fromsameSI1Table1.', ('splint', 'p7handle', 'adapter_buffer', 'anneal_adapter', 'adapter_aliquot', 'ligation_stock', 'ligation', 'dilute_stock', 'dilute', 'beads', 'capture_buffer', 'capture', 'beadwash_buffer', 'beadwash', 'ts_stock', 'ts_components', 'ts', 'ts_oligo_0', 'tswash_buffer', 'tswash', 'pcr5_stock', 'pcr5_components', 'pcr5', 'pcr5_oligo_0', 'pcr5_oligo_1', 'qpcr_split', 'pcr_extra_stock', 'pcr_extra', 'pcr_recover_buffer', 'pcr_recover', 'qubit_qc')), ('Publishedmain212–222 NexteraXTmanufacturerinterface/cleanup/TapeStation/selectedDASHRNP/PK/cleanup/acquisition. Historical kitwholeoligos andexactrun masks unassembled, not inheritedfromkitname.', ('xt_stock', 'xt', 'xtclean_buffer', 'xtclean', 'qc', 'cas9_rnp', 'dash_stock', 'dash', 'dash_release_stock', 'dash_release', 'dashclean_buffer', 'dashclean', 'post_dash_qc', 'identity')))
+
+def _publication_coverage(g):
+    g.cover_source_item(SourceCoverage('selected','modelled','library'))
+    for source,targets in SOURCE_TARGETS:
+        for target in targets:
+            key='reviewed_'+target
+            g.add_source_item(SourceItem(key,'Selected source scope: '+target,source))
+            g.cover_source_item(SourceCoverage(key,'modelled',target))
+    return g.require_publishable()
+
+def render_page():
+    from page import head,caveat,table
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection
+    g=protocol_graph()
+    content=[head('PHOTON'),'<main class="wrap" data-protocol-complete="true"><h1>'+'PHOTON'+'</h1><p>'+'Photocaged reverse-transcription primers allow spatial illumination to select handles for cDNA recovery. Subsequent splinted ligation and template switching produce a source-qualified sequencing preparation from the selected regions.'+'</p><p><a href="'+'https://doi.org/10.1038/s41467-025-59801-3'+'">Defining published article</a> · <a href="01_chem.html">Research note and source scope</a></p>',caveat('<strong>Source-qualified preparation.</strong> Actual source-known inputs and process order are retained. Unknown occupied molecules, yields and whole library/read geometry remain explicit; local reagent views do not prove a unique reaction product.'),'<h2>Preparation</h2><ol>'+'<li>Start with prepared HeLa stress-granule samples. Fix, permeabilize and reverse transcribe in the dark using dual-caged oligo(dT) and random primers.</li><li>Illuminate selected regions at 405 nm, release nucleic acids and add a source-prepared splint/P7 handle. Take 10 µl from the 50 µl adapter stock.</li><li>Capture biotin-containing material on C1 beads and continue cDNA extension/template switching. Amplify five cycles; use a separate 2.5 µl analytical qPCR aliquot to choose additional cycles for the retained reaction.</li><li>Quantify recovered WTA by Qubit, then apply the historical Nextera XT interface, clean up and assess the library by TapeStation. The selected stress-granule route applies DASH, proteinase K and cleanup, followed by a separate final TapeStation assay before sequencing.</li>'+'</ol>','<h2>Known molecular parts</h2>',table(('Part','Role and source limit'),(('Caged RT primers', 'Source Alexa546/photocleavable 5′ linker, four N-POM-caged thymidines and internal biotin-dT. Photoproduct occupancy and whole copied molecules remain unassembled.'), ('Splint and P7 handle', 'Whole source oligos support a computed local nick beside the uncaged RT 5′ phosphate. This does not reconstruct the complete cDNA.'), ('Random N6', 'A source priming class, not a declared UMI.'), ('Historical finishing', 'Nextera XT and DASH source interfaces; whole kit adapters, guide sequences and exact read landing remain unassembled.')))]
+    content.append(panel(local_interface().rows(),caption='Source-known splinted handle interface; remaining cDNA and sealed product unassembled'))
+    content.extend(['<h2>Read setup</h2><p>'+'NextSeq 2000 or NovaSeq X Plus. Exact run cycles, index members and full read masks are unassigned. The source spatial region is a physical illumination selection, not a post-sequencing computational filter.'+'</p>','<h2>Source limits</h2><p>'+'This page starts from prepared HeLa stress-granule samples; upstream induction/imaging-probe manufacture is outside this boundary. It follows published Methods192–222 and SI1 Table1. Other tissue/ROI illumination settings and the mitochondrial SEQuoia alternative are separate source choices. Full occupied RT/TSO/kit molecules and quantitative photolysis/selection remain unresolved.'+'</p>','<details><summary>Full workflow, stock fractions and unresolved chemistry</summary>',WorkflowSection('Selected published preparation'),'</details></main>'])
+    return assemble_page(g,content)
+
 if __name__=='__main__':selftest()

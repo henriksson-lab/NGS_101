@@ -54,3 +54,11 @@ Mapping, computationally treating paired reads as separate alignments, HMM fragm
 ## Remaining work
 
 Exact MDA primer/end chemistry and historical formulation; full genomic/fragment/adapter/PCR/index strands; CoRE incision/displacement termini; actual historical Peters/Adey/kit versions and final run-primer assignments; individual parallel-chamber expansion and independent source/linked-material review remain open. No unavailable disclosure document is invented for an unassigned experimental index. The known preparation is modeled operationally, but both source routes remain notes-only/private and chemically incomplete.
+
+## Bounded publication review, 30 October 2026
+
+Published main Fig1/Results64–74/Methods164 and published SI I.3–I.5 were re-read in the closed two-original pass; mandatory bundle scraping was repeated. The main's explicit same-cell library pooling statement was verified at74. Capture and per-chamber retrieval now preserve molecular identity instead of declaring generic covalent changes. The known final same-cell library pool is in a curator-written literal source inventory; source coverage is no longer accumulated from construction calls.
+
+The actual main164 MDA MasterMix supplies are represented as copresent component views: source primer, Phi29, dNTP/dUTP and buffer come from one physical stock. They are not extra independent doses or a physically separated new factory. Source stock volume and per-chamber quantities remain unassigned. The source's literal 3′-phosphorylated random-hexamer wording and unresolved initiation remain intact; the source-reported MDA outcome is still an explicit unvalidated handoff, not successful ordinary extension from an invented 3′OH primer.
+
+Both CoRE and transposon routes now retain exactly the original required `historical_geometry` failure. Exact end/initiation, historical NEBNext/Nextera/primer polymers, complete products and acquired read landing remain unassembled. The scalar representative/other23 chamber treatment is not an individually reconstructed array; downstream source nucleotide/kit/stock/QC details remain local follow-ups. No full-source requirement was renamed, excluded or covered by a pooled-library label. No source absence or final-VOR error is claimed.

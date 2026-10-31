@@ -61,6 +61,21 @@
       ],
       "oligo_scraper": "Mandatory bundle scans: DM15hits (copyv2Table1 originalp2rendered),TAmCzero,Circulomezero text hits. Empty/partialconversionsnotabsenceevidence.",
       "verification": "25 focused local checks pass across DNA16 (9 DM,8 TAmC,8 Circulome); exact-source guard1checked0failed0exempt across3graphs with8unassembled inputs; literal /5mC/ parser alias independently reviewed against original Table1. Chemistry50unresolved0contradictory; source-review schema3in_progress0blocked; all6 note/ref pages built. This is scoped implementation verification, not a complete chemistry or missing-information review."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch25",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed selected associated-main/published-SI scope followed by bounded molecular-contributor and physical-stock corrections; no new original or final-equivalence/absence claim.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/dm-seq__10.1038+s41589-023-01318-1/s41589-023-01318-1_PMC10763687.xml: Main185unoptimizedKlenow/v1 vs199optimizedBst/v2/glycosylation/MBPCxMTase/A3A50ul;193–195spikeidentity;227GBMNextSeqHighOutputv2.5SE75.; /husky/henriksson/NGS101_papers/sources/dm-seq__10.1038+s41589-023-01318-1/s41589-023-01318-1_41589_2023_1318_MOESM1_ESM.pdf: Actualp2Table1/2wholemodifiedv2primer and assayroles independentlyrendered/viewed/tmp/dm38-table2.png; detailedfinalprotocol572–800 sourceendprep/Yadapter/copy/bGT/Cx/deamination/qPCR/indexPCR/QC/Illuminaload;630–635copy-stranddiscussion. OtherMOESMoriginals unopened; mandatoryscraperpointers not adopted as extra originals.",
+      "findings": "Spike addition now explicitly changes no covalent molecule, preserving the three distinct control species. The optimized Bst copy reaction receives actual dATP, dGTP, dTTP and dmCTP contributions rather than hiding all nucleotides inside an enzyme label; the published v2 fully methylated primer remains exact and physically distinct from native genomic methylation. Actual β-GT/UDP-glucose, MBP-M.MpeI-N374K/CxSAM and branch-specific A3A or commercial APOBEC catalyst contributions are explicit. The optimized main A3A dose/conditions remain delegated to the actual ACE reference; no commercial APOBEC/formamide substitution is made. Index PCR consumes enzyme, nucleotide and buffer components from one actual named KAPA Uracil+ ReadyMix allocation, not fresh duplicate component additions. The SI states a 25µL master allocation; the optimized-main physical allocation volume is left unassigned rather than declaring full branch equivalence. Selected loading material and an untransferred production remainder follow actual analytical QC. The SI 10µL deamination elution versus 19µL indexing-DNA allocation remains unassembled and is not silently normalized. Original `pending` remains exact and uncovered: full 5pyC adapter/indexing-primer originals, ACE applicability and full copy/end/read geometry still require review. No copy-strand disappearance is inferred from poor amplification or computational filtering.",
+      "deferred": [
+        "Actualsource5pyCIDTxGENadapterwholeorders/endgeometry and IDTi5/i7indexingprimeroriginals/version; not canonicalTruSeqbyname.",
+        "DirectACEreference25 optimizedA3A50ulconditions, noSIcommercial100ul/formamidemerge.",
+        "ExactSIvolumeallocation/wholecopy/readgeometry and finalVOR applicability; gatedNIHMSsupplementalias not equated to inspectedpublishedSI."
+      ],
+      "oligo_scraper": "Wholebundle15hits/1file; selectedactualTable1sourceorder inspected"
     }
   ]
 }

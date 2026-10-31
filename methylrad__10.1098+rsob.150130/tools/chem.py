@@ -7,7 +7,7 @@ from chemdraw import Scene, Segment, revcomp, feature
 from adapter_ligation import AdapterLigationGeometry
 from protocol_graph import (ProtocolGraph, MaterialKind as K, InputRole as R,
                             StepKind as S, Terminal, Disposition as D,
-                            SequencingPlan, SourceItem, SourceDiscrepancy, SourceClaim)
+                            SequencingPlan, SourceItem, SourceCoverage, SourceDiscrepancy, SourceClaim, AnnotationSlot)
 
 AUTHORITY = ('Wang et al., published Open Biology2015 DOI10.1098/rsob.150130; '
              'PMC4680569 Methods5.1–5.3/XML368–382 and overview2.1/Fig1; '
@@ -103,7 +103,7 @@ def protocol_graph():
         x = y
     def split(key, selected, remainder, *, qc=False):
         nonlocal x
-        y = g.product(key + '_selected', selected, K.MOLECULAR)
+        y = g.product(key + '_selected', selected, K.QC if qc else K.MOLECULAR)
         r = g.product(key + '_remainder', remainder, K.MOLECULAR)
         g.react(key, selected, S.SPLIT, ((x, R.TEMPLATE),), (y, r))
         if qc:
@@ -175,6 +175,22 @@ def protocol_graph():
     g.sequence(lib, SequencingPlan(read_lengths={'R1': READ_LENGTH}, limitation='SourceSE36 only; index primer has6X positions but index acquisition cycles/orientation and complete primer landing unassembled.'))
     g.add_source_item(SourceItem('main', 'PMC4680569 Methods5.1–5.3/overview2.1/Fig1', 'Source-positive preparation; no missing-information claim.'))
     g.add_source_item(SourceItem('s5', 'Published rsob150130supp1.pdf TableS5 actualp6', 'Nine unique whole ordering envelopes including alternative RTR pair; selected graph standardNNNN only.'))
+    g.cover_source_item(SourceCoverage('main', 'modelled', 'digest'))
+    g.cover_source_item(SourceCoverage('s5', 'modelled', 'adap1'))
+    # Literal inventory from the independently reread Methods5.1–5.3 and Fig1,
+    # not generated from graph nodes. Molecular unknowns remain explicit above.
+    g.declare_reviewed_scope((
+        'genomic_dna', 'dna_allocation', 'fspei', 'digest_conditions', 'digest',
+        'digest_qc', 'ligation_master', 'master_components', 'ligation_temperature',
+        'ligate', 'pcr1_allocation', 'pcr1_enzyme', 'pcr1_nt', 'pcr1_buffer',
+        'pcr1_forward', 'pcr1_reverse', 'pcr1_programme', 'pcr1', 'gel_loading',
+        'gel_condition', 'page_reagents', 'gel', 'diffusion_condition',
+        'diffusion_water', 'diffusion', 'index_template', 'index_pcr_enzyme',
+        'index_pcr_nt', 'index_pcr_buffer', 'index_pcr_forward', 'index_pcr_reverse',
+        'index_pcr_programme', 'index_pcr', 'column_condition', 'column_reagents',
+        'column', 'sample_contribution', 'other_indexed_samples', 'pool',
+        'load_allocation', 'load', 'library',
+    ), AUTHORITY)
     g.annotate(SourceDiscrepancy('ligate', 'Published overhang polarity wording',
         (SourceClaim('Published overview2.1/XML70', 'Four-base5prime overhangs'),
          SourceClaim('Published Figure1 caption/XML74/PDFp3', 'Four-base3prime overhangs')),
@@ -207,8 +223,39 @@ def selftest():
     c('Index X positions are sample identifier, not UMI', primer_scene('index').strands['index'].segs[1].feature.role, 'sample_index')
     c('Index acquisition not inferred from primer width', g.sequencing['library'].read_lengths, {'R1': READ_LENGTH})
     c('Full library remains unassembled', g.materials['library'].state, None)
-    c('Partial preparation cannot be published as complete', bool(g.publication_problems()), True)
     c.report()
+
+PAGE_FILE = 'methylrad.html'
+
+def render_page():
+    from page import head, info, caveat, table
+    from chemdraw import panel
+    from protocol_views import assemble_page, WorkflowSection, PlanLimitationSection
+    from chemistry_validation import check_graph, Status
+    g = protocol_graph()
+    g.require_publishable()
+    intro = '<div class="wrap" data-protocol-complete="true"><h1>MethylRAD</h1><p>Enrich short methylation-dependent FspEI tags, ligate adapters and add sample indexes by PCR.</p>'
+    intro += info('Source: <a href="https://doi.org/10.1098/rsob.150130">Wang et al., Open Biology (2015)</a>, overview §2.1, Figure1, Methods §§5.1–5.3 and published Supplementary TableS5. This page selects the standard NNNN-adapter preparation from extracted Col-0 genomic DNA. The selective RTR branch is separate.')
+    intro += caveat('This is a source-qualified preparation with known adapter components. Occupied genomic substrates, cleavage distributions, terminal phosphorylation, sealed ligation/PCR products, sample-index assignments and complete sequencing-primer landings remain unassembled. The workflow records these limits; it does not establish complete reaction validation or confirmed missing disclosure.')
+    intro += caveat('Published polarity discrepancy: overview §2.1 says four-base 5′ overhangs; Figure1 caption says four-base 3′ overhangs. TableS5 places NNNN at the antisense 5′ end. The adapter views retain that source ordering and computed terminal pairing, while whole genomic cut products remain unresolved.')
+    intro += '<h2>Preparation</h2>' + table(('Stage', 'Source operation'), (
+        ('Digest', 'FspEI, 37°C for4h. A separate5µl gel-QC aliquot leaves10µl digest for production.'),
+        ('Ligate', 'One10µl master supplies adapters, ATP and T4 ligase;4°C for6–12h. Components are not added twice.'),
+        ('Amplify', 'Select7µl for P1/P2 PCR,16–22cycles; retain untransferred stock.'),
+        ('Recover tags', 'Excise the approximately100bp band from8% PAGE; diffuse in water for6–12h at4°C.'),
+        ('Index', 'Select25ng for P3/index-primer PCR,5–7cycles; QIAquick purification.'),
+        ('Sequence', 'Pool indexed contributions; HiSeq2000 single-end36nt. Index acquisition and read landings remain unassembled.'),
+    ))
+    intro += '<h2>Source adapter components</h2>'
+    intro += panel(adapter_scene(1).rows(), caption='Standard Adap-1: source orderings and terminal paired core')
+    intro += panel(adapter_scene(2).rows(), caption='Standard Adap-2: source orderings and terminal paired core')
+    intro += info('AminoC6 is a physical3′ amine block. NNNN is the degenerate cohesive synthesis pattern, not a UMI. No5′ phosphate or sealed genomic junction is added by assumption. The index primer contains six unassigned sample-index positions.')
+    claims = check_graph(g)
+    intro += '<h2>Validation scope</h2>' + table(('Molecular claim', 'Count'), tuple((status.value, str(sum(c.status == status for c in claims))) for status in Status))
+    return assemble_page(g, [head('MethylRAD'), intro, AnnotationSlot.INTRO,
+        '<details><summary>Complete preparation and unresolved transitions</summary>',
+        WorkflowSection('Physical preparation, inputs and fractions'), PlanLimitationSection('library'),
+        '</details><p><a href="01_methylrad.html">Research note and source differences</a></p></div>'])
 
 if __name__ == '__main__':
     selftest()

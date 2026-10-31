@@ -118,6 +118,21 @@
       ],
       "oligo_scraper": "Mandatoryscraper fullcache; pointers independentlychecked in originalselectedMethods/SI; emptyhits are not absence.",
       "verification": "9 local behavior/transcription checks pass. Combined three-protocol source guard4checked/0failed/0exemptions/8unassembled inputs; chemistry71unresolved/0contradictory; schema3pass, notes build and diff whitespace check pass. Independent selected-source implementation review is not a second missing-information audit."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch23",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main plus selected published Additionalfile1 paragraphs; no acquisition or new rendered-image claim.",
+      "locations": "Main preparativeMethods within151\u2013153 and SItext73\u2013104.",
+      "findings": "Actual initial/secondM.CviPI/SAM contributions, molecularfix/quench/stop supplies, RNAprotease/buffer and10ngstock allocation. DedicatedRNAQA notasserted fromDNAQAanalogy; exactkitQAunreviewed. Mainone-third vsSI300/1200 split stays explicit. Originalpending/wholegeometry remains; literal reviewedsubset only.",
+      "deferred": [
+        "HistoricalNOMe/MethylHiC,MagMAX,SMARTerv2,IDTstubby,TruSeq,Zymo originals.",
+        "Whole molecular/end/primer/acquisition geometry; actualRNAkitQA and exactsourceallocation reconciliation."
+      ],
+      "oligo_scraper": "/tmp/unlinked23-nome-scraper.log0reportedsequences/fileswithhits; originalselectedparagraphs read directly, no absenceinference.",
+      "verification": "12focusedPASS; privateRNA/DNAworkflows preserve sourceallocationnotice, pairing0. Constructor caught step/material ID collision and pool-role mismatch, both corrected without relaxing invariants. Originalpendinguncovered, no publicmarker; combinedchecks follow."
     }
   ]
 }

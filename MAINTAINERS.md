@@ -251,6 +251,12 @@ the site.
   build. Options within a facet are OR, while facets combine with AND. An unobtrusive text
   search remains for titles, aliases, papers and descriptions. Filter state is kept in the
   URL, so a result set can be linked.
+  Reviewed workflows can use `unassigned in model` for any unresolved facet;
+  this does not claim a source omitted the detail. `not yet curated` remains
+  notes-only. Unknown model partitioning must also leave the derived scale
+  unassigned. A public page still needs the normal source-inventory and graph
+  publication checks, and its molecular/readout limits remain visible.
+
 
   A title opens its schematic when one exists; entries without one remain listed by name
   rather than exposing their working notes. The index is JSON embedded in the page and

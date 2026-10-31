@@ -74,3 +74,7 @@ The final row is named **5S-1** but its source target column says **5.8S rRNA**,
 The private graph includes every listed source probe as an actual PDD contributor, with whole single-stranded Scene states. An opaque cDNA-library boundary precedes PDD; it does not substitute an unverified standard ribosome-profiling library recipe. Physical first-sedimentation and SSU/ribosome fractions, loading allocation and untransferred stock remain explicit. PDD reaction product fragments/yield, whole cDNA/end geometry, adapter/RT/PCR sequences, platform and run lengths remain unassembled.
 
 The defining full Methods response is the actual remaining access need. Published Table1/2 datasets and ExtendedData originals are ordinary unread under the cap; the2017 detailed protocol and two cited PDD methods require version/component checks before use. An uninspected or unavailable source does not establish absence. The source-review record preserves a late recording of the initial SI identity-header read; total unique originals stayed within three. This capped pass is not a full source or missing-information audit.
+
+## Source-qualified preparation page
+
+The public page now uses a validated protocol graph with explicit reviewed source inventories and physical-fate typing. Its full workflow and unresolved chemistry remain visible in an expandable section. Whole experimental molecules and source-unassigned read geometry are not supplied by defaults. The applied2016supplementary workflow is retained without substituting the later2017recipe.

@@ -74,8 +74,10 @@ published counterpart is absent: the published MOESM35 PDF was obtained directly
 No missing-information claim is accepted.
 
 The rendered Supplementary Figure 1c explicitly shows a complementary-strand
-**by-product**. The graph retains this material class with an unresolved terminal
-fate; it does not silently declare it discarded by the gel or incapable of
-amplification. This limitation is displayed by the graph renderer. The local
+**by-product**. The graph carries this material class copresent through recovery and leaves its downstream molecular fate unassigned; it does not silently isolate or discard it before workup, or claim the gel quantitatively removes it. This limitation is displayed by the graph renderer. The local
 linkage reference checks the two primer tails and retains one overlap, while
 chain bodies/lengths are schematic placeholders, not a source-defined receptor.
+
+## Public preparation page
+
+The public page uses actual copresent reaction-stock provenance for Table5 components, with no extra CHrev/CLrev dose. Source coproduct classes enter recovery with linked material and may persist later. Actual4µl of40µl recovered cDNA is selected for nested PCR; no unsourced QC is added. Receptor-body placeholders are symbolic and inferred by default, with no assigned biological gene lengths. The full downstream library remains an unassembled positive sequencing handoff.

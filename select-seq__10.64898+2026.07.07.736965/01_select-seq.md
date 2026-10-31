@@ -1,4 +1,4 @@
-# SELECT-seq — source intake
+# SELECT-seq — preprint source intake
 
 Defining preprint: *SELECT-seq allows Pre-Sequencing Enrichment of SNP Edits in One-Pot
 Single-Cell Whole-Transcriptome Sequencing*, DOI
@@ -88,3 +88,10 @@ readout; Smart-seq3 v3 revision details beyond the inspected oligo list.
 Deferred originals: Smart-seq3 v3 protocols.io body steps beyond the oligo
 list, the Hagemann-Jensen Smart-seq3 paper, NEB M0653 and IDT reporter product
 documentation, and the code repository named in Code Availability.
+
+
+## Publication follow-up (2026-10-30)
+
+The defining original inspected here is explicitly **bioRxiv v1, posted8July2026, not certified by peer review**. Its listing in a catalogue section is not evidence of a peer-reviewed successor. The actual source endpoint is **Element Aviti paired-end150cycles**; it must not be relabelled Illumina merely because some adapters match familiar sequences.
+
+The cached exact cited Smart-seq3 Protocol V.3 prints19February2020 and DOI10.17504/protocols.io.bcq4ivyw. The source positively establishes inherited RT/WTA, SELECT-specific SNP amplification, Cas12a fluorescence and downstream tagmented/indexed DNA library. There is still no source-owned molecular graph or page builder. Constructing that inherited front-end with actual optical reporter and library allocations is substantive model work; this remains a **model-scope hold**, not evidence that the original or its primers are unavailable. Ordinary unread operative V.3 sections and unassigned per-well index values remain separate from unavailable documents. The separate genotyping libraries must not be merged with the transcriptome-library trace.

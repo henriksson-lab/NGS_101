@@ -75,5 +75,14 @@
   "linked_information": {
     "result": "blocked",
     "reason": "Complete linked-original inventory and independent source review remain incomplete; deferred originals are not evidence of missing disclosure."
+  },
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_3",
+    "date": "2026-10-30",
+    "type": "source_qualified_public_scope_not_absence_pass_2",
+    "documents": 0,
+    "scope": "Existing definingabstract identity/source-review/failedmanifest metadata only;0 chemistry originals newlyread. Fulloriginalremains unavailable, no route retry. Syntheticmaps assignedEXAMPLEprovenance separatelyfromsourceRecE/RecTidentity.",
+    "changes": "Useful public overview/knownparts/scope/readout with fullWorkflowSection and markers. Literalcuratorinventorypreserved; sourcepaperidentity separatedfromfiction.",
+    "verification": "2focusedPASS; illustrativeconstructgraphrequire_publishablepasses; sourceguard0exact0failed; chemistry1conditionalneutral-maprelation/1unresolvedhostboundary/0contradictory. Construct/output/completeHTMLmarkers andliteralh1/h2/pairing/localhrefchecked."
   }
 }

@@ -130,6 +130,21 @@
       ],
       "oligo_scraper": "Mandatory actual-bundle scraper; original pointer contexts inspected. STAMP five large skipped files are unreviewed; no absence conclusion.",
       "verification": "27 local behavior/source-transcription checks pass across3models (RNA Tagging8,LASER11,STAMP8); sourceguard5checked0failed0bundlesskipped3inputswithoutexactstates3graphs; chemistry35unresolved0contradictory. Notes-only, no preview or full endpoint/source/readout promotion."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch20",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated AM PMC4707952 only; no final-VOR equivalence, published-workbook result or synthetic-library recipe transfer.",
+      "locations": "Identity1\u20133; G/Itailing131\u2013133; U-selectRT135\u2013137; distincttargetedassays139\u2013145; transcriptome-wide151\u2013177.",
+      "findings": "Source~9 PCR array now independent illustrative5uLtemplate allocations\u2192separatePCRs\u2192pool, not onePCR relabelledpool. ActualGoTaqGreen componentviews shareonephysicalaliquot. SourcePAPinitial/second doses andGTP/ITP/RT/secondstrand nucleotides explicit. IntracellularPUP2 notnewfreedose. Original pending/source/fullgeometry obligations retained.",
+      "deferred": [
+        "Final-VOR procedure/primer-to-trimming applicability and historical kit/predecessor originals.",
+        "Actualexperiment-specific PCRcount/index, remaining input/control allocations and whole end/primer/read geometry."
+      ],
+      "oligo_scraper": "/tmp/unlinked20-rnatag-scraper.log completed26hits/2files; actual sourceprimer contexts read. No absence inference.",
+      "verification": "11focusedPASS including independentpoolparents, allocationcapacity and nozero-volume stock; final private render/pairing and combined schema/chemistry checks follow. Initial extraction-condition and premature-terminal constructor failures corrected; no weakened invariants."
     }
   ]
 }

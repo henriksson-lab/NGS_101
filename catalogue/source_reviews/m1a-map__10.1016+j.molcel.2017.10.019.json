@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "round07_coordinator",
         "date": "2026-10-29",
-        "locations": "Associated manuscript JATS144–146,172,176–180,184–188,264–272,324–334,Figure1caption600–608;Methods164–166 ΔN11 enzyme identity",
+        "locations": "Associated manuscript JATS144\u2013146,172,176\u2013180,184\u2013188,264\u2013272,324\u2013334,Figure1caption600\u2013608;Methods164\u2013166 \u0394N11 enzyme identity",
         "finding": "Three source input/IP-minus/IP-plus preparations and all named main-library operations represented; original oligos/modifications checked. Physical RNA state versus caller-selected DNA mismatch/arrest separate; exact complete strand/read geometry and final-VOR applicability unestablished."
       },
       "pass_2": null
@@ -34,7 +34,7 @@
     "pass_1": {
       "reviewer": "round07_coordinator",
       "date": "2026-10-29",
-      "locations": "Associated manuscript JATS144–146,172,176–180,184–188,264–272,324–334,Figure1caption600–608",
+      "locations": "Associated manuscript JATS144\u2013146,172,176\u2013180,184\u2013188,264\u2013272,324\u2013334,Figure1caption600\u2013608",
       "finding": "Three source input/IP-minus/IP-plus preparations and all named main-library operations represented; original oligos/modifications checked. Physical RNA state versus caller-selected DNA mismatch/arrest separate; exact complete strand/read geometry and final-VOR applicability unestablished."
     },
     "pass_2": null
@@ -50,7 +50,7 @@
       "scope": "Modified library predecessor; no full-recipe or RT inheritance."
     },
     {
-      "locator": "Associated article Methods164–166, AlkB expression/purification; source ΔN11 identity inspected",
+      "locator": "Associated article Methods164\u2013166, AlkB expression/purification; source \u0394N11 identity inspected",
       "scope": "Remaining in-article protein preparation and exact reagent characterization; no external disclosure document invented."
     },
     {
@@ -70,7 +70,7 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Defining associated manuscript before linked-source investigation; actual detailed protocol blocked.",
-      "locations": "Associated manuscript JATS144–146,172,176–180,184–188,264–272,324–334,Figure1caption600–608",
+      "locations": "Associated manuscript JATS144\u2013146,172,176\u2013180,184\u2013188,264\u2013272,324\u2013334,Figure1caption600\u2013608",
       "findings": "Three source input/IP-minus/IP-plus preparations and all named main-library operations represented; original oligos/modifications checked. Physical RNA state versus caller-selected DNA mismatch/arrest separate; exact complete strand/read geometry and final-VOR applicability unestablished.",
       "deferred": [
         "Published MethodsS1/finalVOR",
@@ -91,5 +91,17 @@
     "result": "pass",
     "sourceguard": "15exact input occurrences checked,0failed,0exemptions;one graph with three preparations.",
     "chemistry": "49steps,52unresolvedclaims,0contradictory;not full validation."
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "source_scope": "j.molcel.2017.10.019_PMC5722686.xml.txt176\u2013180 actual40\u00b5gpolyAfragment/IP/10ngAlkBdemethylation,threeRNApreparations/fullprintedadapter/RT/cDNA/PCR/library/PE150route. ExistingmanifestmanualMethodsS1 andotherpublishedsupplementavailabilitycheckedonly; supersededpreprintrowsnotauthority ornewrequests. AssociatedAMnotwholeVORequivalence. No priorIP/eCLIP/otherlibraryoriginal opens.",
+    "originals_read": 1,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Source-known DNA-library typing and terminal inventory corrected; actual MethodsS1/priorIP/fullRNA-cDNA-PCR-readgeometry item remains required and uncovered. Historical source download-gate record unchanged; no opaque-library mapping or source-item exclusion.",
+    "verification": "15focusedPASS/privatebuild/pairing0; sourceguard15exact0failed0exceptions; chemistry52steps55unresolved0contradictory. FinalDNAkind and literalterminalinventory repaired; normalgate fails only originaldetailed_source_and_geometry item.",
+    "required_source_items_uncovered": true,
+    "missing_information_claims": []
   }
 }

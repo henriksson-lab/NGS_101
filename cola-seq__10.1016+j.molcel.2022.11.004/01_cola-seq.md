@@ -29,3 +29,7 @@ The inspected source says RT stops at the2′–5′ linkage, and observed CoLa-
 ## Validation scope
 
 The lariat constructor checks supplied RNA and branch coordinates, conserves each nucleotide once, retains distinct2′ and3′ backbone ports and rejects invalid references. Its geometry must not display a free5′ terminus at the covalently joined splice site. A narrow material-consistency claim checks declared backbone connectivity; it does not establish that splicing occurred or validate the library reaction. The protocol graph separately retains source inventories, biological fractions, aliquots and unassembled molecular transitions. A matching topology is not whole chemical validation.
+
+## Source-qualified preparation page
+
+The public page now uses a validated protocol graph with explicit reviewed source inventories and physical-fate typing. Its full workflow and unresolved chemistry remain visible in an expandable section. Whole experimental molecules and source-unassigned read geometry are not supplied by defaults. The preparation remains accepted-manuscript-qualified. The invented lariat reference is not drawn or used as a real genomic input on this page.

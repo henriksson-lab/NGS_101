@@ -73,3 +73,7 @@ transcriptomes (references 26, 29–30), and describes the protease workflow as
 previously shown (references 33–34). These are component-level predecessor
 candidates, pending reading of the cited originals. Similarity to CITE-seq/REAP-seq
 is not evidence of ancestry. No parent molecular constructor is imported.
+
+## Public preparation page
+
+The source-qualified page keeps reporter complexes molecular, actual source supply components and separate bulk-PCR scope explicit. Four daughter portions arise before the source SOE-PCR array interface; no completed product is cloned into an array. Empty/multiple barcode compartments and incorrect mergers remain unassembled. Actual analytical and15pMloading allocations remain separate from production, and the source width disagreement is displayed.

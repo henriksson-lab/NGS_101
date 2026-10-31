@@ -70,6 +70,22 @@
       ],
       "verification": "Seven local checks and preview build pass; pairing lint and scoped chemistry validation pass. Source oligo guard reads two graphs but checks zero exact structural-input strands; local external-source transcription checks verify guide rows.",
       "oligo_scraper": "Full source bundle scraped into /tmp/cabage-primer-hits-worker.log; superseded preprint hits excluded."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-5",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "scope": "Source-qualified public-page pass; no complete chemistry or missing-information audit",
+      "documents": 2,
+      "locations": "Published main PMC8031414Methods198-226 and sameoriginalPDF actualFig1p5/captionp6; published S1Table s004.xlsx rawZIP/XML C9rows3-4. S1Figure manual/unavailable, no comparative claim adopted.",
+      "findings": "The published native-genomic branch now explicitly preassembles the source Cas9/guide RNPs before genomic cleavage. Known C9 spacer strings are preserved as partial source components, not full ordered crRNA/tracrRNA polymers. The45-character genomic target display is inferred scale only, not a mapped target or footprint. Source dATP is distinct from Taq. Heat-released/inactivated protein material and background digestion products continue to cleanup rather than disappearing at catalysis. Figure1 motor/adapter classes are exposed as views of the same actual adapter supply, with packaging/whole-polymers/occupied junction unassembled; there is no additional fresh motor stock or nCATS dephosphorylation. Elution16.6uL, retained15.8uL and derived untransferred0.8uL are explicit. Source loading/priming supplies are preserved. Cas9 protection remains a qualitative source declaration, not computed resistance, purity, specificity or yield. The source SFB choice is declared from main Methods; unavailable S1Figure is not used to claim superiority over LFB. The exact historical kit recipe/adapter geometry remains a deferred source/model question, not information declared absent.",
+      "oligo_scraper": "/tmp/unlinked-cabage5-scraper.log; original workbook sequence/name cells checked. No hit or absent-state inference.",
+      "deferred": [
+        "Published S1Figure unavailable via recorded route",
+        "Revision-qualified LSK109/FFPERepair vendor originals, exact guide/target/adapter geometry",
+        "Full linked-source/independent audit"
+      ],
+      "verification": "12focusedPASS;11steps4conditional11unresolved0contradictory; normalpublicationgate[]; pagebuild/pairing0."
     }
   ],
   "linked_information": {
@@ -79,5 +95,8 @@
   "missing_claims": [],
   "pending_sources": [
     "Published S1 Figure: pone.0241253.s001.tif"
-  ]
+  ],
+  "conclusion": "Eligible for a source-qualified public page of the selected preparation with explicit stock/fate scope and unresolved molecular geometry. Representation published_instance does not establish sequence-exact study molecules, assay performance or full source audit. No absence claim accepted.",
+  "pass_1": null,
+  "pass_2": null
 }

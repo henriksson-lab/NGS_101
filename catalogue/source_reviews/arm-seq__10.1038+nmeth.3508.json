@@ -14,7 +14,7 @@
       "pass_1": {
         "reviewer": "rna_first_capped_pass",
         "date": "2026-10-28",
-        "locations": "Abstract28–35; Introduction85–108; Discussion272–297; Methods315–402; processing403–426; differential458–465",
+        "locations": "Abstract28\u201335; Introduction85\u2013108; Discussion272\u2013297; Methods315\u2013402; processing403\u2013426; differential458\u2013465",
         "finding": "Wild-type AlkB/cofactors/time, matched control, MirVana selection, named NEBNext kit, insert selection and MiSeq paired-end."
       },
       "pass_2": null,
@@ -31,7 +31,7 @@
       "pass_1": {
         "reviewer": "rna_first_capped_pass",
         "date": "2026-10-28",
-        "locations": "Figure1caption1–13; Figures2–5captions15–65",
+        "locations": "Figure1caption1\u201313; Figures2\u20135captions15\u201365",
         "finding": "Substrate-specific blocks and incomplete demethylation; not nucleotide-complete library chemistry. Cached NIHMS DOC corresponding caption opening compared; duplicate content, not a fourth independent original."
       },
       "pass_2": null,
@@ -76,7 +76,7 @@
       "date": "2026-10-28",
       "documents": 3,
       "scope": "Initial capped breadth-first pass; <=3 independent originals; not a complete source or absence review.",
-      "locations": "article: Abstract28–35; Introduction85–108; Discussion272–297; Methods315–402; processing403–426; differential458–465; publisher_supplement: Figure1caption1–13; Figures2–5captions15–65; result_workbook: First sheet heading and opening rows only",
+      "locations": "article: Abstract28\u201335; Introduction85\u2013108; Discussion272\u2013297; Methods315\u2013402; processing403\u2013426; differential458\u2013465; publisher_supplement: Figure1caption1\u201313; Figures2\u20135captions15\u201365; result_workbook: First sheet heading and opening rows only",
       "findings": "Wild-type AlkB/cofactors/time, matched control, MirVana selection, named NEBNext kit, insert selection and MiSeq paired-end.; Substrate-specific blocks and incomplete demethylation; not nucleotide-complete library chemistry. Cached NIHMS DOC corresponding caption opening compared; duplicate content, not a fourth independent original.; Result table; remaining workbook not reviewed and not judged globally irrelevant.",
       "deferred": [
         "Applicable historical NEBNext Small RNA Library Prep Kit for Illumina vendor guide; identity/revision unresolved, source target not an asserted unavailable document.",
@@ -87,5 +87,17 @@
       "oligo_scraper": "Full source-bundle scrape_primers run 2026-10-28 before source transcription.",
       "verification": "Protocol-local partial graph suite/build; no sequencing-publishability claim."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "page_ready",
+    "source_scope": "nmeth.3508_PMC4553111.pdf.txt340\u2013402 humanRNAcohortcontext, actualAlkBreactionandstoragebuffercontrol, separateprimerextensionvalidationboundary, size-selectionandnamedkitlibrarypreparation/EGel/BioAnalyzer/MiSeqPE. PublishedMOESM407.pdf.txt1\u201313 Fig1caption partial/differentialAlkB substrateeffects only. Main is an associated author manuscript; whole final/AM equivalence not adopted. No historicalNEBmanual/currentkit/predecessor/resultworkbooksourceopens.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "findings": "Actual matched controls/cofactors,50\u219225\u219210\u21921\u00b5g stock trace, source-positive namedhistoricalkitDNAproducerinterface,gel/BioAnalyzerQA/loading/stockfates; innerkitchemistry explicitlyunassembled.",
+    "normal_gate": [],
+    "verification": "13focusedPASS; normalgate/build/fullworkflow/completewrapper PASS; guard0exact0failed0exceptions0externaloligocandidates because historical kit internals remain opaque, not an exact-sequence validation; chemistry31steps31unresolved0contradictory; pairing0.",
+    "missing_information_claims": []
+  }
 }

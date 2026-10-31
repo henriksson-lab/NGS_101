@@ -13,9 +13,9 @@ def clean(g,key,x,label):
     rest=g.product(key+'_rest','Actual physically separated workup fractions; no perfect molecular partition inferred',K.WASTE)
     g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.CONDITION)),(kept,rest));g.discard(rest,'Actual source workup separation.');return kept
 
-def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; precise geometry unassembled',catalyst=False,product=None,reason='Source operation known; internal molecular geometry and remnant fates unassembled.'):
+def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; precise geometry unassembled',catalyst=False,product=None,product_kind=K.MOLECULAR,reason='Source operation known; internal molecular geometry and remnant fates unassembled.'):
     stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.CONDITION)
-    out=g.product(key+'_product',product or label+'; accompanying physical reaction remnants retained',K.MOLECULAR)
+    out=g.product(key+'_product',product or label+'; accompanying physical reaction remnants retained',product_kind)
     g.react(key,label,kind,((x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.CONDITION)),(out,),reason=reason);return out
 
 def oligo_scene(name,sequence,*,mod5='',mod3=''):
@@ -33,8 +33,20 @@ class EditedRNA:
     def physical_rna(self):return ''.join('U' if i in self.edited_positions else b for i,b in enumerate(self.original))
     def selected_first_dna(self):return ''.join({'A':'T','C':'G','G':'C','U':'A'}[b] for b in self.physical_rna[::-1])
 
-def handoff(g,key,x,label):return op(g,key,x,label,reagent='source named historical kit/procedure; internal molecular recipe and remnant fates unassembled')
+def handoff(g,key,x,label,*,product_kind=K.MOLECULAR):return op(g,key,x,label,product_kind=product_kind,reagent='source named historical kit/procedure; internal molecular recipe and remnant fates unassembled')
 def acquire(g,x,limitation):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=limitation+' Complete molecular end/primer/index/run geometry and final-VOR applicability unassembled.'))
+
+def bulk_rna_allocation(g, rna):
+    """AM136: analytical material and actual 500ng input; no assay dose inferred."""
+    qa = g.product('rna_qa', 'RNA material used for source Agilent TapeStation quantification; amount unassembled', K.MOLECULAR)
+    remaining = g.product('rna_after_qa', 'RNA stock following analytical allocation; amount and assay recovery unassembled', K.MOLECULAR)
+    g.react('rna_qa_allocation', 'Source TapeStation RNA analytical allocation; no volume inferred', S.SPLIT, ((rna, R.TEMPLATE),), (qa, remaining))
+    g.mark_terminal(Terminal(qa.id, Disposition.QC, 'Source AM136 Agilent TapeStation quantification; assay chemistry unassembled.'))
+    selected = g.product('rna_500ng', 'Actual 500ng RNA input for the selected source bulk library route', K.MOLECULAR)
+    stock = g.product('rna_untransferred', 'Untransferred RNA stock; amount and subsequent use unassembled', K.MOLECULAR)
+    g.react('rna_library_allocation', 'Source 500ng RNA library allocation', S.SPLIT, ((remaining, R.TEMPLATE),), (selected, stock))
+    g.mark_terminal(Terminal(stock.id, Disposition.UNRESOLVED, 'No source-supported amount or disposition assigned.'))
+    return selected
 
 def graph_for_branch(branch='bulk_kapa'):
     if branch not in {'bulk_kapa','bulk_truseq','nanopore_cdna','pacbio_cdna','single_cell'}:raise ValueError('source-defined library branch required')
@@ -61,7 +73,8 @@ def graph_for_branch(branch='bulk_kapa'):
     else:
         x=handoff(g,'extraction',x,'Source TRIzol/DirectZol RNA extraction'+(' withDNase treatment in stated long-read preparation' if branch in {'nanopore_cdna','pacbio_cdna'} else ' following manufacturer procedure'))
         if branch in {'bulk_kapa','bulk_truseq'}:
-            x=handoff(g,'library',x,'Source500ngRNA '+('KAPARNAHyperPrep withRiboErase' if branch=='bulk_kapa' else 'TruSeqStrandedmRNA')+' library; source calls totalRNAseq but kit names kept distinct')
+            x=bulk_rna_allocation(g,x)
+            x=handoff(g,'library',x,'Source500ngRNA '+('KAPARNAHyperPrep withRiboErase' if branch=='bulk_kapa' else 'TruSeqStrandedmRNA')+' library; source calls totalRNAseq but kit names kept distinct',product_kind=K.LIBRARY)
             acquire(g,x,'AssociatedAMMethods144:bulkRNAseq single-end100nt; platform not borrowed from separate eCLIP experiment.')
         elif branch=='nanopore_cdna':
             x=handoff(g,'polya',x,'Source20µgRNA NEBE7490L polyA magnetic-resin selection')
@@ -91,6 +104,10 @@ def selftest():
     except ValueError:bad=True
     c('cytidine deamination cannot silently edit adenosine',bad,True)
     c('all five source branches retain explicit publication limits',all(graph_for_branch(b).publication_problems() for b in ('bulk_kapa','bulk_truseq','nanopore_cdna','pacbio_cdna','single_cell')),True)
+    bulk=graph_for_branch('bulk_kapa')
+    c('bulk library receives selected 500ng RNA, not analytical material',bulk.steps['library'].inputs[0].material,'rna_500ng')
+    c('source analytical RNA and stock have distinct fates',(bulk.terminals['rna_qa'].disposition,bulk.terminals['rna_untransferred'].disposition),(Disposition.QC,Disposition.UNRESOLVED))
+    c('known bulk DNA endpoint kind does not waive historical source gate',(bulk.materials['library_product'].kind,any("'pending'" in p for p in bulk.publication_problems())),(K.LIBRARY,True))
     g=graph_for_branch('single_cell');c('feature-library path consumes saved cleanup supernatant',g.steps['feature_amplify'].inputs[0].material,'saved_feature_supernatant')
     from checks import Source,have
     from storage import sources_root

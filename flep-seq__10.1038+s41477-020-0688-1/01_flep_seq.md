@@ -1,5 +1,14 @@
 # FLEP-seq
 
+## Current bounded publication decision (2026-10-30)
+
+🟢 The published SI original was reread at DOI/title, fractionation-marker caption, actual FigS2 PDFp3 and PolyAcaller caption. FigS2 explicitly depicts sequencing-data processing: Guppy basecalling, minimap2 mapping, read filtering, adapter finding and PolyAcaller. These operations do not declare physical rRNA depletion, adapter ligation, an added versus endogenous poly(A) tail, or the RNA/DNA polymer that traversed the pore.
+
+🟢 Original workbook `s41477-020-0688-1_41477_2020_688_MOESM3_ESM.xlsx` first-sheet header/rows1–8 explicitly identify an **Illumina RNA-seq** library-statistics table. Its chromatin-bound/nucleoplasm sample identifiers and read counts do not establish a Nanopore library recipe. Remaining workbook and reporting-summary scopes are ordinary unread, not deemed irrelevant or inaccessible.
+
+No chemistry graph or builder exists. The exact defining full Methods remains a manual manifest target; it was not requested again. Current inspected originals establish limited identity/processing/statistics scope, not a useful biochemical producer from source RNA through library/readout. A computational diagram is not substituted for that producer, and no later similarly named protocol is inherited. This pass retains a source-scope hold without inventing a model, source absence or new access failure.
+
+
 Defining original: https://doi.org/10.1038/s41477-020-0688-1
 
 Jia et al.(2020), *Post-transcriptional splicing of nascent RNA contributes to widespread intron retention in plants*.

@@ -25,3 +25,29 @@ Antarctic phosphatase37°C30min/65°C5min precedes PNK+ATP37°C60min and RNeasy 
 ## Deferrals and lineage
 
 Actual correction targets: https://doi.org/10.1073/pnas.1905628116 , https://pmc.ncbi.nlm.nih.gov/articles/PMC6500115/ and https://www.pnas.org/doi/10.1073/pnas.1905628116 . Correction relevance remains blocked until its original contents are read. DatasetS10, linked historical RNA-bisulfite/small-RNA originals and independent source review remain open. BID-seq explicitly cites RBS-seq for its Psi-adduct/deletion principle but changes chemistry and cytosine-conversion behavior; that supports a scoped RBS→BID component-strategy edge, not whole-library equivalence. No confirmed absent-information claim or finished schematic.
+
+## Bounded physical-array correction with correction/geometry holds retained
+
+The same closed published main and SI support actual molecular formamide,
+sodium bisulfite and hydroquinone inputs, rather than condition-only labels.
+The NAP-10 1 ml eluate is now physically divided into two 0.5 ml portions
+before separate Tris desulfonation. Each actual preparation receives acetate
+and GlycoBlue and is divided into three 377 µl precipitation portions. Six
+independent precipitation/recovery operations each produce a 10 µl RNA
+contribution, which are physically pooled afterwards into the source 60 µl
+stock. This does not clone one completed reaction into supposed replicates.
+Curator-written tube target inventories are declared independently of graph
+node enumeration.
+
+Thirteen focused checks pass. These physical corrections do not waive the
+actual unread correction or complete library-geometry obligations. Both
+`unread_correction` and `unreviewed_library_geometry` remain uncovered. The
+previous actual correction HTTP/reCAPTCHA records remain history; no retry,
+new failure or judgment that the correction is irrelevant was made. Remaining
+RNA-fraction/control, adapter, RT/PCR stock, QA and full read-assembly scope
+is still incomplete. There is no PAGE_FILE builder or finished-page claim.
+
+Physical RNA residues and adducts retain their origins. A selected complementary
+cDNA omission does not delete a Ψ-BS residue from RNA, and a native m1A copying
+outcome is not silently predicted. No source absence claim follows from the
+bounded pass.

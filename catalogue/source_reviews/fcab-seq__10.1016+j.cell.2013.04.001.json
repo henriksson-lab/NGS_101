@@ -1,6 +1,6 @@
 {
   "dir": "fcab-seq__10.1016+j.cell.2013.04.001",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original_1",
@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round13",
         "date": "2026-10-29",
-        "locations": "Associated manuscript NIHMS463944; base-resolutionResults, Methods140\u2013148 and Fig6",
+        "locations": "Associated manuscript NIHMS463944; base-resolutionResults, Methods140–148 and Fig6",
         "finding": "EtONH2 chemistry, comparison/ampliconNGS and distinctChIP-fCAB/fC-Seal branches established."
       }
     },
@@ -62,13 +62,28 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Max3originals; definingmainandchemistrySI beforelinkedreferences; norecursivechase.",
-      "locations": "Associated manuscript NIHMS463944; base-resolutionResults, Methods140\u2013148 and Fig6; ActualassociatedSI01/ExtendedExperimentalProcedures; ActualassociatedSI02",
+      "locations": "Associated manuscript NIHMS463944; base-resolutionResults, Methods140–148 and Fig6; ActualassociatedSI01/ExtendedExperimentalProcedures; ActualassociatedSI02",
       "findings": "Sourceorder/physicalfractions/chemicaladductversusreportedbases retained; publisherupdateidentifiedonlyasaffiliationcorrection.",
       "deferred": [
         "ActualgatedSIandnamedhistoricalkit/directpredecessortargets inresearchnote; noabsenceconclusion."
       ],
       "oligo_scraper": "/tmp/fcab13-oligos.log; mandatorywholebundle scan,0MINCE/0fCAB/57fCCETinitialhits; sourcecontrol/modelprimersnotnativeNGSadapters.",
       "verification": "21localchecks(6MINCE/7fCAB/8fC-CET)passed;3privatebuilds/scopeddocs/pairing0problems andsource-reviewschema passed. Chemistry0established/56unresolved/0contradictory;sourceguard0checked/0failed with6fC-CETprimerinputswithout exactstates,notexactoligovalidation. Retrieval83354/30671completedexit0; externalcachepreserved/noacquisitionrunning."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch22",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed selected associated-main pass followed by bounded physical-input corrections; no additional original or source-equivalence assumption.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/fcab-seq__10.1016+j.cell.2013.04.001/j.cell.2013.04.001_PMC3657391.xml: MainResults base-resolution section and Methods140–148; originalJATSFig6caption452–464; chemical protection versus adjacent distinctfC-SealMethods143. Source caption text only, no cachedactualfigureimage inspected.",
+      "findings": "The actual O-ethylhydroxylamine contribution is now a physical molecular input, separate from the MES/pH/temperature programme. Source protection remains a 5fC-derived oxime class, not chemical replacement by cytosine because sequencing reports C-like bases. Main148 states that the general bisulfite thermal programme was run twice or high-throughput bisulfite amplicon sequencing was used, referring to Extended Procedures. The selected high-throughput branch therefore no longer asserts that twice-program applicability is established for its protected and ordinary samples. This is an unresolved source-branch applicability question, not a declared publication error or a silently selected recipe. Protected/ordinary preparations remain distinct; no fC-Seal reduction/affinity or ChIP-fCAB precursor is imported. Original required `gated_si` remains unchanged and uncovered: actual ExtendedExperimentalProcedures/SI01/02, full amplicon/library producer, historical kit applicability and read scope are unreviewed. No new originals or acquisition occurred during implementation.",
+      "deferred": [
+        "Actual ExtendedExperimentalProcedures https://pmc.ncbi.nlm.nih.gov/articles/instance/3657391/bin/NIHMS463944-supplement-01.pdf .",
+        "Actual associatedSI02 https://pmc.ncbi.nlm.nih.gov/articles/instance/3657391/bin/NIHMS463944-supplement-02.pdf .",
+        "HistoricalEpiTect exactedition/applicability, sourceampliconPCR/adapter/end/read preparation and final-version applicability; not invented missingdocuments."
+      ],
+      "oligo_scraper": "Wholeexistingbundle mandatoryscan completed:0sequences in0fileswithhits; no absenceclaim. Summary stderr; empty stdout /tmp/fcab-dna32-scraper.log."
     }
   ]
 }

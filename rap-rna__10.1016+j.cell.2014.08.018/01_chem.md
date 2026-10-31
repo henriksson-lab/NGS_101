@@ -21,3 +21,9 @@ Engreitz et al.2014, DOI https://doi.org/10.1016/j.cell.2014.08.018 . Private se
 ## Scope and deferred originals
 
 One associated manuscript original was chemistry-read within the cap. Complete final-published applicability remains unverified. Actual named Supplemental Experimental Procedures DOCX, sequence tables and other SI links are recorded as gated originals in the review; no absent-oligo conclusion is made. The authors' cited RAP protocol at http://www.lncrna.caltech.edu/RAP and Engreitz2013 precursor are direct deferred targets, not an imported recipe. Source guard can only evaluate represented exact molecules; these full probe/library polymers remain unassembled. No private schematic, finished-page marker or two-reader missing-information conclusion.
+
+## Bounded unlinked-page adjudication (2026-10-30, batch24)
+
+The graph now treats AMT/PBS, DSG, formaldehyde and TRIzol as physical molecular contributions, with operating environments separately declared. The source 2 µg purified RNA is allocated before capture; any untransferred stock has an unresolved amount and fate. This does not assert a known initial stock volume or recover a gated cleanup recipe. Source 15 pmol capture probes remain an unassembled pool. Positive RT and probe-PCR component classes come from aggregate actual supplies: the decomposition is bookkeeping, not evidence of one premixed stock, exact identities, quantities or an addition schedule. Original RNA and reaction companions remain present until physical workup.
+
+The required `pending` source item is unchanged and uncovered: associated-manuscript applicability to the final publication, full procedures/probe tables, author protocol/predecessor and full library/read assembly remain unresolved. No public page or missing-information claim follows from these contributor corrections.

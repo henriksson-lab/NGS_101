@@ -31,3 +31,10 @@ UNG37°C15min then98°C10min precedes addition of Phusion,98°C2min and18PCRcycl
 ## Remaining work
 
 Historical complete adapter/primer polymers, second-strand nucleotide formulation and replacement geometry, actual tail reagent, UNG/heat/Phusion products and run-primer landing remain unassembled. Main reference49, Parkhomchuk et al.2009 DOI10.1093/nar/gkp596, is a cited precursor not followed under the cap; no whole-recipe import. Source reagents and other linked originals, residual recovery and independent source review remain open. All selected originals are available; there is no new manual retrieval request merely for unassigned experimental values. This remains a private incomplete operational model.
+
+
+## Bounded publication review — 2026-10-30
+
+S9.6 is an actual molecular binding partner, not an enzyme catalyst. The final source 12 µL eluate is explicitly allocated into separate 1 µL Qubit and 1 µL Bioanalyzer analytical fractions plus a 10 µL sequencing stock. Analytical aliquots do not return to the library. A selected contribution from that sequencing stock reaches the physical library handoff, with an untransferred stock remainder; loading volume and multiplex membership remain unassigned. The literal reviewed source inventory replaces graph-generated coverage, while original required item `unreviewed_geometry` remains unchanged and uncovered. The source 0.5 mg proteinase K versus 2.5 µL of 20 mg/mL (0.05 mg), 200 ng/mL sonication versus 100 µL/20 µg RNase-I input, and printed ATP in the Add-A step remain unresolved rather than silently repaired. The printed index windows ACAGTG(A), GCCAAT(A), CTTGTA(A), and GTGAAA(C) retain their parenthesized seventh base and do not establish whole adapters or acquired index-cycle counts. Historical buffers, primer/adapter/UNG-product geometry and cited precursor applicability remain source/model obligations; this graph remains private.
+
+This capped pass accepts no missing-information claim and adds no new originals. Source identity and inspected original locations are recorded in the source-review checklist.

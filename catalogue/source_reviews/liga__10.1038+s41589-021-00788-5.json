@@ -8,7 +8,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-021-00788-5/MediaObjects/41589_2021_788_MOESM53_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published SI cover identity and SupplementaryFig1\u20133 captions1573\u20131602; glycosylation/viability experiments only"
+      "inspection_scope": "Published SI cover identity and SupplementaryFig1–3 captions1573–1602; glycosylation/viability experiments only"
     },
     {
       "id": "source2",
@@ -16,7 +16,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8380037.1/PMC8380037.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Associated accepted manuscript (manifest author manuscript true), Methods1.8\u20131.15 lines179\u2013243; operational production and selected CD22 ProteinG capture route, not established whole-VOR equivalence"
+      "inspection_scope": "Associated accepted manuscript (manifest author manuscript true), Methods1.8–1.15 lines179–243; operational production and selected CD22 ProteinG capture route, not established whole-VOR equivalence"
     }
   ],
   "bounded_checks": [
@@ -26,16 +26,30 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Published-first bounded source-local partial model; no absence audit or whole-version equivalence claim",
-      "locations": "Published SI cover identity and SupplementaryFig1\u20133 captions1573\u20131602; glycosylation/viability experiments only; Associated accepted manuscript (manifest author manuscript true), Methods1.8\u20131.15 lines179\u2013243; operational production and selected CD22 ProteinG capture route, not established whole-VOR equivalence",
+      "locations": "Published SI cover identity and SupplementaryFig1–3 captions1573–1602; glycosylation/viability experiments only; Associated accepted manuscript (manifest author manuscript true), Methods1.8–1.15 lines179–243; operational production and selected CD22 ProteinG capture route, not established whole-VOR equivalence",
       "findings": "Positive selected-source operations/components retained; unknown exact molecular geometry and linked-source coverage remain explicit.",
       "deferred": [
         "Published main final Methods or version equivalence of selected accepted-manuscript operations",
         "Published detailed Supplementary Methods with production, binding and PCR thermal/primer details; printed final SI inspected only in selected figure-caption scope",
-        "Full source silent-genome sequences, barcoded PCR primer bodies/site geometry and barcode\u2192glycan dictionary mapping; additional plate/cell/lectin branches",
+        "Full source silent-genome sequences, barcoded PCR primer bodies/site geometry and barcode→glycan dictionary mapping; additional plate/cell/lectin branches",
         "Genetic construction/manufacturing route and cited direct predecessors remain unassembled; separate viability condition variant not merged"
       ],
       "verification": "Local 10 behavioral/transcription checks and private build pass. Combined three-protocol guard:7 checked,0failed,1explicit A1 table-extraction exemption,3unassembled ProteinSeq inputs. Pairing0problems;chemistry0established41unresolved0contradictory. Schema check passes. No complete reaction/source validation claimed.",
       "oligo_scraper": "Mandatory full bundle scraper completed; relevant original pointers verified, uninspected hits not adopted."
+    },
+    {
+      "round": "unlinked-pages-batch23",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed existing-original pass; bounded private physical/molecular corrections, no acquisition, complete source review or accepted absence.",
+      "locations": "Exactsourceidentities/sections /tmp/unlinked-targeted33-preflight.json andcounter /tmp/unlinked33-source-counts.json. LiGAAMMethods1.8–1.15 andpublishedSIselectedcaptions; reportingformidentityonly. Methyl-SNPpublishedmain148–164 andpublishedSIprotocol352–491 steps1–7.",
+      "findings": "LiGA remains an actual NGS-positive source-qualified phage selection, not a construct-only substitute. DBCO-NHS and glycan-azide are molecular reagents in source chemical transformations. Actual clone and indexed-PCR pools now have selected own contributions, stock remainders and distinct other source contributions rather than one-product relabelling. Prepared CD22/ProteinG beads are a physical selection reagent. The source2ulof30ul titer allocation is an actual split with unresolved later disposition, without invented storage; the residual source preparation is heated and the actual25ulsupernatant is preserved separately from residues. Phusion PCR is an actual DNA-producing step with source forward/reverse primer classes,1Uenzyme,50uMeachdNTP and buffer/Mg functions from actual aggregate supplies; whole bodies/cycling remain unassembled. MALDI/agarose/Qubit analytical aliquots remain separate from production. Selected final loading retains untransferredDNAstock. Fixed independently reviewed source targets replace runtime graph-enumerated coverage. The fullVOR/detailedPCR/genome/primer/source-mapping obligation remains uncovered; the publisherMOESM54 is only a ReportingSummary, not an inaccessible chemistry protocol. No public promotion.",
+      "deferred": [
+        "Realfinalmain/detailedSupplementaryMethods applicability and fullgenome/barcode/primer/sourcegeometry remainunreviewed/unassembled. Currentprivatebuilder also uses forbiddenruntime tuple(graphmaterials)+tuple(graphsteps) coverage, not actualsourceinventory. PositiveAMNGS workflow doesnotwaive existing broaditem. MOESM54reportingform doesnot satisfy referredPCRprotocol; actualdetailedSupplementaryMethods mapping remainsunresolved, not a declaredunavailabledocument."
+      ],
+      "oligo_scraper": "Mandatoryclosed-pass /tmp/unlinked33-liga-scraper.log; no new oligo body adopted from scraper alone.",
+      "verification": "15 focusedchecksPASS; sourceprivatebuild/render/pairingPASS. Combinedsourceguard1exact/0failed/2externalunknownstates; producedunknownLiGAPCRprimerfunctions andmethyladapter/optionalprimer classes also remainunassembled outsideexternalguard. Chemistry59unresolved/0contradictory; requireditems preserved."
     }
   ],
   "linked_information": {
@@ -46,7 +60,7 @@
   "pending_sources": [
     "Published main final Methods or version equivalence of selected accepted-manuscript operations",
     "Published detailed Supplementary Methods with production, binding and PCR thermal/primer details; printed final SI inspected only in selected figure-caption scope",
-    "Full source silent-genome sequences, barcoded PCR primer bodies/site geometry and barcode\u2192glycan dictionary mapping; additional plate/cell/lectin branches",
+    "Full source silent-genome sequences, barcoded PCR primer bodies/site geometry and barcode→glycan dictionary mapping; additional plate/cell/lectin branches",
     "Genetic construction/manufacturing route and cited direct predecessors remain unassembled; separate viability condition variant not merged"
   ]
 }

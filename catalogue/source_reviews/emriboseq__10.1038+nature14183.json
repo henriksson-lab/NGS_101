@@ -97,5 +97,14 @@
       "oligo_scraper": "Mandatoryfull-bundlescraperoutputread;hitsvalidatedagainstsourcecontext. HydEnTable1rendered. Damagezero-hitsnotabsenceevidence;relevantSIunavailable.",
       "verification": "5source-transcriptionchecks;sourceguardtrp1-topEnglishphosphorothioateexceptiontestedstrictlyandbackedbylocalverbatimcheck;2IonemPCRprimersunrepresented;pairing/buildpass."
     }
-  ]
+  ],
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_4",
+    "date": "2026-10-30",
+    "type": "bounded_publication_scope_not_absence_pass_2",
+    "documents": 1,
+    "scope": "One existingacceptedPMC4374164 XMLoriginal re-inspectedMethods149–159/printedoligos/sourceIonreadout. No finalVOR/laterEndoSeq/vendor/PPT/sourceacquisitionexpansion. Sourcepassclosed.",
+    "changes": "Source-knownmolecularsupplies/selectedDNA/QC/knownparent3primeblockretention andnewcopylimits/PhusionFLASHsamepreparedstockNTs/OneTouchinventoryexplicit; literalreviewedtargetlists. Usefulpublicpagewithactualsourcecaveats.",
+    "verification": "14focusedPASS including5wholemodifiedsourceoligos; sourceguard3exact0failed1narrowEnglishPSformattingexception/3unassembledinputstates; chemistry29steps4localrelationestablished30unresolved0contradictory; pagebuild/pairing0/normalpublicationgatepasses."
+  }
 }

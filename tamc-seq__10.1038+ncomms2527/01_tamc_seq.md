@@ -35,3 +35,10 @@ Availablepublishedsupplements were read where stated; failedPMC aliases and supe
 ## Local validation
 
 Privategraph-onlyimplementation; no page builder or completionmarker. Focusedtests cover selected chemical identity/copying/fates. Fullhistoricalmolecular/end/readgeometry remains unassembled. Exact sequenceguard results and independent critical review will be recorded in the source-review JSON.
+
+
+## Bounded publication review — 2026-10-30
+
+The actual preblock β-GT/ordinary UDP-glucose contributions are explicit, followed by the same coupled trapping reaction receiving actual mTet1, β-GT and UDP6N3-glucose. This does not create a sequential TET-only oxidation branch. DBCO-disulfide-biotin and the locally specified 100mM DTT in 50µL release solution are physical molecular inputs distinct from incubation conditions; the released thiol-linker remnant remains on DNA until actual workup. The selected 25ng captured-DNA contribution for library production now has an untransferred stock remainder, without normalizing recovery. Bioanalyzer analytical material remains separate from production. A selected loading contribution and retained stock remainder feed an actual noncovalent pool with the source 1% PhiX control contribution. The dedicated PhiX control lane remains a distinct source control outside this selected sample-lane graph. PhiX is not a genomic extension, sample identifier or invented exact control polymer. Three captures and the separate unenriched input are not cloned into an asserted physical study pool. Original `pending` C1/manual/Illumina genomic-ChIP library obligations remain exact and uncovered; none of these physical corrections establishes full historical library or read geometry.
+
+No additional originals were read or acquired during implementation. This capped pass accepts no missing-information claim. Existing full source obligations prevent publication.

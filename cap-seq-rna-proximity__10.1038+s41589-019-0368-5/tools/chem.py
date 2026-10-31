@@ -14,10 +14,12 @@ def clean(g,key,x,procedure):
     waste=g.product(key+'_separated','Actual separated source workup fractions; no ideal molecular partition assumed',K.WASTE)
     g.react(key,procedure,S.CLEANUP,((x,R.TEMPLATE),(reagent,R.CONDITION)),(out,waste));g.discard(waste,'Actual source physical workup only.');return out
 
-def op(g,key,x,label,kind,*,reagent=None,catalyst=False,product=None,reason='',changes_molecule=True):
+def op(g,key,x,label,kind,*,reagent=None,catalyst=False,product=None,reason='',changes_molecule=True,molecular=False):
     ports=[(x,R.TEMPLATE)]
     if reagent:
-        stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.CONDITION);ports.append((stock,R.CATALYST if catalyst else R.CONDITION))
+        stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.MOLECULAR if molecular else K.CONDITION);ports.append((stock,R.CATALYST if catalyst else R.STRUCTURAL if molecular else R.CONDITION))
+    if molecular and kind in {S.CHEMICAL_CONVERSION,S.CROSS_LINKING}:
+        cond=g.input(key+'_conditions',label+'; sourceconditions, notanotherphysicaldose',K.CONDITION);ports.append((cond,R.CONDITION))
     out=g.product(key+'_product',product or label+'; reaction remnants/carryover remain unassigned',K.MOLECULAR)
     g.react(key,label,kind,ports,(out,),reason=reason,changes_molecule=changes_molecule);return out
 
@@ -41,23 +43,24 @@ class SelectedRNA:
 def protocol_graph():
     g=ProtocolGraph('CAP-seq RNA proximity — published SI Fig16 route',authority=SOURCE,representation='published_instance')
     cells=g.input('cells','Source miniSOG-expressing cells; compartment/probe/illumination conditions for exact sequencing samples unassembled',K.MOLECULAR,primary=True)
-    x=op(g,'photo_label',cells,'Source miniSOG/blue-light/PA photo-oxidative RNA labeling',S.CHEMICAL_CONVERSION,reagent='source miniSOG-expressing cells, blue light and PA; not HaloTag/DBF or APEX',product='Selected PA-conjugated RNA plus oxidized/unmodified/background molecules; productive polymeric adduct identity unassembled')
+    x=op(g,'photo_label',cells,'Source miniSOG/blue-light/PA photo-oxidative RNA labeling',S.CHEMICAL_CONVERSION,reagent='Actual source PA reactiveprobe; miniSOG alreadyincells, nofreshfreephotosensitizer',molecular=True,product='Selected PA-conjugated RNA plus oxidized/unmodified/background molecules; productive polymeric adduct identity unassembled')
     x=op(g,'extract',x,'Source Fig16 RNA extraction',S.MAGIC,reagent='original extraction reagents/partition unreviewed',reason='Preparation order established; exact extraction and remnant/physical separation fates unassembled.')
     x=op(g,'fragment',x,'Source Fig16 RNA fragmentation BEFORE click conjugation',S.FRAGMENTATION,reagent='source RNA-fragmentation conditions unreviewed',product='Fragmented modified/unmodified RNA and reaction remnants; no exact sizes/termini assigned')
-    x=op(g,'click',x,'Source biotin-azide conjugation of extracted fragmented alkynyl RNA',S.CHEMICAL_CONVERSION,reagent='source click chemistry, exact sequencing-sample conditions unassembled',product='Selected clicked-biotin RNA adducts, residual PA/unmodified RNA and free reagent/products retained')
+    x=op(g,'click',x,'Source biotin-azide conjugation of extracted fragmented alkynyl RNA',S.CHEMICAL_CONVERSION,reagent='Actual source biotin-azide/click molecularsupplies; exactsequencing-sampleconditions/packagingunassembled',molecular=True,product='Selected clicked-biotin RNA adducts, residual PA/unmodified RNA and free reagent/products retained')
     beads=g.input('beads','Source streptavidin-coated beads',K.SELECTION)
     bound=g.product('bound','Source biotin-associated RNA fraction plus possible nonspecific/carryover species',K.MOLECULAR);other=g.product('capture_other','Source nonselected companion fraction; exact further workup/disposal unassembled',K.MOLECULAR)
     g.react('capture','Source Fig16 streptavidin enrichment',S.AFFINITY_CAPTURE,((x,R.TEMPLATE),(beads,R.SELECTION)),(bound,other));g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,'No uninspected washing/disposal recipe assumed.'))
-    fa=g.input('formamide','Source95%formamide elution, time/temperature unreviewed',K.CONDITION)
+    fa=g.input('formamide','Actual source95percentformamide eluent; time/temperatureunreviewed',K.MOLECULAR)
     eluate=g.product('eluate','Source eluted RNA-containing preparation; exact adduct/bead/ligand partition unassembled',K.MOLECULAR);residual=g.product('residual','Companion bead-associated material after source elution; possible residual RNA/remnants',K.MOLECULAR)
-    g.react('elute','Source Fig16 formamide elution',S.MAGIC,((bound,R.TEMPLATE),(fa,R.CONDITION)),(eluate,residual),reason='Reported elution and companion material; exact affinity dissociation, RNA conformation and adduct fate unassembled.');g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,'Source elution does not establish complete RNA recovery or residual disposal.'))
+    g.react('elute','Source Fig16 formamide elution',S.MAGIC,((bound,R.TEMPLATE),(fa,R.STRUCTURAL)),(eluate,residual),reason='Reported elution and companion material; exact affinity dissociation, RNA conformation and adduct fate unassembled.');g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,'Source elution does not establish complete RNA recovery or residual disposal.'))
     primer=g.input('rt_primer','Source RT primer, exact body/member/end unreviewed',K.OLIGO);rt=g.input('rt_enzyme','Source RT enzyme/recipe unreviewed',K.CATALYST)
     cdna=g.product('cdna','Source RNA-derived cDNA plus original RNA/adduct/reagent remnants; copying outcomes unassigned',K.MOLECULAR)
     g.react('rt','Source Fig16 reverse transcription',S.REVERSE_TRANSCRIPTION,((eluate,R.TEMPLATE),(primer,R.STRUCTURAL),(rt,R.CATALYST)),(cdna,))
-    prep=g.input('ngs_reagents','Source NGS library construction details blocked on unreviewed main; not inferred from qPCR/in-vitro validation',K.CONDITION)
+    prep=g.input('ngs_reagents','Actual source-delegated NGS molecularsupplies; identities/packaging blockedonunreviewedmain, notqPCRrecipe',K.MOLECULAR)
     library=g.product('library','Source CAP-seq cDNA library; full ends/strands/primer/run geometry unassembled',K.LIBRARY)
-    g.react('library_boundary','Opaque source NGS library continuation',S.MAGIC,((cdna,R.TEMPLATE),(prep,R.CONDITION)),(library,),reason='SI Fig16 establishes sequencing endpoint; actual downstream original assembly/cleanup/adapters remain unreviewed.')
+    g.react('library_boundary','Opaque source NGS library continuation',S.MAGIC,((cdna,R.TEMPLATE),(prep,R.STRUCTURAL)),(library,),reason='SI Fig16 establishes sequencing endpoint; actual downstream original assembly/cleanup/adapters remain unreviewed.')
     g.sequence(library,SequencingPlan(acquisition='unspecified',limitation='Source Fig16 NGS; exact acquired read roles/cycles/platform and priming sites unassembled.'))
+    g.declare_reviewed_scope(('cells','photo_label_reagent','photo_label_conditions','photo_label','extract_reagent','extract','fragment_reagent','fragment','click_reagent','click_conditions','click','beads','capture','formamide','elute'),SOURCE)
     g.add_source_item(SourceItem('unreviewed_main','Defining main Methods and full original library/readout geometry','https://doi.org/10.1038/s41589-019-0368-5'))
     return g
 

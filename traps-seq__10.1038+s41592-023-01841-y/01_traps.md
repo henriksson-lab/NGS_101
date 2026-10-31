@@ -33,3 +33,11 @@ Component ancestry: no whole CITE-seq or SEC-seq inheritance is declared from en
 ## Validation
 
 Local source transcription and physical branch/state tests are recorded in the source-review JSON. No finished library or full source review is claimed.
+
+## Bounded publication follow-up (2026-10-30)
+
+The required `defining_methods_unread` and `other_sources` items remain uncovered. The inspected published SI supplies a positive antibody–streptavidin covalent-coupling statement (Fig3, printed202–203; extracted658/662), followed by association with biotinylated oligo reporters. That latter association is now typed as physical binding without copied DNA or a new covalent antibody–DNA product. Exact coupling sites, reagents and geometry remain unassembled.
+
+The reporter Table2 original (printedp27; prior PDFp28 locator) was visually rechecked: the wrapped anti-IFNγ barcode1,5′Biotin-TEG and terminal phosphorothioate notation are retained literally. It is not a per-transcript UMI or an automatically assigned pulse code. SI qPCR, FAM-polyT and fluorescence validation are not promoted into core NGS copying or library-production operations. Main capture/pulse/library Methods and full molecular assembly still require review; no opaque captured product becomes sequencing-ready DNA.
+
+One existing published SI original only; no acquisition or new source expansion. Literal limited source-review targets remain distinct from the uncovered main/full-geometry obligations. Private preview and notes status are retained, with no absence claim.

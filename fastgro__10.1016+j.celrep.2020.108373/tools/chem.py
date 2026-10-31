@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,feature
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 class B:
     def __init__(self,title,authority,label):
         self.g=ProtocolGraph(title,authority=authority,representation='published_instance');self.x=self.g.input('source',label,K.BIOLOGICAL,primary=True)
@@ -18,7 +18,7 @@ class B:
         y=self.g.product(key+'_kept','Actual retained source workup fraction; carryover and yield unassigned',K.MOLECULAR);w=self.g.product(key+'_waste','Excluded source workup fraction',K.WASTE)
         self.g.react(key,label,S.CLEANUP,((self.x,R.TEMPLATE),self.cond(key+'_condition',label)),(y,w));self.g.discard(w,'Source workup excludes this fraction; no perfect purification claim.');self.x=y;return y
     def aliquot(self,key,label,qc=False):
-        y=self.g.product(key+'_selected','Actual selected allocation: '+label,K.MOLECULAR);r=self.g.product(key+'_remainder','Untransferred stock; amount and later fate unassigned',K.MOLECULAR)
+        y=self.g.product(key+'_selected','Actual selected allocation: '+label,K.QC if qc else K.MOLECULAR);r=self.g.product(key+'_remainder','Untransferred stock; amount and later fate unassigned',K.MOLECULAR)
         self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(y,r))
         if qc:self.g.mark_terminal(Terminal(y.id,Disposition.QC,label));self.x=r
         else:self.g.mark_terminal(Terminal(r.id,Disposition.UNRESOLVED,'Untransferred stock retained as unresolved, no invented discard.'));self.x=y
@@ -80,7 +80,10 @@ def protocol_graph():
     g.react('library_components','Inventory bookkeeping, not claim of one prepared kit mix or extra fresh stock',S.GENERIC,((kit,R.TEMPLATE),),(ol,other),changes_molecule=False)
     b.op('library_finish','Source NEBNext UltraII Directional barcoded RNA-library preparation; internal molecular recipe unassembled',inputs=((ol,R.STRUCTURAL),(other,R.STRUCTURAL)))
     b.aliquot('loading','Actual NextSeq500 loading allocation; volume/mass unassigned')
-    b.finish('Source selected fastGRO barcoded sequencing library; whole occupied construct unassembled','Published NextSeq500 endpoint; read lengths, primer sites, index values/whole oligos and pooled-sample physical schedule unassembled. No implicit modern kit recipe, RT/PCR cycles or read mask.');return g
+    b.finish('Source selected fastGRO barcoded sequencing library; whole occupied construct unassembled','Published NextSeq500 endpoint; read lengths, primer sites, index values/whole oligos and pooled-sample physical schedule unassembled. No implicit modern kit recipe, RT/PCR cycles or read mask.')
+    declare_page_scope(g)
+    g.cover_source_item(SourceCoverage('protocol_differences','modelled','freeze'))
+    return g
 
 def selftest():
     from checks import Check,Source,have
@@ -105,5 +108,78 @@ def selftest():
     p=sources_root()/Path(__file__).resolve().parents[1].name/'j.celrep.2020.108373_supp_NIHMS1645786-supplement-2.pdf.txt'
     if have(c,Source(p,'https://doi.org/10.1016/j.celrep.2020.108373')):
         t=''.join(p.read_text().split());c('Published identity not onlyAM','November10,2020' in t and 'CellReports33,108373' in t,True);c('Actual final standard HPDP route','200mg/mlEZ-linkHPDPBiotin' in t,True)
-    c('Private incomplete graph',bool(g.publication_problems()),True);c.report()
+    c('Typed publication gate',g.publication_problems(),[]);c.report()
+
+# Curator-written scope from published Methods e3/Results and the qualified
+# detailed-protocol comparison. Never generated from graph inputs/steps.
+def declare_page_scope(g):
+    g.declare_reviewed_scope((
+        'source','pbs_condition','pbs','swell_buffer','swell',
+        'glycerol_wash_condition','glycerol_wash','lysis_supplies',
+        'lysis_conditions','lyse','nuclei_wash_condition','nuclei_wash',
+        'freeze_buffer','freeze','thaw','resident_components',
+        'nro_stock','nro_components','runon','trizol_inventory',
+        'trizol_conditions','trizol','nro_precip_condition','nro_precip',
+        'rna_qubit','rna_transfer','spike_rna','spike','unfragmented_qc',
+        'sonic_settings','sonicate','fragmented_qc','hpdp','bio_buffer',
+        'biotinylate','bio_precip_condition','bio_precip','m280_stock',
+        'm280_wash_buffer','prepare_beads','capture','hot_wash_condition',
+        'hot_wash','rt_wash_condition','rt_wash','dtt','dtt_release',
+        'column_inventory','column_bind','dnase','dnase_buffer','column_dnase',
+        'column_wash_elute_condition','column_wash_elute','enriched_qubit',
+        'library_rna','library_supplies','library_components','library_finish',
+        'loading','load_library','library',
+    ), AUTHORITY)
+
+PAGE_FILE = 'fastgro.html'
+
+def render_page():
+    from page import head,info,caveat,table
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    from chemistry_validation import check_graph,Status
+    g=protocol_graph();g.require_publishable()
+    overview=(
+        '<div class="wrap" data-protocol-complete="true"><h1>fastGRO</h1>'
+        '<p>Label nascent RNA during nuclear run-on, then enrich the thiolated RNA through a reversible biotin linkage. '
+        'The selected standard preparation uses HPDP-biotin and a prepared labelled RNA spike-in.</p>'
+        +info('Source: <a href="https://doi.org/10.1016/j.celrep.2020.108373">Barbieri et al., Cell Reports 33, 108373 (2020)</a>, '
+              'published Methods page e3 and Results. The cited <a href="https://doi.org/10.17504/protocols.io.bbmgik3w">detailed protocol</a> '
+              'was inspected as export ID32136 and remains version-qualified. The low-input MTS-biotin route is separate.')
+        +caveat('This page declares the run-on, label/capture/release chemistry and source sequencing endpoint. '
+                'The historical NEBNext Ultra II Directional kit continuation is explicit but molecularly unassembled: '
+                'whole kit oligos, primer landing, index assignments, internal reaction schedule and exact acquired read lengths are not supplied by this model. '
+                'These are review boundaries, not confirmed publication omissions.')
+        +'<h2>Label, capture and release</h2>'
+        +table(('Stage','Source operation','Chemical meaning'),(
+            ('Run-on','Thawed nuclei + an equal volume of prewarmed NRO buffer; 7 min at 30°C.','Resident engaged polymerase incorporates 4-thio-UTP into RNA; no fresh purified polymerase is added.'),
+            ('Recover and fragment','TRIzol LS extraction, precipitation, prepared labelled RNA spike and sonication.','RNA spike and sample RNA remain molecular inputs; fragment/Qubit allocations are separate QC fates.'),
+            ('Biotinylate','HPDP-biotin, 2 h in the dark at 25°C.','A reversible disulfide links the thiolated uracil class to the biotin-containing reagent. Exact atom map and label occupancy remain unassembled.'),
+            ('Capture','Prepared M280 streptavidin beads; cold binding, hot and room-temperature washes.','Affinity capture retains biotin-associated RNA, without asserting complete purity or recovery.'),
+            ('Release','100 mM DTT, then column purification and in-column DNase.','Reduction cleaves the disulfide adduct. It does not cleave a covalent biotin–streptavidin bond or necessarily restore unmodified uridine.'),
+            ('Library','Source barcoded directional RNA-library preparation and NextSeq500 sequencing.','Historical kit recipe, exact whole oligos and read geometry remain unassembled.'),
+        ))
+        +'<h2>Known run-on inputs</h2>'
+        +table(('Component','Concentration in the added NRO buffer'),(
+            ('ATP / GTP / 4-thio-UTP','500 µM each'),('CTP','2 µM'),('SUPERase-in','200 U/ml'),
+            ('Other listed components','10 mM Tris pH8, 5 mM MgCl₂, 300 mM KCl, 1 mM DTT and 1% Sarkosyl.'),
+        ))
+        +info('These describe the added buffer before equal-volume mixing with nuclei. They are not labelled as final mixed reaction concentrations. '
+              'Whole source-library oligo sequences are unassembled; no canonical Illumina shell is substituted.')
+        +'<h2>Read setup</h2>'
+        +table(('Item','Current declaration'),(
+            ('Instrument','Published NextSeq500 endpoint.'),('Library','Source barcoded NEBNext Ultra II Directional RNA library.'),
+            ('Cycles and indices','Exact read lengths, primer sites, index widths/values and index-read recipe remain unassigned in this model.'),
+        ))
+        +'<h2>Published Methods and detailed-protocol differences</h2>'
+        +caveat('Published Methods use freezing-buffer pH8.3 and 2×10⁷ nuclei per 100 µl. The inspected cited protocol export uses pH8 and '
+                '2×10⁷ per 10 µl in step8, then 100 µl nuclei + 100 µl 2×NRO in step13. Published biotinylation specifies 20 mM Tris, '
+                '2 mM EDTA and 25°C; the export recipe implies 10 mM Tris, 1 mM EDTA and 24°C. This model selects the published Methods values. '
+                'Actual executed values and full revision equivalence remain unresolved. The export’s step58 self-refers to steps57–58; '
+                'the model does not invent an exact second DTT-release schedule. The printed freezing-buffer notation “0.1 mM 0.5 M EDTA” is retained without selecting an intended concentration.')
+    )
+    claims=check_graph(g)
+    audit=('<h2>Molecular validation scope</h2>'+table(('Claim status','Computed count'),tuple((s.value,str(sum(c.status==s for c in claims)))for s in Status))
+           +'<p>The complete graph below retains unresolved molecular transitions, QC allocations, discarded capture fractions and untransferred stock remainders.</p>')
+    return assemble_page(g,[head('fastGRO — nuclear run-on and reversible RNA capture'),overview,audit,WorkflowSection('Complete preparation and material fates'),PlanLimitationSection('library'),'<p><a href="01_fastgro.html">Research note and source comparison</a></p></div>'])
+
 if __name__=='__main__':selftest()

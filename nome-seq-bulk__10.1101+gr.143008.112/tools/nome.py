@@ -147,7 +147,7 @@ def protocol_graph():
                                      limitation='IMR90 source HiSeq2000 single-end76; complete library/run-primer/index geometry unassembled. Separate GBM paired-end50/100 runs are not merged into this plan.'))
     g.declare_reviewed_scope(('nuclei','enzyme_first','sam_first','mark_first','enzyme_boost','sam_boost','mark_boost','stop_reagent','stop',
                              'extraction','extract','fragmentation','fragment','repair_enzyme','repair','adapters','ligation_reagents',
-                             'ligate','bisulfite','convert','kit_workup','workup','forward','reverse','pcr_condition','pcr'), SOURCE)
+                             'ligate','bisulfite','convert','kit_workup','workup','forward','reverse','pcr_condition','pcr','library'), SOURCE)
     g.add_source_item(SourceItem('linked_source_boundaries', 'Nuclear isolation, complete historical adapter/end/library/run geometry and supplemental originals',
                                 'Directly cited Miranda2010/Lister2009/Kelly2010/Berman2012 and publisher supplement index remain unreviewed or blocked.'))
     return g

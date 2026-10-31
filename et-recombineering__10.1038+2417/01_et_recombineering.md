@@ -6,7 +6,7 @@
 
 🟢 The defining abstract identifies homologous recombination using RecE and RecT in *E.coli*, with several target-molecule classes. This source identity is distinct from lambda-Red systems and later ET variants. The full original could not be obtained in the capped pass; the external manifest records the defining DOI as manual retrieval. The primer scraper ran on that bundle and reported zero files, which establishes no sequence-absence claim.
 
-This entry remains **notes**, with a private draft graph. The defining abstract does not establish the substrate geometry chosen below. Original methods, figures, source oligos, reagent implementation and branch identity need inspection before promotion to a source-qualified public schematic. No source method has been reconstructed from another recombineering protocol.
+The experimental1998preparation remains a source hold: the defining abstract does not establish the substrate geometry chosen below. The current page is an explicitly illustrative neutral replacement reference under the construct-example scope, not a reconstructed published experiment. Original methods, figures, source oligos, reagent implementation and branch identity remain unreviewed. No source method is inherited from another recombineering protocol.
 
 ## Illustrative reference
 

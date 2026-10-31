@@ -75,3 +75,23 @@ subject to version/source qualification; it does not license importing all
 inDrop molecular defaults. Gerlach et al. (2019), cited for reversible fixation
 and intracellular profiling, is another component-lineage candidate whose
 original and precise scope remain deferred. CITE/REAP are contextual comparisons.
+
+
+## Source-qualified public preparation, 2026-10-30
+
+The public page declares `published_instance` for the selected source preparation,
+with all unassembled molecular states and material fates left visible. A passing
+typed publication gate does not establish sequence-exact end products or assay
+performance. Source investigation was closed before implementation; no new
+predecessor/vendor source or whole recipe was imported.
+
+The BJAB graph now represents physical encapsulation of cell/bead/RT supplies before DTT reduction and UV primer release. It uses one aggregate droplet collection with unassigned occupancy/multiplicity, plus the continuous emulsion phase carried to actual recovery. No cell/barcode array or exact bead/polymers are fabricated. DSP/SPDP, blocking dextran-sulfate/RNasin, BSA/RNasin suspension, Optiprep, RTinlet and T7/PCR components are explicit source supply views. The actual source PrimeScript enzyme/dNTP/buffer/RNaseOUT additions remain separately typed stocks rather than an invented premix; second-strand buffer is distinct from the source enzyme supply. Both0.6x fractions continue. Source10uL protein backup,0.5uL qPCR versus9.5uL final-PCR templates, final QC selections, joint library-pool contributions and untransferred library/pool remainders remain separate. The qPCR analytical continuation is explicitly unresolved, with its separate source KAPA/EvaGreen/primer setup noted; it is not returned to the library.
+
+The rendered published TableS3 has a32-base PE2 arm plus five printed Ns (37characters), although the primer is named PE2-N6/randomhexamer and its length column says38. The model preserves the printed fiveNs and does not claim effective priming geometry or manufactured order. Protein IVT Methods also call the nucleotide supply “dNTP” while listing ATP/CTP/GTP/UTP: listed ribonucleotides are preserved with the wording conflict visible. Source RNAIVT37C and proteinIVT50C remain separate, and the printed RT10nM dNTP wording is not silently changed.
+
+The current source scope remains two published originals: main PMC9017125 STARMethods281–327 and mmc1 TableS3 originalPDFp14/printed13. Prepared antibody-DNA conjugates are explicit source inputs; detailed upstream manufacture and full bead/tag/promoter/read geometry remain outside this graph.
+
+Mandatory bundle scrapers ran during the closed read-only preflight. Literal curator
+inventory targets were updated without graph enumeration. Research notes and source
+checklists retain deferred linked originals; no accepted absence claim or complete
+chemistry/source audit is asserted.

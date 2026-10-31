@@ -29,3 +29,7 @@ The abstract and Methods heading call this “proximity ligation.” Figure 1 an
 ## Open scope
 
 Kit originals, reference 20 treatment details, original read-primer landing and full library molecules are unreviewed. Table S8 validation reagents are not merged into production. Crosslinking and RNase R enrichment do not prove exclusive direct interactions or complete removal of linear RNA. No barcode/UMI meaning is invented.
+
+## Public preparation page
+
+The source-qualified page now has a validated protocol graph with explicit source inventories and correctly typed QC allocations. It shows the source-supported preparation and read setup while retaining unresolved kit bodies, occupied molecular states and complete read geometry. Full workflow fractions and chemistry limitations remain visible in an expandable section. The publication gate does not establish a complete molecular reconstruction or an absence audit.

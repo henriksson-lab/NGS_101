@@ -25,3 +25,13 @@ SSIV uses a **barcoded RT primer**, original body/identifier arrangement still u
 ## Ancestry and limits
 
 SourceMethods181/201/217 explicitly adapts or cites actual TNA extraction, ligation and PCR predecessors1/2/3. Their exact versions/components remain unreviewed; no PARIS/CLIP recipe is imported by endpoint resemblance. PARIS/CLIP integration in7SK validation is not imposed on every SHARC library. No full-publication promotion, two-reader absence audit or accepted missing-information claim.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Published main175–217 supplies actual DPI, RNaseIII/Mn/buffer, RNaseR/ATP/buffer, proximity-ligation ATP/SuperaseIn/buffer, adapter-ligation DMSO/PEG/DTT/SuperaseIn/buffer, free-adapter-digest buffer/inhibitor and RT/circularization co-components. The model now separates these physical molecular, catalyst and buffer classes rather than hiding co-present nucleotides inside enzyme labels. Aggregate reagent inventories are bookkeeping with unassigned packaging/stock count, not undocumented premixes or duplicate fresh doses.
+
+RNA,1pmol barcoded primer and1ul10mM dNTPs enter the source65C5min/ice preparation before SSIV, Mn buffer, DTT and SuperaseIn. RT consumes this mixture without a new primer/dNTP addition. CircLigaseII, actual1ul50mM MnCl2 and buffer are separate supplies. Source-delegated PCR now has generic positive primer, catalyst, nucleotide and buffer functional classes; no exact reference3 recipe, primer body, nucleotide composition or cycle count is borrowed. Known selected PCR-DNA library kind survives native-gel recovery.
+
+Actual source rApp/physical terminal ddC, chemical-bridge-versus-RNA-junction distinction and P4P6 paired fractions remain intact. In-vivo0/5/12.5/25mM concentrations are distinct source experiments; the generic trace does not assign one actual dose or represent them as a mixture. Full concentration/control producers and quantitative stock/QA allocations remain unresolved scope. MiSeq remains qualified to P4P6; no cycles or in-vivo platform are invented.
+
+The original pending predecessor/barcoded-RT/circle/PCR-source item remains required and uncovered. No graph-generated source coverage, complete library geometry, absence claim or endpoint-only promotion is used. No PAGE_FILE/page builder exists, and none is introduced for this incomplete model.

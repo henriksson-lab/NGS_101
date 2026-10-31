@@ -25,3 +25,31 @@ Source P5G10: AATGATACGGCGACCACCGAGAtctACACTCTTTCCCTACACGACGCTCTTCCGATCTGGGGGGGG
 🟢 The ILM filter expects Read1 startingG10 and Read2 startingT12; the SSB call is the first base after Read2'sT12. Internal-priming, mapping and untailed-control filtering occur after sequencing. The Helicos-specific fill-and-lock one-base correction belongs to SMS, not this Illumina branch. Free3′OH capture is not an exclusive biochemical classifier of all SSB origins.
 
 🟡 Private partial states preserve MNase3′P ends, native3′OH/polyA/ddN history, chimeric linear products and polyC history. Exact primer/template assemblies, RNA/DNA copying details, tail-length distributions and run/index geometry remain deferred; source-positive whole primer sequences are not proof of every molecular transition. Source-associated Helicos preparation/readout is not imported. No finished marker or completed missing-information review is claimed.
+
+## Bounded material corrections; mixed-sugar assembly hold retained
+
+The closed-source implementation adds the actual fragmented-DNA analytical
+allocation, 100 ng tailing input and untransferred stock. Source 16.2 µl and
+15.2 µl eluates are retained as entire downstream transfers, and the final
+20 µl library eluate has distinct Qubit analytical, loading and stock fates.
+Fresh dATP/dCTP/ddNTP additions and linear/PCR nucleotide/buffer components
+remain physical inputs. The A-tail TdT is carried into the following ddNTP
+cap, and the C-tail TdT into the ddCTP cap; neither cap adds an invented fresh
+enzyme dose.
+
+The free primer now explicitly preserves 53 thymine nucleotides with separate
+sugar tracts: fifty 2′-deoxyriboses followed by three riboses. The terminal
+residues are ribothymidines, not RNA U or ordinary DNA T. Its RNA-ended 3′OH
+is not chemically erased merely because the source describes free-primer
+resistance to TdT. A narrow quantified-source-format exception covers the
+prose `oligo-d(T)50-r(T)3`; local checks verify the physical backbone and sugar
+tracts rather than flattening the primer to DNA to satisfy the source matcher.
+
+Ten focused checks, private build, source guard and pairing pass. The original
+`remaining_source_and_assembly` item remains unchanged and unmet. In particular,
+the actual million-nucleus aliquot array and parallel no-MNase HMW preparation,
+remaining SI scope and full mixed-sugar copying/tail/anchored-primer/read
+assembly are not completed by these contained corrections. Unknown genomic
+sequence alone is not the blocker. An opaque final product cannot cover that
+actual molecular/source obligation; no completion marker or promotion is added.
+No new originals or accepted absence claim follow from this bounded attempt.

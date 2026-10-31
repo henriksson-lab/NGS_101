@@ -68,5 +68,64 @@
       "oligo_scraper": "/tmp/puseq12-canonical-oligos.log; mandatory wholebundle scan returned0hits; no sequenceabsenceconclusion.",
       "verification": "21localchecks(6eSPAN/7SNS/8Pu)passed;3privatebuilds/scopeddocs and pairing0problems. Sourceguard0checked/0failed,3Puinputswithout exactstates;notexactoligovalidation. Chemistry0established/30unresolved/0contradictory. Fourfetchsessions35603/79241/9946/66750 terminalexit0; externalcachepreserved; noacquisitionrunning."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 2,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/pu-seq__10.1038+nsmb.2962/nsmb.2962_PMC4789492.xml.txt",
+        "version": "Associated author manuscript EMS61634, final-VOR applicabilityunverified",
+        "sections": "Identity1\u20135; Methods105\u2013119, entire115libraryproduction and119analysis",
+        "scope": "Actual20ug\u219210uggel\u2192100ngdUTPcopy\u2192all20\u201360ngpostQA\u2192NEBNext/delayedUSER/13PCR/PEreadout. Separategenotypes remain independentinputs, no biochemicalpoolbyanalysisnormalization."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/pu-seq__10.1038+nsmb.2962/nsmb.2962_41594_2015_BFnsmb2962_MOESM16_ESM.pdf.txt",
+        "version": "Published SI DOIheader original",
+        "sections": "OpeningFig1caption1\u201310/Fig2heading13\u201314; Table2/3headinglocators46/208",
+        "scope": "Publishedsourceidentity/resultstablecontext only, nothistoricalkit/libraryrecipe; associatedSI not reopened or assumed equivalent."
+      }
+    ],
+    "scope": "Actual20ug\u219210ug\u2192100ng\u2192separateQA\u2192ALL20\u201360ng NEBNextinput; NaOH/copy/USER/PCRsupplies explicit, no postQAinputremainder or dUTPPCRrecipe invented; historical_assembly item retained.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'historical_assembly' is not accounted for",
+      "graph input/step 'adapter' has no source-inventory item",
+      "graph input/step 'alkali' has no source-inventory item",
+      "graph input/step 'alkali_stock' has no source-inventory item",
+      "graph input/step 'cells' has no source-inventory item",
+      "graph input/step 'copy' has no source-inventory item",
+      "graph input/step 'copy_cleanup_condition' has no source-inventory item",
+      "graph input/step 'copy_cleanup_step' has no source-inventory item",
+      "graph input/step 'copy_components' has no source-inventory item",
+      "graph input/step 'copy_input' has no source-inventory item",
+      "graph input/step 'copy_qa_allocations' has no source-inventory item",
+      "graph input/step 'copy_supplies' has no source-inventory item",
+      "graph input/step 'end_clean' has no source-inventory item",
+      "graph input/step 'end_clean_stock' has no source-inventory item",
+      "graph input/step 'extract' has no source-inventory item",
+      "graph input/step 'extract_stock' has no source-inventory item",
+      "graph input/step 'gel_condition' has no source-inventory item",
+      "graph input/step 'gel_input' has no source-inventory item",
+      "graph input/step 'gel_step' has no source-inventory item",
+      "graph input/step 'hydrolysis_input' has no source-inventory item",
+      "graph input/step 'insert_selection_condition' has no source-inventory item",
+      "graph input/step 'insert_selection_step' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'library_condition' has no source-inventory item",
+      "graph input/step 'library_step' has no source-inventory item",
+      "graph input/step 'ligase' has no source-inventory item",
+      "graph input/step 'ligate' has no source-inventory item",
+      "graph input/step 'naoh' has no source-inventory item",
+      "graph input/step 'pcr' has no source-inventory item",
+      "graph input/step 'pcr_components' has no source-inventory item",
+      "graph input/step 'pcr_supply' has no source-inventory item",
+      "graph input/step 'primer_forward' has no source-inventory item",
+      "graph input/step 'primer_reverse' has no source-inventory item",
+      "graph input/step 'user' has no source-inventory item",
+      "graph input/step 'user_stock' has no source-inventory item"
+    ],
+    "verification": "NEAT17PASS/Pu14PASS; both privatebuilds, actualHTML incomplete/no completionmarker; guard0checked0failed4externalunknown0exceptions (produced knownstates outsideexternalguard, sourcefixturechecks separate); chemistry47+18unresolved0contradictory; pairing0."
+  }
 }

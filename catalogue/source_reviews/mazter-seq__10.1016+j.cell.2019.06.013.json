@@ -1,6 +1,6 @@
 {
   "dir": "mazter-seq__10.1016+j.cell.2019.06.013",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "vor",
@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "round05_coordinator",
         "date": "2026-10-28",
-        "locations": "Identity1–35; Results188–219; limitations2755–2784; oligo referrals3148–3183; Methods3330–3376; bias-assay context3377–3386; read/efficiency3464–3486",
+        "locations": "Identity1\u201335; Results188\u2013219; limitations2755\u20132784; oligo referrals3148\u20133183; Methods3330\u20133376; bias-assay context3377\u20133386; read/efficiency3464\u20133486",
         "finding": "Published no-IP route represented with selected ACA scission and uncut RNA retained; RNA/cDNA hybrid persists through ExoSAP; hydrolysis products persist until cleanup. TableS7 polymers/end geometry and full readout unassembled."
       },
       "pass_2": null
@@ -34,7 +34,7 @@
     "pass_1": {
       "reviewer": "round05_coordinator",
       "date": "2026-10-28",
-      "locations": "Identity1–35; Results188–219; limitations2755–2784; oligo referrals3148–3183; Methods3330–3376; bias-assay context3377–3386; read/efficiency3464–3486",
+      "locations": "Identity1\u201335; Results188\u2013219; limitations2755\u20132784; oligo referrals3148\u20133183; Methods3330\u20133376; bias-assay context3377\u20133386; read/efficiency3464\u20133486",
       "finding": "Published no-IP route represented with selected ACA scission and uncut RNA retained; RNA/cDNA hybrid persists through ExoSAP; hydrolysis products persist until cleanup. TableS7 polymers/end geometry and full readout unassembled."
     },
     "pass_2": null
@@ -42,11 +42,11 @@
   "missing_claims": [],
   "pending_linked_targets": [
     {
-      "locator": "Published Table S7, referred from STAR Methods e3–e4 and resource-table Oligonucleotides; attachment URL unresolved; publisher index https://www.sciencedirect.com/science/article/pii/S0092867419306762",
+      "locator": "Published Table S7, referred from STAR Methods e3\u2013e4 and resource-table Oligonucleotides; attachment URL unresolved; publisher index https://www.sciencedirect.com/science/article/pii/S0092867419306762",
       "scope": "Exact library adapters/primers/barcodes and IVT controls."
     },
     {
-      "locator": "Imanishi et al.2017, Detection of N6-methyladenosine based on the methyl-sensitivity of MazF RNA endonuclease, Chem.Commun.53:12930–12933; defining article reference list",
+      "locator": "Imanishi et al.2017, Detection of N6-methyladenosine based on the methyl-sensitivity of MazF RNA endonuclease, Chem.Commun.53:12930\u201312933; defining article reference list",
       "scope": "Directly cited chemical predecessor, uninspected within cap."
     },
     {
@@ -63,7 +63,7 @@
     "RNA end chemistry, optional IP/calibration branches and independent linked-source review.",
     "Printed synthetic calibration lengths88nt(Results) versus103nt(IVT Methods); no selection made; TableS7 comparison deferred."
   ],
-  "conclusion": "Bounded partial review; no confirmed absence, no second independent reader, no source-complete or molecular validation claim.",
+  "conclusion": "Bounded source/model hold; no accepted absence claim or guessed unavailable workbook.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-05",
@@ -71,13 +71,28 @@
       "date": "2026-10-28",
       "documents": 1,
       "scope": "Defining VOR with printed STAR Methods and integrated figure captions; exact original sections stated. No recursive source following.",
-      "locations": "Identity1–35; Results188–219; limitations2755–2784; oligo referrals3148–3183; Methods3330–3376; bias-assay context3377–3386; read/efficiency3464–3486",
+      "locations": "Identity1\u201335; Results188\u2013219; limitations2755\u20132784; oligo referrals3148\u20133183; Methods3330\u20133376; bias-assay context3377\u20133386; read/efficiency3464\u20133486",
       "findings": "Published no-IP route represented with selected ACA scission and uncut RNA retained; RNA/cDNA hybrid persists through ExoSAP; hydrolysis products persist until cleanup. TableS7 polymers/end geometry and full readout unassembled.",
       "deferred": [
         "TableS7 attachment identity and chemistry",
         "Cited MazF predecessor/optional IP methods",
         "Exact library/readout assembly and second reader"
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "One DOI-qualified institutional published PDF; not complete linked-source/absence review.",
+      "locations": "STAR Methods3330\u20133378: selected mRNA/MazF/barcoding/no-IP library, plus distinct IVT/IP context.",
+      "findings": "Repeated TableS7 polymer referrals and actual SSIII/ExoSAP/alkali/cDNAadapter/PCR/QA/NextSeq route verified. Actual table_s7 requirement preserved.",
+      "deferred": [
+        "Identify and read actualTableS7 library/IVT oligos; original attachment identity remains unresolved.",
+        "Source-local physical stock/pool/QC/loading and final adapter/primer/read geometry; directly cited chemistry and remaining control scope."
+      ],
+      "oligo_scraper": "Repeated /tmp/unlinked10-mazter-scraper.log; library source paragraph independently read, validation/sequence-bias hits not substituted.",
+      "verification": "Module unchanged; requiredtable_s7 and no sequencingterminal retained. Source-review schema and gate checked independently by coordinator."
     }
   ],
   "superseded_sources": [
@@ -96,5 +111,6 @@
     "scope": "Independent code/order review against already inspected source sections, not an absence audit or new source investigation.",
     "findings": "Added omitted source thermal operation: RNA+3iLL heat/snap-cool before MAZTER ligation; first pre-FTO heating distinct from second pre-MazF heating in m6A-REF. Explicit unreviewed adapter-end state replaces an unsupported not-reported placeholder.",
     "verification": "Local suites6/7pass; both private pages rebuilt without finished marker."
-  }
+  },
+  "blocking_condition": "Required table_s7 remains: source explicitly refers exact3iLL/rTd/5iLL-22/PCR-F/R library polymers to actualTableS7. Published supplementindex has recorded403; exact workbookattachment identity remains unresolved, no guessedfailedURL or universalinaccessibility/absenceclaim. Source-positive main library stages do not supply that exact-polymer scope; pool/stock/QC/loading and rungeometry remain unassembled."
 }

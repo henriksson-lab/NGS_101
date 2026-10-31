@@ -38,3 +38,9 @@ Manifest wording such as “probably redundant” is a fetcher hint, not an iden
 ## Validation
 
 Protocol-owned `tools/chem.py` has a zero-argument graph and focused state/fate checks. It is an incomplete graph-only implementation, with no public page or completion marker. Source-known late operations/acquisition are retained; unassembled adapters, modifications and fates are not inferred from other families.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Associated manuscript76/80 identifies β-glucosyltransferase, UDP-6-N3-Glu and cyclooctyne-biotin compound1 as actual chemical contributors. The genomic graph now separates the glycosyl donor as a molecular reagent from the β-GT catalyst, and exposes compound1 as the molecular click reagent rather than a condition. Genomic doses, actual packaging, transferred fractions and full chemical products remain unassembled. The separate 11mer validation's enzyme fractions, reaction times and yield are not assigned to genomic DNA. No actual new reaction or bench condition is supplied by the inventory correction.
+
+The actual online-Methods/library SourceItem remains uncovered. Source multiple biological samples/libraries, input and regular-UDP-Glu controls stay distinct obligations; no one-product array, modern library kit, HeLa recovery procedure or later disulfide-cleavage route is substituted. Typing an opaque boundary as a library would not establish its complete producer. The source pass remains closed on the associated main74–106 and selected published supplement synthesis/validation contexts, with source-version limits retained. No new original or access request, source-absence conclusion, public page or completion marker is introduced.

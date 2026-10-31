@@ -1,6 +1,6 @@
 {
   "dir": "clicktags-fixed-cell-original__10.1038+s41587-019-0372-z",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "figures",
@@ -59,6 +59,23 @@
       ],
       "verification": "After independentreview fixes:local27checks passed(Click6,RAID9,CRISP12);threepreviewsbuild;sourceguard4checked0failed0exemptions;pairing0;chemistry0established26unresolved0contradictory. RAID RNA marker usesU;CRISP consumedreagent carries5P/3C3;localunreviewedgeometry makes no source-absence claim.",
       "oligo_scraper": "Mandatory standard bundle scraper run; pointer hits verified only in stated original scope. CRISP rerun after mainPDFdownload; Clickactualsequenceunassignedinsourceassay, inventoryseparate."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-sourcehold-12",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Bounded read-only preflight then documentation-only source/producer-hold adjudication; no model/coverage change or absence audit",
+      "locations": "PublishedMOESM1SuppFig1originalPDFp2/caption +Fig2kITEworkflowcaption; MOESM4modifiedoligoinventory originalXLSXZIP/XML BC21and3primeaminevariants; MOESM2originalPDFp1identityverified ReportingSummary, notbenchMethods. Mainpublishedbody unavailable locally, no submittedCaltech/preprintbody adopted.",
+      "findings": "Required unassembled_source remains unaccounted. The onlymodelledproducer is MTZ-DNA/TCO-Cy5fluorescent activityassay, not celltagging/capture/RNA-to-NGSlibrary. PublishedmainMethods absent fromlocalbundle. Oligoinventory/ReportingSummary and analytical10xCBC/UMIlanguage do not establish the fullfixedcell preparation or justify anNGSendpoint. SourceFig1a/b uses yeastNHS-TCO\u2192MTZ-Cy5; Fig1cusesMTZ-DNA\u2192TCO-Cy5. Do not mergeasoneinventedfullcellDNArecipe. Fig1c lanes1-12are3primeamine-derived,13-14are5primeamine-derived, but actualassayedDNAsequence/lane mapping remainsunassigned. BC21source5AmMC6body and source3AmMOvariants areinventory; BC21isnotassertedassayedlane. The constrainedCAGBwindow isnotUMI, sampletag8interpretation derivedfromfamily not lane proof; ClickTag sampleidentity separate fromdownstream10xcellbarcode/UMI. IEDDA consumesreactivehandle/appendage, retainsDNAbackbone, no nucleotideconversion or assumedcoppercatalyst.",
+      "oligo_scraper": "/tmp/unlinked-click11-scraper.log; pointers/originals verified only within declaredscope, not absent-disclosure evidence.",
+      "deferred": [
+        "ReadactualpublishedmainMethods beforeconstructingfixedcellactivation/washes/capture/library. CurrentminimalcomponentcannotbereclassifiedNGSbyattachingsequencing to fluorescentDNA.",
+        "Keep sourceIeddaassays distinct, fullmodifiedoligofamilies andnonNTendhandles preserved. ExactsourceBC21family maybecuratedas inventory but cannotfillunassignedexperimentalstrand/assaylane.",
+        "RNA/ClickTag libraryproducer/control/physicalstocks and sourcearrays must be supportedlocally; no whole10xrecipe or readmask from CellRanger/kITEanalysis alone.",
+        "Ifeventuallypromoted, literal independent sourceinventory must cover actualproducer stages and meaningfulstock/QC/loadingfates; preservecurrentrequiredsource obligation untilthen."
+      ],
+      "verification": "6preflight checksPASS; actualnormalgate ['no terminal output is designated for sequencing', \"authoritative source item 'unassembled_source' is not accounted for\"]; codeunchanged, tests/builds not repeated; no sourceacquisition."
     }
   ],
   "linked_information": {
@@ -70,5 +87,8 @@
     "Published mainMethods/PDF (normal NaturePDF request yielded subscription HTML).",
     "Exact assay strand/lane mapping and full fixed-cell tagging/capture/library procedure.",
     "Original linked chemistry/capture predecessors, exact read/primer geometry."
-  ]
+  ],
+  "conclusion": "Required unassembled_source remains unaccounted. The onlymodelledproducer is MTZ-DNA/TCO-Cy5fluorescent activityassay, not celltagging/capture/RNA-to-NGSlibrary. PublishedmainMethods absent fromlocalbundle. Oligoinventory/ReportingSummary and analytical10xCBC/UMIlanguage do not establish the fullfixedcell preparation or justify anNGSendpoint. Current outcome remains a source/producer hold with required items intact. No exactwhole-geometry blanket prerequisite, excludedcoverage, confirmedabsence or fullsource/chemistry audit.",
+  "pass_1": null,
+  "pass_2": null
 }

@@ -17,7 +17,7 @@ from protocol_views import OligoEntry, OligoSection, WorkflowSection, assemble_p
 
 PAGE_FILE = "dropsynth.html"
 TITLE = "DropSynth — capture groups and pooled construction"
-SOURCE = "Plesa et al.2018 doi:10.1126/science.aao5167; main assembly description and original Figure1A–D. Published SI generic DropSynth protocol pp3–4 now checked; no DropSynth2.0 or superseded preprint recipe is substituted. Target-specific design and functional-assay branches are outside this graph."
+SOURCE = "Plesa et al.2018 doi:10.1126/science.aao5167; printed final Science article science.aao5167.pdf, assembly description and original Figure1A–D; the PMC XML is an associated author manuscript, not asserted final-equivalent. Published SI generic DropSynth protocol pp3–4 now checked; no DropSynth2.0 or superseded preprint recipe is substituted. Target-specific design and functional-assay branches are outside this graph."
 
 
 # Published SI TableS6, rendered original p52 checked including wrapped anchor.
@@ -184,7 +184,8 @@ def expected_clone():
 
 
 def protocol_graph():
-    g = ProtocolGraph(TITLE, authority=SOURCE, required_output=Disposition.CONSTRUCT)
+    g = ProtocolGraph(TITLE, authority=SOURCE, required_output=Disposition.CONSTRUCT,
+        representation="illustrative_example", example_description="Two invented A/B group labels illustrate the published four-fragment assembly class. Barcode values, target genes, overlaps and recipient arrangement are unassigned; this is not a reconstruction of a particular experimental clone.")
     groups = schematic_groups()
     initial = SeparateFragments(groups, "synthesis pool", False)
     pool = g.input("pool", "source oligo pool; two schematic capture groups", K.OLIGO, state=initial, primary=True)
@@ -256,12 +257,20 @@ def protocol_graph():
     oil = g.input("emulsion", "Bio-Rad Droplet Generation Oil; compartment membership schematic", K.CONDITION)
     droplets = [g.product("droplet_" + group.identifier, "schematic droplet class " + group.identifier,
         K.MOLECULAR, state=SeparateFragments((group,), "assigned droplet class; actual occupancy unresolved", True, exposed_capture=True)) for group in groups]
-    g.react("partition", "Place associated classes into the emulsion model", S.PARTITION,
-        [(associated, R.TEMPLATE), (oil, R.CONDITION)], droplets, changes_molecule=False)
-    nuclease = g.input("release_enzyme", "BtsI; exact selected-oligo release sites unassigned", K.CATALYST)
-    pca = g.input("pca_polymerase", "KAPA2G Robust Mastermix", K.CATALYST)
-    assembly_f = g.input("assembly_f", "source20mer assembly forward primer; selected bases unassigned", K.OLIGO)
-    assembly_r = g.input("assembly_r", "source20mer assembly reverse primer; selected bases unassigned", K.OLIGO)
+    bsa = g.input("bsa", "BSA in the source emulsion assembly mixture; dose unassigned", K.MOLECULAR)
+    mix = g.input("pca_polymerase", "Actual KAPA2G Robust Mastermix supply; class-level allocations unassigned", K.MOLECULAR)
+    pca = g.product("pca_enzyme", "Polymerase component of that same KAPA2G supply", K.CATALYST)
+    nts = g.product("pca_nt", "Nucleotide component of that same KAPA2G supply", K.MOLECULAR)
+    buf = g.product("pca_buffer", "Buffer component of that same KAPA2G supply", K.CONDITION)
+    g.react("pca_components", "Expose components of the one named assembly Mastermix", S.MAGIC,
+        [(mix, R.TEMPLATE)], [pca, nts, buf], changes_molecule=False,
+        reason="Inventory decomposition of the actual source Mastermix, not three fresh additions. Exact formulation, total amounts and allocations among schematic droplet classes are unassigned.")
+    g.react("partition", "Place the source assembly mixture into schematic compartments", S.PARTITION,
+        [(associated, R.TEMPLATE), (oil, R.CONDITION), (bsa, R.STRUCTURAL), (nts, R.STRUCTURAL), (buf, R.CONDITION)], droplets, changes_molecule=False,
+        reason="SI p4 mixes captured beads with Mastermix, primers, BSA and BtsI before emulsification. Reagent ports on the ensuing release/PCA are co-present inventory views, not additions to sealed droplets; quantitative distribution and occupancy remain unassigned.")
+    nuclease = g.input("release_enzyme", "Co-present BtsI in source emulsion mix; cut coordinates unassigned", K.CATALYST)
+    assembly_f = g.input("assembly_f", "Co-present source20mer assembly forward primer; selected bases unassigned", K.OLIGO)
+    assembly_r = g.input("assembly_r", "Co-present source20mer assembly reverse primer; selected bases unassigned", K.OLIGO)
     break_reagent = g.input("break_reagent", "chloroform for emulsion break", K.CONDITION)
     recovered = []
     for group, droplet in zip(groups, droplets):
@@ -305,7 +314,7 @@ def protocol_graph():
         state=closed_circle(expected.name, tuple(expected)), chemical_state=expected)
     g.react("clone", "INFERRED construct arrangement — unexpanded source cloning", S.MAGIC,
         [(reamplified, R.TEMPLATE), (recipient, R.STRUCTURAL)], [cloned],
-        reason="The main article names cloning into a barcode-bearing expression plasmid. Its exact vector, reaction mechanism and molecular junctions await direct review of the now-supplied supplement; a ligase recipe is not inferred from the word cloning.")
+        reason="The main article names cloning into a barcode-bearing expression plasmid. Its exact vector, reaction mechanism and molecular junctions are outside this selected construction scope; a ligase recipe is not inferred from the word cloning.")
     g.constructed(cloned, "Scoped source-expected construct class. Exact reaction products and the published sequencing/QC branch remain unresolved; this is not a completed DropSynth review.")
     g.declare_reviewed_scope(SOURCE_INVENTORY, SOURCE)
     return g.require_publishable()
@@ -316,7 +325,7 @@ SOURCE_INVENTORY = (
     "bead_anchor", "bead_ligation", "bead_barcodes", "anneal_bead_oligos", "bead_ligase",
     "ligate_bead_oligos", "bead_pnk", "phosphorylate_bead_oligos", "bead_support", "immobilize_bead_oligos",
     "bulk_f", "bulk_r", "bulk_amplify", "assembly_f", "assembly_r", "reamplify",
-    "short_capture", "remove_short", "emulsion", "partition", "release_enzyme", "pca_polymerase", "break_reagent", "release_a", "release_b", "pca_a", "pca_b",
+    "short_capture", "remove_short", "emulsion", "bsa", "pca_components", "partition", "release_enzyme", "pca_polymerase", "break_reagent", "release_a", "release_b", "pca_a", "pca_b",
     "recover_a", "recover_b", "pool_assemblies", "size_selection", "size_select", "recipient", "clone", "constructed",
 )
 
@@ -327,9 +336,14 @@ def render_page():
         head(TITLE), '<div class="wrap" data-protocol-complete="true">', f"<h1>{TITLE}</h1>",
         '<p class="research-notes"><a href="01_dropsynth.html">Research notes</a></p>',
         info('<a href="https://doi.org/10.1126/science.aao5167">Plesa et al., Science (2018)</a>'),
-        info("WORK IN PROGRESS: source-supported construction architecture only. The published SI now supplies generic processing reagent identities and short-strand removal. The separate initial/bulk/recovery amplification stages and source5-prime capture overhang are explicit. Bead common-arm annealing/ligation and source modifications are explicit. Selected-oligo cut/overlap geometry and sequencing/QC remain unexpanded. This entry remains notes and is not a finished public schematic. A/B are schematic capture identities within the source four-fragment model class, not published barcode sequences or target genes."),
+        "<h2>From pooled oligos to separate gene constructs</h2>",
+        "<p>DropSynth gathers the fragments for each intended gene on a matching barcoded bead, separates the captured material into water-in-oil compartments, then releases and assembles the fragments. The emulsion is broken and recovered assemblies are amplified and cloned into expression plasmids.</p>",
+        info("ILLUSTRATIVE CONSTRUCTION EXAMPLE: A/B are invented group labels within the published four-fragment model class, not experimental target genes or barcode values. The endpoint is a source-expected DNA construct class, not a sequencing-ready library. The full workflow exposes unresolved chemistry and material fates; its typed construct endpoint does not establish sequence correctness, clone recovery or yield."),
+        "<h2>What is known and what remains open</h2>",
+        "<p>The published bead oligos, their end modifications and common-arm pairing are explicit below. Initial, bulk and recovery amplification stay separate. The assembly mix includes BSA and components of the same named KAPA2G Mastermix before partitioning; distribution among droplets is unassigned. Selected gene sequences, fragment overlaps, release coordinates, primer bodies and cloning junctions remain unassembled.</p>",
+        "<p>The twelve-base capture barcode groups fragments for assembly. A distinct random twenty-base barcode later tracks clones. Neither is assigned as a sequencing sample index. The source sequencing and functional assays are outside this construction view; no read lengths or sequencing-primer geometry are invented.</p>",
         info("INFERRED: intended assembled products, clone arrangement and donor junctions are marked. Capture association, compartment membership and covalent assembly remain separate. No equal-N comparison proves binding; no graph step establishes droplet occupancy, specificity, coverage, abundance, protein function or yield. Full oligo layouts, nick/release sites and cloning geometry remain unassigned."),
-        WorkflowSection("Capture, compartmentalization and construction", paths=(("beads", ()), ("associated", ()),
+        WorkflowSection("Capture, compartmentalization and construction", paths=(("pca_enzyme", ()), ("beads", ()), ("associated", ()),
             ("recovered_a", ("capture",)), ("recovered_b", ("capture",)),
             ("constructed", ("recover_a", "recover_b")))),
         OligoSection("Source bead oligos", (
@@ -365,11 +379,11 @@ def selftest():
     check("capture barcode is not silently retained as the clone barcode",
         [(seg.feature.id, seg.feature.encoding) for seg in final if seg.feature], [("dropsynth.clone", "random")])
     source = Source(sources_root() / Path(__file__).resolve().parents[1].name /
-        "science.aao5167_PMC6261299.xml.txt", "Published Plesa2018 article, PMC6261299; tools/get_sources.py")
+        "science.aao5167.pdf.txt", "Printed final Plesa2018 Science article; external manifest")
     if have(check, source, label="published identifier meanings"):
-        text = source.path.read_text()
-        capture = re.search(r"microbead barcodes are unique (\d+) nt sequences", text)
-        clone = re.search(r"random (\d+) bp barcode \(assembly barcode\)", text)
+        text = " ".join(source.path.read_text().split())
+        capture = re.search(r"microbead barcodes are distinct (\d+)-nt sequences", text)
+        clone = re.search(r"random (\d+)-bp barcode \(assembly barcode\)", text)
         check("capture-feature length matches its own published source clause",
             int(capture[1]) if capture else None, len(groups[0].barcode.top))
         check("later clone-feature length matches its separate published source clause",
@@ -386,4 +400,8 @@ def selftest():
             "12-mer microbead barcode reverse complement +" in table, True)
         check("source table explicitly retains end modifications",
             all(value in table for value in ("3’ biotin", "5’ phosphorylation", "5' dual biotin")), True)
+    check("only the intended construct endpoint is required", graph.required_output, Disposition.CONSTRUCT)
+    check("invented group labels are declared illustrative", graph.representation, "illustrative_example")
+    check("BSA enters the mixture before compartmentalization", any(port.material == "bsa" for port in graph.steps["partition"].inputs), True)
+    check("named Mastermix is decomposed once, not three fresh supplies", [port.material for port in graph.steps["pca_components"].inputs], ["pca_polymerase"])
     check.report()

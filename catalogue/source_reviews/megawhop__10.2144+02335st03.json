@@ -1,6 +1,6 @@
 {
   "dir": "megawhop__10.2144+02335st03",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "abstract",
@@ -32,11 +32,25 @@
         "Full original methods/figures and exact sequence maps",
         "Complete linked-source inventory and independent review"
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-3",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "scope": "Bounded publication eligibility and actual source-bundle inspection; no new chemistry original available",
+      "documents": 0,
+      "locations": "External MANIFEST.tsv only: publisher PDF HTTP403; current PubMed retrieval yielded no inspectable abstract body",
+      "findings": "Existing abstract-derived one-step synthesis sketch is insufficient to promote a recovered construction protocol. Normal typed graph gate passes but does not replace original source evidence. Keep notes/representation unspecified; move on without challenge retry.",
+      "oligo_scraper": "Mandatory bundle scraper rerun /tmp/unlinked-megawhop3-scraper.log; no validated source originals present. No sequence absence inference.",
+      "deferred": [
+        "Original published methods and figures https://www.tandfonline.com/doi/pdf/10.2144/02335st03"
+      ]
     }
   ],
   "missing_claims": [],
   "linked_information": {
     "result": "blocked",
     "reason": "Original methods unavailable; links cannot yet be inventoried."
-  }
+  },
+  "conclusion": "Blocked for public page: full original methods and actual product/recovery boundary unverified. Existing abstract-only construct-class sketch remains notes; no absence claim."
 }

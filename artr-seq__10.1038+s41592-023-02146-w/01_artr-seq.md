@@ -22,6 +22,12 @@
 
 SI1Table1 consists of analyticalqPCR primers, andTable2 of knockdownsiRNAs. The actualPDFp3 header/rows were inspected; neither is substituted for the source's library amplification primers. SI1Table3 describes samples and comparisonreadcounts. No historical NEB primer/kit recipe, barcode whitelist, complete end geometry or primer landing is supplied by brand-name similarity.
 
-The input control omits the primaryantibody; low-input uses4%PFA and pools two barcoded biologicalreplicates afterPK. Tissue/imaging/stress/strongRNase variants have their own source scope. They are not fake splits of the selected sample or counted as separate protocols. FulltargetRNA, modifiedDNApositions, fusion/antibodyoccupiedcomplexes, all offproducts and exact library/read layouts remain unassembled, not confirmed absent. This is a private source-qualified partial preparation.
+The input control omits the primaryantibody; low-input uses4%PFA and pools two barcoded biologicalreplicates afterPK. Tissue/imaging/stress/strongRNase variants have their own source scope. They are not fake splits of the selected sample or counted as separate protocols. FulltargetRNA, modifiedDNApositions, fusion/antibodyoccupiedcomplexes, all offproducts and exact library/read layouts remain unassembled, not confirmed absent. The schematic presents the published standard preparation with those molecular limits explicit; it does not establish complete reaction or source validation.
 
 The PCR primer supply inventory exposes forward- and reverse-role primer classes with whole bodies unassembled. Their actual molecular species count, stock count and packaging remain unassigned; this does not invent an exact two-tube premix or E7335S sequence construction.
+
+## Public preparation scope
+
+The public schematic uses the published standard antibody-directed preparation through gel-purified amplified DNA and its physical sequencing allocation. Its source inventory is a literal curator-reviewed list covering fixation/localization, copying/capture and library finishing; adding an input does not automatically extend that evidence coverage. The existing proximity and identifier source findings remain required and mapped to the operations that implement their scope. No required source item was removed or excluded.
+
+Known source RT and adapter sequences are displayed. Standard PCR primer bodies, occupied substrates, complete amplicons and run-cycle spans remain unassembled. This does not substitute analytical SI qPCR primers or current vendor kit sequences for the source library primer supplies. Full preparation and chemistry warnings remain available in the collapsed workflow.

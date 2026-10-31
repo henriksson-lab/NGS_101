@@ -23,3 +23,23 @@ Source imidazole elution, TCA precipitation, NuPAGE/nitrocellulose selection and
 Actual inaccessible SI originals: https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/supp_106_24_9613__index.html and https://pmc.ncbi.nlm.nih.gov/articles/instance/2688437/bin/0901997106_0901997106SI.pdf . The failed EuropePMC XML route does not make the main article unavailable: its published HTML was read. Modern CRAC protocols, Sanger primers and later CLASH/HTP recipes are not substitutes for the original Solexa component version.
 
 CLASH's defining Methods explicitly cites this CRAC source for purification/library strategy, supporting a scoped CRAC→CLASH edge. Main CRAC discusses earlier CLIP, RL5 and preadenylated-DNA ligation sources; they remain directly linked follow-ups, not imported recipes. The graph has an unassembled read plan and explicit uncovered SI/source inventory, no finished-publication marker and no absent-information claim.
+
+## Bounded physical-reagent corrections with original SI hold retained
+
+The same published main supports molecular guanidine-HCl and imidazole
+contributions. TCA is now a molecular precipitation reagent with a physical
+cleanup operation, rather than a selection matrix. RT and PCR supplies expose
+aggregate copresent nucleotide/buffer functional classes without asserting
+stock packaging, exact doses, enzyme identity or any uninspected Solexa recipe.
+
+Nine focused checks pass. The actual `unreviewed_original_si` item and uncovered
+NGS RT/PCR/workup/primer scope remain unchanged. Original SI index/PDF HTTP 404
+records are prior availability history; no retry or new access claim was made.
+The main remains an available published original, so the hold is specific to
+the unresolved SI and modified Solexa components, not to all source evidence.
+
+The Sanger DNA/ddC and DNA–RNA/inverted-ddT inventory remains separate from
+the explicitly modified Solexa linkers. No Sanger body, block or size window
+is assigned to the NGS route. RNA crosslink-associated copying errors are not
+physical RNA mutations/deletions. There is no PAGE_FILE builder, complete-page
+claim, source item exclusion or accepted missing-information audit.

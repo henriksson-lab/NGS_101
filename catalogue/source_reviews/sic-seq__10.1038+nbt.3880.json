@@ -78,5 +78,16 @@
     "Historical Nextera loaded-end design/outcome classes",
     "Exact genomic splicing/final read geometry",
     "Other samples and independent source review"
-  ]
+  ],
+  "publication_review_2026_10_30": {
+    "scope": "Bounded source-qualified public-page review, not full original/version/linked-source or absence audit. Source pass closed on2existing originals; no fresh acquisition.",
+    "source_scopes": "Associated accepted manuscript Results workflow39\u201343, synthetic-community validation45\u201351, Methods barcode emulsion/tagmentation/barcoding107\u2013131 (cell-encapsulation paragraph partially truncated, not treated as fully inspected). Publisher correctedSI identity/correction notice and SupplementaryFig1caption29\u201335 only. No full-SI/whole-version equivalence claim.",
+    "scraper": "Mandatory full bundle scrape10hits; source full oligo strings read directly in main barcode/barcoding Methods.",
+    "changes": "Aggregate cell/agarose encapsulation/cooling/aqueous transfer from Results; native-retention reference separate from source re-encapsulation/tagmentation boundary. Actual named prepared supplies exposed as copresent components, no extra adapter tube or nucleotide dose. Barcode factory and physical merger precede chemical PCR. Actual fresh FL129 in later mixture, barcode analytical observation reference and library analytical allocation, coalesced-droplet removal, loading/remainder. Arbitrary40base genomic display removed; role has unassigned length.",
+    "version_limits": "Main is associatedAM; corrected publisherSI identity/Fig1caption only, taxonomy correction not used as molecular evidence. No whole-VOR equivalence.",
+    "molecular_limits": "Unknown occupancy/clonality/yield/retention losses, whole occupied genomes/adapters/priming coordinates/indexcycles and complete kit formulations. Component inventories are not physical separation or fresh additions.",
+    "result": "page_ready with normal source-qualified graph gate; published synthetic-community preparation, not invented DNA example.",
+    "absence_claims": [],
+    "analytical_scope": "Barcode microscopy is represented as analytical observation, not asserted physical aliquot. Sampling geometry and production stain exposure remain unassigned; no unstained-production or all-clonal claim."
+  }
 }

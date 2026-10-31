@@ -56,10 +56,27 @@
       "deferred": [
         "SIAppendixoriginal andallitslinkedchemistry-relevantdocuments; independentreader.",
         "Exactadapter/biotinprimer/indexpolymers,ligationendgeometry,template-separationconditions andPCRprogram;nodetailclaimedabsent.",
-        "Precisedrug/assay/runassignmentfromcompressed200µM/1.5/3hmainMethods; lesion-endstrandvalidation andreadmask."
+        "Precisedrug/assay/runassignmentfromcompressed200\u00b5M/1.5/3hmainMethods; lesion-endstrandvalidation andreadmask."
       ],
       "oligo_scraper": "Mandatoryfull-bundlescraperoutputread;hitsvalidatedagainstsourcecontext. HydEnTable1rendered. Damagezero-hitsnotabsenceevidence;relevantSIunavailable.",
       "verification": "Graph/render/build/pairingpass;5sourceoligoinputsunrepresented;0exactoligoclaims;relevantSIunavailable;noabsenceacceptance."
     }
-  ]
+  ],
+  "publication_review_2026_10_30": {
+    "scope": "Bounded public-page review of one existing published original, not a full independent chemistry or absence review.",
+    "originals": [
+      {
+        "file": "pnas.1614430113_PMC5068337.html",
+        "inspected": "Extracted published main Results Cisplatin DNA Damage Map, Figure1caption, Cisplatin Damage-seq and XR-seq Products, Methods. No additional originals acquired or followed."
+      }
+    ],
+    "scraper": "Mandatory existing-bundle scraper completed; no hits is not evidence of absent oligos.",
+    "model_changes": "Source-positive preparation preserved; published_instance representation. Extension exposes unassigned molecular supply. PCR supply partition is explicitly conceptual inventory, not a disclosed formulation or extra additions. Exact drug/run/oligo assignments and strand-separation fate remain unknown. Stalled and unblocked classes remain sequenced; downstream filtering stays computational.",
+    "publication_scope": "Public main-text-limited preparation, 1% analytical branch and unresolved end/primer/read layout. SI Appendix access hold retained; no accepted absence claims.",
+    "deferred": [
+      "Existing unavailable SI Appendix and its chemistry-relevant linked originals",
+      "Exact oligos, reagents, geometry and run mask",
+      "Independent full source review"
+    ]
+  }
 }

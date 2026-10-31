@@ -130,7 +130,7 @@
       "locator": "Earlier yeast hydrolysis-method originals cited in Introduction48 were not followed."
     }
   ],
-  "conclusion": "Capped first pass, two accessible originals; not a complete source review and no confirmed missing-information claim. Proposed notes/pending_source_review retained.",
+  "conclusion": "Source-qualified common-core DNA-library schematic ready under normal gate; individual-study ancestral reagent/reference applicability inferred and source/version/control/readout limits visible. No whole chemical completeness or missing-information acceptance.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-03",
@@ -146,6 +146,22 @@
         "Post-CIP distribution of cyclic/2prime/3prime phosphate species and complete downstream molecular/readout model.",
         "Earlier yeast hydrolysis-method originals cited in Introduction48 were not followed."
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted8",
+      "reviewer": "targeted_source_library_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded common-core inherited DNA-library implementation on the two already-inspected originals. No new originals/acquisition, complete source review or missing-information acceptance.",
+      "locations": "hydro-trnaseq__10.1016+j.celrep.2017.07.029/j.celrep.2017.07.029_PMC5564215.xml(.txt): HydroMethod122–124 andDiscussion110/112; direct inheritedlibrary DOI/refidentity, actual19–35fragmentcDNAlibrary/HiSeq2500 endpoint.; doi_10.1016+j.ymeth.2012.07.030/j.ymeth.2012.07.030_PMC3508525.xml(.txt): Overview34–40;20adapterfamily90–148/rawmodifiedtable/RA5PCR;3ligationpool302–326;adapterproductgel/RT/RNAhydrolysis/PCR338–442. Same alreadyselectedoriginal, not publishedVOR.",
+      "findings": "The normal public graph now has an actual DNA-producing path: inherited RNA-adapter ligations → reverse-primer carrier retained from product recovery → reverse transcription → RNA-template hydrolysis/neutralization → DNA PCR → source-positive finishing → selected DNA sequencing contribution. Sequencing is never attached directly to the end-treated RNA. The actual RNA→cDNA/PCR-library route is explicitly stated by 2017 Methods 124 and its cited 2012 source.  **Reference applicability is inferred by constructor.** The twenty-adapter family, RNA5 adapter and historical PCR primers are exact source-verified predecessor references, not established individual 2017 orders. No Ad01, fixed pool of twenty samples, calibrator/PmeI use, exact QC/no-template control schedule, acquired cycle count or modern P5/P7 extension is invented. The source guides prescribe these control/titration/marker practices; actual study implementation beyond the common core remains unassigned and visible. No complete VOR/manuscript equivalence is asserted.  PNK ATP is a molecular phosphate donor, not merely a condition. The source 50 µl CIP→20 µl PNK interface is explicitly unassembled; no whole-stock transfer, new cleanup or aliquot quantity is fabricated. Residual end classes and material remain unresolved. The source 19–35 nt statement does not create a fictitious separate preligation PAGE step. Guide adapter-product recovery is qualified to the common inherited route; exact selection/pooling schedule and accessory-buffer additives/carryover are not claimed complete.",
+      "deferred": [
+        "Actual2017adaptermember/samplepool/calibrator use and precise19–35selection placement beyondbroadinheritedroute.",
+        "Final2017/predecessorVORequivalence and genuinelygateddefiningSM roles remain unreviewed.",
+        "Complete occupiedRNA/cDNA/end-distribution/yield and readgeometry unassembled, not missing-docspecifications."
+      ],
+      "oligo_scraper": "/tmp/unlinked8-hydro-scraper.log:0hits/0representations; /tmp/unlinked8-hydro-library-scraper.log:17hits/1representation; exact precursor whole orderings and terminal chemistry verified, not a defining-source absence claim.",
+      "verification": "16focusedPASS/16steps17unresolved0contradictory. Normalpublicationgate[]; actualtyped RT→PCRDNA producer/loadedDNA checksPASS; actualpagecomplete/inferredmarkup/fullWorkflowSectionverified; pairing0; genericguard0checked0failed0exemptions, fiveinferredancestral referenceinputs pergraph deliberately outside exact-target-study guard. Fourdirectoriginalwhole-ordering fixtures perprotocolPASS."
     }
   ]
 }

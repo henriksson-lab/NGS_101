@@ -36,15 +36,15 @@ def transform(g,key,x,label,reagents,kind=S.GENERIC):
     g.react(key,label,kind,((x,R.TEMPLATE),(catalyst,R.CATALYST)),(y,));return y
 
 def protocol_graph():
-    g=ProtocolGraph(TITLE,authority=SOURCE)
+    g=ProtocolGraph(TITLE,authority=SOURCE,representation='illustrative_example',example_description='Two symbolic sample classes a/b illustrate the historical up-to24well workflow. Sample count/identities are not an actual experiment; no sequence-exact kit molecule invented.')
     products=[]
     for key in ('a','b'):
         x=g.input(key+'_dna','Independent genomic DNA sample '+key+'; symbolic class from source24well workflow',K.MOLECULAR,primary=True)
-        mix=g.input(key+'_barcoding','Source predispensed Barcoding Adapters; sequences and mix constituents unassembled',K.CONDITION)
+        mix=g.input(key+'_barcoding','Source predispensed Barcoding Adapters: actual molecular stock, sequences and other mix constituents unassembled',K.MOLECULAR)
         y=g.product(key+'_assigned','Sample/molecule-barcoded target material in '+key+'; other reaction species retained',K.MOLECULAR)
         # The kit's source-named PCR is intentionally a coarse operation here:
         # neither two primers nor a single symmetric primer species is assigned.
-        g.react(key+'_assignment','Section1.2 Barcode Assignment PCR,2cycles; internal kit reactants unassembled',S.GENERIC,((x,R.TEMPLATE),(mix,R.CONDITION)),(y,))
+        g.react(key+'_assignment','Section1.2 Barcode Assignment PCR,2cycles; internal kit reactants unassembled',S.GENERIC,((x,R.TEMPLATE),(mix,R.STRUCTURAL)),(y,))
         z=transform(g,key+'_inactivation',y,'Section1.3 PCR inactivation','Source Inactivation Enzyme SSC; chemical mechanism unassembled')
         clean=cleanup(g,key+'_cleanup',z,'Section1.4 SPRIselect cleanup')
         q=g.product(key+'_qc','Separate aliquot for destructive calibration qPCR',K.QC)
@@ -77,18 +77,22 @@ def protocol_graph():
     g.react('ligation','Section4.2 Adapter Ligation20C15min',S.LIGATION,((fragmented,R.TEMPLATE),(mix,R.STRUCTURAL),(ligase,R.CATALYST)),(ligated,),
         geometry=AdapterLigationGeometry('unavailable','unavailable',(unknown_scene(),),'Historical kit adapter polymer and complete ligation-ready end geometry not assembled;source A-tailing is not evidence of an exact adapter T overhang.'))
     clean=cleanup(g,'postligation_cleanup',ligated,'Section4.3 SPRIselect cleanup')
-    indexmix=g.input('index_mix','Source Index Master Mix25uL and5uL of one Index Primer P1,P2,P3 orP4; internal priming species unassembled',K.CONDITION)
+    indexmix=g.input('index_mix','Aggregate actual25uL Index Master Mix plus5uL of ONE Index Primer P1,P2,P3 orP4; physical stock allocations, not one invented premix. Whole internal priming species unassembled',K.MOLECULAR)
     indexed=g.product('indexed','Section4.4 indexPCR reaction after12cycles',K.MOLECULAR)
-    g.react('index_pcr','Section4.4 Library Index PCR,12cycles; kit molecular priming geometry unassembled',S.GENERIC,((clean,R.TEMPLATE),(indexmix,R.CONDITION)),(indexed,))
+    g.react('index_pcr','Section4.4 Library Index PCR,12cycles; kit molecular priming geometry unassembled',S.GENERIC,((clean,R.TEMPLATE),(indexmix,R.STRUCTURAL)),(indexed,))
     final=cleanup(g,'postindex_cleanup',indexed,'Section4.5 SPRIselect cleanup')
     g.mark_terminal(Terminal(final.id,Disposition.UNRESOLVED,LIMIT+' Source library operation order modeled throughSection4.5;exact sequenced molecules and run geometry unassembled.'))
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    # Literal source-reviewed recipe inventory, parameterized only over the two
+    # explicitly illustrative sample classes; never discovered from graph nodes.
+    for k in ('a','b'):
+        g.declare_reviewed_scope(tuple(k+t for t in ('_dna','_barcoding','_assignment','_inactivation_reagents','_inactivation','_cleanup_selection','_cleanup','_qc_aliquot','_normalization','_ampmix','_amplification','_take_pool_aliquot')),SOURCE)
+    g.declare_reviewed_scope(('sample_pool','pooled_cleanup_selection','pooled_cleanup','distribution_reagents','distribution','activation_reagents','activation','neutralization_reagents','neutralization','postactivation_cleanup_selection','postactivation_cleanup','fragment_endprep_reagents','fragment_endprep','ligation_enzyme','ligation_mix','ligation','postligation_cleanup_selection','postligation_cleanup','index_mix','index_pcr','postindex_cleanup_selection','postindex_cleanup'),SOURCE)
     g.add_source_item(SourceItem('unassembled_source','Remaining original/kit chemistry and complete sequenced library',LIMIT))
     return g
 
 def render_page():
     g=protocol_graph()
-    return '\n'.join([head(TITLE),'<main class="wrap"><h1>'+TITLE+'</h1>',info(LIMIT),'<p><a href="01_loopseq.html">Research notes</a></p>',
+    return '\n'.join([head(TITLE),'<main class="wrap"><h1>'+TITLE+'</h1>',info(LIMIT),info('ILLUSTRATIVE EXAMPLE — two symbolic sample classes a/b demonstrate the up-to24well source workflow; no actual sample identities or occupied well count are asserted.'),'<p><a href="01_loopseq.html">Research notes</a></p>',
         workflow_panel(workflow_from_protocol_graph(g,'postindex_cleanup_kept')),panel(identity_components().rows(),caption='Source-defined identifier meanings only; no inferred sequence joins'),'</main>'])
 
 def selftest():
@@ -96,6 +100,9 @@ def selftest():
     from storage import sources_root
     c=Check();g=protocol_graph()
     c('Private incomplete model',g.publishable,False)
+    c('Two sample classes are explicitly illustrative',g.representation,'illustrative_example')
+    c('Source barcoding reagent is a physical molecular contribution',(g.materials['a_barcoding'].kind,next(p.role for p in g.steps['a_assignment'].inputs if p.material=='a_barcoding')),(K.MOLECULAR,R.STRUCTURAL))
+    c('Source index allocations are molecular supplies',g.materials['index_mix'].kind,K.MOLECULAR)
     c('No false completion marker','data-protocol-complete=' in render_page(),False)
     c('Sample pool contains only post-amplification aliquots',[i.material for i in g.steps['sample_pool'].inputs],['a_pool_aliquot','b_pool_aliquot'])
     c('Distribution starts after physical pool cleanup',g.steps['distribution'].inputs[0].material,'pooled_cleanup_kept')

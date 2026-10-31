@@ -24,7 +24,7 @@
       "pass_1": {
         "reviewer": "round17_source_reader",
         "date": "2026-10-29",
-        "locations": "Associatedacceptedmanuscript overview76\u201378/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.",
+        "locations": "Associatedacceptedmanuscript overview76–78/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.",
         "finding": "Positive selectedoriginalscopeonly; notfullpublication/sourceaudit oracceptedabsence."
       },
       "pass_2": null,
@@ -41,7 +41,7 @@
       "pass_1": {
         "reviewer": "round17_source_reader",
         "date": "2026-10-29",
-        "locations": "PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655\u2013699 spanningprintedpp5\u20136andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
+        "locations": "PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655–699 spanningprintedpp5–6andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
         "finding": "Positive selectedoriginalscopeonly; notfullpublication/sourceaudit oracceptedabsence."
       },
       "pass_2": null,
@@ -54,7 +54,7 @@
     "pass_1": {
       "reviewer": "round17_source_reader",
       "date": "2026-10-29",
-      "locations": "Associatedacceptedmanuscript overview76\u201378/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.; PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655\u2013699 spanningprintedpp5\u20136andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
+      "locations": "Associatedacceptedmanuscript overview76–78/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.; PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655–699 spanningprintedpp5–6andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
       "finding": "Directnamedvendor/predecessor/source targets enumerated; cap/accessbarriersremain, noabsenceverdict."
     },
     "pass_2": null
@@ -85,7 +85,7 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "Boundedmax10min/3originals, publishedfirst; associatedMSandfinalsourcesseparate, norecursivechase.",
-      "locations": "Associatedacceptedmanuscript overview76\u201378/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.; PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655\u2013699 spanningprintedpp5\u20136andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
+      "locations": "Associatedacceptedmanuscript overview76–78/Methods138/Fig1caption633; earlierreadingscope, subsequentlypublishedoriginalcontrols; nofullversionequivalence.; PublishedScience3411237973 finaloriginal first-partyCaltechPDF; originalp1renderprintedtitle/DOI/16Aug2013 checked; Methods655–699 spanningprintedpp5–6andFig1overview; sourceRNAprobes/PKrelease/DNApaired25bpacquisition.",
       "findings": "Physicalnascentprotein/RNA/RPF/capturedDNA/probeidentitiesandfractionfatesdistinctwhereoperationalmodeljustified.",
       "deferred": [
         "https://pmc.ncbi.nlm.nih.gov/articles/instance/3778663/bin/NIHMS504267-supplement-Supplementary_Material.doc",
@@ -94,6 +94,20 @@
       ],
       "oligo_scraper": "Mandatoryfullcache scraper ran; AHARIBO93MBproteomicstabletextskippedbysizelimit. Scrapedvalidationsequencesnotlibraryinputs; noadoptedexactsequencepolymerclaim.",
       "verification": "18 local checks pass (AHARIBO10 after reviewed RPF fork fix, RAP8); independent selected-source implementation review closed, not a second absence audit. Sourceguard0eligible/0failed/0exemptions/2unassembled inputs across2graphs; default chemistry29steps/30unresolved/0contradictory. Schema3pass, notes build and whitespace check pass; no exact library oligotranscription coverage claimed."
+    },
+    {
+      "round": "unlinked-pages-batch25",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed existing-source bounded private correction; no acquisitions, new originals, complete chemistry or accepted absence review.",
+      "locations": "Exact selected originals/sections in /tmp/unlinked-targeted37-preflight.json; counter /tmp/unlinked37-source-counts.json. Circulome publishedmain90–106/Fig1 and originalS1/S2PPTXslide3captions; RAP finalpublishedCaltechPDFMethods655–699 only, earlierAM history notnewauthority.",
+      "findings": "The primary source now denotes cells before DSG/formaldehyde treatment, rather than an already-crosslinked stock followed by duplicate crosslinking. DSG, formaldehyde, guanidine buffer and other actual supply groups are molecular contributors with source conditions separate. DNA oligo templates and actual promoter-PCR enzyme/nucleotide/primer functions are explicit; RNA-IVT supplies expose biotin-UTP, other RNA-polymerization substrate functions and promoter-compatible polymerase without guessing a kit, NTP fraction or precise enzyme identity. Probe-stock readiness is a nontransforming boundary, not an invented DNase/purification reaction or pure-RNA claim. Sonication includes the actual TURBO-DNase catalytic function; overnight65C release includes actual ProteinaseK. RNA probes and endogenous RNA remain distinct from the genomic DNA readout, and probe biotin does not transfer onto DNA. The source-reported standard DNA-library continuation has actual oligo/other molecular functions, while detailed DNA isolation, ends, primers and internal recipe remain unassembled; loading leaves a separate stock remainder. No RAP-RNA2014, RNaseH, named modern Illumina kit or perfect workup is inherited. Original SI/author-protocol/full-geometry obligation remains required/uncovered; no public promotion.",
+      "deferred": [
+        "Actual published SI/associated Supplementary_Material.doc and linked author protocol remain unread/gated. Exact probe manufacturing/end/library/control geometry unassembled. Historical Illumina kit identity/revision is an open question, not an invented unavailable guide. Final published positive producer does not waive required scope."
+      ],
+      "oligo_scraper": "Mandatoryclosed-pass /tmp/unlinked37-rapdna-scraper.log; zero exacteligible strands doesnotshow absence of sourceoligos.",
+      "verification": "15 focusedchecksPASS; Circulomeexo/gradient/both andRAPallterminalprivate renders/pairingPASS. Combinedguard0exact/0failed/1externalunknown input, producedwhole-unassembledfunction inventories remainoutsideexternalguard. Chemistry32unresolved/0contradictory; originalrequireditems preserved."
     }
   ]
 }

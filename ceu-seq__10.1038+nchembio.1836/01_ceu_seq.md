@@ -19,3 +19,25 @@ The DBCO reagent supports the pictured azide-click handle; no copper catalyst is
 ## Open work and ancestry
 
 Obtain/read the defining article Methods and inspect its direct chemistry-relevant linked material, then reconcile the full SI including image-based details. Notes status; no finished schematic and no accepted missing-information claim. CMC-stop methods are a conceptual neighbour, but this capped SI pass establishes no explicit parent library recipe. Shared Ψ targets or SCARLET validation probes are not ancestry evidence.
+
+## Bounded unlinked-page adjudication: source hold
+
+The 30 October 2026 read-only pass revisited only the same published SI
+Fig. S2–S3 captions (text 916–935), alongside existing source-review and external
+manifest bookkeeping. No main request, authorization retry, workbook source
+reading or new reference/vendor original was performed. The existing manifest
+records `(manual) nchembio.1836 full text` at the defining DOI; the source
+review records the actual earlier publisher authorization failure. Those are
+concrete availability records, not claims that the publication lacks a recipe.
+
+The current two-event graph still has no sequencing terminal and retains an
+uncovered `unreviewed_conditions` input. Selected probe labeling/click chemistry,
+chemical pulldown and read-ending signals do not establish the complete
+preparative capture/workup, RT, DNA adaptation, PCR or read arrangement in
+this scoped pass. Sequencing the clicked RNA or inventing kit finishing would
+misrepresent that boundary. The model remains unchanged and private.
+
+Further work requires source-supported actual library preparation, without
+inferring it from SCARLET/validation oligos or declaring unreviewed information
+absent. The clicked Ψ-containing RNA retains its residue and backbone; neither
+biotin attachment nor a downstream reported RT event physically deletes it.

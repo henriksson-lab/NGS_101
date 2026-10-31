@@ -39,4 +39,12 @@ S5xx: AATGATACGGCGACCACCGAGATCTACAC[8nt]TCGTCGGCAGCGTC
 
 FinalKAPAHIFI KK2602/.2µMP7/.2µMS5/**printed.3MdNTP**/.2mMMgCl2/1UµlHiFi,72°C5min then15cycles95°C20s/55°C30s/72°C30s,72°C5min. AMPureratio/finalelution unassigned. NovaSeqatNovogene; actual run/index masks and primer landings unresolved.
 
-One narrow source-text exemption coversadapter1: Table2 extraction interleaves the row name between the handle and wrapped redbarcode/linker continuation. Wholebiotinadapter fixture was checked againstoriginalp10. It does not waive source transcription. Open: actual sample-index assignments, fullPC/blocked/ligated/RT/TS/Tn5/PCRproduct geometry and relevantlinked originals. This is a private incomplete graph, not full validation, public schematic or accepted missing-information claim.
+One narrow source-text exemption coversadapter1: Table2 extraction interleaves the row name between the handle and wrapped redbarcode/linker continuation. Wholebiotinadapter fixture was checked againstoriginalp10. It does not waive source transcription. Open: actual sample-index assignments, fullPC/blocked/ligated/RT/TS/Tn5/PCRproduct geometry and relevantlinked originals. The schematic is source-qualified and molecularly partial; it does not establish full validation or accepted missing information.
+
+## Public preparation scope
+
+The public schematic covers the selected published preparation through its physical sequencing contribution. Its source inventory is a literal curator-written set of reviewed inputs and operations; adding graph targets cannot automatically extend review. Existing scoped source findings remain required and mapped locally, without exclusions or deletion. Full preparation, stock/analytical fractions and chemistry warnings remain visible in a collapsed workflow.
+
+Methods195/199literal0.3MdNTPsand16750percentdextransulfateretainedwithoutmM/currentkitrepair. FullPCchemistry/occupiedjunctions/linkersugarpartitionunknown. Full occupied molecular products, primer landing and unspecified read masks remain unassembled rather than silently supplied from another method or current kit.
+
+Source RT and template-switching supplies expose Maxima, dNTPs, RNase inhibitor and buffer functions. Source KAPA amplification supplies expose polymerase, dNTP and buffer functions without extra additions or a new formulation claim. Both source 0.3 M dNTP statements remain literal; whole stock packaging and concentration convention stay unresolved.

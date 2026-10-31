@@ -36,3 +36,11 @@ The main Methods' unmodified RNA-ACA validation substrate is `{{= ref_seq.CONTRO
 - Read the directly cited Imanishi et al.2017 MazF methyl-sensitivity original, source reagent documentation and remaining original panels/tables; reconstruct exact cleavage-end/PNK chemistry only where established.
 - Further inspect the distinct ChpBK, FTO-validation and ligation/qPCR controls, plus source-linked supporting methods, without merging them into this NGS route.
 - An independent source/linked-information pass remains pending. No missing-information claim is confirmed.
+
+## Bounded publication review, 30 October 2026
+
+The published non-manuscript original PMC6609220 Methods139–175 was re-read, especially library-construction167–169 and its separate analysis context. Mandatory bundle oligo scraping was repeated; the printed validation substrates and actual reaction/library paragraph were checked directly. This pass adds one defining original, not a full supplemental or linked-source review. The source-reported 10 ng NR801 input, 15-cycle PCR, 8% urea PAGE and HiSeqX10 remain positive facts; they do not establish the historical kit's complete adapter/RT/PCR/read polymers.
+
+The model keeps matched FTO/MazF and minus-FTO control branches, then stops at purified repaired RNA. Required `historical_nr801` remains unaccounted for. Actual source Qubit analysis, 10 ng kit-input allocation/remaining stock, source-positive DNA-library production, physical gel purification and loading/remainder interfaces remain to be assembled locally with the historical kit/end/read geometry. The current source names NR801 and Vazyme T4PNK; it does not license replacing those declarations with MAZTER-seq, contemporary NR801 or another supplier's PNK recipe.
+
+The applicable historical NR801 documentation identity/revision remains an open target, not an invented unavailable document. The source main and published supplement are available; kit-specific full assembly and linked-source disposition remain unresolved. Validation oligos and the separate dot-blot/ChpBK/K56A/ligation-qPCR experiments do not become sequencing adapters or automatic controls in this selected NGS graph. No missing sequence, reaction detail or read layout is declared confirmed absent.

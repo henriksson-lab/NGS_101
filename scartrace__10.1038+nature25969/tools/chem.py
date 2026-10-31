@@ -7,10 +7,10 @@ from page import head,info
 PAGE_FILE='chem.html'
 
 def operations(g):
-    def op(key,x,label,reagent=None,state=None,kind=S.GENERIC):
+    def op(key,x,label,reagent=None,state=None,kind=S.GENERIC,reagent_kind=K.CATALYST,reagent_role=R.CATALYST):
         inputs=[(x,R.TEMPLATE)]
         if reagent:
-            z=g.input(key+'_reagent',reagent,K.CATALYST);inputs.append((z,R.CATALYST))
+            z=g.input(key+'_reagent',reagent,reagent_kind);inputs.append((z,reagent_role))
         y=g.product(key+'_product',label+'; preparation includes unremoved reaction components',K.MOLECULAR,state=state)
         g.react(key,label,kind,inputs,(y,));return y
     def clean(key,x,label):
@@ -21,8 +21,12 @@ def operations(g):
     return op,clean
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
-def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+def incomplete(g,v):
+    # Literal independently reviewed source scope, not graph enumeration. Linked
+    # transcriptome library manufacture remains unreviewed and unaccounted.
+    g.declare_reviewed_scope(('cells','sort_reagent','sort','freeze_reagent','freeze','proteinase_reagent','proteinase','scar_pcr1_reagent','scar_pcr1','scar_primer','scar_pcr2','pool_wells','oil_separation_selection','oil_separation','scar_adapter_pcr_reagent','scar_adapter_pcr','scar_adapter_pcr_product'),SOURCE)
+    if v=='joint':
+        g.declare_reviewed_scope(('rt_primer','rt_catalyst','rt','second_strand_reagent','second_strand','allocate','ivt_reagent','ivt','rna_library_product'),SOURCE)
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 TITLE='ScarTrace — genomic GFP scars and same-cell transcriptomes'
@@ -48,14 +52,15 @@ class ScarPrimerInventory:
 
 def variant_graph(v):
     if v not in ('joint','dna_only'):raise ValueError(v)
-    g=ProtocolGraph(TITLE+' / '+v,authority=SOURCE);op,clean=operations(g)
+    g=ProtocolGraph(TITLE+' / '+v,authority=SOURCE,representation='illustrative_example',example_description='One symbolic well and selected source primer inventory illustrate the joint/gDNA-only source workflow. No actual384-cell pool, sample identity or edited allele is assigned.');op,clean=operations(g)
     cells=g.input('cells','Source DAPI-negative single cells after recorder editing;one symbolic well',K.BIOLOGICAL,primary=True,state=recorder())
-    x=op('sort',cells,'FACS into384well plate,mineral oil,dNTPs,spike-ins andRNase inhibitor','Source well reagents;no purification')
-    x=op('freeze',x,'Spin plate,storeminus80C;source65C5minlysis','Source thermal conditions')
+    x=op('sort',cells,'FACS into384well plate,mineral oil,dNTPs,spike-ins andRNase inhibitor','Actual source mineral-oil/dNTP/spike-in/RNase-inhibitor allocations; composition/stockcounts unassembled',reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL)
+    x=op('freeze',x,'Spin plate,storeminus80C;source65C5minlysis','Source65C5min lysis and storage/spin programme',reagent_kind=K.CONDITION,reagent_role=R.CONDITION)
     if v=='joint':
         primer=g.input('rt_primer','PublishedCELSeq2-BC-001 member;wellassignmentnotexperimental sampleidentity',K.OLIGO,state=rt_primer())
         out=g.product('rt_product','Well mixture:RNA/cDNAhybrids,genomicDNA,freeprimers/reagents',K.MOLECULAR)
-        g.react('rt','Source reverse transcription42C',S.GENERIC,((x,R.TEMPLATE),(primer,R.STRUCTURAL)),(out,));x=op('second_strand',out,'Source second-strand synthesis16C;genomicDNAremainscopresent','Source second-strand mixture unassembled')
+        rt=g.input('rt_catalyst','Actual source reverse-transcription catalyst allocation at42C; identity/dose require detailed original, not an imported SORT-seq recipe',K.CATALYST)
+        g.react('rt','Source reverse transcription42C',S.REVERSE_TRANSCRIPTION,((x,R.TEMPLATE),(primer,R.STRUCTURAL),(rt,R.CATALYST)),(out,));x=op('second_strand',out,'Source second-strand synthesis16C;genomicDNAremainscopresent','Source second-strand mixture unassembled')
     x=op('proteinase',x,'ProteinaseK makesgenomicDNAaccessible;retainwellcDNAifpresent','Source proteinaseK')
     x=op('scar_pcr1',x,'FirstsourceGFP-targetedPCR;gDNAandotherwellmaterialremaincopresent','Source firstPCRprimers/enzymes unassembled')
     primer=g.input('scar_primer','One source barcode-primer reagent;Table2 component inventory,whole junction unassembled',K.OLIGO,state=ScarPrimerInventory())
@@ -74,14 +79,16 @@ def variant_graph(v):
     else:scar=x
     scar=op('scar_adapter_pcr',scar,'PCRintroducingIlluminaTruSeqadapters;noinventedintermediatepurifications','SourceadaptorPCRprimers/enzymesunassembled')
     end(g,scar,'PublishedPE75NextSeq;scarwellbarcodeandGFPscarreadout. Wholelibrary,indexcycles/readprimergeometryunassembled;scarbarcode≠inheritedscar.')
-    return incomplete(g)
+    return incomplete(g,v)
 def protocol_graph():return variant_graph('joint')
-def render_page():return head(TITLE)+'<main class="wrap"><h1>'+TITLE+'</h1>'+info(LIMIT)+'<p><a href="01_scartrace.html">Research notes</a></p>'+''.join(workflow_panel(workflow_from_protocol_graph(protocol_graph(),x)) for x in ('scar_adapter_pcr_product','rna_library_product'))+'</main>'
+def render_page():return head(TITLE)+'<main class="wrap"><h1>'+TITLE+'</h1>'+info(LIMIT)+info('ILLUSTRATIVE EXAMPLE — one symbolic well represents protocol stages, not a verified384-cell pool or an edited sample allele. SourceFigure1d schematizes80percenttranscriptome/20percentscar; mainMethods does not specify transfer quantities. The mixture split is not DNA/RNA purification.')+'<p><a href="01_scartrace.html">Research notes</a></p>'+''.join(workflow_panel(workflow_from_protocol_graph(protocol_graph(),x)) for x in ('scar_adapter_pcr_product','rna_library_product'))+'</main>'
 def selftest():
     from checks import Check
     from storage import sources_root
     c=Check();g=protocol_graph();d=variant_graph('dna_only')
     c('Scar barcode and arm are one input reagent',tuple(i.material for i in g.steps['scar_pcr2'].inputs),('scar_pcr1_product','scar_primer'))
+    c('Symbolic well is explicitly illustrative',g.representation,'illustrative_example')
+    c('Original detailed and SORT-seq obligation stays uncovered','unassembled' in g.source_coverage,False)
     c('Bothroutesprivate',g.publishable or d.publishable,False)
     c('DNAgDNArouteomitsRT','rt' in d.steps,False)
     c('Proteinaseaftersecondstrand',g.steps['proteinase'].inputs[0].material,'second_strand_product')

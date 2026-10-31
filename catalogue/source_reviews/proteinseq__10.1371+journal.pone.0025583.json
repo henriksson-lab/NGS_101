@@ -46,5 +46,53 @@
     "Published TablesS5\u2013S7 (probe bodies and sliding-splint sequence) and FigS1 original geometry; TableS3 source NGS probe concentrations",
     "Source-cited bead/antibody conjugation predecessors (main refs19/29), full manufacturing and workup",
     "Full universal primer sites, complete reporter copy/ligation and read geometry; actual sample/index assignment"
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 3,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/proteinseq__10.1371+journal.pone.0025583/journal.pone.0025583_PMC3183061.xml.txt",
+        "version": "Published defining article",
+        "sections": "Identity1\u20138; Methods197\u2013262; FigS1caption270\u2013272",
+        "scope": "Conjugate/capture/molecular stocks, qPCR branch versus NGS35cycle route, actual24/26 and10/40 transfers, gel/QC, seven12indexgroups/GAIIxSE95."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/proteinseq__10.1371+journal.pone.0025583/journal.pone.0025583_supp_pone.0025583.s011.docx",
+        "version": "Published TableS7 original",
+        "sections": "Original DOCX word/document.xml whole table and caption",
+        "scope": "Universalforward CGATTCGAGAACGTGACTGC/reverse GCGAAACCTGGTCCGGTATC row; remaining specific primer rows described by actual caption as qPCR SP-PLA. No sliding-splint body in this inspected table."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/proteinseq__10.1371+journal.pone.0025583/journal.pone.0025583_supp_pone.0025583.s012.docx",
+        "version": "Published TableS8 original",
+        "sections": "Original DOCX word/document.xml whole Index1\u201312forward/reverse/enrichmentprimer table and caption",
+        "scope": "Whole NGS library primer orderings, no assigned study sampleindex or full PLA reporter reconstruction."
+      }
+    ],
+    "scope": "Corrected TableS7 locator; actual7groupsx12independentproducer obligation remains unsatisfied; full source gate retained.",
+    "missing_claims": [],
+    "normal_gate": [
+      "construct-changing step 'capture' has generic chemistry",
+      "construct-changing step 'probe' has generic chemistry",
+      "construct-changing step 'ligation' has generic chemistry",
+      "construct-changing step 'universal_pcr' has generic chemistry",
+      "construct-changing step 'preamp_split' has generic chemistry",
+      "construct-changing step 'indexing' has generic chemistry",
+      "construct-changing step 'indexed_split' has generic chemistry",
+      "construct-changing step 'enrich' has generic chemistry",
+      "construct-changing step 'quantify' has generic chemistry",
+      "construct-changing step 'pool' has generic chemistry",
+      "sequencing output 'pool_product' is not a library",
+      "authoritative source item 'unassembled' is not accounted for"
+    ],
+    "verification": "scGR13PASS/ProteinSeq8PASS; both private builds; source guard7exact0failed3unknown; chemistry21+16unresolved0contradictory; pairing0; actualHTML private limits and no completion markers verified."
+  },
+  "table_s7_locator_correction": {
+    "locator": "/husky/henriksson/NGS101_papers/sources/proteinseq__10.1371+journal.pone.0025583/journal.pone.0025583_supp_pone.0025583.s011.docx",
+    "scope": "Original DOCX whole table/caption: actual TableS7 qPCR primer sequences, not sliding-splint table. No TableS5/S6/FigS1 inspection claimed.",
+    "version": "Published supplement",
+    "absence_claim": false
+  }
 }

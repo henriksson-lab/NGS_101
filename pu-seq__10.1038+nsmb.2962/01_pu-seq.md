@@ -23,3 +23,11 @@ PublishedSI MOESM16 has matchingDOI/identity but this does not prove the associa
 ## Review boundary
 
 Mandatory whole-bundle oligo scraper run; nohits are not evidence of missingsequence. Capped source pass only, with source-linked targets above. No missingclaims accepted and no independentabsenceaudit. Source-owned private graph/preview remains incomplete, with explicitunreviewedSourceItems and no finishedmarker.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Associated manuscript115 specifies20ug genomic DNA for alkaline treatment,10ug ssDNA for the gel,100ng selected ssDNA for BioPrime copying, then analytical quantification/sizing before **all20–60ng** converted DNA enters NEBNext library preparation. The graph now traces those source allocations through their actual producer stages. Early untransferred stocks have unassigned amounts and may be zero; no positive remaining quantity is invented. Separate PicoGreen and Bioanalyzer analytical fractions are retained as QC. All post-QA20–60ng feeds NEBNext directly: there is no extra loading/input remainder at that boundary.
+
+NaOH is a molecular contributor separate from the source55C2h environment. BioPrime copying exposes actual dATP/dCTP/dGTP/dUTP and generic copying/priming/buffer functional classes without inventing enzyme identity, primer sequence, priming positions or premix packaging. The later USER contribution is an enzyme catalyst. Separate PCR functional supplies retain unknown composition; the copy-stage dUTP substitution is not silently assigned to PCR. Final known DNA-library kind survives cleanup. USER fragments and original/copy templates are not deleted by the enzyme step.
+
+The original historical_assembly SourceItem remains required and uncovered. Exact BioPrime/NEBNext/Zhang2012 originals, final-VOR applicability, full adapter/end/primer/USER-substrate geometry and study index member remain unresolved. No canonical kit recipe, source absence, generated source inventory or endpoint-only promotion is claimed. SourcePE100HiSeq2500/PE150NextSeq500 contexts stay explicitly qualified; no new original was read or acquired during implementation.

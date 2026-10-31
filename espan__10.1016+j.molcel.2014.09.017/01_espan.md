@@ -21,3 +21,10 @@ Actual chemistrySI link returned a preparing-downloadgate. PubMed lists an errat
 ## Review boundary
 
 Mandatory whole-bundle oligo scraper run; nohits are not evidence of missingsequence. Capped source pass only, with source-linked targets above. No missingclaims accepted and no independentabsenceaudit. Source-owned private graph/preview remains incomplete, with explicitunreviewedSourceItems and no finishedmarker.
+
+
+## Bounded publication review — 2026-10-30
+
+The selected original remains the associated NIHMS667987 manuscript, not a proven final-publication equivalent. Its Results68 explicitly describes ligation of an oligo to selected ssDNA at the 3′ end, conversion to duplex DNA and subsequent adaptor ligation. This positive order does not establish the historical whole oligos, enzyme stocks, end geometry or actual complete Meyer2012 preparation. The existing source library continuation therefore stays unresolved. The source yeast preparation is now typed biological, and actual BrdU nucleotide-analogue contribution is an explicit molecular input separate from the cell-cycle/HU programme. Chemical form, dose, incorporation distribution and full labelled polymers remain unassembled. Original required items `gated_si` and `erratum` remain exact and uncovered: actual detailed SI, precise correction identity/content, final-version applicability and directly cited methods remain follow-up obligations. No arbitrary labeling completeness, library recipe or physical pooling is added.
+
+No further originals were read or acquired during implementation. The capped review accepts no missing-information claim; normal publication gates remain unsatisfied.

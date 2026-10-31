@@ -8,7 +8,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/s41467-021-21810-3_PMC7952600.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published Results72–80 and Methods138–176: conjugation/staining, AMLV1 capture/PCR, fractionation/probe capture, libraryPCR and run/read processing."
+      "inspection_scope": "Published Results72\u201380 and Methods138\u2013176: conjugation/staining, AMLV1 capture/PCR, fractionation/probe capture, libraryPCR and run/read processing."
     },
     {
       "id": "moesm1",
@@ -66,7 +66,7 @@
       "reviewer": "bounded-source-model-pass",
       "date": "2026-10-28",
       "scope": "Published patient DNA/antibody branches with local source-derived binding states; detailed protocol identity only",
-      "locations": "Article72–80,138–176; supplementTables1/2/6 rendered PDF14/15/19; detailed protocolV2 printed cover",
+      "locations": "Article72\u201380,138\u2013176; supplementTables1/2/6 rendered PDF14/15/19; detailed protocolV2 printed cover",
       "findings": "5prime azide click-conjugated tag pattern; RUNX1_4 forward captures tag3prime while reverse omitted.0.75x retains DNA bead/protein supernatant branches; biotin/C6 probe binds copied complementary strand; streptavidin selection then10cycle DNA and20cycle antibodyPCR. SplitUMI5+5 has common feature identity. Patient runs differ from three-cell MiSeq control; no bead barcode or complete library invented.",
       "documents": 3,
       "deferred": [
@@ -92,6 +92,23 @@
         "Original source-review and complete barcode/kit applicability obligations unchanged."
       ],
       "verification": "DAb/QuRIE combined6whole-input checks0failed;6newmatcher regressions in passing1592-check shared suite."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-6",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "scope": "Bounded source-qualified public-page pass, not full chemistry or absence audit",
+      "documents": 2,
+      "locations": "Two selected published originals: mainPMC7952600Methods138\u2013176 and MOESM1Tables1/2/6, with actualTable2PDFp15/Table6p19 inspected in this pass. Local detailedprotocolV2/vendor/preprint bodies were not read or substituted; existing deferred source obligations remain. The source gap is whole intermediate geometry and further curation, not confirmed missing disclosure.",
+      "findings": "The public representation is **published_instance** for the selected patient preparation, with anonymous technical slots rather than assigned patient/barcode identities. Actual first-stage cell/lysis encapsulation precedes protease incubation/inactivation. A second module encapsulates lysed-cell droplets with the barcoding supplies. That emulsion is distributed into eight source PCRtubes, each with UV primer release and20cycle amplification; the tubes are pooled as four pairs before independent recoveries. Namesp1a/p1b throughp4a/p4b describe pair membership only, not actual tube labels or eight cells. Continuous emulsion phase stays in the physical transfer/distribution interfaces. Each of four recoveries retains both DNAbead and antibody-supernatant fractions, so there are eight subsequent library contributions. The full workflow stays available in a labelled expandable section; no all-eight pool/split or false joint DNA/antibody assay pool is substituted. Prepared antibodyconjugates are source inputs with whole residualadduct geometry unassembled. Actual Fcblock, dextransulfate, salmonDNA and PBS/FBS supplies remain separate from catalytic roles. Named source lysis/barcoding/LibraryMix components are views of the same actual supplies, not duplicate new stocks or an imported historical kit recipe. Source thermal programs are explicit. The captureprobe is added before95Cdenaturation/snapcool and reused as a copresent reagent at hybridization. Probe biotin/3C6, RUNX1_4/site specificity, sourcePSorders and one5+5splitUMI around the antibodybarcode remain preserved. The reversepool omission is explicit; the remaining whole reversepool and full beadbarcode handles are unexpanded in this capped model, not declared missing. Source DNA eluate is30uL, but the PCRtemplate is4ng in15uLwater: the consumed eluate volume is **unassigned**, not automatically15uL. Antibody template is explicitly15uL of30uL bead suspension, leaving an untransferred15uL class. DNA10cycles and antibody20cycles remain separate; both produce12uL eluates, with final BioAnalyzer/Qubit material selected separately. Sequencing contribution interfaces include actual source20percentPhiX, unassigned fraction convention/doses, and final loading/untransferred mixture stocks. Run-grouping of technical/patient libraries remains unassigned. DNA uses NovaSeq2x150, antibody NextSeq38/39; eight graph sequencing terminals are **contributions**, not a claim of eight independent runs. Printed Index1 examples are reference orders, not sample assignments; actual index-family members remain unknown in graph states.",
+      "oligo_scraper": "/tmp/unlinked-dab6b-scraper.log; relevant original Table2/6 orders/modifications checked, no preprint substitution or absence inference.",
+      "deferred": [
+        "Complete remaining DNAprimerpool/beadbarcode designs and sample index assignments",
+        "DetailedprotocolV2chemistry and historicalAMLV1vendor originals",
+        "Actual run-grouping and complete molecular/primer-coordinate reconstruction",
+        "Full linked-source/independent audit"
+      ],
+      "verification": "17focusedPASS;114steps4localestablished130unresolved0contradictory; gate[]; pagebuild/pairing0."
     }
   ],
   "linked_information": {
@@ -106,5 +123,8 @@
     "Final library/primer-coordinate and read-cycle reconstruction",
     "Remaining supplement sections/reporting/peer-review disposition",
     "Complete original/linked-source checklist and independent reading"
-  ]
+  ],
+  "conclusion": "Eligible for source-qualified public page with explicit patient technicalarray and independently prepared DNA/antibody library contribution streams; fullbead/library geometry remains unassembled. No molecular completeness, actual assay performance or missing-information acceptance is asserted.",
+  "pass_1": null,
+  "pass_2": null
 }

@@ -1,6 +1,6 @@
 {
   "dir": "top-seq__10.1016+j.molcel.2016.12.012",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "read_1",
@@ -9,11 +9,11 @@
       "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5291818.1/PMC5291818.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "Associated accepted manuscript NIHMS838518; mainDesign64, Methods153\u2013177 and KeyResources333\u2013361. Defining original inspected before linked references.",
+      "source_version": "Associated accepted manuscript NIHMS838518; mainDesign64, Methods153–177 and KeyResources333–361. Defining original inspected before linked references.",
       "pass_1": {
         "reviewer": "dna_round14",
         "date": "2026-10-29",
-        "locations": "Associated accepted manuscript NIHMS838518; mainDesign64, Methods153\u2013177 and KeyResources333\u2013361. Defining original inspected before linked references.",
+        "locations": "Associated accepted manuscript NIHMS838518; mainDesign64, Methods153–177 and KeyResources333–361. Defining original inspected before linked references.",
         "finding": "Genomic labeling/adapter/click/Pfu/TOP/PCR and IonProton source order; A1/A2 exact sequences; TO leading-T discrepancy and unreviewed LNA/PS placement."
       },
       "pass_2": null
@@ -78,13 +78,28 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "At most10min/3originals; originals/supplements first; no recursive reference acquisition.",
-      "locations": "Associated accepted manuscript NIHMS838518; mainDesign64, Methods153\u2013177 and KeyResources333\u2013361. Defining original inspected before linked references.",
+      "locations": "Associated accepted manuscript NIHMS838518; mainDesign64, Methods153–177 and KeyResources333–361. Defining original inspected before linked references.",
       "findings": "Known physical steps through acquisition represented; native chemical inventory distinguished from copying/kinetic computational calls.",
       "deferred": [
         "Exact directly named kit/predecessor/onlineMethods targets and actual barriers detailed in note."
       ],
       "oligo_scraper": "Mandatory bundle scraper: TOP19hits, hmC-Seal0hits, chemical-labelSMRT13hits. Hits interpreted against originals; empty/partial extraction not absence evidence.",
       "verification": "21local checks pass (TOP7/hmC-Seal5/SMRT9); exact-source guard2checked0failed0exempt with4TOPmodifiedprimerinputswithout exactstates;3graphs. Chemistry33unresolved0contradictory (not reaction completion). All6notes/refpages build; scoped source-review schema passes (2blocked/1in_progress); diffcheck clean. Graph-only/no page builders or duplex pages, so schematic build/pairing not applicable. Retrieval82569terminalexit0; no additional acquisition."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch23",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed selected original scope followed by bounded explicit physical-contributor corrections; no new source, final-equivalence assumption or absence audit.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/top-seq__10.1016+j.molcel.2016.12.012/j.molcel.2016.12.012_PMC5291818.xml: MainMethods153–177/sourcegenomiclabeling→repair/tail/adapter→tether→TOP/PCR→IonProton; exactKeyResources333–361 TO/A1/A2/EP/fusionprimers; source mainDesign64. No actual image/SI cached or inspected.",
+      "findings": "Known source contributors are now explicit: eM.SssI catalyst, Ado6azide donor, and BSA/buffer components from one actual TNB buffer allocation. BSA is not an independently invented fresh dose. Proteinase K is an actual catalyst rather than a condition-only label. Klenow A-tailing receives separate actual dATP; TOP extension receives actual dNTP. The actual Maxima master-mix allocation exposes produced polymerase, nucleotide and buffer components consumed together by PCR, with no fresh duplicate component stocks or invented formulation. These functional decompositions are inventory interfaces, not physical separation reactions. Original `pending` remains unchanged and uncovered: actual SI/table scope, TO Methods extra-leading-T versus KeyResources alternative, LNA/PS positions and full library/read assembly remain unresolved. The actual 5µL TOP aliquot and remainder remain separate. No occupied whole library or acquired read geometry was invented.",
+      "deferred": [
+        "Actual chemistryPDF https://pmc.ncbi.nlm.nih.gov/articles/instance/5291818/bin/NIHMS838518-supplement-1.pdf .",
+        "Actualassociated2/3/4XLSX named inmanifest remain gated; their chemistry/results tablemapping not proven, do not inventchemistryroles.",
+        "DirectlycitedmTAG/Ado6azidesynthesis and historicalkitversions; final-VOR applicability and fullreadassembly."
+      ],
+      "oligo_scraper": "Wholebundle scan19hits/1file"
     }
   ]
 }

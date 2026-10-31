@@ -1,19 +1,19 @@
 {
   "dir": "simple-seq__10.1038+s41587-024-02148-9",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "bai2024",
       "role": "defining",
-      "locator": "Bai et al., Nature Biotechnology doi:10.1038/s41587-024-02148-9, https://www.nature.com/articles/s41587-024-02148-9",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/simple-seq__10.1038+s41587-024-02148-9/s41587-024-02148-9.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Publisher page exposes abstract and links, but the detailed Methods/full article are behind subscription access; source manifest has a manual row. Abstract alone cannot verify reaction order.",
+      "reason": "Earlier retrieval-block records are historical. Current cached publishedPDF identity/Methods available and inspected; no complete version-equivalence assumption.",
       "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Publisher page abstract lines 38-43, source/data/code links lines 116-122",
-        "finding": "The available abstract describes joint 5mC/5hmC recording but lacks the molecular step order. It links a code repository and data accession, not an open full Methods copy."
+        "reviewer": "targeted_publication_reader",
+        "date": "2026-10-30",
+        "locations": "PublishedPDF identity1–23; Methods2582–2663/2671–2820 (latter extended within same original by independent implementation reviewer).",
+        "finding": "Published source-owned physical model/page candidate added; actual arrays/stock remainders, known modified local ends, two chemical recording phases and finalPCR/library/loading are explicit. Full occupied products/barcode members/readgeometry remain unassembled; no predecessor or kit defaults inserted."
       }
     },
     {
@@ -109,7 +109,7 @@
       "evidence": "Defining Methods are paywalled; the oligo workbook and abstract do not establish complete reaction order. Linked code and predecessor methods remain to inspect."
     }
   ],
-  "conclusion": "First pass read the original workbook and visually excluded the reporting summary; the defining Methods and linked material remain blocked. A second independent original-source pass is required.",
+  "conclusion": "Published main and original selected Table1_1 chemistry are available and used for a source-qualified physical model. Historical linked-information/absence records remain historical; no new confirmed absence or full-protocol review is claimed.",
   "bounded_checks": [
     {
       "round": "2026-10-17-breadth-first-18",
@@ -164,6 +164,35 @@
       ],
       "scope": "Capped defining-source pass; defining article now read; notes-only; no missing-information claim accepted.",
       "verification": "notes-only: no suite/page/pairing; check_chemistry n/a (no graph declaration); source guard 0 checked/0 failed/0 graphs; audit_protocol_sources --check ok; Markdown built (note + ref/MANIFEST); review schema checked"
+    },
+    {
+      "round": "unlinked-pages-batch20",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing originals only; no acquisitions. Bounded source-supported implementation, not absence audit.",
+      "locations": "/tmp/unlinked-targeted27-preflight.json exact selected originals/sections; SIMPLE originalS1_1 rows3–12 ZIP/XML; SELECTv1 Methods619–708/801–813, citedV.3 identity/selectedsections and actualNRF2Table1rows104–106.",
+      "findings": "Published source-owned physical model/page candidate added; actual arrays/stock remainders, known modified local ends, two chemical recording phases and finalPCR/library/loading are explicit. Full occupied products/barcode members/readgeometry remain unassembled; no predecessor or kit defaults inserted.",
+      "deferred": [
+        "Unexpanded whole molecular assemblies and actual study-wide member/run assignments; no invented disclosure documents."
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scans /tmp/unlinked27-select-scraper.log and /tmp/unlinked27-simple-scraper.log; large workbook text skip handled through actual selected original ZIP/XML rows.",
+      "verification": "17 focused checks pass (including3 actual-original produced-whole-oligo transcription checks that skip when source absent), publicbuild/normalgate/pairing pass. Externalguard3exact/0fail;3producedunknownclasses retained. Chemistry4established/56unresolved/0contradictory. Independent14-check same-source implementationpeer remains applicable to unchanged chemistry."
+    }
+  ],
+  "independent_implementation_recheck": [
+    {
+      "reviewer": "independent_targeted_publication_reviewer",
+      "date": "2026-10-30",
+      "scope": "Selected independent implementation fidelity recheck, not absence pass2 or complete molecular validation.",
+      "locations": "Same2publishedoriginals only: definingPDF2582–2663/2671–2820; originalXLSXSupplementary_Table1_1rows3–12 ZIP/XML.",
+      "findings": "Scoped approval after known loaded-stock/blocker/linker inventory, joint-cell barcode versus sample-index semantics, UMI physical-installation qualification and compound-array pre-distribution fixes. Actual source physical DNA producer and selected known ends preserved; no remaining selected critical blocker.",
+      "verification": "Independent14focusedPASS; normalgate0problems; guard3exact/0fail/0externalunknown, produced unknownclasses outsideguard reported;4localestablished/56unresolved/0contradictory. Details /tmp/unlinked-simple-critical20.json.",
+      "limitations": [
+        "Whole barcode members/occupied DNA/landing/conversionquantities remain unassembled.",
+        "Actual source preparedcontrolmix andmTETenzyme are sourceboundary stocks; their entire factories outside selected scope.",
+        "No accepted absence or final whole-protocol chemistry claim."
+      ]
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 Zarnegar et al., *Nature Methods* (2016), [doi:10.1038/nmeth.3840](https://doi.org/10.1038/nmeth.3840).
 
-The first source pass records the printed oligo inventory. A targeted local follow-up now represents the C18-bearing RT primer, circular cDNA and one conditional first-extension path. Full two-primer PCR/readout and applicability to the final published procedure remain unresolved. No protocol-complete marker is emitted.
+The first source pass records the printed oligo inventory. A targeted local follow-up now represents the C18-bearing RT primer, circular cDNA and one conditional first-extension path. The source-described two-PCR finish is now declared at a coarse occupied-product class level. Exact full PCR populations/read geometry and applicability to the final published procedure remain unresolved.
 
 ## Sources inspected
 
@@ -48,7 +48,7 @@ The inspected manuscript explicitly says the carbon spacers enable linear PCR pr
 
 🟢 The source names a custom P6 sequencing oligo and trims 5′ barcodes/3′ adapters during processing (73,81). The local model does not assign run cycles, separate index reads or exact library primer geometry before deriving the spacer-dependent product. No missing run-length disclosure is asserted.
 
-Proposed metadata: RNA; bulk cultured cells; UV-C crosslink/IP; on-bead nuclease; preadenylated DNA adapter ligation; TGIRT RT; cDNA circularization; two-stage PCR; inline barcode/degenerate identifier; custom sequencing primer; published instance. Keep `pending_source_review` and `notes` until full topology/readout validation.
+Proposed metadata: RNA; bulk cultured cells; UV-C crosslink/IP; on-bead nuclease; preadenylated DNA adapter ligation; TGIRT RT; cDNA circularization; two-stage PCR; inline barcode/degenerate identifier; custom sequencing primer; published instance. Use explicit source-qualified facets and the normal publication gate; molecularly unresolved products remain visible rather than claiming full topology/readout validation.
 
 Explicit component ancestry candidate `iclip__10.1038+nsmb.1838` → `irclip__10.1038+nmeth.3840`: original 37–43 cites König 2010 as ref. 8 (147), retains crosslink-dependent RT-stop mapping and circularized-cDNA recovery, then describes its own improved adapter, RT and purification chemistry. Scope the conceptual recovery strategy; original iCLIP's oligos, BamHI opening and buffers are not inherited. The 2015 FAST-iCLIP source, DOI `10.1261/rna.047803.114`, is also explicitly named in 43 and cited at 159 as a procedural predecessor but remains uninspected here. Shared adapter motifs alone establish no lineage.
 
@@ -69,8 +69,18 @@ This follow-up adds no new source retrieval or sections. Its source scope remain
 
 The output preserves structured sample-index and composite degenerate-identifier features through copying. The `umi` semantic assignment for the degenerate blocks is an inference from degenerate synthesis and duplicate handling; the printed source calls this a degenerate barcode. The W pattern is retained, and captured-RNA sequence/length stay unassigned. The constructor never supplies a made-up transcript or converts C18 into a base.
 
-The graph retains RNA alongside the nascent cDNA in a typed mixture, models streptavidin separation, and carries RNA-degradation products/P3short in the elution/circularization mixture until the source's physical cleanup. Exact residual partition is not invented. Its final terminal is **unresolved** after the one inferred P6-initiated first extension. Other PCR1 copying paths, primer competition, cycle-dependent products, full PCR2 and acquired run geometry remain unmodelled.
+The graph retains RNA alongside the nascent cDNA in a typed mixture, models streptavidin separation, and carries RNA-degradation products/P3short in the elution/circularization mixture until the source's physical cleanup. Exact residual partition is not invented. Its analytical first-copy terminal remains **unresolved**. The source-described actual PCR1/PCR2 finish is now a separate coarse product-class branch; primer competition, complete cycle-dependent products and acquired run geometry remain unassembled.
 
 `tools/selftest_spacers.py` uses independent synthetic templates to test reverse-complement copying, partial-block intervals, closure crossing, immediate linker stops, rejection of unqualified linker traversal, rejection of linker-free rolling-circle assumptions and invalid primer/closure inputs. It also checks both source spacer tokens against the cached original when available, with normal skip behavior when that external source is absent. These checks validate the stated local relations, not the experimental polymerase-stop hypothesis or final VOR applicability.
 
 The private `irclip_partial.html` inventory renders printed primer and inferred circle/product states; it has no complete-protocol marker. Every inferred state has a caveat, inferred caption and inferred base styling. The open-for-display circle remains a typed closed chemical backbone, not a flat DNA polymer.
+
+## Source-qualified public preparation, 30 October 2026
+
+The public graph preserves the accepted-manuscript authority and publisher Fig. S1a timing comparison. The adapter factory now retains the actual half-reaction aliquot/remainder, column-array recovery/pool and selected ligation contribution. ATP and covalently contributing IR800CW–DBCO are molecular structural supplies. The adapter depiction shows two nucleotide tracts of **one covalent oligo** connected through the internal `/iAzideN/` chemical site; it neither adds a canonical nucleotide there nor assumes direct DNA adjacency across that chemistry. The source calls the modification nucleotide position 32; its exact atom/sugar coordinate convention remains unassembled.
+
+Actual source dot-blot aliquots, phase extraction, linear-polyacrylamide carrier, RNA stock selection, primer annealing, enzyme preincubation before fresh dNTP addition, retained same-tube catalyst/primer components, real-time PCR1, two bead size selections, elution directly into PCR2 primer mix, fresh master mix, three PCR2 cycles, final QC and selected loading stock are explicit. Source-prepared mixtures are decomposed into copresent functional inventory classes, never invented fresh separate doses.
+
+The conditional P6/C18 first-copy reference remains **nonphysical analytical bookkeeping** (`changes_molecule=False`) with an unresolved terminal. It is not a second physical PCR/aliquot and its hypothetical output is **not** the actual PCR1 template. The actual source PCR1/PCR2 branch retains known whole primers with unavailable occupied-product geometry. No exact linker readthrough/stopping distribution, acquired read count/cycles, read mask or final-version equivalence is invented. The full workflow and warnings remain visible under an expandable section. Original build/selftest paths and all independent synthetic spacer tests remain.
+
+This bounded follow-up used only the closed original source set above. It is not a complete chemistry or missing-information audit.

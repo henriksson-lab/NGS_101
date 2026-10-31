@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round13",
         "date": "2026-10-29",
-        "locations": "Associated manuscript NIHMS714853 mainMethods93\u2013131/Fig1e; matchingPDFunittext",
+        "locations": "Associated manuscript NIHMS714853 mainMethods93–131/Fig1e; matchingPDFunittext",
         "finding": "PhysicalAIadduct/click/strandwash/reductiverelease and downstreamTELPadaptation plus3comparisonsourcebranches."
       }
     },
@@ -37,7 +37,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round13",
         "date": "2026-10-29",
-        "locations": "Primarypublisher21September2015Changehistory; integratedSI chemistrycaptions1\u20139",
+        "locations": "Primarypublisher21September2015Changehistory; integratedSI chemistrycaptions1–9",
         "finding": "Updatecorrects ChuanHeaffiliations (Tsinghuaremoved/missingPekingChemicalBiologyadded); no chemistrycorrection stated. PublisherSI download/review beyond selectedassociatedoriginal remains deferred."
       }
     },
@@ -50,7 +50,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round13",
         "date": "2026-10-29",
-        "locations": "PublishedDOIheader/Fig1\u20139captions, especially8\u20139 strandwash/disulfiderelease/polymeraseclasses",
+        "locations": "PublishedDOIheader/Fig1–9captions, especially8–9 strandwash/disulfiderelease/polymeraseclasses",
         "finding": "Explicit5fC-AI-SH releasedclass; PCRcopybias ratherthanphysicalDNA-Tconversion. KnownqPCR/modelvalidationtables not adopted asTELPoligos."
       }
     }
@@ -73,13 +73,27 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Max3originals; definingmainandchemistrySI beforelinkedreferences; norecursivechase.",
-      "locations": "AssociatedmainMethods93\u2013131/Fig1e; publishedSI MOESM167Fig1\u20139; publisher21September2015affiliationChangehistory. AssociatedSIscannedforpointers only, notseparatechemicalauthority.",
+      "locations": "AssociatedmainMethods93–131/Fig1e; publishedSI MOESM167Fig1–9; publisher21September2015affiliationChangehistory. AssociatedSIscannedforpointers only, notseparatechemicalauthority.",
       "findings": "Sourceorder/physicalfractions/chemicaladductversusreportedbases retained; publisherupdateidentifiedonlyasaffiliationcorrection.",
       "deferred": [
         "ActualgatedSIandnamedhistoricalkit/directpredecessortargets inresearchnote; noabsenceconclusion."
       ],
       "oligo_scraper": "/tmp/fccet13-oligos-final.log;114hits in2files afterpublishedSI arrived, duplicateoriginaltablepointers/modelvalidationoligos; noTELPpolymeradopted and noabsenceclaim.",
       "verification": "21localchecks(6MINCE/7fCAB/8fC-CET)passed;3privatebuilds/scopeddocs/pairing0problems andsource-reviewschema passed. Chemistry0established/56unresolved/0contradictory;sourceguard0checked/0failed with6fC-CETprimerinputswithout exactstates,notexactoligovalidation. Retrieval83354/30671completedexit0; externalcachepreserved/noacquisitionrunning."
+    },
+    {
+      "round": "unlinked-pages-batch22",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing-source pass only; bounded private molecular/physical corrections, not full source or absence audit.",
+      "locations": "Exact selected originals/sections in /tmp/unlinked-targeted31-preflight.json and /tmp/unlinked31-source-counts.json. fC-CETassociatedmain93–131 pluspublishedSI8–9; TetTCRpublishedmain973–1064, originalTable10selectedrows andpublishedSIFig3caption125–130.",
+      "findings": "The primary source now denotes DNA-containing mESC biological preparations before SDS/proteinaseK extraction, not a repeated extraction of already-purified DNA. SDS and ProteinaseK have separate physical substrate/catalyst roles. AI, DBCO-S-S-PEG3-biotin, NaOH and DTT are molecular contributors with separate source conditions; the associated-main400mM value is unchanged. The source preAI/AI comparison interface is compound with biological-replicate/common-stock mapping unassembled, not proof of one physical mother-tube split. Source selected capture/strandwash/DTTsupernatant/P6fates remain, including publishedSI5fC-AI-SHclass rather than unmodifiedC. Actual TELP/MightyAmp aggregate supplies expose known extension catalyst, oligo-function inventory and other molecular contributors without asserting a kit recipe or premixing. Actual named NEBNextPCRmastermix supplies copresent enzyme/nucleotide/buffer functions from the same addition. Each library has an actual Bioanalyzer analytical allocation, separate selected loading contribution and untransferredDNAstock. A literal selected extraction/adduct/capture/release target list is declared. Original TELP/historicalkit/finalVOR-applicability obligation remains required/uncovered; no public promotion.",
+      "deferred": [
+        "Actual directly cited TELP/historicalkit source scope and complete finalVORmethodapplicability remain unreviewed. Current associatedmain pluspublishedSI positivephysicalprep does not discharge that obligation. Exacthistoricalprimer/ends/kit assembly unassembled; no publicpromotion via opaqueTELPoutput."
+      ],
+      "oligo_scraper": "Mandatory closed-pass /tmp/unlinked31-fccet-scraper.log; actualTable10 selected originalZIP/XML /tmp/unlinked31-tettcr-workbook.json; no zero-hit absence inference.",
+      "verification": "12 focusedchecksPASS; privatebuild andpairingPASS. Combinedguard9exact/0fail/8externalunknownstates; producedTELPoligoclasses also unassembled outsideexternalguard. Chemistry70unresolved/0contradictory. Existingrequireditems unchanged."
     }
   ]
 }

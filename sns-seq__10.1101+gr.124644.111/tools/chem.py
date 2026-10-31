@@ -83,7 +83,7 @@ class NascentChain:
 
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
-    cells=g.input('cells','source K562 orMCF7 individualcellpreparation, not pooledcelltypes',K.MOLECULAR,state=pop('genomicDNA and RNA-primednascentDNA pluscellularmaterial'),primary=True)
+    cells=g.input('cells','source K562 orMCF7 individualcellpreparation, not pooledcelltypes',K.BIOLOGICAL,state=pop('genomicDNA and RNA-primednascentDNA pluscellularmaterial'),primary=True)
     x=op(g,'isolation','Source genomic/nascentDNA isolated asWang2004 withmodifications; exact innersteps unreviewed',S.MAGIC,cells,pop('source RNA-primednascentDNA/brokengenomicDNA preparation; nativeends/othermaterial unassigned'),'source linkedWang2004 isolation')
     x=cleanup(g,'gradient','Source neutral5–30%sucrose/TNE,20h21000rpmSW40at25C;400–600bp fractions pooled,dialyzedagainstTE,precipitated',x,x.state)
     a=g.product('carrier_aliquot','source companion aliquot BEFORE plasmid addition',K.MOLECULAR,state=x.state)
@@ -97,9 +97,15 @@ def protocol_graph():
     x=op(g,'lambda_digest','Source overnight37C lambdaexonuclease digestion in32µlbuffer plus2µlenzyme; fragmentsremainuntilworkup',S.DIGESTION,x,pop('lambda-treatedRNA-primedDNA, possible survivingbrokenDNA and digestionproducts; no perfect enrichment'),'source lambdaexonuclease',K.CATALYST,R.CATALYST)
     x=op(g,'heat','Source95C10min afterlambda digestion',S.MAGIC,x,x.state,'source heat condition; no perfectRNA/primer preservation or ideal inactivation assumed')
     x=cleanup(g,'post_digest','Source ethanolprecipitation/resuspend50µlsterilewater afterheat',x,x.state)
-    qc=g.product('qc','source aliquot for knownoriginprimer validation',K.MOLECULAR,state=x.state);rest=g.product('copy_input','remaining source nascentDNA forrandompriming',K.MOLECULAR,state=x.state)
+    qc=g.product('qc','source aliquot for knownoriginprimer validation',K.QC,state=x.state);rest=g.product('copy_input','remaining source nascentDNA forrandompriming',K.MOLECULAR,state=x.state)
     g.react('qc_split','Source validationPCR aliquot separated frompreparativeDNA',S.SPLIT,((x,R.TEMPLATE),),(qc,rest));g.mark_terminal(Terminal(qc.id,Disposition.QC,'KnownoriginPCR validation only; not nativeNGSlibrary primeraddition.'))
-    x=op(g,'copy','Source randompriming withDNApolymeraseIKlenow/DNAPrimeLabelingSystem1h37C',S.MAGIC,rest,pop('source duplexcopiednascentDNA, originalRNA-DNA chains and primer/nucleotide/reagentremnants; exact productpositions unassembled'),'source Klenow/DNAPrimeLabelingSystem; no unsourcedRNAhydrolysis,dUTP orUSER')
+    supplies=g.input('copy_stock','Aggregate source Klenow/DNAPrime random-priming supplies; physical packaging, number of stocks and doses unassigned',K.MOLECULAR)
+    enzyme=g.product('copy_enzyme','Actual named DNApolymeraseI Klenow contribution',K.CATALYST)
+    primers=g.product('copy_primers','Source random-priming oligo contribution; whole bodies and distribution unassembled',K.OLIGO)
+    nts=g.product('copy_nucleotides','DNA synthesis nucleotide supplies, inferred-required functional class; formulation/doses unassigned',K.MOLECULAR)
+    g.react('copy_inventory','Expose functional inventory of aggregate source supplies; not a physical separation or asserted premix',S.GENERIC,((supplies,R.STRUCTURAL),),(enzyme,primers,nts),changes_molecule=False)
+    x=g.product('copy_product','Source duplexcopiednascentDNA and reaction remnants',K.MOLECULAR,state=pop('source duplexcopiednascentDNA, originalRNA-DNA chains and primer/nucleotide/reagentremnants; exact productpositions unassembled'))
+    g.react('copy','Source randompriming withDNApolymeraseIKlenow/DNAPrimeLabelingSystem1h37C',S.MAGIC,((rest,R.TEMPLATE),(enzyme,R.CATALYST),(primers,R.STRUCTURAL),(nts,R.STRUCTURAL)),(x,),reason='Actual named source catalyst and randompriming contributions exposed without stock-packaging inference; nucleotide class is inferred-required, source formulation and whole copied strands unassembled. No unsourced RNA hydrolysis,dUTP orUSER.')
     x=cleanup(g,'copy_cleanup','Source ethanolprecipitation/resuspend30µlsterilewater',x,x.state)
     kit=g.input('ga_library','Source historicalGAII library continuation; exact reagents/oligos/workup unreviewed',K.CONDITION)
     lib=g.product('library','source double-strandednascentDNA sequencinghandoff,1µg reported',K.LIBRARY,state=x.state)
@@ -112,6 +118,10 @@ def protocol_graph():
 def selftest():
     from checks import Check
     c=Check();g=protocol_graph();chain=NascentChain('ACGU','GATTACA')
+    c('Analytical validation fraction is typed QC',g.materials['qc'].kind,K.QC)
+    c('Copy catalyst derives from actual aggregate supplies',g.steps['copy_inventory'].inputs[0].material,'copy_stock')
+    c('Copy consumes the produced catalyst rather than a fresh duplicated stock',g.steps['copy'].inputs[1].material,'copy_enzyme')
+    c('Original supplement and precursor obligations remain uncovered',any(k in g.source_coverage for k in ('supplement','linked_isolation')),False)
     c('No plasmid appears in the split before carrier addition',g.materials['carrier_aliquot'].state is g.materials['selected_aliquot'].state,True)
     c('NativeRNAprimer remains explicit ratherthan a sequencingidentifier',chain.rna,'ACGU')
     c('Selected fullDNAcopy derives from actualDNApayload',chain.complementary_dna(),'TGTAATC')

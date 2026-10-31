@@ -11,8 +11,8 @@
       "pass_1": {
         "reviewer": "expansion_dna_round05",
         "date": "2026-10-28",
-        "locations": "Author manuscript identity1003–1006; initial Results library; Experimental Procedures1303 and sequencing1307–1309",
-        "finding": "Exact Solexa modified oligos, MmeI→streptavidin→linkerII→PCR/PAGE and20bp readout; distinct454 andarray branches."
+        "locations": "Author manuscript identity1003\u20131006; initial Results library; Experimental Procedures1303 and sequencing1307\u20131309",
+        "finding": "Exact Solexa modified oligos, MmeI\u2192streptavidin\u2192linkerII\u2192PCR/PAGE and20bp readout; distinct454 andarray branches."
       }
     },
     {
@@ -50,7 +50,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Capped first source pass; source versions explicit. Not a complete independent two-reader review or accepted absence finding.",
+  "conclusion": "Normal gate preserves required unreviewed_original: linked chemistry supplement has no validated localbody, with source DNase-end preparation/MmeI-end geometry/workups unresolved. Seven source-exactmainoligos and localpairing do not satisfy that sourceobligation. Do not exclude theitem or markdocumentcovered to publish a coarseflow. Current public-page result is a hold; no required source item removed/excluded/covered without evidence. No accepted missing-information or complete-source/chemistry claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-expansion-round05",
@@ -58,8 +58,8 @@
       "date": "2026-10-28",
       "documents": 1,
       "scope": "Bounded defining-original and chemistry-supplement pass; no family recipe import.",
-      "locations": "Author manuscript identity1003–1006; initial Results library; Experimental Procedures1303 and sequencing1307–1309",
-      "findings": "Exact Solexa modified oligos, MmeI→streptavidin→linkerII→PCR/PAGE and20bp readout; distinct454 andarray branches.",
+      "locations": "Author manuscript identity1003\u20131006; initial Results library; Experimental Procedures1303 and sequencing1307\u20131309",
+      "findings": "Exact Solexa modified oligos, MmeI\u2192streptavidin\u2192linkerII\u2192PCR/PAGE and20bp readout; distinct454 andarray branches.",
       "deferred": [
         "Relevant original chemistry supplement: nuclei digestion/end preparation, MmeI offsets/end geometry, ligation conditions and workups.",
         "Complete publisher version, historical direct predecessor scope and independent reader.",
@@ -67,6 +67,24 @@
       ],
       "oligo_scraper": "Seven exact main-text oligo hits with biotin/phosphate modifiers checked against Experimental Procedures1303; NN is not asserted as identifier.",
       "verification": "Nine local checks pass (seven main-text oligo transcriptions plus source-incomplete/no-marker guard), build and pairing lint pass. Six graph-strand source checks pass; independent sequencing primer checked by local source test. Chemistry established4 pairing relations only, unresolved8, contradictory0. Relevant supplement explicitly required/uncovered; no finished-page marker."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-7",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded read-only preflight followed by documentation-only hold adjudication; no model/gate change or absence audit",
+      "locations": "Associated accepted manuscript fulltext j.cell.2007.12.014_PMC2669738.html.txt headeridentity and mainExperimentalProcedures1303/readout1309. Externalmanifest has ONLYthat validatedoriginal; linked NIHMS106456supplementalPDF actualmanual Preparing-to-download gate. No finalversion, supplement body, predecessor or vendor recipe read.",
+      "findings": "Normal gate preserves required unreviewed_original: linked chemistry supplement has no validated localbody, with source DNase-end preparation/MmeI-end geometry/workups unresolved. Seven source-exactmainoligos and localpairing do not satisfy that sourceobligation. Do not exclude theitem or markdocumentcovered to publish a coarseflow. No publication error asserted; modifiedmainoligos positive, unknown NNligationend is not UMI/sampleindex.",
+      "oligo_scraper": "/tmp/unlinked-dnase7-scraper.log; relevant original source pointers inspected. No negative disclosure conclusion.",
+      "deferred": [
+        "Do not merge454/array branches into the selected Solexa pathway; report observed20bp genomictags without inventing raw indexmask/loadedrun geometry.",
+        "Keep all seven source oligos/modifications and computed localoverlaps positive, but do not infer genomic end-prep/MmeI offsets from overlapping adapters. Ligase/polymerase functional supplies, actual fraction/workup/QC/loadingstockfates need sourcequalification once relevant original inspected.",
+        "No source acquisition chase in this pass. Currentpreview/no-completemarker guard intentionally passes; future publication requires real sourcecoverage, not marker insertion."
+      ],
+      "verification": "9preflight checksPASS; actualgate [\"authoritative source item 'unreviewed_original' is not accounted for\"]; codeunchanged so testsnotrepeated. No rendered/build outputs written in this pass."
     }
-  ]
+  ],
+  "pass_1": null,
+  "pass_2": null
 }

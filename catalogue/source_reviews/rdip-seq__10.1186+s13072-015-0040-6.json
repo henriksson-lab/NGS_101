@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "round11_coordinator",
         "date": "2026-10-29",
-        "locations": "Published identity/ResultsRDIPoverview and Methods202\u2013216;not immunofluorescence/FISH or separate whole-transcriptome experiment.",
+        "locations": "Published identity/ResultsRDIPoverview and Methods202–216;not immunofluorescence/FISH or separate whole-transcriptome experiment.",
         "finding": "Positive selected-scope source facts verified;not full original/linked-material review."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "round11_coordinator",
         "date": "2026-10-29",
-        "locations": "Directional hybrid full protocolpp19\u201324/text480\u2013778;RNA-seq recipe only contrasted with separate RDIP steps;originalpp20/23 rendered to verify reagent text.",
+        "locations": "Directional hybrid full protocolpp19–24/text480–778;RNA-seq recipe only contrasted with separate RDIP steps;originalpp20/23 rendered to verify reagent text.",
         "finding": "Positive selected-scope source facts verified;not full original/linked-material review."
       },
       "pass_2": null
@@ -45,7 +45,7 @@
       "pass_1": {
         "reviewer": "round11_coordinator",
         "date": "2026-10-29",
-        "locations": "OriginalTableS4 four printed sample/index rows188\u2013193;TablesS3/S5 validation-primer contexts;other result tables unreviewed.",
+        "locations": "OriginalTableS4 four printed sample/index rows188–193;TablesS3/S5 validation-primer contexts;other result tables unreviewed.",
         "finding": "Positive selected-scope source facts verified;not full original/linked-material review."
       },
       "pass_2": null
@@ -91,6 +91,20 @@
         "Linkedprecursorandremainingfigures/results"
       ],
       "oligo_scraper": "18hits in publishedworkbook;TableS3qPCR/S5bisulfite validation contexts inspected;not NGS adapters. TableS4 preserves parentheticalseventhbases."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch20",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Closed three-original source pass, followed by bounded local corrections; no new originals during implementation.",
+      "locations": "Published PMC4647656 mainXML/PDF: Methods202–216 nativehybridIP/input, RNaseH-based secondstrand start rather thanRT, dUTP/UNG wording, actualHiSeq2500PE150; separateRNAseq/bisulfite validation not borrowed; Published MOESM1 fullprotocolPDF: Directional hybrid protocol19–24 and exact originalPDFp20lysis/sonication/RNasequantities plusp23printedATP/UNG/PCR/final12uleluate allocations; no silent reagent repair; Published MOESM2XLSX: TableS4exact four sample/index rows188–193 with sixfixedbases and parentheticalseventh; TableS3/S5 validationprimer roles from source pointers, not full library polymers",
+      "findings": "S9.6 is an actual molecular binding partner, not an enzyme catalyst. The final source 12 µL eluate is explicitly allocated into separate 1 µL Qubit and 1 µL Bioanalyzer analytical fractions plus a 10 µL sequencing stock. Analytical aliquots do not return to the library. A selected contribution from that sequencing stock reaches the physical library handoff, with an untransferred stock remainder; loading volume and multiplex membership remain unassigned. The literal reviewed source inventory replaces graph-generated coverage, while original required item `unreviewed_geometry` remains unchanged and uncovered. The source 0.5 mg proteinase K versus 2.5 µL of 20 mg/mL (0.05 mg), 200 ng/mL sonication versus 100 µL/20 µg RNase-I input, and printed ATP in the Add-A step remain unresolved rather than silently repaired. The printed index windows ACAGTG(A), GCCAAT(A), CTTGTA(A), and GTGAAA(C) retain their parenthesized seventh base and do not establish whole adapters or acquired index-cycle counts. Historical buffers, primer/adapter/UNG-product geometry and cited precursor applicability remain source/model obligations; this graph remains private.",
+      "deferred": [
+        "Genuine cited precursor method49 and historical buffer/adapter/primer original applicability, not followed under cap.",
+        "Full hybrid/copy/end/UNG-product/primer/read assembly remains a model/source obligation, not an invented unavailable document."
+      ],
+      "oligo_scraper": "18hits in1workbook representation, chiefly validation oligos; exactTableS4window source rows and actual printed protocol pages inspected. No sequence absence accepted."
     }
   ],
   "superseded_sources": [

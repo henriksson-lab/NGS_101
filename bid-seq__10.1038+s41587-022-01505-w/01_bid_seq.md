@@ -18,6 +18,35 @@ Dai et al., *Quantitative sequencing using BID-seq uncovers abundant pseudouridi
 
 ## Local scope and open work
 
-The graph starts after source adapter ligations and split, with separate treated/input constructors. It covers treatment/desulfonation, RT, RNaseH and actual DNA purification. RNaseH products remain molecular material until column separation. Adapters have an explicit inventory but ligation-ready geometry, exact historical NEBNext PCR/index set and acquired read-cycle plan are not assembled. Notes status; no finished schematic or confirmed missing-information claim.
+The graph now traces one shared RNA preparation through both adapter ligations and the actual input/treated split, then through both RT, DNA cleanup, production PCR and gel-purified library paths. RNaseH products remain molecular material until column separation. Adapters have an explicit inventory but ligation-ready geometry, exact historical NEBNext PCR/index set and acquired read-cycle plan are not assembled. The public page is a source-qualified partial published instance; no confirmed missing-information claim is accepted.
 
 Ancestry suggestion: Results87 explicitly derives the Ψ-BS-adduct/deletion principle from RBS-seq (refs15–16), while modifying conditions and removing the conventional cytosine-deamination tradeoff. This establishes component strategy, not inherited library adapters or quantitative equivalence. Detailed2024 procedure DOI10.1038/s41596-023-00917-5 is a deferred successor source, not a replacement for the defining2022 publication.
+
+## Bounded complete-preparation model
+
+The same closed defining publication Methods 231–237 supports the added physical
+producer path; no successor protocol or historical kit recipe was imported.
+Fragmentation and two actual PNK additions precede the 3′ and 5′ adapter
+ligations. Activated-adapter AMP/coproducts are not mature DNA backbone, and
+unreacted/background classes are not assumed removed before physical cleanup.
+The two N5 windows stay distinct source random windows; unsupported molecule-
+UMI semantics are not imposed on the actual adapter inventories.
+
+The actual shared 10 µl RNA eluate is split into 1.5 µl input and 8.5 µl
+treated material. Only the treated branch receives molecular bisulfite reagents,
+column binding and desulfonation. Both routes reach 10.5 µl before actual RT
+supplies. RNA Ψ-BS remains distinct from a possible complementary-base omission
+in cDNA. RNase H digestion products remain until physical DNA cleanup.
+
+Each source 20 µl cDNA stock contributes 4 µl to one representative actual
+15-cycle PCR allocation, leaving 16 µl nominal untransferred stock. Additional
+PCR count is unassigned. Actual historical SR/NEBNext primer functional classes
+and aggregate enzyme/nucleotide/buffer supplies are represented without
+claiming commercial premix packaging or exact primer bodies. Gel purification,
+source SE100 loading contributions and stock remainders complete both branches;
+no extra QC aliquot or pool between controls is invented.
+
+Normal publication checks pass. Full occupied transcripts, ligation junctions,
+mutation fractions, whole primer orders, acquired index mask and read landing
+remain unassembled. The intended end/acceptor view is explicitly qualified; the
+page retains the complete workflow and source/inference limits.

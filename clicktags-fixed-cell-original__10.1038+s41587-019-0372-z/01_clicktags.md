@@ -23,3 +23,47 @@ The chemical state retains DNA while coupling a Cy5 payload. No base deletion, R
 ## Deferred originals and lineage
 
 Full published main Methods, exact conjugation/activation and wash conditions, oligo-to-experiment mapping, fixed-cell capture/RT/library preparation, and complete run/primer geometry remain unresolved. Relevant published documents have not all been read; no missing-information claim is made. The primary abstract establishes fixed-cell protein-directed DNA sample labeling, distinct from MULTI-seq's noncovalent membrane lipid anchor. Exact preparation ancestry requires the unavailable main Methods; no CITE/REAP or membrane recipe is imported.
+
+
+## Public-page hold adjudication, 2026-10-30
+
+**Required source/producer hold.** The actual graph still reports no sequencing
+terminal and `authoritative source item 'unassembled_source' is not accounted
+for`. Its producer is a fluorescent DNA activity assay, not the complete
+cell-labeling/capture/RNA-to-NGS preparation. No module, source requirement or
+coverage assertion changed in this documentation-only adjudication.
+
+Three published originals were inspected within this capped pass: MOESM1
+SupplementaryFigure1, actualPDFp2/caption and the Figure2kITEcaption; MOESM4
+modified-oligo workbook originalZIP/XML BC21/3′amine-variant entries; and
+MOESM2actualPDFp1, identified as the **Reporting Summary**, not bench Methods.
+All are in the external source bundle with exact publisher URLs/hashes in
+MANIFEST.tsv. The main article body for
+[DOI10.1038/s41587-019-0372-z](https://doi.org/10.1038/s41587-019-0372-z)
+is unavailable locally: that actual manual entry identifies the published
+article, not a guessed failed PDFattachment. The earlier Caltech file labeled
+Submitted and downloaded superseded preprint are not active chemistry
+evidence.
+
+SupplementaryFigure1a/b uses NHS-TCO-treated yeast with MTZ-Cy5; Figure1c
+uses MTZ-DNA with TCO-Cy5. These assays are not merged into a fabricated full
+fixed-cell DNA-tagging recipe. Figure1c lanes1–12 are3′amine-derived,13–14
+are5′amine-derived; the exact DNA-sequence/lane assignment remains unreviewed.
+BC21's `/5AmMC6/` source body and `/3AmMO/` inventory variants are positive
+modified-oligo evidence, but BC21 is not silently assigned to an assay lane.
+Its variable8-base sample-tag interpretation is derived from the source
+family. The constrained `CAGB` window is not a UMI; a ClickTag sample label
+is distinct from the downstream10x cellbarcode and UMI. The local IEDDA
+model consumes a reactive handle and appends the dye while retaining DNA,
+without a nucleotide conversion or invented copper catalyst. It does not
+construct an NGS library.
+
+Main-method source identity/applicability, fixed-cell activation/workups,
+capture/library producer stages, actual physical arrays and run geometry
+remain obligations. An oligo inventory, kITEanalysis or instrument name in
+the Reporting Summary cannot replace them or authorize a generic10xrecipe.
+
+Mandatory scraper `/tmp/unlinked-click11-scraper.log` and original checks
+preceded this adjudication. Six preflight checks passed; chemistry1unresolved/
+0contradictory. Code is unchanged, so tests/builds were not repeated. No source
+was fetched; there is no accepted absence or complete molecular/source audit.

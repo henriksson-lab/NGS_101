@@ -69,5 +69,16 @@
     "date": "2026-10-28",
     "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
     "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
+  },
+  "publication_preparation_recheck": {
+    "date": "2026-10-30",
+    "scope": "Main XML Methods96\u2013104 and Fig1caption375 text; SI1 .pdf.txt118\u2013181 (printedp2\u20134) actual aqueous mix/emulsion allocation and pooling, four nested reactions, qPCR/blocked coproduct persistence, four adapterPCRs, equal-stoichiometry samplepool/PhiX/PE250/index8; SI2 README original index only. Previously recorded source TableS2/S4/S5 and originalp18 colour/C3 evidence retained, not newly claimed reread. No predecessor sources or result branches.",
+    "originals_read": 3,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "outcome": "blocked_model_array",
+    "findings": "Not a missing sequencing terminal: current source item unassembled_source correctly keeps incomplete physical representation visible. SI1 requires actual fusion PCR aliquots then pooling; four independent nested25ul reactions and four independent adapterPCR reactions then pooling. Current six-step single-reaction chain omits these actual arrays/allocations. Do not delete source item or clone one completed PCR into multiple reactions merely to pass gate.",
+    "verification": "Read-only graph inspection confirms the retained unassembled_source gate. Model/build not altered; no false publication marker added. SI1 actual arrays checked in the same closed source pass.",
+    "missing_information_claims": []
   }
 }

@@ -1,6 +1,6 @@
 {
   "dir": "simsen-seq__10.1093+nar+gkw224",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "source1",
@@ -43,6 +43,21 @@
       ],
       "verification": "32localchecks11SiMSen/10NOIR/11Cypherpass;3privatebuilds/schema/pairing0problems pass;sourceguard7checked0failed0exempt12unassembledinputs,notfullsequencevalidation;chemistry0established73unresolved0contradictory. Coordinatorindependentcriticalreviewclosed2026-10-29;noconsequentialsourceflow/chemistrydefect,notabsenceaudit. Cypherupfrontcloningroutewordingcorrectedtoreflectunassignedroute;actualgraphunchanged.",
       "oligo_scraper": "Mandatorybundle scraper:SiMSen76candidates/NOIR47/Cypher17; selectedoriginalpointersandmodificationsverified,notabsenceevidence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch14",
+      "reviewer": "bounded-publication-pass",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Published main67\u201375 andTableS1File008 universal/TP_2 rows; not whole-source or absence review.",
+      "locations": "PMC4914102 main67\u201375; publishedFile008 rows31/39\u201345.",
+      "findings": "ActualtypedPCR, AccuPrimeenzyme/BufferII,Q5copresentNT/buffer/polymerase, source-sequencer-readyDNAclass preservation throughcleanup/QA/pool, literalreviewinventory. Sourceprintedfullvariant/target/read scope remainsuncovered; no normalization recipe invented.",
+      "deferred": [
+        "Full sourcevariant/panel/target/primer/product/index/read geometry and applicablelinked-source/kit details.",
+        "Actual full manufactured noGG/GGG orders/pool allocation; Tm discrepancy unresolved, no folding fit."
+      ],
+      "oligo_scraper": "Repeated /tmp/unlinked14-simsen-scraper.log; originalTableS1wholeorders andsourceMethods checked.",
+      "verification": "16focusedchecks/privatebuild/pairing0 pass; normalgate now fails only originalunassembled item. No publicpromotion."
     }
   ],
   "linked_information": {
@@ -54,5 +69,7 @@
     "Complete source-specific molecular/end/read geometry and allremainingtarget/indexmembers",
     "Exact historicalkitanddirectlycitedcomponent/predecessororiginals;uncuratedoriginsremainunspecified",
     "Source-specificbranch/allocation/workupquestionsdescribedinprotocolnote"
-  ]
+  ],
+  "blocking_condition": "Original unassembled sourceinputs/targetmixtures/variant-polymers/PCRproducts/readlanding/directlinkedtarget scope remains. Source67/69 supports actualPCRclasses andsequencer-readyDNA, but correctlibrarytyping/literalinventory/stockviews do not assemble fullgeometry orallnoGG/GGGtarget variants. No requireditemrenamed/excluded andno sourceabsenceclaim.",
+  "conclusion": "Bounded model/source hold with source-positive typed reactions and inventory corrections; no acceptedabsenceclaim."
 }

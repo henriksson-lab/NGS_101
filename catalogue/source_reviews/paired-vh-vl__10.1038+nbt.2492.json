@@ -8,7 +8,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/paired-vh-vl__10.1038+nbt.2492/nbt.2492_PMC3910347.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Final-version author manuscript of published article, DOI/title verified: Results overview paragraph71; Online Methods memory-B-cell workflow103\u2013107, repertoire readout/bioinformatics. Not a superseded preprint."
+      "inspection_scope": "Final-version author manuscript of published article, DOI/title verified: Results overview paragraph71; Online Methods memory-B-cell workflow103–107, repertoire readout/bioinformatics. Not a superseded preprint."
     },
     {
       "id": "published_supplement",
@@ -16,7 +16,7 @@
       "locator": "/husky/henriksson/NGS101_papers/sources/paired-vh-vl__10.1038+nbt.2492/nbt.2492_41587_2013_BFnbt2492_MOESM35_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Supplementary Fig1 and Tables5\u20137 text read; rendered Fig1 PDF page2 (printed10) inspected, including explicit by-product class. Representative Table5/6 sequences checked. Rest and full rendered table alignment deferred."
+      "inspection_scope": "Supplementary Fig1 and Tables5–7 text read; rendered Fig1 PDF page2 (printed10) inspected, including explicit by-product class. Representative Table5/6 sequences checked. Rest and full rendered table alignment deferred."
     },
     {
       "id": "supplementary_data",
@@ -51,11 +51,11 @@
       "reviewer": "bounded-source-model-pass",
       "date": "2026-10-28",
       "scope": "Linked-repertoire branch from bead capture through nested PCR and source-limited sequencing handoff; optional separate-chain/antibody-expression branches deferred",
-      "locations": "Article overview71; Methods103\u2013107; published Supplementary Fig1 and Tables5\u20137; rendered Fig1 printed10",
+      "locations": "Article overview71; Methods103–107; published Supplementary Fig1 and Tables5–7; rendered Fig1 printed10",
       "findings": "Poly(dT) capture in dialysis-sealed microwells, bead recovery, emulsion RT/overlap PCR, ether/column recovery and nested PCR/gel. Heavy/light source primer tails are complementary17-base intervals; local reference retains one copy. Source Fig1c by-product has explicit unresolved fate. Full chain templates/adapters/read priming unassigned; no arbitrary kit substituted.",
       "documents": 2,
       "deferred": [
-        "Remaining article/supplement sections and rendered full Tables5\u20137",
+        "Remaining article/supplement sections and rendered full Tables5–7",
         "Ippolito2012 and V-gene2010 cited originals, exact inherited primer scope",
         "Complete primer-pool and study-template mapping",
         "Sequencing-library adapter construction and priming procedure",
@@ -73,12 +73,21 @@
   },
   "missing_claims": [],
   "pending_sources": [
-    "Remaining article/supplement sections and rendered full Tables5\u20137",
+    "Remaining article/supplement sections and rendered full Tables5–7",
     "Ippolito2012 and V-gene2010 cited originals, exact inherited primer scope",
     "Complete primer-pool and study-template mapping",
     "Sequencing-library adapter construction and priming procedure",
     "Source Fig1c by-product downstream disposition",
     "Optional separate-chain and expression-validation branches",
     "Independent source reading"
-  ]
+  ],
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_5",
+    "date": "2026-10-30",
+    "type": "bounded_source_qualified_public_preparation_not_absence_pass_2",
+    "documents": 2,
+    "scope": "Same final-versionauthor manuscriptPMC3910347Methods103–107 andpublishedMOESM35Fig1caption/Table5–6scope. No final/AMcompleteequivalence ornewsource; noresultarchive/predecessorbody adopted. Source investigation remainedclosed before edits; no further original/acquisition.",
+    "changes": "ActualpreparedQuantaRT-PCR/BSA/Table5componentprovenancewithoutduplicateCH/CLdoses; copresentcoproductthroughworkup; actual4-of40ulcDNAinput/remainder; sourceoil/arrayenvironment and nestedPCRsupplies; occupiedgenecontextsinferred andsymbolicnotfakegene lengths; unassembledfinishingretained.",
+    "verification": "19focusedPASS including6sourceprimerfixtures; sourceguard0externalexactclaims0failed2unknownnestedpoolinputs, exactsame-mixtureprimercomponentsproduced; chemistry11steps13unresolved0contradictory. Normalpublicationgate/build/fullWorkflowSection/completewrapper/independentliteralinventory pass; pairing0/localhref0 and actualHTMLheading/caption/inference/discrepancy review completed."
+  }
 }

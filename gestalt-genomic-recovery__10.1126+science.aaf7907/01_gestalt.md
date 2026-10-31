@@ -27,3 +27,55 @@ These source-known operations appear in the graph, whose initial material is alr
 The existing scGESTALT page covers a later expressed-array/inDrops transcriptome-and-lineage preparation, not this genomic recovery. No constructor or recipe is inherited from it by name. CARLIN's accepted-manuscript Methods later explicitly cites this original for its no-repeat-denaturation UMI-extension strategy; it also states that six source guide designs were retained while four were redesigned. Those are narrow component ancestry statements, not evidence of identical primers or products.
 
 Deferred: actual defining supplemental Methods DOCX and table workbook, final published article, document-version applicability, exact recorder/primer/end/full-library geometry, all directly relevant linked sources and an independent source review. No missing sequence or reagent is confirmed absent. No finished schematic is published.
+
+
+## Public-page hold adjudication, 2026-10-30
+
+**Required detailed-method/producer hold.** The actual normal graph still
+reports `authoritative source item 'detailed_methods' is not accounted for`
+and rejects sequencing output `amplified` because it is molecular material,
+not a declared library. Merely changing its kind to `K.LIBRARY` would not
+resolve the unassembled finishing/source stages. No module or required
+coverage changed in this documentation-only adjudication.
+
+The actual inspected original is the associated NIHMS789616manuscript,
+[PMC4967023](https://pmc.ncbi.nlm.nih.gov/articles/PMC4967023/), external
+`science.aaf7907_PMC4967023.xml(.txt)`, Results75–89/especially79. The
+[v1 cell-culture recovery](https://doi.org/10.1126/science.aaf7907) reports a
+single polymerase-extension round introducing a10ntUMI before targeted
+amplification and NGS. This is qualified accepted-manuscript evidence, not
+complete final-version procedural equivalence. The separate v6/v7zebrafish
+recovery is not substituted for this v1genomic branch. The downloaded
+superseded preprint was not read/adopted.
+
+Actual observed original routes remain unresolved: the
+[institutional published-main PDF](https://shendure-web.gs.washington.edu/documents/mckenna_science_2016.pdf)
+returned HTML rather than a validated PDF; the named
+[Methods/Figures DOCX](https://pmc.ncbi.nlm.nih.gov/articles/instance/4967023/bin/NIHMS789616-supplement-supplemental_figures_and_methods.docx)
+and [supplemental Tables XLSX](https://pmc.ncbi.nlm.nih.gov/articles/instance/4967023/bin/NIHMS789616-supplement-supplemental_tables.xlsx)
+have actual download-gate manifest rows. Their detailed recipes, enzyme/
+nucleotide/buffer supplies, oligos, workups and acquired read/primer geometry
+remain unreviewed. No attachment URL is guessed or related-recorder recipe
+used in place of these defining originals.
+
+The inherited edited recorder is a **lineage barcode**, separate from the
+random10nt recoveryUMI. Wild-type recorder length is not edited-allele length.
+The source's molecular/cell-count interpretation of a UMI–allele combination
+is not an intrinsic guarantee that every UMI is a unique present-day cellID.
+The known UMI component does not determine its complete primer placement.
+Recorder creation/editing is upstream input context: genomic recovery is not
+blocked on constructing that recorder, but it is blocked on its actual
+recovery/library source obligation. Neither later scGESTALT nor CARLIN supplies
+missing historical chemistry.
+
+If source completion is revisited, the existing automatic
+`tuple(g.materials)+tuple(g.steps)` coverage must become an independently
+curated literal inventory. Actual library finishing, controls, physical
+stock/aliquot/QC/loading fates need source support before promotion; an
+existing PCR amplicon or generic sequencing label is insufficient.
+
+Mandatory scraper `/tmp/unlinked-gestalt11-scraper.log` and actual source
+checks preceded adjudication. Six preflight checks passed; chemistry3unresolved/
+0contradictory. Code/gates are unchanged, so no tests/builds repeated and no
+source acquisition occurred. No absent-disclosure or full independent
+source/chemistry claim is accepted.

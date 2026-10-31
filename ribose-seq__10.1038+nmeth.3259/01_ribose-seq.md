@@ -41,3 +41,21 @@ One reader,28October2026; three chemistry originals: article-associated accepted
 🟢 The article explicitly cites Schutz, Hesselberth and Fields2010, [Capture and sequence analysis of RNAs with terminal2′,3′cyclic phosphates](https://doi.org/10.1261/rna.1934910), for AtRNL/Tpt1 and related cyclic-phosphate capture. This supports enzyme/terminal-processing ancestry; its complete RNA library preparation is not imported. The predecessor original remains unread within this cap.
 
 Deferred: corrected published article Methods; complete linked-original checklist and second reader; source-specific strand-preservation/AtRNL chemistry validation; exact circular-PCR endpoint and sequencing/index primer mapping; study index assignments. No sequence or reaction detail is claimed absent from the publication.
+
+
+## Public preparation view, 2026-10-30
+
+The public page declares a **published preparation instance**, qualified to the source
+and selected molecular scope described above. Role-level molecular classes are not
+particular genomic sequences or complete final-library assemblies. The existing
+normal typed graph gate is preserved; computed unresolved chemistry stays visible
+in the full workflow.
+
+Source dATP, ATP and NAD+ are explicit molecular inputs rather than text hidden in enzyme names. The existing source-compatible AtRNL end classes and Tpt1 junction phosphate distinction remain unchanged. An analytical PAGE aliquot is separated from retained library material; its amount and gel recovery convention are unassigned. The source equimolar multi-library pool is now an actual pool operation with other library members/counts unresolved, a selected contribution and untransferred library remainder. The final loading aliquot leaves an explicit untransferred pool remainder. No exact amount, pool size, new primer or complete circular-PCR amplicon is inferred.
+
+The source investigation was closed before implementation. This pass rechecked three originals: the associated2015 manuscript Methods105–125, associated2019 addendum manuscript correction text and published revised supplement original Table8p20. The historical direct publisher addendum reading is not replaced by a claim that the new manuscript representation is final-equivalent. The correction remains visible on the page. Printed Index1 is a source primer reference choice, not a reconstructed experimental sample identity.
+
+Mandatory bundle scrapers ran in the read-only preflight. The explicit source inventory
+was updated with literal curator-selected targets, not graph enumeration. Source and
+material-fate checks were added. This is not a full linked-source audit or acceptance
+of any missing-information claim. Earlier capped-review statements remain historical.

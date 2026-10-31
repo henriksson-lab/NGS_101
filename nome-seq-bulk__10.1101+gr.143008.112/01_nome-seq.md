@@ -40,3 +40,11 @@ Context filtering, genotype-strand checks, duplicate collapsing, trimming noncon
 - Miranda2010 nuclear isolation/single-promoter assay, DOI10.1002/0471142727.mb2117s89.
 - Directly cited library predecessors Lister2009, Kelly2010 (DOI10.1016/j.molcel.2010.08.026) and Berman2012 (DOI10.1038/ng.969), plus exact historical reagent manuals. These citations do not authorize constructor reuse or prove identical adapters across protocols.
 - Full oligo/end/library/read geometry, residual modified-base classes, source workups and an independent original/linked-material pass. No confirmed missing-information claim has been accepted.
+
+## 2026-10-30 bounded publication review: source hold
+
+Reinspected the published main PMC3514679, Methods115–133 and direct bibliography identities. The mandatory bundle scraper returned zero hits; this does not establish absent oligos. The selected IMR90 route is two fresh M.CviPI/SAM doses (200U/7.5min then100U/7.5min), 5µgDNA library input and HiSeq2000 SE76. Separate GBM PE50/100 runs and computational processing are not folded into that physical route.
+
+The required `linked_source_boundaries` item remains unaccounted. Main Methods explicitly delegates nuclear isolation to Miranda2010 (10.1002/0471142727.mb2117s89) and library construction to Lister2009 (10.1038/nature08514), Kelly2010 (10.1016/j.molcel.2010.08.026) and Berman2012 (10.1038/ng.969); these are actual directly cited originals, not inferred shared recipes, and were not followed in this capped pass. The actual published supplemental index at `https://genome.cshlp.org/content/suppl/2012/10/04/gr.143008.112.DC1` has a previous manifest HTTP403 and was not retried. The cached EuropePMC supplementary ZIP contains ten representations of main-article figures, so it does not close that publisher-index obligation. No unavailable guide or chemistry absence is invented.
+
+The previously omitted `library` inventory leaf is now covered because main Methods123 directly describes the PCR-amplified sequenced DNA library. This bookkeeping fix does not establish whole historical adapter/end/run geometry or remove the required source item. Eight existing checks pass and the gate retains its source-boundary failure; chemistry has eleven unresolved relations and no contradiction. No public page promotion or complete review is claimed.

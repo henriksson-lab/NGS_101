@@ -371,5 +371,14 @@
       "oligo_scraper": "Mandatoryfullcache scraper ran; AHARIBO93MBproteomicstabletextskippedbysizelimit. Scrapedvalidationsequencesnotlibraryinputs; noadoptedexactsequencepolymerclaim.",
       "verification": "18 local checks pass (AHARIBO10 after reviewed RPF fork fix, RAP8); independent selected-source implementation review closed, not a second absence audit. Sourceguard0eligible/0failed/0exemptions/2unassembled inputs across2graphs; default chemistry29steps/30unresolved/0contradictory. Schema3pass, notes build and whitespace check pass; no exact library oligotranscription coverage claimed."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "batch": "25",
+    "result": "blocked_source_model_scope",
+    "scope": "Closed multi41 originals only; no new acquisition/inspection or absence audit.",
+    "findings": "The bounded contributor pass now exposes the actual RNAseq hypotonic-buffer molecular/catalyst inventory, source 40 U Superase-In capture contribution, 20 \u00b5l 10% SDS and 5 \u00b5l Proteinase K. Phenol/chloroform/isoamyl alcohol, isopropanol/GlycoBlue and ethanol are physical inputs. Precipitation centrifugation removes supernatant before ethanol washing; phase transfer remains distinct from reagent addition. Medium/sBlock changes are noncovalent bookkeeping. The recovered 10 \u00b5l RNA stock is allocated to the actual 5 ng library input plus any untransferred stock with unresolved amount/fate, without inventing a concentration. Optional RNA QA is not asserted universal or fed into production. Final analytical QA remains separate from retained DNA library typing. RPF timing remains source-qualified and is not unified with the RNAseq preparation. Historical kit internals/full library remain unresolved: the original required `pending` SourceItem stays unchanged and uncovered. No public promotion follows from these corrections.",
+    "original_required_item": "pending; unchanged and uncovered",
+    "verification": "Focused checks, source guard, chemistry and schema in /tmp/unlinked-multi42.json."
+  }
 }

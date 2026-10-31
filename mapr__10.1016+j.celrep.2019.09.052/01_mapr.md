@@ -29,3 +29,11 @@ The private graph records source-known operations, while unresolved exact molecu
 ## Scoped ancestry
 
 Explicit CUT&RUN→MapR strategy: main58 cites Skene/Henikoff2017 andSkene2018; Methods162 says buffer volumes/incubation times follow standardCUT&RUN unless specified. Existing parent `cut-run__10.7554+eLife.21856`; precise Methods162 cited protocol version is10.1038/nprot.2018.015, ref469–473. Scope is immobilization/permeabilization/targetedMNase release framework and stated buffer/time reuse; antibody/pA-MNase is replaced byRHΔ-MNase. No entire library/oligo equivalence is established;2018original unreviewed here.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked one existing associated-manuscript original: Methods150–168 and detailed steps208–244. The mandatory bundle scraper completed (15 hits across three representations); the RNA/AF488-DNA oligos in Methods150–158 are EMSA controls, not library adapters. No final-publication equivalence or new retrieval success is asserted.
+
+The model now records the actual CaCl2 addition as a molecular contribution. The one source-named 2X STOP stock has copresent buffer/carrier, RNase A and yeast-DNA components; these views do not prescribe extra stock additions or an extra RNase dose. The 37°C release interval is a separate condition. RNA digestion products remain in the physical preparation until an actual separation. The printed `5 0μg` ambiguity and short-versus-detailed values remain visible.
+
+The original `pending_originals` requirement remains open: the cited 2018 CUT&RUN original and historical custom-adapter/run construction are unreviewed. Operational continuity through NextSeq submission does not establish those whole molecules. No finished publication or missing-information claim is accepted.

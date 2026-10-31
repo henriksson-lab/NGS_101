@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "expansion_dna_round07",
         "date": "2026-10-29",
-        "locations": "Chemical rationale/enrichment24–32; genomic release/NGS32–36; ref17",
+        "locations": "Chemical rationale/enrichment24\u201332; genomic release/NGS32\u201336; ref17",
         "finding": "Associated accepted manuscript: oxidative amine-BTN tagging, streptavidin selection, complementary-strand release and HiSeq PE125. Exact SI/kit geometry deferred."
       }
     },
@@ -34,7 +34,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Bounded first source/model pass, not complete review or two-reader missing-information acceptance.",
+  "conclusion": "Required supporting_information remains genuinely unavailable/unreviewed: externalbundle onlyhas mainAM and manualPreparinggate for actualNIHMS860150SupportingInformationDOCX. That original covers exactgenomicchemicalreaction/workups/kitidentity obligations, not merely finalDNAgeometry. Main positivekitlibrary/PE125cannot waive the existing requiredsourceitem. Required source item and nonpublication state preserved. No whole-geometry blanket prerequisite, sourceabsence claim, fullreview or performance assertion.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-07",
@@ -42,7 +42,7 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Published-first source pass; accepted manuscript identities explicit; no recipe inheritance by resemblance.",
-      "locations": "Chemical rationale/enrichment24–32; genomic release/NGS32–36; ref17",
+      "locations": "Chemical rationale/enrichment24\u201332; genomic release/NGS32\u201336; ref17",
       "findings": "Associated accepted manuscript: oxidative amine-BTN tagging, streptavidin selection, complementary-strand release and HiSeq PE125. Exact SI/kit geometry deferred.",
       "deferred": [
         "Supporting Information, full VOR and exact genomic reaction/workup scope.",
@@ -51,6 +51,23 @@
       ],
       "oligo_scraper": "Main-text whole-bundle scraper0hits; no absence inference.",
       "verification": "Two local source-boundary/no-marker checks pass; build/pairing/schema pass. Chemistry5unresolved,zero contradictory; no exact oligo candidates. Main accepted manuscript supports tagging/capture/complement release; original SI gate remains blocking."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-sourcehold-10",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded read-only preflight then documentation-only adjudication; no code/gate alteration or absence audit",
+      "locations": "Associated NIHMS860150manuscript jacs.6b12604_PMC5440228.xml.txt actualheader and main24-36: synthetic tag-optimization controls, WT/KOgenomic labeling/complementrelease, actualssDNAkitlibrary endpoint/HiSeqPE125 and WTuntreatedcontrol. Main has no separate genomicbenchrecipe; no finalVOR/SI/predecessor body opened. ActualexternalMANIFEST:onlyassociatedmainXML validated; SupportInfoDOCXmanual.",
+      "findings": "Required supporting_information remains genuinely unavailable/unreviewed: externalbundle onlyhas mainAM and manualPreparinggate for actualNIHMS860150SupportingInformationDOCX. That original covers exactgenomicchemicalreaction/workups/kitidentity obligations, not merely finalDNAgeometry. Main positivekitlibrary/PE125cannot waive the existing requiredsourceitem. Chemicaltag is oxidizedOG/amine-BTNadduct, not unchanged8oxoG. Source150mMNaOH20C10min releases complementaryDNA while labeledstrand/adduct remains bead-associated. Complement-derived reads/150bpregion-enrichment are not retainedOGbases or exactsingle-baseOGcalls. WT/Ogg1KO/untreatedWTinput are distinct sourcepreparations. Sourceacceptedmanuscript versus finalversion explicitlyunreconciled. Syntheticoptimization5mMK2IrBr6/20mMBTN,pH8,75C30min cannot simplybe declaredgenomicreactionconditions beforeSIread.",
+      "oligo_scraper": "/tmp/unlinked-og9-scraper.log;0hitsnotabsenceevidence; relevantoriginalcontextchecked.",
+      "deferred": [
+        "Expose actualoxidant/amineBTN molecularstocks and actualgenomiccondition onlyonceverified, not assaycontrol default. Preserve originaltaggedstrand versuscomplement and explicitcapture/wash/releasefractionfates.",
+        "ActualssDNAkitconstructs DNAlibrary from releasedcomplement, then sourceHiSeq125cyclePEv4. UnknownoccupiedDNAgeometry mayremainunknown, but actualupstreamchemical/workup scope andcurrentSIitem mustbereallycovered.",
+        "WTenrichment,Ogg1KOenrichment andWTunlabeledfragmentedinputcontrol have separatestocks andpreparations; avoid inventingcontrolstrandhandling or applyingTAGreaction toinputcontrol.",
+        "QC,selectedlibrary/NGSloadingcontributions anduntransferredstocks needsourceaccounting; no guaranteedcaptureyield/purity, mutation or base-exactlesioncall."
+      ],
+      "verification": "2preflight sourceboundary/no-marker checksPASS; actualnormalgate ['no terminal output is designated for sequencing', \"authoritative source item 'supporting_information' is not accounted for\"]; codeunchanged, no repeatedtests/builds/sourceacquisition."
     }
   ],
   "pending_linked_targets": [
@@ -68,5 +85,7 @@
       "access": "not_assessed_in_this_pass",
       "scope": "Article explicitly cites Greenberg chemical-tagging approach; original not followed within cap."
     }
-  ]
+  ],
+  "pass_1": null,
+  "pass_2": null
 }

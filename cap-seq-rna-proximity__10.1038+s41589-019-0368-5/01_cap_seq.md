@@ -13,3 +13,8 @@ miniSOG-driven light-dependent guanosine oxidation is supported by source LC-MS 
 The local selected-state relation conserves full RNA sequence while distinguishing selected oxidation, PA-adduct and clicked-biotin classes. Site choices/conversion are supplied, not predicted from G richness, proximity distance or protein targeting. Click consumes the current alkynyl-adduct class; it does not add RNA bases or convert RNA directly to a sequencing call. Other oxidation products, unmodified material and reaction remnants remain possible until source-established separations.
 
 Full main preparative conditions, original sequencing oligos/modifications, actual historical RT/library enzymes/cleanup/end geometry, acquired platform/read roles/cycles and productive RNA-adduct structure remain unreviewed. The graph carries all source-known Fig16 operations through an explicit unresolved cDNA-library boundary and unspecified NGS acquisition; it asserts no kit mechanism or discarded fraction without evidence. No finished schematic or confirmed missing-information claim.
+
+
+## Bounded publication follow-up (2026-10-30)
+
+Bounded private correction: the PA reactive probe and biotin-azide/click supplies contribute physical molecular material, with miniSOG already expressed in cells. RNA extraction and fragmentation precede click. The95%formamide eluent and opaque downstream library supplies are molecular contributors; their formulations, packaging, occupied structures and complete library remain unassembled. The source-positive RT/qPCR-or-NGS overview does not discharge required defining main/full library/readout scope. No public promotion or absence finding.

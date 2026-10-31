@@ -23,3 +23,11 @@ The private partial graph selects naive inguinal lymph-node niches. It starts wi
 🟢 Reference17 explicitly locates Materials and methods in the supplementary material. The actual linked Supplementary Materials incl Figures PDF is gated through the standard PMC route and unavailable as a Cloud TDM object; it remains needed for detailed preparation. The separate Supplementary Tables workbook is also gated, but its chemistry relevance is unreviewed: it is not assumed to be a primer table or requested as an invented missing disclosure. Full final-version applicability remains unverified.
 
 One original was selected before opening and inspected; the source investigation is closed. This is a source-positive frontend description and private partial graph, not a finished schematic, complete library validation or accepted missing-information claim. The selected independent implementation recheck is recorded separately from the two-reader absence gate.
+
+## Bounded publication follow-up (2026-10-30)
+
+The required `pending` source item remains uncovered: detailed local supplementary Methods, the delegated MARS-seq preparation, whole-library assembly and final-version applicability are unresolved. Accepted-manuscript47/49/51 supports the selected naive-lymph-node optical activation, tissue dissociation and physical FACS frontend, not a complete source-specific DNA-library construction recipe. The opaque MARS library class is not a waiver of that obligation.
+
+The limited code change adds a literal reviewed frontend input/step inventory for prepared tissue,820nm photoactivation,940nm imaging, dissociation and FACS. It deliberately does not mark the unread MARS stock/operation covered as complete library chemistry. PA-GFP remains a protein photolabel rather than an inline DNA spatial barcode; uncollected cells retain an unresolved fate. Upstream cell transfers, other cohorts and controls are not silently turned into additional library members.
+
+One existing associated-manuscript original only, with no acquisition or reading expansion. Existing seven checks pass and the partial graph renders in a temporary private preview. No page builder, completion marker, historical MARS constructor or current kit was added. Notes status remains a source-scope hold; no missing-information claim.

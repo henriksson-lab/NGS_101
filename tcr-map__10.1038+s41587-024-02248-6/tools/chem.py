@@ -35,13 +35,28 @@ def finish(g,x,limitation):
  lib=g.product('library','Source recovered sequencing preparation; complete molecular state unassembled',K.LIBRARY);g.react('library_identity','Source recovered sequencing library',S.GENERIC,((x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation=limitation));g.add_source_item(SourceItem('pending','Full source-specific substrate/adapter/end/read geometry and historical kit originals','Selected original scope only; ordinary unresolved work is not confirmed source absence.'));return g
 
 SOURCE='PublishedPMC11994455 main74/104/110/252–280;MOESM1reportingsummaryandMOESM2UBMTAheadersadministrativeonly.3originalcapreached;ngsprep2019TScan/2023TScanIIreferencesnotwholerecipeinheritance.'
+COMMON_SCOPE=('target_cells','srt_jurkats','coculture','biotin_peptide','sortase_transfer','genejet_stock','genejet')
+FACS_SCOPE=('facs_stain_supplies','facs_stain_conditions','facs_stain','facs_pbe','facs_wash','facs_condition','facs')
+MAGNETIC_SCOPE=('wash_before_magnet_condition','wash_before_magnet','magnet1_condition','magnet1','round1_save','regrow_stock','regrow','round2_jurkats','round2_coculture','round2_biotin','round2_transfer','magnet2_condition','magnet2')
+
 def graph_for_selection(method):
  if method not in {'facs','magnetic'}:raise ValueError('ActualsourceFACSormagneticbranchrequired')
  g=ProtocolGraph('TCR-MAP — '+method+'sourcebranch',authority=SOURCE,representation='published_instance')
  targets=g.input('target_cells','SourcepremadeG5-targetAPClibrary;antigen/MHC/circuitstockconstructionunassembled',K.BIOLOGICAL,primary=True);jurkats=g.input('srt_jurkats','IndependentpremadeSrtA-Jurkat/TCRstock;upstreamengineeringunassembled',K.BIOLOGICAL,primary=True);mix=g.product('cell_mixture','SourceAPC/Jurkatcellmixture;nativeunresponsive/reactivecellsallretained',K.MOLECULAR);g.react('coculture','SourceTCR-MAPcellcoculture;actualstockidentitiesunassigned',S.POOL,((targets,R.TEMPLATE),(jurkats,R.TEMPLATE)),(mix,))
  substrate=g.input('biotin_peptide','SourceLPETG-biotinsubstrate;biotinisnotDNAindex',K.MOLECULAR);labeled=g.product('labeled_cells','Sourcecovalentcell-surfacebiotintransfermixtureplusunlabeledcells/freepeptide/reagents;noefficiencyorspecificityprediction',K.MOLECULAR);g.react('sortase_transfer','Sourcecell-associatedSrtA-mediatedLPETGbiotintransfer',S.MAGIC,((mix,R.TEMPLATE),(substrate,R.STRUCTURAL)),(labeled,),reason='Sourcefunctionaltransferknown;completecell-circuit/protein-junctionchemistryunassembled. SrtAispartofinputcellstock,notinventednewfreeenzymereagent.')
  if method=='facs':
-  x=cleanup(g,'facs',labeled,'SourceantiCD40/BV421streptavidinstain30min4C,PBEwash,SonyMA900sorttop1percentbiotinylatedtargetcells;carryoverunquantified')
+  stain_supplies=g.input('facs_stain_supplies','Actual source anti-mouseCD40 andBV421streptavidin supplies:35ul combinedantibodyreagent in1ml per80millioncells; individualamounts/packagingunassigned',K.MOLECULAR)
+  stain_conditions=g.input('facs_stain_conditions','Source30min4C staining conditions',K.CONDITION)
+  stained=g.product('facs_stained','Stained cell mixture plusfreeantibody/streptavidin andothermaterial; no idealbindingorbiotindeletion',K.MOLECULAR)
+  g.react('facs_stain','Source antiCD40/BV421streptavidin staining',S.BINDING,((labeled,R.TEMPLATE),(stain_supplies,R.STRUCTURAL),(stain_conditions,R.CONDITION)),(stained,),changes_molecule=False)
+  pbe=g.input('facs_pbe','Actual source PBEwash contribution; volume/compositionunassembled',K.MOLECULAR)
+  washed=g.product('facs_washed','Source washed cells; residualunboundstain/carryoverunassigned',K.MOLECULAR)
+  wash=g.product('facs_wash_reject','Actual source PBEwash fractions',K.WASTE)
+  g.react('facs_wash','Source PBEwash before sorting',S.CLEANUP,((stained,R.TEMPLATE),(pbe,R.STRUCTURAL)),(washed,wash));g.discard(wash,'Physical wash fractions; no perfect free-reagent removal')
+  sorter=g.input('facs_condition','SonyMA900 collection oftop1percentbiotinylatedtargetcells',K.CONDITION)
+  x=g.product('facs_selected','Actual sorted targetcell contribution for gDNArecovery; purityunassigned',K.MOLECULAR)
+  other=g.product('facs_other_cells','Cells outside selectedtop1percent fraction; amount/finalfateunassigned',K.MOLECULAR)
+  g.react('facs','Source physicalFACS targetcellselection',S.SAMPLING,((washed,R.TEMPLATE),(sorter,R.CONDITION)),(x,other));g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,'Unselected cells not declared discarded by source library selection'))
  else:
   x=cleanup(g,'wash_before_magnet',labeled,'Sourcemagneticbranch:enzyme-freedissociation/PBS2mMEDTA,threePBEwashes')
   x=cleanup(g,'magnet1',x,'SourceMiltenyistreptavidinmicrobeads/magneticcolumn;boundtargetcellelution')
@@ -49,8 +64,11 @@ def graph_for_selection(method):
   g.mark_terminal(Terminal(sampled.id,Disposition.UNRESOLVED,'Actualsavedfirst-roundgDNA/NGSbranch;itsseparatepreparationnotassembledhere.'))
   x=op(g,'regrow',retained,'Sourceeluateplatedandgrown1week;subsequentcoculture/enrichmentcontinues;division/carryovergeometryunassembled')
   others=g.input('round2_jurkats','IndependentsourceSrtA-Jurkat/TCRre-enrichmentstock',K.BIOLOGICAL,primary=True);r2=g.product('round2_mix','SourcegrownAPC/secondJurkatstockmixture',K.MOLECULAR);g.react('round2_coculture','Sourcefurthercoculturebeforesecondcapture',S.POOL,((x,R.TEMPLATE),(others,R.TEMPLATE)),(r2,));st2=g.input('round2_biotin','SourcefreshLPETG-biotinre-enrichmentstock;actualamountunassigned',K.MOLECULAR);z=g.product('round2_labeled','Sourcefurtherbiotin-transfermixture;fullgeometryunassembled',K.MOLECULAR);g.react('round2_transfer','Sourcefurthercoculture/biotinylation',S.MAGIC,((r2,R.TEMPLATE),(st2,R.STRUCTURAL)),(z,),reason='Knownsourcefurthercocultureandtwo-consecutive-enrichmentbranch;exactmolecularinventoryunassembled.');x=cleanup(g,'magnet2',z,'Sourcesecondconsecutivestreptavidinmagneticcolumnisolation;fullinterveningwashvolumesunassembled')
- kit=g.input('genejet_stock','SourceGeneJETGenomicDNAPurificationkit;historicalinternalchemistryunreviewed',K.CONDITION);dna=g.product('gdna','SourcepurifiedgDNAofisolatedcells;retainedcarrier/carryoverandmassunassigned',K.MOLECULAR);w=g.product('genejet_waste','Actualkitremovedphysicalfractions;compositionsunassembled',K.WASTE);g.react('genejet','SourcegDNAextraction',S.MAGIC,((x,R.TEMPLATE),(kit,R.CONDITION)),(dna,w),reason='SourcegDNApurificationestablished;exacthistoricalkitlysis/washpartitionsunassembled.');g.discard(w,'ActualGeneJETphysicalseparation;noidealpurityprediction.')
- x=op(g,'cited_ngs_preparation',dna,'SourceantigenlibraryIlluminapreparationfollowingTScan2019ref13andTScanII2023ref15;actualselectedPCRs/oligos/cleanupnotassembled')
+ kit=g.input('genejet_stock','Actual source GeneJETGenomicDNAPurificationkit molecular supplies; historicalinternalchemistry/stockpackagingunreviewed',K.MOLECULAR);dna=g.product('gdna','SourcepurifiedgDNAofisolatedcells;retainedcarrier/carryoverandmassunassigned',K.MOLECULAR);w=g.product('genejet_waste','Actualkitremovedphysicalfractions;compositionsunassembled',K.WASTE);g.react('genejet','SourcegDNAextraction',S.MAGIC,((x,R.TEMPLATE),(kit,R.STRUCTURAL)),(dna,w),reason='SourcegDNApurificationestablished;exacthistoricalkitlysis/washpartitionsunassembled.');g.discard(w,'ActualGeneJETphysicalseparation;noidealpurityprediction.')
+ ngs_supplies=g.input('cited_ngs_preparation_stock','Actual source-delegated antigenlibrary preparation molecularsupplies; PCR/oligo/reagent identities andstockpackagingunassembled',K.MOLECULAR)
+ x=g.product('cited_ngs_preparation_product','Source-delegated antigenlibrary preparation continuation; actualmolecules/operationsunassembled, not claimedfullyreconstructed',K.MOLECULAR)
+ g.react('cited_ngs_preparation','Source antigenlibrary preparation follows TScan2019ref13/TScanII2023ref15',S.MAGIC,((dna,R.TEMPLATE),(ngs_supplies,R.STRUCTURAL)),(x,),reason='Source280 names preparation and references; exact selected historicalPCRs/adapters/cleanup notreviewed. This operationalcontinuation doesnotfulfilrequiredwhole-librarysourcegeometry.')
+ g.declare_reviewed_scope(COMMON_SCOPE+(FACS_SCOPE if method=='facs' else MAGNETIC_SCOPE),SOURCE)
  return finish(g,x,'SourceMiSeqorNextSeq,STANDARDIlluminasequencingprimers;noTScancustomprimerimport. Sourceinputlibrary≥40xrepresentationisindependentcontrolpreparation,notpooledmolecularnormalizer. Barcodedpeptideidentity/readenrichmentnotmoleculeUMI. Exactindexvalues/cycles/librarymoleculargeometryunassembled.')
 def protocol_graph():return graph_for_selection('facs')
 def selftest():
@@ -63,5 +81,7 @@ def selftest():
  src=Source(sources_root()/'tcr-map__10.1038+s41587-024-02248-6'/'s41587-024-02248-6_PMC11994455.xml.txt','PublishedmainNGSMethods280;transferandselectionboundaries')
  if have(c,src,label='PublishedMain'):
   t=''.join(src.path.read_text().split());c('Knownstandardsequencingprimerboundaryverified','usingthestandardIlluminasequencingprimers' in t,True);c('ActualcitedTScanIIversionverified','10.1016/j.cell.2023.10.024' in t,True)
+ c('FACS physical staining precedes collection',f.steps['facs'].inputs[0].material,'facs_washed')
+ c('Unselected FACS cells retain unresolved fate',f.terminals['facs_other_cells'].disposition,Disposition.UNRESOLVED)
  c.report()
 if __name__=='__main__':selftest()

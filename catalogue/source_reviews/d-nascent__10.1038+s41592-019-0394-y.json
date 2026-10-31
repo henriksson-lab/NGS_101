@@ -69,5 +69,57 @@
       "verification": "32localchecks(7nanoNOMe/10NSCR/7D-NAscent/8SAMOSA) passed;4privatebuilds and scopeddocs/pairing/schema passed. Chemistry0established/59unresolved/0contradictory. Sourceguard0checked/0failed,3historicaladapterinputs without exactstates, not exactoligovalidation. Root independentlyspotreviewed nanoNOMe/SAMOSA; multi reviewedNSCR/D-NAscent, identifiedsavedRcontrol/Ccollection omissions now fixed with regressions. These implementation reviews are not independent absence-audit passes. Retrievalsessions42535 interruptedgracefullyexit130/cachepreserved and2412completedexit0; finalscrapers66705completedexit0. No retrievalrunning."
     }
   ],
-  "work_status_reason": "Next action is ordinary reading/retrieval of identified historical kit/source scopes or independent review. The selected capped pass did not establish a specific access barrier; model geometry remains unresolved. No absence conclusion."
+  "work_status_reason": "Next action is ordinary reading/retrieval of identified historical kit/source scopes or independent review. The selected capped pass did not establish a specific access barrier; model geometry remains unresolved. No absence conclusion.",
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 3,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/d-nascent__10.1038+s41592-019-0394-y/s41592-019-0394-y_PMC7617212.xml.txt",
+        "version": "Associated manuscript EMS82269; final-VOR method applicability unresolved",
+        "sections": "Identity1\u20134; Methods102\u2013106/114\u2013124",
+        "scope": "SelectedHU/BrdUdepletion/native1DLSK109 genomicroute; separatetraining/synthetic/BrdU-IPvalidation routes. All namedchemical/libraryinput scope, not full historicalkitrecipe."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/d-nascent__10.1038+s41592-019-0394-y/s41592-019-0394-y_41592_2019_394_MOESM1_ESM.pdf.txt",
+        "version": "Published DOI-header SI",
+        "sections": "Identity1\u201319; tabledescriptions28\u201370",
+        "scope": "PublishedTableS1 actualworkbook description; training/controlTableS2oligos/context only, not genomicadapters; no fullgraphicalpanel audit."
+      },
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/d-nascent__10.1038+s41592-019-0394-y/s41592-019-0394-y_41592_2019_394_MOESM3_ESM.xlsx",
+        "version": "Published cached SupplementaryTableS1",
+        "sections": "OriginalXLSX workbook/sheetnames, sample_info headerA1:E1/rows2\u20138 andactualHUrow18",
+        "scope": "Concrete t4HU(130min),LSK109,10percentnascentDNAentry; header/selectedrow scope only, not allsampling/Nanopore/Massspec/download tabs. PreviousassociatedSI original not reopened this pass."
+      }
+    ],
+    "scope": "Actual BrdU/HU/pronase/thymidine contributor roles, repair inventory grouping(no premix), native cleanup retains known library kind; full assembly/VOR/sampling scopes remain open.",
+    "missing_claims": [],
+    "normal_gate": [
+      "authoritative source item 'unreviewed_assembly' is not accounted for",
+      "graph input/step 'adapter' has no source-inventory item",
+      "graph input/step 'arrest' has no source-inventory item",
+      "graph input/step 'arrest_stock' has no source-inventory item",
+      "graph input/step 'chase' has no source-inventory item",
+      "graph input/step 'chase_stock' has no source-inventory item",
+      "graph input/step 'extract' has no source-inventory item",
+      "graph input/step 'extract_stock' has no source-inventory item",
+      "graph input/step 'label' has no source-inventory item",
+      "graph input/step 'label_components' has no source-inventory item",
+      "graph input/step 'label_stock' has no source-inventory item",
+      "graph input/step 'label_supplies' has no source-inventory item",
+      "graph input/step 'library' has no source-inventory item",
+      "graph input/step 'library_condition' has no source-inventory item",
+      "graph input/step 'library_step' has no source-inventory item",
+      "graph input/step 'ligase' has no source-inventory item",
+      "graph input/step 'ligate' has no source-inventory item",
+      "graph input/step 'repair' has no source-inventory item",
+      "graph input/step 'repair_cleanup_condition' has no source-inventory item",
+      "graph input/step 'repair_cleanup_step' has no source-inventory item",
+      "graph input/step 'repair_stock' has no source-inventory item",
+      "graph input/step 'yeast' has no source-inventory item"
+    ],
+    "verification": "D-NAscent10PASS/SAMOSA14PASS; both privatebuilds; guard0exact0failed2unknownadapters0exceptions; chemistry9+29unresolved0contradictory; pairing0. ActualHTML private limits/no completion markers verified."
+  }
 }

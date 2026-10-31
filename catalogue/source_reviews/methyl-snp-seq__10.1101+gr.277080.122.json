@@ -78,7 +78,7 @@
       "pass_1": {
         "reviewer": "round15_source_reader",
         "date": "2026-10-29",
-        "locations": "PublishedVORPMC9808626 overview46\u201350/discussion130\u2013138/Methods148\u2013164/readout200\u2013210; linkedcopy andnative5mC readouts separate.",
+        "locations": "PublishedVORPMC9808626 overview46–50/discussion130–138/Methods148–164/readout200–210; linkedcopy andnative5mC readouts separate.",
         "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
       },
       "pass_2": null,
@@ -95,7 +95,7 @@
       "pass_1": {
         "reviewer": "round15_source_reader",
         "date": "2026-10-29",
-        "locations": "PublishedSupplementalProtocolsteps1\u20137, text352\u2013491; SupplementalText233\u2013235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.",
+        "locations": "PublishedSupplementalProtocolsteps1–7, text352–491; SupplementalText233–235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.",
         "finding": "Positive selectedsourcefacts read; exact scope/versionlimits in note, no absence claim."
       },
       "pass_2": null,
@@ -136,7 +136,7 @@
     "pass_1": {
       "reviewer": "round15_source_reader",
       "date": "2026-10-29",
-      "locations": "PublishedVORPMC9808626 overview46\u201350/discussion130\u2013138/Methods148\u2013164/readout200\u2013210; linkedcopy andnative5mC readouts separate.; Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.; PublishedSupplementalProtocolsteps1\u20137, text352\u2013491; SupplementalText233\u2013235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.; PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
+      "locations": "PublishedVORPMC9808626 overview46–50/discussion130–138/Methods148–164/readout200–210; linkedcopy andnative5mC readouts separate.; Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.; PublishedSupplementalProtocolsteps1–7, text352–491; SupplementalText233–235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.; PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
       "finding": "Direct named linkedpredecessors/vendors deferred at cap; no recursion or accepted absence."
     },
     "pass_2": null
@@ -171,7 +171,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Bounded max10min/3originals; selectedoriginals only; samearticlePDF/XML oneoriginal.",
-      "locations": "PublishedVORPMC9808626 overview46\u201350/discussion130\u2013138/Methods148\u2013164/readout200\u2013210; linkedcopy andnative5mC readouts separate.; Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.; PublishedSupplementalProtocolsteps1\u20137, text352\u2013491; SupplementalText233\u2013235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.; PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
+      "locations": "PublishedVORPMC9808626 overview46–50/discussion130–138/Methods148–164/readout200–210; linkedcopy andnative5mC readouts separate.; Samepublishedarticle originalp2088 rendered toverifyprintedEndoVI(M0304) andhairpinsequence; selectedoriginal not a second article.; PublishedSupplementalProtocolsteps1–7, text352–491; SupplementalText233–235; originalp8 rendered verifiesEndoIV(M0304), directadditionPolI/Taq, SIadapter/Abcam identifiers. Commands/figures not exhaustivelyreviewed.; PublishedSupplementalTables selectedsheetheader/inventory and samplemetric scope; no claim of all numericalcells reviewed.",
       "findings": "Physicalmodification/copy/readout andphysicalfraction distinctions retained; deferredgeometry explicit.",
       "deferred": [
         "Main156/160andSIprotocol NEBE7546/M0367/M0280/M0304/E7536/E7165/E7140/M0597; historicalmanufacturer originals",
@@ -181,6 +181,20 @@
       ],
       "oligo_scraper": "Mandatoryscraper fullcache; pointers independentlychecked in originalselectedMethods/SI; emptyhits are not absence.",
       "verification": "7 local behavior/transcription checks pass. Combined three-protocol source guard4checked/0failed/0exemptions/8unassembled inputs; chemistry71unresolved/0contradictory; schema3pass, notes build and diff whitespace check pass. Independent selected-source implementation review is not a second missing-information audit."
+    },
+    {
+      "round": "unlinked-pages-batch23",
+      "reviewer": "targeted_publication_reader",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed existing-original pass; bounded private physical/molecular corrections, no acquisition, complete source review or accepted absence.",
+      "locations": "Exactsourceidentities/sections /tmp/unlinked-targeted33-preflight.json andcounter /tmp/unlinked33-source-counts.json. LiGAAMMethods1.8–1.15 andpublishedSIselectedcaptions; reportingformidentityonly. Methyl-SNPpublishedmain148–164 andpublishedSIprotocol352–491 steps1–7.",
+      "findings": "Two actual SIsonication contributions (each2ugDNA+1nglambda/50ul) remain distinct before the100ulfragmentedDNA endprep interface; biological/technicalreplicate mapping beyond that selected source recipe is unassembled. Hairpin20uM preparation follows source80C2min/cool25C.1C/s without inventing a fold; actual4ulpreparedadapter is selected with retained stock remainder and original5P/uracilbody. The actual39ulfrom40ulDNAeluate nicking contribution retains its remainder. Named source enzyme/mix components, PolI d(A,G,T)TP/5-mdCTP and TaqdATP are physical contributors from actual added supply groups; no duplicate fresh catalyst is generated from a condition label. Direct UDG/EndoIV→PolI→Taq continuity remains, with all reaction companions until actual column cleanup. The SI adds3ulTaq/dATP after its50ulPolImix but then names50ulcleanup and2mMdATP: both printed conventions remain unassembled, without a silent correctedvolume or publication-error claim. Q5U and separate optional Q5mastermix components and actual primer classes remain source-qualified. Optional capture has selected200–300ngown indexed stock plus other real indexed library contributions; E7603primer functions are copresent components of that actual source mixture. Bisulfite reagent is molecular,20ul→5ul evaporation is not DNA discard, and final loading retains source stock. Named historicalNEB/Abcam/Twist and fullhairpin/Yprimer/read obligations remain uncovered. No public promotion.",
+      "deferred": [
+        "Genuinelynamed historicalNEB/AbcamandoptionalTwistoriginals remainunreviewed; fullhairpin/Yprimer/readgeometryunassembled. DirectpublishedSI recipes supportsubstantialboundedstockcorrections, but donotwaive existingvendor/fullassemblyitem. OptionalTwist isbranch-specific, notproof defaultWGSunavailable."
+      ],
+      "oligo_scraper": "Mandatoryclosed-pass /tmp/unlinked33-methyl-snp-scraper.log; no new oligo body adopted from scraper alone.",
+      "verification": "13 focusedchecksPASS; sourceprivatebuild/render/pairingPASS. Combinedsourceguard1exact/0failed/2externalunknownstates; producedunknownLiGAPCRprimerfunctions andmethyladapter/optionalprimer classes also remainunassembled outsideexternalguard. Chemistry59unresolved/0contradictory; requireditems preserved."
     }
   ]
 }

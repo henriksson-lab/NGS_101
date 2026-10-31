@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round07_reader",
         "date": "2026-10-29",
-        "locations": "Accepted-manuscript provenance94; reduction rationale100; model-validation/treatment196–218; NGS library228–230; Fig1caption1186",
+        "locations": "Accepted-manuscript provenance94; reduction rationale100; model-validation/treatment196\u2013218; NGS library228\u2013230; Fig1caption1186",
         "finding": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim."
       },
       "pass_2": null
@@ -314,7 +314,7 @@
       "date": "2026-10-29",
       "documents": 3,
       "scope": "Defining originals and available chemistry material first; precise limited inspection recorded",
-      "locations": "Accepted-manuscript provenance94; reduction rationale100; model-validation/treatment196–218; NGS library228–230; Fig1caption1186; Opening accession/chain/model-length table rows only, screened before chemistry SI arrived; no library/chemistry conclusion from header; Opening accession/chain/model-length table rows only; no whole-document irrelevance judgment or chemical review",
+      "locations": "Accepted-manuscript provenance94; reduction rationale100; model-validation/treatment196\u2013218; NGS library228\u2013230; Fig1caption1186; Opening accession/chain/model-length table rows only, screened before chemistry SI arrived; no library/chemistry conclusion from header; Opening accession/chain/model-length table rows only; no whole-document irrelevance judgment or chemical review",
       "findings": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim.",
       "deferred": [
         "https://doi.org/10.1038/s41586-020-2418-2",
@@ -323,5 +323,17 @@
       "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
       "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "source_scope": "s41586-020-2418-2_PMC8130014.xml.txt196\u2013230 free-nucleoside/primerextension/Sangervalidationdistinction andbriefactualNGSlibrarypreparation. PublishedMOESM1.pdf.txt18\u201339 SupplementaryNote1reductionoptimization/mechanisticrationale only. MOESM12.xlsx.txtopeningfirstsheet/first12rows:SupplementaryTable9LCMSmeasurements, identity/metadataonly, nochemistry orlibraryadapterauthority. Oldstructural-tableidentitiesnotreopened/countedinthispass. No39/40protocol/VOR/vendor/extraoligooriginalopen; no wholeAM/SIequivalence.",
+    "originals_read": 3,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Current5stepgraphendsinRNA/cDNAhybrid andretainsrealunreviewed_chemistry_library item coveringpublisherchemistrySI/exacttreatment/adapter/RTversions/predecessors39/40/readplan. NewselectedpublisherNote1providesoptimizationrationale, not a full inspectedNGSpreparation. ActualNGS chemicaltreatment/workup andlinkedlibrarysourceversions remainunreviewed. Cannot substituteSanger/free-nucleosideconditions ormarkbroaditemmodelledbyopaquehybrid/librarylabel. Boundedreduction/RTinventorycorrections nowimplemented; no fullproducer or unsupportedconditionsassigned.",
+    "verification": "7directfocusedPASS; noPAGE_FILE/build introduced; chemistry6steps6unresolved0contradictory; sourceguard0exactclaims0failed2unassembledexternaloligos. Fouractualgateissuesremain.",
+    "source_items_still_uncovered": true,
+    "missing_information_claims": []
+  }
 }

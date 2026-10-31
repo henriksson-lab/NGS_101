@@ -4,6 +4,7 @@ from dataclasses import replace
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'lib'))
 from chemdraw import Scene, Segment, feature, revcomp
+from protocol_graph import SourceCoverage
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (ProtocolGraph, MaterialKind as K, InputRole as R, StepKind as S,
@@ -73,7 +74,7 @@ class Prep:
         self.g.react(key, label, kind, ((self.x, R.TEMPLATE),)+tuple(inputs), (y,), **kw)
         self.x = y
     def analytical(self, key, label):
-        sample = self.g.product(key+'_sample', label, K.MOLECULAR)
+        sample = self.g.product(key+'_sample', label, K.QC)
         rest = self.g.product(key+'_rest', 'Actual stock after analytical allocation; amount unassigned', K.MOLECULAR)
         self.g.react(key, label, S.SPLIT, ((self.x, R.TEMPLATE),), (sample,rest))
         self.g.mark_terminal(Terminal(sample.id,D.QC,'Analytical fraction excluded from production.'))
@@ -85,10 +86,10 @@ class Prep:
         self.g.mark_terminal(Terminal(rest.id,D.UNRESOLVED,remainder));self.x=sample
     def workup(self,key,label,inputs=(),*,removed=None):
         kept=self.g.product(key+'_kept',label+': actual retained fraction; no perfect specificity claim',K.MOLECULAR)
-        other=self.g.product(key+'_other',removed or 'Actual removed workup fractions',K.MOLECULAR)
+        other=self.g.product(key+'_other',removed or 'Actual removed workup fractions',K.MOLECULAR if removed else K.WASTE)
         self.g.react(key,label,S.CLEANUP,((self.x,R.TEMPLATE),self.condition(key+'_conditions',label))+tuple(inputs),(kept,other))
         if removed:
-            qc=self.g.product(key+'_other_qc','Source roughly5percent removed biological fraction for QC',K.MOLECULAR)
+            qc=self.g.product(key+'_other_qc','Source roughly5percent removed biological fraction for QC',K.QC)
             rest=self.g.product(key+'_other_stock','Other biological stock outside selected CoLa production',K.MOLECULAR)
             self.g.react(key+'_other_qc_allocate','Actual analytical allocation from removed subcellular fraction',S.SPLIT,((other,R.TEMPLATE),),(qc,rest))
             self.g.mark_terminal(Terminal(qc.id,D.QC,'Source western/RNA-fragment QC.'))
@@ -193,7 +194,7 @@ def protocol_graph():
     g.sequence(lib,SequencingPlan(read_lengths={'R1':READ_LENGTH,'R2':READ_LENGTH},limitation='Accepted-version sourcePE100. Full TableS5 oligos, index assignment/acquisition and whole products unassembled.'))
     g.add_source_item(SourceItem('accepted_main',AUTHORITY,'Actual source-positive preparation, not proof of final-version equivalence.'))
     g.add_source_item(SourceItem('lariat_topology','Acceptedintroduction72/workflow90–94','Known2prime5prime branch topology; actual genomic sequences/branch coordinates unknown. Invented example is separate and not a reaction substrate.'))
-    return g
+    return _publication_coverage(g)
 
 
 def selftest():
@@ -216,12 +217,52 @@ def selftest():
     c('Loaded library comes only from selected final allocation',g.steps['sequence'].inputs[0].material,'load_selected')
     c('Adapter N6 means UMI',adapter_scene().strands['adapter'].segs[0].feature.role,'umi')
     c('Whole experimental library stays unassembled',g.materials['library'].state,None)
-    c('Partial library is not a ready schematic',bool(g.publication_problems()),True)
+    c('Source-qualified publication gate',g.publication_problems(),[])
     p=sources_root()/Path(__file__).resolve().parents[1].name/'j.molcel.2022.11.004_PMC10448999.xml.txt'
     if have(c,Source(p,'https://pmc.ncbi.nlm.nih.gov/articles/PMC10448999/')):
         text=p.read_text()
         for label,phrase in [('Source2prime5prime','2′−5′ phosphodiester linkage'),('SourceRNA500ng','~500 ng of RNA'),('SourceUMI6','6 nt UMI'),('Sourceacceptedunit','200 mL of NRB'),('SourceTerminator','Terminator 5′−3′ exonuclease'),('SourcePE100','100 bp paired-end mode')]:c(label,phrase in text,True)
     c.report()
+
+
+
+def _cover_reviewed_targets(g,groups):
+ """Assign only the literal curator-reviewed targets declared below."""
+ for source,targets in groups:
+  for target in targets:
+   key='reviewed_'+target
+   label=g.materials[target].label if target in g.materials else g.steps[target].label
+   g.add_source_item(SourceItem(key,label,source));g.cover_source_item(SourceCoverage(key,'modelled',target))
+
+PAGE_FILE='cola-seq.html'
+SOURCE_TARGETS=(
+ ('AcceptedNIHMS1854138/PMC10448999 STARMethods216–220: coldEDTAchromatinfractionation/actualbiologicalQC/reagentstockclasses andRNAextraction.50Mreferencevs200Mcohortscalingunassigned; JATSliteral200mLnotcorrected.',
+  ('cells','pbs','wash_conditions','wash','buffer_a','lysis','nuclei_conditions','nuclei','nuclei_other_qc_allocate','nrb','nun','buffer_formulas','nrb_nun','chromatin_conditions','chromatin','chromatin_other_qc_allocate','wash_premix','chromatin_wash_conditions','chromatin_wash','chromatin_qc','pellet_nrb','resuspend','extraction_reagents','trizol_conditions','trizol','dnase_genome','genomic_dnase','dnase_workup_conditions','dnase_workup')),
+ ('SameacceptedSTARMethods224–226: twoSPRIselections/RiboZero/ncRNAASO/C1retainedsupernatant/TurboDNase/RppH/Terminator. Kitinventoryviewsbookkeep documentedclasses, not unknownwholeoligoorders or independentfreshdoses.',
+  ('spri1','size1_conditions','size1','ribozero_kit','ribozero_inventory','ribozero','asos','aso_solution','aso_anneal','c1_beads','c1_conditions','c1','rna_clean_conditions','rna_clean','dnase_probes','probe_dnase','probe_cleanup_conditions','probe_cleanup','rpph_stock','rpph','terminator_stock','terminator','spri2','size2_conditions','size2','library_rna')),
+ ('SameacceptedSTARMethods230:~500ngRNA/preAppN6UMIadapter/Rnl2K227Q/SPRI/SSIII/ExoSAP/EDTA-NaOH/cDNAcleanup/circle/Phusion15–18/175–750bpgel/HiSeq4000PE100. TableS5wholebodies andactualoccupiedjunctionsunassembled.',
+  ('adapter','rnl2','ligation_conditions','adapter_ligate','spri3','adapter_cleanup_conditions','adapter_cleanup','rt_supplies','rt_inventory','rt_primer','rt','exosap_stock','exosap','edta','naoh','stop','cdna_clean_conditions','cdna_clean','circligase','circle','pcr_supplies','primer_classes','pcr_reagents','pcr_inventory','pcr','gel_load','gel_conditions','gel','load','sequence','library')),
+)
+def _publication_coverage(g):
+ g.cover_source_item(SourceCoverage('accepted_main','modelled','sequence'))
+ g.cover_source_item(SourceCoverage('lariat_topology','modelled','size2_kept'))
+ _cover_reviewed_targets(g,SOURCE_TARGETS)
+ return g.require_publishable()
+
+def render_page():
+ from page import head,caveat,table
+ from chemdraw import panel
+ from protocol_views import assemble_page,WorkflowSection
+ g=protocol_graph()
+ return assemble_page(g,[head('CoLa-seq — chromatin-associated RNA lariat enrichment'),
+ '<main class="wrap" data-protocol-complete="true"><h1>CoLa-seq</h1><p>Chromatin-associated RNA is depleted of abundant transcripts and enriched for lariat species. Adapter ligation and reverse transcription turn the surviving RNA into cDNA libraries that report lariat-associated read starts.</p><p><a href="https://doi.org/10.1016/j.molcel.2022.11.004">Zeng et al., Molecular Cell</a> · <a href="01_cola-seq.html">Research note and evidence scope</a></p>',
+ caveat('<strong>Accepted-manuscript preparation.</strong> This page is qualified to NIHMS1854138/PMC10448999. Full equivalence to the final publication is unverified. Actual RNA sequences, branch coordinates, occupied reaction products and whole TableS4/S5 oligos remain unassembled. Enrichment is not assumed to produce exclusively lariats.'),
+ '<h2>Preparation</h2><ol><li>Fractionate K562 cells with cold, EDTA-containing buffers and recover chromatin-associated RNA. Keep the cytoplasmic and nucleoplasmic fractions separate, with actual QC allocations.</li><li>Remove short RNA, deplete rRNA and abundant ncRNAs, and retain the RNA supernatant after C1 capture of biotinylated depletion probes.</li><li>Apply RppH followed by Terminator 5′→3′ exonuclease, then repeat size selection. Allocate approximately 500 ng enriched RNA for library preparation.</li><li>Ligate a preadenylated adapter carrying a six-base UMI to RNA 3′ ends; reverse transcribe with SSIII. Remove excess primer and hydrolyze RNA with the source EDTA/NaOH additions.</li><li>Clean and circularize cDNA; amplify with Phusion for 15–18 cycles, select 175–750 bp DNA on a 6% TBE gel, and sequence a selected 3 nM library allocation.</li></ol>',
+ '<h2>Known molecular parts</h2>',table(('Part','Role and limit'),(('RNA lariat','A 2′–5′ phosphodiester branch links the intron 5′ end to an internal branch nucleotide, with a 3′ tail. Actual genomic sequence and branch position are unassigned.'),('RppH then Terminator','Source decapping/exonuclease enrichment; Terminator is not RNase R. Short-lariat loss and other surviving RNA classes remain possible.'),('Preadenylated adapter with N6 UMI','The six random bases are a source-defined molecular identifier. Whole adapter body and 3′ chemistry remain unresolved.'),('Circular cDNA','Source-positive CircLigase substrate/product class; complete circle junction, RT-primer body and PCR landing sites remain unresolved.'))),
+ panel(adapter_scene().rows(),caption='Source-known adapter end: 5′ preadenylation and six-base UMI; whole body and 3′ chemistry unassembled'),
+ '<h2>Read setup</h2><p>Illumina HiSeq4000, paired-end 100 bases. Sample indices are introduced by reverse PCR primers; their exact bodies, width, assignment and index-read acquisition remain unassembled. Branchpoint-adjacent read starts are a source-specific observed readout, not a generic guarantee that every reverse transcriptase stops at every RNA branch.</p>',
+ '<h2>Source limits</h2><p>The fractionation recipe uses a 50-million-cell reference while each library uses RNA from 200 million cells; actual array multiplicity and scaling remain unassigned. The accepted JATS prints “200 mL” for pellet resuspension. This value is retained as an unresolved source unit rather than silently changed. Actual TablesS4/S5 and historical kit instructions remain outside the reviewed scope.</p><p>The model’s separate invented lariat reference tests connectivity only. Its sequence and branch coordinate are not used as an experimental genomic input or as proof of a CoLa-seq reaction; that illustrative sequence is not drawn on this preparation page.</p>',
+ '<details><summary>Full workflow, physical fractions and unresolved chemistry</summary>',WorkflowSection('Accepted-source preparation'),'</details></main>'])
 
 if __name__=='__main__':
     out=Path(__file__).resolve().parents[1]/'lariat_example.svg'

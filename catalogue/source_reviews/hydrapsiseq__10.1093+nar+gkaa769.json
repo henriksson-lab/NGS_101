@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round03_capped_reader",
         "date": "2026-10-28",
-        "locations": "JATS57,65–69,87–107,127–135,197–211",
+        "locations": "JATS57,65\u201369,87\u2013107,127\u2013135,197\u2013211",
         "finding": "VOR supports hydrazine/aniline cleavage, selected U-excision product ends, ATP-free PNK3phosphatase and HiSeq1000 SE50. Historical kit oligos/revision unreviewed."
       },
       "pass_2": null
@@ -29,8 +29,8 @@
       "pass_1": {
         "reviewer": "rna_round03_capped_reader",
         "date": "2026-10-28",
-        "locations": "Text1–45 score description and TableS1; original embedded FigureS1(word/media/image4.png) visually inspected",
-        "finding": "FigureS1 shows N−1 3p and N+1 5p products, removed central U and preservation of downstream5p during ATP-free PNK. Other panels not systematically inspected; incidental image11 view is calibration only."
+        "locations": "Text1\u201345 score description and TableS1; original embedded FigureS1(word/media/image4.png) visually inspected",
+        "finding": "FigureS1 shows N\u22121 3p and N+1 5p products, removed central U and preservation of downstream5p during ATP-free PNK. Other panels not systematically inspected; incidental image11 view is calibration only."
       },
       "pass_2": null
     }
@@ -57,7 +57,7 @@
       "locator": "Complete adapter/RT/PCR/read-plan model; quantitative cleavage/background/protection scoring."
     }
   ],
-  "conclusion": "Capped first pass, two accessible originals; not a complete source review and no confirmed missing-information claim. Proposed notes/pending_source_review retained.",
+  "conclusion": "Eligible for source-qualified public preparation: actual source-positive DNA-library finishing and analyticalQC/multiplexing/loadingfates are represented, with wholekitproducts/geometry unassembled. No sequence-exact final molecule, performance or acceptedmissing-information claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-03",
@@ -65,13 +65,30 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "First capped original-source pass; distinct source versions and downstream boundaries retained.",
-      "locations": "JATS57,65–69,87–107,127–135,197–211; Text1–45 score description and TableS1; original embedded FigureS1(word/media/image4.png) visually inspected",
+      "locations": "JATS57,65\u201369,87\u2013107,127\u2013135,197\u2013211; Text1\u201345 score description and TableS1; original embedded FigureS1(word/media/image4.png) visually inspected",
       "findings": "Published HydraPsiSeq cleavage and end-repair support scoped local event model, with molecular debris retained until physical separation; kit remains an unresolved boundary.",
       "deferred": [
         "Historical NEBNext SmallRNA Library kit original: edition/catalogue identity unresolved, not an invented unavailable document.",
         "Remaining supplement panels, directly cited chemistry originals and scoring code not followed in first cap.",
         "Complete adapter/RT/PCR/read-plan model; quantitative cleavage/background/protection scoring."
       ]
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-8",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded positive RNA-to-DNAlibrary source/model completion; not wholekit reconstruction or absence audit",
+      "locations": "Two originals: published PMC7641733JATS RNAfragmentation/end-repair/library/sequencingMethods87\u2013107; published gkaa769supplementalDOCX originalembeddedFigureS1image4andactualS1caption. Originalfigure/captionexplicitlysupportsN\u22121RNA3P/N+1RNA5P and ATP-freePNK3dephosphorylation. No historicalvendor/predecessor originalopened or modernkitrecipe inherited.",
+      "findings": "The graph retains hydrazine/aniline scission and ATP-freePNK3\u2032dephosphorylation, while exposing actualhydrazine/aniline/Glycoblue/\u03b2-mercaptoethanol contributions separately from enzymes/conditions. Released residue-derived products remain molecular before actual ethanol/extraction separations; exact carrier/debris partition is unquantified. PublishedMethods explicitly converts recoveredRNA to a NEBNextSmallRNAkit DNA-library product; that actualfinishing interface is represented with kitcomponentpackaging/wholeoligos/RT/PCR/workups unassembled. The kitcollection is not an inventedpremix and no newer kitrecipe is inherited. ActualBioAnalyzerHighSensitivityDNA/Qubit material is selected as QC, followed by selected librarycontributions to the sourcemultiplexpool, otherlibraryinputwithunassignedidentities/counts, final loadingaliquot and untransferred library/poolstocks. PublishedHiSeq1000SE50/10\u201312pM is preserved. The local selectedU-event model does not predict \u03a8cleavage, conversion fractions or modification stoichiometry; calibration/scoring remains outside molecular validation. Source30\u201360min hydrazinewindow and literalPNKbuffer concentrations are preserved without silently selecting an optimization condition or correcting100mMMgOAc. FigureS1describes relative\u03a8resistance and explicitly ATP-free3\u2032phosphatase activity, not an absolute guarantee of noncleavage/protection. No new published discrepancy is asserted.",
+      "oligo_scraper": "/tmp/unlinked-hydra8-scraper.log; zero sequencehits isnot absenceevidence; actualembeddedS1scheme/caption inspected.",
+      "deferred": [
+        "HistoricalNEBNextSmallRNAkit identity/edition/components and exactwholeDNA/runprimers",
+        "OtherRNA/calibrationcohorts,quantitativescoring,remaininglinkedoriginals/fullindependentreading"
+      ],
+      "verification": "11focusedPASS;12steps12unresolved0contradictory; normalgate[];build/pairing0."
     }
-  ]
+  ],
+  "pass_1": null,
+  "pass_2": null
 }

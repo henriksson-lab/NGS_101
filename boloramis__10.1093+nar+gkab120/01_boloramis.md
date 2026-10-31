@@ -27,4 +27,4 @@
 
 ## Limits
 
-Unreacted/off-target classes and residual fractions remain unresolved; no ideal molecular selection/yield is asserted. All concentrations/timing are source-qualified; full occupied cellular molecules, complete nonamer patterns and biochemical fixation products need further directly linked evidence. This private partial graph is not a complete source/chemistry/absence audit and has no public-promotion claim.
+Unreacted/off-target classes and residual fractions remain unresolved; no ideal molecular selection/yield is asserted. All concentrations/timing are source-qualified; full occupied cellular molecules, complete nonamer patterns and biochemical fixation products need further directly linked evidence. The public schematic retains these source and molecular limits. Publication checks cover the declared workflow and inventory; complete chemistry and the missing-information audit remain unfinished.

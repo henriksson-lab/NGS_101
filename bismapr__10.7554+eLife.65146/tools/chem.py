@@ -46,6 +46,8 @@ def selftest():
     from checks import Check
     c = Check(); g = protocol_graph()
     c('Pending source/assembly boundary prevents finished publication', bool(g.publication_problems()))
+    c('Original precursor and kit source obligation stays uncovered','pending_originals' in g.source_coverage,False)
+    c('Known end-repair catalyst has a physical catalyst port',next(p.role for p in g.steps['end_repair'].inputs if p.material=='end_repair_stock'),R.CATALYST)
     c('Private preview has no finished marker', 'data-protocol-complete=' not in render_page())
     c('Every DNA molecular output continues to an operation or explicit terminal',not any(m.kind in {K.MOLECULAR,K.LIBRARY} and m.id not in g.terminals and not any(port.material==m.id for step in g.steps.values() for port in step.inputs) for m in g.materials.values()))
     c('UDG products remain physical DNA/material rather than discarded output',all(g.materials[mid].kind is not K.WASTE for mid in g.steps['udg'].outputs))
@@ -127,10 +129,10 @@ def protocol_graph():
     current=operation(g,'bisulfite','Non-denaturing EZDNA Methylation-GoldCTreagent25C3h; selected exposed C-to-U',S.CHEMICAL_CONVERSION,current,HybridPopulation('bisulfite'),'source10µlsample+10µlwater+130µlCTreagent')
     current=operation(g,'desulfonate','Source kit chemical desulfonation; full reactive end intermediates unassembled',S.CHEMICAL_CONVERSION,current,current.state,'source EZDNA Methylation-Gold desulfonation reagents/conditions; exact kit protocol unreviewed')
     current=cleanup(g,'desulfonation','Source kit desulfonation and column purification;20µlM-Elution',current,current.state)
-    current=operation(g,'second_strand','RNaseH/dUTP second-strand synthesis16C1h; RNA-derived fragments retained',S.MAGIC,current,HybridPopulation('second_strand'),'source NEBNextUltraIIDirectional E7760 second-strand buffer/enzyme mix; exact kit polymerase roles unassembled')
+    current=operation(g,'second_strand','RNaseH/dUTP second-strand synthesis16C1h; RNA-derived fragments retained',S.MAGIC,current,HybridPopulation('second_strand'),'Aggregate actual NEBE7760 second-strand allocations:8ul ReactionBuffer,4ul EnzymeMix,48ulwater added to20ul eluate; not an invented single premix. RNAH/dUTP known from Fig1; exact component stock assignment/polymerase inventory unassembled',reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL)
     current=cleanup(g,'second_cleanup','Source1.8xAMPure cleanup after second-strand synthesis',current,current.state)
-    current=operation(g,'end_repair','Source EnzymaticsEnd-RepairMix',S.MAGIC,current,current.state,'source End-RepairMix; exact end transitions unassembled')
-    current=operation(g,'a_tail','Source Klenowexo-minus A-tailing',S.MAGIC,current,current.state,'source Klenowexo-minus and nucleotides')
+    current=operation(g,'end_repair','Source EnzymaticsEnd-RepairMix',S.MAGIC,current,current.state,'source Enzymatics End-Repair enzyme mix; exact constituent identities and end transitions unassembled',reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
+    current=operation(g,'a_tail','Source Klenowexo-minus A-tailing',S.MAGIC,current,current.state,'source Klenow exonuclease-minus catalyst; A-tailing nucleotide stock assignment remains unassembled',reagent_kind=K.CATALYST,reagent_role=R.CATALYST)
     current=cleanup(g,'preligation','Source MinElute purification before ligation',current,current.state)
     current=ligate(g,'adapter_ligation','Source NEBE7600 Illumina adapters/T4DNA ligation',current,'source NEBE7600 adapter; historical hairpin/ends unassembled')
     current=cleanup(g,'size_select','SourceAMPure fragments greater150bp',current,current.state)
@@ -138,5 +140,9 @@ def protocol_graph():
     current=amplify(g,'pcr','Source Q5 dual-index PCR; original/UDG-treated DNA and reaction fragments remain',current,'source NEBE7600 dual-index primers')
     current=cleanup(g,'library','Source MinElute post-PCR purification',current,current.state)
     g.mark_terminal(Terminal(current.id,Disposition.UNRESOLVED,'Source NextSeq500PE38; exact molecular/read-primer/index geometry not assembled.'))
+    # Independently reviewed literal source input/operation inventory. Unknown
+    # precursor-specific washes/ConA/permeabilization/recovery and kit/product
+    # obligations are not declared reviewed merely because MapR was cited.
+    g.declare_reviewed_scope(('cells','target_stock','target','stop_release_stock','stop_release','bisulfite_stock','bisulfite','desulfonate_stock','desulfonate','desulfonation_condition','desulfonation_step','second_strand_stock','second_strand','second_cleanup_condition','second_cleanup_step','end_repair_stock','end_repair','a_tail_stock','a_tail','preligation_condition','preligation_step','adapter_ligation_adapter','adapter_ligation_enzyme','adapter_ligation','size_select_condition','size_select_step','udg_stock','udg','pcr_forward','pcr_reverse','pcr_enzyme','pcr','library_condition','library_step'),g.authority)
     g.add_source_item(SourceItem('pending_originals','MapR2020, named vendor documents and exact UDG/adapter/primer assembly','Methods144 cites Yan2020 DOI10.1002/cpmb.113 and Yan2019; ZymoD5005/NEBE7760/E7600 vendor originals unreviewed.'))
     return g

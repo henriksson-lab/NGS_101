@@ -113,5 +113,14 @@
       "oligo_scraper": "Mandatory full-bundle scrape_primers.py run and output inspected; only CHRNA10 gene-name false hit. No sequence absence inferred.",
       "verification": "Protocol-local construction/render pass; page build; pairing0problems; chemistry27steps,0established,0conditional,29unresolved,0contradictory plus2explicit kit warnings; sourceguard0checked/0failed/3unrepresented (loaded adapters,i5,i7); exact polymers deliberately not asserted."
     }
-  ]
+  ],
+  "publication_preparation_recheck": {
+    "reviewer": "multi_unlinked_pass_3",
+    "date": "2026-10-30",
+    "type": "source_qualified_public_scope_not_absence_pass_2",
+    "documents": 1,
+    "scope": "Same selected publishedMOESM1SupplementaryProtocolsections1/3lines28–159 reread;1existing chemistryoriginal. Prioracceptedmain/correction scopes retained without neworiginal orfinal-versionequivalence. No newkit/vendor/preprint source.",
+    "changes": "Known molecular reagents/stocktransfers/remainders/preparedQ5components/bulkresidualbeads madeexplicit; source-versiondifferences/unknownkitpolymers retained. Literalcuratorsourceinventoryextended onlyforreviewedtargetIDs.",
+    "verification": "17focusedPASS; normalpublicationgatepasses; sourceguard0exact0failed3wholeexternaloligosunassembled; chemistry41steps43unresolved0contradictory. Pagecomplete/literalh1h2/inferredGcaption/bases/preamble andpairing/localhrefchecked."
+  }
 }

@@ -1,6 +1,6 @@
 {
   "dir": "gestalt-genomic-recovery__10.1126+science.aaf7907",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "accepted_article",
@@ -54,6 +54,23 @@
       ],
       "verification": "Local GESTALT 6 + LINNAEUS 12 + CARLIN 12 = 30 checks pass; three private builds pass; default source guard 3 exact primers checked, 0 failed/exemptions, 9 unassembled inputs; pairing 0; scoped chemistry 0 established, 29 unresolved, 0 contradictory. These checks do not establish complete source or molecular coverage.",
       "oligo_scraper": "/tmp/round10-gestalt-hits.log: no exact oligo hit in the available bundle; this does not establish absence. The actual detailed originals are gated."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-sourcehold-12",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Bounded read-only preflight then documentation-only source/producer-hold adjudication; no model/coverage change or absence audit",
+      "locations": "AssociatedNIHMS789616manuscript science.aaf7907_PMC4967023.xml.txt headeridentity/Results75-89, especiallyv1cellculture single10ntUMIextensionparagraph79 vsseparatev6/v7zebrafishparagraph87. Actualmanifest onlyvalidates thismanuscript plusunopenedpublished-first-excluded preprint; finalauthorPDFactualHTMLresponse, MethodsDOCX/tablesXLSXmanualgates.",
+      "findings": "Required detailed_methods remains unaccounted; actualdefiningMethodsDOCX and primerTableXLSX have gatedmanualrows, finalpublishedauthorPDFrouteyieldedHTML. Associatedmain reports a10ntUMIsingleextension andtargetedPCR/NGS, but downstreamfinishing/workup/oligos are unassembled. Actualnormalgate also rejects amplified sequencingoutput becauseK.MOLECULAR isnotK.LIBRARY; merelyrenaming it cannot resolve the missingproducer/source stages. Inheritededited recorder islineage_barcode, not unique present-daycellID. Recovery10ntUMI introduced byONEpolymeraseextension before amplification is separate from editedallele. WTarraycontext length isnot editedallele length. SourceusesUMI/allelepairs for molecular/cell-count interpretation, not blanketoneUMIonecell guarantee. v1cellculture genomicrecovery must not inherit v6/v7zebrafish/RNA/scGESTALT/CARLINrecipes; recordercreation/editing is upstreaminputcontext, not mandatorynewNGSconstructor.",
+      "oligo_scraper": "/tmp/unlinked-gestalt11-scraper.log; pointers/originals verified only within declaredscope, not absent-disclosure evidence.",
+      "deferred": [
+        "Retrieve/readactualversion-qualifiedMethods andtables; no NGSpreparation mayborrow laterrecorderprotocols, rawprimergeometry or generickitdefaults.",
+        "Maintain actualsingle-extensionUMI introduction followedby targetedPCR; sourceexactenzyme/NT/buffer/cycle/workup/adapter/libraryfinishing and selectedloading must be declared whereoriginalsupports them.",
+        "Do notblockgenomicrecovery onrecordercreation ifinputidentity issourcequalified; do notinventeditedallele length or map10UMI bases into a fullunreviewedprimer.",
+        "Replace existing tuple(g.materials)+tuple(g.steps) auto-inventory with curatorliteralindependentlyreviewedtargets ifsourcecompletionisattempted. Preserve requireddetailed_methodsobligation; no automaticcoverage or K.LIBRARYrenaming-only fix."
+      ],
+      "verification": "6preflight checksPASS; actualnormalgate [\"sequencing output 'amplified' is not a library\", \"authoritative source item 'detailed_methods' is not accounted for\"]; codeunchanged, tests/builds not repeated; no sourceacquisition."
     }
   ],
   "linked_information": {
@@ -65,5 +82,8 @@
     "Final published article and actual defining Methods DOCX/table XLSX",
     "Document-version applicability and exact recorder/primer/extension/PCR/workup/read geometry",
     "Directly linked chemistry sources and independent review"
-  ]
+  ],
+  "conclusion": "Required detailed_methods remains unaccounted; actualdefiningMethodsDOCX and primerTableXLSX have gatedmanualrows, finalpublishedauthorPDFrouteyieldedHTML. Associatedmain reports a10ntUMIsingleextension andtargetedPCR/NGS, but downstreamfinishing/workup/oligos are unassembled. Actualnormalgate also rejects amplified sequencingoutput becauseK.MOLECULAR isnotK.LIBRARY; merelyrenaming it cannot resolve the missingproducer/source stages. Current outcome remains a source/producer hold with required items intact. No exactwhole-geometry blanket prerequisite, excludedcoverage, confirmedabsence or fullsource/chemistry audit.",
+  "pass_1": null,
+  "pass_2": null
 }

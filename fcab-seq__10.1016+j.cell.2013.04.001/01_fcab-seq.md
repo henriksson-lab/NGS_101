@@ -19,3 +19,10 @@ This chemistry differs from redBS-seq NaBH4reduction-to5hmC and from fC-Seal glu
 ## Limits
 
 Mandatorywholebundlescraperrun. Hitsareverifiedsourcepointers, notabsenceevidence. Cappedfirstsource/modelpass, nottwo-readerabsenceaudit; no missingclaimsaccepted. Privateincompletegraph/preview retainsunreviewedSourceItems andnofinishedmarker.
+
+
+## Bounded publication review — 2026-10-30
+
+The actual O-ethylhydroxylamine contribution is now a physical molecular input, separate from the MES/pH/temperature programme. Source protection remains a 5fC-derived oxime class, not chemical replacement by cytosine because sequencing reports C-like bases. Main148 states that the general bisulfite thermal programme was run twice or high-throughput bisulfite amplicon sequencing was used, referring to Extended Procedures. The selected high-throughput branch therefore no longer asserts that twice-program applicability is established for its protected and ordinary samples. This is an unresolved source-branch applicability question, not a declared publication error or a silently selected recipe. Protected/ordinary preparations remain distinct; no fC-Seal reduction/affinity or ChIP-fCAB precursor is imported. Original required `gated_si` remains unchanged and uncovered: actual ExtendedExperimentalProcedures/SI01/02, full amplicon/library producer, historical kit applicability and read scope are unreviewed. No new originals or acquisition occurred during implementation.
+
+This capped pass accepts no missing-information claim. The private preview is not eligible for publication while the original source obligations remain unmet.

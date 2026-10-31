@@ -63,10 +63,10 @@ def ordering(parts):
 
 def protocol_graph():
     g=ProtocolGraph('GBS — original ApeKI single-well route',authority=SOURCE,representation='published_instance')
-    def op(key,label,kind,material,reagent_label,condition=False):
+    def op(key,label,kind,material,reagent_label,condition=False,additional=()):
         reagent=g.input(key+'_reagent',reagent_label,K.CONDITION if condition else K.CATALYST)
         out=g.product(key,label+';source mixture,carryover and yield unquantified',K.MOLECULAR)
-        g.react(key+'_step',label,kind,((material,R.TEMPLATE),(reagent,R.CONDITION if condition else R.CATALYST)),(out,));return out
+        g.react(key+'_step',label,kind,((material,R.TEMPLATE),(reagent,R.CONDITION if condition else R.CATALYST))+tuple(additional),(out,));return out
     def recover(key,material,label):
         reagent=g.input(key+'_procedure',label,K.SELECTION);out=g.product(key,'Source recovered preparation;purity unquantified',K.MOLECULAR);waste=g.product(key+'_waste','Actual excluded workup fractions;composition unassigned',K.WASTE)
         g.react(key+'_step',label,S.CLEANUP,((material,R.TEMPLATE),(reagent,R.SELECTION)),(out,waste));g.discard(waste,'Source physical separation,not perfect depletion.');return out
@@ -74,7 +74,7 @@ def protocol_graph():
         kept=g.product(key,'Selected source aliquot;exact polymer composition unassembled',K.MOLECULAR);rest=g.product(key+'_remainder',label,kind)
         g.react(key+'_split','Source physical aliquot and independent companion',S.SPLIT,((material,R.TEMPLATE),),(kept,rest));g.mark_terminal(Terminal(rest.id,disposition,label));return kept
     def qc(key,material,label):
-        retained=g.product(key,'Retained production preparation',K.MOLECULAR,state=material.state);assay=g.product(key+'_assay',label,K.QC)
+        retained=g.product(key,'Retained29ul source stock after1ul assay from30ul eluate; exact loading fraction unreviewed',K.MOLECULAR,state=material.state);assay=g.product(key+'_assay',label,K.QC)
         g.react(key+'_allocate','Analytical aliquot separate from production',S.SPLIT,((material,R.TEMPLATE),),(retained,assay));g.mark_terminal(Terminal(assay.id,Disposition.QC,label));return retained
     dna=g.input('dna','Source genomic DNA100ng;upstream CTAB extraction outside selected library graph',K.MOLECULAR,primary=True)
     # The two stocks are annealed and quantified independently,then mixed.
@@ -93,13 +93,18 @@ def protocol_graph():
     g.react('adapter_mix','Source mixes separately quantified adapter stocks1:1',S.POOL,((b,R.TEMPLATE),(c,R.TEMPLATE)),(stock,))
     pre=g.product('preplate','Source DNA plus1:1barcode/common adapters dried in the same well before digestion',K.MOLECULAR)
     g.react('preplate_step','Source adapter/DNA plate setup;no invented simultaneous digestion/ligation',S.GENERIC,((dna,R.TEMPLATE),(stock,R.STRUCTURAL)),(pre,),changes_molecule=False)
-    cut=op('digest','ApeKI75°C2h with both unmodified adapters already present',S.DIGESTION,pre,'Source ApeKI/NEBbuffer3;adapters designed without recognition sites')
-    ligase=g.input('ligase','Source T4ligase/ATP added after digestion;22°C1h',K.CATALYST)
+    digestion_buffer=g.input('digest_buffer','Actual source1xNEBBuffer3 in20ul digestion',K.MOLECULAR)
+    cut=op('digest','ApeKI75°C2h with both unmodified adapters already present',S.DIGESTION,pre,'Actual source3.6U ApeKI',additional=((digestion_buffer,R.STRUCTURAL),))
+    ligation_supply=g.input('ligation_supply','Actual30ul source solution containing1.66xligasebufferwithATP and640cohesiveendU T4ligase',K.MOLECULAR)
+    ligase=g.product('ligase','T4ligase component of sameactual30ul solution',K.CATALYST)
+    atp=g.product('ligation_atp','ATP component of same source ligase buffer; exact concentration unassigned',K.MOLECULAR)
+    ligation_buffer=g.product('ligation_buffer','Other copresent ligation-buffer constituents; exact formulation unreviewed',K.MOLECULAR)
+    g.react('ligation_components','Expose copresent components of actual added ligation solution; no extra doses',S.GENERIC,((ligation_supply,R.STRUCTURAL),),(ligase,atp,ligation_buffer),changes_molecule=False)
     nicked=g.product('nicked','Source mixture:heterotypic and both homotypic partially ligated classes,free adapters/ligase/unligated DNA retained',K.MOLECULAR)
     geometry=AdapterLigationGeometry.known('cohesive',barcode_adapter(),common_adapter(),molecule('Genomic fragment boundary',(role('Source ApeKI target sequence/end/junction geometry unassembled'),)),statement='Source5primeCWG cohesive ends;all adapter5prime ends areOH. Selected ligation joins genomic5P to adapter3OH and leaves opposite adapter5OH junction unsealed;this is not a fully sealed duplex product.')
     # One physical mixture supplies substrate and already-present structural adapters.
     # Reusing its identifier in two roles does not introduce a second copy or aliquot.
-    g.react('ligate','Source single-well ligation leaves adapter5OH nicks;no perfect product distribution',S.LIGATION,((cut,R.TEMPLATE),(cut,R.STRUCTURAL),(ligase,R.CATALYST)),(nicked,),geometry=geometry)
+    g.react('ligate','Source single-well ligation leaves adapter5OH nicks;no perfect product distribution',S.LIGATION,((cut,R.TEMPLATE),(cut,R.STRUCTURAL),(ligase,R.CATALYST),(atp,R.STRUCTURAL),(ligation_buffer,R.STRUCTURAL)),(nicked,),geometry=geometry)
     nicked=op('inactivate','Source65°C30min ligase inactivation;not physical removal',S.THERMAL_TREATMENT,nicked,'Source heat treatment',condition=True)
     selected=allocate('pool_aliquot',nicked,'Source remainder of each50µl well after5µl pooled aliquot;later fate unassigned')
     other=g.input('other_samples','Other independently prepared sample aliquots;48or96plex source sets',K.MOLECULAR)
@@ -107,14 +112,23 @@ def protocol_graph():
     g.react('pool_samples','Pool source5µl aliquots after ligase inactivation',S.POOL,((selected,R.TEMPLATE),(other,R.TEMPLATE)),(pooled,))
     pooled=recover('pool_cleanup',pooled,'Source main105QIAquickPCRpurification,50µl elution;Fig2 says size-exclusion column,scope unharmonized')
     selected=allocate('pcr_aliquot',pooled,'Source remainder of50µl eluate after2µl PCR allocation;later fate unassigned')
-    f=g.input('forward','Source full PCRprimerA',K.OLIGO,state=Construct([Segment('source PCRA',FWD)]));r=g.input('reverse','Source full PCRprimerB',K.OLIGO,state=Construct([Segment('source PCRB',REV)]));taq=g.input('taq','Source Taq MasterMix with dNTPs',K.CATALYST)
+    f=g.input('forward','Actual25pmol source PCRprimerA',K.OLIGO,state=Construct([Segment('source PCRA',FWD)]));r=g.input('reverse','Actual25pmol source PCRprimerB',K.OLIGO,state=Construct([Segment('source PCRB',REV)]))
+    mix=g.input('taq_mix','Actual1x Taq MasterMix in source50ulPCR; stockvolume/formulation unreviewed',K.MOLECULAR)
+    taq=g.product('taq','Polymerase component of sameactualsource master mix',K.CATALYST)
+    nts=g.product('pcr_nts','Copresent source master-mix dNTPs; precise recipe/dose unassembled',K.MOLECULAR)
+    other=g.product('pcr_other','Other source master-mix components; formulation unassigned',K.MOLECULAR)
+    g.react('pcr_components','Expose copresent functions of oneactualsource master mix',S.GENERIC,((mix,R.STRUCTURAL),),(taq,nts,other),changes_molecule=False)
     copied=g.product('pcr','Selected new PCR descendants plus original nicked DNA,displaced/unligated adapter strands and reaction remnants;all end classes retained',K.MOLECULAR)
-    g.react('amplify','Source initial72°C5min fill/copy then18PCRcycles;polymerase copying does not ligase-seal the original5OH nick',S.PCR,((selected,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(taq,R.CATALYST)),(copied,),geometry=PCRGeometry.unavailable(molecule('PCR boundary',(role('Full nicked genomic templates,displacement and descendant duplex geometry unassembled'),)),reason='Known selected fill/copy relation does not validate full heterogeneous molecular products or yields.'))
+    g.react('amplify','Source initial72°C5min fill/copy then18PCRcycles;polymerase copying does not ligase-seal the original5OH nick',S.PCR,((selected,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(taq,R.CATALYST),(nts,R.STRUCTURAL),(other,R.STRUCTURAL)),(copied,),geometry=PCRGeometry.unavailable(molecule('PCR boundary',(role('Full nicked genomic templates,displacement and descendant duplex geometry unassembled'),)),reason='Known selected fill/copy relation does not validate full heterogeneous molecular products or yields.'))
     copied=recover('pcr_cleanup',copied,'Source PCRcleanup,30µl final elution;no fragment-size excision')
     copied=qc('experion',copied,'Source1µl Experion assay;dimer-size assessment is not molecular size selection')
+    loaded=g.product('loading','Source selected library contribution from post-QA stock; loadingvolume unassigned',K.MOLECULAR)
+    rest=g.product('loading_remainder','Untransferred library stock; presence/volume/fateunassigned',K.MOLECULAR)
+    g.react('loading_allocate','Select actualsequencing contribution; no whole29ul loading assertion',S.SPLIT,((copied,R.TEMPLATE),),(loaded,rest));g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,'No manufacturer loading volume or residual amount inferred.'))
     lib=g.product('library','Source accepted GBS library;heterotypic/homotypic and residual species not perfectly partitioned',K.LIBRARY)
-    g.react('assessment','Source acceptance/reconstruction decision if excessive dimers;not physical fragment removal',S.GENERIC,((copied,R.TEMPLATE),),(lib,),changes_molecule=False)
-    g.sequence(lib,SequencingPlan(limitation='Source GenomeAnalyzerII single-end86nt,inline4–8nt sample tags,no separate index read. Homotypic limited-readout classes are not transformed into heterotypic molecules;actual flowcell behavior and full primer landing unassembled. Computational64nt truncation/polyA padding is not physical DNA processing.'))
+    g.react('assessment','Source acceptance/reconstruction decision if excessive dimers;not physical fragment removal',S.GENERIC,((loaded,R.TEMPLATE),),(lib,),changes_molecule=False)
+    g.sequence(lib,SequencingPlan(acquired_roles=('Read 1',),read_lengths={'Read 1':86},limitation='Source GenomeAnalyzerII single-end86nt,inline4–8nt sample tags,no separate index read. Homotypic limited-readout classes are not transformed into heterotypic molecules;actual flowcell behavior and full primer landing unassembled. Computational64nt truncation/polyA padding is not physical DNA processing.'))
+    g.declare_reviewed_scope(('digest_reagent','digest_buffer','digest_step','ligation_supply','ligation_components','ligate','inactivate_reagent','inactivate_step','pool_aliquot_split','other_samples','pool_samples','pool_cleanup_procedure','pool_cleanup_step','pcr_aliquot_split','forward','reverse','taq_mix','pcr_components','amplify','pcr_cleanup_procedure','pcr_cleanup_step','experion_allocate','loading_allocate','assessment'),SOURCE+' MainMethods105–109/Discussion197; literal inspected operational subset, not complete source geometry or readout coverage.')
     g.add_source_item(SourceItem('readout','Historical flowcell/Solexa and complete nicked-library/read-primer geometry','Source discussion197–203 distinguishes original nicked inputs,selected PCR descendants and homotypic flowcell limitations;exact molecular recovery/cluster growth not predicted.'))
     return g
 
@@ -130,8 +144,10 @@ def selftest():
     c('Original template retains both unsealed5OH junctions',copy.parent.unsealed_adapter_5oh_junctions,(0,1))
     c('Homotypic copies remain limited-readout classes',NickedFragment(('barcode','barcode')).selected_copy().source_readout_class,'homotypic source limited-readout class')
     c('Source adapters have no5prime phosphate',tuple(s.mod5 for sc in (barcode_adapter(),common_adapter()) for s in sc.strands.values()),('OH',)*4)
-    c('Ligation consumes the same already-adapter-bearing mixture',{x.material for x in g.steps['ligate'].inputs if x.role in {R.TEMPLATE,R.STRUCTURAL}},{'digest'})
+    c('Ligation consumes the same already-adapter-bearing mixture',{x.role for x in g.steps['ligate'].inputs if x.material=='digest'},{R.TEMPLATE,R.STRUCTURAL})
     c('Experion aliquot is QC rather than production',g.terminals['experion_assay'].disposition,Disposition.QC)
+    c('Ligation ATP and enzyme derive from same actual added solution',tuple(g.producer_of(k).id for k in ('ligase','ligation_atp')),('ligation_components','ligation_components'))
+    c('Source loading leaves QA material outside acquisition',g.steps['loading_allocate'].inputs[0].material,'experion')
     c('Original and copied whole molecular geometry incomplete',bool(g.publication_problems()))
     original=Source(sources_root()/'gbs__10.1371+journal.pone.0019379'/'journal.pone.0019379_PMC3087801.xml.txt','Published PMC3087801 Methods83/105/Discussion197')
     table=Source(sources_root()/'gbs__10.1371+journal.pone.0019379'/'journal.pone.0019379_supp_pone.0019379.s004.docx.txt','Published TableS1 via standard source fetch')

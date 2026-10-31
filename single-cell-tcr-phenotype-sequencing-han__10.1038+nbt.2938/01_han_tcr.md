@@ -33,3 +33,37 @@ Full study-specific primer panels, barcode whitelist transcription, complete fin
 ## Completion and verification
 
 Private incomplete source-local graph. Required source inventory explicitly retains unassembled full-strand chemistry; a valid local reaction contract does not establish source-review completion. Mandatory primer scraper was run against fetched sources and relevant hits checked in originals. No two-reader missing-information pass has been completed.
+
+## Unlinked-page adjudication: correction and preparation holds retained
+
+The bounded read-only pass on 30 October 2026 revisited the existing associated
+accepted manuscript, Online Methods 112–133, and the existing published
+supplement's identity/Figure 1 location. The image-only figure and complete
+Tables 1–3 were not newly transcribed from OCR. Prior source-render checks stay
+scoped as prior checks. No new original or source retry was performed.
+
+The linked Corrigendum (PMC5800857, PMID25658286) remains unread after the
+previously recorded direct PMC request returned a browser challenge. Its
+applicability is unresolved; this pass neither retries it nor classifies it as
+irrelevant or harmless. The main's common-handle length and combined-TCR
+primer-ratio discrepancies remain explicit pending that source check.
+
+The actual normal graph gate still reports the unaccounted authoritative source
+item `unassembled_source`. Its primer-pool/intermediate/final-strand obligations
+are retained. The actual third PCR contains both barcoding-primer classes and
+Illumina paired-end primers at 0.5 µM each. Those source-positive primer
+contributions must not be hidden by a generic two-primer reaction or supplied
+from an assumed modern kit. The source's prepared OneStep reaction also needs
+faithful copresent enzyme/nucleotide/buffer provenance without invented doses
+or packaging.
+
+Independent sorted-cell wells produce their own TCR and phenotype products
+with plate, row and column identities. The equal-volume final pool must
+represent actual independently prepared well contributions, not clone one
+cell's completed products. Existing separate 1 µl transfers and unresolved
+stock remainders should be preserved. Whole target molecules and acquired read
+cycles remain unassembled. No covalent TCR–phenotype fusion or UMI is implied.
+
+The model and private page remain unchanged. The unresolved linked correction
+and required source/model scope prevent promotion in this bounded pass; this
+is not an accepted missing-information claim.

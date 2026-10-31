@@ -51,16 +51,16 @@ def heat_treatment(state):
 
 
 def protocol_graph():
-    g=ProtocolGraph('RDIP-seq — published directional hybrid library',authority=SOURCE);scope=[]
+    g=ProtocolGraph('RDIP-seq — published directional hybrid library',authority=SOURCE)
     def inp(key,label,kind=K.CATALYST,state=None,primary=False):return g.input(key,label,kind,state=state,primary=primary)
     def op(key,x,label,kind,reagents=(),state=None,geometry=None,reason=None):
         y=g.product(key+'_out',label+' preparation',K.MOLECULAR,state=state or unknown(label))
-        g.react(key,label,kind,((x,R.TEMPLATE),)+tuple(reagents),(y,),geometry=geometry,**({'reason':reason} if reason else {}));scope.append(key);return y
+        g.react(key,label,kind,((x,R.TEMPLATE),)+tuple(reagents),(y,),geometry=geometry,**({'reason':reason} if reason else {}));return y
     def clean(key,x,label):
         reagent=inp(key+'_reagents','Source extraction/cleanup reagents',K.SELECTION)
         keep=g.product(key+'_kept',label+' retained preparation',K.MOLECULAR,state=unknown('Retained nucleic-acid preparation; class purity not assumed'))
         waste=g.product(key+'_waste','Actually nonretained extraction/wash fractions; composition unresolved',K.WASTE)
-        g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(reagent,R.SELECTION)),(keep,waste));g.discard(waste,'Actual source phase transfer, wash or column separation.');scope.append(key);return keep
+        g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(reagent,R.SELECTION)),(keep,waste));g.discard(waste,'Actual source phase transfer, wash or column separation.');return keep
     cell=inp('cells','Source IMR-90 cells; fixation/FISH/EMSA and bisulfite validation excluded',K.BIOLOGICAL,primary=True)
     x=op('wcna',cell,'Source overnight37°C proteinaseK/SDS lysis, salt-out/centrifugation, ethanol hook recovery/wash and phenol-chloroform WCNA extraction',S.MAGIC,reason='Operational source sequence known; exact native hybrid recovery and lysis proteinaseK quantity ambiguity not resolved.')
     shear=inp('covaris','Covaris source five10s on/1min off cycles; main400–600bp versus SI approximately400bp',K.CONDITION)
@@ -70,14 +70,14 @@ def protocol_graph():
     x=clean('pre_ip_cleanup',x,'Phenol-chloroform/ethanol;resuspend EB,not TE')
     control=g.product('input_control','Reserved sonicated/RNaseI-treated input;not RNaseI-untreated cells',K.MOLECULAR)
     ip=g.product('ip_aliquot','Source3µg WCNA for IP',K.MOLECULAR)
-    g.react('allocate_input','Reserve input control separately from IP aliquot',S.SPLIT,((x,R.TEMPLATE),),(ip,control));scope.append('allocate_input')
+    g.react('allocate_input','Reserve input control separately from IP aliquot',S.SPLIT,((x,R.TEMPLATE),),(ip,control))
     g.mark_terminal(Terminal(control.id,Disposition.UNRESOLVED,'Source makes matched directional input library by the same downstream program;this graph expands IP library only. Not discarded or silently sequenced without preparation.'))
-    antibody=inp('s96','SourceS9.6 antibody;overnight4°C')
-    x=op('bind_antibody',ip,'Incubate nucleic acids with S9.6 antibody',S.GENERIC,((antibody,R.CATALYST),))
+    antibody=inp('s96','Actual source S9.6 antibody binding partner; overnight4C, not an enzyme catalyst',K.MOLECULAR)
+    x=op('bind_antibody',ip,'Incubate nucleic acids with S9.6 antibody',S.BINDING,((antibody,R.STRUCTURAL),))
     beads=inp('beads','M280 sheep anti-mouse Dynabeads;2h4°C',K.SELECTION)
     bound=g.product('bound','Magnetic retained antibody/bead-associated hybrid preparation',K.MOLECULAR,state=unknown('Bound source hybrid-containing mixture'))
     waste=g.product('ip_wash','Magnet-removed supernatant and three washes',K.WASTE)
-    g.react('capture','Capture immune complexes then magnet-remove supernatant/wash3times',S.AFFINITY_CAPTURE,((x,R.TEMPLATE),(beads,R.SELECTION)),(bound,waste));g.discard(waste,'Actual source magnetic transfers;not perfect specificity/purity.');scope.append('capture')
+    g.react('capture','Capture immune complexes then magnet-remove supernatant/wash3times',S.AFFINITY_CAPTURE,((x,R.TEMPLATE),(beads,R.SELECTION)),(bound,waste));g.discard(waste,'Actual source magnetic transfers;not perfect specificity/purity.')
     pk=inp('proteinase_k','100µg proteinaseK37°C2h,then60µg37°C1h')
     x=op('proteolysis',bound,'Digest antibody/protein;beads and remnants are not automatically removed',S.DIGESTION,((pk,R.CATALYST),))
     x=clean('ip_release',x,'Discard beads;phenol-chloroform supernatant;Ethachinmate/ethanol recovery into40µlEB')
@@ -108,11 +108,24 @@ def protocol_graph():
     pol=inp('phusion','SourcePhusionHF:98°C2min,18cycles98/60/72,72°C10min')
     x=op('pcr',x,'Source18cycle library PCR;strand survival/recovery not predicted',S.PCR,((f,R.STRUCTURAL),(r,R.STRUCTURAL),(pol,R.CATALYST)),geometry=PCRGeometry.unavailable(Scene(),reason='Historical primer/product geometry and AP/heat-product amplification limits unassembled. No direct whole-strand disposal attributed to UNG.'))
     x=clean('final_cleanup',x,'Immediate Zymo final-library cleanup;Qubit/BioanalyzerQC')
+    # Exact source12ul final eluate allocations; assay fractions never return.
+    q=g.product('qubit_aliquot','Source1ul final eluate for Qubit',K.QC)
+    b=g.product('bioanalyzer_aliquot','Source1ul final eluate for Bioanalyzer',K.QC)
+    seqstock=g.product('sequencing_stock','Source10ul final eluate reserved for sequencing contribution',K.MOLECULAR,state=x.state)
+    g.react('final_allocations','Allocate source12ul eluate:1ulQubit/1ulBioanalyzer/10ulsequencing',S.SPLIT,((x,R.TEMPLATE),),(q,b,seqstock),changes_molecule=False)
+    g.mark_terminal(Terminal(q.id,Disposition.QC,'Independent source analytical aliquot.'))
+    g.mark_terminal(Terminal(b.id,Disposition.QC,'Independent source analytical aliquot.'))
+    load=g.product('loading_aliquot','Selected loading contribution from source10ul sequencing stock; amount/pool membership unassigned',K.MOLECULAR,state=x.state)
+    rest=g.product('sequencing_remainder','Untransferred sequencing stock; amount unassigned',K.MOLECULAR,state=x.state)
+    g.react('loading_selection','Select actual sequencing contribution; do not consume full stock by default',S.SPLIT,((seqstock,R.TEMPLATE),),(load,rest),changes_molecule=False)
+    g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,'Untransferred sequencing stock, not silently disposed.'))
+    x=load
     library=g.product('library','Source indexed IP library;conditional adapter-dimer gel cleanup not inserted as universal step',K.LIBRARY,state=unknown('Source sequenced library;full strands unassembled'))
-    g.react('library_handoff','Reported library acquisition handoff',S.GENERIC,((x,R.TEMPLATE),),(library,));scope.append('library_handoff')
+    g.react('library_handoff','Reported library acquisition handoff',S.GENERIC,((x,R.TEMPLATE),),(library,),changes_molecule=False)
     g.sequence(library,SequencingPlan(acquired_roles=('Read 1','Read 2'),read_lengths={'Read 1':150,'Read 2':150},limitation='Source HiSeq2500PE150;actual primer landing,index cycles and strand geometry remain unassembled. TableS4 fixed sixbases plus parentheticalseventh retained verbatim,not silently cropped or reverse-complemented.'))
     g.annotate(SourceDiscrepancy('a_step','Printed adenylation reagent', (SourceClaim('SI1 AddAoverhang step,pp22–23','Heading says AddAoverhangs;reagent prints1mMATP5µl.'),SourceClaim('Main directional RDIP Methods206','Reports adenosine tails before adapter ligation.')), 'Keep operational handoff unresolved;do not change ATP to dATP.', 'Published reagent does not specify dATP despite the stated DNA-tail outcome.', 'Actual nucleotide formulation and exact product ends remain unassembled.'))
-    g.declare_reviewed_scope(scope,SOURCE)
+    # Literal source input/operation inventory; no coverage from graph calls.
+    g.declare_reviewed_scope(('cells','wcna','covaris','sonicate','rnase_i','rnase_i_digest','pre_ip_cleanup_reagents','pre_ip_cleanup','allocate_input','s96','bind_antibody','beads','capture','proteinase_k','proteolysis','ip_release_reagents','ip_release','second_mix','second_strand','polish_mix','polish','second_cleanup_reagents','second_cleanup','repair_mix','end_repair','repair_cleanup_reagents','repair_cleanup','tail_mix','a_step','tail_cleanup_reagents','tail_cleanup','truseq_adapters','quick_ligase','adapter_ligation','ligation_cleanup_reagents','ligation_cleanup','forward','reverse','ung_enzyme','ung','heat','ung_heat','phusion','pcr','final_cleanup_reagents','final_cleanup','final_allocations','loading_selection','library_handoff','library'),SOURCE)
     g.add_source_item(SourceItem('unreviewed_geometry','Historical buffers,adapter/primer/UNG-product geometry and cited precursor method','Main reference49 and source kit identities not followed under cap;no confirmed absence.'))
     return g
 
@@ -133,6 +146,9 @@ def selftest():
     g=protocol_graph();c('Physical postligation cleanup precedes UNG',g.steps['ung'].inputs[0].material,'ligation_cleanup_kept')
     c('No automatic disposal at UNG output',g.steps['ung_heat'].inputs[0].material,'ung_out')
     c('Native hybrid copying is not imported ordinary first-strandRT',any(s.kind==S.REVERSE_TRANSCRIPTION for s in g.steps.values()),False)
+    c('Only selected sequencing contribution reaches handoff',g.steps['library_handoff'].inputs[0].material,'loading_aliquot')
+    c('Analytical aliquots never reenter library workflow',any(i.material in ('qubit_aliquot','bioanalyzer_aliquot') for step in g.steps.values() for i in step.inputs),False)
+    c('Original historical geometry obligation remains uncovered','unreviewed_geometry' in g.source_coverage,False)
     folder=sources_root()/'rdip-seq__10.1186+s13072-015-0040-6'
     tables=folder/'s13072-015-0040-6_supp_13072_2015_40_MOESM2_ESM.xlsx.txt'
     if tables.exists():

@@ -33,3 +33,9 @@ For natural phosphorothioate mapping, iodine treatment of blocked Salmonella DNA
 ## Deferred sources and ancestry
 
 Historical SMART ChIP-seq kit originals and exact oligos; rendered DOCX graphics; source code version and complete index assignment; negative-control molecular library processing, alternative lesion-conversion branches, and independent reader. These are open source/model tasks, not confirmed omissions. The article cites Zhu et al.2001 on reverse-transcriptase template switching as conceptual SMART background; exact study kit implementation requires its own source. Comparisons with SSiNGLe, SSB-seq, Excision-seq and Click-code-seq do not establish recipe inheritance.
+
+## Public schematic readiness, 30 October 2026
+
+The public graph keeps the source three separate restriction reactions and per-reaction purification/pooling in explicitly opaque array boundaries, rather than one mixed-enzyme tube. A selected 1µg contribution enters blocking; remaining pool stock is unresolved. The second SAP dose and NT PolI are fresh source additions, not re-use of earlier enzyme input objects. TdT consumes a molecular T-Tailing Mix. Each source kit branch receives explicitly aggregate catalyst/nucleotide supplies with unknown individual formulation and packaging; no historical kit recipe is borrowed. Actual matched-control PCR libraries enter at an unresolved upstream preparation boundary and are physically pooled with their positive counterpart before AMPure. Loading contributions and remaining library stocks are separate. The graph does not reconstruct the negative-control upstream chemistry.
+
+All inferred reference assemblies and source/version differences above remain visible on the schematic. The full workflow and unresolved molecular checks are available in its expandable section. The capped source pass was not expanded and establishes no confirmed missing-information claim.

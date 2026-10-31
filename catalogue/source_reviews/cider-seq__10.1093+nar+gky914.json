@@ -9,11 +9,11 @@
       "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6344846.1/PMC6344846.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "source_version": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67\u201395/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.",
+      "source_version": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67–95/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.",
       "pass_1": {
         "reviewer": "dna_round15",
         "date": "2026-10-29",
-        "locations": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67\u201395/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.",
+        "locations": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67–95/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.",
         "finding": "Positive source identity/order/chemistry scoped in note; no absence accepted."
       },
       "pass_2": null
@@ -54,13 +54,28 @@
       "date": "2026-10-29",
       "documents": 2,
       "scope": "At most10min/3originals; published-first, no recursive source chase. CIDER scope analytical extractedDNA only.",
-      "locations": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67\u201395/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.; PublishedSI title/DOI association; Table1assayprimer scope/Table2SMRTcellorganization and Fig8analyticalenrichmentcontrols. Reference-protein inventory is not a DNA adapter original.",
+      "locations": "Published defining original DOI10.1093/nar/gky914; analyticalMethods67–95/Fig1 and abstract/intro boundary. Biologicalengineering/field procedures not modeled.; PublishedSI title/DOI association; Table1assayprimer scope/Table2SMRTcellorganization and Fig8analyticalenrichmentcontrols. Reference-protein inventory is not a DNA adapter original.",
       "findings": "Source physical reactions, retained debris/fractions and computational/native DNA distinctions explicit.",
       "deferred": [
         "Exact historicalkit/primer/end/readgeometry and directly named originals in note; S1 actualchemistrySI gated."
       ],
       "oligo_scraper": "Mandatory wholebundle scans: mTAG14hits/2files, CIDER4hits/1file, S1zero; pointers read in their actual assay/chemistry scopes.",
       "verification": "22localchecks pass (mTAG7/CIDER9/S1six), including independent CIDER QCprovenance correction: analyticalaliquot isQCterminal, retainedproductionlibrary alonefeedsP6. Sourceguard0eligibleexactstrands/0failed/9inputswithout exactstates/3graphs; notsequencecompletion. Chemistry42unresolved0contradictory; sixnotes/refbuilds,pairing0problems,source-review schema2in_progress/1blocked,diffcheck clean. No finishedpages. Retrieval18717/39123terminalexit0."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch24",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed selected published main/SI pass followed by bounded physical-contributor/stock corrections; no new original or absence audit.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/cider-seq__10.1093+nar+gky914/nar_gky914_PMC6344846.xml: MainMethods67–95 sourceextractedDNA/5ugBluePippin→5ulRCA→10ugdebranch→S1/repair/dephos→200ngperbarcodedSMRTlibrary/9pool/exonuclease/SSNSS→QC/P6/RS2MagBead360min. Biologicalengineering/fieldscope excluded from selectedanalyticalpreparation.; /husky/henriksson/NGS101_papers/sources/cider-seq__10.1093+nar+gky914/nar_gky914_supp_gky914_supplemental_files.pdf: Actualp1Table1 fourassayprimer sequences/use andp2Table2sampleperSMRTcell organization plusunrelatedprojectsfootnote; rendered/viewed/tmp/cider36-si1.png,-si2.png. Noadapterbody inferred fromvalidationprimers.",
+      "findings": "Actual analytical stock allocations are now explicit: 5µg total nucleic acid for initial size selection, 5µL selected template for RCA, 10µg amplified DNA for debranching, and approximately 200ng per sample for barcoded library production. Each leaves an untransferred stock remainder with amount unassigned; these source quantities do not establish a recovered concentration or normalize one another. RCA receives separate actual Phi29, pyrophosphatase and dNTP contributions rather than a combined catalyst label; repair likewise receives separate T4 DNA polymerase, E.coli DNA polymerase I and dNTP contributions, with no asserted premix. The repaired-stock Qubit analytical aliquot is typed QC and does not return to production. Actual selected contributions from the represented barcoded preparation and the aggregate other eight preparations feed the source pool of nine, leaving stock remainders. Their individual identities/amounts remain unassigned; no additional biological sample is cloned from a representative sequence. A selected loading contribution and untransferred stock remainder follow the P6-bound library stock. Existing final analytical QC remains distinct from production. The source SS/NSS per-library versus pool routing uncertainty remains explicit; no invented precise split or source correction is imposed. Original required `pending` historical SMRTBell/P6, SO181 modified-order and full source/library obligations remains unchanged and uncovered; no modern kit or 2020/2022 protocol/correction inheritance occurs.",
+      "deferred": [
+        "ExactsourcehistoricalSMRTBellBarcodedAdapterCompletePrepKit96(100-514-900)/P6kit2.0(100-236-500) directoriginals, not modernkitdefaults.",
+        "SO181wholemodifiedorder/version andactualbarcodedhairpin/primergeometry; sourcegenomicrecovery/routingconditions.",
+        "Selected2018source does not adopt2020detailedprotocol or2022correction; no versionequivalenceclaim."
+      ],
+      "oligo_scraper": "Wholebundle4hits/1file; actualoriginalp1validationprimerrolesverified, notlibraryoligos"
     }
   ]
 }

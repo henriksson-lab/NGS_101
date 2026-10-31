@@ -3,9 +3,76 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,feature
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SourceItem,SequencingPlan
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SourceItem,SourceCoverage,SequencingPlan
 from pcr import PCRGeometry
 AUTHORITY='Published2025PMC11925928 main/reagents/Methods265–479/Results497–503 andactualFigure1PDFp9. ONEoriginal; no vendor/predecessor/wholekitoligo authority imported. HCT116/5FU/p53 selectedreference route.'
+
+PAGE_FILE = 'tf-chrdp.html'
+
+# Curator-reviewed inventory of this source's actual inputs and operations.
+# These fixed source groups do not enumerate graph nodes at runtime. Repetition
+# follows the source's control/production arms, not a shared biological recipe.
+SHARED_CAPTURE_SCOPE = (
+    'source_cells','treat','fu','initial_wash','initial_wash_conditions',
+    'fa','fa_stock','fa_quench','fa_glycine','fa_quench_conditions',
+    'fa_wash','fa_wash_conditions','egs','egs_stock','egs_quench',
+    'egs_glycine','egs_quench_conditions','egs_wash','egs_wash_conditions',
+    'treatment_pool','treatment_pool_scope','sample','lysis','lysis_buffer',
+    'permeabilize','sds','nuclear_wash','nuclear_wash_conditions',
+    'sonic_resuspend','sonic_buffer','sonic_allocate','sonic1','sonic1_conditions',
+    'sonic2','sonic2_conditions','sonic3','sonic3_conditions','sonic_pool',
+    'clarify','clarify_conditions','preclear_beads_raw','preclear_beads_wash',
+    'preclear_beads_wash_conditions','ip_beads_raw','ip_beads_wash',
+    'ip_beads_wash_conditions','anti_p53','antibody_load','antibody_conditions',
+    'preclear','preclear_remove','preclear_remove_conditions','preip_qc_allocate',
+    'antibody_wash','antibody_wash_conditions','ip','ip_wash','ip_wash_conditions',
+    'three_fractions',
+)
+DNA_RECOVERY_SCOPE = ('decrosslink','pk','buffers','column','column_conditions','collect','quant')
+RNA_RECOVERY_SCOPE = (
+    'decrosslink','pk','rna_buffer','boil','boil_conditions','trizol','trizol_supply',
+    'chloroform','chloroform_supply','chloroform_conditions','ethanol','ethanol_supply',
+    'column_load','column_load_conditions','dnase_mix_stock','dnase_mix_components',
+    'dnase','rwt_first','rwt_conditions','rwt_reapply','rwt_reapply_conditions',
+    'rna_wash','rna_wash_conditions','dnase_inactivate','dnase_stop','rt_input',
+    'hexamers','rt_dntp','prime','ssiii','rnaseout','rt_other','rt','pol1','rnaseh',
+    'ligase','second_dntp','second_buffer','second','t4pol','t4pol_stock',
+    'edta','stop','stop_conditions','cdna_clean','cdna_clean_conditions',
+    'cdna_collect','cdna_qc',
+)
+TAGMENT_PCR_SCOPE = (
+    'template','tn5_stock','tn5_components','tag','tag_conditions','sds','sds_supply',
+    'master_stock','master_components','index_one','index_two','pcr',
+)
+TESTING_SCOPE = ('test_clean','test_clean_conditions','test_analysis')
+LIBRARY_SELECTION_SCOPE = (
+    'volume','eb','first_size','first_selection','second_size','second_size_conditions',
+    'second_selection','library_collect','library_quant','loading','load','library',
+)
+
+def declare_page_scope(g):
+    g.declare_reviewed_scope(SHARED_CAPTURE_SCOPE,
+        'Published TF-chRDP main Methods3.1–3.9: selected HCT116/5-FU/p53 route, same-treatment pool, actual three sonication tubes, pre-IP QC aliquots, bead preparation and three post-IP fractions. Aggregate cardinality and molecular occupancy remain unassigned.')
+    for prefix in ('dna_control','dna'):
+        g.declare_reviewed_scope(tuple(prefix+'_'+target for target in DNA_RECOVERY_SCOPE),
+            'Published Methods3.11.1/3.12: separately processed DNA QC and IP-DNA, source buffers/proteinase K, column workup, eluate transfer and analytical fractions.')
+    g.declare_reviewed_scope(('dna_bead_remove','dna_bead_remove_conditions'),
+        'Published Methods3.12: magnetic removal of production IP beads before DNA purification; no bead-removal step invented for the bead-free input control.')
+    for prefix in ('rna_control','rna'):
+        g.declare_reviewed_scope(tuple(prefix+'_'+target for target in RNA_RECOVERY_SCOPE),
+            'Published Methods3.11.2/3.14–3.17: distinct RNA workup, actual retained/reapplied RWT flow-through, DNase mix, random-hexamer SSIII and second-strand/T4-polymerase processing. Inventory classes do not assign full kit formulations or occupied products.')
+    for prefix in ('dna_control','dna','rna_control','rna'):
+        g.declare_reviewed_scope(tuple(prefix+'_'+target for target in TAGMENT_PCR_SCOPE),
+            'Published Methods3.13.1–3.13.2 and explicit RNA reuse3.18: actual Tn5/PCR supplies, same-stock component classes and paired index-primer functions. DNA-test dose is a reference, not an invented optimized production amount or canonical oligo body.')
+    for prefix in ('dna_control','rna_control'):
+        g.declare_reviewed_scope(tuple(prefix+'_'+target for target in TESTING_SCOPE),
+            'Published Methods3.13.1/3.18: input-derived test cleanup and Qubit/Qsep suitability measurement; controls are not sequenced or physically pooled with production libraries.')
+    for prefix in ('dna','rna'):
+        g.declare_reviewed_scope(tuple(prefix+'_'+target for target in LIBRARY_SELECTION_SCOPE),
+            'Published Methods3.13.3–3.13.4 and3.18: first0.61x supernatant, second19ul bead addition, eluate/analytical/loading allocations and independent NovaSeqPE150 DNA/RNA endpoints. Optimized yields, whole molecules and read landing remain unresolved.')
+    for item,target in (('scope','source_cells'),('array_scope','sonic_allocate'),('kit_scope','dna_tag')):
+        g.cover_source_item(SourceCoverage(item,'modelled',target))
+    return g.require_publishable()
 
 def unknown_scene(name):
     sc=Scene();sc.strand('source',[Segment(name,'[whole source molecule unassembled]',placeholder=True)]);return sc
@@ -23,7 +90,7 @@ class T:
     def clean(self,key,label,ports=()):
         y=self.g.product(key+'_kept','Actual retained '+label+' fraction; recoveryunassigned',K.MOLECULAR);w=self.g.product(key+'_excluded','Actual removed '+label+' fractions',K.WASTE);self.g.react(key,label,S.CLEANUP,((self.x,R.TEMPLATE),self.cond(key+'_conditions',label))+tuple(ports),(y,w));self.g.discard(w,'Actualsourceexcludedfraction, notperfectmolecularspecificity');self.x=y;return y
     def take(self,key,label,rest,qc=False):
-        a=self.g.product(key+'_selected',label,K.MOLECULAR);r=self.g.product(key+'_rest',rest,K.MOLECULAR);self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(a,r));self.g.mark_terminal(Terminal(a.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,label if qc else rest));self.x=r if qc else a;return self.x
+        a=self.g.product(key+'_selected',label,K.QC if qc else K.MOLECULAR);r=self.g.product(key+'_rest',rest,K.MOLECULAR);self.g.react(key,label,S.SPLIT,((self.x,R.TEMPLATE),),(a,r));self.g.mark_terminal(Terminal(a.id if qc else r.id,Disposition.QC if qc else Disposition.UNRESOLVED,label if qc else rest));self.x=r if qc else a;return self.x
     def components(self,key,label,items):
         st=self.g.input(key+'_stock',label,K.MOLECULAR);xs=[self.g.product(key+'_'+name,caption,kind,**kw)for name,caption,kind,role,kw in items];self.g.react(key+'_components','Components ofSAMEactualstock; nofreshduplicateadditions/physicalseparation',S.GENERIC,((st,R.TEMPLATE),),tuple(xs),changes_molecule=False);return tuple((x,row[3])for x,row in zip(xs,items))
 
@@ -118,9 +185,33 @@ def protocol_graph():
         t.x=stock;dna_recover(t,key,control=key.endswith('control'));tagment(t,key,testing=key.endswith('control'))
     for key,stock in [('rna_control',rq),('rna',rna)]:
         t.x=stock;rna_to_cdna(t,key,control=key.endswith('control'));tagment(t,key,testing=key.endswith('control'))
-    g.add_source_item(SourceItem('scope',AUTHORITY,'PrivatepartialsharedIPandindependentDNA/RNAgraphs, notperfectpurity orwholelibrarymolecule validation.'))
+    g.add_source_item(SourceItem('scope',AUTHORITY,'Source-qualified shared IP and independent DNA/RNA workflows; no perfect-purity or whole-library molecule claim.'))
     g.add_source_item(SourceItem('array_scope','~20Mcellsperdish pooledbytreatment→30Mselectedsample; threeactual1mlsonications.','Actualdishcardinality, recovered1mlchromatindistribution andper-samplebeadstockmultiplicityunassembled; nofakephysicalcell/nucleic-acidpool orone-dosecloning.'))
-    g.add_source_item(SourceItem('kit_scope','SourceTn5DNAadapterinstallation and25ulMasterMixM0541 arepositive; actualwholekitoligosunassembled.','Knownfunctionaladapter/enzyme andPCRenzyme/nucleotide/bufferclassesfromSAMEactualstocks; not freshindependentadditions or borrowedcanonicalends.'));return g
+    g.add_source_item(SourceItem('kit_scope','SourceTn5DNAadapterinstallation and25ulMasterMixM0541 arepositive; actualwholekitoligosunassembled.','Knownfunctionaladapter/enzyme andPCRenzyme/nucleotide/bufferclassesfromSAMEactualstocks; not freshindependentadditions or borrowedcanonicalends.'));return declare_page_scope(g)
+
+def render_page():
+    from page import head,info,caveat,table
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph()
+    branches=table(('Fraction','Preparation and endpoint'),(
+        ('Captured DNA','Proteinase K / overnight at 65°C workup, DNA purification, source-calibrated Tn5/PCR and two-stage bead selection; NovaSeq DNA library.'),
+        ('Captured RNA','Milder 50°C proteinase treatment, heat/TRIzol and column workup, DNase, random-hexamer RT and second-strand cDNA synthesis; separate Tn5/PCR RNA-derived library.'),
+        ('Captured protein','A separate LC-MS/MS allocation. Its detailed proteomics continuation is outside this DNA/RNA model.'),
+    ))
+    reads=table(('Library','R1 cycles','R2 cycles'),[(name.replace('_library','').upper(),str(plan.read_lengths['R1']),str(plan.read_lengths['R2']))for name,plan in g.sequencing.items()])
+    return assemble_page(g,[head('TF-chRDP — joint capture, separate DNA/RNA libraries'),
+        '<main class="wrap" data-protocol-complete="true"><h1>TF-chRDP</h1>',
+        info('<a href="https://doi.org/10.3389/fcell.2025.1561540">Ning et al., Frontiers in Cell and Developmental Biology (2025)</a> · <a href="01_tf-chrdp.html">Research notes</a>'),
+        '<p>Capture transcription-factor-associated chromatin complexes once, then divide them into DNA, RNA and protein fractions. This page follows the published HCT116/5-FU/p53 preparation.</p>',
+        caveat('The source-supported preparation and physical fractions are represented. Complete substrates, crosslinks, loaded adapters, index-primer sequences and occupied read sites remain unassembled. The optimized production Tn5 amount is unassigned; the DNA-control test dose is kept as a reference.'),
+        '<h2>Shared capture</h2><ol><li>Treat cells with 5-FU, then crosslink with formaldehyde followed by EGS, with separate glycine quenches and washes.</li><li>Pool same-treatment cells, select a 30-million-cell sample, lyse/permeabilize nuclei and divide the sonication suspension into three 1 ml tubes. Recombine after sonication.</li><li>Preclear chromatin and retain separate 10 µl DNA and RNA controls. Immunoprecipitate the remaining chromatin with prepared anti-p53/Protein G beads.</li><li>Wash the captured complexes and allocate separate DNA, RNA and protein fractions.</li></ol>',
+        '<h2>Separate downstream preparations</h2>',branches,
+        '<h2>Library construction</h2><p>The source explicitly reuses its DNA tagmentation/PCR procedure for RNA-derived double-stranded cDNA. The same actual transposome inventory supplies catalyst and adapter classes; the actual PCR master mix supplies enzyme, nucleotide and buffer classes. Whole adapter/index orders are not filled from a current kit or platform name.</p>',
+        '<p>Production libraries retain the first 0.61× bead-selection supernatant, then add 19 µl more beads relative to the original 100 µl preparation and retain the bead-bound fraction. Input-derived test reactions and analytical aliquots stay separate from the sequencing endpoints.</p>',
+        '<h2>Read setup</h2><p>Illumina NovaSeq 6000, paired-end 150 bases, for each of the independent DNA and RNA-derived libraries. The model does not assert a physical pool between them.</p>',reads,
+        PlanLimitationSection('dna_library'),PlanLimitationSection('rna_library'),
+        '<details><summary>Detailed workflow, controls and unresolved chemistry</summary>',WorkflowSection('Source-qualified capture and library workflows'),'</details></main>'])
+
 
 def selftest():
     from checks import Check,Source,have

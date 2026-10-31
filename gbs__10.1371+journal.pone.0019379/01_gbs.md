@@ -31,3 +31,9 @@ Two microlitres of pooled DNA enter Taq PCR, with an independent eluate remainde
 🟢 Main109 reports GenomeAnalyzerII single-end86nt sequencing and inline4–8nt sample tags; no separate indexing read is added. Later64nt computational trimming/polyA padding, genotype filtering and imputation do not physically modify DNA. Discussion203's source explanation of homotypic limited-readout/cluster behavior remains separate from the local selected-copy relation and does not establish yields.
 
 Main71/Discussion191 explicitly contrasts and develops the earlier Baird2008 RAD barcoding strategy, while removing its random shearing, size excision and divergent-Y path. This supports a scoped developmental relationship, not import of that molecular recipe. Historical Illumina/Bentley2008 and source product guides remain deferred. The private graph/source class model is incomplete; no finished schematic, accepted source absence or complete chemical-validation claim.
+
+## Bounded operational follow-up
+
+🟢 Published main Methods105–109 and Discussion197 were reread for the actual operational supplies and fractions. The added30µl ligation solution supplies both T4 ligase and ATP, with its buffer; functional components are views of that same solution, not extra doses. The50µl PCR contains the actual Taq master mix and25pmol of each primer; polymerase, nucleotide and buffer functions derive from that mixture. ApeKI buffer and the source3.6U enzyme are explicit inputs.
+
+The1µl Experion aliquot is separated from the30µl PCR eluate. A later loading allocation derives from the retained material; its quantity and unused remainder are unassigned. The acquired Read1 length is86nt. These operational declarations do not resolve the original historical-readout/whole nicked-library geometry hold. No source-absence claim is accepted.

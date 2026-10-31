@@ -21,8 +21,13 @@ def operations(g):
     return op,clean
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
-def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+def incomplete(g,branch):
+    # Independently reviewed fixed source inputs/operations, not graph enumeration.
+    g.declare_reviewed_scope(('glycan','dbco_reagent','dbco','hplc_selection','hplc','azide_oligo','complement','anneal','click','quench_reagent','quench','bind','binding_wash_selection','binding_wash','allocate','index_forward','index_reverse','pcr1','pool','purify1_selection','purify1','quantify_split','quantify','pcr2_reagent','pcr2','library_selection','library','library_kept'),SOURCE)
+    if branch=='bacteria':
+        g.declare_reviewed_scope(('bacteria','cell_pellet_selection','cell_pellet','resuspend'),SOURCE)
+    else:
+        g.declare_reviewed_scope(('binding_protein','beads','capture','boil'),SOURCE)
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 
@@ -55,15 +60,15 @@ class CodeGlycan:
 
 def branch_graph(branch='lectin'):
     if branch not in {'lectin','antibody','bacteria'}:raise ValueError('Source branch required')
-    g=ProtocolGraph(TITLE+' ('+branch+')',authority=SOURCE);op,clean=operations(g)
+    g=ProtocolGraph(TITLE+' ('+branch+')',authority=SOURCE,representation='published_instance');op,clean=operations(g)
     gly=g.input('glycan','Source defined AEAB-glycan mixture;source structures/code dictionary not instantiated',K.MOLECULAR,primary=True)
-    gly=op('dbco',gly,'Defined library:AEABglycan1eq+DBCO-PEG4-NHS2eq,phosphatepH8.5,RT2h','DBCO-PEG4-NHS;coupling ensemble/yield uncomputed')
+    gly=op('dbco',gly,'Defined library:AEABglycan1eq+DBCO-PEG4-NHS2eq,phosphatepH8.5,RT2h','DBCO-PEG4-NHS;coupling ensemble/yield uncomputed',reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL)
     gly=clean('hplc',gly,'Source reversed-phase HPLC glycan-PEG4-DBCO purification/quantification')
     a=g.input('azide_oligo','Source5′azideDNA,18nt primer/20nt code/18nt primer;whole sequence unreviewed',K.OLIGO)
     b=g.input('complement','Source unmodified complementary oligo;whole sequence unreviewed',K.OLIGO)
     dna=join(g,'anneal',(a,b),'Equal molar strands95°C5min,cool0.1°C/s to10°C;source azide dsDNA')
     x=join(g,'click',(gly,dna),'Defined library:1µL0.1mMdsDNA+1µL0.5mMglycan-PEG4-DBCO,RT3h')
-    x=op('quench',x,'Add2µL0.1Mazidoethanol;quench remaining click-reactive reagent,store−20°C','Azidoethanol;unreacted compounds/reaction products remain')
+    x=op('quench',x,'Add2µL0.1Mazidoethanol;quench remaining click-reactive reagent,store−20°C','Azidoethanol;unreacted compounds/reaction products remain',reagent_kind=K.MOLECULAR,reagent_role=R.STRUCTURAL)
     if branch=='bacteria':
         cells=g.input('bacteria','Source400µL cultureOD~1',K.BIOLOGICAL)
         cells=clean('cell_pellet',cells,'Source3000g1min;retain bacteria pellet')
@@ -93,11 +98,13 @@ def branch_graph(branch='lectin'):
     x=op('pcr2',x,'Source printed10µg mixture,10cyclePCR addingNGSadapters;literal quantity retained','Source adapter primers/polymerase mixture;exact oligo/end geometry unassembled')
     x=clean('library',x,'Source secondPCR product purification beforeAdmeraHealth submission')
     end(g,x,'SourceNGS service submission explicit;actualinstrument/cycles/primers/readlayout unreviewed. Barcode counts computational,not physical binding amount guarantee.')
-    return incomplete(g)
+    return incomplete(g,branch)
 def protocol_graph():return branch_graph()
 def selftest():
     from checks import Check
     c=Check();a=branch_graph();b=branch_graph('bacteria');ab=branch_graph('antibody')
+    c('DBCO is a physical coupling reagent',(a.materials['dbco_reagent'].kind,next(p.role for p in a.steps['dbco'].inputs if p.material=='dbco_reagent')),(K.MOLECULAR,R.STRUCTURAL))
+    c('Azidoethanol is a physical quench reagent',(a.materials['quench_reagent'].kind,next(p.role for p in a.steps['quench'].inputs if p.material=='quench_reagent')),(K.MOLECULAR,R.STRUCTURAL))
     c('Lectin capture follows solution binding',a.steps['capture'].inputs[0].material,'bind_product')
     c('BacterialPCR selects actual cell suspension','suspension' in b.materials['pcr_aliquot'].label,True)
     c('Bacterial branch does not inherit boiling','boil' in b.steps,False)

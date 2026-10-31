@@ -27,3 +27,18 @@ DIG is an affinity chemistry marker, not a molecular identifier. New nascent DNA
 ## Direct predecessor targets
 
 MainMethods64/68 cite ref27Krude2000,10.1074/jbc.275.18.13699 (cell-free initiation/nuclei conditions) and ref28Krudeet al.1997,10.1016/s0092-8674(00)81863-2. These exact originals are deferred; matching replication assays do not establish a whole-library ancestry edge toOK-seq/Repli-seq. The named historicalIlluminaChIP-seq sample-preparation kit/version remains an unreviewed original target; no absent-sequence claim.
+
+
+## Bounded publication adjudication — 2026-10-30, batch 18
+
+🟢 10million isolated lateG1EJ30nuclei undergo15min cell-free initiation with DIG11dUTP. IcePBS/nuclearrecovery/proteinaseK/extractions/RNaseA precede100–1000bp sonication. AntiDIG-coupledProteinGIP and matched input remain distinct; sourceuncoupledbeads are anothernegativecontrol, not the inputDNA. SourceHiSeq2000 acquisition is named but exact read roles/cycles/indexes and historicalkit library producer remain unreviewed. This is cell-free origin mapping, not live-cellEdU/BrdUtiming.
+
+Soluble proliferating HeLa extract is now a physical molecular source supply, not merely a condition; no purified replication-enzyme inventory is invented. Input and IP historical kit allocations are physical molecular supplies with packaging/stock count unassigned, not an invented master mix. A literal reviewed inventory records actual main-source input/IP operations; no source inventory is generated from graph nodes or graph calls.
+
+🟡 Original pending_originals is untouched and uncovered: cell-free assay/nuclei preparation and historical IlluminaChIP-seq kit originals. Physical aggregate kit inputs are not the actual full NGS manufacturing producer, and input/IP library-role states are not assigned sequencing terminals. Exact historical versions, read/index geometry and source control/preparation obligations remain unresolved.
+
+The curator-written inventory is literal and does not enumerate graph construction. The original broad required source item remains uncovered; nothing is excluded, renamed or satisfied through an opaque endpoint. BisMapR UDG base excision is not complete physical DNA disposal, and ini-seq matched input is not the uncoupled-bead negative control. No source information is claimed confirmed absent.
+
+Closed inspected scopes: Published PMC5137433 main XML/PDF: Methods62–80 actual nuclei/cell-freeDIGlabel/proteinaseK/RNaseA/shear/IP/input/workup and historicalkit delegation; actualFigure1PDFp3 original initiation/IP/NGSconcept; Published supplementaryFile010PDF: Actual originalTableS1p9 complete validationPCRprimer role rows; p13TableS1–S3 captions and S1–S8legend scope, no genomicNGSadapter substitution; Published supplementaryFile011XLSX: Firstsheet/title identity and initial coordinate-row scope only: TableS2ini-seqpeakcoordinates, not a kit/primer original; biological coordinate data not adopted.
+
+No additional originals were acquired, no predecessor or kit recipe was imported, and no shared architecture was changed. Existing private builders remain stable and have no finished-page markers.

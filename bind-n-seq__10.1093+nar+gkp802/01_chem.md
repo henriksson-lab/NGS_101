@@ -30,3 +30,11 @@ Deferred actual source targets/questions:
 - Source optional longwash,extra selection round/gelconditions,protein manufacturing predecessors and other supplementary figure scopes deferred
 
 Mandatory standard source retrieval/primer scraper ran;hits are pointers,not evidence,andonly stated original scopes support the model. No two-pass absenceaudit performed.
+
+## Bounded publication review, 30 October 2026
+
+Published main Methods25–59 was re-read in the closed one-original pass, with mandatory bundle oligo scraping repeated. Binding/amylose capture are now typed noncovalent binding operations. Physical maltose release, gel handling/elution and pooling no longer declare generic molecule-changing chemistry. Actual TaqProComplete primer-extension supply and SYBR/primer analytical-PCR supply are explicit material contributions; inner stock/primer/template geometry remains unassembled, not inferred from a contemporary kit. Maltose is a molecular contribution rather than a condition-only label.
+
+Source “RT-PCR” is real-time DNA PCR, not RNA reverse transcription. The source1µl diagnostic aliquot remains QC; its tube is not reused as the production library. The separate production-normalization interface remains explicitly unassembled, with no optional extra-selection PCR cycle count substituted into baseline production. A curator-written literal source inventory replaces graph-node enumeration, without claiming full93mer, Pr4-f/Pr3-r or acquired primer/read geometry.
+
+The original required `unassembled` item is retained and uncovered. The current single-input pool representation and untyped final DNA/library boundary still need source-qualified collection/stock/product assembly; those are model obligations rather than evidence that the article omitted a recipe. Actual3nt condition barcodes and N21 binding targets are not UMIs. No source or molecular requirement is excluded, narrowed or covered by an opaque product, and no missing-information claim is accepted.

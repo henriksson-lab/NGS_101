@@ -36,3 +36,11 @@ Full historical10xv2 capture/RT/cDNA architecture, source barcode whitelist/run 
 ## Completion
 
 Bounded original-source pass only. Catalogue remains notes. Private partial graphs retain explicit uncovered source inventory and unresolved terminal handoffs; passing structural/local checks does not complete source review. No two-reader missing-information pass has been performed.
+
+## Bounded publication follow-up (2026-10-30)
+
+The published SI's embedded protocol (December21,2018; PDFpp32–35/text2069–2226) positively describes a barcode-library PCR, final cleanup, Bioanalyzer measurement and sequencing independently or with endogenous libraries. Nevertheless, the required `unassembled_source` item still covers unimplemented historical10xV2 input/capture/RT, occupied intermediates and full strand/read assembly. Those obligations are not excluded merely because a coarse final library exists. Unselected barcode values and available-but-unread schedule tables are not unavailable disclosure documents.
+
+For any later extension, preserve separate actual sample-labeling reactions before the documented sample pool, prepared22µl versus used20µl anchor/barcode and co-anchor stocks, and molecular BSA in quench/washes. Historical10x supplies cannot be represented solely as a condition. Actual KAPA ReadyMix components are co-present supplies from the stated stock, not invented fresh reagent doses; Qubit/Bioanalyzer and loading allocations need explicit retained stocks.
+
+The SI anchor order and19nt additive remain distinct from the associated manuscript's reversed anchor-domain order and20nt additive (AM154/188). SI2165–2226 is selected for the modeled protocol. Its instruction to repeat cycling steps8–12 times retains an unassigned total-cycle convention; AM204's8cycles is not silently merged. The source's2µM/10X stock wording is retained without a corrected-molarity assumption. This preflight independently viewed the actual SI p33 oligo/stock panel and reread AM150–158/184–214 as a separately qualified comparison. Two originals, mandatory bundle scraper, no acquisition/model/build changes and no whole final/AM equivalence. Notes status remains a model-scope hold.

@@ -44,6 +44,20 @@
       ],
       "verification": "21 focused checks pass (7 each); source guard5 exact strands checked,0failed,1 documented lowercase-x pattern exemption independently checked whole by local suite,12unassembled inputs across3graphs. Chemistry0established/46unresolved/0contradictory; not complete chemical validation. Notes render successfully.",
       "oligo_scraper": "Mandatory source scraper: 12 candidates/two source files. Actual source pointers verified for selected facts; not absence evidence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch16",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed-source bounded provenance/selection/inventory fixes; full original publication obligations retained",
+      "locations": "s41587-024-02248-6_PMC11994455.xml(.txt): Methods252/256/260/280 andref13/15identity546-567. Priorreportingsummary/UBMTAheaderoriginalsnotreopened, norelevanceabsenceaudit.",
+      "findings": "ActualcitedNGSpreparation2019TScan/2023TScanII andfullselectedlibrarygeometry unread/unassembled. Source280statesantigenlibraryIllumina preparation/standardsequencingprimers, notexactoperationalPCR/adapterrecipe. Currentcited_ngs_preparationhascondition-onlyreagent andfinalidentityretyping; no kindrename/opaqueoutputwaiver ofrequiredpendingitem. ExplicitFACSstaining/wash/selection andunselectedcellfate; GeneJET/NGSmolecularsupplies; literalselection/genomicinventory excludesdelegatedNGSrecipe. Required source item preserved uncovered; no opaque-library coverage waiver.",
+      "deferred": [
+        "pending: actualsource-specificwholelibrary andlinkedhistorical/localoriginals"
+      ],
+      "oligo_scraper": "Mandatory closed-preflight existing-bundle scraper completed; no exact oligo bodies newly adopted and no absent-information inference.",
+      "verification": "9focusedchecksPASS; directmoduleentry points retained(noPAGE_FILE); temporaryprivategraph renders/pairing0; combinedguard0eligible0failed0exempt0unknownexternaloligos (notsequencevalidation), chemistry13unresolved0contradictory. No new sources or public promotion."
     }
   ],
   "linked_information": {

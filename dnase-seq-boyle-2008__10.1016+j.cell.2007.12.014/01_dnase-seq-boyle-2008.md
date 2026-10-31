@@ -40,3 +40,36 @@ The author manuscript and printed main-text primers are source-positive. Complet
 ## Lineage
 
 The introduction cites Crawford et al. (2006), DOI 10.1101/gr.4074106, as earlier DNase-seq using MPSS, and refCrawford2006a for DNase-chip. These establish historical relationships at assay scope; the Solexa MmeI/linker recipe must not be imported from the different MPSS or sonication/array branches without specific original evidence.
+
+
+## Public-page hold adjudication, 2026-10-30
+
+**Hold: required source scope remains unreviewed.** The actual normal graph still
+reports `authoritative source item 'unreviewed_original' is not accounted for`.
+Its requiredness and coverage are unchanged. Source-exact oligos and local
+pairing checks do not cover the relevant original chemistry supplement.
+
+The only validated local original in this pass is the associated accepted
+manuscript, [PMC2669738](https://pmc.ncbi.nlm.nih.gov/articles/PMC2669738/),
+external `j.cell.2007.12.014_PMC2669738.html(.txt)`. Its own header at text1003–1006
+says “Author manuscript” and separately cites the final Cell2008 publication;
+complete accepted/final-version equivalence is not asserted. Experimental
+Procedures1303 prints the seven modified oligos and Solexa
+linkerI→MmeI→streptavidin→linkerII→PCR/PAGE order; readout1309 reports20bp
+Illumina tags. The454 and array branches remain separate. The degenerate
+linkerII NN end is not assigned UMI or sample-index meaning.
+
+The actual linked [NIHMS106456 supplemental PDF](https://pmc.ncbi.nlm.nih.gov/articles/instance/2669738/bin/NIHMS106456-supplement-supplemental.pdf)
+has only a manual “Preparing-to-download” manifest row and no validated local
+body. Nuclei preparation/titration, DNase-end preparation, MmeI end/offset
+geometry and intervening workup/ligation conditions remain source-review
+obligations. This is an unreviewed/unavailable original, **not** evidence those
+details are absent from the publication. No new source was fetched or
+substituted in this pass.
+
+Mandatory scraper: `/tmp/unlinked-dnase7-scraper.log`; relevant main-text orders
+and modifications were checked. Nine preflight source/guard checks passed;
+chemistry7steps/4localpairingrelations/8unresolved/0contradictory. These results
+validate only the stated local relations and intentional publication hold, not
+a finished preparation. No code or graph gate was changed; no tests repeated
+for this documentation-only adjudication.

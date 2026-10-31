@@ -22,7 +22,7 @@ def operations(g):
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
 def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
+    g.declare_reviewed_scope(('detection_dna','antibody_sa_coupling','reporter_assembly','probe'),SOURCE)
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 
@@ -57,7 +57,7 @@ def protocol_graph():
     absa=g.product('antibody_sa','Source covalent antibody–streptavidin preparation;unbound reactants may remain',K.MOLECULAR)
     g.react('antibody_sa_coupling','PublishedSIFig3: antibody covalently coupled to streptavidin before oligo association',S.MAGIC,((antibody,R.TEMPLATE),(sa,R.STRUCTURAL)),(absa,),reason='Narrow covalent Ab–streptavidin relation stated in published caption;exact coupling reagent/site/workup unreviewed.')
     reporter=g.product('reporter','Source antibody–streptavidin-associated biotinDNA detection preparation;whole complex geometry unassembled',K.MOLECULAR,state=DetectionDNA().scene())
-    g.react('reporter_assembly','Source oligo-barcode association after antibody–streptavidin coupling',S.GENERIC,((absa,R.TEMPLATE),(dna,R.STRUCTURAL)),(reporter,))
+    g.react('reporter_assembly','Source oligo-barcode association after antibody–streptavidin coupling',S.BINDING,((absa,R.TEMPLATE),(dna,R.STRUCTURAL)),(reporter,),changes_molecule=False)
     probed=g.product('probed','Reporter-probedcapturedsecretion oncells;unboundreporterandbackgroundnotdeclaredremoved',K.MOLECULAR)
     g.react('probe','ReportedDNA-barcodedantibodyprobingofsurfacecapturedproteins',S.MAGIC,((trapped,R.TEMPLATE),(reporter,R.STRUCTURAL)),(probed,),reason='Broadreportedorderonly;sourcecorewash,pulseandtaghandlingoperationsunread,noidealbindingorpurityasserted.')
     library=g.product('joint_output','Reportedjointtranscriptome/reporterlibrarycontinuation;wholemixturesandendgeometryunassembled',K.MOLECULAR)
@@ -78,6 +78,7 @@ def selftest():
     c('Actual source tag retains5biotinTEG',g.materials['detection_dna'].state.strands['tag'].mod5,'Biotin-TEG')
     c('Source tag identities notUMIs',g.materials['detection_dna'].state.strands['tag'].segs[1].feature.role,'feature_barcode')
     c('No qPCRvalidationstep inserted','q_pcr' in g.steps,False)
+    c('BiotinDNA association is physical binding, not DNA copying',(g.steps['reporter_assembly'].kind,g.steps['reporter_assembly'].changes_molecule),(S.BINDING,False))
     c('Mainunreadpreventsfinishedpublication',g.publishable,False)
     p=sources_root()/Path(__file__).resolve().parents[1].name/'s41592-023-01841-y_41592_2023_1841_MOESM1_ESM.pdf.txt'
     if p.exists():

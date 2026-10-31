@@ -21,3 +21,11 @@ Affinity capture does not guarantee every selected molecule was labeled or every
 ## Lineage and deferred work
 
 The main explicitly cites earlier DBF-mediated labeling/alkyne–click chemistry as its frontend and compares with APEX-seq/CAP-seq; this supports component-strategy ancestry to the named photochemistry predecessors, not whole-library inheritance or an APEX recipe import. Those originals and historical KAPA/DirectZol procedures remain unreviewed. Exact library/run geometry, reactive adduct identities and full source completeness remain open. No finished schematic or confirmed missing-information claim.
+
+## Bounded unlinked-page adjudication (2026-10-30)
+
+🟢 Main85–93 supplies actual DBF-Halo ligand and propargylamine contributions, followed by green-light exposure and extracted-RNA CuAAC. The local graph now treats DBF and PA as molecular reagents. Photolabeling supplies the source light condition without a fresh duplicate DBF/PA addition. The CuAAC inventory exposes biotin azide, freshly prepared sodium ascorbate, THPTA, copper sulfate and Tris. This is an aggregate inventory grouping: packaging, number of original stocks and addition schedule remain unassembled. No documented single premix is asserted. Active copper speciation and the occupied RNA adduct/atom map are unresolved.
+
+The Trizol and large-scale sodium-acetate/ethanol workups now carry molecular reagent roles. Source99's release supplies50ulPBS and150ulTrizol without claiming the biotin tag is cleaved. Source109's100ng library input is separated from the RNA remaining in the source10ul eluate; no total eluate mass, selected transfer volume or later stock use is invented.
+
+The pending_originals item remains uncovered. Historical KAPA/DirectZol/photochemistry originals, full library/adduct geometry, input/control arrays and detailed QA remain unresolved obligations. Known contributor classes or a DNA endpoint cannot substitute for this scope. No graph-generated source inventory, source exclusion, modern kit or later protocol is used to force publication. Closed source scopes remain unchanged; no originals were acquired or re-opened during implementation.

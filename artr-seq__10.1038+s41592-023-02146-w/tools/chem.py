@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene,Segment,feature,revcomp
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 class B:
     def __init__(self,title,authority,label,kind=K.MOLECULAR):
         self.g=ProtocolGraph(title,authority=authority,representation='published_instance');self.x=self.g.input('source',label,kind,primary=True)
@@ -34,6 +34,23 @@ AUTHORITY='PublishedPMC10864177 Strategy/Methods186–246/ExtendedData1selectedR
 RT_ARM=TRUSEQ_READ2[-21:];ADAPTER_FIXED=revcomp(TRUSEQ_READ1[-18:])+'GT'
 SOURCE_ORDERS={'rt':'AGACGTGTGCTCTTCCGATCTNNNNNNNNNN','adapter':'5′Phos-NNNNNNNNAGATCGGAAGAGCGTCGTGT-3′SpC3'}
 NT_COMPOSITION=(('biotin_dutp','.05mMbiotin-16-dUTP; DNAdeoxyuridinenucleotide, notRNAUTP'),('biotin_dctp','.05mMbiotin-16-dCTP'),('dttp','.05mMdTTP'),('dctp','.05mMdCTP'),('datp','.1mMdATP'),('dgtp','.1mMdGTP'))
+# Curator-written inventory checked against the published standard ARTR Methods.
+# These literals do not grow automatically when a graph input or operation is added.
+REVIEWED_PREPARATION = '''source pfa fix_condition glycine_reagent glycine_conditions
+fix_wash_condition triton permeabilization_wash_condition blocking_buffer primary_ab
+primary_wash_condition secondary_ab secondary_wash_condition fusion_stock fusion_wash_condition
+fix glycine fix_wash permeabilize permeabilization_wash block primary primary_wash
+secondary secondary_wash localize_rt fusion_wash localized_components'''.split()
+REVIEWED_COPY_CAPTURE = '''rt_primer rt_biotin_dutp rt_biotin_dctp rt_dttp rt_dctp rt_datp
+rt_dgtp rt_inhibitor rt_mix_buffer rt_stop_conditions imaging_antibody hoechst
+imaging_conditions proteinase_k pk_conditions phenol_condition nucleic_precip_condition
+rnase_h rnase_at1 rna_digest_buffer c1_stock bead_bsa bead_salmon_dna bead_yeast_trna
+prepare_rt_mix rt_mix_components rt rt_stop imaging pk phenol nucleic_precip
+rna_digest preblock_c1 c1_allocate capture'''.split()
+REVIEWED_LIBRARY = '''cdna_adapter rnl1 ligation_atp ligation_conditions release_conditions
+cdna_precip_condition pcr_master pcr_primer_inventory pcr_conditions gel_conditions
+gel_supplies adapter_ligate release cdna_precip pcr_components pcr_primer_components pcr
+library_gel library_band gel_recovery loading load library'''.split()
 def oligo_scene(name):
     s=Scene()
     if name=='rt':s.strand('oligo',[Segment('source_RT_handle',RT_ARM),Segment('random_priming_N10','N'*10,note='Source10ntrandompriming; notassignedUMI/cellbarcode')])
@@ -89,6 +106,11 @@ def protocol_graph():
     b.op('gel_recovery','Sourcegelpurifiedsequencinglibrary; internalextractionconditionsunassembled',inputs=(b.stock('gel_supplies','Actualgel-purificationreagents/physicalworkupinventory; identities/amountsunassembled'),),product='Sourcegel-purifiedlibrarypreparation; fullmolecules/recoveryunassembled')
     b.aliquot('loading','Actualsequencingloadingallocation; amountunassigned')
     lib=g.product('library','SourceARTRsequencinglibraryclass; exactfullconstruct/readlandingunassembled',K.LIBRARY);g.react('load','SourceNextSeq550/2000orNovaSeq6000',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False);g.sequence(lib,SequencingPlan(limitation='SourceplatformsNextSeq550/2000/NovaSeq6000; exactstandardrunlengths/fullPCRprimer/strand/index/readlandingunassembled. Optionalbarcodedlowinput/tissueRead2processingnotautomaticallyassignedtobaselinerun.'))
+    g.cover_source_item(SourceCoverage('proximity_scope','modelled','localize_rt'))
+    g.cover_source_item(SourceCoverage('identifier_scope','modelled','adapter_ligate'))
+    g.declare_reviewed_scope(REVIEWED_PREPARATION, 'Published PMC10864177 standard ARTR Methods: fixation through washed antibody-localized RTase; prepared fusion stock boundary.')
+    g.declare_reviewed_scope(REVIEWED_COPY_CAPTURE, 'Published PMC10864177 standard ARTR Methods: six nucleotide classes, retained RTase, imaging, digestion and preblocked C1 capture; no claim of quantitative yield.')
+    g.declare_reviewed_scope(REVIEWED_LIBRARY, 'Published PMC10864177 standard ARTR Methods: source adapter/ATP/Rnl1, release, all10ul cDNA PCR, gel and actual sequencing contribution. Whole PCR oligos/run layout remain unresolved.')
     return g
 
 def selftest():
@@ -117,5 +139,26 @@ def selftest():
         c('WholeoriginalRTprimer',SOURCE_ORDERS['rt'] in t,True);c('Wholeoriginalmodifiedadapter',SOURCE_ORDERS['adapter'] in t,True)
         c('ActualRNAdigestionbeforebiotincDNAenrichment',t.index('RNA was digested')<t.index('followed by biotinylated cDNA enrichment'),True)
         c('ActualbiotinDUTPsource','.05mMbiotin-16-dUTP'in flat or '0.05mMbiotin-16-dUTP'in flat,True)
-    c('Privatepartial',bool(g.publication_problems()),True);c.report()
+    c('Selected source-supported preparation passes normal publication gate',g.publication_problems(),[])
+    g.input('unreviewed_addition','Regression-only new input',K.CONDITION)
+    c('New source input requires independent inventory review',any('unreviewed_addition' in x and 'source-inventory' in x for x in g.publication_problems()),True)
+    c.report()
+
+PAGE_FILE = 'artr_seq.html'
+def render_page():
+    from page import head,info
+    from chemdraw import panel
+    from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
+    g=protocol_graph().require_publishable()
+    return assemble_page(g,[head('ARTR-seq'),'<div class="wrap" data-protocol-complete="true"><h1>ARTR-seq</h1>',
+      '<p>Antibodies position a protein A/G–reverse-transcriptase fusion near an RNA-binding protein. In-situ copying incorporates biotin-bearing DNA nucleotides; captured cDNA receives a UMI adapter and is amplified for sequencing.</p>',
+      info('Source: <a href="https://doi.org/10.1038/s41592-023-02146-w">Profiling of RNA-binding protein binding sites by in situ reverse transcription-based sequencing</a>, published Methods and Supplementary Information. This page selects the standard HepG2/PTBP1 preparation. Low-input, tissue, input-control and RNase-treatment variants are separate source branches. Prepared fusion-protein production is outside the selected library workflow.'),
+      '<h2>Known primers and adapter</h2><p>The RT primer has ten random priming bases. They are not a UMI. The ligated DNA adapter has an eight-base molecular UMI, a 5′ phosphate and a nonnucleotide 3′ SpC3 block.</p>',
+      panel(oligo_scene('rt').rows(),caption='Source standard RT primer; N10 is random priming sequence.'),
+      panel(oligo_scene('adapter').rows(),caption='Source cDNA adapter; N8 is the molecular UMI. Only its local donor end is assembled.'),
+      '<h2>Preparation</h2><p>Fix and permeabilize cells, stain with primary and secondary antibodies, then bind and wash the pAG-RTase. The retained enzyme copies nearby RNA with six specified nucleotide classes. Image the labeled cells, digest protein and RNA, and capture biotin-bearing cDNA on preblocked streptavidin beads. Ligate the adapter, release cDNA with heated formamide, amplify all 10 µl of recovered cDNA for 13 cycles and select a 180–400-bp gel band.</p>',
+      info('Formaldehyde and antibody proximity can retain indirect interactions: a read does not by itself prove direct RBP–RNA contact. Whole occupied RNA/cDNA complexes, biotin positions, sealed junctions and primer landing remain unresolved. The source RT mixture is prepared in 50 µl buffer; its exact final-volume convention is not inferred. E7335S is an example primer product, not an adopted complete sequence recipe.'),
+      '<h2>Sequencing</h2><p>The publication uses NextSeq 550, NextSeq 2000 or NovaSeq 6000. Standard run lengths, index values and complete read/UMI cycle spans are unresolved here. Optional tissue/low-input barcode processing does not establish a cell barcode in this selected standard preparation.</p>',PlanLimitationSection('library'),
+      '<details><summary>Full preparation and chemistry warnings</summary>',WorkflowSection('Published standard preparation'),'</details>',
+      '<p><a href="01_artr-seq.html">Source notes and model limits</a></p></div>'])
 if __name__=='__main__':selftest()

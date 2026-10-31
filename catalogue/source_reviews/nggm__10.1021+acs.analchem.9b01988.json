@@ -1,6 +1,6 @@
 {
   "dir": "nggm__10.1021+acs.analchem.9b01988",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "source1",
@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13016201.1/PMC13016201.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Associated accepted manuscript Methods103\u2013126;identity/header checked,not established final-VOR equivalence"
+      "inspection_scope": "Associated accepted manuscript Methods103–126;identity/header checked,not established final-VOR equivalence"
     },
     {
       "id": "blocked1",
@@ -27,16 +27,32 @@
       "date": "2026-10-29",
       "documents": 1,
       "scope": "Published-first bounded selected-source pass;associatedMSNGGM explicit,no abstract-only fullgraph,no absenceaudit",
-      "locations": "Associated accepted manuscript Methods103\u2013126;identity/header checked,not established final-VOR equivalence",
+      "locations": "Associated accepted manuscript Methods103–126;identity/header checked,not established final-VOR equivalence",
       "findings": "Selected physicalclasses/operations and limitations in protocol note;ordinary unread targets deferred,actualgates blocksourcecoverage.",
       "deferred": [
         "Actual named associated Supplemental_figures_and_tables.pdf (gated): DNA code sequences,primer/index/NGS adapter identities and supplementary experiments",
         "Published article final Methods/version applicability of associated manuscript;published SI identity/version reconciliation",
         "Shotgun library manufacturing and additional serum/application branches outside selected defined lectin/antibody/bacteria graph scopes",
-        "Exact18+20+18 DNA polymers,5\u2032azide chemistry/covalent junctions,physical PCRproducts and actual instrument/read geometry"
+        "Exact18+20+18 DNA polymers,5′azide chemistry/covalent junctions,physical PCRproducts and actual instrument/read geometry"
       ],
       "verification": "Combined 20 local checks (9 NGGM / 11 ProtSeq), two private builds, schema and pairing (zero problems) pass; sourceguard: three checked, zero failed, zero exemptions, 14 unrepresented inputs; chemistry: zero established, 60 unresolved, zero contradictory. No complete chemistry/source validation claimed.",
       "oligo_scraper": "Mandatory standard bundle scraper run;relevant selectedoriginal pointers checked;zeroNGGMhits/cPTMretrievedfiles doesnotestablish absence."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch16",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Closed originals reused for bounded physical reagent typing/example qualification and independently literal source inventory. No acquisitions or architecture expansion.",
+      "locations": "Actual NIHPA/NIHMS2148954 header; Methods103–126 DNA-code architecture, definedvs shotgunglycan preparation, lectin/antibody/bacterial pull-down variants and twoPCR/NGSservice submission; Actual NIHMS2148954Supplemental_figures_and_tables.pdf manual row; prior host cooldown/challenge response, not newly requested or chemistry-read",
+      "findings": "Original required unassembled remains uncovered: Unreviewed linked originals and full molecular geometry. Actual associated-manuscript SI containing DNA code/primer/index/adapter orders is not in the validated local bundle; final-publication scope comparison remains unresolved. Existing lectin17step graph retains11generic construct-changing steps and a non-library terminal. Source coverage now uses a literal reviewed inventory without waiving original broad scope. Known18+20+18 architecture and named NGS service submission cannot supply the required whole orders, covalent/library assembly or full producer/stock scope. Source DBCO–PEG4–NHS and azidoethanol are now explicit molecular/structural reagent contributions rather than only condition inputs. Their existing source quantities, stage order, generic unresolved reaction geometry and companion-product boundaries are retained. Glycan/PEG moieties are not typed as nucleotide segments; no full click-adduct or library polymer has been manufactured. The source-qualified real preparation graph is marked published_instance while preserving its associated-manuscript qualification. The previous runtime graph-enumeration coverage call has been replaced with a curator-written literal inventory of actual source inputs and operations. LoopSeq uses only the two explicitly illustrative a/b classes; NGGM uses explicit lectin/antibody versus bacterial source branches. The inventory is independent of graph-node discovery. This records reviewed operational scope and does not fulfill the broad unresolved original source item or assert molecular completeness.",
+      "deferred": [
+        "Actual cited associatedSupplemental_figures_and_tables.pdf, previously manifest-gated; no fresh retrieval or current cooldown claim.",
+        "Defining final mainDOI10.1021/acs.analchem.9b01988 and publishedSI identity/version applicability comparison unreviewed.",
+        "Full glycan-DNA adduct, occupied code/primer/library and acquired read geometry remain declared model obligations."
+      ],
+      "oligo_scraper": "0hits/0eligible representations; original JATS chemistry independently read, no absence inference.",
+      "verification": "11focusedPASS across3source branches; private buildPASS/pairing0problems. Normal publication gate remainsfalse with13failures, including original uncovered broad source item. No sequence-exact oligos changed or new chemical validation claimed."
     }
   ],
   "linked_information": {
@@ -48,6 +64,7 @@
     "Actual named associated Supplemental_figures_and_tables.pdf (gated): DNA code sequences,primer/index/NGS adapter identities and supplementary experiments",
     "Published article final Methods/version applicability of associated manuscript;published SI identity/version reconciliation",
     "Shotgun library manufacturing and additional serum/application branches outside selected defined lectin/antibody/bacteria graph scopes",
-    "Exact18+20+18 DNA polymers,5\u2032azide chemistry/covalent junctions,physical PCRproducts and actual instrument/read geometry"
-  ]
+    "Exact18+20+18 DNA polymers,5′azide chemistry/covalent junctions,physical PCRproducts and actual instrument/read geometry"
+  ],
+  "conclusion": "Bounded publication hold retained after contained improvements. Original required unassembled remains uncovered: Unreviewed linked originals and full molecular geometry. Actual associated-manuscript SI containing DNA code/primer/index/adapter orders is not in the validated local bundle; final-publication scope comparison remains unresolved. Existing lectin17step graph retains11generic construct-changing steps and a non-library terminal. Source coverage now uses a literal reviewed inventory without waiving original broad scope. Known18+20+18 architecture and named NGS service submission cannot supply the required whole orders, covalent/library assembly or full producer/stock scope."
 }

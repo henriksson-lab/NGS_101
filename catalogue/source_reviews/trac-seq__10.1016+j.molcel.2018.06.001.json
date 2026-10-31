@@ -114,6 +114,20 @@
       ],
       "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
       "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Read-only publication eligibility preflight; required source obligation retained",
+      "locations": "AM provenance79; AlkB/meRIP context345–349; distinct TRAC Methods351–353",
+      "findings": "Required defining supplements, older cleavage chemistry, AlkB/historical kit and final read layout remain unreviewed. Selected AM353 states cDNA-library construction/NextSeq500 without supplying the library implementation. Adjacent meRIP349 names NEBNext Small RNA but does not establish all TRAC-specific component/version choices. No whole final/AM equivalence.",
+      "deferred": [
+        "unreviewed_full_chemistry"
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scan; no zero-hit absence conclusion. Actual source context inspected only as recorded; no new oligo table authority adopted.",
+      "verification": "No model changes or builds. Existing no-sequencing-terminal and required-source-item gates retained; notes/source-review documentation only."
     }
   ]
 }

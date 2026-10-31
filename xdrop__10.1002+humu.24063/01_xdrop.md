@@ -29,3 +29,11 @@ Full dMDA formulation, detector-template geometry, physical partition occupancy,
 ## Completion
 
 Bounded original-source pass only. Catalogue remains notes. Private partial graphs retain explicit uncovered source inventory and unresolved terminal handoffs; passing structural/local checks does not complete source review. No two-reader missing-information pass has been performed.
+
+## Bounded publication review, 30 October 2026
+
+The canonical published article PDF (manifest URL and MD5 recorded above), Methods2.8–2.9, text335–435 was re-read. Mandatory bundle oligo scraping was repeated. This pass used one original, with no fresh oligo claim or reliance on the orphan XML as source authority. The actual TP53/Jurkat branch is distinct from HPV18/HeLa: 1 µg enriched TP53 DNA produces a source-described 5 kb SMRTbell1.0 library, sequenced on one SMRTcell/PacBioRSII/C4/P6 with a 240 min movie. These are positive source facts, not reconstruction of the kit's exact molecules.
+
+The existing ten-step model still stops at enriched amplified DNA and retains required `unassembled_source`. Its broad remaining input/library/strand scope is not accounted for by attaching a sequencing label to that intermediate. Actual source-positive kit preparation, transfer/stock/QC/loading fates, full supplied dMDA functional inventory and final adapter topology/primer landing remain unassembled. Unknown manufacturer-guide identity/revision is an open source target, not an invented unavailable disclosure document. The real source names SMRTbellTemplatePrepKit1.0 and delegates its preparation to manufacturer instructions; no modern kit recipe is substituted.
+
+The source 3–10 µl first-dMDA input, about 6 µl second-round transfer, 30°C16h/65°C10min conditions and 20 µl PicoBreak releases remain qualified to the selected branch. Detector-PCR products and long genomic material remain physically distinct carried populations; sorting/MDA does not establish purity or erase the detector products. No source absence, unavailable chemistry detail or full linked-source/absence review is claimed. The model/page remain private while this bounded source/model hold is recorded.

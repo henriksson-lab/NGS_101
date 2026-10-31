@@ -31,3 +31,9 @@ where sourceN5 means random bases with unassigned function and sourceXXXX is a4b
 The source processing distinguishes cellbarcode7, original RMT/UMI8 and UGI8, with4base platebarcode introduced later. These source roles do not fix unassembled full-strand positions or transform the intermediateN5 window into a UMI. UGI decoding, quality thresholds and molecule collapsing are computational; no rejected read is modeled as physically removed DNA.
 
 Exact historical MARS-seq end processing/ligation, original RT/cell/UMI template, intermediate workup, finalPCR/index/read layout and linked detailed originals remain deferred. The paper explicitly cites Jaitin2014 MARS-seq for the frontend/library operations, with a local unfragmented UGI branch and source-specific oligos. This is component-level evidence for ancestry; no source-selected shared constructor is imported and no absence claim is made.
+
+## Bounded publication hold, 30 October 2026
+
+Defining original explicitly produces gene-expression andUGI DNA libraries inparallel. Half aRNA isfragmented for geneexpression;10–12percent unfragmented forUGI. Exact5P/3C3adaptor, secondRT20nt, intermediate10cycle plate-barcodedPCR and separatefinalMARS-likePCR are sourcepositive. Currentmodel stopsintermediatePCR andfragmentedRNA; requiredfullinput/library/readassembly remainsunimplemented. Original2014MARSrecipe is a relevantreal citeddependency; cached2019protocol mustnot be substituted. No acquisition or source gate exclusion.
+
+Required item **unassembled_source** remains unchanged and uncovered: Required fullsourceinput/library/final-strand/readassembly not implemented; known finalPCR/pooling endpoint alone does not fulfil obligation. The source investigation stopped at the capped original scope; no source/body expansion, acquisition, gate exclusion or public promotion occurred. Current model/renderer code was left unchanged.

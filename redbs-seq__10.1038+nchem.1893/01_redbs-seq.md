@@ -30,3 +30,7 @@ UntreatedBS instead converts5fC toU, reportingT. The source explicitly identifie
 ## Scope and ancestry
 
 The source explicitly selects RRBS/MspI enrichment and compares with its published oxBS method. These are source-qualified study design/component relations; similarity does not authorize adopting another protocol's library adapters or precise kit revision. Synthetic-control “Illumina” primers in Table3 do not automatically establish genomic TruSeq primer members. Deferred: historical kit originals, complete VOR, control/oxidation branches, exact final library/run primers, full linked-source checklist and independent second reader. No absence claim accepted.
+
+## Publication preparation review
+
+The generated page remains a private draft. A green graph gate and publication marker do not resolve the source/model mismatch: the genomic study has twelve independently prepared MspI/TruSeq libraries, with four allocated to each chemical arm. The current graph instead prepares one collection and splits it into arms. A follow-up must represent independent preparation inputs/reactions, preserve the excluded oxidation scope and avoid borrowing synthetic-control pooling into the genomic route. Source-known NaBH4/acetate, prepared KAPA/primer-mix components and actual QC/stock allocations also need explicit inventory/fate treatment. No source absence or inaccessible-original conclusion follows from this model issue.

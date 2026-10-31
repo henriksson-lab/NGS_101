@@ -1,11 +1,46 @@
 from pathlib import Path
+import html
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from chemdraw import Scene,Segment,feature
 from pcr import PCRGeometry
 import oligos_spatial_vdj as oligos
-from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition
+from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition,AnnotationSlot,SourceClaim,SourceDiscrepancy
+from page import head, info, caveat, table
+from protocol_views import assemble_page, WorkflowSection, PlanLimitationSection
+from chemdraw import panel
+PAGE_FILE = 'spatial-vdj.html'
+
+# Curator-declared source inventory. This is intentionally independent of graph
+# enumeration: adding a new step/input requires another located source review.
+# Final published Methods: capture1625–1642, SR-TRB1645–1668.
+MAIN_COMMON_TARGETS = (
+    'source','select10ul','preamp_allocate','preamp_cdna_primers',
+    'preamp_kapastock','preamp_components','preamp_programme','preamp',
+    'preamp_pool','preamp_clean','preamp_clean_beads','preamp_clean_condition',
+    'concentrate','capture_concentration','capture','capture_ratio','xgen_capture',
+    'postcapture_cdna_primers','postcapture_kapastock','postcapture_components',
+    'postcapture_programme','postcapture','postcapture_clean',
+    'postcapture_clean_beads','postcapture_clean_condition','outer_calibration',
+    'outer_allocate','pool_replicates','index_kapastock','index_components',
+    'index_primers','index_programme','index','index_clean',
+    'index_clean_beads','index_clean_condition','final_qc','load_select',
+    'other_samples','sequencing_pool','pool_loading','load','library',
+)
+# Four actual independently processed replicates, as declared by the source.
+SOURCE_REPLICATES = (1, 2, 3, 4)
+REPLICATE_MAIN_TARGETS = (
+    'outer_kapastock','outer_components','outer_programme','outer',
+    'outer_clean','outer_clean_beads','outer_clean_condition','outer_qc',
+    'inner_calibration','select5ng','inner_kapastock','inner_components',
+    'inner_programme','inner','inner_clean','inner_clean_beads',
+    'inner_clean_condition','inner_qc','select10ng',
+)
+# Data S1 supplies these complete reagent patterns, not full template occupancy.
+DATA_S1_COMMON_TARGETS = ('ig_probes','tr_probes','capture_blockers')
+DATA_S1_REPLICATE_TARGETS = ('outer_v','outer_partread1','inner_v','inner_partread1')
+
 class B:
     def __init__(self,title,authority,start,kind=K.BIOLOGICAL):
         self.g=ProtocolGraph(title,authority=authority,representation='published_instance');self.x=self.g.input('source',start,kind,primary=True,chemical_state={})
@@ -57,7 +92,7 @@ def amp(b,key,label,primers,programme,kapa=True):
 
 def cleanup(b,key,label):b.clean(key,label,extra=(b.stock(key+'_beads','Actualsource '+label+' bead allocation',K.SELECTION,R.SELECTION),))
 def qc(b,key,label):
-    g=b.g;y=g.product(key+'_analytical',label,K.MOLECULAR);r=g.product(key+'_stock','Actual preparation remaining after analytical allocation; amountunassigned',K.MOLECULAR)
+    g=b.g;y=g.product(key+'_analytical',label,K.QC);r=g.product(key+'_stock','Actual preparation remaining after analytical allocation; amountunassigned',K.MOLECULAR)
     g.react(key,label,S.SPLIT,((b.x,R.TEMPLATE),),(y,r));g.mark_terminal(Terminal(y.id,Disposition.QC,'Actualanalyticalfraction excludedfromproduction'));b.x=r
 
 def protocol_graph():
@@ -95,11 +130,93 @@ def protocol_graph():
     b.op('sequencing_pool','Sourcepoolsindexed samples forsequencing; otheractualsamples/molaritiesunassembled',S.MAGIC,(b.stock('other_samples','Otheractualindexedlibraryallocations in sourcepool; sourcebodiesandamountsunassembled',K.MOLECULAR,R.STRUCTURAL),))
     b.split('pool_loading','Actualsequencingloadingallocationfrompreparedmultisamplepool; amountunassigned','Selectedpooledlibraryloadingaliquot','Untransferredpreparedsequencingpool')
     lib=g.product('library','Published-source SRTRBsequencinglibrary; source spatial primers declared; full amplicons/index primers unassembled',K.LIBRARY);g.react('load','SourceNovaSeq6000SP; R135/I6/R2259',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False)
-    g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='Published SR scope; DataS1 spatial whole primer/probe rows declared; index primers/orientation, occupied binding sites and full amplicons unassembled. RunlengthsdoNOTestablishexactindexsequence/wholechemicalproducts.'))
+    g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='The published run lengths are reported here. Data S1 supplies the spatial primer/probe inventories; complete cDNA/index primer preparations, index orientation, occupied transcript sites and full amplicons remain unassigned. Run lengths alone do not establish molecular products.'))
     g.add_source_item(SourceItem('published_scope',AUTHORITY,'Final published article supports this selected SR-TRB preparation; published SM and separate Data S1 retrieved; historical vendor detail/whole cDNA and index primer preparations remain unresolved. No whole-version equivalence or confirmed absence.'))
     g.add_source_item(SourceItem('historical_analysis_metadata','Accepted author version Zenodo13148082, LR analysis843–865 only','16nt spatial barcode/12nt UMI are analysis metadata from earlier inspected accepted original, not final-verified whole primer sequences or binding evidence.'))
     g.add_source_item(SourceItem('preamp_programme',PREAMP_PROGRAMME,'Retainactualprintedvalues, executedpreamplificationcountunassigned. OtherselectedSRcyclecountsarelocallyexplicit.'))
-    return g
+    g.declare_reviewed_scope(MAIN_COMMON_TARGETS,
+        'Final published article: target enrichment Methods1625–1642 and selected SR-TRB Methods1645–1668. Functional stock components are copresent classes, not additional doses or full formulation claims.')
+    for replicate in SOURCE_REPLICATES:
+        g.declare_reviewed_scope(tuple('rep'+str(replicate)+'_'+name for name in REPLICATE_MAIN_TARGETS),
+            'Final SR-TRB Methods1645–1668: four distinct outer/inner replicates, analytical fractions, separate cleanup and10ng per replicate pooled at indexing. Unknown quantities remain unassigned.')
+        g.declare_reviewed_scope(tuple('rep'+str(replicate)+'_'+name for name in DATA_S1_REPLICATE_TARGETS),
+            'Published Data S1: PartRead1 worksheet and whole SR-Spatial VDJ outer/inner TRBV rows. Sequence-only cells do not establish terminal modifications or occupied transcript sites.')
+    g.declare_reviewed_scope(DATA_S1_COMMON_TARGETS,
+        'Published Data S1: Hyb. capture - Probes and Hyb. capture - Blocking Oligos. Actual source rows retained, including repeated sequences; pool molarity and end modifications unassigned.')
+    for item, target in (('published_scope','source'),('historical_analysis_metadata','source'),('preamp_programme','preamp')):
+        g.cover_source_item(SourceCoverage(item,'modelled',target))
+    g.annotate(SourceDiscrepancy(
+        'preamp', 'Preamplification cycle count',
+        (SourceClaim('Final article, target enrichment programme, item5 (text1632)',
+                     'Repeat steps 2 to 5 six times'),
+         SourceClaim('Same published item', 'for a total of five cycles')),
+        'The preamplification cycle count remains unassigned.',
+        'Both values are printed in the final published Methods; no corrected value is supplied by this model.',
+        'The intended count is unresolved. The selected postcapture, outer, inner and indexing programmes are reported separately.',
+        AnnotationSlot.BEFORE_WORKFLOW))
+    g.annotate(SourceDiscrepancy(
+        'rep1_outer_v','Outer TRBV worksheet label',
+        (SourceClaim('Data S1 worksheet name and primer IDs','SR-Spatial VDJ outer TRBV; individual TRBV primer IDs'),
+         SourceClaim('Same worksheet, interior heading A1','SR- Spatial VDJ Outer TRAV primers')),
+        'Use the TRBV worksheet and individual row identities for the selected TRB preparation.',
+        'The final Methods describe TRBV outer primers for this branch; the published worksheet bodies are preserved verbatim.',
+        'The interior TRAV heading is inconsistent with the worksheet and row labels; it is not silently rewritten.',
+        AnnotationSlot.BEFORE_WORKFLOW))
+    return g.require_publishable()
+
+
+def primer_example():
+    # Separate reagent orders: this view asserts no annealing or transcript site.
+    sc=Scene()
+    sc.strand('PartRead1',[Segment('PartRead1',oligos.PARTREAD1,'r1')])
+    name='TRBV10-1_inner';seq=oligos.INNER[name]
+    sc.strand(name,[Segment('Published Read2-compatible handle',oligos.illumina.TRUSEQ_READ2,'r2'),
+                    Segment('Source TRBV10-1 target-specific portion',seq[len(oligos.illumina.TRUSEQ_READ2):])])
+    return sc
+
+
+def oligo_tables():
+    groups=[]
+    for title, rows in (
+        ('Outer TRBV primers',[(name,seq.upper())for name,seq in oligos.OUTER_SOURCE.items()]),
+        ('Inner TRBV primers',list(oligos.INNER.items())),
+        ('Capture probes',[(pool+' row '+str(i),seq)for i,(pool,seq)in enumerate(oligos.CAPTURE_SOURCE,1)]),
+        ('Blocking oligos',list(oligos.BLOCKER_SOURCE.items())),
+    ):
+        groups.append('<details><summary>'+html.escape(title)+' ('+str(len(rows))+')</summary>'+
+                      table(('Name','Sequence (5′→3′)','nt'),[(html.escape(name),'<code>'+html.escape(seq)+'</code>',str(len(seq)))for name,seq in rows])+'</details>')
+    return ''.join(groups)
+
+
+def render_page():
+    g=protocol_graph()
+    overview=table(('Stage','Source-supported preparation'),(
+        ('Starting material','Full-length spatially barcoded Visium cDNA, before fragmentation.'),
+        ('Preamplification and capture','Amplify 10 ng subsamples separately, pool completed products, then capture IG/TR constant-region transcripts together overnight. The selected IG:TR probe ratio is1:3.'),
+        ('Nested TRB amplification',str(len(SOURCE_REPLICATES))+' separate replicates: outer TRBV + PartRead1, followed by inner TRBV + PartRead1, with cleanup and QC between stages.'),
+        ('Indexing','Pool 10 ng from each inner product at indexing; all four replicates receive the same sample index.'),
+        ('Sequencing','NovaSeq 6000 SP; short R1 and long R2 recover the spatial tag and receptor sequence. Exact occupied primer geometry remains unassembled.'),
+    ))
+    reads=table(('Read','Cycles','Source scope'),[(html.escape(role),str(cycles),
+        'Published run length; whole index order/orientation unassigned' if role=='I1' else
+        'Published run length; exact read-base mapping not asserted')for role,cycles in g.sequencing['library'].read_lengths.items()])
+    return assemble_page(g,[head('Spatial VDJ — short-read TRB'),
+        '<div class="wrap" data-protocol-complete="true"><h1>Spatial VDJ</h1>',
+        '<p class="research-notes"><a href="01_spatial_vdj.html">Research notes</a></p>',
+        info('<a href="https://doi.org/10.1126/science.adf8486">Engblom et al., <i>Science</i> (2023)</a>. Spatially resolved immune-receptor sequencing. This page follows the published short-read TRB branch; the long-read IG/TR and separate validation preparations are outside its scope.'),
+        caveat('The workflow and published oligo inventories are represented, with unresolved chemistry retained. Complete cDNA/index-primer preparations, terminal modifications and occupied transcript/product geometry remain unassembled. A linked page does not mean every reaction is molecularly validated.'),
+        '<h2>Preparation</h2>',overview,
+        '<h2>Published primer sequences</h2>',
+        info('PartRead1 and one inner TRBV order are shown below as separate reagents. The full outer/inner pools, capture probes and blocking patterns are available in the tables; repeated source rows are retained.'),
+        panel(primer_example().rows(),caption='Data S1 oligo orders; separate rows, not an annealed complex or a complete final library.'),
+        oligo_tables(),
+        '<h2>Read setup</h2>',reads,PlanLimitationSection('library'),
+        AnnotationSlot.BEFORE_WORKFLOW,
+        '<details><summary>Detailed reaction model and validation</summary>',
+        WorkflowSection('Source-qualified SR-TRB reaction workflow'),'</details>',
+        '</div>'])
+
+
 def selftest():
     from checks import Check,Source,have
     from storage import sources_root
@@ -125,7 +242,6 @@ def selftest():
     c('Known primer pools retain unavailable transcript geometry',all(g.steps['rep'+str(i)+'_'+stage].geometry.availability=='unavailable'for i in range(1,5)for stage in ('outer','inner')),True)
     c('Wholesourceconstructisnotfabricated',g.materials['library'].state,None)
     c('Readlengthsaresource35and259',g.sequencing['library'].read_lengths,{'R1':35,'I1':6,'R2':259})
-    c('Partialgraphstaysunready',bool(g.publication_problems()),True)
     p=sources_root()/Path(__file__).resolve().parents[1].name/'science_adf8486_final_browser.html.txt'
     if have(c,Source(p,'https://www.science.org/doi/full/10.1126/science.adf8486')):
         text=p.read_text()

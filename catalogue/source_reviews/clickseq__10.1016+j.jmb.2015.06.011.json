@@ -51,6 +51,21 @@
         "FinalVOR applicability and full molecular geometry"
       ],
       "oligo_scraper": "Mandatory acquired-bundle scan returned0hits;actualTableS1 is in gated namedDOCX,not confirmed absent."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch22",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Associated AM PMC4523409 only; no final-VOR, later protocol, targetedvalidation or NEBNextcontrol inheritance.",
+      "locations": "Identity1\u20133 and main30\u201340.",
+      "findings": "Molecularascorbate, realdegenerateN6 vsplaceholder, explicitlyinferredPCRfunctionalNT(no dose/recipe), retainedPCR/template mixture throughworkups, identity-preservinglibraryhandoff. Literalreviewedinventory replaceshelperaccumulatedscope; originalsupplement/fullrecipe/geometry obligations untouched.",
+      "deferred": [
+        "ActualNIHMS705616-supplement.docx/TableS1 and finalpublishedapplicability; historicalgate recordnotfreshlyretried.",
+        "Whole oligos, library-specific enzyme/formulation/index/end/primer geometry."
+      ],
+      "oligo_scraper": "/tmp/unlinked22-click-scraper.log0eligiblehits; mainread directly, no absenceinference.",
+      "verification": "11focusedPASS viaexplicitselftest() invocation (modulehasnoCLIguard), privateworkflow/pairing0/originalsupplementuncovered. Finalcombinedchecks follow."
     }
   ],
   "conclusion": "Source-qualified private incomplete model;actual supplemental access barrier,not a missing-information conclusion.",

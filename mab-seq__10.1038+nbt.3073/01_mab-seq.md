@@ -44,3 +44,21 @@ Locus-specific MAB uses four rounds of M.SssI with different additions, then bis
 The paper identifies standard BS-seq as the analytical baseline; it supplies its own custom adapters and protection order. Similar NEBNext products or comparison with TAB/redBS do not establish whole-protocol ancestry. The later2016 detailed protocol DOI10.1038/nprot.2016.069 is a follow-up source, not a predecessor supplying defaults to the2014 original.
 
 Deferred: complete version-of-record Methods, later detailed protocol, source-linked/historical vendor identities, exact indexed PCR members, full final strand architecture and run primers, and independent second reader. No missing sequence or reagent is confirmed absent.
+
+
+## Public preparation view, 2026-10-30
+
+The public page declares a **published preparation instance**, qualified to the source
+and selected molecular scope described above. Role-level molecular classes are not
+particular genomic sequences or complete final-library assemblies. The existing
+normal typed graph gate is preserved; computed unresolved chemistry stays visible
+in the full workflow.
+
+SAM is now a molecular contribution in each source protection round. Each round remains a clearly labelled compound schedule: initial25µL4h, then fresh25µL same-concentration M.SssI/SAM8h. A single diagram step does not mean simultaneous50µL treatment. Catalyst, nucleotide and buffer classes are exposed from the actual named KAPA Uracil+ ReadyMix supply; this is not three additional fresh stocks. Exact formulation and allocations between preamplification/final PCR remain unassigned. The retained library and analytical qPCR aliquot remain distinct; sequencing now selects a loading aliquot and leaves an explicit stock remainder. No unreported sample pool, historical primer member or whole methylated-adapter modification map is invented.
+
+The source investigation was closed before implementation. This pass rechecked two originals: the associated2014 manuscript genome-scale Methods110 and published supplement original FigS2p2/caption. No accepted/final-version equivalence, later protocol inheritance or complete historical vendor recipe is asserted.
+
+Mandatory bundle scrapers ran in the read-only preflight. The explicit source inventory
+was updated with literal curator-selected targets, not graph enumeration. Source and
+material-fate checks were added. This is not a full linked-source audit or acceptance
+of any missing-information claim. Earlier capped-review statements remain historical.

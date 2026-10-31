@@ -48,6 +48,20 @@
       ],
       "verification": "Final local suites38checks passed(Xdrop9,Perturb7,Gel7,MULTI15); four private previews build, no completion marker; sourceguard10checked0failed0exemptions; pairing0problems; chemistry2established42unresolved0contradictory. Guard text matching is not provenance verification: Xdrop canonicalPDF+renderedp1672 is authority; orphanXML remains unreconciled.",
       "oligo_scraper": "Standard full-bundle scraper run; relevant source pointers checked. Gel rerun after institutional original retrieval. Image/layout-critical MULTI protocolp33 rendered and inspected."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch10-expanded",
+      "reviewer": "publication_followup_reader",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Read-only bounded publication preflight; real required source/model obligations retained",
+      "locations": "qt4120h56x.pdf(.txt): Experimental text418–438, genomic/cDNA finishing477–504, exact cited manual identities987–990",
+      "findings": "Current endpoint is concentrated genomic DNA and amplified cDNA, before source-required two separate half-volume NexteraXT library preparations. Source chemistry/read assembly obligation not met. Original historical manuals are relevant unreviewed dependencies, not imaginary disclosure documents.",
+      "deferred": [
+        "unassembled_source"
+      ],
+      "oligo_scraper": "Mandatory existing-bundle scan completed. MULTI actual publishedSIp33 source orderings/stock panel viewed; no generic zero-hit absence inference.",
+      "verification": "No model changes, acquisitions or builds. Documentation-only hold; required unassembled_source remains uncovered."
     }
   ],
   "linked_information": {

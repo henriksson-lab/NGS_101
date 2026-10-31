@@ -29,3 +29,9 @@ Publisher supporting information, exact historical SMART-Seqv4 oligos/manual and
 ## Completion
 
 Bounded original-source pass only. Catalogue remains notes. Private partial graphs retain explicit uncovered source inventory and unresolved terminal handoffs; passing structural/local checks does not complete source review. No two-reader missing-information pass has been performed.
+
+## Bounded publication follow-up (2026-10-30)
+
+The published institutional article's Experimental section explicitly sends both recovered branches to separate half-volume Nextera XT preparations (text492–504). The current model stops at concentrated genomic DNA and amplified/purified cDNA, before those library-producing preparations. The required `unassembled_source` item therefore remains uncovered; a downstream sequencing label alone cannot complete the model. The cited originals are Illumina Nextera XT DNA Library Preparation Guide Part15031942 Rev.E (2015), reference13/text987–988, and Clontech SMART-Seqv4 Ultra Low Input RNA Kit User Manual (2016), reference14/text989–990. Their applicable detailed chemistry remains unreviewed; current guides are not substitutes.
+
+A future bounded implementation should preserve actual SMART and KAPA supply components, independent genomic/cDNA library paths, QC and loading stocks without inventing occupied polymers or kit formulations. This pass reread published text418–438,477–504,987–990 and ran the mandatory existing-bundle scraper. One original; no acquisition, model changes or builds. Notes status remains a model-scope hold with real source dependencies, not an absence finding.

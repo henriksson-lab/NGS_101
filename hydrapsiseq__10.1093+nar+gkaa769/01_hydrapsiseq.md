@@ -38,3 +38,19 @@ Proposed metadata: RNA; bulk RNA; hydrazine/aniline cleavage; 3′-end repair; l
 The paper explicitly compares its protection score with RiboMethSeq (Introduction 65; Discussion 197; supplemental score description), with a different cleavage chemistry and a U-only scoring profile. Candidate `ribomethseq-illumina__10.1093+nar+gkw547` → HydraPsiSeq should therefore be scoped to the **inferred analytical protection-score strategy**, not inherited adapters, substrate chemistry or enzymes. The precise registered predecessor directory and its directly cited versions still need lineage review. Similar endpoint sequencing does not establish molecular derivation.
 
 Deferred: identify the applicable historical NEBNext original and exact oligos; model adapter ligation/RT/PCR and acquired primers; finish remaining supplement and linked-original review; represent quantitative cleavage probabilities and scoring only in a separately justified scope. No missing-information assertion follows from this pass.
+
+
+## Source-qualified public preparation, 2026-10-30
+
+Two originals: published PMC7641733JATS RNAfragmentation/end-repair/library/sequencingMethods87–107; published gkaa769supplementalDOCX originalembeddedFigureS1image4andactualS1caption. Originalfigure/captionexplicitlysupportsN−1RNA3P/N+1RNA5P and ATP-freePNK3dephosphorylation. No historicalvendor/predecessor originalopened or modernkitrecipe inherited.
+
+The graph retains hydrazine/aniline scission and ATP-freePNK3′dephosphorylation, while exposing actualhydrazine/aniline/Glycoblue/β-mercaptoethanol contributions separately from enzymes/conditions. Released residue-derived products remain molecular before actual ethanol/extraction separations; exact carrier/debris partition is unquantified. PublishedMethods explicitly converts recoveredRNA to a NEBNextSmallRNAkit DNA-library product; that actualfinishing interface is represented with kitcomponentpackaging/wholeoligos/RT/PCR/workups unassembled. The kitcollection is not an inventedpremix and no newer kitrecipe is inherited. ActualBioAnalyzerHighSensitivityDNA/Qubit material is selected as QC, followed by selected librarycontributions to the sourcemultiplexpool, otherlibraryinputwithunassignedidentities/counts, final loadingaliquot and untransferred library/poolstocks. PublishedHiSeq1000SE50/10–12pM is preserved. The local selectedU-event model does not predict Ψcleavage, conversion fractions or modification stoichiometry; calibration/scoring remains outside molecular validation.
+
+Source30–60min hydrazinewindow and literalPNKbuffer concentrations are preserved without silently selecting an optimization condition or correcting100mMMgOAc. FigureS1describes relativeΨresistance and explicitly ATP-free3′phosphatase activity, not an absolute guarantee of noncleavage/protection. No new published discrepancy is asserted.
+
+The normal graph publication gate passes for this source-qualified preparation,
+with unknown kit geometry/states computed as unresolved. This does not establish
+whole-library sequence, assay performance, purity or complete molecular validation.
+No required source item was excluded or covered without evidence. Earlier prefix-only
+notes describe history. Mandatory bundle scrapers ran during this capped pass; no
+negative sequence-disclosure or complete linked-source audit is claimed.

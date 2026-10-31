@@ -31,3 +31,9 @@ The original DOCX XML was checked for all five whole orderings and modifications
 🟢 The supplement twice prints **400mlTE** forgelcrushing/extraction, followed by collection into a1.5mltube; other workup volumes are inµl. The literal400ml wording is retained as an apparent unit inconsistency in this original, with executed extraction volume unassigned. No silent400µl repair or complete source-error audit is claimed. The listed12µlligation mixture is likewise not silently normalized.
 
 The results workbook and supplement figures are ordinary unread originals under the capped pass; linked iCLIP/miCLIP/vendor originals were not followed. Unknown whole RNA/cDNA molecules, end distributions, trapped-adduct geometry, conversion/yield and exact read landing are unassembled, not confirmed absent. The partial graph is private and does not pass the missing-information audit gate.
+
+## Public schematic scope
+
+The schematic shows the published endogenous HEK293/TRMT2A preparation through its physical HiSeq 4000 single-end 50-cycle library contribution. Literal source inventories cover the selected actual operations and supplies; new inputs are not automatically source-reviewed. The catalytic-trap and source-unit findings remain required and mapped locally, without excluding or deleting a source obligation. Full preparation and chemistry warnings are retained below the overview in a collapsed workflow.
+
+The two literal “400ml TE buffer” gel-extraction instructions remain visible on the public page alongside their subsequent 1.5-ml collection-tube instruction. The model does not decide the executed extraction volume. Whole occupied RNA/cDNA/circle products and identifier read-cycle spans remain unresolved even though all five source oligo orders and the local BamHI pairing are represented.

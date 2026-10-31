@@ -2,7 +2,7 @@
 
 Gogakos et al., *Cell Reports* (2017), [doi:10.1016/j.celrep.2017.07.029](https://doi.org/10.1016/j.celrep.2017.07.029).
 
-This bounded pass scopes hydro-tRNAseq itself. The paper's SSB/La PAR-CLIP experiments are a complementary assay, not silently incorporated into the hydrolysis library. The graph ends after the reported CIP/PNK treatments, with library reconstruction deferred. No complete molecular/readout claim or confirmed absence is asserted.
+This bounded pass scopes hydro-tRNAseq itself. The paper's SSB/La PAR-CLIP experiments are a complementary assay, not silently incorporated into the hydrolysis library. The current source-qualified graph continues from CIP/PNK through the explicitly inherited small-RNA ligation/RT/PCR DNA-library route. Whole occupied strands and exact study-specific variants remain unassigned; no complete molecular/readout or source-absence claim is asserted.
 
 ## Sources inspected and their versions
 
@@ -45,3 +45,13 @@ Explicit component ancestry: Hafner 2012 → hydro-tRNAseq, limited to barcoded 
 Proposed metadata: RNA; bulk HEK293 RNA; size enrichment; partial alkaline fragmentation/deacylation; CIP plus ATP/PNK end treatment; dual RNA-adapter/RT/PCR library with inline sample barcode; HiSeq 2500; published instance. Keep `notes` and `pending_source_review` until the source/version and downstream-library boundaries are resolved.
 
 Deferred: final publisher article/supplement comparison, gated supplements, exact treatment-dependent RNA-end species, stage of 19–35 nt selection, actual barcode assignment, complete ligation/RT/PCR/pooling graph and acquired read plan. A second independent reader and linked-source review are still required before any accepted missing-information claim.
+
+## Source-qualified DNA-library completion, 30 October 2026
+
+The normal public graph now has an actual DNA-producing path: inherited RNA-adapter ligations → reverse-primer carrier retained from product recovery → reverse transcription → RNA-template hydrolysis/neutralization → DNA PCR → source-positive finishing → selected DNA sequencing contribution. Sequencing is never attached directly to the end-treated RNA. The actual RNA→cDNA/PCR-library route is explicitly stated by 2017 Methods 124 and its cited 2012 source.
+
+**Reference applicability is inferred by constructor.** The twenty-adapter family, RNA5 adapter and historical PCR primers are exact source-verified predecessor references, not established individual 2017 orders. No Ad01, fixed pool of twenty samples, calibrator/PmeI use, exact QC/no-template control schedule, acquired cycle count or modern P5/P7 extension is invented. The source guides prescribe these control/titration/marker practices; actual study implementation beyond the common core remains unassigned and visible. No complete VOR/manuscript equivalence is asserted.
+
+PNK ATP is a molecular phosphate donor, not merely a condition. The source 50 µl CIP→20 µl PNK interface is explicitly unassembled; no whole-stock transfer, new cleanup or aliquot quantity is fabricated. Residual end classes and material remain unresolved. The source 19–35 nt statement does not create a fictitious separate preligation PAGE step. Guide adapter-product recovery is qualified to the common inherited route; exact selection/pooling schedule and accessory-buffer additives/carryover are not claimed complete.
+
+The full graph, uncertain reference polymers and unresolved molecular checks remain visible under an expandable section. Existing legacy selftest entry points remain; a single wrapper-free page declaration was added to the existing protocol module. No source acquisition or source-obligation exclusion occurred.

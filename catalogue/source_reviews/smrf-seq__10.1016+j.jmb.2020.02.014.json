@@ -145,6 +145,72 @@
       ],
       "oligo_scraper": "Mandatory full-bundle scrapers run after fetch; G4seq95hits/5files, SMRF0hits, ssDNA0hits. Hits reviewed as pointers; no exact library oligo or absence claim derived.",
       "verification": "22localchecks(6G4/9SMRF/7ssDNA)passed;3builds/pairing and source-review schema passed. Sourceguard0checked/0failed with2unrepresented SMRF locus-primer inputs; no exact oligo validation claimed. Chemistry0established/25unresolved/0contradictory, not full chemical validation. Independent implementation review found no critical molecular/fate/version defect; it was not an absence-audit pass. Fetch session10000completed exit0, no process running."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch18-critical-review",
+      "reviewer": "unlinked_root",
+      "date": "2026-10-30",
+      "documents": 1,
+      "scope": "Independent critical implementation check of the same associated AM, not a missing-information audit or final-VOR equivalence.",
+      "locations": "Actual PMC7669280 JATS paragraphs130\u2013140.",
+      "findings": "Main138 positively places linearized/denatured plasmid copresent with genomic samples before bisulfite. It does not assign the spike schedule relative to optionalS9.6 enrichment. Resolved producer/spike model is therefore limited to nonenriched extractedDNA; optional-IP schedule remains unassembled. No plasmid identity/enzyme/dose/whole ends invented.",
+      "deferred": [
+        "Actual control stock/linearization/denaturation geometry and optional enrichment schedule.",
+        "Original required SI/historical-kit/final-version items remain open."
+      ],
+      "oligo_scraper": "Root rerun /tmp/unlinked18-smrf-independent-scraper.log completed0eligible; source paragraph read directly, no sequence-absence inference.",
+      "verification": "Worker corrected scope and reports15focused checks/privatebuild/pairing0; combined chemistry/source-schema checks pending."
     }
-  ]
+  ],
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_model_scope",
+    "documents": 1,
+    "source_scopes": [
+      {
+        "locator": "/husky/henriksson/NGS101_papers/sources/smrf-seq__10.1016+j.jmb.2020.02.014/j.jmb.2020.02.014_PMC7669280.xml.txt",
+        "version": "Associated accepted manuscript NIHMS1568681; final-VOR applicability unresolved",
+        "sections": "Identity1\u20135; Methods122\u2013148",
+        "scope": "Actual extractedDNA/directlysis branches, sodiumbisulfite/desulfonation, explicitPCRrecipe, independentampliconpool and historicalPacBiofinishing/QC/readout; IVTplasmid/control distinctfromgeneral genomicbranch."
+      }
+    ],
+    "scope": "Non-enriched extracted-genomic branch only: actual source controlplasmid\u2192linearized\u2192denatured\u2192copresent genomicspike before bisulfite; unknownsequence/conditions. Optional S9.6 branch spike timing is unresolved, no source-specified post-IP schedule asserted.",
+    "missing_claims": [],
+    "normal_gate": [
+      "no terminal output is designated for sequencing",
+      "authoritative source item 'gated_si' is not accounted for",
+      "authoritative source item 'pending_vendor' is not accounted for",
+      "graph input/step 'bisulfite' has no source-inventory item",
+      "graph input/step 'bisulfite_reagent' has no source-inventory item",
+      "graph input/step 'bisulfite_recovery_condition' has no source-inventory item",
+      "graph input/step 'bisulfite_recovery_step' has no source-inventory item",
+      "graph input/step 'cells' has no source-inventory item",
+      "graph input/step 'concentrate_condition' has no source-inventory item",
+      "graph input/step 'concentrate_step' has no source-inventory item",
+      "graph input/step 'control_denaturation' has no source-inventory item",
+      "graph input/step 'control_linearization' has no source-inventory item",
+      "graph input/step 'control_plasmid' has no source-inventory item",
+      "graph input/step 'control_spike' has no source-inventory item",
+      "graph input/step 'desulfonate' has no source-inventory item",
+      "graph input/step 'desulfonate_reagent' has no source-inventory item",
+      "graph input/step 'dna_extraction' has no source-inventory item",
+      "graph input/step 'dna_extraction_reagent' has no source-inventory item",
+      "graph input/step 'forward' has no source-inventory item",
+      "graph input/step 'other_amplicons' has no source-inventory item",
+      "graph input/step 'pacbio_kit' has no source-inventory item",
+      "graph input/step 'pcr' has no source-inventory item",
+      "graph input/step 'pcr_cleanup_condition' has no source-inventory item",
+      "graph input/step 'pcr_cleanup_step' has no source-inventory item",
+      "graph input/step 'phusion_u' has no source-inventory item",
+      "graph input/step 'pool' has no source-inventory item",
+      "graph input/step 'restriction' has no source-inventory item",
+      "graph input/step 'restriction_cleanup_condition' has no source-inventory item",
+      "graph input/step 'restriction_cleanup_step' has no source-inventory item",
+      "graph input/step 'restriction_reagent' has no source-inventory item",
+      "graph input/step 'reverse' has no source-inventory item",
+      "graph input/step 'smrtbell_boundary' has no source-inventory item"
+    ],
+    "verification": "Halo11PASS/SMRF15PASS; sourceguard0checked0failed4unknownprimerinputs0exceptions; chemistry18+15unresolved0contradictory. SMRF privatebuild/HTML no completionmarker; Halo noPAGE_FILE/newbuilder. Pairing0; actual privateHTML shows controlspike/copresentclass. Selected primary workflow does not render every side-producer step; no completeworkflow claim.",
+    "spike_schedule_limit": "Main138 does not locate spike relative to optionalS9.6. Resolved controlproducer route limited to nonenriched genomic branch; enrichedcontrol timing/copresence remains unassembled source obligation."
+  }
 }

@@ -13,7 +13,7 @@
       "pass_1": {
         "reviewer": "rna_round05_reader",
         "date": "2026-10-28",
-        "locations": "Provenance61; chemistry71–77; Methods117–133; Fig1 caption341",
+        "locations": "Provenance61; chemistry71\u201377; Methods117\u2013133; Fig1 caption341",
         "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
       },
       "pass_2": null
@@ -29,7 +29,7 @@
       "pass_1": {
         "reviewer": "rna_round05_reader",
         "date": "2026-10-28",
-        "locations": "Full Supplementary Protocol1 steps1–19; publisher original DOI and E7330S kit identity",
+        "locations": "Full Supplementary Protocol1 steps1\u201319; publisher original DOI and E7330S kit identity",
         "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
       },
       "pass_2": null
@@ -99,7 +99,7 @@
     "VOR/main procedural reconciliation; post-PNK cleanup and exact historical E7330S adapter/PCR/index/read geometry; linked ProtocolExchange; remaining publisher SI."
   ],
   "source_version_limit": "Explicit source versions recorded per original. Manuscript/VOR equivalence is not assumed.",
-  "conclusion": "One capped source-reading/model pass. Notes status; graph partial; no confirmed missing-information claim, second pass or completed read plan.",
+  "conclusion": "Eligible for source-qualified public preparation: actual source-positive DNA-library finishing and distinct untreatedinputcontrol contribution are represented, with wholekitproducts/geometry unassembled. No sequence-exact final molecule, performance or acceptedmissing-information claim.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion-05",
@@ -107,13 +107,31 @@
       "date": "2026-10-28",
       "documents": 3,
       "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
-      "locations": "Provenance61; chemistry71–77; Methods117–133; Fig1 caption341; Full Supplementary Protocol1 steps1–19; publisher original DOI and E7330S kit identity",
+      "locations": "Provenance61; chemistry71\u201377; Methods117\u2013133; Fig1 caption341; Full Supplementary Protocol1 steps1\u201319; publisher original DOI and E7330S kit identity",
       "findings": "VOR/main procedural reconciliation; post-PNK cleanup and exact historical E7330S adapter/PCR/index/read geometry; linked ProtocolExchange; remaining publisher SI.",
       "deferred": [
         "https://doi.org/10.1038/protex.2017.088",
         "https://doi.org/10.1038/nmeth.4294"
       ],
       "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-8",
+      "reviewer": "primary-curator",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded positive RNA-to-DNAlibrary source/model completion; not wholekit reconstruction or absence audit",
+      "locations": "Two originals: associated NIHMS922173manuscript nmeth.4294_PMC5712428.xml.txt chemistry71\u201377/Methods117\u2013133; published SupplementaryProtocol1 MOESM3 fullSteps1\u201319, actualprintedPDFpp2\u20133 tables/Step16wording inspected. Publishedsupplementcontrols selectedtreatedpreparation; associatedmanuscriptprovidesqualifiedmechanism/inputcontrol/HiSeqcontext, notcompleteAM/VOR procedural equivalence. OtherSI/ProtocolExchange/correction pointers notopened/adopted thispass.",
+      "findings": "The graph now starts with source10\u00b5gDNase-treated totalRNA, fragmentation and Antarctic3\u2032repair/columns, then eight OED rounds and a ninth finalOEwithout dephosphorylation. Actual periodate/lysine/ethylene-glycol supplies are molecular inputs, rSAP and5\u2032PNK are catalysts, ATP is separate from PNK. Released residue-derived products stay copresent until actual column separation, without a quantitative debris/recovery claim. SourceStep18post-PNKcleanup elutes8\u00b5L before the actualStep193\u2032adapterligation16\u00b0Covernight and sourcekitfinishing. The source-positive kit continuation constructs DNA-library material; sequencing is not attached to the RNAintermediate. Historical adapters, downstream dual-ligation/RT/PCR/workups, exact kitstockcount and wholeDNA remain unassembled. Synthetic fluorescent control-adapter sequence is not borrowed into the sequencinglibrary. RNA3\u2032OH/3\u2032Pclasses are preserved through finalPNK/columnmetadata. A separately reported associated-manuscript untreated-input library branch is retained as an opaque sourcekit/controlloading interface; its earlier end handling is unknown and does not borrow treated OED/PNKconditions. Selected library-to-run contributions and untransferred stocks are explicit; actualtreated/controlrun grouping and rawlength/indexmask remain unknown. PublishedProtocolStep16literally says5\u2032dephosphorylation, while its sectionheading says5\u2032PHOSPHORYLATION and the table suppliesATP plusT4PNK3\u2032phosphataseminus. The model uses sourceheading/ATP-supported5\u2032kinase direction and preserves the printed wording difference. Selectedpublishedprotocoluses20mMperiodate and30minPNK. The associatedmanuscript gives10mMperiodate in the synthetic-model context and60minPNK in Nm-seq; those values are not merged into this selectedpublishedsupplementary route or called a confirmed final-paper error. CompleteAM/VORreconciliation remains open.",
+      "oligo_scraper": "/tmp/unlinked-nm8-scraper.log; syntheticmodel/fluorescentoligos notborrowed intoactualkit; no absenceinference.",
+      "deferred": [
+        "HistoricalNEBE7330Sindividualoligos/RT/PCR/workups and exact read/indexgeometry",
+        "Untreatedcontrol earlierendhandling/run-grouping and completeAM/VORreconciliation",
+        "OtherpublishedSI,ProtocolExchange and fullindependentlinked-sourceaudit"
+      ],
+      "verification": "16focusedPASS;49steps49unresolved0contradictory; normalgate[];build/pairing0."
     }
-  ]
+  ],
+  "pass_1": null,
+  "pass_2": null
 }

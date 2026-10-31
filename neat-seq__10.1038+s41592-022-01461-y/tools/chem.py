@@ -22,7 +22,6 @@ def operations(g):
 
 def end(g,x,label):g.sequence(x,SequencingPlan(acquisition='unspecified',limitation=label))
 def incomplete(g):
-    g.declare_reviewed_scope(tuple(g.materials)+tuple(g.steps),SOURCE)
     g.add_source_item(SourceItem('unassembled','Unreviewed linked originals and full molecular geometry',LIMIT));return g
 
 from dataclasses import dataclass
@@ -86,7 +85,7 @@ def protocol_graph():
     for key in ('adt','hto_1','hto_2','hto_3','hto_4','hto_5'):
         which='adt' if key=='adt' else 'hto'
         member='' if key=='adt' else key[-1]
-        dna=g.input(key+'_oligo','Source '+key.upper()+' antibody-linkedDNA;distincthashmember,attachmentposition/chemistryunassembled',K.OLIGO,state=tag(which,member).scene())
+        dna=g.input(key+'_oligo','Source '+key.upper()+' antibody-linkedDNA;distincthashmember,attachmentposition/chemistryunassembled',K.MOLECULAR,state=tag(which,member).scene())
         ssb=g.input(key+'_ssb','Source EcoSSB protein;no computed occupancy/resistanceguarantee',K.MOLECULAR)
         c=g.product(key+'_coated','Antibody-linkedDNA qualitativelyEcoSSB-associated;unboundSSB/bufferalso remain',K.MOLECULAR,state=ProteinAssociatedDNA(tag(which,member)).scene())
         g.react(key+'_ssb_bind','Source antibody/EcoSSBpreincubation;addstainingbufferdirectly,NO intermediatepurification',S.GENERIC,((dna,R.TEMPLATE),(ssb,R.STRUCTURAL)),(c,));coated[key]=c
@@ -105,8 +104,10 @@ def protocol_graph():
     x=clean('tf_wash',y,'Two stainingbuffer/Tweenwashes;resuspend1xNucleibuffer,40umFlowmifilter')
     x=op('tagment',x,'Source historicalMultiomeTn5transposition;do notimportcurrentkitrecipe','HistoricalMultiomeRevA componentsunreviewed')
     x=op('multiome',x,'HistoricalMultiomepartitioning,RTandrecoverycontinuation;exactintermediatestepsunreviewed','SourceMultiomeRevA reagents')
-    preadt=g.input('pre_adt','Published ADT preamp primer',K.OLIGO,state=Construct([Segment('sourceADTpreamp',PRE_ADT)]))
-    prehto=g.input('pre_hto','Published HTO preamp primer',K.OLIGO,state=Construct([Segment('sourceHTOpreamp',PRE_HTO)]))
+    pre_mix=g.input('preamp_primer_mix','Actual1ul20uM prepared ADT/HTO preamplification primer mixture',K.MOLECULAR)
+    preadt=g.product('pre_adt','ADT primer component of same actual1ul mixture',K.OLIGO,state=Construct([Segment('sourceADTpreamp',PRE_ADT)]))
+    prehto=g.product('pre_hto','HTO primer component of same actual1ul mixture',K.OLIGO,state=Construct([Segment('sourceHTOpreamp',PRE_HTO)]))
+    g.react('preamp_primer_components','Expose both copresent source primers; no separate extra1ul additions',S.GENERIC,((pre_mix,R.STRUCTURAL),),(preadt,prehto),changes_molecule=False)
     pre=g.product('preamp_product','Source preamp mixture containinggenomic,cDNA,ADTandHTO-derivedspecies',K.MOLECULAR)
     g.react('preamp','PublishedSIstep4.1add1uL20uMprimer mixtureduringpreamp',S.GENERIC,((x,R.TEMPLATE),(preadt,R.STRUCTURAL),(prehto,R.STRUCTURAL)),(pre,))
     gene=g.product('gene_library_input','Sourcegeneexpressionlibraryallocation;exactvolumeunassigned',K.MOLECULAR)
@@ -119,11 +120,18 @@ def protocol_graph():
     for key,x in (('gene',gene),('atac',atac)):
         y=op(key+'_library',x,'HistoricalMultiome'+key+'libraryconstruction andsourceQC','Historicalmanufacturerrecipeunreviewed')
         end(g,y,'Sourceprotocolgenerates'+key+'sequencinglibrary;acceptedMSruncontextsconditional,notmergedwithpublishedSIrecipe.Exactprimergeometry/runlengthunassembled.')
-    p5=g.input('p5_index','PublishedPS-modifiedP5indexprimer',K.OLIGO,state=index_primer('p5').scene())
     for which,x in (('adt',adt),('hto',hto)):
-        p7=g.input(which+'_p7','PublishedPS-modified'+which+'P7indexprimer',K.OLIGO,state=index_primer(which+'_p7').scene())
+        primers=g.input(which+'_primer_mix','Actual3ul25uM prepared F+R primer mix for this source reporter PCR',K.MOLECULAR)
+        p5=g.product(which+'_p5','Source PS-modified P5 primer in actual3ul F+R mix',K.OLIGO,state=index_primer('p5').scene())
+        p7=g.product(which+'_p7','Source PS-modified P7 primer in same actual3ul F+R mix',K.OLIGO,state=index_primer(which+'_p7').scene())
+        g.react(which+'_primer_components','Expose copresent F/R primers, not fresh separate doses',S.GENERIC,((primers,R.STRUCTURAL),),(p5,p7),changes_molecule=False)
+        master=g.input(which+'_master_mix','Actual25ul2xNEBNextHiFi prepared master stock for this reporter PCR',K.MOLECULAR)
+        polymerase=g.product(which+'_polymerase','Polymerase co-present in actual25ulNEBNextHiFi stock',K.CATALYST)
+        nts=g.product(which+'_nts','dNTPs co-present in same actual master stock; exact composition unassembled',K.MOLECULAR)
+        buffer=g.product(which+'_pcr_buffer','Buffer co-present in same actual master stock',K.CONDITION)
+        g.react(which+'_master_components','Expose actual master-stock components; no fresh duplicate additions',S.GENERIC,((master,R.STRUCTURAL),),(polymerase,nts,buffer),changes_molecule=False)
         y=g.product(which+'_pcr_product','ReporterDNAamplificationmixture;originalmodifiedprimersandunmodifiedcopiesnotconflated',K.MOLECULAR)
-        g.react(which+'_index_pcr','Source50uLPCR22uLpreamp/25uLNEBNextHiFi/3uLprimers;98/67/72cycles,source-cyclecountn unassembled',S.GENERIC,((x,R.TEMPLATE),(p5,R.STRUCTURAL),(p7,R.STRUCTURAL)),(y,))
+        g.react(which+'_index_pcr','Source50uLPCR22uLpreamp/25uLNEBNextHiFi/3uLprimers;98/67/72cycles,source-cyclecountn unassembled',S.GENERIC,((x,R.TEMPLATE),(p5,R.STRUCTURAL),(p7,R.STRUCTURAL),(polymerase,R.CATALYST),(nts,R.STRUCTURAL),(buffer,R.CONDITION)),(y,))
         sel=g.input(which+'_spri06','0.6xSPRI30uL',K.SELECTION)
         sup=g.product(which+'_supernatant','Source0.6xSPRI supernatant includingreporterproducts',K.MOLECULAR)
         beads=g.product(which+'_large_beads','NonretainedlargefragmentSPRIbeadfraction;compositionnotpure',K.WASTE)
@@ -132,11 +140,15 @@ def protocol_graph():
         left=g.product(which+'_leftover','Untransferredsupernatantvolumeunassembled',K.MOLECULAR)
         g.react(which+'_take75','Transfer75uLselectedsupernatant;noassumedquantitativerecovery',S.SPLIT,((sup,R.TEMPLATE),),(used,left));g.mark_terminal(Terminal(left.id,Disposition.UNRESOLVED,'Sourceuntransferredsupernatantnotassignedtolibraryordisposal.'))
         y=clean(which+'_size12',used,'Add28uLSPRI forsource1.2xfinal;80%ethanolwash/elute20uLEB;removebeads')
-        y=op(which+'_qc',y,'SourceTapeStation/Bioanalyzerassessment;sequencinglibraryhandoff')
+        qa=g.product(which+'_qc_material','Source TapeStation/Bioanalyzer analytical allocation; amount and assay internals unassembled',K.QC)
+        production=g.product(which+'_production','Remaining source reporter DNA library; whole molecules, stock/loading amounts unassembled',K.LIBRARY)
+        g.react(which+'_qc_allocation','Separate source analytical aliquot from retained production library',S.SPLIT,((y,R.TEMPLATE),),(qa,production))
+        g.mark_terminal(Terminal(qa.id,Disposition.QC,'Source analytical library assessment, not production sequencing material.'))
+        y=production
         end(g,y,'PublishedSI'+which.upper()+'reporterlibrary;8bpindexprimerclasses distinctfromreporterUMI12/identity36andkitcellbarcodeunknown. NoMS-only28/48/8/8runassignedtothisgenericrecipe.')
     return incomplete(g)
 def render_page():
-    g=protocol_graph();return head(TITLE)+'<main class="wrap"><h1>'+TITLE+'</h1>'+info(LIMIT)+'<p><a href="01_neat.html">Research notes</a></p>'+workflow_panel(workflow_from_protocol_graph(g,'adt_qc_product'))+'</main>'
+    g=protocol_graph();return head(TITLE)+'<main class="wrap"><h1>'+TITLE+'</h1>'+info(LIMIT)+'<p><a href="01_neat.html">Research notes</a></p>'+workflow_panel(workflow_from_protocol_graph(g,'adt_production'))+'</main>'
 def selftest():
     from checks import Check
     from storage import sources_root
@@ -150,6 +162,11 @@ def selftest():
     c('ReporterPCRsource22uLallocation',g.steps['adt_index_pcr'].inputs[0].material,'adt_aliquot')
     c('Secondselection usestransferredsupernatant',g.steps['adt_size12'].inputs[0].material,'adt_used75')
     c('TransferredSPRIremainder accounted',g.terminals['adt_leftover'].disposition,Disposition.UNRESOLVED)
+    c('Antibody-DNA is a molecular conjugate, not plain oligo',g.materials['adt_oligo'].kind,K.MOLECULAR)
+    c('Preamp primer components share one actual stock',tuple(g.producer_of(k).id for k in ('pre_adt','pre_hto')),('preamp_primer_components','preamp_primer_components'))
+    c('Reporter F/R components share prepared primer mixture',g.producer_of('adt_p5').id,g.producer_of('adt_p7').id)
+    c('Reporter master supplies share actual stock provenance',tuple(g.producer_of(k).id for k in ('adt_polymerase','adt_nts','adt_pcr_buffer')),('adt_master_components',)*3)
+    c('Source analytical reporter fractions terminate as QC',tuple(g.terminals[k+'_qc_material'].disposition for k in ('adt','hto')),(Disposition.QC,Disposition.QC))
     c('Privatepartialgraph',g.publishable,False)
     p=sources_root()/Path(__file__).resolve().parents[1].name/'s41592-022-01461-y_41592_2022_1461_MOESM1_ESM.pdf.txt'
     if p.exists():

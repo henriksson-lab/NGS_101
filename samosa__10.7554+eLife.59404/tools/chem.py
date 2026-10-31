@@ -19,7 +19,7 @@ def mixture(*species):
 
 def cleanup(g, ident, source, template, state):
     reagent = g.input(ident + '_condition', source, K.CONDITION)
-    out = g.product(ident, 'recovered source preparation', K.MOLECULAR, state=state)
+    out = g.product(ident, 'recovered source preparation', K.LIBRARY if template.kind is K.LIBRARY else K.MOLECULAR, state=state)
     waste = g.product(ident + '_waste', 'physically separated workup fractions; exact molecular partition unquantified', K.WASTE)
     g.react(ident + '_step', source, S.CLEANUP, ((template, R.TEMPLATE), (reagent, R.CONDITION)), (out, waste))
     g.discard(waste, 'Actual source physical separation; no perfect recovery/depletion asserted.')
@@ -53,17 +53,23 @@ def selftest():
     c('Methylation preserves DNAalphabet',x.sequence,'AACA')
     c('Exonuclease reaction retains debris before cleanup',g.steps['exonuclease'].outputs,('exonuclease_product',))
     c('First physical cleanup consumes post-digestion mixture',g.steps['cleanup_one_step'].inputs[0].material,'exonuclease_product')
+    c('Actual two MNase templates are allocated before separate processing',tuple(g.steps['mnase_allocations'].outputs),('mnase_first','mnase_second'))
+    c('Second processed material derives from second aliquot',g.steps['other_aliquot_processing'].inputs[0].material,'mnase_second')
+    c('Naked positive derives from purified nonmethylated control',g.steps['positive_allocation'].inputs[0].material,'nonmeth_purified')
+    c('Positive is repurified after its own marking',g.steps['positive_purification'].inputs[0].material,'positive_marked')
+    c('SAM initial and replenishing contributions are explicit',tuple(p.material for p in g.steps['mark'].inputs[-3:]),('sam_initial','sam_replenish','cutsmart'))
+    c('Final QA allocations do not become production library',tuple(g.terminals[k].disposition for k in ('qubit_1ul','bioanalyzer_1ul')),(Disposition.QC,Disposition.QC))
     c('Secondphysicalcleanup retained',g.steps['library_step'].inputs[0].material,'cleanup_one')
     c('Solubilization does not invent dialysis hardware','membrane/exchange operation invented' in g.steps['solubilize'].label,True)
     c.report()
 def pop(label):
     return mixture(('source DNA',(role(label),)),('other physical material',(role('other original DNA/RNA/protein or reaction remnants; exact partition and recovery unquantified'),)))
-def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION):
+def op(g,key,label,kind,x,out_state,reagent_label,reagent_kind=K.CONDITION,reagent_role=R.CONDITION,additional=()):
     reagent=g.input(key+'_stock',reagent_label,reagent_kind)
     product=g.product(key+'_product',label,K.MOLECULAR,state=out_state)
     kw={'reason':'Source operation known; exact molecular substrate/product relation and mixture fractions unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
     if kind is S.GENERIC:kw['changes_molecule']=False
-    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role)),(product,),**kw)
+    g.react(key,label,kind,((x,R.TEMPLATE),(reagent,reagent_role))+tuple(additional),(product,),**kw)
     return product
 
 
@@ -77,10 +83,10 @@ def pending(g,label):
 PAGE_FILE='samosa.html'
 TITLE='SAMOSA'
 NOTES='01_samosa.html'
-SOURCE='Published eLife.59404 VORv2 (14December2020), Methods260–270; in-vitro array branch244–252 kept separate.'
-CAVEAT='Selected original solubleK562 oligonucleosome route. EcoGII physical adenine marking and PacBioIPD/HMM computational calls remain distinct. No complete methylation or perfect nucleosome specificity. Historical SMRTbell assembly/motor/primer geometry unreviewed.'
+SOURCE='Published eLife.59404 VORv2 (exact manifest-versioned original), Methods260–270; in-vitro array branch244–252 kept separate.'
+CAVEAT='Selected original solubleK562 oligonucleosome route. EcoGII physical adenine marking and PacBioIPD/HMM computational calls remain distinct. No complete methylation or perfect nucleosome specificity. Historical SMRTbell assembly/motor/primer geometry unreviewed. INFERRED allocation convention: the matched nonmethylation control is drawn from a representative prepared soluble-chromatin stock; exact experimental stock-sharing is unassigned.'
 READOUT='Source SequelII,three30h movies with2h first pre-extension and0.7h later pre-extension. These times are not nucleotide cycle counts. Native m6dA retained; single-moleculeIPD/NN/HMM nucleosome classification is computational.'
-PREVIEWS=(('K562 soluble-oligonucleosome route','library'),)
+PREVIEWS=(('K562 soluble-oligonucleosome route','production_library'),)
 @dataclass(frozen=True)
 class AdenineMarks:
     sequence:str
@@ -92,12 +98,50 @@ class AdenineMarks:
     @property
     def physical(self):return self.native|self.installed
 
+def control_purification(g, prefix, source):
+    rnase=g.input(prefix+'_rnase','Actual source RNaseA control-preparation allocation;10ul/RT10min recipe',K.CATALYST)
+    pk=g.input(prefix+'_pk','Actual source control ProteinaseK20ul20mg/ml',K.CATALYST)
+    sds=g.input(prefix+'_sds','Actual source control20ul10%SDS',K.MOLECULAR)
+    supplies=g.input(prefix+'_workup','Actual phenol/chloroform,NaOAc,GlycoBlue,ethanol and EB workup contributions; packaging/stockcount unassembled',K.MOLECULAR)
+    purified=g.product(prefix+'_purified','Source purified control DNA in50ulEB; recovery and native marks unassigned',K.MOLECULAR,state=pop('source control DNA; molecular distributions/recovery unassembled'))
+    waste=g.product(prefix+'_waste','Actual control organic/precipitation separated fractions; partition unquantified',K.WASTE)
+    g.react(prefix+'_purification','Source control RNase→PK/SDS→organic/ethanol recovery; ordered boundary, molecular substeps unassembled',S.MAGIC,((source,R.TEMPLATE),(rnase,R.CATALYST),(pk,R.CATALYST),(sds,R.STRUCTURAL),(supplies,R.STRUCTURAL)),(purified,waste),reason='Actual source266 shared control purification recipe; no complete chemical/workup audit claimed.')
+    g.discard(waste,'Source physical workup fractions, not disappearance at RNase or proteinase alone.')
+    return purified
+
+
+def control_preparations(g, chromatin):
+    buffer=g.input('nonmeth_buffer','Actual source nonmethylation-control CutSmart/reaction-buffer contribution, including initialSAM; no EcoGII or replenishingSAM',K.MOLECULAR)
+    nonmeth=g.product('nonmeth_reaction','Source nonmethylated-control reaction; native DNA marks unassigned, no EcoGII installation asserted',K.MOLECULAR)
+    g.react('nonmeth_incubation','Source control266: same reaction environment minusEcoGII and SAMreplenishment',S.MAGIC,((chromatin,R.TEMPLATE),(buffer,R.STRUCTURAL)),(nonmeth,),reason='Source-positive control incubation; exact buffering/stock schedule unassembled.')
+    purified=control_purification(g,'nonmeth',nonmeth)
+    positive=g.product('positive_25ul','Actual25ul approximately500ng of post-purified NONmethylated control for naked-DNA positive preparation',K.MOLECULAR)
+    remaining=g.product('nonmeth_stock','Nonmethylated-control material remaining after25ul selection; QA/575ng library allocation and full producer unassembled',K.MOLECULAR)
+    g.react('positive_allocation','Source naked-DNA positive derives from purified nonmethylated control',S.SPLIT,((purified,R.TEMPLATE),),(positive,remaining))
+    g.mark_terminal(Terminal(remaining.id,Disposition.UNRESOLVED,'Source nonmethylated-control SMRTbell continuation/quantitative allocations remain unassembled.'))
+    enzyme=g.input('positive_ecogii','Actual source EcoGII contribution for naked-DNA positive, as previously stated; no independent naked-DNA input invented',K.CATALYST)
+    sam=g.input('positive_sam','Actual positive-control SAM/buffer supplies per referred recipe; exact allocation packaging unassembled',K.MOLECULAR)
+    marked=g.product('positive_marked','Source positive EcoGII-marked naked DNA and unreacted/reagent mixture',K.MOLECULAR)
+    g.react('positive_marking','Source post-purification naked-DNA EcoGII positive reaction',S.MAGIC,((positive,R.TEMPLATE),(enzyme,R.CATALYST),(sam,R.STRUCTURAL)),(marked,),reason='Source266 says methylated as previously stated; full occupied DNA geometry unassembled.')
+    repurified=control_purification(g,'positive',marked)
+    g.mark_terminal(Terminal(repurified.id,Disposition.UNRESOLVED,'Source positive approximately320ng SMRTbell continuation/QA/stock allocations unassembled; independent control preparation retained.'))
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE,representation='published_instance')
     x=g.input('cells','source K562 cell preparation',K.MOLECULAR,state=pop('chromatin, RNA and cellular components; methylation positions unassigned'),primary=True)
     x=cleanup(g,'cells_wash','Source300g5min/PBS wash',x,x.state)
     x=op(g,'nuclei','Source HEPES/KCl/MgCl2/Triton/glycerol nuclei isolation,5minice',S.MAGIC,x,x.state,'source nuclei-isolationbuffer')
     x=cleanup(g,'nuclei_wash','Source600g5min4C nuclei recovery/BufferM wash',x,x.state)
+    first=g.product('mnase_first','Actual first1ml nuclei aliquot for source MNase reaction',K.MOLECULAR,state=x.state)
+    second=g.product('mnase_second','Actual second1ml nuclei aliquot for independently prepared source MNase reaction',K.MOLECULAR,state=x.state)
+    g.react('mnase_allocations','Source262 nuclei distributed into two1ml aliquots BEFORE digestion',S.SPLIT,((x,R.TEMPLATE),),(first,second))
+    other_reagents=g.input('other_mnase_supplies','Actual second-aliquot MNase1U/50millionnuclei,Ca,EGTA,Tep20/lysolecithin workflow supplies; stock packaging unassembled',K.MOLECULAR)
+    other_soluble=g.product('other_soluble','Actual independently processed second-aliquot soluble chromatin; exact molecular recovery/nextallocation unassembled',K.MOLECULAR,state=pop('independent second-aliquot soluble oligonucleosomes'))
+    other_pellet=g.product('other_insoluble','Actual second-aliquot insoluble fraction; molecular partition unassigned',K.MOLECULAR)
+    g.react('other_aliquot_processing','Source second aliquot MNase/quench/recovery/overnight solubilization/centrifugation; internal chemistry unassembled',S.MAGIC,((second,R.TEMPLATE),(other_reagents,R.STRUCTURAL)),(other_soluble,other_pellet),reason='Source262 actual distinct pre-reaction aliquot; no cloning a reacted product or source-unsupported recombination.')
+    g.mark_terminal(Terminal(other_soluble.id,Disposition.UNRESOLVED,'Source does not locate recombination; second soluble preparation retained without invented pooling.'))
+    g.mark_terminal(Terminal(other_pellet.id,Disposition.UNRESOLVED,'Actual separated insoluble material; later disposition unassigned.'))
+    x=first
     x=op(g,'mnase','Source1UMNase/50millionnuclei,1min37C with1mMCa',S.MAGIC,x,pop('MNase-cut chromatin fragments, original otherDNA and cleavage remnants; exact end geometry unreviewed'),'source S.aureusMNase andCa; variantMNase conditions separate')
     x=op(g,'quench','Source2mMEGTA immediately/onice; no fragment disposal',S.QUENCHING,x,x.state,'source EGTA')
     x=cleanup(g,'nuclei_recovery','Source600g5min4C recovery after MNase',x,x.state)
@@ -106,7 +150,16 @@ def protocol_graph():
     soluble=g.product('soluble','source collected soluble chromatin supernatant',K.MOLECULAR,state=x.state)
     pellet=g.product('insoluble','source separated insoluble pellet',K.MOLECULAR,state=pop('insoluble material; molecular partition unquantified'))
     g.react('soluble_separation','Source soluble chromatin supernatant collection',S.CLEANUP,((x,R.TEMPLATE),(condition,R.CONDITION)),(soluble,pellet));g.mark_terminal(Terminal(pellet.id,Disposition.UNRESOLVED,'Physical separated pellet; downstream disposition not assigned.'))
-    x=op(g,'mark','Source1.5µgchromatin/200µl,1xCutSmart/1mMSAM/2.5µlEcoGIIstock2.5e4U/ml,37C30min;SAM6.25mMat15min',S.MAGIC,soluble,pop('EcoGII-markedm6dA chromatin and unmarked molecules; original native marks possible; no guaranteed saturation'),'source EcoGII/SAM methylation reaction')
+    methylation_input=g.product('methylation_input','Actual1.5ug soluble chromatin for selected200ul methylation reaction',K.MOLECULAR,state=soluble.state)
+    control_input=g.product('nonmeth_input','INFERRED matched soluble-chromatin control allocation; actual stock-sharing/mass unassembled',K.MOLECULAR,state=soluble.state,inferred=True)
+    stock=g.product('soluble_stock','Untransferred soluble chromatin stock; amount/nextuse unassigned',K.MOLECULAR,state=soluble.state)
+    g.react('mark_allocations','INFERRED — allocation convention: source266 methylation/control contributions; exact stock-sharing unassigned',S.SPLIT,((soluble,R.TEMPLATE),),(methylation_input,control_input,stock))
+    g.mark_terminal(Terminal(stock.id,Disposition.UNRESOLVED,'No source-unsupported allocation mass or fate assigned.'))
+    control_preparations(g,control_input)
+    sam_initial=g.input('sam_initial','Actual initial1mM SAM molecular contribution',K.MOLECULAR)
+    sam_replenish=g.input('sam_replenish','Actual SAM replenishment to6.25mM at15min; separate physical contribution',K.MOLECULAR)
+    cutsmart=g.input('cutsmart','Actual1xCutSmart reaction-buffer contribution',K.CONDITION)
+    x=op(g,'mark','Source1.5µgchromatin/200µl,1xCutSmart/1mMSAM/2.5µlEcoGIIstock2.5e4U/ml,37C30min;SAM6.25mMat15min',S.MAGIC,methylation_input,pop('EcoGII-markedm6dA chromatin and unmarked molecules; original native marks possible; no guaranteed saturation'),'Actual2.5ulEcoGII stock2.5e4U/ml',K.CATALYST,R.CATALYST,additional=((sam_initial,R.STRUCTURAL),(sam_replenish,R.STRUCTURAL),(cutsmart,R.CONDITION)))
     x=op(g,'rnase','Source10µlRNaseART10min; RNAcleavage remnants remain',S.MAGIC,x,pop('markedDNA/protein, RNAcleavage fragments and reagents'),'source RNaseA',K.CATALYST,R.CATALYST)
     x=op(g,'proteolyze','Source20µlPK20mg/ml+20µl10%SDS65C at least2h/overnight; peptide remnants remain',S.DEPROTEINIZATION,x,pop('markedDNA, RNA fragments/peptides and reagents'),'source proteinaseK',K.CATALYST,R.CATALYST)
     x=cleanup(g,'organic','Source phenol:chloroform extraction/aqueous recovery',x,x.state)
@@ -122,6 +175,13 @@ def protocol_graph():
     x=op(g,'exonuclease','Source exonuclease cleanup reaction; digestedDNA remains until bead workup',S.MAGIC,ligated,pop('SMRTbell library plus exonucleolyticDNA remnants and other carryover; exact susceptibility/recovery unresolved'),'source historical exonuclease module')
     x=cleanup(g,'cleanup_one','First source0.45xAMPurePB cleanup',x,x.state)
     x=cleanup(g,'library','Second source0.45xAMPurePB cleanup;Qubit/Bioanalyzer then acquisition',x,x.state)
+    qubit=g.product('qubit_1ul','Actual1ul final-library Qubit analytical allocation',K.QC)
+    bioanalyzer=g.product('bioanalyzer_1ul','Actual1ul final-library Bioanalyzer analytical allocation',K.QC)
+    production=g.product('production_library','Remaining source SMRTbell library for acquisition; volume/loaded fraction unassembled',K.LIBRARY,state=x.state)
+    g.react('final_qa_allocations','Source270 final-library1ulQubit and1ulBioanalyzer allocations',S.SPLIT,((x,R.TEMPLATE),),(qubit,bioanalyzer,production))
+    g.mark_terminal(Terminal(qubit.id,Disposition.QC,'Source Qubit analytical material; assay internals unassembled.'))
+    g.mark_terminal(Terminal(bioanalyzer.id,Disposition.QC,'Source Bioanalyzer analytical material; assay internals unassembled.'))
+    x=production
     native(g,x,'Source SequelII native SMRT acquisition,three30h movies,2h then0.7h pre-extension; historical sequencing-primer/motor/closed-library geometry unreviewed, no cycle count invented.')
     pending(g,'Original historical PacBio SMRTbell/repair/exonuclease/SequelII documents and precise adaptor polymers')
     return g

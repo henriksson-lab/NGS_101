@@ -135,7 +135,7 @@
       "locator": "Complete downstream molecular library and acquired sequencing geometry."
     }
   ],
-  "conclusion": "One capped first pass; no second independent reader and no confirmed-absence claims. Proposed catalogue status remains notes.",
+  "conclusion": "Source-qualified common-core DNA-library schematic ready under normal gate; individual-study ancestral reagent/reference applicability inferred and source/version/control/readout limits visible. No whole chemical completeness or missing-information acceptance.",
   "bounded_checks": [
     {
       "round": "2026-10-28-ngs-expansion",
@@ -150,6 +150,22 @@
         "Complete downstream molecular library and acquired sequencing geometry."
       ],
       "locations": "JATS59–79,101–103,179–189,201–205,365–367; Overview1143–1163; Solexa1352–1399; ligations1402–1463; RT/hydrolysis/PCR1470–1504"
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-targeted8",
+      "reviewer": "targeted_source_library_owner",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Bounded common-core inherited DNA-library implementation on the two already-inspected originals. No new originals/acquisition, complete source review or missing-information acceptance.",
+      "locations": "par-clip__10.1016+j.cell.2010.03.009/j.cell.2010.03.009_PMC2861495.xml(.txt): Main59–79/101–103controlcomparison/179–189discussion/Methods205/libraryref365–367; explicitHafner2008 cDNAlibrary andSolexa endpoint.; doi_10.1016+j.ymeth.2007.09.009/j.ymeth.2007.09.009_PMC2847350.html(.txt): Solexa1352–1399 whole4orderings+modifiedends;3/5RNA ligation1402–1463; RT/RNAhydrolysis/neutralization/PCR1470–1504. No finalVORclaim.",
+      "findings": "Original Methods 205 explicitly says recovered RNA was converted to cDNA libraries as described by Hafner 2008 and Solexa sequenced. The public graph now declares that actual source-positive common-core path: adapter ligation, carrier-primer recovery, RNA→DNA reverse transcription, post-RT RNA hydrolysis/neutralization, DNA PCR and finishing. The sequencing terminal receives PCR-derived DNA, not recovered RNA relabelled as a library.  The original Solexa adapter/primer polymers are **inferred source-specific references by constructor**, because exact 2010 variants and defining-supplement applicability remain unresolved. They retain App/L, RNA5 sugar identity and historical PCR bodies, with no modern tail filling or arbitrary Rnl2-vs-K227Q choice. Actual control/calibrator/marker/pooling schedules and guide worked-example doses are not assigned to the 2010 experiments by default. The precursor's carrier-primer and common RT/PCR route are represented; exact occupied products, recovery and run geometry remain unassembled. No full defining/predecessor VOR equivalence is asserted; both inspected originals are author manuscripts.  The source fresh on-bead RNase T1 addition is now distinct from the lysate dose. Radioactive ATP is a contributing molecular phosphate donor, not buffer-only. The T→C read signature is not literal RNA U→C chemistry, and 32-nt representative context versus 40-nt mutation-control context is not converted into one universal run. QKI oligo controls are not fabricated as paired control lysates. Guide control/titration/marker and accessory-buffer/carryover details remain qualified, not complete measured target-study operations.",
+      "deferred": [
+        "Actual2010chemistrySMandTableS1–S7 actualgatedoriginals remain unread; their contents notjudgedirrelevant.",
+        "Exactapplicabilityof2008enzymes/adapteralternatives to individual2010libraries unassigned; do notinventactualmember.",
+        "Full occupiedRNA/DNA/peptidecrosslinkstructure/recovery and exactacquiredsequencing geometry remain unassembled."
+      ],
+      "oligo_scraper": "/tmp/unlinked8-parclip-scraper.log:0hits/0representations; /tmp/unlinked8-par-library-scraper.log:16hits/1representation; exact precursor whole orderings and terminal chemistry verified, not a defining-source absence claim.",
+      "verification": "17focusedPASS/17steps18unresolved0contradictory. Normalpublicationgate[]; actualtyped RT→PCRDNA producer/loadedDNA checksPASS; actualpagecomplete/inferredmarkup/fullWorkflowSectionverified; pairing0; genericguard0checked0failed0exemptions, fiveinferredancestral referenceinputs pergraph deliberately outside exact-target-study guard. Fourdirectoriginalwhole-ordering fixtures perprotocolPASS."
     }
   ]
 }

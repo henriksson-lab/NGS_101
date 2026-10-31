@@ -4,7 +4,7 @@ Published defining paper: [PLOS Biology 2018](https://doi.org/10.1371/journal.pb
 
 ## Inspected sources and scope
 
-🟢 Published main PMC6059479 Results55/Fig1caption62, Methods174/178/182; actual original Fig1 PDF page3. Published S7 Table s012 original XLSX cells (six library/custom-read orders). Published S1 Figure s001 actual TIFF (the standard source manifest stores this valid TIFF as file.html). Mandatory whole-bundle scraper:40 hits in2files; pointers verified against originals, not accepted as facts themselves.
+🟢 Published main PMC6059479 Results55/Fig1caption62, Methods170/174/178; actual original Fig1 PDF page3. Published S7 Table s012 original XLSX cells (six library/custom-read orders). Published S1 Figure s001 actual TIFF (the standard source manifest stores this valid TIFF as file.html). Mandatory whole-bundle scraper:40 hits in2files; pointers verified against originals, not accepted as facts themselves.
 
 Selected preparation is pooled yeast HO/KanMX reporter strains, input and IgG-Sepharose TAP-ChIP, separate UP/DN PCRs and their indexed sequencing pool. ADE2 capture, construct engineering, qPCR and alternative sonication times remain outside this graph. This capped three-original pass is not a complete source or absence audit.
 
@@ -35,4 +35,4 @@ S1 Figure explicitly places P5–seq–U1/D1 forward primers and P7–index–U2
 
 ## Open boundaries
 
-The full genomic reporter and selected index/barcode lookup require S1 Table and applicable strain/construct sources. Historical PCR formulation and exact run landing are unassembled, not confirmed absent. No predecessor/vender recipe is inherited. Public promotion requires further evidence review.
+The full genomic reporter and selected index/barcode lookup require S1 Table and applicable strain/construct sources. Historical PCR formulation and exact run landing are unassembled, not confirmed absent. No predecessor/vendor recipe is inherited. The public source-qualified page retains these limits; its typed publication gate accounts for reviewed operations and material fates without asserting complete molecular validation.

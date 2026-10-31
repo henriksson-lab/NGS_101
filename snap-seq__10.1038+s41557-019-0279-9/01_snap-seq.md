@@ -24,3 +24,22 @@ P7 top/extension primer as written: Me-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT. P7 bo
 The source's synthetic5-hmU controls contain randomizedN10 blocks used to deduplicate CONTROL molecules; no genomic UMI is imported from them. SMUG1/UNG pretreatment routes and TruSeq-indexed input libraries are separate branches, not part of this selected native-AP enrichment graph.
 
 The private model keeps chemical classes, both capture directions, tagged off-target material and physical blocker/reagent carryover explicit. Full atom-level probe/adduct structures, exact adapter/strand assembly and linked historical kit documents remain deferred; no confirmed absence or finished marker is asserted.
+
+## Bounded physical-inventory corrections; required assembly hold retained
+
+The closed-source implementation preserves the selected native AP route and the
+original `vor_and_kit_assembly` obligation. It now declares HIPS probe, CuBr
+catalyst, THPTA and biotin-PEG3-azide as physical molecular contributions, rather
+than hiding them all in conditions. The extension nucleotide/buffer inputs and
+components of the actual Blunt/TA and Q5 prepared master stocks are explicit.
+They are same-stock components, not extra independently added doses. Actual
+KAPA library-quantification material, loading allocation and untransferred
+library stock are separate physical fates.
+
+Fourteen focused checks, private build, source guard and pairing pass. These
+corrections do not reconstruct the historical kit ends, Me terminal chemistry,
+full adapter/genomic strand arrangement or acquired run layout. The normal
+gate still lacks a sequencing terminal and retains the unaccounted broad source
+item. It is not covered by an opaque kit or final-library label, excluded, or
+renamed to match the partial product. The page remains private with no completion
+marker. No new source, VOR access failure or accepted absence claim was added.

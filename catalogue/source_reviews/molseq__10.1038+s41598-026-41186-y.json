@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13136315.1/PMC13136315.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Publishedmain54\u201370/100\u2013110/124\u2013168; originalMethodsPDFp9 literal132nM; source150-cycle/150paired-end wording preserved.",
+      "inspection_scope": "Publishedmain54–70/100–110/124–168; originalMethodsPDFp9 literal132nM; source150-cycle/150paired-end wording preserved.",
       "pass_1": null,
       "pass_2": null
     },
@@ -18,7 +18,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41598-026-41186-y/MediaObjects/41598_2026_41186_MOESM1_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "PublishedSIFig1/2/4,Table1actualp6\u20138; modifiedwholeoligoorderings andPCretained5Pclass; originalrenderedtablesviewed.",
+      "inspection_scope": "PublishedSIFig1/2/4,Table1actualp6–8; modifiedwholeoligoorderings andPCretained5Pclass; originalrenderedtablesviewed.",
       "pass_1": null,
       "pass_2": null
     }
@@ -30,7 +30,7 @@
       "date": "2026-10-30",
       "documents": 2,
       "scope": "Publishedfixed-cellRNAseqroute andlocalPC/splintsemantics only; no preprint/AIPchemistry.",
-      "locations": "Main54\u201370/100\u2013110/124\u2013168; originalMethodsPDFp9;SIFig1/2/4 andTable1p6\u20138.",
+      "locations": "Main54–70/100–110/124–168; originalMethodsPDFp9;SIFig1/2/4 andTable1p6–8.",
       "findings": "Typed non-nucleotide PC boundary preserves DNAcap/body and cleaved5Pclass. Exactlocal21/42interfaces do not establish whole in-situ schedule. Actualmolecularstocks/extractionresidue/PCRcomponents sourcequalified;132nM/run-description ambiguities unresolved.",
       "deferred": [
         "Complete spatial round schedule and occupied splint members",
@@ -38,7 +38,7 @@
         "Exact historical kit/index primer/run mask and read landing",
         "Directly linked original chemistry/vendor and full correction/source audit"
       ],
-      "oligo_scraper": "Mandatory completebundle run; relevant Table1 pointers verified in original renderedp6\u20138, not inferred from hits alone.",
+      "oligo_scraper": "Mandatory completebundle run; relevant Table1 pointers verified in original renderedp6–8, not inferred from hits alone.",
       "verification": "20focusedpass;1sourceexact/0failed/0exempt/4unassembledinputs;23unresolved/0contradictory. Selected independent implementation recheck closed, not complete source/reaction audit."
     }
   ],
@@ -53,8 +53,56 @@
   "independent_implementation_recheck": {
     "reviewer": "independent_dna_reader_round31",
     "date": "2026-10-30",
-    "scope": "Same publishedmain124\u2013168/54\u201370/100\u2013110 and sameSIFigs1/2/Table1actualp6\u20138; two combined originals, no extra document.",
+    "scope": "Same publishedmain124–168/54–70/100–110 and sameSIFigs1/2/Table1actualp6–8; two combined originals, no extra document.",
     "findings": "Verified four wholeT20/iSpPC/body orderings,RT5P/N20/T30,modifiedTSO,SmartSeq3/LD/enrichmentprimers and localSplint21/42interfaces. Non-nucleotidePC count/retained5P/capclasses and fullscheduleMAGIC, source retainedstocks/NTs/extractionresidue/threePCRs+cleanups consistent. Literal132nM/runambiguities correctlyretained. No newcriticaldefect, not fullPCphotoproduct or absence audit.",
     "verification": "20focusedchecks independently rerunPASS."
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "scope": "Selected published positive-source preparation; no broad required source item removed, renamed or excluded.",
+    "source_originals": 2,
+    "locations": "/husky/henriksson/NGS101_papers/sources/molseq__10.1038+s41598-026-41186-y/s41598-026-41186-y_PMC13136315.xml: PublishedmainMethods124–168 capture/RT/photocleavage/letters/physicalextraction/LD-PCR/NexteraXT/enrichment/indexPCR/MiSeq; samepublishedPDFp9literal132nM independentlyviewed.; /husky/henriksson/NGS101_papers/sources/molseq__10.1038+s41598-026-41186-y/s41598-026-41186-y_supp_41598_2026_41186_MOESM1_ESM.pdf: PublishedSI actualTable1PDFp6–8 rendered/viewed wholemodifiedletter/RT/TSO/splint/primerorders; chemicalPCboundary andspatial/analytical distinction.",
+    "finding": "The source-qualified page preserves the actual MOLseq spatial transcriptome sequence through historical library finishing. Two actual RNase inhibitor proteins are explicit RT contributions; final loading selection leaves an untransferred stock. The unchanged selected SourceItem carries positive selected evidence and the literal132nM Tris/run wording, not a broad unreviewed requirement. A literal curator inventory accounts for source inputs/stages. The page shows whole letters and physical iSpPC non-nucleotide boundaries, source5P selected cleaved class and separate byproducts/failed classes. Full ROI schedule, complete cellular/covalent products, kit internals and read landing remain compound/unassembled. Literal132nM Tris and150-cycle kit versus150paired-end read description remain public, without repair or asserted publication error. No preprint/AIP or other SmartSeq recipe is imported. This is a source-qualified public preparation, not complete molecular validation or an accepted missing-information claim. No additional originals were acquired.",
+    "verification": "22focusedPASS;normalgate0;actualpagebuild/pairingpass. Wholeproducts remain unresolved.",
+    "independent_implementation_recheck": {
+      "date": "2026-10-30",
+      "reviewer": "independent curator",
+      "scope": "Source-qualified public page and literal inventory, same selected originals; no absence audit or complete reaction validation.",
+      "result": "pass",
+      "blockers": [],
+      "findings": [
+        "Published main124–140/168 and originalSI1Table1p6–8 independently checked: source polyTprimer/N20unassigned, rG/rG/LNAGTSO, T20–non-nucleotidePC–letter40ntordering, source5Pphotoproduct and exactSplint21/42localrelations stay narrow.",
+        "Literal132nMTris andMiSeq150cycle versus150paired-end wording remain disclosed unresolved values. Whole chronologicalletter/splint/ROI path, finaltag andhistoricalkit/readmolecules remain sourcequalifiedcompoundinterfaces, not fabricated assemblies or perfectyield claims.",
+        "Requested PFA molecular input/separateenvironment, actualATP/DTT2mMsupplementationMOL withsourceconventionunassigned, andPCRaggregatepackaging qualification were applied. Two distinctRNaseinhibitor proteins/actualextractsolution-versusresidual/loadingstock remain explicit."
+      ],
+      "source_scopes": [
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/molseq__10.1038+s41598-026-41186-y/s41598-026-41186-y_PMC13136315.xml.txt",
+          "identity": "PublishedPMC13136315",
+          "sections": "Main124–140preparation/PC/ATP/DTT and154–168extraction/library/readscope."
+        },
+        {
+          "path": "/husky/henriksson/NGS101_papers/sources/molseq__10.1038+s41598-026-41186-y/s41598-026-41186-y_supp_41598_2026_41186_MOESM1_ESM.pdf",
+          "identity": "PublishedSI1",
+          "sections": "ActualTable1p6–8 rendered /tmp/positive-molseq-si6.png/-si7.png/-si8.png viewed, wholemodifiedorders/pairing supports onlystatedlocalstates."
+        }
+      ],
+      "originals": 2,
+      "cap": 3,
+      "verification": {
+        "focused_checks": 22,
+        "focused_result": "PASS independently rerun after requested fixes",
+        "normal_gate": [],
+        "actual_render": "/tmp/positive-c-peer-molseq.html",
+        "render_bytes": 49474,
+        "pairing": "PASS/0problemduplexes; all3actualrenders",
+        "complete_wrapper_and_collapsed_full_workflow": true,
+        "sourceguard": "Combined3exact/0failed/0exceptions/6externalunknown; producedknownoligos outsideexternalguard validated by sourcefixtures.",
+        "chemistry": "Combined0established/388unresolved/0contradictory; notfullreactionvalidation.",
+        "source_scraper": "/tmp/positive-c-critical-molseq-scraper.log:28candidates/2representations",
+        "absence_pass_2": false,
+        "repository_edits": false
+      }
+    }
   }
 }

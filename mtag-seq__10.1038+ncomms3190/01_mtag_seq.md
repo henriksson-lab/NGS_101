@@ -35,3 +35,10 @@ Actual availability is source-specific. Superseded preprint failures, simulation
 ## Local validation
 
 The source-owned graph is incomplete and has no page builder or finished marker. Exact sequence geometry remains unassembled. Local checks distinguish physical workup/copy classes and independently preserved fractions. Canonical source guard can report zero eligible exact strands; that is not complete oligo validation.
+
+
+## Bounded publication review — 2026-10-30
+
+Actual Medium click eM.SssI90nM catalyst and Ado6azide25µM donor now contribute explicitly. The published high-throughput 5µL click addition is one actual source stock containing 4.4µL Tris and 0.6µL 20mM DBCO-S-S-PEG3-biotin in DMF; produced functional reagent/solvent components come from that stock, without duplicated fresh additions or physical-separation claims. The actual 50mM DTT contribution in 20µL release solution and the NGS-specific 10mM 2-mercaptoethanol contribution are molecular inputs distinct from incubation conditions. The source high-throughput T1/50mM-DTT capture route stays separate from standalone C1/200mM-DTT; NGS 10mM reducing treatment and 14-cycle PCR stay separate from microarray 32/100mM treatments and two-round PCR. The unnamed 0.1mg/mL main buffer component is not guessed to be BSA. Original required `pending` historical Illumina Multiplexing Sample Preparation Oligonucleotide kit/version/full-library scope remains unchanged and uncovered; the independent sheared input control, exact oligos/geometry, full production/QC/loading and read assembly are not waived. No microarray A25/A19/Ad1/Ad2 recipe is imported.
+
+No further originals were read or acquired during implementation. Normal publication gates remain unsatisfied, with original required source scopes intact. No missing-information claim is accepted.

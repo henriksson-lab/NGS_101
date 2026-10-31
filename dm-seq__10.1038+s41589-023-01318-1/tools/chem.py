@@ -11,11 +11,11 @@ from pcr import PCRGeometry
 def scene(label):
     sc=Scene();sc.strand('preparation',[Segment('population','['+label+']',placeholder=True)]);return sc
 
-def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; geometry unassembled',product=None,state=None,catalyst=False):
+def op(g,key,x,label,kind=S.MAGIC,*,reagent='source reagents; geometry unassembled',product=None,state=None,catalyst=False,extra_inputs=()):
     stock=g.input(key+'_stock',reagent,K.CATALYST if catalyst else K.CONDITION)
     out=g.product(key+'_product',product or label+'; molecular mixture/remnants unassembled',K.MOLECULAR,state=state)
     kw={'reason':'Source operation established; exact molecular ends, companion species and geometry unassembled.'} if kind in {S.MAGIC,S.GENERIC} else {}
-    g.react(key,label,kind,((x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.CONDITION)),(out,),**kw);return out
+    g.react(key,label,kind,((x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.CONDITION))+tuple(extra_inputs),(out,),**kw);return out
 
 def cleanup(g,key,x,label):
     stock=g.input(key+'_condition',label,K.CONDITION)
@@ -32,8 +32,13 @@ def qc(g,key,x,label):
     g.react(key,label,S.SPLIT,((x,R.TEMPLATE),),(keep,test));g.mark_terminal(Terminal(test.id,Disposition.QC,'Analyticalmaterialdoesnotbecomethepreparativesequencingtemplate.'));return keep
 
 def unknown_pcr(g,key,x,label,reagent):
-    f=g.input(key+'_f','Sourceforwardindexingprimerfamily; memberandfullbodyunreviewed',K.OLIGO);r=g.input(key+'_r','Sourcereverseindexingprimerfamily; memberandfullbodyunreviewed',K.OLIGO);cat=g.input(key+'_enzyme',reagent,K.CATALYST);y=g.product(key+'_product','SourcePCRcopiesplusoriginaltemplates/unextendedprimersandreactionremnants; exactbackbonesunassembled',K.MOLECULAR)
-    g.react(key,label,S.PCR,((x,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(cat,R.CATALYST)),(y,),geometry=PCRGeometry.unavailable(scene('Sourcefulladapter/primer/endgeometryunassembled'),reason='KnownPCRoperationdoesnotestablishcompletefirstcopyorfinalstrandgeometry.'));return y
+    f=g.input(key+'_f','Sourceforwardindexingprimerfamily; memberandfullbodyunreviewed',K.OLIGO);r=g.input(key+'_r','Sourcereverseindexingprimerfamily; memberandfullbodyunreviewed',K.OLIGO);master=g.input(key+'_master','Actual named KAPA Uracil+ ReadyMix allocation; SI indexing recipe25ul, optimized-main allocation volume unassigned',K.MOLECULAR)
+    cat=g.product(key+'_enzyme','Polymerase component from same actual KAPA ReadyMix allocation',K.CATALYST)
+    nt=g.product(key+'_nt','Nucleotide component from same actual KAPA ReadyMix allocation; exact formulation unassigned',K.MOLECULAR)
+    buffer=g.product(key+'_buffer','Buffer component from same actual KAPA ReadyMix allocation; exact formulation unassigned',K.CONDITION)
+    g.react(key+'_components','Expose actual ReadyMix components, not physical separation or fresh stocks',S.GENERIC,((master,R.STRUCTURAL),),(cat,nt,buffer),changes_molecule=False)
+    y=g.product(key+'_product','SourcePCRcopiesplusoriginaltemplates/unextendedprimersandreactionremnants; exactbackbonesunassembled',K.MOLECULAR)
+    g.react(key,label,S.PCR,((x,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(cat,R.CATALYST),(nt,R.STRUCTURAL),(buffer,R.CONDITION)),(y,),geometry=PCRGeometry.unavailable(scene('Sourcefulladapter/primer/endgeometryunassembled'),reason='KnownPCRoperationdoesnotestablishcompletefirstcopyorfinalstrandgeometry.'));return y
 
 SOURCE='AssociatedPMC10763687 optimizedMethods199/GBMacquisition227; publishedMOESM1 Table1renderedp2 anddetailedprocedure572–800; DOI10.1038/s41589-023-01318-1. Main50µlA3A andSIcommercial100µlformamidebranchesdistinct.'
 COPY_WRITTEN='GA/5mC/TGGAGTT/5mC/AGA/5mC/GTGTG/5mC/T/5mC/TT/5mC/GAT/5mC/'
@@ -75,7 +80,7 @@ def graph_for_branch(branch='optimized_gbm'):
     g=ProtocolGraph('DM-Seq — '+branch,authority=SOURCE,representation='published_instance')
     x=g.input('genomic','SourceextractedgenomicDNA; originalcytosinemodificationsnotinstantiated',K.MOLECULAR,primary=True)
     spike=g.input('spikes','SourceextractedunmethylatedpUC19/CpGmethylatedlambda/T4hmC DNAcontrolmix; targetoccupancymeasurednotassumedperfect',K.MOLECULAR);y=g.product('spiked','SourceDNA/controlmixture; independentgenomicDNA speciesnotonecovalentstrand',K.MOLECULAR)
-    g.react('spike','Source1:100controlmix:genomicDNA massratio',S.GENERIC,((x,R.TEMPLATE),(spike,R.SPIKE_IN)),(y,));x=y
+    g.react('spike','Source1:100controlmix:genomicDNA massratio',S.GENERIC,((x,R.TEMPLATE),(spike,R.SPIKE_IN)),(y,),changes_molecule=False);x=y
     x=op(g,'shear',x,'SourceCovarisshearing; detailedSI~550bp example',S.FRAGMENTATION)
     x=cleanup(g,'shear_clean',x,'Source1.2xSPRI')
     x=qc(g,'input_qubit',x,'SourceanalyticalQubitquantification')
@@ -85,25 +90,35 @@ def graph_for_branch(branch='optimized_gbm'):
     x=cleanup(g,'adapter_clean',y,'Source1.2xSPRI')
     x=qc(g,'ligated_qubit',x,'SourceanalyticalQubitofligatedDNA')
     used=g.product('copy_input','Source'+('10ng' if branch=='optimized_gbm' else '~1–10ng')+'ligatedDNAallocatedtocopyreaction',K.MOLECULAR);rest=g.product('copy_remainder','UnallocatedligatedDNA; laterfateunassigned',K.MOLECULAR);g.react('copy_allocate','Sourcecopyinputallocation',S.SPLIT,((x,R.TEMPLATE),),(used,rest));g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,'Sourceallocatedmassknown; noassumptionofperfectligationyieldorzero remainder.'))
-    primer=g.input('copy_primer','Publishedfullymethylatedcopyprimer(v2)',K.OLIGO,state=copy_primer(),chemical_state=ModifiedDNA(COPY_BODY,tuple((i,'5mC') for i,b in enumerate(COPY_BODY) if b=='C')));cat=g.input('bst','SourceBstlargefragment/dATP/dGTP/dTTP/dmCTP',K.CATALYST);y=g.product('copied','OriginalDNAplusselectedmethylatedBstcopy-strands retainingactualv2primer andpossibleuncopied/displacedDNA/enzymes; sequencecopydoesnotpreservenativemethylation',K.MOLECULAR)
-    g.react('copy','Sourcecopyprimeranneal thenBst65°C30min; notunoptimizedKlenow/v1',S.EXTENSION,((used,R.TEMPLATE),(primer,R.STRUCTURAL),(cat,R.CATALYST)),(y,))
-    x=op(g,'glucosylate',y,'SourcebetaGT/UDPglucose37°C1hprotectoriginal5hmC',S.CHEMICAL_CONVERSION,product='Selected5hmC→5gmCDNA withsyntheticmCcopy/originalbiologicalmCandothercytosines/remnantsretained')
+    copynts=tuple(g.input('copy_'+name.lower(),'Actual source '+name+' contribution,1mM individual final concentration; no stock-packaging inference',K.MOLECULAR) for name in ('dATP','dGTP','dTTP','dmCTP'))
+    primer=g.input('copy_primer','Publishedfullymethylatedcopyprimer(v2)',K.OLIGO,state=copy_primer(),chemical_state=ModifiedDNA(COPY_BODY,tuple((i,'5mC') for i,b in enumerate(COPY_BODY) if b=='C')));cat=g.input('bst','Actual source Bst largefragment8U contribution; not unoptimized Klenow',K.CATALYST);y=g.product('copied','OriginalDNAplusselectedmethylatedBstcopy-strands retainingactualv2primer andpossibleuncopied/displacedDNA/enzymes; sequencecopydoesnotpreservenativemethylation',K.MOLECULAR)
+    g.react('copy','Sourcecopyprimeranneal thenBst65°C30min; notunoptimizedKlenow/v1',S.EXTENSION,((used,R.TEMPLATE),(primer,R.STRUCTURAL),(cat,R.CATALYST))+tuple((n,R.STRUCTURAL) for n in copynts),(y,))
+    gt=g.input('glucosylate_gt','Actual source T4betaGT10U contribution',K.CATALYST)
+    sugar=g.input('glucosylate_sugar','Actual source UDPglucose40uM contribution',K.MOLECULAR)
+    x=op(g,'glucosylate',y,'SourcebetaGT/UDPglucose37°C1hprotectoriginal5hmC',S.CHEMICAL_CONVERSION,reagent='Source37C1h programme and buffer conditions',product='Selected5hmC→5gmCDNA withsyntheticmCcopy/originalbiologicalmCandothercytosines/remnantsretained',extra_inputs=((gt,R.CATALYST),(sugar,R.STRUCTURAL)))
     x=op(g,'mungbean',x,'SourceMungBeanNuclease30°C30min',S.DIGESTION,reagent='SourceMungBeanNuclease; exactefficiency/enddistributionunreviewed',catalyst=True,product='SelectedcopiedDNAclassespluscleavageproducts/uncleavedDNA/reagents; noinstantremovalorperfectcopyselection')
     x=cleanup(g,'mung_clean',x,'Source1.2xSPRI')
-    x=op(g,'cx',x,'SourceMBP-M.MpeI-N374K/CxSAM37°Covernight;95°C5min',S.CHEMICAL_CONVERSION,product='SelectedoriginalunmodifiedCpGs→5cxmC; original5mCand5gmC/syntheticmCcopy/5pyCadaptersremainotherclasses; carryoverretained')
+    mt=g.input('cx_mtase','Actual optimized source MBP-M.MpeI-N374K0.5uM contribution',K.CATALYST)
+    donor=g.input('cx_donor','Actual source CxSAM160uM contribution',K.MOLECULAR)
+    x=op(g,'cx',x,'SourceMBP-M.MpeI-N374K/CxSAM37°Covernight;95°C5min',S.CHEMICAL_CONVERSION,reagent='Source carboxymethylation buffer and37Covernight/95C5min programme',product='SelectedoriginalunmodifiedCpGs→5cxmC; original5mCand5gmC/syntheticmCcopy/5pyCadaptersremainotherclasses; carryoverretained',extra_inputs=((mt,R.CATALYST),(donor,R.STRUCTURAL)))
     x=op(g,'pk',x,'SourceProteinaseK37°C15min',S.DEPROTEINIZATION,reagent='SourceProteinaseK',catalyst=True,product='ModifiedDNAplusproteolysisproducts/buffersuntilSPRI')
     x=cleanup(g,'pk_clean',x,'Source1.2xSPRI')
+    deaminase=g.input('deaminase','Source commercialAPOBEC contribution; SI-specific allocation' if branch=='si_commercial' else 'Source optimized A3A contribution; dose/conditions require citedACE reference, not SIcommercialAPOBEC substitution',K.CATALYST)
     if branch=='si_commercial':
         x=op(g,'denature',x,'SourceSI20%formamide85°C10min thencoldblock',S.THERMAL_TREATMENT,reagent='Source16µlDNA+4µlformamide; coolingblocknotationreportedinsource')
-        x=op(g,'deaminate',x,'SourcecommercialAPOBEC100µltotal;4°C→50°Cslowramp/hold',S.CHEMICAL_CONVERSION,product='Selectedoriginal5mC→T, unprotectedC→U;5cxmC/5gmC/5pyCretained; deaminatedsyntheticcopyandotherDNA/reagentsremainphysical')
+        x=op(g,'deaminate',x,'SourcecommercialAPOBEC100µltotal;4°C→50°Cslowramp/hold',S.CHEMICAL_CONVERSION,product='Selectedoriginal5mC→T, unprotectedC→U;5cxmC/5gmC/5pyCretained; deaminatedsyntheticcopyandotherDNA/reagentsremainphysical',extra_inputs=((deaminase,R.CATALYST),))
     else:
         x=op(g,'denature',x,'Sourceoptimizedmain snapcoolingafterDNAdenaturation',S.THERMAL_TREATMENT,reagent='SourceoptimizedA3AconditionsperdirectACEreference; nocommercial100µlformamidemerge')
-        x=op(g,'deaminate',x,'SourceoptimizedA3A50µlreactionperreference25',S.CHEMICAL_CONVERSION,product='Selectedoriginal5mC→T, unprotectedC→U;5cxmC/5gmC/5pyCretained; deaminatedsyntheticcopyandotherDNA/reagentsremainphysical')
+        x=op(g,'deaminate',x,'SourceoptimizedA3A50µlreactionperreference25',S.CHEMICAL_CONVERSION,product='Selectedoriginal5mC→T, unprotectedC→U;5cxmC/5gmC/5pyCretained; deaminatedsyntheticcopyandotherDNA/reagentsremainphysical',extra_inputs=((deaminase,R.CATALYST),))
     x=cleanup(g,'deamination_clean',x,'Source1.2xSPRI')
     x=qc(g,'qpcr',x,'SourceSIanalyticalqPCRaliquotsetsindexcycles; materialnotreusedforlibrary')
     x=unknown_pcr(g,'index_pcr',x,'SourceindexingPCR; detailedSIadaptivecycles/Table2example10cycles','SourceKAPAHiFiHotStartUracil+ mix; originaltemplatesandcopy-strandsnotassumedphysicallygone')
     x=cleanup(g,'pcr_clean',x,'Source0.8xSPRI')
     x=qc(g,'final_qc',x,'SourceQubit/Bioanalyzeranalyticalmaterialseparatefromproductionlibrary')
+    loading=g.product('load_selected','Selected source sequencing contribution; amount unassigned',K.MOLECULAR)
+    untransferred=g.product('load_remainder','Untransferred postQC production stock; amount unassigned',K.MOLECULAR)
+    g.react('load_allocate','Select actual loading contribution without assuming whole library stock consumed',S.SPLIT,((x,R.TEMPLATE),),(loading,untransferred),changes_molecule=False)
+    g.mark_terminal(Terminal(untransferred.id,Disposition.UNRESOLVED,'Untransferred source production stock, not silently discarded.'));x=loading
     g.sequence(x,SequencingPlan(limitation=('ActualGBMNextSeqHighOutputv2.5single-end75bp; branchsourceoptimizedmain50µlA3A. ' if branch=='optimized_gbm' else 'SourceSIcommercialAPOBECalternative usedExtendedData7/8; kitmateriallistMiSeqnotassignedasactualrun. ')+'Exactadapter/copy/PCR/readgeometryandSI10µlelutionversus19µlindexDNA scalingunassembled. Copystrandpooramplificationandcomputationalfiltersarenotphysicaldiscard.'))
     g.add_source_item(SourceItem('pending','Historical5pyCadapterfulloligos/ACEA3Aconditions/indexprimeroriginals','Exactlinkedreagents/primer geometryunreviewed; sourcevolumeallocation/copystrandfateslimitedasnote. NogeneralEM-seqorTAPSrecipeimported.'))
     return g
@@ -122,5 +137,9 @@ def selftest():
     g=protocol_graph();c('qPCRreactionnotpreparativePCRinput',g.steps['index_pcr'].inputs[0].material,'qpcr_retained')
     c('uncopiedDNAdebrisretaineduntilSPRI',g.steps['mung_clean'].inputs[0].material,'mungbean_product')
     c('commercialalternativekeepsseparatedenaturationcondition','formamide' in graph_for_branch('si_commercial').steps['denature'].label and 'formamide' not in g.steps['denature'].label,True)
+    c('Spike addition is noncovalent',g.steps['spike'].changes_molecule,False)
+    c('Copy receives actual methylated nucleotide rather than dCTP',g.steps['copy'].inputs[-1].material,'copy_dmctp')
+    c('Index polymerase derives from same actual ReadyMix',g.steps['index_pcr_components'].inputs[0].material,'index_pcr_master')
+    c('Original full source scope remains uncovered','pending' in g.source_coverage,False)
     c('incompletegeometrypreventspromotion',bool(g.publication_problems()),True);c.report()
 if __name__=='__main__':selftest()

@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4337815.1/PMC4337815.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Online Methods112–133; source identity/correction link",
+      "inspection_scope": "Online Methods112\u2013133; source identity/correction link",
       "local_file": "/husky/henriksson/NGS101_papers/sources/single-cell-tcr-phenotype-sequencing-han__10.1038+nbt.2938/nbt.2938_PMC4337815.xml",
       "source_identity": "full-text JATS XML (PMC Cloud)",
       "md5": "5b014194e6e9d9c9a72c90062beca9b5",
@@ -20,7 +20,7 @@
       "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2938/MediaObjects/41587_2014_BFnbt2938_MOESM24_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "SupplementaryFigure1 original renderedpage1+caption; common handle literals; full Tables1–3 not transcribed",
+      "inspection_scope": "SupplementaryFigure1 original renderedpage1+caption; common handle literals; full Tables1\u20133 not transcribed",
       "local_file": "/husky/henriksson/NGS101_papers/sources/single-cell-tcr-phenotype-sequencing-han__10.1038+nbt.2938/nbt.2938_41587_2014_BFnbt2938_MOESM24_ESM.pdf",
       "source_identity": "Springer supplementary file",
       "md5": "1a784591c120839127daad8cef7ad8f1"
@@ -42,11 +42,11 @@
       "date": "2026-10-28",
       "documents": 2,
       "scope": "Bounded primary source/local partial model; not a complete disclosure review",
-      "locations": "Online Methods112–133; source identity/correction link; SupplementaryFigure1 original renderedpage1+caption; common handle literals; full Tables1–3 not transcribed; Identity/link recorded from defining article; correction text not read.",
+      "locations": "Online Methods112\u2013133; source identity/correction link; SupplementaryFigure1 original renderedpage1+caption; common handle literals; full Tables1\u20133 not transcribed; Identity/link recorded from defining article; correction text not read.",
       "findings": "See protocol note for source-positive molecular distinction and explicit uncertainty.",
       "deferred": [
         "Linked Corrigendum PMC5800857 applicability (direct PMC challenge).",
-        "Complete Tables1–3 primer pools and barcode whitelists, study-specific final strands and read cycles.",
+        "Complete Tables1\u20133 primer pools and barcode whitelists, study-specific final strands and read cycles.",
         "Cited three-PCR predecessor: identity/component scope not resolved in this capped pass."
       ],
       "verification": "Protocol-local suites: Han6,epicPCR9,DART8,TAP8 passed (31total); all four private previews build, no completion marker; duplex pairing0problems; scoped chemistry4established,51unresolved,0contradictory. Sourceguard8checked1failed: faithful TAP N7XX8base window fails matcher against source [X]8 notation; reported to coordinator, no exemption added.",
@@ -60,7 +60,7 @@
   "missing_claims": [],
   "pending_sources": [
     "Linked Corrigendum PMC5800857 applicability (direct PMC challenge).",
-    "Complete Tables1–3 primer pools and barcode whitelists, study-specific final strands and read cycles.",
+    "Complete Tables1\u20133 primer pools and barcode whitelists, study-specific final strands and read cycles.",
     "Cited three-PCR predecessor: identity/component scope not resolved in this capped pass."
   ],
   "blocking_condition": "Published linked corrigendum applicability remains uninspected after actual challenged request; source-read partial model retained.",
@@ -68,5 +68,27 @@
     "date": "2026-10-28",
     "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
     "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
+  },
+  "unlinked_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "blocked_source_scope",
+    "source_scope": "nbt.2938_PMC4337815.xml.txt112\u2013133 sourceFACS/cohortcontext, actual20ulOneStepRT-PCR, separate1ulnestedandbarcodingtransfers, IlluminaPEprimercontribution, plate-row-column identity, equalvolumePCRpool/350\u2013380gel/MiSeqanalysis. PublishedMOESM24 .pdf.txt beginning identity and OCRheading/indexedFig1position only: layout/bases not adopted anew from OCR; prior renderedFig1proof and knownhandles retained from source-review, not claimed independently reread. No Tables1\u20133 new transcription, no corrigendum original inspected.",
+    "originals_read": 2,
+    "source_cap": 3,
+    "source_investigation_closed": true,
+    "blocker": "Existing source review explicitly blocks on linkedCorrigendum PMC5800857 applicability after actual earlier challengedrequest; correctiontext remains unread and not retried. Current unassembled_source obligation also retains fullprimerpool/intermediate/finalassembly; do not remove/exclude it for coarse-model eligibility.",
+    "positive_preparation_obligations": [
+      "Source20ulOneStep reaction combinesRTandPCR with actualmultiplexTCR/phenotypepools; one actualkit/supply inventory must expose copresentRT/DNApolymerase/nucleotides/buffer ratherthan treating a genericcatalyst as both undocumentedfreshadditions.",
+      "Separate1uloforiginal20ul firstreaction enter TCR/phenotype nested20ulreactions; source1ulnested transfers enter third20ulbarcodingreactions. Source actualremainders mustremainstock, not discarded. Currentbranch/remainders are directionallycorrect.",
+      "ThirdPCR actually includes5primebarcodingprimer,3primebarcodingprimer ANDIlluminaPaired-Endprimers0.5uMeach; currentgenericpcr helper exposesonly two primerinputs and hides source-positive otherprimercomponents. No exactunknownbodiesfromkitnames.",
+      "Every well has distinctplate5/row5/column5cellidentity; multipleactualcell/wellproducts poolequally byvolume. Currenttwo branchproductsfromonesortedcell cannotalone standin foractualmanycellsourcearray. Allocate and pool actualindependentwellproductclasses honestly, no postPCRcloning.",
+      "FullTables1\u20133/bodies/whitelists and exactreadlanding remainunassembled; sourcepaired-endMiSeq butnotacquiredcyclecount. Do notturnbarcodes intoUMIs or fictitious covalentTCR-phenotypechimeras.",
+      "Commonhandle manuscriptprose23versusprinted22 and C-alpha-threefoldprose versus0.15/0.5numericratio remainexplicit source-textdiscrepancies with pendingcorrection applicability; no silentfix or claimcorrection irrelevant."
+    ],
+    "normal_gate": [
+      "authoritative source item 'unassembled_source' is not accounted for"
+    ],
+    "verification": "Actual normal gate confirmed by prior read-only Python-B import in this same bounded pass: [\"authoritative source item 'unassembled_source' is not accounted for\"]. No complete wrapper. Source obligations retained; no code changes or unchanged-test reruns.",
+    "missing_information_claims": []
   }
 }

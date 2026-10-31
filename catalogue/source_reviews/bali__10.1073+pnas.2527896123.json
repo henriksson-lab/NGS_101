@@ -8,7 +8,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13214022.1/PMC13214022.1.xml",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "Published2026identity/129–141rootmechanism/UMI/readlayout"
+      "inspection_scope": "Published2026identity/129\u2013141rootmechanism/UMI/readlayout"
     },
     {
       "id": "source2",
@@ -16,7 +16,7 @@
       "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC13214022.1/pnas.2527896123.sapp.pdf",
       "availability": "read",
       "relevance": "relevant",
-      "inspection_scope": "RNA321–389;TableS2originalp32render;selectedjoint450–555alternativeboundary"
+      "inspection_scope": "RNA321\u2013389;TableS2originalp32render;selectedjoint450\u2013555alternativeboundary"
     }
   ],
   "bounded_checks": [
@@ -25,8 +25,8 @@
       "reviewer": "bounded-source-model-pass",
       "date": "2026-10-30",
       "documents": 2,
-      "scope": "Published2026mainPMC13214022 root/index129–141;SIAppendixRNA321–389/TableS2originalp32 andselectedjoint450–555.2originals;2024preprintsuperseded,notused. GraphedRNAbranchonly.",
-      "locations": "Published2026mainPMC13214022 root/index129–141;SIAppendixRNA321–389/TableS2originalp32 andselectedjoint450–555.2originals;2024preprintsuperseded,notused. GraphedRNAbranchonly.",
+      "scope": "Published2026mainPMC13214022 root/index129\u2013141;SIAppendixRNA321\u2013389/TableS2originalp32 andselectedjoint450\u2013555.2originals;2024preprintsuperseded,notused. GraphedRNAbranchonly.",
+      "locations": "Published2026mainPMC13214022 root/index129\u2013141;SIAppendixRNA321\u2013389/TableS2originalp32 andselectedjoint450\u2013555.2originals;2024preprintsuperseded,notused. GraphedRNAbranchonly.",
       "findings": "Positivepublishedpreparationandprivateincompletegraph. Literalmodifications,physicalstockfatesanduncertainmolecularboundariesretained;noacceptedabsenceclaim.",
       "deferred": [
         "Wholemolecular/primer/readgeometryandlinkedcomponentoriginals",
@@ -34,6 +34,35 @@
       ],
       "verification": "53focusedchecks(12MPX/19BALI/22PCL)pass;guard18exact0failed1PCLwholeadapterformattingexemption8unassembled. Scopedchemistry7established/115unresolved/0contradictory;establishedclaimsaredeclaredMEpairingandknownBALI/PCLadapterendchecks,notcompletechemicalvalidation.",
       "oligo_scraper": "Mandatoryscrapersallthreeexecutedonvalidatedsourcebundles. BALI46candidates/1SI,PCL15/1SI;MPXfinal611candidates/4textfiles(initial200datahits);onlyselectedalready-readsourcepointersused. Exactselectedrowscheckedoriginals; scraperisnotauthority."
+    },
+    {
+      "round": "2026-10-30-unlinked-positive-final-a",
+      "reviewer": "protocol_curator",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Same selected published main+chemistry supplement reread for literal source inventory and useful public preparation; no new acquisition/predecessor/currentkit or absence audit.",
+      "locations": "Published main129\u2013143 physicalROOT/6or7ntindex/read1=100/read2=200; actualSI RNA327\u2013385 preparation/QC/pooling; TableS2originalp32BL621/617/599/623/601/624 plus amplificationprimers, renderedandvisuallychecked. Same2publishedoriginals.",
+      "findings": "Positive complete operational preparation with unknown occupied geometry retained. Added literal source input/operation inventory and required scoped-finding coverage, complete public overview/knowncomponents/readsetup/fullcollapsedworkflow. No chemistry/recipe changes. RNAparagraph0.8Uml/RIPAdoesnotnameactivecomponent; nojointproteaseinheritance. Generic6ntrootversusactualRNA7ntindexscopeexplained,notpublicationerrororrepair.",
+      "deferred": [
+        "Full occupied molecular products, unspecified sample assignments, primer landing and read-mask details remain unassembled, not asserted absent.",
+        "Other experimental branches and uninspected linked originals are not silently inherited."
+      ],
+      "oligo_scraper": "Mandatory bundle scraper rerun /tmp/unlinked-positive-bali-scraper.log; actual source contexts/modifications checked. OriginalBALI/pcltableimages inspected; MPXwholeoligotablesremainunread, exactbodiesnotfabricated.",
+      "verification": "20focusedPASS/normalgatePASS/buildPASS. Combined3guard18exact0fail1narroworiginalPCLtableformattingexception8externalunknown;chemistry7established115unresolved0contrad;pairingPASS. Separate normalgate new-input regression rejects automaticinventorycoverage."
+    },
+    {
+      "round": "2026-10-30-unlinked-positive-final-a-contributors",
+      "reviewer": "protocol_curator",
+      "date": "2026-10-30",
+      "documents": 0,
+      "scope": "Narrow same-source supply-component correction following independent peer findings. No new original/source expansion.",
+      "locations": "Previously read published BALI SI RNA344\u2013385/TableS2p32",
+      "findings": "BALI source RT and Q5 supplies now expose their co-present enzyme, nucleotide, inhibitor/companion, dye and buffer functions. The actual 25 \u00b5l 2\u00d7 Q5 master mix is distinct from existing primer inputs. These are views of the same actual source additions, not fresh doses or a proven aggregate premix. Both used and remaining annealed index portions retain the known source duplex geometry. Literal inventory extended only for actual added bookkeeping operations. Required scoped source findings preserved.",
+      "deferred": [
+        "Whole occupied molecules, unspecified specimen/sample assignments and read geometry remain unassembled; no source absence claim."
+      ],
+      "oligo_scraper": "Previous mandatory same-bundle scraper and original table-image checks retained; no changed base or modification introduced.",
+      "verification": "25focusedPASS/normalgate0/buildPASS/pairing0; combined3sourceguard/chemistry refreshed, no wholechemicalvalidationclaim."
     }
   ],
   "linked_information": {
@@ -49,7 +78,43 @@
     "date": "2026-10-30",
     "documents": 2,
     "scope": "Narrowselectedpublishedsource/modelcriticalreviewonly;notcompleteall-source/linked-informationorabsenceaudit.",
-    "finding": "Coordinator independently read publishedmain131–143 plusSIRNA321–378/TableS2originalp32 (twooriginals). WholepairedindexScene preserves12bpstem/7nt5primecohesiveendandbottomdesthiobiotin/UMI/PCRtail;knownadapterenddeclaredwithoutclaimingsealedproduct. UnknownRNAlysisactivecomponent remainsopaque,notborrowedjointprotease;knownSSIV retainscatalystrole. Requiredknown-end/lysisfixesverified.",
+    "finding": "Coordinator independently read publishedmain131\u2013143 plusSIRNA321\u2013378/TableS2originalp32 (twooriginals). WholepairedindexScene preserves12bpstem/7nt5primecohesiveendandbottomdesthiobiotin/UMI/PCRtail;knownadapterenddeclaredwithoutclaimingsealedproduct. UnknownRNAlysisactivecomponent remainsopaque,notborrowedjointprotease;knownSSIV retainscatalystrole. Requiredknown-end/lysisfixesverified.",
     "verification": "Latesttargeted53focusedchecks(12MPX/19BALI/22PCL)pass;sourceguard18exact0failed1verifiedPCLformattingexception8unassembled. Scopedpairing/adapterendclaims7established/115unresolved/0contradictory;sealedproductsandreadgeometryremainunassembled."
-  }
+  },
+  "publication_review": [
+    {
+      "verdict": "PASS",
+      "blockers": [],
+      "originals": 2,
+      "source_scopes": {
+        "owner_selected_scope": {
+          "current_originals": 2,
+          "locations": "Published main129\u2013143 physicalROOT/6or7ntindex/read1=100/read2=200; actualSI RNA327\u2013385 preparation/QC/pooling; TableS2originalp32BL621/617/599/623/601/624 plus amplificationprimers, renderedandvisuallychecked. Same2publishedoriginals.",
+          "counter": "/tmp/unlinked-positive-final-a-sources.json",
+          "MPX_historical_admin": "Not applicable"
+        },
+        "independent_scope": "Published main129\u2013143; SI Appendix327\u2013389 selected RNA preparation and original TableS2p32 rendered independently, BL621/617/599/623/601/624 and PCR families.",
+        "new_originals": false,
+        "scraper": "/tmp/peer-a-bali-scraper.log"
+      },
+      "findings": "Verified corrected SSIV/NT/inhibitor+ETSSB/betaine/DTT/buffer supply functions and separate analytical/production Q5/EvaGreen components. Primers remain distinct inputs; used/rest index aliquots retain exact paired-index Scenes. ROOT photocap,6-versus7nt interface scopes, six-N terminal UMI, spatial codes, unknown lysis component and actual read lengths remain qualified publicly.",
+      "source_obligations": "Original positive selected-source items and public discrepancy items preserved. Literal independent input/operation inventories checked; no broad unread source requirement waived and no runtime graph-enumerated source coverage. Unknown occupied products/read landings remain model limits.",
+      "verification": {
+        "focused_checks": 25,
+        "focused_result": "PASS independently rerun after fixes",
+        "render": {
+          "gate": [],
+          "bytes": 72551,
+          "complete_marker": true,
+          "workflow": true,
+          "render": "/tmp/peer-a-bali.html"
+        },
+        "pairing": "0 problem duplexes across all three actual private renders",
+        "normal_gate": [],
+        "absence_pass_2": false,
+        "repository_edits": false,
+        "guard_and_chemistry": "Owner fresh guard/chemistry results retained in A helper; independent review checks actual same-supply component semantics and local fixtures, not full reaction validation."
+      }
+    }
+  ]
 }

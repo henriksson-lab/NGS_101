@@ -25,3 +25,13 @@ Main181 states HiSeq2500 PE50; R1 assigns genes and R2 measures terminal sequenc
 ## Component ancestry and limits
 
 The main G/I-tail method cites a G-tailing predecessor, explicitly adapted with inosines; the precursor was not followed in this capped pass, and no recipe import occurs. No catalogue parent edge is asserted from common Illumina primers. Target RBP changes and synthetic controls remain branches of one protocol. No second-reader absence audit or accepted missing-information claim.
+
+## Bounded public-page review, 2026-10-30
+
+Rechecked one associated author manuscript, PMC4707952: identity1–3, G/I tailing131–133, selective RT135–137, distinct targeted assays139–145 and transcriptome-wide151–177. The mandatory scraper completed26hits/2files and actual primer contexts were read. No final-publication equivalence or new source acquisition is claimed.
+
+The graph now represents an explicitly illustrative allocation count (default nine) for the source's “approximately9” individual PCR reactions. Independent5µl template allocations from the source50µl dsDNA eluate are amplified separately and only then pooled. The count is not an asserted exact experiment, and a zero-volume remainder is never constructed. Actual per-reaction RP1/indexed-primer/master-mix/water contributions are explicit. Polymerase, nucleotide and other component views derive from the same actual GoTaqGreen aliquot; they are not extra doses. No study-specific index value is invented.
+
+In-vivo PUP2/nucleotides are already in the input cells; the model no longer adds a fresh free-enzyme aliquot to them. Initial GTP/ITP and the two separate1200U yeastPAP additions are physical contributions, with no extra nucleotide dose inferred at the second addition. Source selective-RT and second-strand dNTP inputs are explicit. The U-select register, RNA inosine and distinction from synthetic-standard preparations remain unchanged.
+
+Original `pending` remains required: final-VOR and historical kit/source-version reconciliation, along with whole product/read geometry and remaining preparation scope. A literal selected source inventory does not claim unread kit internals. No source-absence claim or finished public page is accepted.

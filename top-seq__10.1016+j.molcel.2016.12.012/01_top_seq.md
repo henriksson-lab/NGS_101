@@ -42,3 +42,10 @@ Manifest wording such as “probably redundant” is a fetcher hint, not an iden
 ## Validation
 
 Protocol-owned `tools/chem.py` has a zero-argument graph and focused state/fate checks. It is an incomplete graph-only implementation, with no public page or completion marker. Source-known late operations/acquisition are retained; unassembled adapters, modifications and fates are not inferred from other families.
+
+
+## Bounded publication review — 2026-10-30
+
+Known source contributors are now explicit: eM.SssI catalyst, Ado6azide donor, and BSA/buffer components from one actual TNB buffer allocation. BSA is not an independently invented fresh dose. Proteinase K is an actual catalyst rather than a condition-only label. Klenow A-tailing receives separate actual dATP; TOP extension receives actual dNTP. The actual Maxima master-mix allocation exposes produced polymerase, nucleotide and buffer components consumed together by PCR, with no fresh duplicate component stocks or invented formulation. These functional decompositions are inventory interfaces, not physical separation reactions. Original `pending` remains unchanged and uncovered: actual SI/table scope, TO Methods extra-leading-T versus KeyResources alternative, LNA/PS positions and full library/read assembly remain unresolved. The actual 5µL TOP aliquot and remainder remain separate. No occupied whole library or acquired read geometry was invented.
+
+No additional originals were read or acquired during implementation. This capped pass accepts no missing-information claim and does not publish the graph.

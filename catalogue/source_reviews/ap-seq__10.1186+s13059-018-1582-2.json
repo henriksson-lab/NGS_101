@@ -52,7 +52,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Bounded first source/model pass, not complete review or two-reader missing-information acceptance.",
+  "conclusion": "Bounded publication hold retained. Original required historical_reagent_and_library_assembly remains uncovered. It explicitly requires historical PreCR/KAPA original reaction details and full library assembly. Existing originals establish actual genomic selection, PreCR handling/recombination and KAPA KK8504/HiSeqPE125 handoff, but not the required historical reaction/polymer/read assembly. A sequencing terminal or narrower label cannot satisfy this original obligation. No source acquisition attempted and no information is claimed absent.",
   "bounded_checks": [
     {
       "round": "2026-10-29-ngs-expansion-07",
@@ -69,6 +69,20 @@
       ],
       "oligo_scraper": "6hits inDOCXTableS1; in-vitro validation oligos checked but not imported into genomic library.",
       "verification": "Six local checks pass including post-tagging input allocation,soluble/bead fraction recombination in both branches and publication/private-page guards. Build/pairing/schema pass; no exact genomic library oligo candidates asserted. Chemistry29unresolved,zero contradictory. Final scraper6hits in validation TableS1; no M13/genomic primer substitution."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch11",
+      "reviewer": "bounded_publication_adjudication",
+      "date": "2026-10-30",
+      "documents": 3,
+      "scope": "Existing defining originals reviewed in closed read-only preflight, followed by documentation and contained source-discrepancy annotation only. No source acquisition.",
+      "locations": "Methods163–183: validation controls versus genomic preparation; ARP before shearing, tagged input, OGG1 separate branch, PreCR and pooled bead/supernatant DNA, KK8504/HiSeqPE125; Actual FigureS1 original PDFp2: intact AP and beta-elimination aldehydes with ARP oxime/biotin classes and capture diagram; Actual document.xml TableS1 six rows; guanine/8oxoG damage controls and M13 qPCR primers, no genomic-library primer substitution",
+      "findings": "DirectAP and independent OGG1-AP genomic preparations are supported. Tagging precedes Covaris;30ul/130ul matched input and remaining100ul pulldown remain paired. PreCR-treated soluble pulldown material is purified and recombined with bead-associated material before library preparation. Lesion enrichment is regional relative to tagged input, not a lesion-specific basecall. Original required historical_reagent_and_library_assembly remains uncovered. It explicitly requires historical PreCR/KAPA original reaction details and full library assembly. Existing originals establish actual genomic selection, PreCR handling/recombination and KAPA KK8504/HiSeqPE125 handoff, but not the required historical reaction/polymer/read assembly. A sequencing terminal or narrower label cannot satisfy this original obligation. No source acquisition attempted and no information is claimed absent.",
+      "deferred": [
+        "Historically applicable cited PreCR M0309L and KAPA KK8504 original reagent/library documents have not been inspected in this capped pass. Source identities/version applicability need explicit resolution, no invented failed URLs."
+      ],
+      "oligo_scraper": "6hits in1representation, TableS1 actual original XML verified",
+      "verification": "6 PASS via tools/protocol.py test; no wrapper selftest exists in closed preflight; actual normal source/terminal gate remains false. No complete chemical or absence audit."
     }
   ]
 }

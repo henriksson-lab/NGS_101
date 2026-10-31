@@ -39,6 +39,37 @@
     "documents": 1,
     "scope": "Narrowselectedsource/modelcriticalreviewonly;notcompleteall-source,linked-informationorabsenceaudit.",
     "finding": "Coordinator independently read same publishedmainMethods508 andearlier504. LiteralpAGCUAAAAAAAAAAAAp/bothterminalPmarks,unknownfragmentends/kitboundaryand3phosphataseminusPNKafterMgRworkup preserved;no invented3endhealing. SelectedTR/NCsourcepreparationonly.",
-    "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation."
+    "verification": "38focusedchecks(NJU9/2OMe12/Rho17)pass;guard4exact0failed4independentlyverifiedRhoterminal-ddCformattingexceptions(twouniqueorderings)5unassembledinputsover3graphs. Scopedchemistry0established/122unresolved/0contradictory;notcompletevalidation.",
+    "public_page_recheck": {
+      "reviewer": "independent_source_reader",
+      "date": "2026-10-30",
+      "scope": "Selected same-published-original implementation/publication recheck only;2originalsPHOTON/PBA,1NJU, no new acquisition or absence audit.",
+      "findings": [
+        "Published main504/508 only; originalpolyA-ssRNAtail5P+3P/fragmentrecipientunknown andPNK3phosphataseminus retainedwithoutrepair.",
+        "Actualprecipitantcarrier/ATPsubstrates andpairedMgR/noMgR branches sourcepositive; historicalkitselectedandRNAtoDNAlibraryendpointoperationally supported.",
+        "BothactualTR/NCterminalsourcecoverage literal andnormalgatePASS. Less50ntPAGEinterpretation/depletion5/3wordinglimits public; no sourcewaiver."
+      ],
+      "verification": {
+        "independently_reran_focused_checks": 11,
+        "normal_gate": "PASS",
+        "actual_render": "PASS; completewrapper/fullcollapsedworkflow present, /tmp/positive-b-peer-nju.html",
+        "sourceguard": "Combined3graphs11checked0failed0exemptions3externalunknown",
+        "chemistry": "Combined2established83unresolved0contradictory",
+        "pairing": "Actualrenderedthreepages0problemduplexes",
+        "inventory": "Literal static curated SOURCE_TARGETS, not graph enumeration; originalselected scopedSourceItem retained/modelled, no broadrequireditemremoved/excluded.",
+        "absence_review": "None; same-source implementation/publication review only."
+      },
+      "absence_pass_2": false
+    }
+  },
+  "public_page_adjudication": {
+    "date": "2026-10-30",
+    "result": "ready_source_qualified_preparation",
+    "source_scope": "PublishedPMC10985248 identity/Fig1/Methods504\u2013508;syntheticassayandNm-VAQidentifiedasseparate,notadopted.",
+    "originals": 1,
+    "source_cap": 3,
+    "findings": "Source-qualified public page adds literal shared-preparation/TR/NC inventories with original selected SourceItem retained and covered. Both source terminal p marks on the whole polyA-ssRNA tail remain. Actual precipitation reagents and PNK ATP/buffer are explicit; PNK3primephosphataseminus is not used to invent RNA3primehealing. Untransferred fragmentedRNA has unresolved fate, not an invented storage instruction. Actual separate TR/NC producers continue through the source historical kit interface; full kit chemistry/read masks remain unassembled. Source5/3 repeat assignment and less50nt PAGE interpretation are publicly qualified. No broad source obligation waived.",
+    "scope_limit": "Same selected originals only; no new acquisition, inherited vendor recipe, complete version equivalence or accepted absence audit.",
+    "verification": "Normalgate0; focusedchecks/build/sourceguard/chemistry/pairing/HTML in /tmp/unlinked-positive-final-b.json"
   }
 }

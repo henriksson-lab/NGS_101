@@ -20,3 +20,10 @@ Biotin is a chemical affinitytag onclickedEdU-bearingDNA, not an index. MNase fr
 ## Limits
 
 Mandatorywholebundlescraperrun. Hitsareverifiedsourcepointers, notabsenceevidence. Cappedfirstsource/modelpass, nottwo-readerabsenceaudit; no missingclaimsaccepted. Privateincompletegraph/preview retainsunreviewedSourceItems andnofinishedmarker.
+
+
+## Bounded publication review — 2026-10-30
+
+The selected associated NIHMS772603 main supports the S2 front-end but does not replace its gated detailed sequencing SI or the cited Henikoff2011 library original. The source cells are now biological primary input. EdU, formaldehyde, glycine and Triton are explicit physical molecular contributions rather than condition-only labels; fixation/quench programmes remain distinct conditions. The BSA/PBS wash consumes an actual BSA protein contribution with physical removed wash fractions, leaving residual carryover unassigned and adding no fictitious BSA stock at later capture. Click consumes the actual three source additions in order: biotin TEG-azide, sodium ascorbate, CuSO4; no prepared click premix is asserted. The source pre-extraction proteinase K allocation is explicit alongside EGTA/SDS contributions and the 65°C programme, rather than hiding a known enzyme in a condition label. These are input/provenance corrections, not established complete covalent adducts, reaction yields or whole libraries. Input and captured-DNA libraries remain separate, and their historical production remains opaque/unreviewed. Original required `gated_si` is unchanged and uncovered; full actual producer scope, kit applicability, QC, pooling/loading and read geometry are not waived. No new originals or acquisition occurred during implementation.
+
+This capped pass accepts no missing-information claim. The private preview is not eligible for publication while the original source obligations remain unmet.

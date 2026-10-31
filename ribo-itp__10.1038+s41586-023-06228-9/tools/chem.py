@@ -11,27 +11,34 @@ from adapter_ligation import AdapterLigationGeometry
 def scene(name,text):
     sc=Scene();sc.strand(name,[Segment(name,text,placeholder=True)]);return sc
 
-def clean(g,key,x,label):
+def clean(g,key,x,label,*,library=False):
     condition=g.input(key+'_condition',label,K.CONDITION)
-    kept=g.product(key+'_kept','Source recovered material; no perfect purity or quantitative partition assumed',K.MOLECULAR)
+    kept=g.product(key+'_kept','Source recovered material; no perfect purity or quantitative partition assumed',K.LIBRARY if library else K.MOLECULAR)
     waste=g.product(key+'_waste','Actually separated cleanup fractions with unquantified molecular carryover',K.WASTE)
     g.react(key,label,S.CLEANUP,((x,R.TEMPLATE),(condition,R.CONDITION)),(kept,waste));g.discard(waste,'Source physical separation, not perfect molecular classification.');return kept
 
-def op(g,key,x,label,kind=S.MAGIC,*,reagent='source mixture',catalyst=False,product=None,state=None,chemical_state=None):
-    stock=g.input(key+'_reagent',reagent,K.CATALYST if catalyst else K.CONDITION)
+def op(g,key,x,label,kind=S.MAGIC,*,reagent='source mixture',catalyst=False,product=None,state=None,chemical_state=None,molecular=False):
+    stock=g.input(key+'_reagent',('Source PCR operating conditions; physical supplies separately inventoried' if kind==S.PCR else reagent),K.CATALYST if catalyst else (K.MOLECULAR if molecular else K.CONDITION))
     y=g.product(key+'_product',product or label+'; all physical reaction companions retained until separation',K.MOLECULAR,state=state,chemical_state=chemical_state)
     kwargs={}
     if kind==S.MAGIC:kwargs['reason']='Source operation established; exact internal chemistry/geometry not assembled from unreviewed historical originals.'
     if kind==S.PCR:kwargs['geometry']=PCRGeometry.unavailable(Scene(),reason='Exact source template/primer endpoint geometry unassembled, no ordinary complete library asserted.')
     if kind in (S.LIGATION,S.PROXIMITY_LIGATION):kwargs['geometry']=AdapterLigationGeometry('unavailable','unavailable',(scene('unassembled','[source-known ligation; full substrate/end geometry unassembled]'),),'Unreviewed geometry; not a claim of unavailable disclosure.')
-    inputs=[(x,R.TEMPLATE),(stock,R.CATALYST if catalyst else R.CONDITION)]
+    inputs=[(x,R.TEMPLATE),(stock,R.CATALYST if catalyst else (R.STRUCTURAL if molecular else R.CONDITION))]
+    if molecular:
+        env=g.input(key+'_environment','Source reaction/workup environment; molecular reagent is a separate physical contribution',K.CONDITION);inputs.append((env,R.CONDITION))
     if kind in {S.DIGESTION,S.END_REPAIR,S.EXTENSION,S.TAILING,S.PROXIMITY_LIGATION} and not catalyst:
         enzyme=g.input(key+'_enzyme','Explicit catalytic component of source mixture: '+reagent,K.CATALYST);inputs.append((enzyme,R.CATALYST))
     if kind==S.LIGATION:
         adapter=g.input(key+'_adapter','Source ligating molecular adapter; exact historical oligo/end inventory unassembled',K.ADAPTER,state=scene(key+'_adapter','[source adapter geometry unassembled]'));inputs.append((adapter,R.STRUCTURAL))
     if kind==S.PCR:
-        for arm in ('f','r'):
-            primer=g.input(key+'_primer_'+arm,'Source PCR primer family; exact oligo/endpoint unassembled',K.OLIGO,state=scene(key+'_primer_'+arm,'[source primer body/index geometry unassembled]'));inputs.append((primer,R.STRUCTURAL))
+        supplies=g.input(key+'_supplies','Actual PCR reagent inventory; number/packaging/addition schedule of source stocks unassembled',K.MOLECULAR)
+        cat=g.product(key+'_polymerase','Source PCR polymerase functional class; identity/dose unassembled',K.CATALYST)
+        nts=g.product(key+'_nts','PCR nucleotide substrates; identities/doses unassembled, no precursor-recipe inheritance',K.MOLECULAR)
+        buf=g.product(key+'_buffer','Source PCR buffer components; composition unassembled',K.CONDITION)
+        primers=[g.product(key+'_primer_'+arm,'Source PCR primer functional class; body/endpoint unassembled',K.OLIGO,state=scene(key+'_primer_'+arm,'[source primer body/index geometry unassembled]')) for arm in ('f','r')]
+        g.react(key+'_inventory','Bookkeeping decomposition of actual PCR supplies; not a documented master-mix factory',S.GENERIC,((supplies,R.STRUCTURAL),),(cat,nts,buf,*primers),changes_molecule=False)
+        inputs.extend(((cat,R.CATALYST),(nts,R.STRUCTURAL),(buf,R.CONDITION),*((p,R.STRUCTURAL) for p in primers)))
     g.react(key,label,kind,inputs,(y,),**kwargs);return y
 
 def qc_split(g,key,x,label):
@@ -74,34 +81,40 @@ def graph_for_mode(mode='single_cell_mnase'):
     x=g.input('cells','Source100K562cells' if mode=='100_cell_mnase' else ('Sourcemouseoocyte/embryo collectedindividually' if mouse else 'SourcesingletDAPInegativeK562cellFACScollection'),K.MOLECULAR,primary=True)
     x=op(g,'lyse',x,'Sourcecoldlysisbufferwithcycloheximide, flashfrozenwhere specified',S.EXTRACTION,reagent='SourcelysisbufferTable6deferred; no conventionalmonosome gradientinherited')
     x=op(g,'digest',x,'SourceRNaseI1:300stock37C15min' if rnasei else 'SourceMNase37C30min; dilutionselectedbysamplemode',S.DIGESTION,reagent='SourceRNaseIAmbion' if rnasei else 'SourceMNaseNEB',product='Nuclease-digestedcellularlysate containingRPFs/otherRNA/DNA/protein/debris; exactfragmentends/uniformprotectionnotasserted')
-    x=op(g,'quench',x,'Source0.1%SDSstopRNaseI' if rnasei else 'Source10mMEGTAstopMNase',S.QUENCHING,reagent='SourceSDS' if rnasei else 'SourceEGTA')
+    x=op(g,'quench',x,'Source0.1%SDSstopRNaseI' if rnasei else 'Source10mMEGTAstopMNase',S.QUENCHING,reagent='SourceSDS' if rnasei else 'SourceEGTA',molecular=True)
     inputs=[(x,R.TEMPLATE)]
     for i,(written,body) in enumerate(MARKERS):
         m=BlockedMarkerDNA(body);a=g.input('marker_'+str(i),'SourcefluorescentDNAmarker '+written,K.OLIGO,state=m.scene('marker_'+str(i)),chemical_state=m);inputs.append((a,R.SPIKE_IN))
     xmix=g.product('lysate_markers','Actualdigestedlysate plusblockedfluorescentDNAmarkers',K.MOLECULAR)
     g.react('add_markers','SourcefluorescentmarkeradditionbeforeITP',S.GENERIC,inputs,(xmix,))
     apparatus=g.input('itp_chip','SourcePDMSchip5%/10%polyacrylamide, leading/trailingelectrolytes; fullbuffer/chiporiginalsdeferred',K.SELECTION)
-    kept=g.product('itp_eluate','Source10ulbetween-markersRPF-enrichedelution collectedinto3dephosphorylationbuffer; marker/carryoverexclusionnotperfect',K.MOLECULAR);other=g.product('itp_other','Physicalotherchannel/reservoir/washmaterial includingunselectedRNA/DNAmarkers/protein; exactpartitionandlaterfateunresolved',K.MOLECULAR)
+    kept=g.product('itp_eluate','Source 10 ul between-marker RPF-enriched eluate collected from dephosphorylation buffer; marker/carryover exclusion not perfect',K.MOLECULAR);other=g.product('itp_other','Physicalotherchannel/reservoir/washmaterial includingunselectedRNA/DNAmarkers/protein; exactpartitionandlaterfateunresolved',K.MOLECULAR)
     g.react('itp','Sourceelectrophoreticextraction5%gel→10%sizeselection, elutionwellwash/bufferexchange thenbetween-markercollection',S.SELECTION,((xmix,R.TEMPLATE),(apparatus,R.SELECTION)),(kept,other));g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,'Actualcompanionfractions; not assumedpurewaste orperfectmarkerremoval.'))
     x=op(g,'dephosphorylate',kept,'SourceD-PlexC05030001 dephosphorylation plus0.5ulT4PNK25min',S.DEPHOSPHORYLATION,catalyst=True,reagent='SourcePNK catalyticcomponent; kitbuffer/othercomponentsunassembled',product='SourceRPF3OHselectedclasses withotherendclasses/markers/companions stillpossible; dephosphorylationdoesnotremoveactualterminalddC')
     x=op(g,'poly_a',x,'SourceFig2cRPFpolyAtailingwithinsingle-tubeD-Plexkit',reagent='HistoricalD-PlexpolyAoperation/internalreagentsunreviewed',product='SourcepolyA-tailedRNAclasses plusuntailedRNA/markers/remnants; taildistributionunassigned')
     umi=g.input('umi_component','SourceUMI-containingadapterinventory; exactD-Plexoligo/polymergeometryunassembled',K.OLIGO,state=umi_inventory())
-    rt=g.input('rt_components','SourceD-PlextemplateswitchingRT/primer/TSOmixture; TSOdiluted1:2, actualcomponentsunreviewed',K.CONDITION);cdna=g.product('cdna_mix','SourcecDNApopulationwithUMIadapter plusoriginalRNA/markerDNA/unextendedprimers/remnants; fullTSO/primer/endgeometryunassembled',K.MOLECULAR)
-    g.react('rt','SourceD-Plexreverse-transcription/templateswitchinterface',S.MAGIC,((x,R.TEMPLATE),(umi,R.STRUCTURAL),(rt,R.CONDITION)),(cdna,),reason='SourceRT/templateswitchknown, exactkitRTprimer/oligoorder andmolecularendsunreviewed; no importedSMARTrule.')
+    rt=g.input('rt_components','Actual D-Plex RT supplies; TSO diluted 1:2; stock packaging/count unassembled',K.MOLECULAR)
+    rt_cat=g.product('rt_catalyst','Reverse transcriptase functional class; historical identity/dose unreviewed',K.CATALYST)
+    rt_nts=g.product('rt_nts','RT nucleotide substrates; identities/doses unreviewed',K.MOLECULAR)
+    rt_primer=g.product('rt_primer','RT primer and diluted TSO oligo inventory; whole bodies/stoichiometry unassembled',K.OLIGO)
+    rt_buffer=g.product('rt_buffer','RT buffer components; historical composition unreviewed',K.CONDITION)
+    g.react('rt_inventory','Bookkeeping of actual RT supply classes; no prepared master-stock packaging inferred',S.GENERIC,((rt,R.STRUCTURAL),),(rt_cat,rt_nts,rt_primer,rt_buffer),changes_molecule=False)
+    cdna=g.product('cdna_mix','SourcecDNApopulationwithUMIadapter plusoriginalRNA/markerDNA/unextendedprimers/remnants; fullTSO/primer/endgeometryunassembled',K.MOLECULAR)
+    g.react('rt','SourceD-Plexreverse-transcription/templateswitchinterface',S.MAGIC,((x,R.TEMPLATE),(umi,R.STRUCTURAL),(rt_cat,R.CATALYST),(rt_nts,R.STRUCTURAL),(rt_primer,R.STRUCTURAL),(rt_buffer,R.CONDITION)),(cdna,),reason='SourceRT/templateswitchknown, exactkitRTprimer/oligoorder andmolecularendsunreviewed; no importedSMARTrule.')
     amplified_half=g.product('cdna_half','Sourcehalf-cDNAallocation for17cyclePCR',K.MOLECULAR);saved=g.product('cdna_remainder','Sourceotherhalf-cDNA reactionallocation, laterfateunassigned',K.MOLECULAR)
     g.react('halve_cdna','Sourcehalf-cDNAusedforPCR',S.SPLIT,((cdna,R.TEMPLATE),),(amplified_half,saved));g.mark_terminal(Terminal(saved.id,Disposition.UNRESOLVED,'IndependentremainderofphysicalcDNA/RNA/marker/reagentmixture; source laterfate/storageunassigned.'))
     x=op(g,'pcr',amplified_half,'SourceD-Plex17cyclePCR; modulechoice '+('singleindex' if single_index else ('uniquedualindex' if mode=='mouse_mnase_udi' else 'single-cellhumanindexmoduleunassigned')),S.PCR,reagent='SourceD-PlexPCRmix; exactindexmembers/primerendsunassembled',product='PCRDNAcopies plusoriginalRNA/cDNA/blockedmarkers/reagents; no perfectmarkerexclusionasserted')
-    assay=g.product('bioanalyzer_aliquot','Source1:4dilutedlibraryanalyticalaliquot; volumeunassigned',K.QC);xkeep=g.product('production_library','RetainedproductionlibraryseparatefromBioanalyzerassayedmaterial',K.MOLECULAR)
+    assay=g.product('bioanalyzer_aliquot','Source1:4dilutedlibraryanalyticalaliquot; volumeunassigned',K.QC);xkeep=g.product('production_library','Retained production library separate from Bioanalyzer-assayed material',K.LIBRARY)
     g.react('assay_split','SourceBioanalyzerHSassessment ofdilutedlibrary',S.SPLIT,((x,R.TEMPLATE),),(assay,xkeep));g.mark_terminal(Terminal(assay.id,Disposition.QC,'Analyticallyassayedfractionisnotproductionpool.'))
     other_libraries=g.input('other_libraries','Other source libraries selected for approximately equimolar pooling; actual membership and sequences unassigned',K.MOLECULAR)
-    x=g.product('pooled_library','Physical pool of retained production library and other source libraries; exact members/amounts unresolved',K.MOLECULAR)
+    x=g.product('pooled_library','Physical pool of retained production library and other source libraries; exact members/amounts unresolved',K.LIBRARY)
     g.react('pool','Source approximately equimolar library pooling guided by target-peak concentration',S.POOL,((xkeep,R.TEMPLATE),(other_libraries,R.TEMPLATE)),(x,))
-    x=clean(g,'ampure',x,'Source1.8xAMPureXPcleanup')
+    x=clean(g,'ampure',x,'Source1.8xAMPureXPcleanup',library=True)
     if rnasei:selection='SourceRNaseIsingle-cell200bpproduct PAGEpurification'
     elif single_index:selection='SourceBluePippin3%dye-freeBDQ3010tight173–207bp window'
     elif mode=='mouse_mnase_udi':selection='SourceBluePippin3%dye-freeBDQ3010tight183–217bp window'
     else:selection='SourceBluePippinBDQ3010 sizeselection; single-cellhumanindexmodule/windowunassigned'
-    x=clean(g,'size_select',x,selection)
+    x=clean(g,'size_select',x,selection,library=True)
     g.sequence(x,SequencingPlan(acquisition='unspecified',limitation='SourceNovaSeq6000; exactrun/readprimer/cyclesunreviewed. Processingextracts12ntUMIanddiscardsfollowing4RT-derivednt computationally; physicalUMI/RTjunctiongeometryunassembled. SourceRNAseqSmartseq3andconventionalSMARTersmRNAlibrariesnotinherited.'))
     g.add_source_item(SourceItem('pending','SourceonlineRiboITPprotocol, Table6buffers, fullSIfigures/vendorD-Plexmoduleguide','Cap3originalsclosed; exacthistoricalkit/revisions, oligos/ends/indices/readgeometry and physicalfractionquantities unreviewed, not absent.'))
     return g
@@ -128,5 +141,10 @@ def selftest():
     p=Source(sources_root()/'ribo-itp__10.1038+s41586-023-06228-9'/'s41586-023-06228-9_supp_41586_2023_6228_MOESM9_ESM.xlsx.txt','get_sources --slugs ribo-itp__10.1038+s41586-023-06228-9')
     if have(c,p,label='publishedmarkeroriginal'):
         t=p.path.read_text();c('BothwholemodifiedsourceDNAmarkers',all(w in t for w,b in MARKERS),True)
+    c('RT catalyst is produced from actual supply inventory',g.producer_of('rt_catalyst').id,'rt_inventory')
+    c('RT consumes supplied nucleotide class','rt_nts' in tuple(z.material for z in g.steps['rt'].inputs),True)
+    c('PCR consumes supplied polymerase and nucleotides',{'pcr_polymerase','pcr_nts'} <= {z.material for z in g.steps['pcr'].inputs},True)
+    c('Final recovered production retains library kind',g.materials['size_select_kept'].kind,K.LIBRARY)
+    c('EGTA is molecular and separate from operating conditions',g.materials['quench_reagent'].kind,K.MOLECULAR)
     c.report()
 if __name__=='__main__':selftest()

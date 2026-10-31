@@ -61,6 +61,21 @@
       ],
       "oligo_scraper": "Mandatory bundle scans: DM15hits (copyv2Table1 originalp2rendered),TAmCzero,Circulomezero text hits. Empty/partialconversionsnotabsenceevidence.",
       "verification": "25 focused local checks pass across DNA16 (9 DM,8 TAmC,8 Circulome); exact-source guard1checked0failed0exempt across3graphs with8unassembled inputs; literal /5mC/ parser alias independently reviewed against original Table1. Chemistry50unresolved0contradictory; source-review schema3in_progress0blocked; all6 note/ref pages built. This is scoped implementation verification, not a complete chemistry or missing-information review."
+    },
+    {
+      "round": "2026-10-30-unlinked-pages-batch25",
+      "reviewer": "bounded-source-model-review",
+      "date": "2026-10-30",
+      "documents": 2,
+      "scope": "Closed selected associated-main/published-SI scope followed by bounded molecular-contributor and physical-stock corrections; no new original or final-equivalence/absence claim.",
+      "locations": "/husky/henriksson/NGS101_papers/sources/tamc-seq__10.1038+ncomms2527/ncomms2527_PMC3679896.xml: Methods136–156 sourcegenomicpreblock/coupledoxidationtrap/library/HiScanSE51/PhiX. Syntheticstability/LCMS/enzymeprep areseparatevalidation, not actualNGSlibrary.; /husky/henriksson/NGS101_papers/sources/tamc-seq__10.1038+ncomms2527/ncomms2527_41467_2013_BFncomms2527_MOESM327_ESM.pdf: ActualS14/p14click/capture/DTT/recovery originalrendered/viewed/tmp/tamc38-si14.png; exacttext481–493. EarlierFigS3onepot-vs-sequentialscope historicalnote retained, not freshlyread/adopted beyondclosedselectedmethods.",
+      "findings": "The actual preblock β-GT/ordinary UDP-glucose contributions are explicit, followed by the same coupled trapping reaction receiving actual mTet1, β-GT and UDP6N3-glucose. This does not create a sequential TET-only oxidation branch. DBCO-disulfide-biotin and the locally specified 100mM DTT in 50µL release solution are physical molecular inputs distinct from incubation conditions; the released thiol-linker remnant remains on DNA until actual workup. The selected 25ng captured-DNA contribution for library production now has an untransferred stock remainder, without normalizing recovery. Bioanalyzer analytical material remains separate from production. A selected loading contribution and retained stock remainder feed an actual noncovalent pool with the source 1% PhiX control contribution. The dedicated PhiX control lane remains a distinct source control outside this selected sample-lane graph. PhiX is not a genomic extension, sample identifier or invented exact control polymer. Three captures and the separate unenriched input are not cloned into an asserted physical study pool. Original `pending` C1/manual/Illumina genomic-ChIP library obligations remain exact and uncovered; none of these physical corrections establishes full historical library or read geometry.",
+      "deferred": [
+        "HistoricalMyOneC1capturemanual/version/directoriginal and standardIlluminagenomicChIP-library exactversion/primer/adaptor/buffergeometry.",
+        "Directreference26hmC-Seal is component pointer, not authority tooverride locallyexplicitTAmCdisulfidelinker/DTT100mM50ulvalues.",
+        "Actualcohortarray/librarypooling/loading/readgeometry, finalVORapplicability and gatedNIHMS-SIalias identity not established."
+      ],
+      "oligo_scraper": "Wholebundle0hits; nosequenceabsenceclaim, actualS14originalviewed"
     }
   ]
 }

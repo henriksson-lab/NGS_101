@@ -46,6 +46,9 @@ def selftest():
     from checks import Check
     c = Check(); g = protocol_graph()
     c('Pending source/assembly boundary prevents finished publication', bool(g.publication_problems()))
+    from source_oligo_check import candidates
+    c('Known PG polymers reach the actual source transcription guard',{x.material for x in candidates(g)},{'reverse_adapter','pg162','forward_ligation_adapter'})
+    c('Full end and TruSeq geometry obligation stays uncovered','pending_assembly' in g.source_coverage,False)
     c('Private preview has no finished marker', 'data-protocol-complete=' not in render_page())
     c('Every physical DNA output has a declared downstream operation or terminal', not any(m.kind in {K.MOLECULAR,K.LIBRARY} and m.id not in g.terminals and not any(port.material==m.id for step in g.steps.values() for port in step.inputs) for m in g.materials.values()))
     for step_id in ('lambda','recj'):
@@ -74,9 +77,10 @@ def protocol_graph():
     product=g.product('shear_product','Covaris near150bp; RNaseA/T1 and AMPure source workup',K.MOLECULAR,state=molecule('source product classes',(role('fragmented RNA-depleted genomic DNA; exact residual RNA unquantified'),)))
     g.react('shear','Covaris near150bp; RNaseA/T1 and AMPure source workup',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
     current=product
-    reagent=g.input('crosslink_reagent','Anti6mA incubation then254nmUV6x0.15J/cm2',K.CONDITION)
+    reagent=g.input('crosslink_reagent','Actual anti6mA antibody supply; overnight4C then254nmUV6x0.15J/cm2 source programme, no assumed complete binding/crosslinking',K.MOLECULAR)
     product=g.product('crosslink_product','Anti6mA incubation then254nmUV6x0.15J/cm2',K.MOLECULAR,state=molecule('source product classes',(role('genomic DNA population with UV antibody adducts at selected sites and uncrosslinked background'),)))
-    g.react('crosslink','Anti6mA incubation then254nmUV6x0.15J/cm2',S.CHEMICAL_CONVERSION,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,))
+    crosslink_program=g.input('crosslink_program','Source antibody incubation overnight4C, split50ul UV aliquots and254nm6x0.15J/cm2',K.CONDITION)
+    g.react('crosslink','Anti6mA incubation then254nmUV6x0.15J/cm2',S.CHEMICAL_CONVERSION,((current,R.TEMPLATE),(reagent,R.STRUCTURAL),(crosslink_program,R.CONDITION)),(product,))
     current=product
     reagent=g.input('capture_reagent','ProteinA bead binding and source sequential buffer washes',K.SELECTION)
     product=g.product('capture_product','ProteinA bead binding and source sequential buffer washes',K.MOLECULAR,state=molecule('source product classes',(role('bead-associated DNA-antibody complexes and possible nonspecific DNA'),)))
@@ -84,14 +88,14 @@ def protocol_graph():
     g.react('capture','ProteinA bead binding and source sequential buffer washes',S.AFFINITY_CAPTURE,((current,R.TEMPLATE),(reagent,R.SELECTION)),(product,other))
     g.discard(other,'Actual source isolation/washes; no perfect specificity asserted.')
     current=product
-    reagent=g.input('endrepair_reagent','T4DNA polymerase12C30min then source bead washes',K.CONDITION)
+    reagent=g.input('endrepair_reagent','T4DNA polymerase12C30min then source bead washes',K.CATALYST)
     product=g.product('endrepair_product','T4DNA polymerase12C30min then source bead washes',K.MOLECULAR,state=molecule('source product classes',(role('end-repaired captured DNA; exact strand architecture unassembled'),)))
-    g.react('endrepair','T4DNA polymerase12C30min then source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
+    g.react('endrepair','T4DNA polymerase12C30min then source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CATALYST)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
     current=product
     current=cleanup(g,'endrepair_wash','Actual source sequential bead washes after endrepair',current,current.state)
-    reagent=g.input('pnk_reagent','T4PNK37C30min then source bead washes',K.CONDITION)
+    reagent=g.input('pnk_reagent','T4PNK37C30min then source bead washes',K.CATALYST)
     product=g.product('pnk_product','T4PNK37C30min then source bead washes',K.MOLECULAR,state=molecule('source product classes',(role('phosphorylated captured DNA class'),)))
-    g.react('pnk','T4PNK37C30min then source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
+    g.react('pnk','T4PNK37C30min then source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CATALYST)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
     current=product
     current=cleanup(g,'pnk_wash','Actual source sequential bead washes after pnk',current,current.state)
     adapter=Scene()
@@ -100,14 +104,14 @@ def protocol_graph():
         adapter.strand(name.lower(),[Segment(name,seq)],label=name+' reverse-adapter strand',mod5=mod5,mod3=mod3)
     current=source_ligation(g,'reverse','PG160/PG161 T4DNA ligation25C2h',current,adapter)
     current=cleanup(g,'reverse_wash','Actual source sequential bead washes after reverse',current,current.state)
-    reagent=g.input('fill_reagent','Phi29 fill and source bead washes',K.CONDITION)
+    reagent=g.input('fill_reagent','Phi29 fill and source bead washes',K.CATALYST)
     product=g.product('fill_product','Phi29 fill and source bead washes',K.MOLECULAR,state=molecule('source product classes',(role('Phi29 fill products on captured DNA; no exact end product inferred'),)))
-    g.react('fill','Phi29 fill and source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
+    g.react('fill','Phi29 fill and source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CATALYST)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
     current=product
     current=cleanup(g,'fill_wash','Actual source sequential bead washes after fill',current,current.state)
-    reagent=g.input('pnk2_reagent','Second T4PNK then source bead washes',K.CONDITION)
+    reagent=g.input('pnk2_reagent','Second T4PNK then source bead washes',K.CATALYST)
     product=g.product('pnk2_product','Second T4PNK then source bead washes',K.MOLECULAR,state=molecule('source product classes',(role('rephosphorylated captured DNA population'),)))
-    g.react('pnk2','Second T4PNK then source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
+    g.react('pnk2','Second T4PNK then source bead washes',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CATALYST)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
     current=product
     current=cleanup(g,'pnk2_wash','Actual source sequential bead washes after pnk2',current,current.state)
     reagent=g.input('lambda_reagent','Lambda37C30min',K.CATALYST)
@@ -125,7 +129,7 @@ def protocol_graph():
     g.react('release','SDS elution and proteinaseK overnight65C followed ethanol precipitation',S.MAGIC,((current,R.TEMPLATE),(reagent,R.CONDITION)),(product,),reason='Source operation known; exact molecular assembly deliberately unreviewed.')
     current=product
     primer_scene=Scene();primer_scene.strand('pg162',[Segment('PG162',SOURCE_OLIGOS['PG162'][0])],label='source PG162')
-    primer=g.input('pg162','PG162 annealed to reverse adapter',K.MOLECULAR,state=primer_scene)
+    primer=g.input('pg162','PG162 annealed to reverse adapter',K.OLIGO,state=primer_scene)
     phi=g.input('phi29','Phi29 DNApolymerase30C30min',K.CATALYST)
     extended=g.product('extended','PG162/Phi29 extension product',K.MOLECULAR,state=downstream_state('protected DNA-derived duplex extension product; exact terminus geometry unassembled'))
     g.react('extend','PG162 annealing and Phi29 extension30C30min',S.EXTENSION,((current,R.TEMPLATE),(primer,R.STRUCTURAL),(phi,R.CATALYST)),(extended,))
@@ -137,6 +141,9 @@ def protocol_graph():
     amplified=source_pcr(g,'pcr','Phusion/TruSeqPCR human18cycles; bacterial13cycle branch',purified)
     current=cleanup(g,'library','Source0.8xAMPure primer/adapter-dimer removal',amplified,amplified.state)
     g.mark_terminal(Terminal(current.id,Disposition.UNRESOLVED,'Full molecular end-transition assembly and source TruSeq PCR primer/run geometry remain unreviewed. No sequence-absence claim.'))
+    # Independently reviewed published preparation inventory; literal inputs and
+    # operations, never derived by enumerating graph construction or graph nodes.
+    g.declare_reviewed_scope(('dna','shear_reagent','shear','crosslink_reagent','crosslink_program','crosslink','capture_reagent','capture','endrepair_reagent','endrepair','endrepair_wash_condition','endrepair_wash_step','pnk_reagent','pnk','pnk_wash_condition','pnk_wash_step','reverse_adapter','reverse_ligase','reverse','reverse_wash_condition','reverse_wash_step','fill_reagent','fill','fill_wash_condition','fill_wash_step','pnk2_reagent','pnk2','pnk2_wash_condition','pnk2_wash_step','lambda_reagent','lambda','lambda_wash_product_condition','lambda_wash_product_step','recj_reagent','recj','recj_wash_product_condition','recj_wash_product_step','release_reagent','release','pg162','phi29','extend','forward_ligation_adapter','forward_ligation_ligase','forward_ligation','forward_cleanup_condition','forward_cleanup_step','pcr_forward','pcr_reverse','pcr_enzyme','pcr','library_condition','library_step'),g.authority)
     g.add_source_item(SourceItem('pending_assembly','Unreviewed source/assembly boundary','Full molecular end-transition assembly and source TruSeq PCR primer/run geometry remain unreviewed. No sequence-absence claim.'))
     return g
 
@@ -155,7 +162,7 @@ def downstream_state(label):
     return mixture(('source-derived DNA',(role(label),)),('possible carryover',(role('background DNA, residual templates and reaction components; exact recovery unquantified'),)))
 
 def source_ligation(g,ident,label,template,adapter):
-    donor=g.input(ident+'_adapter','source adapter strands, assembly not yet reconstructed',K.MOLECULAR,state=adapter)
+    donor=g.input(ident+'_adapter','source adapter strands, assembly not yet reconstructed',K.ADAPTER,state=adapter)
     ligase=g.input(ident+'_ligase',label,K.CATALYST)
     out=g.product(ident+'_product',label,K.MOLECULAR,state=downstream_state('source adapter-ligated DNA roles; exact junction assembly unreviewed'))
     geometry=AdapterLigationGeometry('unavailable','unavailable',(adapter,), 'Source-known adapter identity; substrate end and sealed junction assembly unreviewed, no source-absence claim.')
@@ -163,8 +170,8 @@ def source_ligation(g,ident,label,template,adapter):
     return out
 
 def source_pcr(g,ident,label,template):
-    forward=g.input(ident+'_forward','source first PCR primer; precise indexed order variant/run assignment unreviewed',K.MOLECULAR,state=molecule('first PCR primer',(role('source primer; exact study-specific identity unassigned'),)))
-    reverse=g.input(ident+'_reverse','source second PCR primer; precise indexed order variant/run assignment unreviewed',K.MOLECULAR,state=molecule('second PCR primer',(role('source primer; exact study-specific identity unassigned'),)))
+    forward=g.input(ident+'_forward','source first PCR primer; precise indexed order variant/run assignment unreviewed',K.OLIGO,state=molecule('first PCR primer',(role('source primer; exact study-specific identity unassigned'),)))
+    reverse=g.input(ident+'_reverse','source second PCR primer; precise indexed order variant/run assignment unreviewed',K.OLIGO,state=molecule('second PCR primer',(role('source primer; exact study-specific identity unassigned'),)))
     polymerase=g.input(ident+'_enzyme',label,K.CATALYST)
     out=g.product(ident+'_product',label,K.LIBRARY,state=downstream_state('source amplicon library roles; primer landing and exact end geometry unassembled'))
     g.react(ident,label,S.PCR,((template,R.TEMPLATE),(forward,R.STRUCTURAL),(reverse,R.STRUCTURAL),(polymerase,R.CATALYST)),(out,),geometry=PCRGeometry.unavailable(template.state,reason='Source PCR known; exact selected primer identities and full library geometry unreviewed.'))
