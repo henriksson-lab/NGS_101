@@ -1,7 +1,7 @@
 """Render and verify the agreed presentation example suite without a browser."""
 from __future__ import annotations
 import argparse
-from dataclasses import replace
+from dataclasses import replace,asdict
 import json
 import math
 from pathlib import Path
@@ -15,7 +15,7 @@ from .model import Movie, DEFAULT_SPEED
 
 FOCUS={'reference':'copy','smartseq':'rt','crispr-mip':'gap','boloramis':'rca',
        'atac':'transfer','smallseq':'lig3','gibson':'anneal','hic':'contact',
-       'dropseq':'capture','scrrbs':'conversion','celseq':'ivt'}
+       'dropseq':'capture','scrrbs':'conversion','celseq':'ivt','smartseq2':'rt','rnaseh':'cleave'}
 
 
 def probe(path,width,height,fps,frames=None):
@@ -61,7 +61,7 @@ def run(directory,names,size='1920x1080',fps=30,clips=True,resume=False,speed=DE
         if reused:
             manifest=json.loads(output.with_suffix('.manifest.json').read_text());meta=manifest.pop('export')
             if json.loads(json.dumps(Movie.from_dict(manifest).to_dict()))!=json.loads(json.dumps(serialized)):raise ValueError('Resume scene differs from existing export: '+name)
-            if meta['style']['width']!=w or meta['style']['height']!=h or meta['fps']!=fps or meta['speed']!=speed:raise ValueError('Resume settings mismatch')
+            if meta['style']!=asdict(renderer.style) or meta['fps']!=fps or meta['speed']!=speed:raise ValueError('Resume settings mismatch')
         else:meta=export_mp4(movie,output,renderer,fps=fps,speed=speed)
         video=probe(output,w,h,fps,meta['frames'])
         offset=0

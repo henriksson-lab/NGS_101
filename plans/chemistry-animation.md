@@ -1,8 +1,9 @@
 # Chemistry animation tool
 
-Status: implemented and verified for the agreed selected-mechanism coverage.
-Completed: 2026-10-31. Source-unresolved native geometry remains explicit; this is not
-a claim that every reaction or whole library in every protocol is chemically validated.
+Status: SMART-seq2 and BOLORAMIS selected presentation examples complete (2026-10-31); other protocol
+simulator migrations remain in progress.
+Prototype completion/export records below are historical; they do not establish
+that the revised simulator or all protocol adapters are complete.
 
 ## Accepted direction
 
@@ -294,3 +295,144 @@ are review checkpoints, not accepted presentation assets. Before the next export
 
 This revision has not been implemented at the requested stage/commit checkpoint.
 Keep the default1.5× playback and tunable `--speed` multiplier.
+
+## Substrate-driven revision and RNase H — 31 October 2026
+
+User clarification: **SMART-seq2 is the requested animation**. Finishing the original
+2012 SMART-seq adapter is outside this goal; keep it distinct and label its current
+prototype status accurately. The source-era Nextera details relevant to SMART-seq2
+are integrated into its note and source-qualified example.
+
+The revised engine preserves nucleotide identities, covalent bonds, duplex contacts,
+terminal chemistry and enzyme capabilities independently of drawing coordinates.
+Reaction products derive from these substrates; an expected final sequence is not
+an input to polymerase extension. SMART-seq2 now exercises this path through RT,
+template switching, Tn5 transfer, repair and successive index-PCR copies. It remains
+a separately named example, rather than replacing original SMART-seq.
+
+`python3 -m animation rnaseh --output /tmp/rnaseh.mp4` renders a synthetic H1-class
+mechanism example. It cuts eligible RNA backbone bonds in a supplied RNA–DNA hybrid,
+retains all RNA fragments and DNA, and preserves duplex contacts. Selected sites
+illustrate cleavage rather than predicting specificity, rate or fragment sizes.
+The four-RNA footprint and continuous antiparallel DNA partner are engine
+preconditions. H2 and native CEL-Seq kit identities are not inferred. See
+[the source review](../animation/rnaseh-research.md).
+
+Outside the current SMART-seq2 goal, remaining integration includes wiring and
+visually reviewing other generated protocol views, explicit RNA-primer polymerase
+capability, readable displaced RCA tails, and correction of the CRISPR-MIP universal
+linear-DNA exonuclease wording. Existing legacy protocol adapters must not be
+described as fully substrate-driven merely because their endpoint checks pass.
+
+## SMART-seq2 completion audit — 31 October 2026
+
+Historical checkpoint: subsequent user review found that this revision selected
+only newly added PCR primers for extension. Its endpoint and causal-copy checks
+did not detect omitted extension of the original recessed3′ ends. The all-ends
+correction below supersedes this movie and its reaction-coverage claim.
+
+The user's clarified target is SMART-seq2. Original2012 SMART-seq remains a separate
+prototype; its further migration is outside this completed target.
+
+| Requirement | Current evidence |
+|---|---|
+| Native MP4, presentation pace | `/tmp/chemistry-animation-smartseq2-reviewed/smartseq2.mp4`: H.264/yuv420p,1920×1080,30fps,4368frames,145.6s, default1.5×. Batch ffprobe and source-scene/settings checks pass. |
+| Actual sequences, attached labels, arrows and compact duplexes | Twelve base-resolved scenes; off-screen primer entry; all-shot contact sheet and decoded mechanism frames inspected. Edge-label regression checks cover both polymerases in all three index-PCR scenes. |
+| Substrate-driven RT, switching and PCR | `smartseq2_simulation.py` uses the shared connectivity engine; actual RNA persists through switching and explicit thermal unpairing precedes second-strand synthesis. Input mutations change the final product; cutting a template changes where extension stops. |
+| Tn5 transfer and repair | Two explicit homodimers,9nt stagger, conserved target/adapter IDs, only18inter-fragment duplex contacts removed, flanks leave the viewport, original3′ ends extend9nt then pause at occupied ME complements before release and adapter copying. Causal cut-position tests and pairing-spacing checks pass. |
+| Indexed PCR and final molecule | First copies stop at physical template ends; subsequent copies obtain both tails from existing templates. The final169nt duplex has all nine feature groups and every nucleotide shown on two continued rows. Endpoint declaration is an independent assertion, never the simulator's product input. |
+| Source qualifications | Source-era Nextera component orders/index widths incorporated into the SMART-seq2 note and model annotation. Movie/manifest identify the2014 TSO, synthetic transcript, N501/N701 example pair and unassigned ME-release mechanism. Actual study-well assignments are not invented. |
+| Verification and handover |52animation tests including native export;4protocol checks; source-oligo guard;227offline fetcher checks; protocol page build and0problem duplexes; documentation freshness and whitespace checks. Plan/state/README/handoff distinguish this completion from unfinished protocol migrations. |
+
+The artifact directory also contains the scene JSON, export/source manifest,
+`verification.json`, a focused RT clip, SVG/PNG action stills, an all-shot contact
+sheet,13decoded-video frames with timestamps, and a separate final-library SVG/PNG.
+Decoded frames were inspected after the final label-layout correction. Prior
+`smartseq2-simulated-review`, `smartseq2-presentation` and `smartseq2-final` exports
+are superseded review checkpoints. No video, third-party original or generated HTML
+is checked in. No staging, commit, push or deployment was performed.
+
+## PCR eligibility correction — 31 October 2026
+
+User review identified the missing counter-extension of original strands along
+index-primer5′ overhangs. The recipe now binds both oligos, discovers every eligible
+3′ end in the selected molecular complexes and extends until no eligible site remains.
+Pre-amplification uses the same discovery operation. This is a reaction-selection
+correction; adding two decorative enzyme glyphs would leave the chemistry wrong.
+
+The projector consumes every returned operation, updates original strand sequences
+and nucleotide identities, and derives template coordinates and binding spans from
+actual atoms/bonds. The first two index-PCR scenes have four extensions. Later
+fully paired template ends do not provide further template bases, leaving two new
+primer extensions. Circular strand-displacing reactions still require budgeted RCA;
+RNA primers require an explicit polymerase capability and retain their RNA sugars.
+Reaction scope, blocked ends and nucleotide-pool failures remain explicit.
+
+The polymerase and ligase drawings are half their previous width and height. Tn5
+homodimers retain their existing size. Updated captions describe both directions
+of extension. Generic discovery and current four-end projection have regression
+checks; the final library sequence remains unchanged.
+
+Updated artifact: `/tmp/chemistry-animation-smartseq2-all-ends/smartseq2.mp4`,
+149.134s,4474frames,1920×1080,30fps,H.264/yuv420p,default1.5×. Its batch verification
+checks codec/settings and includes a full contact sheet and focused RT clip. Actual
+decoded frames from both four-extension scenes were inspected; all four smaller
+polymerases and their labels are visible. The ligase size was checked on a CRISPR-MIP
+closure still. The previous SMART-seq2 movie is superseded.
+
+58animation tests pass, including end discovery without oligo-role selection,
+blocked ends, reaction-vessel scope, multi-end rollback, RNA-primer capability,
+mixed RNA/DNA projection and four-extension PCR scenes. Documentation and handover
+now record the correction and preserve the wider migration limits. No files staged,
+committed or deployed.
+
+## BOLORAMIS padlock example — completion audit,31October2026
+
+The selected source ACTN1A1 example now has five substrate-driven scenes: source
+probe/primer co-hybridization, folding and short-arm binding, SplintR nick sealing,
+Phi29 RCA, and a conserved-product overview. It uses the existing simulator and
+protocol-owned sequence definitions. Obsolete BOLORAMIS animation recipes that
+introduced the RCA primer after ligation have been retired; the CLI and public
+adapter use the same corrected implementation.
+
+| Requirement | Evidence |
+|---|---|
+| Source chemistry and eligibility | Published article and Supplementary TableS3 checked; probe and primer arrive together; nucleotide pool enters after ligation. The closed complex has one eligible3′ end. Missing phosphate or unsupported pairing is rejected. |
+| Folding and ligation | Covalent connectivity is unchanged by folding; the bound primer follows the backbone with24logical-pixel separation. The short arm approaches above the existing hybrid. Ligation adds only the actual last-to-first bond and consumes the terminal groups. |
+| RCA and displacement | Actual template traversal generates180new nucleotides after the23nt stock primer. Each circle position is copied three times. Only paired suffix bases remain on the template; older DNA spreads into legible coils. RNA contacts are displaced while its sequence, sugars and backbone remain unchanged. |
+| Causal controls | Changing the probe code changes the product; shortening the primer or synthesis budget changes actual output. Disabling RNA-displacement capability stalls at the occupied hybrid and retains RNA contacts. No expected product is supplied to polymerase. |
+| Conserved overview | The final re-layout retains exactly the same atoms, backbone and duplex contacts as the preceding RCA snapshot. All203product bases and the original60nt circle remain represented; RNA is displayed separately. |
+| Presentation | Native1080p30H.264/yuv420p MP4,76.934s,2308frames,default adjustable1.5×. Half-size polymerase/ligase glyphs, attached region labels, nucleotide letters and strand arrows. Counter/progress bar are opt-in. |
+| Verification |72 animation tests,26protocol checks and35source-oligo checks pass. Contact sheet and decoded folding/ligation/RCA/product frames inspected. Source/scene/settings consistency and ffprobe verified. Documentation freshness and whitespace checked. |
+
+Artifacts are under `/tmp/chemistry-animation-boloramis-presentation/`: full movie,
+focused RCA clip, scene/export manifests, contact sheet, decoded review frames,
+verification record and a final-product SVG/PNG with explicit figure-level scope.
+
+Scope remains selected and qualified: the RNA is a conditional25nt match, commercial
+NxGen37°C RNA-hybrid passage is inferred from mechanistic evidence rather than
+independently measured here, and new T-equivalents retain unresolved dT/aminoallyl-dU
+occupancy. No modification or crosslink sites, native yields, mismatch-tolerance
+probabilities or full-transcript geometry are invented. Other multiplex members,
+imaging readout cycles and unrelated protocol migrations remain outside this example.
+The source review records original locators and inspected sections. No absence claim
+or publication-status promotion was introduced.
+
+The concurrent SMART-seq2 refinement is exported at
+`/tmp/chemistry-animation-smartseq2-no-timeline/smartseq2.mp4`: PCR enzymes enter at
+the extension interval, while explicit prebound RT persists across switching.
+`--timeline` enables the otherwise hidden step counter/progress bar. Batch resume
+now compares the full rendering style so old visible-footer videos cannot be reused
+under the new defaults. No staging, commit, push or deployment performed.
+
+
+### BOLORAMIS transition refinement (2026-10-31)
+
+All incoming views now ease camera and conserved nucleotide paths during the
+establish hold, including the final product rearrangement. Transitions require
+identical molecular frames and cannot conceal bond changes. SplintR ligase leaves
+when sealing finishes; the joined bases and bond retain a pink mark through RCA
+and the product view. The final retained enzyme is labelled Phi29 polymerase.
+Revised artifacts: `/tmp/chemistry-animation-boloramis-refined/`.
+76 animation checks pass, including endpoint continuity and rejection of a
+transition across differing molecular states. Native decoded frames reviewed.

@@ -13,10 +13,10 @@ Cairo/FFmpeg packages and a dedicated Python environment:
 ```sh
 python3 -m pip install -r animation/requirements.txt
 python3 -m animation list
-python3 -m animation smartseq --output /tmp/smartseq.mp4
+python3 -m animation smartseq2 --output /tmp/smartseq2.mp4
 python3 -m animation crispr-mip --shot gap --output /tmp/gap.mp4
 python3 -m animation boloramis --output /tmp/rca-draft.mp4 --size 960x540
-python3 -m animation smartseq --list-shots
+python3 -m animation smartseq2 --list-shots
 ```
 
 Commands run from repository root. The default is opaque-background16:9 H.264 MP4,
@@ -34,9 +34,10 @@ rendering dependencies. Animation dependencies are an explicit AGENTS.md excepti
 
 | CLI name | Selected mechanism |
 |---|---|
+| `smartseq2` | Substrate-driven RT, template switching, PCR, two Tn5 insertions, original-end repair, index PCR and complete library anatomy; 2014 TSO and source-era N501/N701 example indexes |
 | `smartseq` | Original2012 SMART-seq: poly(A)/RT-primer binding, retained RNA through template switching, first complementary DNA, PCR sites, Tn5 dimers/cuts, index-primer tails, final functional library anatomy (cleanup omitted) |
 | `crispr-mip` | Continuous padlock folding, target gap copying, phosphorylated nick closure |
-| `boloramis` | Conditional RNA-splinted closure and derived three-repeat RCA with displaced product |
+| `boloramis` | Source probe/primer co-hybridization, folding, RNA-splinted nick sealing, substrate-driven RCA and conserved-product overview |
 | `atac` | Coarse loaded-Tn5 adapter transfer and extension boundary |
 | `smallseq` | Conditional rRNA masking,3′ adapter ligation, free-adapter degradation and5′ adapter ligation |
 | `gibson` | Source method with the repository's invented DNA example: resection, complementary overlap annealing, nick sealing |
@@ -45,10 +46,22 @@ rendering dependencies. Animation dependencies are an explicit AGENTS.md excepti
 | `scrrbs` | MspI-end processing/A-tailing; illustrative C→chemicalDNAU and later complementary copying |
 | `celseq` | T7 transcription and successive initiations on the retained DNA template |
 | `reference` | Synthetic exact primer/template-copy fixture, not a published specimen |
+| `rnaseh` | H1-class cleavage of RNA in a supplied RNA–DNA hybrid; RNA fragments and intact DNA retained |
 
 Whole movies have multiple narration-paced scenes. Export one shot for a short
 presentation clip; `--list-shots` shows the narration and estimated durations. The
 batch command also writes one focused clip per example.
+
+**SMART-seq2 and BOLORAMIS** use nucleotide identities and reaction-generated bonds.
+The separate original2012 `smartseq` adapter
+is a historical prototype and has not received the same simulator migration. Other
+protocol migrations remain in progress; a passing endpoint check alone does not
+establish a substrate-driven reaction history.
+
+The step counter and progress bar are hidden by default; `--timeline` enables them.
+An enzyme enters when its reaction starts. `persistent=True` keeps it through the
+result hold; `enzyme_prebound=True` separately declares an enzyme already present
+from a preceding reaction, such as RT during template switching.
 
 ## Narration and presentation settings
 
@@ -58,10 +71,10 @@ MP4's neighboring `.manifest.json`, not a wall of on-screen prose. No voice synt
 audio recording or audio muxing is required by this implementation.
 
 ```sh
-python3 -m animation smartseq --shot rt --narration-seconds 18 --output /tmp/rt.mp4
-python3 -m animation smartseq --shot rt --duration 24 --output /tmp/rt-slow.mp4
-python3 -m animation smartseq --output /tmp/rehearsal.mp4 --speed 1.5
-python3 -m animation smartseq --output /tmp/original-pace.mp4 --speed 1
+python3 -m animation smartseq2 --shot rt --narration-seconds 18 --output /tmp/rt.mp4
+python3 -m animation smartseq2 --shot rt --duration 24 --output /tmp/rt-slow.mp4
+python3 -m animation smartseq2 --output /tmp/rehearsal.mp4 --speed 1.5
+python3 -m animation smartseq2 --output /tmp/original-pace.mp4 --speed 1
 python3 -m animation reference --output /tmp/detail.mp4 --bases --directions
 python3 -m animation reference --output /tmp/detail.svg --time 4 --coordinates --reagents
 ```
@@ -76,10 +89,12 @@ Timing-file values and `--duration` / `--narration-seconds` use the authored tim
 `--list-shots`, still timestamps, MP4s and exported manifests use the selected playback rate.
 Use `--speed 1` with a fixed-length narration recording unless it is retimed too. Word counts are estimates, not audio alignment.
 
-`--bases`, `--directions`, `--coordinates`, `--reagents` and `--evidence` add optional
-information. Letters stay hidden on source-unresolved schematic regions. Long known
-molecules use a backbone view instead of unreadably tiny base glyphs. `--font` chooses
-a locally installed font; the fallback depends on Cairo/system font availability.
+Nucleotide letters and strand arrows are enabled by default; `--bases` and
+`--directions` remain accepted. Unknown bases remain literal placeholder classes,
+without becoming established sequences. SMART-seq2's final molecule wraps onto two
+continued rows to preserve legibility. `--coordinates`, `--reagents` and `--evidence`
+add optional information. `--font` chooses a locally installed label font; nucleotide
+letters use DejaVu Sans Mono. Font availability depends on the local Cairo setup.
 
 A timing file applies scene-specific edits without altering molecular events:
 
@@ -101,8 +116,8 @@ The native composition uses a1600×900 logical canvas with a protected title/foo
 ## Stills, interchange and reproducible suite export
 
 ```sh
-python3 -m animation smartseq --output /tmp/smartseq.json
-python3 -m animation json --input /tmp/smartseq.json --output /tmp/replay.mp4
+python3 -m animation smartseq2 --output /tmp/smartseq2.json
+python3 -m animation json --input /tmp/smartseq2.json --output /tmp/replay.mp4
 python3 -m animation crispr-mip --shot closure --time 5 --output /tmp/closure.svg
 python3 -m animation crispr-mip --shot closure --time 5 --output /tmp/closure.png
 python3 -m animation.batch --directory /tmp/chemistry-movies
@@ -111,10 +126,11 @@ python3 -m animation.selftest --native
 ```
 
 SVG and PNG use exactly the same evaluated scene as MP4 at the requested timestamp.
-The versioned`ngs101.animation/3` JSON contains explicit molecular/timeline data, not
-Python object dumps or SVG screenshots. Unsupported versions are rejected. Versions1/2 are historical and are not silently treated as version3. Version3 adds
-functional regions, timed highlights, preserved fragment displacements and explicit
-homodimer glyphs; regenerate older scene JSON from the adapter.
+The versioned `ngs101.animation/4` JSON contains explicit molecular/timeline data,
+including nucleotide identities and reaction deltas for generated views. Unsupported
+versions are rejected. Versions1–3 are historical; regenerate those scenes from the
+adapter. Backbone bonds, duplex contacts and nucleotide births are separate from
+coordinates, labels and enzyme glyphs.
 
 The batch command exports movies, sourceJSON, SVG/PNG action stills, per-shot contact
 sheets, actual decoded-video stills, focused clips and `verification.json`. It checks
@@ -126,7 +142,8 @@ This is artifact generation, not automatic website publication.
 
 ## Add a protocol adapter
 
-`protocols.py` contains explicit adapters importing existing protocol constructors.
+`protocols.py` contains legacy adapters and shared loading/provenance support;
+`smartseq2.py` is the separate current SMART-seq2 adapter importing its protocol owner.
 Each declares the selected steps, actual sequence/end values, unresolved regions,
 reaction events, narration and directing choices. `qualify()` checks that each shot
 maps to actual step ids and snapshots the protocol module hash and source authority.
@@ -144,6 +161,7 @@ A step's type alone never generates detailed chemistry automatically.
   A fold never implicitly seals a circle.
 - `Junction`: explicit3′OH and5′P/App donor geometry for a selected successful join.
 - `Shot`: source scope, narration/timing, molecule inventory, geometry and camera.
+  Generated shots also declare the actual starting atoms/bonds and event deltas.
 - `Movie`: ordered shots, original protocol identity and provenance/limits.
 
 An extension event declares which template interval supplies new bases and preserves
@@ -167,33 +185,86 @@ SMART-seq2. BOLORAMIS's displayed RNA and Small-seq's masking target are explici
 conditional complementarity examples. Gibson's exact toy is zero-gap: the movie does
 not invent polymerase synthesis there. scRRBS's sequence/methylation occupancy is
 illustrative and distinguishes physical DNAU from a subsequent copied/reported base.
-Tn5 transfer is coarse and not misrepresented as ligase-mediated insertion. Complete
+Legacy ATAC transfer remains coarse. SMART-seq2 uses explicit staggered strand
+transfer and repair, with no invented ligase step. Complete
 NGS read landing and all reaction species are not automatically validated by animation.
 
-The renderer checks the declared local relations; source reading remains authoritative.
-Do not narrow a protocol's evidence requirements to obtain a more detailed movie.
+The simulator and scene validator check their stated molecular relations; source
+reading remains authoritative. Do not narrow a protocol's evidence requirements to
+obtain a more detailed movie. Legacy adapters without generated reaction deltas still
+have weaker endpoint/geometry checks and must not be described as fully simulated.
 
 
-## Presentation revision (2026-10-31)
+## SMART-seq2 presentation revision (2026-10-31)
 
-SMART-seq uses the published CDS oligo as an **oligo(dT) RT primer** on screen. Its
-known 5′ handle and poly(dT) tract are separate colored regions; the displayed GA
-anchor is one illustrative VN member. RNA coordinates remain fixed through RT,
-terminal addition and template switching. The complementary DNA starts as a short
-primer and grows before a later duplex PCR cycle is shown. Both index-PCR tails
-remain distinct from their 3′ binding regions. Tn5 is a linked pair of identical
-subunits carrying adapters; two insertion events bracket a selected fragment,
-with flanking pieces moving apart after cleavage. SPRI is omitted from this movie.
+`smartseq2_simulation.py` supplies molecular inputs and explicit enzyme capabilities
+to `simulator.py`; polymerase products are generated by walking actual templates.
+It never supplies a desired product to an extension operation. `smartseq2.py` projects
+those nucleotide identities onto twelve presentation scenes. `molecular_frame.py`
+replays actual bond changes, independently of geometry. Labels follow oligos;
+bound strands remain tightly spaced and incoming primers enter from outside the view.
 
-The final slide labels **functional** library anatomy. Original SMART-seq's kit TSO,
-IS-PCR footprint and Epicentre index-adapter ordering are not fully curated in the
-source model. The movie therefore does not assert modern Nextera/SMART-seq2 oligos,
-native index widths, or a sequence-validated final construct. The end-subregion order
-and drawn counts on that slide remain schematic. This limitation is also in the
-movie manifest and the slide's scope line.
+PCR uses `Simulator.extension_sites()` and `extend_available()` to discover all
+eligible3′OH ends in the supplied molecular complexes. Template and oligo ends
+receive the same test: pairing, accessible next template base, sugar capabilities,
+protein occupancy and strand displacement policy. The projector creates an actor
+for every generated extension and grows the existing template tracks too. In the
+first two index-PCR cycles this gives four polymerases; after the tails are complete,
+only the new primer ends can extend. No fixed actor count determines the chemistry.
+Polymerase and ligase glyphs use half the original width and height.
 
-Other adapters now label capture/ligation arms, RNA-adapter end chemistry, UMI and
-barcode inheritance, Gibson overlaps, Hi-C recognition/contact regions and the T7
-promoter. Both Hi-C restriction products and Tn5 cleavage products remain present
-when separated. These are selected mechanism illustrations, not whole-protocol
-population/kinetics simulations or newly verified source chemistry.
+The movie shows oligo(dT)/poly(A) binding and the unpaired ISPCR handle, RT with RNA
+retained through template switching, actual first complementary-strand synthesis,
+PCR binding, two Tn5 homodimers and staggered strand transfer, departing flanks,
+original-end repair, and successive indexed PCR copies. The final slide shows every
+base and all nine component groups on both strands. SPRI cleanup is omitted.
+
+The TSO is explicitly the2014 detailed-protocol form. N501/N701 are source-era
+available-kit examples, not recovered study-well assignments. A synthetic short
+transcript, selected cut sites and terminal-C extent make the illustration reproducible.
+The repair path pauses at bound ME complements, releases them as separate molecules,
+and continues synthesis; the source does not assign a unique release mechanism.
+No rate, yield or whole-population prediction follows. See the
+[sequence source review](smartseq-sequence-research.md) and
+[Tn5 mechanism review](tn5-mechanism-research.md).
+
+The other protocol recipes/views are at different migration stages. Their existence
+or a green endpoint check is not evidence that their public adapters already use
+substrate-generated molecular histories. Original2012 `smartseq` remains a separate
+historical prototype; it is outside the current SMART-seq2 presentation goal.
+
+## BOLORAMIS padlock presentation
+
+```sh
+python3 -m animation boloramis --output /tmp/boloramis.mp4
+python3 -m animation boloramis --shot rca --output /tmp/rca.mp4
+python3 -m animation boloramis --shot product --output /tmp/product.svg
+```
+
+Five scenes show the source ACTN1A1 probe and RCA primer co-hybridizing, folding of
+the same probe, SplintR sealing an actual nick, Phi29 extending around the closed
+template, and a conserved-product overview. Source RNA is a conditional matching
+window. Both primer and RNA persist through ligation; no extra primer or RNase is
+inserted. The nucleotide pool enters at the source's post-ligation RCA stage.
+
+The shared layout follows actual duplex contacts. RCA retains its full bound suffix,
+while displaced DNA accumulates in separated coils and unpaired RNA moves aside.
+The final overview lays out the same nucleotide IDs and bonds, including the paired
+growing end. Geometry never determines whether the nick is sealed or RNA is displaced.
+
+The displayed trajectory selects successful RNA-hybrid passage. Disabling that
+explicit Phi29 capability stalls copying at the occupied hybrid. Applicability of
+the mechanistic study to the source NxGen37°C reaction remains inferred. New DNA
+T-equivalents retain unresolved dT/aminoallyl-dU occupancy annotations; the movie
+shows backbone lettering without inventing modification or crosslink sites. The
+three-traversal budget illustrates one product rather than predicting yield. See
+[the source review](boloramis-rna-followup.md).
+
+BOLORAMIS reframing uses `Shot.transition` during the establish hold. Coordinates
+are matched by nucleotide identity, rigid circles rotate without collapsing, and
+the camera eases between views; the renderer
+rejects transitions whose molecular frames differ. Chemistry begins after reframing.
+The source probe's closure is marked only when its actual backbone bond exists.
+SplintR is labelled as a ligase and leaves after sealing; the retained final enzyme
+is explicitly labelled Phi29 polymerase. `Strand.sealed_marks` highlights the joined
+bases and bond in later views without implying a new reaction.

@@ -24,7 +24,9 @@ def main():
     p.add_argument('--speed',type=float,default=DEFAULT_SPEED,help='Playback multiplier (default: 1.5; use 1 for original timing), including narration allowance')
     p.add_argument('--duration',type=float,help='Override selected shot duration; rejects truncated narration/holds')
     p.add_argument('--narration-seconds',type=float,help='Known narration length for selected shot')
-    for flag in ['bases','directions','evidence','coordinates','reagents']:
+    p.add_argument('--bases',action='store_true',default=True,help='Nucleotide display (default)')
+    p.add_argument('--directions',action='store_true',default=True,help='Strand arrows (default)')
+    for flag in ['evidence','coordinates','reagents','timeline']:
         p.add_argument('--'+flag,action='store_true')
     a=p.parse_args()
     finite(a.speed,'speed')
@@ -63,7 +65,7 @@ def main():
     from .render import Renderer,Style
     try:w,h=map(int,a.size.split('x'))
     except ValueError:p.error('--size must be WIDTHxHEIGHT')
-    renderer=Renderer(Style(w,h,font=a.font,**{k:getattr(a,k)for k in ['bases','directions','evidence','coordinates','reagents']}))
+    renderer=Renderer(Style(w,h,font=a.font,**{k:getattr(a,k)for k in ['bases','directions','evidence','coordinates','reagents','timeline']}))
     if output.suffix=='.png':renderer.png(output,movie,a.time,a.wpm,a.speed)
     elif output.suffix=='.svg':renderer.svg(output,movie,a.time,a.wpm,a.speed)
     elif output.suffix=='.mp4':

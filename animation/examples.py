@@ -34,3 +34,12 @@ EXAMPLES['smartseq']=protocols.smartseq
 
 # Public adapter API matches the CLI.
 smartseq=protocols.smartseq
+
+from .smartseq2 import movie as smartseq2
+EXAMPLES["smartseq2"]=smartseq2
+
+from .generated_views import rnaseh
+EXAMPLES['rnaseh']=rnaseh
+
+from .boloramis import movie as boloramis
+EXAMPLES['boloramis']=boloramis

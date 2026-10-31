@@ -50,12 +50,29 @@ with one two-base exception that the page now draws as inferred.
   `/5Biosg/AAGCAGTGGTATCAACGCAGAGT`, both credited to Picelli et al. 2013.
 - 🟢 **Ramsköld et al. 2012** (PMC3467340) — the identical SMART-seq CDS primer
   `AAGCAGTGGTATCAACGCAGAGTACT(30)VN`, which is where this oligo-dT comes from.
-- 🟡 **Illumina adapter-sequence documentation**, via `lib/nextera.py` and
-  `lib/illumina.py`, for ME, s5, s7, P5, P7 and the Nextera N5xx/N7xx index primers.
+- 🟢 **Illumina customer sequence letter, printed 24 May 2012**, public mirrored
+  vendor original (`source_pdf_fbf4f1d1ac38acc3ee4b.pdf`): printed pages1–3,
+  text10 and86–183. Printed page3 names the same FC-121-1031/1030 and
+  FC-121-1011/1012 product families, prints both transferred adapters and both
+  full index-PCR primer orders, and lists eight-base N5xx/N7xx index members.
+  The rendered original confirms the adapter-versus-sample-sheet columns.
+- 🟢 **Illumina Using Nextera DNA Sample Preparation Kits and Enabling Dual
+  Indexing, part15029964 RevC**, printed©2012
+  (`illumina_15029964_C_Nextera_DNA_Sample_Preparation_Insert.pdf`): both pages,
+  text34–68 and123–136. Its catalogue IDs match Supplementary Table5, and it
+  specifies eight index cycles on each side for the named kit's standard workflow.
+  The rendered second page was inspected too.
+- 🟢 The above2012 sequence letter directly supports ME, s5, s7, P5, P7 and
+  the Nextera N5xx/N7xx primer component orders already imported through
+  `lib/nextera.py` and `lib/illumina.py`; a modern sequence listing is no longer
+  the sole evidence for these source-era components.
 
-🔴 **Still out of reach.** The Illumina Nextera DNA Sample Preparation kit (FC-121-1031)
-and Nextera Index Kit (FC-121-1011) guides of 2013 (PPC, NPM and index lengths) were not
-read. The 2013 Online Methods print the oligo-dT30VN and ISPCR bases and say both were
+The full source-era guide15027987 RevB and the complete PPC/NPM reagent compositions
+remain unassembled. The2012 vendor originals now independently establish the named
+kit's adapter/primer architecture and eight-base index widths; those positive findings
+supersede the earlier index-width deferral. The actual index pair assigned to each
+study well remains an open study-specific assignment, not a claim of absent disclosure.
+The2013 Online Methods print the oligo-dT30VN and ISPCR bases and say both were
 ordered from Biomers.net, so the earlier question about the commercial *SMARTer dT30VN*
 identity no longer affects the drawn oligos.
 
@@ -115,9 +132,9 @@ appear in the sequenced construct at all. It matters only for ordering the oligo
 | TSO handle + `AC` + `rGrG+G` | 🟢 | Picelli 2013 Suppl. Tables 2 and 4 |
 | TSO linker's trailing `AT` | 🟡 | Picelli 2014 Nature Protocols Reagent Setup (later version); drawn inferred for the 2013 method |
 | ISPCR primer | 🟢 | Picelli 2013 Online Methods (line 664); Picelli 2014 Reagent Setup |
-| Nextera ME / s5 / s7, read and index primer entry | 🟢 | Illumina adapter sequences, via `lib/nextera.py` |
-| P5 / P7 flowcell ends | 🟢 | Illumina adapter sequences, via `lib/illumina.py` |
-| i5 / i7 index *members* | 🔴 | never asserted: drawn as 8-base windows; Supplementary Table 5 costs the Nextera 24-index kit (not Nextera XT), whose index lengths were not read |
+| Nextera ME / s5 / s7, read and index primer entry | 🟢 | Illumina24May2012 vendor sequence letter, printedp3, exact source-kit families; imported through `lib/nextera.py` |
+| P5 / P7 flowcell ends | 🟢 | Illumina24May2012 vendor sequence letter, printedp3 index-PCR orders; imported through `lib/illumina.py` |
+| i5 / i7 index widths and members | 🟢 width; 🟡 sample assignment open | Eight-base N5xx/N7xx members and exact kit IDs verified in the2012 vendor originals. Generic eight-base windows do not assign the actual study-well pair. |
 | Read plan | 🟢 / 🟡 | Online Methods: "sequenced with Nextera dual indexes (i7+i5) on Illumina HiSeq 2000, giving 43bp reads after demultiplexing" 🟢; no Read 2 🟡 from the single-read primer kit (Supplementary Table 5) and the all-SINGLE deposit (ENA PRJNA213629); index cycle counts not printed |
 
 ## Open roles
@@ -125,8 +142,8 @@ appear in the sequenced construct at all. It matters only for ordering the oligo
 - 🔴 The chosen i5/i7 index pair per well is not established and is not drawn.
 - 🟡 The TSO linker's trailing `AT` is printed by the 2014 *Nature Protocols* version
   (now read) but not by the 2013 paper, whose selected `rGrG+G` row carries `AC`.
-- 🔴 Index lengths of the Nextera 24-index kit and the PPC/NPM compositions (kit guides
-  not read).
+- 🟡 Complete PPC/NPM compositions and the full source-era preparation guide remain
+  unassembled. The2012 source-kit adapter/index orders and index widths are now verified.
 
 ## Chemistry and steps
 
@@ -189,3 +206,40 @@ Supplementary Table 1 pointer slip.
 43-base demultiplexed/deposited reads do not establish acquired cycles. Removed the acquired R1=43 assignment. Same-end tagmentation classes have unresolved amplification/recovery rather than physical discard; the end-class validator does not establish those fates.
 
 Inspected scope: nmeth.2639.pdf.txt Online Methods, Read alignments (740–748); existing note ENA run report and processed-read distinction. This bounded correction does not complete the linked-source or two-reader absence audit.
+
+
+## Source-era Nextera gap closure, 31 October2026
+
+🟢 Fetched and validated two vendor originals through registered extra sources into
+this protocol's external source bundle. The bundle scraper was rerun, including an
+exact search for the transferred s5+ME adapter. The source-line pointer was checked
+in the2012 letter; upstream schematic hits were excluded. The letter's printed date,
+full component orders and index-table column relationships were also checked against
+rendered original pages. A source-guide filename or PDF metadata date was not treated
+as printed identity.
+
+The evidence chain is specific: the2013 Supplementary Table5 rows27–29 identify
+FC-121-1031, FC-121-1011 and FC-121-1003; the2012 RevC insert lists those same IDs;
+the2012 sequence letter's printedp3 explicitly assigns the transferred adapter and
+index-PCR orders to those kit families. This closes the previous source-era adapter
+identity and index-width gap without substituting a2025 catalogue or NexteraXT recipe.
+The modern canonical sequences used in the model match these contemporaneous orders.
+
+🟢 The original letter's N501 row prints adapteri5 `TAGATCGC` and the same string for
+its source-era sample sheet. N701 prints adapteri7 `TCGCCTTA` and sample-sheeti7
+`TAAGGCGA`; the latter is its reverse complement. A named N501/N701 pair may be used
+as a declared illustrative available-kit example, but is not a recovered assignment
+for an actual study well. Source-era sample-sheet orientation is not a universal
+rule for all current sequencers.
+
+The RevC insert's eight-cyclei7/eight-cyclei5 programme describes the kit's standard
+indexing workflow; it does not establish each study library's acquired R1 cycles or
+prove its executed run recipe. PPC/NPM details, the precise full-guide revision used
+by the authors, actual sample index assignments and unassembled physical end-state
+modifications remain separate questions. No missing-information absence claim or
+whole-protocol completion follows from this bounded positive source pass.
+
+The source letter permits individual sequence publication with this notice:
+**Oligonucleotide sequences ©2007–2012 Illumina, Inc. All rights reserved.** The whole
+vendor letter is not redistributed in this repository. Retrieval URLs, external cache
+names and inspected locations are recorded in `ref/MANIFEST.md`.

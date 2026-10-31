@@ -1,65 +1,284 @@
 {
-  "status": "sequence_rendering_revision_requested",
+  "status": "smartseq2_and_boloramis_verified_other_migrations_pending",
   "date": "2026-10-31",
+  "target": "SMART-seq2 and BOLORAMIS selected presentation examples",
   "plan": "plans/chemistry-animation.md",
   "implementation": "animation/README.md",
-  "outputs": "/tmp/chemistry-animations-presentation-final",
+  "outputs": "/tmp/chemistry-animation-boloramis-refined",
   "protocols": [
-    "crispr-mip",
-    "boloramis",
-    "atac",
-    "smallseq",
-    "gibson",
-    "hic",
-    "dropseq",
-    "scrrbs",
-    "celseq",
-    "smartseq"
+    "smartseq2",
+    "boloramis"
   ],
+  "schema": "ngs101.animation/4",
+  "playback_multiplier": 1.5,
   "tests": {
     "command": "python3 -m animation.selftest --native",
-    "checks": 36,
+    "checks": 76,
     "result": "PASS"
   },
   "artifacts": {
-    "movies": 11,
-    "focused_clips": 11,
-    "codec": "H.264",
-    "pixel_format": "yuv420p",
-    "width": 1920,
-    "height": 1080,
-    "fps": 30,
-    "movie_frames": 11315,
-    "movie_seconds": 377.171,
-    "shots": 37,
-    "smartseq_seconds": 111.334,
-    "verification": "/tmp/chemistry-animations-presentation-final/verification.json",
-    "visually_reviewed": [
-      "All revised mechanism contact sheets",
-      "Decoded SMART-seq template-switch, post-cleavage, index-primer binding and final-library frames",
-      "Source-scene/settings consistency verified for all eleven full exports"
+    "boloramis": {
+      "video": {
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "frames": 2308,
+        "duration": 76.934,
+        "bytes": 3179205
+      },
+      "operation_seconds": 59.95770530594746,
+      "reused_video": false,
+      "shots": 5,
+      "selected_still_time": 51.03999999999999,
+      "scope": "source-qualified selected mechanism",
+      "focus": {
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "frames": 595,
+        "duration": 19.867,
+        "bytes": 1034839,
+        "shot": "rca"
+      }
+    },
+    "smartseq2": {
+      "video": {
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "frames": 4474,
+        "duration": 149.134,
+        "bytes": 4053457
+      },
+      "operation_seconds": 108.07806717400672,
+      "reused_video": false,
+      "shots": 12,
+      "selected_still_time": 11.426666666666668,
+      "scope": "source-qualified selected mechanism",
+      "focus": {
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "frames": 232,
+        "duration": 7.734,
+        "bytes": 106132,
+        "shot": "rt"
+      }
+    }
+  },
+  "review": {
+    "date": "2026-10-31",
+    "target": "BOLORAMIS source ACTN1A1 example",
+    "source_scene_match": true,
+    "generated_shots": 5,
+    "movie_sha256": "f021b199d8c3236dd35bb65c2650868fc7965b80b0f5c1600f0ae2d15585173e",
+    "decoded_frames": [
+      {
+        "shot": "bind",
+        "phase": 0.9,
+        "seconds": 6.0,
+        "file": "bind-0.9-decoded.png"
+      },
+      {
+        "shot": "fold",
+        "phase": 0.15,
+        "seconds": 16.326666666666668,
+        "file": "fold-0.15-decoded.png"
+      },
+      {
+        "shot": "fold",
+        "phase": 0.4,
+        "seconds": 17.493333333333336,
+        "file": "fold-0.4-decoded.png"
+      },
+      {
+        "shot": "fold",
+        "phase": 0.75,
+        "seconds": 19.12666666666667,
+        "file": "fold-0.75-decoded.png"
+      },
+      {
+        "shot": "fold",
+        "phase": 0.95,
+        "seconds": 20.06,
+        "file": "fold-0.95-decoded.png"
+      },
+      {
+        "shot": "close",
+        "phase": 0.15,
+        "seconds": 28.95333333333333,
+        "file": "close-0.15-decoded.png"
+      },
+      {
+        "shot": "close",
+        "phase": 0.5,
+        "seconds": 30.119999999999994,
+        "file": "close-0.5-decoded.png"
+      },
+      {
+        "shot": "close",
+        "phase": 0.95,
+        "seconds": 31.619999999999994,
+        "file": "close-0.95-decoded.png"
+      },
+      {
+        "shot": "rca",
+        "phase": 0.15,
+        "seconds": 44.63999999999999,
+        "file": "rca-0.15-decoded.png"
+      },
+      {
+        "shot": "rca",
+        "phase": 0.5,
+        "seconds": 50.23999999999999,
+        "file": "rca-0.5-decoded.png"
+      },
+      {
+        "shot": "rca",
+        "phase": 0.95,
+        "seconds": 57.44,
+        "file": "rca-0.95-decoded.png"
+      },
+      {
+        "shot": "product",
+        "phase": 0.9,
+        "seconds": 67.50666666666666,
+        "file": "product-0.9-decoded.png"
+      }
+    ],
+    "tests": {
+      "animation": 76,
+      "protocol": 26,
+      "source_oligos": 35
+    },
+    "source_limits": [
+      "Selected successful event, not yield or kinetics. Motion and layout are illustrative.",
+      "Prepared-source inputs and workups outside these focused scenes are not reconstructed.",
+      "RNA is the conditional25nt perfect-match window derived from source probe arms, not a verified occupied transcript or an isolated full RNA molecule.",
+      "RCA primer is co-hybridized and retained; no fresh primer or RNase is invented between ligation and RCA.",
+      "Selected successful Phi29 RNA-hybrid passage is mechanistically supported by doi:10.1093/nar/gkad1101, with applicability to the source NxGen37C reaction inferred; stalled branches and yields are not predicted.",
+      "Canonical DNA backbone lettering: each newly incorporated T-equivalent has unresolved dT versus aminoallyl-dU occupancy. No modification sites or crosslinks are invented.",
+      "Three template traversals after the23nt primer are an illustrative synthesis budget."
+    ],
+    "renderer_sources": {
+      "animation/boloramis.py": "a43ef639fa8d9f8f31bc4d217206544f617b686f07fc3ed44f257e8646535096",
+      "animation/layout.py": "92b9d85716c3e018a02ff10277d4b9ef69f7855c347d34444e8383ee14e278d8",
+      "animation/evaluate.py": "ebb2b8fbad8f380d9db6ac123193b717dbe9a67a3225af341969a95b7633697e",
+      "animation/render.py": "07f411a99c6f2bc48703979b1def70ff6998a93c1e8d4e06625a0909ce6507d3",
+      "animation/model.py": "01fabcdde50df90746ed18b5425d8ed9808fa77e3c76b2b221aec7be18e26793",
+      "animation/simulator.py": "00010d734854dcae7d697ea43de2e8b31af41045ad8d08e009a2b04b821ce780"
+    },
+    "visual_review": {
+      "status": "inspected",
+      "coverage": "All five scenes; decoded binding, mid-folding, ligation, RCA coils and final conserved-product overview. Labels and strand contacts checked. Decoded transition midpoints, post-ligation joined bases and final Phi29 label inspected."
+    },
+    "transition_frames": [
+      {
+        "shot": "close",
+        "seconds": 27.853333333333328,
+        "file": "close-transition-decoded.png"
+      },
+      {
+        "shot": "close",
+        "seconds": 32.453333333333326,
+        "file": "close-sealed-decoded.png"
+      },
+      {
+        "shot": "product",
+        "seconds": 61.50666666666667,
+        "file": "product-transition-decoded.png"
+      },
+      {
+        "shot": "product",
+        "seconds": 68.77333333333333,
+        "file": "product-sealed-decoded.png"
+      }
     ]
   },
-  "requirements": {
-    "native_mp4": "Cairo\u2192rawvideo pipe\u2192FFmpeg; no browser or Manim",
-    "deterministic_evaluation": "animation/evaluate.py + native pixel seek check",
-    "molecular_relations": "animation/model.py + reaction rejection/identity/circle/copy tests",
-    "source_reuse": "animation/protocols.py original module hashes/step ids and constructor calls",
-    "narration_and_sparse_defaults": "Shot.timing; default1.5\u00d7 playback; CLI/batch --speed, detail flags and narration overrides",
-    "still_and_interchange": "PNG/SVG,versionedJSONroundtrip,actual batch artifacts",
-    "all_accepted_coverage": "SMART-seq +9 complementary protocol movies; reference separate",
-    "isolated_dependencies": "optionalanimationrequirements; Python-S model-loading check",
-    "documentation": "animation/README.md and this plan"
-  },
-  "scientific_limits": [
-    "Selected successful mechanism and illustrative choreography, not kinetics/yields or whole reaction validation.",
-    "OriginalSMART-seq native kit/first-cycle/read geometry stays unassigned; noSMART-seq2substitution.",
-    "ConditionalRNA/mask targets and inventedGibson/scRRBS fixtures explicitly qualified.",
-    "Native sequencing/read maps and unexpanded populations remain source-scoped."
-  ],
+  "broader_migration": "Other generated recipes/views are not all wired into public adapters. Original2012 smartseq remains a separate prototype, outside this goal. See the plan for outstanding integration.",
   "git": "Unstaged; no commit/push/deploy.",
-  "schema": "ngs101.animation/3",
-  "playback_multiplier": 1.5,
-  "revision": "User-directed primer/handle/RNA/PCR/Tn5/final-library teaching revision; original native end geometry remains explicitly schematic.",
-  "pending_revision": "See final section of plans/chemistry-animation.md; current line-based exports rejected by user, sequence-based renderer and corrected Tn5 product/repair story not yet implemented."
+  "historical_checkpoint": {
+    "status": "sequence_rendering_revision_requested",
+    "date": "2026-10-31",
+    "plan": "plans/chemistry-animation.md",
+    "implementation": "animation/README.md",
+    "outputs": "/tmp/chemistry-animations-presentation-final",
+    "protocols": [
+      "crispr-mip",
+      "boloramis",
+      "atac",
+      "smallseq",
+      "gibson",
+      "hic",
+      "dropseq",
+      "scrrbs",
+      "celseq",
+      "smartseq"
+    ],
+    "tests": {
+      "command": "python3 -m animation.selftest --native",
+      "checks": 36,
+      "result": "PASS"
+    },
+    "artifacts": {
+      "movies": 11,
+      "focused_clips": 11,
+      "codec": "H.264",
+      "pixel_format": "yuv420p",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "movie_frames": 11315,
+      "movie_seconds": 377.171,
+      "shots": 37,
+      "smartseq_seconds": 111.334,
+      "verification": "/tmp/chemistry-animations-presentation-final/verification.json",
+      "visually_reviewed": [
+        "All revised mechanism contact sheets",
+        "Decoded SMART-seq template-switch, post-cleavage, index-primer binding and final-library frames",
+        "Source-scene/settings consistency verified for all eleven full exports"
+      ]
+    },
+    "requirements": {
+      "native_mp4": "Cairo\u2192rawvideo pipe\u2192FFmpeg; no browser or Manim",
+      "deterministic_evaluation": "animation/evaluate.py + native pixel seek check",
+      "molecular_relations": "animation/model.py + reaction rejection/identity/circle/copy tests",
+      "source_reuse": "animation/protocols.py original module hashes/step ids and constructor calls",
+      "narration_and_sparse_defaults": "Shot.timing; default1.5\u00d7 playback; CLI/batch --speed, detail flags and narration overrides",
+      "still_and_interchange": "PNG/SVG,versionedJSONroundtrip,actual batch artifacts",
+      "all_accepted_coverage": "SMART-seq +9 complementary protocol movies; reference separate",
+      "isolated_dependencies": "optionalanimationrequirements; Python-S model-loading check",
+      "documentation": "animation/README.md and this plan"
+    },
+    "scientific_limits": [
+      "Selected successful mechanism and illustrative choreography, not kinetics/yields or whole reaction validation.",
+      "OriginalSMART-seq native kit/first-cycle/read geometry stays unassigned; noSMART-seq2substitution.",
+      "ConditionalRNA/mask targets and inventedGibson/scRRBS fixtures explicitly qualified.",
+      "Native sequencing/read maps and unexpanded populations remain source-scoped."
+    ],
+    "git": "Unstaged; no commit/push/deploy.",
+    "schema": "ngs101.animation/3",
+    "playback_multiplier": 1.5,
+    "revision": "User-directed primer/handle/RNA/PCR/Tn5/final-library teaching revision; original native end geometry remains explicitly schematic.",
+    "pending_revision": "See final section of plans/chemistry-animation.md; current line-based exports rejected by user, sequence-based renderer and corrected Tn5 product/repair story not yet implemented."
+  },
+  "superseded_smartseq2_review": {
+    "outputs": "/tmp/chemistry-animation-smartseq2-reviewed",
+    "reason": "Selected only new PCR primers; omitted extension of original recessed3prime ends."
+  },
+  "protocol_outputs": {
+    "smartseq2": "/tmp/chemistry-animation-smartseq2-no-timeline",
+    "boloramis": "/tmp/chemistry-animation-boloramis-refined"
+  },
+  "latest_validation": {
+    "animation_tests": 76,
+    "smartseq2_protocol_tests": 4,
+    "combined_source_oligos": 36,
+    "source_failures": 0,
+    "unassembled_inputs": 7
+  }
 }

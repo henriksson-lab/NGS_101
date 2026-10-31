@@ -308,8 +308,12 @@ def protocol_graph() -> ProtocolGraph:
         "Supplementary Table 5 costs a TruSeq Dual Index sequencing primer kit for Single "
         "Read runs, and all 76 GSE49321 runs (ENA PRJNA213629) are SINGLE-layout 43-base "
         "reads. This supports single-read acquisition with both indexes and no Read 2, "
-        "but does not establish the acquired Read 1 cycle count. Index "
-        "lengths of the Nextera 24-index kit are not printed in the sources read."))
+        "but does not establish the acquired Read 1 cycle count. The contemporaneous "
+        "Illumina insert 15029964 Rev C (2012) matches the source kit IDs and specifies "
+        "8+8 standard index cycles. The vendor sequence letter dated 24 May 2012, page 3, "
+        "prints those kit IDs, the adapter/index-primer orders and eight-base N5xx/N7xx "
+        "members. These close the previous source-era order/width questions; individual "
+        "study-well index assignments remain unassembled."))
     graph.annotate(Highlight(
         "tagment", "Selection after Tn5",
         "Heterologous s5/s7 fragments have both index-PCR sites. Same-end s5/s5 "

@@ -1,9 +1,39 @@
 # Restart handoff
 
-Latest animation review: user rejected the line-based movies. Sequence lettering,
-attached labels/arrows, explicit pairing state, off-screen oligo entry and corrected
-Tn5 products/repair/final anatomy remain to implement. See the final section of
-`plans/chemistry-animation.md`. Current movies are review checkpoints.
+Latest completed example: **BOLORAMIS**, selected source ACTN1A1 component.
+`/tmp/chemistry-animation-boloramis-refined/boloramis.mp4` is76.934s,1080p30,
+H.264/yuv420p at default1.5×. Five generated scenes cover co-hybridization of probe
+and RCA primer, folding/short-arm binding, actual SplintR nick sealing, Phi29 RCA
+with RNA/DNA displacement, and a conserved-product overview. Artifact directory
+includes the focused RCA clip, source/export manifests, contact sheet, decoded review
+frames, verification and a scoped final-product SVG/PNG. Earlier BOLORAMIS drafts
+are superseded. View changes ease camera and nucleotide paths during establish
+holds, guarded by unchanged molecular frames. SplintR ligase departs after sealing;
+pink joined-base/bond marks persist. The final enzyme is labelled Phi29 polymerase.
+
+The new source check corrected the old animation's late RCA-primer addition. Primer
+now co-hybridizes and persists through ligation; the DNA nucleotide pool enters only
+at post-ligation RCA. Obsolete recipes/projectors were retired. The current recipe
+and public adapter share one implementation. Shared layout follows actual duplex
+contacts, uses all actually paired RCA bases and spreads displaced DNA into coils.
+Folding is independent of sealing; original RNA and primer IDs remain conserved.
+76 animation tests,26protocol checks and35source-oligo checks pass. See the final
+BOLORAMIS audit in `plans/chemistry-animation.md` and the current machine checkpoint.
+
+Scope is explicit: conditional25nt RNA match, selected successful Phi29 RNA passage
+with NxGen37°C applicability inferred, and unresolved dT/aminoallyl-dU occupancy.
+No native yield, complete transcript, modification positions or crosslink sites are
+invented. This is a selected mechanism example, not the whole multiplex/imaging workflow.
+Other protocol simulator migrations remain unfinished.
+
+Latest SMART-seq2 refinement:
+`/tmp/chemistry-animation-smartseq2-no-timeline/smartseq2.mp4`. PCR polymerases enter
+when extension starts, while explicitly prebound RT persists through switching.
+Counter/progress bar are hidden by default; `--timeline` enables them. Polymerase
+and ligase glyphs remain half-size. Original2012 SMART-seq is a separate historical
+prototype. Changes staged and committed at the transition refinement checkpoint; no push or
+deployment. Earlier records below
+are historical.
 
 ## 2026-10-31 — animation presentation revision
 

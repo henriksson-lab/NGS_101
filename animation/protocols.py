@@ -117,49 +117,8 @@ def crispr_mip():
 
 
 def boloramis():
-    slug='boloramis__10.1093+nar+gkab120';m=load(slug,'chem.py');seq=m.probe().top();n=len(seq)
-    circle=m.circle();product=m.rca();rna=m.ConditionalRNAMatch().sequence
-    route=arc(n)
-    probe=Strand('probe',seq,(0,0),(0,0),'primer','DNA padlock',five_prime='P',path=route,nicks=[0],label_position=(820,690))
-    splint=Strand('splint',rna,(1000,690),(660,690),'rna','Conditional RNA splint','RNA',label_position=(820,770))
-    # Conditional match is exactly the existing source-qualified inferred helper;
-    # this is not a claim of an independently verified transcript sequence.
-    close=Shot('close','RNA-splinted closure',[probe,splint],
-               [closure_event('probe',m.AUTHORITY+' ConditionalRNAMatch, perfect-match RNA inferred.','SplintR',.15)],
-               'The two DNA probe ends meet on an RNA splint. SplintR ligase closes the selected probe. The drawn RNA is a conditional perfect-match example, not an independently verified occupied transcript.',
-               scope='INFERRED RNA splint · selected closure',action=4)
-    # Draw the actual paired local end window, not an unconnected RNA beneath a circle.
-    # Keep circle geometry for RCA; the closure shot uses a loop plus adjacent arms.
-    long,short=len(m.LONG),len(m.SHORT)
-    closure_route=[(0,800,555),(long,1090,555),(long+4,1130,390),
-                   (n-short,690,390),(n,800,555)]
-    # Route closure first ends meet, 3prime shortarm resides on left of junction.
-    closure_route[-2]=(n-short,690,555)
-    closure_route.insert(-2,(n-short-1,580,390))
-    probe.path=closure_route
-    splint.start=(1090,605);splint.end=(690,605);splint.label_position=(890,715)
-    probe.regions=[Region(0,long,'5′ P · ligation arm','primer',-1,(1040,490)),Region(n-short,n,'3′ OH · opposite arm','bio',1,(610,690))]
-    close.pairings=[Pairing('probe',0,'splint',long-1,long,source='ConditionalRNAMatch long arm'),
-                    Pairing('probe',n-short,'splint',long+short-1,short,source='ConditionalRNAMatch short arm')]
-    # Pairing through declared source arms is already checked in the existing Scene.
-    m.ConditionalRNAMatch().scene()
-    template=Strand('circle',circle.sequence,(0,0),(0,0),'primer','Closed DNA template',five_prime='none',three_prime='none',circular=True,path=arc(n,620,490,120),label_position=(620,680))
-    seqout=product.sequence;primer=len(product.primer)
-    # Route the displaced concatemer away from the circle without changing base order.
-    outpath=[(0,620,610),(primer,740,560)]
-    rest=len(seqout)-primer
-    outpath += [(primer+rest*i/36,740+540*i/36,560+75*math.sin(i/36*math.pi*5))for i in range(1,37)]
-    out=Strand('concatemer',seqout,(0,0),(0,0),'new','Displaced tandem copies',initially_visible=primer,path=outpath,label_position=(1080,740))
-    out.regions=[Region(0,primer,'RCA primer','primer',1,(1150,710))]
-    start=(product.binding_start+primer)%n
-    copy=Shot('rca','Copy around the circle',[template,out],
-              [Event('rca','concatemer','Phi29',template='circle',template_start=(product.binding_start-1)%n,primer_length=primer,exact=True,note='Three template traversals · schematic strand displacement')],
-              'Phi29 repeatedly copies the closed DNA template. The growing strand is displaced from earlier copies, producing a continuous concatemer. The original circle remains available as the template.',
-              scope='Derived three-repeat example · not amplification yield',action=8)
-    return qualify(m,slug,'BOLORAMIS',[close,copy],{'close':['circle'],'rca':['rca']},
-                   limits=['Conditional RNA inferred from complementarity to published probe arms.',
-                           'RCA shows backbone sequence; aminoallyl-dU locations, occupancy and crosslink anchoring remain unresolved.',
-                           'Sequencing-by-ligation imaging cycles are a future extension.'],extra={'template':seq,'rca_unit':product.unit,'copies':product.copies})
+    from .boloramis import movie
+    return movie()
 
 
 def atac():

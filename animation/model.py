@@ -8,9 +8,9 @@ from dataclasses import asdict, dataclass, field, replace
 import math
 import re
 
-SCHEMA = 'ngs101.animation/3'
+SCHEMA = 'ngs101.animation/4'
 DEFAULT_SPEED = 1.5
-KINDS = {'extend', 'anneal', 'separate', 'seal', 'cleave', 'fold', 'tail', 'bind', 'release', 'rca', 'transcribe', 'resect', 'convert', 'capture', 'transfer', 'highlight', 'displace'}
+KINDS = {'extend', 'anneal', 'separate', 'seal', 'cleave', 'fold', 'tail', 'bind', 'release', 'rca', 'transcribe', 'resect', 'convert', 'capture', 'transfer', 'highlight', 'displace', 'pair', 'unpair', 'strand_transfer', 'resect3', 'follow', 'peel'}
 BASES = set('ACGTUNRYSWKMBDHV')
 
 
@@ -33,6 +33,7 @@ class Region:
     side: int = -1
     # Optional explicit callout position for densely packed molecular anatomy.
     label_position: tuple[float, float] | None = None
+    label_offset: tuple[float, float] | None = None
 
 
 @dataclass
@@ -65,8 +66,14 @@ class Strand:
 
     regions: list[Region] = field(default_factory=list)
     pieces: list[tuple[int, int, float, float]] = field(default_factory=list)
+    continued_5prime: bool = False
+    continued_3prime: bool = False
+    nucleotide_ids: list[str] = field(default_factory=list)
+    sealed_marks: list[int] = field(default_factory=list)
 
     def validate(self):
+        if any(not isinstance(i,int) or not 0<=i<len(self.sequence) for i in self.sealed_marks):raise ValueError("junction mark leaves strand")
+        if self.nucleotide_ids and len(self.nucleotide_ids)!=len(self.sequence):raise ValueError('one nucleotide identity per base required')
         for a,b,dx,dy in self.pieces:
             if not 0<=a<b<=len(self.sequence):raise ValueError('initial piece leaves strand')
             finite(dx,'piece displacement');finite(dy,'piece displacement')
@@ -86,7 +93,7 @@ class Strand:
         if self.polymer == 'mixed':
             cursor = 0
             for a, b, sugar in self.sugars:
-                if a != cursor or not a < b <= len(self.sequence) or sugar not in {'DNA', 'RNA'}:
+                if a != cursor or not a < b <= len(self.sequence) or sugar not in {'DNA', 'RNA', 'LNA'}:
                     raise ValueError('mixed strand requires a contiguous physical sugar map')
                 cursor = b
             if cursor != len(self.sequence): raise ValueError('mixed sugar map must cover strand')
@@ -146,6 +153,12 @@ class Pairing:
     b_step: int = -1
     exact: bool = True
     source: str = ''
+    id: str = ''
+    initially_bound: bool = True
+
+    @property
+    def key(self):
+        return self.id or f'{self.a}:{self.a_start}:{self.b}:{self.b_start}:{self.length}'
 
 
 @dataclass
@@ -186,7 +199,13 @@ class Event:
     span: tuple[int, int] | None = None
     complex: str = ''
     persistent: bool = False
+    enzyme_prebound: bool = False
+    enzyme_class: str = ''
+    enzyme_label: str | None = None
     actor_offset: tuple[float, float] = (0., 0.)
+    enzyme_label_offset: tuple[float, float] = (0., -61.)
+    pairing: str = ""
+    molecular_operation: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -208,6 +227,13 @@ class Shot:
     decorations: list[Decoration] = field(default_factory=list)
     inventory: dict[str, str] = field(default_factory=dict)
     camera: tuple[float,float,float] = (800.,500.,1.)
+    transition: float = 0.
+    chemical_pairs: list[tuple[str,str]] = field(default_factory=list)
+    chemistry_generated: bool = False
+    initial_nucleotides: list[str] = field(default_factory=list)
+    initial_atom_records: list[dict] = field(default_factory=list)
+    initial_backbone: list[tuple[str,str]] = field(default_factory=list)
+    initial_released: list[str] = field(default_factory=list)
 
     def timing(self, words_per_minute=125, *, estimate_narration=True):
         finite(words_per_minute, 'speaking rate')
@@ -235,9 +261,19 @@ class Shot:
         if not self.id or not self.title or not self.narration or not self.scope or not self.source:
             raise ValueError('shot needs id, title, narration, scope and source')
         self.timing(estimate_narration=False)
+        finite(self.transition,'transition')
+        if not 0<=self.transition<=self.establish:raise ValueError('transition must fit before chemistry starts')
         if len(self.camera)!=3 or self.camera[2]<=0:raise ValueError('camera needs center x/y and positive zoom')
         for v in self.camera:finite(v,'camera')
         by_id = {s.id: s.validate() for s in self.strands}
+        if self.chemistry_generated:
+            ids=[i for strand in self.strands for i in strand.nucleotide_ids]
+            if any(not strand.nucleotide_ids for strand in self.strands):raise ValueError('simulated view needs physical nucleotide identities')
+            for strand in self.strands:
+                n=len(strand.sequence)if strand.initially_visible is None else strand.initially_visible
+                present=list(strand.nucleotide_ids[:n])+[id for a,b in strand.preserve for id in strand.nucleotide_ids[a:b]]
+                if set(present)-set(self.initial_nucleotides):raise ValueError('visible molecule is absent from initial simulated state')
+            if len(set(ids))!=len(ids):raise ValueError('one physical nucleotide cannot appear in two drawn molecules')
         if len(by_id) != len(self.strands): raise ValueError('duplicate strand ids')
         for strand in self.strands:
             for a,b,origin,start in strand.lineage:
@@ -245,6 +281,7 @@ class Shot:
                     raise ValueError('invalid molecular identity correspondence')
                 if strand.sequence[a:b]!=self.inventory[origin][start:start+b-a]:
                     raise ValueError('retained interval differs from original molecule')
+        if len({p.key for p in self.pairings})!=len(self.pairings):raise ValueError('duplicate pairing identity')
         for pairing in self.pairings:
             if pairing.a not in by_id or pairing.b not in by_id or pairing.b_step!=-1 or pairing.length<=0:
                 raise ValueError('pairing requires existing antiparallel strands and positive length')
@@ -269,6 +306,12 @@ class Shot:
             if not 0 <= e.fraction_start < e.fraction_end <= 1:
                 raise ValueError('event times must be ordered within action interval')
             s = by_id[e.strand]
+            if e.enzyme_class not in {'','polymerase','ligase','nuclease','transposase'}:raise ValueError('unknown enzyme class')
+            if e.kind in {'follow','peel'} and (e.template not in by_id or e.amount<=0):raise ValueError('binding layout requires a template and positive nucleotide spacing')
+            if self.chemistry_generated and e.kind in {'extend','tail','seal','cleave','strand_transfer','rca','transcribe','resect','resect3','convert','pair','unpair'} and not e.molecular_operation:
+                raise ValueError('chemical animation event lacks a generated reaction')
+            if e.kind in {'pair','unpair'} and e.pairing not in {p.key for p in self.pairings}:
+                raise ValueError('binding transition needs an explicit pairing identity')
             if e.kind in {'extend','rca','transcribe'}:
                 end=len(s.sequence) if e.copy_end is None else e.copy_end
                 if not 0 <= e.primer_length < end <= len(s.sequence):
@@ -277,7 +320,9 @@ class Shot:
                     raise ValueError('extension requires an existing primer with extendable 3primeOH')
                 if e.kind=='transcribe' and (s.polymer!='RNA' or e.primer_length!=0):
                     raise ValueError('transcription creates RNA de novo')
-                if s.initially_visible!=e.primer_length: raise ValueError('initial strand length must equal declared extension primer')
+                if s.initially_visible!=e.primer_length:
+                    predecessors=[x for x in self.events if x.strand==s.id and x.kind=='extend' and x.copy_end==e.primer_length and x.fraction_end<=e.fraction_start]
+                    if not predecessors:raise ValueError('extension must start from actual initial primer or an earlier generated extension')
                 if e.template not in by_id or e.template_step!=-1:
                     raise ValueError('copying requires explicit antiparallel template coordinates')
                 template=by_id[e.template]
@@ -299,7 +344,37 @@ class Shot:
                         raise ValueError('unknown classes cannot establish exact copying')
                     copied=complement(template_bases)
                     if s.polymer=='RNA':copied=copied.replace('T','U')
+                    elif s.polymer=='mixed':
+                        copied=''.join(base.replace('T','U')if any(lo<=i<hi and sugar=='RNA'for lo,hi,sugar in s.sugars)else base for i,base in enumerate(copied,begin))
                     if s.sequence[begin:end]!=copied:raise ValueError('primer or new daughter bases do not complement template mapping')
+            if e.kind=='strand_transfer':
+                if e.other not in by_id or e.bond is None or not 0<e.bond<len(by_id[e.other].sequence):
+                    raise ValueError('strand transfer requires an explicit internal target bond')
+                if s.three_prime!='OH':raise ValueError('strand transfer needs adapter 3primeOH')
+                if not e.note:raise ValueError('strand transfer requires source-scoped chemistry')
+            if e.molecular_operation and e.kind in {'extend','tail','rca','transcribe'}:
+                added=e.molecular_operation['added']
+                begin=e.primer_length if e.kind!='tail' or e.primer_length else s.initially_visible
+                end=e.copy_end or len(s.sequence)
+                if ''.join(a['base']for a in added)!=s.sequence[begin:end]:
+                    raise ValueError('drawn synthesis differs from generated reaction product')
+                if s.nucleotide_ids and [a['id']for a in added]!=s.nucleotide_ids[begin:end]:
+                    raise ValueError('drawn nucleotide identities differ from generated reaction')
+                if e.kind in {'extend','rca','transcribe'} and by_id[e.template].nucleotide_ids:
+                    expected=[]
+                    for j in range(len(added)):
+                        i=e.template_start-j
+                        if e.kind=='rca':i%=len(by_id[e.template].nucleotide_ids)
+                        expected.append(by_id[e.template].nucleotide_ids[i])
+                    if [a['template']for a in added]!=expected:raise ValueError('drawn copy follows a different template than simulated')
+            if self.chemistry_generated and e.kind=='cleave':
+                removed=e.molecular_operation['backbone_removed']
+                bond=[s.nucleotide_ids[e.bond-1],s.nucleotide_ids[e.bond]]
+                if bond not in removed and tuple(bond)not in removed:raise ValueError('drawn cut is not a simulated backbone cleavage')
+            if self.chemistry_generated and e.kind=='strand_transfer':
+                added=e.molecular_operation['backbone_added']
+                bond=[s.nucleotide_ids[-1],by_id[e.other].nucleotide_ids[e.bond]]
+                if bond not in added and tuple(bond)not in added:raise ValueError('drawn transfer junction is not simulated')
             if e.kind in {'seal','cleave'}:
                 if e.bond is None or not 0<=e.bond<len(s.sequence): raise ValueError('seal/cleave needs a nucleotide bond coordinate')
                 if e.kind=='seal':
@@ -321,13 +396,15 @@ class Shot:
             if e.kind in {'highlight','displace'}:
                 if e.span is None or not 0 <= e.span[0] < e.span[1] <= len(s.sequence): raise ValueError('event needs valid molecular span')
             if e.complex not in {'', 'homodimer'}: raise ValueError('unknown enzyme complex')
+            if len(e.enzyme_label_offset)!=2:raise ValueError('enzyme label offset needs x/y')
+            for v in e.enzyme_label_offset:finite(v,'enzyme label offset')
             if e.kind in {'anneal','separate','capture','transfer','displace'}:
                 if e.target is None or len(e.target)!=2: raise ValueError('movement needs target displacement')
                 for x in e.target: finite(x,'movement')
             if e.kind=='fold':
                 if not e.route: raise ValueError('fold needs explicit routed strand geometry')
                 replace(s,path=e.route).validate()
-            if e.kind=='resect' and (not isinstance(e.amount,int) or not 0<e.amount<len(s.sequence)):
+            if e.kind in {'resect','resect3'} and (not isinstance(e.amount,int) or not 0<e.amount<len(s.sequence)):
                 raise ValueError('resection requires explicit removed 5prime interval')
             if e.kind=='convert':
                 if not e.positions or e.replacement not in BASES: raise ValueError('conversion requires explicit sites and chemical product')
