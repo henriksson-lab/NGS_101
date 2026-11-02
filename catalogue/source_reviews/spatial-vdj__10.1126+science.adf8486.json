@@ -59,6 +59,23 @@
       "availability": "read",
       "relevance": "relevant",
       "inspection_scope": "Actual worksheet/cell identities and full selected spatial PartRead1/TRBVinner/TRBVouter/captureprobe/blocker rows;62outer/62inner/194probe/2blocker/1PartRead1 source rows. Duplicate source rows retained; sequence-only cells do not establish end modifications. BulkSS3/TRA/nonspatialvalidation sheets not adopted."
+    },
+    {
+      "id": "visium_rev_a",
+      "role": "vendor",
+      "locator": "https://assets.ctfassets.net/an68im79xiti/3pyXucRaiKWcscXy3cmRHL/a1ba41c77cbf60366202805ead8f64d7/CG000239_VisiumSpatialGeneExpression_UserGuide_Rev_A.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Exact cited CG000239 Rev A original cover, Steps4.2\u20134.3 printedpp49\u201350, Appendixp75 original figure and text4995\u20135078. Recovered source-owned full-length pre-fragmentation duplex pattern and PN2000089 primers; earlier slide release and native first-cycle geometry remain unresolved."
+    },
+    {
+      "id": "stahl2016_indexing_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aaf2403",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Final Spatial VDJ indexing paragraph cites reference6. Existing external source manifest doi_10.1126+science.aaf2403 records the defining original as manual/no open full text; no original text is cached. The exact source indexing oligos remain blocked on this original and its linked chemistry material.",
+      "inspection_scope": "Identity checked in final Spatial VDJ reference6; original not inspected. No sequence or absence conclusion inferred."
     }
   ],
   "bounded_checks": [
@@ -130,11 +147,12 @@
     "result": "enumerated",
     "pass_1": null,
     "pass_2": null,
-    "notes": "Final main/SM/DataS1 now obtained. DataS2\u2013S5 available but not inspected as chemistry. Historical vendor originals remain ordinary unread; whole cDNA/index primer questions stay open and are not invented unavailable documents. No absent-information conclusion."
+    "notes": "Final main/SM/DataS1 available. Exact cited Visium CG000239 Rev A now retrieved/read and used for a versioned cDNA handoff and known PN2000089 primers. IDT xGen v4 and source-linked St\u00e5hl2016 indexing original remain unresolved; DataS2\u2013S5 uninspected as chemistry. No absence conclusion."
   },
   "missing_claims": [],
   "pending_sources": [
-    "Historical Visium CG000239 Rev A and IDT xGen v4 delegated originals; ordinary unread, not failed downloads"
+    "IDT xGen hybridization capture v4 exact cited original; ordinary unread in this pass",
+    "St\u00e5hl2016 doi10.1126/science.aaf2403 and source-linked indexing chemistry originals; cached defining-source route is manual/unavailable"
   ],
   "historical_checkpoints": [
     {
@@ -145,7 +163,7 @@
       "disposition": "Historicaldefermentresumed2026-10-30afterlegitimateauthoracceptedPDFwasretrieved; notactiveuserblock."
     }
   ],
-  "conclusion": "Source-qualified public SR-TRB page now represents the reviewed preparation and published spatial oligo inventories. Full cDNA/index preparations, terminal chemistry and occupied products remain unresolved; no complete molecular-validation or absence-audit claim.",
+  "conclusion": "Source-qualified SR-TRB page now consumes the exact Visium Rev A pre-fragmentation cDNA declaration and exposes the PN2000089 cDNA primer pair plus worked outer/inner/PartRead1 designs. Sample-specific transcript occupancy, source-specific index primers/geometry, capture formulation and terminal chemistry remain incomplete. Handoff compatibility and primer footprints are checked; upstream and downstream reactions are not thereby biochemically validated. No absence claim.",
   "independent_implementation_recheck": {
     "reviewer": "targeted_peer_spatialvdj_resumed",
     "date": "2026-10-30",
@@ -264,5 +282,17 @@
     "scope": "Selected published SR-TRB workflow, Data S1 whole oligo inventories and supplied SM branch boundaries already inspected by independent readers. Explicit source inventory lists declare common/replicate inputs and operations; no runtime graph-enumeration coverage. QC fractions correctly typed as QC.",
     "result": "Source-qualified public page; unresolved molecular/geometry scope remains computed and displayed. Published cycle-count and worksheet-heading discrepancies appear on page. No new chemical products or source absence claims introduced.",
     "verification": "Graph.require_publishable passes;35 source/behavior checks pass. Rendered local page visually inspected in Chrome, full reaction graph/warnings retained in expandable section; detailed source guard and site/index checks pending."
+  },
+  "reader_design_followup": {
+    "date": "2026-11-01",
+    "source_scope": "Published final Spatial VDJ Methods1623\u20131668, original DataS1 spatial primer columns, SM branch checks; separate depth-one follow-up exact citedCG000239RevA Appendixp75/Steps4.2\u20134.3. St\u00e5hlreference6 identity only, original unavailable.",
+    "changes": [
+      "Versioned source-owned full-length cDNA export/import instead of empty input state",
+      "PN2000089 forward/reverse sequences and common PartRead1 identity",
+      "WorkedTRBV10-1 outer and inner handle-plus-target construction",
+      "Computed PartRead1 binding view from imported molecule, without invented V transcript coordinates",
+      "All local source discrepancies retained"
+    ],
+    "validation_scope": "Version/stage/known-primer-site/molecular-declaration handoff checks; no full population/reaction proof, no second independent missing-information audit."
   }
 }

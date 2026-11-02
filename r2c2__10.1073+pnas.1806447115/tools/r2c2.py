@@ -8,6 +8,7 @@ from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       annotation_rows, feature)
 from adapter_ligation import AdapterLigationGeometry
 from circular import CircularizationGeometry, ClosedCircle
+from protocol_handoff import declare_input_origin
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
@@ -232,4 +233,9 @@ def protocol_graph():
         "rolling_circle", "pre_debranch_selection", "select_before_debranch", "t7_endonuclease", "debranch", "size_selection",
         "select_long", "ont_adapter", "adapter_ligase", "attach_ont_adapters",
         "sequencing_library"), SOURCE)
+    declare_input_origin(graph, "indexed_cdna",
+        title="Tn5Prime — Cole et al. 2018", url="https://doi.org/10.1093/nar/gky182",
+        stage="Amplified full-length, dual-indexed SIRV E2 cDNA before Tn5 tagmentation",
+        source="Volden et al. 2018, published Results and Materials and Methods (PMC6166824, lines 65, 145–149); reference 13; Supplementary Table S3.",
+        limitation="The cited Tn5Prime method supplies the cDNA preparation, not a tagmented Illumina library. No source-owned Tn5Prime intermediate is modelled here; this link imports no molecular state. The R2C2 study's SIRV-specific preparation and oligos remain local.")
     return graph.require_publishable()

@@ -3,12 +3,15 @@ import html
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from chemdraw import Scene,Segment,feature
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'10x-visium-spatial-gene-expression'/'tools'))
+import visium_rev_a
+from chemdraw import Scene,Segment,feature,complement_segments
+from protocol_handoff import import_material
 from pcr import PCRGeometry
 import oligos_spatial_vdj as oligos
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition,AnnotationSlot,SourceClaim,SourceDiscrepancy
 from page import head, info, caveat, table
-from protocol_views import assemble_page, WorkflowSection, PlanLimitationSection
+from protocol_views import assemble_page, WorkflowSection, PlanLimitationSection, HandoffSection
 from chemdraw import panel
 PAGE_FILE = 'spatial-vdj.html'
 
@@ -42,8 +45,9 @@ DATA_S1_COMMON_TARGETS = ('ig_probes','tr_probes','capture_blockers')
 DATA_S1_REPLICATE_TARGETS = ('outer_v','outer_partread1','inner_v','inner_partread1')
 
 class B:
-    def __init__(self,title,authority,start,kind=K.BIOLOGICAL):
-        self.g=ProtocolGraph(title,authority=authority,representation='published_instance');self.x=self.g.input('source',start,kind,primary=True,chemical_state={})
+    def __init__(self,title,authority,start,kind=K.BIOLOGICAL,source_factory=None):
+        self.g=ProtocolGraph(title,authority=authority,representation='published_instance')
+        self.x=source_factory(self.g)if source_factory else self.g.input('source',start,kind,primary=True,chemical_state={})
     def stock(self,key,label,kind=K.CATALYST,role=R.CATALYST,**kw):return(self.g.input(key,label,kind,**kw),role)
     def cond(self,key,label):return self.stock(key,label,K.CONDITION,R.CONDITION)
     def op(self,key,label,kind,inputs=(),geometry=None,product='Source mixture including incomplete/unreacted/off-target classes; occupancy/recovery unassigned',reason=None):
@@ -71,6 +75,10 @@ def pcr_supplies(b,key,label,primers,kapa=True):
     g.react(key+'_components','Copresent components of actual named ReadyMix allocation; no physical dissociation'if kapa else'ExposeactualindexPCRsupplyclasses; packagingandnumberofstocksunassigned',S.GENERIC,((stock,R.TEMPLATE),),(enzyme,nt,buf),changes_molecule=False)
     return ((enzyme,R.CATALYST),(nt,R.STRUCTURAL),(buf,R.CONDITION))+tuple(primers)
 def primer(b,key,label,identifier=None):
+    if key in ('preamp_cdna_primers','postcapture_cdna_primers'):
+        return b.stock(key,'Visium Rev A cDNA Primers PN-2000089: Partial Read1 forward and Partial TSO reverse',K.OLIGO,R.STRUCTURAL,
+            state=visium_rev_a.cdna_primer_scene(),source=visium_rev_a.SOURCE,
+            chemical_state={'source_scope':'Same cDNA primer preparation in the exact Visium revision cited by the final Spatial VDJ Methods; whole sequence patterns, not an independent stock-dose declaration','end_modifications':'unassigned'})
     kind = ('partread1' if key.endswith('_partread1') else
             'outer' if key.endswith('_outer_v') else
             'inner' if key.endswith('_inner_v') else
@@ -88,25 +96,34 @@ def amp(b,key,label,primers,programme,kapa=True):
         b.op(key,label,S.PCR,supplies,geometry=PCRGeometry.unavailable(
             unknown_oligo('Actual captured transcript template sequence unassembled'), reason='Published Data S1 gives both primer pools; actual captured transcripts, occupied sites and complete amplicons remain unassembled.'))
     else:
-        b.op(key,label,S.MAGIC,supplies,reason='Published amplification order; complete cDNA/index primer preparation and occupied products unassembled. Same actual ReadyMix components exposed; index supplies not assumed to be that premix.')
+        reason=('The Rev A cDNA primer pair is now declared, but actual source reaction collections, first-cycle occupancy and products remain unassembled; knowing the primer orders does not validate the PCR.'if key in ('preamp','postcapture')else'Published indexing order; selected whole index primers and occupied products remain unassembled. Index supplies are not assumed to be the earlier ReadyMix.')
+        b.op(key,label,S.MAGIC,supplies,reason=reason)
 
 def cleanup(b,key,label):b.clean(key,label,extra=(b.stock(key+'_beads','Actualsource '+label+' bead allocation',K.SELECTION,R.SELECTION),))
 def qc(b,key,label):
     g=b.g;y=g.product(key+'_analytical',label,K.QC);r=g.product(key+'_stock','Actual preparation remaining after analytical allocation; amountunassigned',K.MOLECULAR)
     g.react(key,label,S.SPLIT,((b.x,R.TEMPLATE),),(y,r));g.mark_terminal(Terminal(y.id,Disposition.QC,'Actualanalyticalfraction excludedfromproduction'));b.x=r
 
+def visium_input(graph):
+    return import_material(graph,'source',visium_rev_a.full_length_export(),
+        expected_protocol=visium_rev_a.PROTOCOL,expected_version='CG000239 Rev A',
+        source='Final published Science adf8486 Methods, Preparation of Spatial GEX and target enrichment: CG000239 Rev A;10ul full-length Visium cDNA before fragmentation.',
+        label='Full-length Visium Rev A cDNA from upstream Step4.3 cleanup, before fragmentation',primary=True,
+        requirements={'stage':'amplified_full_length_cdna','fragmented':False,'spatial_barcode_nt':16,'umi_nt':12,'sample_index_present':False},
+        required_sites={'PartRead1':oligos.PARTREAD1,'cDNA reverse':visium_rev_a.REVERSE})
+
+
 def protocol_graph():
-    b=B('Spatial VDJ published SR-TRB four-replicate partial preparation',AUTHORITY,'Actual full-length spatially barcoded Visium cDNA before fragmentation from published-source tonsil preparation',K.MOLECULAR);g=b.g
-    g.materials['source'].chemical_state.update({'source_boundary':'Published Methods useCG000239RevA Visiumpreparation; its oligos/RT/TSOrecipe NOTimported.','spatial_barcode':'Final published LR processing Methods1685 identifies16nt after adapter anchor; analysis coordinates, not a complete oligo','UMI':'Final published LR processing Methods1685 identifies12nt after spatial barcode; origin/wholeconstructunassembled','scope':'StartsactualpreparedcDNA, notcompletefirst-strandchemistryorwholefinalconstruct'})
+    b=B('Spatial VDJ published SR-TRB four-replicate partial preparation',AUTHORITY,'Full-length Visium Rev A cDNA',K.MOLECULAR,source_factory=visium_input);g=b.g
     b.split('select10ul','Actual10ulfromVisiumfull-lengthcDNAstock','Actualselected10ulcDNA','UntransferredVisiumcDNAstock')
     collection=g.product('preamp_collection','Actual collection of separate10ngtemplate PCR subsamples; number depends on measured concentration, not a physical pool',K.MOLECULAR);g.react('preamp_allocate','Splitselected10ulinto10ngtemplates, multiplicityunassigned',S.GENERIC,((b.x,R.TEMPLATE),),(collection,),changes_molecule=False);b.x=collection
-    amp(b,'preamp','Commonpreamplification of separate10ngsubsamples, notpooledbeforePCR',(primer(b,'preamp_cdna_primers','Aggregateactual10xcDNAprimerallocations7.5ulPERPCR acrossvariablearray; number/totalamount/constituentwholeordersunassembled'),),PREAMP_PROGRAMME+' Source25ulReadyMix+7.5ulprimers+17.5ulsample/water;98C3min,98C15s/63C30s/72C2min;72C1minfinal.')
+    amp(b,'preamp','Commonpreamplification of separate10ngsubsamples, notpooledbeforePCR',(primer(b,'preamp_cdna_primers','Aggregateactual10xcDNAprimerallocations7.5ulPERPCR acrossvariablearray; number/totalamountunassembled; wholeRevAcDNAprimerordersdeclared'),),PREAMP_PROGRAMME+' Source25ulReadyMix+7.5ulprimers+17.5ulsample/water;98C3min,98C15s/63C30s/72C2min;72C1minfinal.')
     b.op('preamp_pool','Source physical pooling of completedpreamplification subsamples',S.GENERIC,product='ActualpooledpreamplifiedspatialcDNA; parallelreactionmultiplicity/wholeproductsunassembled')
     cleanup(b,'preamp_clean','0.6xSPRIselect; elute40ulQiagenEB')
     b.op('concentrate','SourceIDTxGenv4optionalAppendixAAMPureconcentrationthenPlateProtocolstep13',S.MAGIC,(b.stock('capture_concentration','ActualAMPureconcentrationpreparation; delegatedamounts/completeconditionsunassembled',K.SELECTION,R.SELECTION),))
     b.op('capture','Source16hovernightIGandTRcohybridization/capture; selectedIG:TR1:3',S.MAGIC,(primer(b,'ig_probes','ActualIGconstantregionDiscoverypool; DataS1 whole pool now declared; end modifications unassembled'),primer(b,'tr_probes','ActualTRA/TRBconstantregionDiscoverypool; TRG/TRDnotincluded, DataS1 whole pool now declared; end modifications unassembled'),primer(b,'capture_blockers','Actualcustomuniversal-adapterblockingoligos; DataS1 whole pool now declared; end modifications unassembled'),b.stock('xgen_capture','ActualIDTxGenHybridizationandWashKit1080584 v4capture/washpreparation; selection/packagingcomponentsunassembled',K.SELECTION,R.SELECTION),b.cond('capture_ratio','TRbaitsequencestriplicatedinorder; equalvolumesofIG/TRproducedpoolsachieve1:3, NOTthreefoldTRpoolvolume.')),
          reason='Published-source hybridization capture established; baitmodifications/selectionligands/wholeboundRNA-derivedDNAgeometry and linkedIDTv4recipeunassembled. No assumed biotin/streptavidin or fresh vendor-default components.')
-    amp(b,'postcapture','Selectedsecondexperiment:one14cyclepostcapturePCR',(primer(b,'postcapture_cdna_primers','Actual7.5ul10xcDNAprimerpreparation perPCR; wholeordersunassembled'),),'Source14cyclesbranch; firstexperiment7+5cyclebranchnotmerged; source25ulKAPAReadyMix/17.5ulsampleandwater, programmeotherwiseasreported.')
+    amp(b,'postcapture','Selectedsecondexperiment:one14cyclepostcapturePCR',(primer(b,'postcapture_cdna_primers','Actual7.5ulVisiumRevAPN2000089cDNAprimerpreparationperPCR; wholeordersdeclared'),),'Source14cyclesbranch; firstexperiment7+5cyclebranchnotmerged; source25ulKAPAReadyMix/17.5ulsampleandwater, programmeotherwiseasreported.')
     cleanup(b,'postcapture_clean','SourceAMPurepostcapturePCRpurification; exactratio/volumesunassembled')
     qc(b,'outer_calibration','ActualqPCRcyclecalibrationanalyticalallocation, amountandcompleteprogrammeunassigned')
     starts=tuple(g.product('outer_template_'+str(i),'Actual2.5–5ngcapturedcDNAallocation forTRBreplicate'+str(i+1),K.MOLECULAR)for i in range(4));rest=g.product('outer_template_rest','UntransferredcapturedcDNAstock',K.MOLECULAR)
@@ -130,8 +147,8 @@ def protocol_graph():
     b.op('sequencing_pool','Sourcepoolsindexed samples forsequencing; otheractualsamples/molaritiesunassembled',S.MAGIC,(b.stock('other_samples','Otheractualindexedlibraryallocations in sourcepool; sourcebodiesandamountsunassembled',K.MOLECULAR,R.STRUCTURAL),))
     b.split('pool_loading','Actualsequencingloadingallocationfrompreparedmultisamplepool; amountunassigned','Selectedpooledlibraryloadingaliquot','Untransferredpreparedsequencingpool')
     lib=g.product('library','Published-source SRTRBsequencinglibrary; source spatial primers declared; full amplicons/index primers unassembled',K.LIBRARY);g.react('load','SourceNovaSeq6000SP; R135/I6/R2259',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False)
-    g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='The published run lengths are reported here. Data S1 supplies the spatial primer/probe inventories; complete cDNA/index primer preparations, index orientation, occupied transcript sites and full amplicons remain unassigned. Run lengths alone do not establish molecular products.'))
-    g.add_source_item(SourceItem('published_scope',AUTHORITY,'Final published article supports this selected SR-TRB preparation; published SM and separate Data S1 retrieved; historical vendor detail/whole cDNA and index primer preparations remain unresolved. No whole-version equivalence or confirmed absence.'))
+    g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='The published run lengths are reported here. Data S1 supplies the spatial primer/probe inventories; complete index-primer preparations, index orientation, occupied transcript sites and full amplicons remain unassigned. Run lengths alone do not establish molecular products.'))
+    g.add_source_item(SourceItem('published_scope',AUTHORITY,'Final published article supports this selected SR-TRB preparation; published SM and separate Data S1 retrieved; Visium Rev A full-length cDNA and PN-2000089 primers are now inherited from the source-owned upstream declaration; historical capture and selected index-primer preparations remain unresolved. No whole-version equivalence or confirmed absence.'))
     g.add_source_item(SourceItem('analysis_metadata','Final published article, LR Spatial VDJ read processing, text1685; SR clonotype analysis1693–1700','Final article verifies16nt spatial barcode/12nt UMI in LR parsing. These are analysis coordinates, not whole primer sequences or a verified SR primer-binding geometry. SR processing groups by barcode plus UMI.'))
     g.add_source_item(SourceItem('preamp_programme',PREAMP_PROGRAMME,'Retainactualprintedvalues, executedpreamplificationcountunassigned. OtherselectedSRcyclecountsarelocallyexplicit.'))
     g.declare_reviewed_scope(MAIN_COMMON_TARGETS,
@@ -166,19 +183,51 @@ def protocol_graph():
 
 
 def primer_example():
-    # Separate reagent orders: this view asserts no annealing or transcript site.
+    # Separate source reagent orders, no invented transcript binding coordinates.
     sc=Scene()
-    sc.strand('PartRead1',[Segment('PartRead1',oligos.PARTREAD1,'r1')])
+    sc.strand('PartRead1',[Segment('PartRead1; also Visium cDNA forward',oligos.PARTREAD1,'r1')])
+    sc.strand('Visium_cDNA_reverse',[Segment('PN-2000089 partial TSO reverse',visium_rev_a.REVERSE,'tso')])
     sc.strand('TRBV10-1_outer',[Segment('Outer V-specific primer',oligos.OUTER_SOURCE['TRBV10-1_outer'].upper())])
     name='TRBV10-1_inner';seq=oligos.INNER[name]
-    sc.strand(name,[Segment('Published Read2-compatible handle',oligos.illumina.TRUSEQ_READ2,'r2'),
-                    Segment('Source TRBV10-1 target-specific portion',seq[len(oligos.illumina.TRUSEQ_READ2):])])
+    sc.strand(name,[Segment('Nonbinding first-cycle 5′ Read2 handle',oligos.illumina.TRUSEQ_READ2,'r2'),
+                    Segment('First-cycle 3′ V-specific binding part',seq[len(oligos.illumina.TRUSEQ_READ2):])])
     return sc
+
+
+def partread1_binding():
+    # A denatured strand from the actual upstream duplex; the other strand is
+    # retained outside this binding-site view, not chemically deleted.
+    sc=Scene()
+    sc.strand('denatured_template',complement_segments(list(visium_rev_a.full_cdna())),rev=True,label='One strand of denatured Visium Rev A full-length cDNA')
+    sc.anneal('PartRead1',[Segment('universal primer',oligos.PARTREAD1,'r1')],to='denatured_template',pair=('universal primer',"partial Read 1'"),label='PartRead1;3′ extension into tagged cDNA')
+    sc.arrow('PartRead1','DNA synthesis into barcode/UMI/transcript side')
+    return sc
+
+
+def primer_design_rows():
+    name='TRBV10-1_inner';whole=oligos.INNER[name];handle=oligos.illumina.TRUSEQ_READ2;target=oligos.INNER_SOURCE[name][1].upper()
+    # Source columns are independently retained; this is a design explanation
+    # of their existing checked assembly, not a transcript/amplicon assertion.
+    if whole!=handle+target:raise ValueError('Inner primer does not match its source handle/target columns')
+    code=lambda value:'<code>'+html.escape(value)+'</code>'
+    return (
+        ('cDNA amplification, before and after capture','Forward: '+code(visium_rev_a.FORWARD)+'<br>Reverse: '+code(visium_rev_a.REVERSE),
+         'PN-2000089 forward binds the Read1 end; reverse binds the TSO-derived end. These retain full-length cDNA. Their whole sequences come from the cited Visium Rev A appendix.'),
+        ('PartRead1, both receptor PCR rounds',code(oligos.PARTREAD1),
+         'Use this whole '+str(len(oligos.PARTREAD1))+'-base order. It is the same sequence as the upstream cDNA forward primer, but pairs here with a V-specific primer. It contains no new sample index, spatial barcode or UMI.'),
+        ('TRBV10-1 outer, receptor selection',code(oligos.OUTER_SOURCE['TRBV10-1_outer'].upper()),
+         'The whole '+str(len(oligos.OUTER_SOURCE['TRBV10-1_outer']))+'-base source order is V-specific. No Read2 handle is prepended in this source outer primer. Pair with PartRead1.'),
+        ('TRBV10-1 inner, handle assembly',code(handle)+' + '+code(target),
+         str(len(handle))+'-base 5′ handle + '+str(len(target))+'-base 3′ V-specific portion = '+str(len(whole))+' bases. Order the concatenation in this direction. The 3′ portion binds the first template; the 5′ handle is copied into later products. Pair with the same PartRead1.'),
+        ('TRBV10-1 inner, complete sequence',code(whole),
+         'This is the published whole order, not its reverse complement. The shared handle is compatible with the source TruSeq indexing route; it does not specify which index-primer stock was used.'),
+    )
 
 
 def oligo_tables():
     groups=[]
     for title, rows in (
+        ('Upstream cDNA primers and PartRead1',[("PN-2000089 forward / PartRead1",visium_rev_a.FORWARD),("PN-2000089 reverse",visium_rev_a.REVERSE)]),
         ('Outer TRBV primers',[(name,seq.upper())for name,seq in oligos.OUTER_SOURCE.items()]),
         ('Inner TRBV primers',list(oligos.INNER.items())),
         ('Capture probes',[(pool+' row '+str(i),seq)for i,(pool,seq)in enumerate(oligos.CAPTURE_SOURCE,1)]),
@@ -247,11 +296,17 @@ def render_page():
         '<h2 id="principle">Connect receptor identity to tissue position</h2>',
         '<p>Spatial VDJ adds immune-receptor sequencing to a spatial gene-expression experiment. A receptor’s complementarity-determining region 3 (<strong>CDR3</strong>) helps distinguish lymphocyte clones. The spatial barcode places that sequence on the tissue image, so clone distributions can be compared with gene-expression patterns and anatomical regions.</p>',
         '<p>The crucial starting point is <strong>full-length cDNA before fragmentation</strong>. The receptor sequence and the spatial tag are still connected at that stage. Constant-region hybridization capture enriches rare receptor transcripts; the short-read route then uses seminested PCR to bring the CDR3 region within reach of Illumina sequencing. '+paper+', Results “Spatial VDJ” and target-enrichment/SR Methods.</p>',
+        HandoffSection(),
         '<h2 id="preparation">From spatial cDNA to a TRB library</h2>',stages,
         '<p><strong>Why capture IG for a TRB experiment?</strong> The authors cocaptured IG and TR to provide enough product for the capture protocol despite low TR transcript abundance. They recommend both probe pools for either sequencing route. The selected 1:3 ratio comes from triplicating TR probe sequences in the order and mixing equal volumes of the resulting IG and TR pools; it does not mean adding three volumes of TR pool. '+paper+', “Target enrichment of spatial cDNA”.</p>',
-        '<h2 id="primers">Which oligo does what?</h2>',
+        '<h2 id="primers">How to reconstruct the primers</h2>',
+        '<p>All ordering sequences below are written <strong>5′→3′</strong>. The upstream Visium Rev A appendix supplies the cDNA primer pair; the receptor-specific orders come from published Data S1. Gene-specific target portions and shared 5′ tails are kept separate so that a handle is not mistaken for a genomic binding site.</p>',
+        table(('Primer or stage','Sequence or construction,5′→3′','Design and binding role'),primer_design_rows()),
+        panel(partread1_binding().rows(),caption='Computed PartRead1 binding on a denatured strand of the imported Visium Rev A cDNA. Barcode and UMI lie on the extension side and are retained in receptor-directed products. The other original strand is not shown in this site view; no TRBV coordinate or full receptor amplicon is asserted.'),
         '<p><strong>PartRead1</strong> recognizes the universal partial Read1 sequence of the spatial cDNA and is reused in both receptor-specific PCRs. <strong>Outer TRBV</strong> primers target V genes upstream of CDR3. <strong>Inner TRBV</strong> primers target closer to CDR3 and carry a shared Read2-compatible 5′ handle for subsequent TruSeq indexing. One matching V-gene example is shown below; each reaction uses the published primer pool, not just this pair. '+data+', SR-Spatial VDJ worksheets.</p>',
-        panel(primer_example().rows(),caption='Published reagent sequences, all 5′→3′: PartRead1 and the TRBV10-1 outer/inner orders. The inner primer separates its shared handle from its target-specific portion. These independent oligos are not drawn as an annealed complex.'),
+        panel(primer_example().rows(),caption='Independent source primer orders: the universal pair and one TRBV outer/inner example. Only the3′ target-specific part of an inner primer participates in its first-cycle receptor binding; its shared 5′ handle is carried as an overhang.'),
+        '<p><strong>Reusing the design.</strong> Choose the matching outer/inner gene entry from the published pool: the same gene name identifies a pair, not identical binding positions. Outer targets lie 5′ of CDR3; inner targets lie closer to CDR3. Keep the source Read2 handle at the 5′ end of an inner primer, with its V-specific sequence at the3′ end. No universal sequence alone selects a receptor. Re-targeting requires the relevant transcript/allele and actual binding coordinates; the displayed variable transcript cannot establish those sites, amplicon length or specificity. Gene-specific annealing should be assessed from the binding portion rather than treating the nonbinding5′ handle as a first-cycle duplex.</p>',
+        '<p><strong>What is inherited, and what is added?</strong> Spatial barcode and UMI come from the Visium starting cDNA. The outer/inner primers do not create new ones. The inner primer adds the Read2-compatible handle. The later index PCR adds sample demultiplexing information; its exact whole primer orders and index orientation still need reconstruction from the source-linked indexing method.</p>',
         '<p><strong>Capture probes</strong> target IG and TRA/TRB constant regions. <strong>Blocking oligos</strong> occupy universal adapter sequences to reduce off-target capture. The Read1+polyT blocker contains a degenerate N window and a polyT tract; those N bases are a reagent pattern, not a declared barcode or UMI for a particular molecule.</p>',
         panel(oligos.pool_scene('blockers').rows(),caption='The two published capture-blocker patterns from Data S1. N and V retain their source degeneracy; terminal modifications are not assigned from sequence-only cells.'),
         '<details><summary>All published oligo sequences</summary><p>Whole source orders are retained, including repeated source rows. Sequences alone do not establish terminal modifications, occupied transcript binding sites or a complete library construct.</p>',oligo_tables(),'</details>',
@@ -260,7 +315,7 @@ def render_page():
         '<p><strong>From reads to a tissue map.</strong> The published SR analysis filters low-quality reads, requires a valid Visium barcode and the inner-V primer sequence, and collapses reads by barcode plus UMI. For tonsil repertoire analysis, each UMI group must have at least three supporting reads. MiXCR supplies CDR3/clonotype calls, which become a clone-by-spatial-barcode count matrix and are matched to the gene-expression map. The authors also filter index-hopping candidates and a small number of suspected overamplification artifacts. These analysis choices affect the reported clone map; sequencing yield alone is not a count of clones or cells. '+paper+', “SR Spatial VDJ clonotype analysis”.</p>',
         '<h2 id="limits">Branches and interpretation limits</h2>',branches,
         '<p><strong>Spatial colocalization does not physically pair receptor chains.</strong> Spatial VDJ captures individual receptor transcripts. The paper predicts IG heavy/light pairing computationally with “repair” and evaluates predictions using matched single-cell VDJ data. A TRB map alone does not identify its paired TRA chain or establish antigen specificity. '+paper+', receptor-pairing Results.</p>',
-        caveat('This page represents the published preparation order and source oligos. Complete starting cDNA and index-primer preparations, terminal modifications, occupied transcript sites, full amplicons and exact sequencing-primer landing remain unassembled. No finished base-by-base library is inferred from a kit name. These are model boundaries, not a claim that the publication omits those details.'),
+        caveat('This page represents the published preparation order and source oligos. The pre-fragmentation starting duplex and cDNA primer pair now come from the exact cited Visium Rev A declaration. Source-specific index-primer orders, terminal modifications of the Data S1 reagents, occupied receptor sites, full amplicons and exact final sequencing-primer landing remain unassembled. These are model boundaries, not a claim that the publication omits those details.'),
         '<details><summary>Read-plan detail</summary>',PlanLimitationSection('library'),'</details>',
         '<h2>Published source discrepancies</h2>',AnnotationSlot.BEFORE_WORKFLOW,
         '<details><summary>Full reaction workflow, physical fractions and validation</summary><p>The expanded workflow retains separate PCR replicates, cleanup fractions, analytical aliquots and stock remainders. Its unresolved transitions expose where molecular products or reagent geometry have not been assembled.</p>',
@@ -273,6 +328,11 @@ def selftest():
     from checks import Check,Source,have
     from storage import sources_root
     c=Check();g=protocol_graph()
+    upstream=g.imports['source']
+    c('Starting cDNA is imported from the exact source Visium revision',upstream.reference.version,'CG000239 Rev A')
+    c('Starting cDNA is the upstream produced cleanup output',upstream.reference.producer,'cdna_cleanup')
+    c('Starting cDNA cannot be a fragmented sequencing library',g.materials['source'].chemical_state['fragmented'],False)
+    c('Both source-named cDNA primer stocks are now assembled',all(len(g.materials[key].state.strands)==2 for key in ('preamp_cdna_primers','postcapture_cdna_primers')),True)
     c('Four actual outerTRB template allocations plus stockremainder',len(g.steps['outer_allocate'].outputs),5)
     c('Physicalfourreplicatepoolonlyafterselectedinnerproducts',tuple(p.material for p in g.steps['pool_replicates'].inputs),tuple('rep'+str(i)+'_select10ng_selected'for i in range(1,5)))
     c('OneindexPCRconsumesactualreplicatepool',g.steps['index'].inputs[0].material,'index_pool')

@@ -43,3 +43,13 @@ EXAMPLES['rnaseh']=rnaseh
 
 from .boloramis import movie as boloramis
 EXAMPLES['boloramis']=boloramis
+
+# Audited substrate-driven mechanism collection (November2026). Earlier layouts
+# in protocols.py remain historical prototypes, not the CLI implementations.
+from .capture_ligation import crispr_mip,smallseq,hic
+from .synthesis_examples import celseq,dropseq,scrrbs
+from .assembly_transposition import gibson,atac,rnaseh
+from .golden_gate import movie as golden_gate
+EXAMPLES.update({'crispr-mip':crispr_mip,'smallseq':smallseq,'hic':hic,
+                 'celseq':celseq,'dropseq':dropseq,'scrrbs':scrrbs,
+                 'gibson':gibson,'atac':atac,'rnaseh':rnaseh,'golden-gate':golden_gate})

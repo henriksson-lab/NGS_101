@@ -360,8 +360,8 @@ class ProtocolGraph:
         if not name.strip():
             raise ValueError("protocol graph needs a name")
         if not isinstance(required_output, Disposition) or required_output not in {
-                Disposition.SEQUENCING, Disposition.CONSTRUCT}:
-            raise ValueError("required output must be sequencing or constructed DNA")
+                Disposition.SEQUENCING, Disposition.CONSTRUCT, Disposition.STORED}:
+            raise ValueError("required output must be sequencing, constructed DNA or a stored molecular intermediate")
         if representation not in {"unspecified", "published_instance", "illustrative_example", "own_design"}:
             raise ValueError("unknown protocol representation")
         if representation == "illustrative_example" and not example_description.strip():
@@ -378,6 +378,9 @@ class ProtocolGraph:
         self.source_items: dict[str, SourceItem] = {}
         self.source_coverage: dict[str, SourceCoverage] = {}
         self.annotations: list[GraphAnnotation] = []
+        self.exports: dict[str, Any] = {}
+        self.imports: dict[str, Any] = {}
+        self.input_origins: dict[str, Any] = {}
         self._producer: dict[str, str] = {}
         self._consumers: dict[str, list[str]] = {}
 
@@ -794,12 +797,20 @@ class ProtocolGraph:
             stack.extend(p.material for p in step.inputs if p.role in _CONTRIBUTING)
         return origins
 
-    def publication_problems(self) -> list[str]:
+    def publication_problems(self, *, _handoff_stack=()) -> list[str]:
         """Return every reason this graph is not eligible for a finished public page."""
+        if id(self) in _handoff_stack:return ["cross-protocol material dependency cycle"]
+        stack=(*_handoff_stack,id(self))
         problems: list[str] = []
+        for key,origin in self.input_origins.items():
+            if key not in self.materials or self.producer_of(key)is not None:problems.append("source-named handoff is not an external input: "+key)
+            if not origin.source.strip() or not origin.limitation.strip():problems.append("source-named handoff has no evidence/validation limit: "+key)
+        if self.imports or self.exports:
+            from protocol_handoff import handoff_problems
+            problems.extend(handoff_problems(self,stack))
         if not isinstance(self.required_output, Disposition) or self.required_output not in {
-                Disposition.SEQUENCING, Disposition.CONSTRUCT}:
-            problems.append("required output must be sequencing or constructed DNA")
+                Disposition.SEQUENCING, Disposition.CONSTRUCT, Disposition.STORED}:
+            problems.append("required output must be sequencing, constructed DNA or a stored molecular intermediate")
         if not self.authority.strip():
             problems.append("no defining paper or commercial authority")
         sequencing = [t.material for t in self.terminals.values()
@@ -810,6 +821,14 @@ class ProtocolGraph:
             problems.append("no terminal output is designated for sequencing")
         if self.required_output is Disposition.CONSTRUCT and not constructs:
             problems.append("no terminal output is designated as constructed DNA")
+        if self.required_output is Disposition.STORED:
+            stored=[t.material for t in self.terminals.values()if t.disposition is Disposition.STORED]
+            if not stored:problems.append("no stored molecular intermediate is designated")
+            for identifier in stored:
+                value=self.materials[identifier]
+                if value.kind not in {MaterialKind.MOLECULAR,MaterialKind.LIBRARY} or self.producer_of(identifier)is None:problems.append("stored intermediate must be produced molecular material: "+identifier)
+                if value.state is None and value.chemical_state is None:problems.append("stored intermediate has no molecular declaration: "+identifier)
+                if not any(self.materials[x].primary for x in self._contributing_origins(identifier)):problems.append("stored intermediate lacks primary-template provenance: "+identifier)
         if not self.source_items:
             problems.append("no authoritative source items declare the reviewed scope")
 

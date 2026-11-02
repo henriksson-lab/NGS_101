@@ -19,7 +19,7 @@ def track(strand,state,ids):
 def generated(shot,state):
     from dataclasses import asdict
     shot.initial_atom_records=[asdict(a)for a in state.atoms.values()]
-    shot.initial_backbone=list(state.next.items());shot.initial_released=list(state.released)
+    shot.initial_backbone=list(state.next.items());shot.initial_released=sorted(state.released)
     shot.chemistry_generated=True;shot.initial_nucleotides=list(state.atoms)
     shot.chemical_pairs=[(a,b)for a,b in state.paired.items()if a<b]
 

@@ -36,7 +36,7 @@ def molecular_frame(shot,seconds,wpm=125):
         key=op['operation_id'] if 'operation_id'in op else ('event',shot.events.index(e))
         if key in seen:continue
         seen.add(key)
-        adds=op.get('added',[]);count=min(len(adds),int(len(adds)*p+1e-8))
+        adds=op.get('added',[]);count=len(adds)if e.kind=='introduce'else min(len(adds),int(len(adds)*p+1e-8))
         details=op.get('details',{})
         if details.get('incorporations'):
             for atom,copy in zip(adds[:count],details['incorporations'][:count]):

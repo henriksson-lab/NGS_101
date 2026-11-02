@@ -1,3 +1,72 @@
+# Follow-up checkpoint — 2 November 2026
+
+Continued cross-protocol input curation. R2C2 now links its pre-tagmentation SIRV
+cDNA input to the actual cited Tn5Prime original. Source-named origins support an
+HTTPS original/title when no producer model exists, retaining explicit limits and
+no molecular-state inheritance. TAP-seq's private preview now links its modified
+Chromium3′v2 GEM-RT preparation, with TSO omission explicit; standard amplified
+cDNA is not substituted and its source/assembly publication hold stays in place.
+
+Separate notes/draft static inventory: 333entries/51literal input candidates in
+catalogue/protocol_input_notes_candidates.json. It does not execute incomplete
+graphs or cover nonliteral/indirect inputs. Public inventory remains separate.
+Round ledger: catalogue/curation_rounds/2026-11-02-protocol-input-handoffs.tsv.
+Plan: plans/protocol-primer-design-review.json. Earlier Chromium exact-revision
+imports, unmodelled Tn5Prime producer and historical DASH input remain open.
+No files staged or committed. Older checkpoints follow.
+
+# Current checkpoint — protocol inputs and reader-facing primer design, 1 November 2026
+
+Spatial VDJ now imports the actual full-length Visium CG000239 Rev A cDNA
+intermediate, separately from the existing Rev F model. Its public page explains
+how to reconstruct the cDNA amplification pair, PartRead1, outer V primer and
+handle-bearing inner V primer, with computed binding and whole ordering sequences.
+The exact original Rev A vendor manual was retrieved and inspected. Final Spatial
+VDJ TruSeq indexing remains unresolved pending its cited Ståhl 2016 original;
+geturl.txt and the source-review checklist record that dependency without claiming
+missing information is confirmed absent.
+
+lib/protocol_handoff.py owns explicit versioned export/import contracts. Producer
+identity, preparation stage, bases/features/uncertainty and required fixed primer
+sites are checked. Source-named upstream links are deliberately weaker. GoT,
+RAGE-seq and MAESTER now link to their named Chromium preparations without
+claiming exact historical revision compatibility or inheriting molecular states.
+
+Offline inventory: python3 tools/audit_protocol_inputs.py. Current snapshot covers
+505 public catalogue entries (501 graph declarations loaded; four assay entries
+have no unique ProtocolGraph) and 47 text-selected candidate inputs: one actual molecular
+import and three source-named links. Most other matches are supplies, controls or
+peer pools. This is not 505 human-content/source reviews. Candidate triage and next
+steps: plans/protocol-primer-design-review.json. Private notes-only models such as
+DASH and unmodelled producer Tn5Prime remain outside the completed links.
+
+Changes are unstaged. Earlier animation work below is preserved as a separate
+completed task. No commit, push or deployment has been made for this follow-up.
+
+# Latest checkpoint — 1 November 2026
+
+Completed ten additional substrate-driven chemistry animation examples beyond
+SMART-seq2/BOLORAMIS: CRISPR-MIP, Small-seq, in-situ Hi-C, CEL-Seq, Drop-seq,
+scRRBS, Gibson, ATAC-seq, RNase H1 and Golden Gate. Canonical CLI factories are in
+animation/{capture_ligation,synthesis_examples,assembly_transposition,golden_gate}.py.
+
+Artifacts: /tmp/chemistry-animations-ten-more-20261101/README.md lists ten full
+1080p30MP4s, plus focused clips and finalSVGs. 37shots,27smooth incoming transitions,
+13,164frames/438.8s at default1.5×; footer off. Native MP4 reaction/transition frames
+were independently reviewed, findings corrected and affected movies regenerated.
+112animation checks pass. Plan and source limits: plans/chemistry-animation-ten-more.md.
+Finalhashes/settings/verdicts: summary.json and audit.json beside artifacts.
+
+Key shared fixes: atomic intact stock-oligo arrival, actual released-nucleotide pool,
+reproducible unordered-pool serialization, no captions/termini for unborn outputs,
+and anchored chemical-mark captions. ATAC four loadedMEduplexes stay24logicalpx
+apart. GoldenGate sourceFigure1 inspected; both-strand cuts/fourseals generate the
+selected toy circle with all flanks retained. Scope limits remain explicit: prepared
+inputs, invented example bases, sourceaccess limits and conditional release chemistry
+are not promoted to experimentally established complete protocols.
+
+Nothing staged/committed/pushed/deployed in this goal. Older records below are historical.
+
 # Restart handoff
 
 Latest completed example: **BOLORAMIS**, selected source ACTN1A1 component.

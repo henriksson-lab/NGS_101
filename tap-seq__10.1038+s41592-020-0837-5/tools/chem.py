@@ -5,6 +5,8 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Construct, Scene, Segment, feature, panel, workflow_from_protocol_graph, workflow_panel
 from protocol_graph import ProtocolGraph, MaterialKind as K, InputRole as R, StepKind as S, SequencingPlan, Terminal, Disposition, SourceItem
 from pcr import PCRGeometry
+from protocol_handoff import declare_input_origin
+from protocol_views import handoff_section
 from protocol_model import role
 from page import head, info
 PAGE_FILE='chem.html'
@@ -69,6 +71,10 @@ def protocol_graph():
     g.declare_reviewed_scope(REVIEWED,SOURCE)
     g.declare_reviewed_scope(ADDITIONAL_REVIEWED,SOURCE)
     g.add_source_item(SourceItem('unassembled_source','Full source primer-pool, intermediate and final-strand assembly',LIMIT+' Source material is available for follow-up; not an absence finding.'))
+    declare_input_origin(g,'cdna',protocol='10x-chromium-single-cell-3-ge-v2',page='10x-3prime-v2.html',
+        stage='Purified GEM-RT cDNA before targeted PCR; upstream template-switch oligo omitted',
+        source='Published Supplementary Information MOESM1, Chromium run step 8 (PDF text lines 1226–1246); associated manuscript Methods Cell barcoding and reverse transcription (PMC7610614, line 191).',
+        limitation='TAP-seq deliberately omits the v2 RT primer containing the TSO. The linked standard Chromium v2 route is a reference preparation, not an equivalent substrate: its template-switched or amplified cDNA must not be imported. Exact historical guide revision remains unverified; no molecular state is inherited.')
     return g
 
 def qc(g,key,stock,label):
@@ -118,7 +124,7 @@ def source_checks(c,g):
 def render_page():
     return '\n'.join([head(TITLE),'<div class="wrap"><h1>'+TITLE+'</h1>',
         '<p class="research-notes"><a href="01_tap_seq.html">Research notes</a></p>',
-        info(LIMIT),info(SOURCE_NOTICES),detail(),''.join(workflow_panel(workflow_from_protocol_graph(protocol_graph(),endpoint)) for endpoint in ['loading_selected']),'</div>'])
+        info(LIMIT),info(SOURCE_NOTICES),handoff_section(protocol_graph()),detail(),''.join(workflow_panel(workflow_from_protocol_graph(protocol_graph(),endpoint)) for endpoint in ['loading_selected']),'</div>'])
 
 def selftest():
     from checks import Check

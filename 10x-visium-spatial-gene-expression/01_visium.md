@@ -34,3 +34,24 @@ Read the printed Rev F guide: Appendix oligonucleotide/intermediate panels (text
 The local graph now follows first-strand RT/template switching → second-strand duplex → conditional KOH-released single strand → amplification. The source qPCR aliquot is distinct from the main approximately 35 µL amplification pool. Fragmentation/end preparation produces a population of fragment ends, rather than preserving a full cDNA as an exact cleavage product. The ligation product carries the printed partial Read 1 and forked Read 2 adapter, without P5/P7 or sample indexes; the printed index primers create the indexed final product. Both PCR declarations retain the actual incoming molecular state and explicitly leave native first-cycle geometry unresolved. The final Step 4.6 0.6X/0.8X double-sided selection now records first-cut beads and second-cut supernatant as physical waste, with the final eluate sequenced at 28/10/10/90 cycles. No shared protocol finisher selects these products.
 
 This is a bounded migration check, not an absence audit. Slide attachment and native PCR validation remain open model/source questions; no missing-information conclusion is accepted.
+
+
+## Versioned cDNA export for Spatial VDJ — 1 November 2026
+
+🟢 Engblom SpatialVDJ cites the exact **CG000239RevA** original, now retrieved into
+this external source bundle. Inspected cover/revision, cDNA amplification/cleanup
+Steps4.2–4.3 pp49–50 and original Appendixp75, including source slide-primer,
+PN3000228 TSO, PN2000089 primers and printed amplified-duplex pattern. Mandatory
+primer scraper rerun. No RevF-to-RevA whole-protocol equivalence is asserted.
+
+`tools/visium_rev_a.py` owns the separately versioned amplified-cDNA component and
+exports its purified full-length duplex before fragmentation. It starts from the
+source-recovered cDNA boundary; earlier slide release and native first-cycle PCR
+geometry remain unassigned. Its source-printed cDNA output and primer orders are
+independently source-tested. The current RevF graph separately exposes its own
+post-cDNA-cleanup intermediate; neither is the indexed final sequencing library.
+
+The page displays both named exports with revision and scope. SpatialVDJ selects
+RevA and checks phase, identifier widths and its known universal primer sites. State
+copying preserves features and uncertainty; a successful handoff is not evidence
+that every upstream biochemical reaction has been validated.

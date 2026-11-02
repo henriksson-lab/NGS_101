@@ -14,8 +14,8 @@ from .render import Renderer,Style
 from .model import Movie, DEFAULT_SPEED
 
 FOCUS={'reference':'copy','smartseq':'rt','crispr-mip':'gap','boloramis':'rca',
-       'atac':'transfer','smallseq':'lig3','gibson':'anneal','hic':'contact',
-       'dropseq':'capture','scrrbs':'conversion','celseq':'ivt','smartseq2':'rt','rnaseh':'cleave'}
+       'atac':'tagment','smallseq':'lig3','gibson':'resect','hic':'contact',
+       'dropseq':'capture','scrrbs':'conversion','celseq':'ivt','smartseq2':'rt','rnaseh':'cleave','golden-gate':'seal'}
 
 
 def probe(path,width,height,fps,frames=None):

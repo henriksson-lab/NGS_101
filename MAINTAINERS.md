@@ -678,3 +678,43 @@ Optional real Chrome checks need a localhost server:
 `python3 tools/benchmark_protocol_lineage_browser.py --site _site --screenshot /tmp/lineage.png`.
 These cover evidence filters, multi-parent focus, local/full links, zoom/pan,
 SVG export, failed data loading and mobile layout without installing packages.
+
+
+## Reusing an upstream library or cDNA intermediate
+
+Use `lib/protocol_handoff.py`, not a lineage edge or a guessed constructor import.
+The producing owner calls `export_material(graph, name, material, protocol=..., version=...,
+page=..., source=..., limitation=...)` after declaring a source-qualified produced state.
+`graph.exports` is machine-readable. A component that intentionally stops before NGS
+may use `required_output=Disposition.STORED`; it must still have a real producer,
+primary provenance, terminal accounting and explicit source coverage. Optional
+`ADDITIONAL_MATERIAL_EXPORTS` exposes separately versioned component graphs from the
+same owner; Visium uses it for the exact older RevA intermediate beside its RevF page.
+
+The consumer calls `import_material` with expected protocol/revision, local handoff
+evidence, phase requirements and fixed `required_sites` when known. It receives a
+copy of the real source declaration; feature meaning and inference are retained.
+Draw or transform that imported state rather than hand-building a matching endpoint.
+Keep aliquoting/pooling physical operations in the consumer. Import compatibility
+checks do not prove amplification, recovery or an entire native reaction history.
+
+If the source names an upstream method but not an established component/version,
+`declare_input_origin` records a visible source-named link without state inheritance.
+This must remain visibly unvalidated until exact compatibility is established.
+Renderers show both import kinds automatically; export anchors link to the actual
+intermediate, not a fragmented/indexed final library that happens to share handles.
+
+Run `python3 tools/audit_protocol_inputs.py` after handoff changes. Its inventory is
+maintainer-facing and deliberately contains uncurated text-selected candidates;
+reagents, controls, pools and biological libraries must not be mistaken for NGS inputs.
+Run `python3 tools/selftest_handoffs.py` or the integrated `tools/selftest.py`, plus the
+affected protocol/source-transcription suites and the full site/link check.
+
+If the cited producer has no public model, `declare_input_origin` can instead take
+`title=...` and `url=...` (an HTTPS original), with no `protocol`/`page`. This keeps
+an explicit input-stage/source link without inventing a producer node or importing
+chemistry. R2C2 uses this for Tn5Prime cDNA before tagmentation. Replace it with a
+source-qualified local intermediate only after that owner and version are modelled.
+`python3 tools/audit_protocol_inputs.py --notes` separately inventories literal
+input calls in notes/draft modules without executing incomplete graphs. Its separate
+snapshot is not complete graph coverage; indirect/nonliteral calls remain outside it.

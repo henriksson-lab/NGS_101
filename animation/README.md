@@ -36,15 +36,16 @@ rendering dependencies. Animation dependencies are an explicit AGENTS.md excepti
 |---|---|
 | `smartseq2` | Substrate-driven RT, template switching, PCR, two Tn5 insertions, original-end repair, index PCR and complete library anatomy; 2014 TSO and source-era N501/N701 example indexes |
 | `smartseq` | Original2012 SMART-seq: poly(A)/RT-primer binding, retained RNA through template switching, first complementary DNA, PCR sites, Tn5 dimers/cuts, index-primer tails, final functional library anatomy (cleanup omitted) |
-| `crispr-mip` | Continuous padlock folding, target gap copying, phosphorylated nick closure |
+| `crispr-mip` | Probe folding, gap copying, phosphorylated closure and end-dependent exonuclease selection |
 | `boloramis` | Source probe/primer co-hybridization, folding, RNA-splinted nick sealing, substrate-driven RCA and conserved-product overview |
-| `atac` | Coarse loaded-Tn5 adapter transfer and extension boundary |
-| `smallseq` | Conditional rRNA masking,3′ adapter ligation, free-adapter degradation and5′ adapter ligation |
+| `atac` | Loaded Tn5 homodimers, staggered strand transfer and both original-end repairs; conditional ME′ release |
+| `smallseq` | Preadenylated3′ adapter ligation, free-adapter processing/degradation and5′ adapter ligation |
 | `gibson` | Source method with the repository's invented DNA example: resection, complementary overlap annealing, nick sealing |
-| `hic` | MboI staggered cuts, biotin fill-in, selected proximity junction and physical enrichment |
-| `dropseq` | Droplet capture, full bead-primer barcode/UMI anatomy and tethered RT |
-| `scrrbs` | MspI-end processing/A-tailing; illustrative C→chemicalDNAU and later complementary copying |
+| `hic` | MboI cuts, both biotin-bearing end fills and both strands of a selected proximity junction |
+| `dropseq` | Poly(A) capture, full bead-primer barcode/UMI anatomy and tethered RT |
+| `scrrbs` | Prepared genomic window: C→physicalU, U→A complementary copying, then A→T copying |
 | `celseq` | T7 transcription and successive initiations on the retained DNA template |
+| `golden-gate` | BsaI Type IIS cuts, cohesive annealing, all four nick seals and site-free synthetic circle; all flanking pieces retained |
 | `reference` | Synthetic exact primer/template-copy fixture, not a published specimen |
 | `rnaseh` | H1-class cleavage of RNA in a supplied RNA–DNA hybrid; RNA fragments and intact DNA retained |
 
@@ -52,11 +53,12 @@ Whole movies have multiple narration-paced scenes. Export one shot for a short
 presentation clip; `--list-shots` shows the narration and estimated durations. The
 batch command also writes one focused clip per example.
 
-**SMART-seq2 and BOLORAMIS** use nucleotide identities and reaction-generated bonds.
-The separate original2012 `smartseq` adapter
-is a historical prototype and has not received the same simulator migration. Other
-protocol migrations remain in progress; a passing endpoint check alone does not
-establish a substrate-driven reaction history.
+**SMART-seq2, BOLORAMIS and the ten additional examples** use nucleotide identities
+and reaction-generated bonds. The original2012 `smartseq` adapter remains a historical
+prototype. The CLI registry selects the current implementations; older layouts in
+`protocols.py` remain regression fixtures and are not the current ten-example movies.
+The [ten-example plan and audit](../plans/chemistry-animation-ten-more.md) records
+sources, explicit scopes, review iterations and exported artifacts.
 
 The step counter and progress bar are hidden by default; `--timeline` enables them.
 An enzyme enters when its reaction starts. `persistent=True` keeps it through the
@@ -268,3 +270,22 @@ The source probe's closure is marked only when its actual backbone bond exists.
 SplintR is labelled as a ligase and leaves after sealing; the retained final enzyme
 is explicitly labelled Phi29 polymerase. `Strand.sealed_marks` highlights the joined
 bases and bond in later views without implying a new reaction.
+
+
+## Auditing exported movies
+
+```sh
+python3 -m animation.batch --directory /tmp/movies --examples golden-gate rnaseh
+python3 -m animation.audit --directory /tmp/movies --examples golden-gate rnaseh
+python3 -m animation.selftest --native
+```
+
+The audit compares a canonicalized scene manifest with current definitions, verifies
+codec/settings/frame counts and decodes actual MP4 reaction/transition frames into
+review strips. It leaves the visual verdict **pending** until a reader inspects them.
+SVG final frames are separate presentation assets, not proof of the MP4 content.
+Released-nucleotide display is opt-in per shot (`product_pool=True`) and derives its
+count and letters from actual released atoms. Intact reagent arrival uses a generated
+`introduce` event, distinct from nucleotide incorporation. Unborn molecules have no
+captions or physical end markers. Canonical serialization sorts unordered released
+pools, allowing reproducible manifests across processes.

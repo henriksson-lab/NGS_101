@@ -144,6 +144,9 @@ class Renderer:
         end_labels=[]
         for st in states.values():
             s=st.strand;n=len(s.sequence)
+            # A planned output is not an extant molecule. Captions, termini
+            # and regions appear only once at least one nucleotide exists.
+            if not any(st.fraction(i)>0 for i in range(n)):continue
             # Draw individual nucleotide cells, with a directional box like
             # the site's strand polygons. Unknown bases remain literal N/IUPAC.
             for i,base in enumerate(s.sequence):
@@ -226,7 +229,9 @@ class Renderer:
                 if st.fraction(i)<.9:continue
                 x,y=st.point(i+.5);color='bio'if label=='biotin'else'ligase'
                 c.set_source_rgb(*rgb(color));c.new_path();c.arc(x,y,7,0,math.tau);c.fill()
-                self.text(c,label,x,y-25,17,color,align='center')
+                dx,dy=s.mark_label_offsets.get(raw,(0,-25))
+                if raw in s.mark_label_offsets:self.line(c,[(x,y),(x+dx,y+dy+8)],color,1,.6)
+                self.text(c,label,x+dx,y+dy,17,color,align='center')
             for i,base in st.converted.items():
                 x,y=st.point(i+.5);c.set_source_rgb(*rgb('new'));c.new_path();c.arc(x,y,8,0,math.tau);c.fill()
                 self.text(c,base,x,y-23,21,'new',align='center')
@@ -294,6 +299,14 @@ class Renderer:
             self.text(c,label,x,y,18,color,align='center')
         c.restore()
         self.in_molecule_layer=False
+        if shot.product_pool:
+            frame=next(iter(states.values())).molecular
+            released=sorted(frame.released)if frame else[]
+            if released:
+                bases=' '.join(frame.atoms[id]['base']for id in released[:56])
+                if len(released)>56:bases+=' …'
+                self.text(c,f'Released nucleotides · {len(released)}',88,827,18,'muted',max_width=1400)
+                self.text(c,bases,88,853,17,'waste',max_width=1400)
         if self.style.coordinates:
             for j,s in enumerate(shot.strands):
                 detail=f'{s.id}: {len(s.sequence)} nt'if not s.schematic else f'{s.id}: schematic'
@@ -304,7 +317,7 @@ class Renderer:
         if self.style.timeline:
             index=movie.shots.index(shot)
             self.text(c,f'{index+1:02d} / {len(movie.shots):02d}',1510,840,19,'muted',align='right')
-        if self.style.evidence:self.text(c,shot.source,88,818,14,'muted',max_width=1400)
+        if self.style.evidence:self.text(c,shot.source,88,885 if shot.product_pool else 818,14,'muted',max_width=1400)
         if self.style.timeline:
             self.line(c,[(88,870),(1510,870)],'muted',2,.25)
             self.line(c,[(88,870),(88+1422*min(1,max(0,seconds/movie.duration(wpm,speed))),870)],'dna',3)

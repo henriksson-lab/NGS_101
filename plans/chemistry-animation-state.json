@@ -1,19 +1,27 @@
 {
-  "status": "smartseq2_and_boloramis_verified_other_migrations_pending",
-  "date": "2026-10-31",
-  "target": "SMART-seq2 and BOLORAMIS selected presentation examples",
-  "plan": "plans/chemistry-animation.md",
+  "status": "ten_additional_chemistries_complete",
+  "date": "2026-11-01",
+  "target": "Ten additional chemistry presentation movies beyond SMART-seq2 and BOLORAMIS",
+  "plan": "plans/chemistry-animation-ten-more.md",
   "implementation": "animation/README.md",
-  "outputs": "/tmp/chemistry-animation-boloramis-refined",
+  "outputs": "/tmp/chemistry-animations-ten-more-20261101",
   "protocols": [
-    "smartseq2",
-    "boloramis"
+    "crispr-mip",
+    "smallseq",
+    "hic",
+    "celseq",
+    "dropseq",
+    "scrrbs",
+    "gibson",
+    "atac",
+    "rnaseh",
+    "golden-gate"
   ],
   "schema": "ngs101.animation/4",
   "playback_multiplier": 1.5,
   "tests": {
     "command": "python3 -m animation.selftest --native",
-    "checks": 76,
+    "checks": 112,
     "result": "PASS"
   },
   "artifacts": {
@@ -70,7 +78,89 @@
       }
     }
   },
-  "review": {
+  "broader_migration": "Other generated recipes/views are not all wired into public adapters. Original2012 smartseq remains a separate prototype, outside this goal. See the plan for outstanding integration.",
+  "git": "Unstaged; no commit/push/deploy.",
+  "historical_checkpoint": {
+    "status": "sequence_rendering_revision_requested",
+    "date": "2026-10-31",
+    "plan": "plans/chemistry-animation.md",
+    "implementation": "animation/README.md",
+    "outputs": "/tmp/chemistry-animations-presentation-final",
+    "protocols": [
+      "crispr-mip",
+      "boloramis",
+      "atac",
+      "smallseq",
+      "gibson",
+      "hic",
+      "dropseq",
+      "scrrbs",
+      "celseq",
+      "smartseq"
+    ],
+    "tests": {
+      "command": "python3 -m animation.selftest --native",
+      "checks": 36,
+      "result": "PASS"
+    },
+    "artifacts": {
+      "movies": 11,
+      "focused_clips": 11,
+      "codec": "H.264",
+      "pixel_format": "yuv420p",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "movie_frames": 11315,
+      "movie_seconds": 377.171,
+      "shots": 37,
+      "smartseq_seconds": 111.334,
+      "verification": "/tmp/chemistry-animations-presentation-final/verification.json",
+      "visually_reviewed": [
+        "All revised mechanism contact sheets",
+        "Decoded SMART-seq template-switch, post-cleavage, index-primer binding and final-library frames",
+        "Source-scene/settings consistency verified for all eleven full exports"
+      ]
+    },
+    "requirements": {
+      "native_mp4": "Cairo\u2192rawvideo pipe\u2192FFmpeg; no browser or Manim",
+      "deterministic_evaluation": "animation/evaluate.py + native pixel seek check",
+      "molecular_relations": "animation/model.py + reaction rejection/identity/circle/copy tests",
+      "source_reuse": "animation/protocols.py original module hashes/step ids and constructor calls",
+      "narration_and_sparse_defaults": "Shot.timing; default1.5\u00d7 playback; CLI/batch --speed, detail flags and narration overrides",
+      "still_and_interchange": "PNG/SVG,versionedJSONroundtrip,actual batch artifacts",
+      "all_accepted_coverage": "SMART-seq +9 complementary protocol movies; reference separate",
+      "isolated_dependencies": "optionalanimationrequirements; Python-S model-loading check",
+      "documentation": "animation/README.md and this plan"
+    },
+    "scientific_limits": [
+      "Selected successful mechanism and illustrative choreography, not kinetics/yields or whole reaction validation.",
+      "OriginalSMART-seq native kit/first-cycle/read geometry stays unassigned; noSMART-seq2substitution.",
+      "ConditionalRNA/mask targets and inventedGibson/scRRBS fixtures explicitly qualified.",
+      "Native sequencing/read maps and unexpanded populations remain source-scoped."
+    ],
+    "git": "Unstaged; no commit/push/deploy.",
+    "schema": "ngs101.animation/3",
+    "playback_multiplier": 1.5,
+    "revision": "User-directed primer/handle/RNA/PCR/Tn5/final-library teaching revision; original native end geometry remains explicitly schematic.",
+    "pending_revision": "See final section of plans/chemistry-animation.md; current line-based exports rejected by user, sequence-based renderer and corrected Tn5 product/repair story not yet implemented."
+  },
+  "superseded_smartseq2_review": {
+    "outputs": "/tmp/chemistry-animation-smartseq2-reviewed",
+    "reason": "Selected only new PCR primers; omitted extension of original recessed3prime ends."
+  },
+  "protocol_outputs": {
+    "smartseq2": "/tmp/chemistry-animation-smartseq2-no-timeline",
+    "boloramis": "/tmp/chemistry-animation-boloramis-refined"
+  },
+  "latest_validation": {
+    "animation_tests": 76,
+    "smartseq2_protocol_tests": 4,
+    "combined_source_oligos": 36,
+    "source_failures": 0,
+    "unassembled_inputs": 7
+  },
+  "baseline_review": {
     "date": "2026-10-31",
     "target": "BOLORAMIS source ACTN1A1 example",
     "source_scene_match": true,
@@ -199,86 +289,98 @@
       }
     ]
   },
-  "broader_migration": "Other generated recipes/views are not all wired into public adapters. Original2012 smartseq remains a separate prototype, outside this goal. See the plan for outstanding integration.",
-  "git": "Unstaged; no commit/push/deploy.",
-  "historical_checkpoint": {
-    "status": "sequence_rendering_revision_requested",
-    "date": "2026-10-31",
-    "plan": "plans/chemistry-animation.md",
-    "implementation": "animation/README.md",
-    "outputs": "/tmp/chemistry-animations-presentation-final",
-    "protocols": [
+  "collection": {
+    "status": "complete",
+    "examples": [
       "crispr-mip",
-      "boloramis",
-      "atac",
       "smallseq",
-      "gibson",
       "hic",
+      "celseq",
       "dropseq",
       "scrrbs",
-      "celseq",
-      "smartseq"
+      "gibson",
+      "atac",
+      "rnaseh",
+      "golden-gate"
     ],
-    "tests": {
-      "command": "python3 -m animation.selftest --native",
-      "checks": 36,
-      "result": "PASS"
-    },
-    "artifacts": {
-      "movies": 11,
-      "focused_clips": 11,
-      "codec": "H.264",
-      "pixel_format": "yuv420p",
-      "width": 1920,
-      "height": 1080,
-      "fps": 30,
-      "movie_frames": 11315,
-      "movie_seconds": 377.171,
-      "shots": 37,
-      "smartseq_seconds": 111.334,
-      "verification": "/tmp/chemistry-animations-presentation-final/verification.json",
-      "visually_reviewed": [
-        "All revised mechanism contact sheets",
-        "Decoded SMART-seq template-switch, post-cleavage, index-primer binding and final-library frames",
-        "Source-scene/settings consistency verified for all eleven full exports"
-      ]
-    },
-    "requirements": {
-      "native_mp4": "Cairo\u2192rawvideo pipe\u2192FFmpeg; no browser or Manim",
-      "deterministic_evaluation": "animation/evaluate.py + native pixel seek check",
-      "molecular_relations": "animation/model.py + reaction rejection/identity/circle/copy tests",
-      "source_reuse": "animation/protocols.py original module hashes/step ids and constructor calls",
-      "narration_and_sparse_defaults": "Shot.timing; default1.5\u00d7 playback; CLI/batch --speed, detail flags and narration overrides",
-      "still_and_interchange": "PNG/SVG,versionedJSONroundtrip,actual batch artifacts",
-      "all_accepted_coverage": "SMART-seq +9 complementary protocol movies; reference separate",
-      "isolated_dependencies": "optionalanimationrequirements; Python-S model-loading check",
-      "documentation": "animation/README.md and this plan"
-    },
-    "scientific_limits": [
-      "Selected successful mechanism and illustrative choreography, not kinetics/yields or whole reaction validation.",
-      "OriginalSMART-seq native kit/first-cycle/read geometry stays unassigned; noSMART-seq2substitution.",
-      "ConditionalRNA/mask targets and inventedGibson/scRRBS fixtures explicitly qualified.",
-      "Native sequencing/read maps and unexpanded populations remain source-scoped."
+    "movies": 10,
+    "shots": 37,
+    "transitions": 27,
+    "frames": 13164,
+    "seconds": 438.8,
+    "animation_checks": 112,
+    "size": [
+      1920,
+      1080
     ],
-    "git": "Unstaged; no commit/push/deploy.",
-    "schema": "ngs101.animation/3",
-    "playback_multiplier": 1.5,
-    "revision": "User-directed primer/handle/RNA/PCR/Tn5/final-library teaching revision; original native end geometry remains explicitly schematic.",
-    "pending_revision": "See final section of plans/chemistry-animation.md; current line-based exports rejected by user, sequence-based renderer and corrected Tn5 product/repair story not yet implemented."
-  },
-  "superseded_smartseq2_review": {
-    "outputs": "/tmp/chemistry-animation-smartseq2-reviewed",
-    "reason": "Selected only new PCR primers; omitted extension of original recessed3prime ends."
-  },
-  "protocol_outputs": {
-    "smartseq2": "/tmp/chemistry-animation-smartseq2-no-timeline",
-    "boloramis": "/tmp/chemistry-animation-boloramis-refined"
-  },
-  "latest_validation": {
-    "animation_tests": 76,
-    "smartseq2_protocol_tests": 4,
-    "combined_source_oligos": 36,
-    "source_failures": 0,
-    "unassembled_inputs": 7
+    "fps": 30,
+    "codec": "H.264",
+    "pixel_format": "yuv420p",
+    "speed": 1.5,
+    "timeline": false,
+    "source_scene_matches": 10,
+    "artifact_root": "/tmp/chemistry-animations-ten-more-20261101",
+    "reviews": {
+      "crispr-mip": {
+        "sha256": "81280f36829eba5c2c4878c4da4d34089ae8b1c3357b5b22efc903347fb2e469",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/capture/crispr-mip.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/capture/crispr-mip-review/final.svg"
+      },
+      "smallseq": {
+        "sha256": "c059fd7a68382bc29f84738556d7f649e8902efc87c2af6b3f023f2a84f9ed49",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/capture/smallseq.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/capture/smallseq-review/final.svg"
+      },
+      "hic": {
+        "sha256": "4a14de767fca63983d5cf97a68db580521730ad866cfe56e736b597e338a8f4a",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/capture/hic.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/capture/hic-review/final.svg"
+      },
+      "celseq": {
+        "sha256": "95aa78f7309e0013029b76843a646c135ff926badf90ac8c55763f1746962d4f",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/synthesis/celseq.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/synthesis/celseq-review/final.svg"
+      },
+      "dropseq": {
+        "sha256": "a80d8d7e6e4cd0b0d37a4cb419fa6fa40456a3eaa4f8395d6e295d647f4440e9",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/synthesis/dropseq.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/synthesis/dropseq-review/final.svg"
+      },
+      "scrrbs": {
+        "sha256": "08c0873513af63c1880023d6fb9c44544267d397f3f2cac75637a0f3fbfde35b",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/synthesis/scrrbs.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/synthesis/scrrbs-review/final.svg"
+      },
+      "gibson": {
+        "sha256": "d7d6cf80d1f09f41ca7e945cab73cf49d06ea64ce6718f2c17d21d03373a8c02",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/assembly/gibson.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/assembly/gibson-review/final.svg"
+      },
+      "atac": {
+        "sha256": "684603346891ab361544cda1df959ddb8174174fee767d9c6f93109dc7e838ed",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/assembly/atac.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/assembly/atac-review/final.svg"
+      },
+      "rnaseh": {
+        "sha256": "34362eb31b3a02b48e75d21f1340a0b567cdd2e91e7c96615fb37e3b411eca28",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/assembly/rnaseh.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/assembly/rnaseh-review/final.svg"
+      },
+      "golden-gate": {
+        "sha256": "0658a52ce42ede4a79fe912bd24c3955bc963800d4c3290a0b0d33ccda0c955e",
+        "review": "accepted_with_declared_source_scope",
+        "video": "/tmp/chemistry-animations-ten-more-20261101/golden-gate/golden-gate.mp4",
+        "svg": "/tmp/chemistry-animations-ten-more-20261101/golden-gate/golden-gate-review/final.svg"
+      }
+    }
   }
 }

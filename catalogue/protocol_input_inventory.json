@@ -1,0 +1,3522 @@
+{
+  "schema": 1,
+  "scope": "Declared molecular handoffs plus text-selected review candidates; not ancestry inference, complete source review or absence evidence. Pool/control rows are not automatically protocol extensions.",
+  "protocols": [
+    {
+      "protocol": "10x-chromium-gem-x-single-cell-3-ge-v4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-gem-x-single-cell-5-ge-v3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-gem-x-single-cell-5-vdj-v3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-3-ge-v2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-3-ge-v3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-3-v3-cell-surface-protein",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-3-v3-crispr-screening",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-5-ge-v1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-5-vdj-v2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-atac",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-chromium-single-cell-multiome-atac-gene-expression",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-fixed-rna-profiling-flex",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "10x-visium-spatial-gene-expression",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": [
+        {
+          "protocol": "10x-visium-spatial-gene-expression",
+          "version": "CG000239 Rev F",
+          "name": "full_length_cdna_rev_f",
+          "material": "cdna_cleanup_product",
+          "producer": "cdna_cleanup",
+          "page": "visium.html",
+          "source": "Commercial protocol: 10x Genomics <a href=\"https://cdn.10xgenomics.com/image/upload/v1660261286/support-documents/CG000239_Visium_Spatial_Gene_Expression_User_Guide_Rev_F.pdf\">CG000239 Rev F</a>. The <a href=\"https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json\">Dual Index TT Set A table</a> publishes the 96 well-specific i7/i5 pairs. Step3.3, Appendix p70",
+          "limitation": "Source-printed amplified duplex pattern before fragmentation. Native released-strand/PCR geometry is unresolved; spot/UMI/transcript members vary. This Rev F export is not substituted for the Rev A preparation cited by Spatial VDJ."
+        },
+        {
+          "protocol": "10x-visium-spatial-gene-expression",
+          "version": "CG000239 Rev A",
+          "name": "full_length_cdna_rev_a",
+          "material": "full_length_cdna",
+          "producer": "cdna_cleanup",
+          "page": "visium.html",
+          "source": "10x Genomics CG000239 Rev A, Appendix printed p75 and Steps4.2\u20134.3 printed pp49\u201350; exact source cited by Engblom et al.2023",
+          "limitation": "Source-printed amplified duplex pattern; actual transcript, spot/UMI values and recovery are variable. Native first-cycle PCR and earlier slide-release strand chemistry remain unvalidated. No fragmentation, ligation adapter, P5/P7 or sample index is present at this handoff."
+        }
+      ]
+    },
+    {
+      "protocol": "2ome-seq__10.1093+nar+gkw810",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "4c-seq__10.1016+j.ymeth.2019.07.014",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "5-direct-capture-perturb-seq__10.1038+s41587-020-0470-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "abseq__10.1038+srep44447",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ace-seq__10.1038+nbt.4204",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "act-seq__10.1038+s41467-019-11559-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "airr-umi-5-race__10.1007+978-1-0716-2115-8_19",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "alkaniline-seq__10.1002+anie.201810946",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "arm-seq__10.1038+nmeth.3508",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "treated_kit_reagents",
+          "label": "Actual named historical NEBNext Small RNA Library Prep Kit for Illumina contributions; edition, components and packaging unassembled",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Cozen et al. 2015 doi:10.1038/nmeth.3508, Methods Treatment of RNA with AlkB; library preparation; associated author manuscript, whole VOR equivalence not established",
+          "status": "needs_source_review"
+        },
+        {
+          "material": "control_kit_reagents",
+          "label": "Actual named historical NEBNext Small RNA Library Prep Kit for Illumina contributions; edition, components and packaging unassembled",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Cozen et al. 2015 doi:10.1038/nmeth.3508, Methods Treatment of RNA with AlkB; library preparation; associated author manuscript, whole VOR equivalence not established",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "viral_template",
+          "label": "viral DNA or reverse-transcribed cDNA",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Defining protocol: <a href=\"https://doi.org/10.1038/nprot.2017.066\">Quick et al., <i>Nature Protocols</i> (2017)</a>.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "artr-seq__10.1038+s41592-023-02146-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "asap-seq__10.1038+s41587-021-00927-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "astar-seq__10.1101+829960",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "atac-seq__10.1038+nmeth.2688",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "atrandi-wgs__10.1101+2025.06.20.660799",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "bacdrop__10.1016+j.cell.2023.01.002",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "bali__10.1073+pnas.2527896123",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "basic__10.1021+sb500356d",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "bd-rhapsody__10.1038+s41592-018-0255-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "bid-seq__10.1038+s41587-022-01505-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "biobrick__10.1186+1754-1611-2-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "bless__10.1038+nmeth.2408",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "bliss__10.1038+ncomms15058",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "boloramis__10.1093+nar+gkab120",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "botseqs__10.1073+pnas.1607794113",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "butt-seq__10.1101+gad.350434.123",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cabage__10.1371+journal.pone.0241253",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cage__10.1038+nprot.2012.005",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cagescan__10.1038+nmeth.1470",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cap-seq__10.1371+journal.pgen.1001134",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "captrap-seq__10.1038+s41467-024-49523-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "catch-cloning__10.1038+ncomms9101",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "catch-nanopore__10.1093+nar+gky411",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "catch-seq-clone-adapted-template-capture__10.1371+journal.pone.0111756",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cel-seq2__10.1186+s13059-016-0938-8",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "peer_wells",
+          "label": "barcoded duplex cDNA from the other cells of one IVT",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1186/s13059-016-0938-8",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "cel-seq__10.1016+j.celrep.2012.08.003",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "peer_wells",
+          "label": "independently indexed ds-cDNA from other cells",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "<a href=\"https://doi.org/10.1016/j.celrep.2012.08.003\">Hashimshony et al., Cell Reports2012</a>; original mmc4 CEL-Seq Protocol2012-07-16 and mmc5 article/S1.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "cello-seq__10.1038+s41587-021-01093-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cfmedip-seq__10.1038+s41596-019-0202-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ch-atac-seq__10.1016+j.devcel.2024.01.015",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chair__10.1038+s41592-025-02658-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "change-seq__10.1038+s41587-020-0555-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "char-seq__10.7554+eLife.27024",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chec-seq__10.1038+ncomms9733",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chem-map__10.1038+s41587-022-01636-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chem-seq__10.1038+nbt.2776",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chia-drop__10.1038+s41586-019-0949-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chil-seq__10.1038+s41596-020-0375-8",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chip-seq__10.1038+nmeth1068",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chipmentation__10.1038+nmeth.3542",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chro-seq__10.1038+s41588-018-0244-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "chymera__10.1038+s41587-020-0437-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cirseq__10.1038+nprot.2014.118",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cite-seq__10.1038+nmeth.4380",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "clippr-seq__10.1093+nar+gkae058",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "clippr_kit_inventory",
+          "label": "Actual Collibri Stranded RNA library preparation aggregate supplies; number/packaging/addition schedule unassembled, not a proven premix",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Published OUP/NAR2024 PDF Methods77\u2013122/Resultsmethodologyp4/actualFig1p5; associatedSIrolemap p1 andTableS8rawXML validationroles. AMXMLidentityheaderonly excluded; conservative4identity exposure/capexception recorded. No vendor/predecessor recipe inheritance.",
+          "status": "needs_source_review"
+        },
+        {
+          "material": "clipp_kit_inventory",
+          "label": "Actual Collibri Stranded RNA library preparation aggregate supplies; number/packaging/addition schedule unassembled, not a proven premix",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Published OUP/NAR2024 PDF Methods77\u2013122/Resultsmethodologyp4/actualFig1p5; associatedSIrolemap p1 andTableS8rawXML validationroles. AMXMLidentityheaderonly excluded; conservative4identity exposure/capexception recorded. No vendor/predecessor recipe inheritance.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "cobatch__10.1016+j.molcel.2019.07.015",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "codec__10.1038+s41588-023-01376-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cola-seq__10.1016+j.molcel.2022.11.004",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "cells",
+          "label": "Source K562 library cohort: RNA from200million cells",
+          "kind": "biological sample",
+          "primary": true,
+          "source": "Accepted author manuscript NIHMS1854138/PMC10448999, DOI10.1016/j.molcel.2022.11.004; introduction72/workflow90\u201394/STARMethods216\u2013230. Final publication equivalence unverified. TableS4/S5 identities cited, actual oligo documents unresolved; no preprint sequence inheritance.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "combigem__10.1038+nbt.3326",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cotech__10.1038+s41592-021-01129-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cpec__10.1371+journal.pone.0006441",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "crispr-circle-seq__10.1038+nmeth.4278",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "crispr-mip__10.1101+2024.03.28.587082",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "crispr-sciatac__10.1038+s41587-021-00902-x",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "crispr-umi-schmierer__10.15252+msb.20177834",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "crop-seq__10.1038+nmeth.4177",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cropseq-multi__10.1101+2024.03.17.585235",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cut-run__10.7554+eLife.21856",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cut-tag__10.1038+s41467-019-09982-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "cutac__10.7554+eLife.63274",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dab-seq__10.1038+s41467-021-21810-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "damage-seq__10.1073+pnas.1614430113",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "pcr_mix",
+          "label": "Unassigned molecular reagent supply for source library PCR; no kit recipe inferred",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Published Hu2016 main Results/Figure1; relevant SI unavailable, scope explicitly partial",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "dart-seq__10.1038+s41592-019-0570-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dbit-seq__10.1016+j.cell.2020.10.026",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ddrad-seq__10.1371+journal.pone.0037135",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "digenome-seq__10.1038+nmeth.3284",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "digital-telomere-measurement__10.1038+s41467-024-49007-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dimelo-seq__10.1038+s41592-022-01475-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dimple__10.1186+s13059-023-02880-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dip-c__10.1126+science.aat5641",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "direct-seq__10.1186+s13059-020-02044-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "disco__10.1038+s41592-021-01391-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "discover-seq__10.1126+science.aav9023",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dm-trna-seq__10.1038+nmeth.3478",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dms-mapseq__10.1038+nmeth.4057",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dms-seq__10.1038+nature12894",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dna-assembler__10.1093+nar+gkn991",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dnbseq-library-circularization",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "indexed_library",
+          "label": "adapter-bearing indexed dsDNA library",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Commercial protocol: MGI <a href=\"https://global-mgitech.com/wp-content/uploads/Documents/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf\">MGIEasy Dual Barcode Circularization Kit User Manual 7.0</a> (part SOP-013-B02-185, kit version V1.0, Sep. 2024) and <a href=\"https://en.mgi-tech.com/Uploads/Temp/file/20240530/66583952cae5b.pdf\">DNBSEQ Dual Barcode Adapter &amp; Barcode Sequences 3.0</a>.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "dogma-seq__10.1038+s41587-021-00927-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "double-stranded-ancient-dna-with-partial-udg__10.1098+rstb.2013.0624",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dr-seq__10.1038+nbt.3129",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "drip-seq__10.1016+j.molcel.2012.01.017",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dripc-seq__10.1016+j.molcel.2016.05.032",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "drop-bs__10.1038+s41467-023-40411-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "drop-chip__10.1038+nbt.3383",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "drop-scchip-seq__10.1038+s41588-019-0424-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "drop-seq__10.1016+j.cell.2015.05.002",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dropsynth__10.1126+science.aao5167",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dsbcapture__10.1038+nmeth.3960",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dscatac-seq__10.1038+s41587-019-0147-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "dsciatac-seq__10.1038+s41587-019-0147-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "duplex-repair__10.1093+nar+gkab855",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "duplex-sequencing__10.1073+pnas.1208715109",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "e-l-repli-seq__10.1038+nprot.2017.148",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "earth-microbiome-project-its",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "easysci__10.1038+s41588-023-01572-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "easyshare-seq__10.7554+eLife.110034",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "eccdna-circle-seq__10.1073+pnas.1508825112",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "eccite-seq__10.1038+s41592-019-0392-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "eclip__10.1038+nmeth.3810",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "emp-cloning__10.1371+journal.pone.0053360",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "emriboseq__10.1038+nature14183",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "end-seq__10.1016+j.molcel.2016.06.034",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "epi-decoder__10.1371+journal.pbio.2005542",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "epidamid__10.1016+j.molcel.2022.03.009",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "et-recombineering__10.1038+2417",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "exseq__10.1126+science.aax2656",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "fast-atac__10.1038+ng.3646",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "fastgro__10.1016+j.celrep.2020.108373",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "library_supplies",
+          "label": "Aggregate source historical NEBNext UltraII Directional RNA-library supplies; packaging/stock count/internal order unassigned",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Published Cell Reports33,108373(10Nov2020), actual publisher-layout PDF cached as NIHMS1645786-supplement-2, MethodsPDFp16/e3(lines2218\u20132240). Detailed cited protocol export is separate/version-qualified; no complete equivalence asserted.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "fiber-seq__10.1126+science.aaz1646",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ficc-seq__10.1093+nar+gkz658",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "find-seq__10.1038+s41596-024-01021-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "fipresci__10.1186+s13059-023-02893-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "fisseq__10.1126+science.1250212",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "flash-seq__10.1038+s41587-022-01312-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "fragseq__10.1038+nmeth.1529",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "g-t-seq__10.1038+nmeth.3370",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gage-seq__10.1101+2023.07.20.549578",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gam__10.1038+nature21411",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gateway__10.1101+gr.143000",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "genie-atac__10.1093+nar+gkad332",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "genie__10.1093+nar+gkaa960",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "geomx-dsp__10.1038+s41587-020-0472-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gibson-assembly__10.1038+nmeth.1318",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gloe-seq__10.1016+j.molcel.2020.03.027",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "glori__10.1038+s41587-022-01487-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "golden-gate__10.1371+journal.pone.0003647",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "goldenbraid__10.1371+journal.pone.0021622",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "got-cha__10.1038+s41586-024-07388-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "got__10.1038+s41586-019-1367-0",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "first_cdna",
+          "label": "selected3\u2032v2 native recovered first-strand10x cDNA; prior version-native kit chemistry bounded",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Nam et al. Nature2019 doi:10.1038/s41586-019-1367-0; publishedPMC6782071 Methods GoT/CircularizationGoT; originalSupplementTable5.",
+          "status": "source_named_handoff",
+          "upstream": {
+            "protocol": "10x-chromium-single-cell-3-ge-v2",
+            "stage": "Recovered, template-switched first-strand cDNA before bulk amplification",
+            "page": "10x-3prime-v2.html",
+            "source": "Nam et al. 2019, published Methods, GoT 3\u2032 v2; source-owned declaration SOURCE.",
+            "limitation": "The source names 3\u2032 v2 recovered cDNA. Exact guide revision and complete native first-strand/end compatibility with the linked reference model are not established; its state is not silently imported.",
+            "version": "",
+            "title": "",
+            "url": ""
+          }
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "grid-seq__10.1038+nbt.3968",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gro-cap__10.1038+ng.3142",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "gro-seq__10.1126+science.1162228",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "guide-seq__10.1038+nbt.3117",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hdst__10.1038+s41592-019-0548-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hicar__10.1016+j.molcel.2022.01.023",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hichip__10.1038+nmeth.3999",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hicop__10.1186+s13072-020-00348-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hires__10.1126+science.adg3797",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hrf-seq__10.1093+nar+gku167",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "human-net-seq__10.1016+j.cell.2015.03.010",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hybrid-bag-seq__10.1186+s13059-025-03790-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hyden-seq__10.1038+nsmb.2957",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "other_library_stocks",
+          "label": "Actual other source libraries for sequencing pool; indices, stock quantities and whole polymers unassembled",
+          "kind": "sequencing library",
+          "primary": false,
+          "source": "Original HydEn-seq Methods; publisherTable1,selectedARC84",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "hydrapsiseq__10.1093+nar+gkaa769",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "other_libraries",
+          "label": "Other source libraries for actualmultiplexedrun; identities,indexmembers,countsunassigned",
+          "kind": "sequencing library",
+          "primary": false,
+          "source": "Marchand et al. 2020 doi:10.1093/nar/gkaa769, published Methods and Supplementary Figure S1",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "hydro-trnaseq__10.1016+j.celrep.2017.07.029",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hydrop-atac__10.7554+eLife.73971",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "hydrop-rna__10.7554+eLife.73971",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "i-bless__10.1038+s42003-018-0165-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "icicle-seq__10.7554+eLife.63632",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "iclip__10.1038+nsmb.1838",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "cdna_glycoblue",
+          "label": "Source0.5\u00b5lGlycoBlue for cDNA precipitation",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "K\u00f6nig et al. 2010 doi:10.1038/nsmb.1838, publisher Supplementary Methods pp1\u20134",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "icshape__10.1038+nprot.2016.011",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "illumina-16s-metagenomic-sequencing",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "illumina-dna-prep",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "illumina-dna-prep-shotgun-metagenomics",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "imargi__10.1073+pnas.1819788116",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "in-fusion__10.1093+nar+gkm047",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "in-situ-hi-c__10.1016+j.cell.2014.11.021",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "in4mer__10.1038+s41467-024-47795-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "indrop-v1__10.1016+j.cell.2015.04.044",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "indrop-v2__10.1038+nprot.2016.154",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "indrops-2__10.1093+nar+gkae1312",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "insight__10.1126+sciadv.abe5054",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "invadeseq__10.1038+s41596-023-00888-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "inverse-pcr__10.1093+genetics+120.3.621",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "irclip__10.1038+nmeth.3840",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "issaac-seq__10.1038+s41592-022-01601-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "itchip-seq__10.1038+s41556-019-0383-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "iva-cloning__10.1038+srep27459",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "kas-seq__10.1038+s41592-020-0797-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "lamp-seq__10.1038+s41587-021-00966-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "lampore__10.1101+2020.08.07.20161737",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "last-seq__10.1186+s13059-023-03025-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "lcr__10.1021+sb4001992",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "lenticrispr-v1-screening__10.1126+science.1247005",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "lenticrispr-v2-screening__10.1038+nmeth.3047",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "lianti__10.1126+science.aak9787",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "libra-seq__10.1016+j.cell.2019.11.003",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "polymerase",
+          "label": "Actual cDNA-PCR aggregate supplies; stock packaging/formulation unassigned",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1016/j.cell.2019.11.003; final-version author manuscript Methods198\u2013220; whole VOR equivalence not established",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "lic-pcr__10.1093+nar+18.20.6069",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "light-seq__10.1038+s41592-022-01604-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ligr-seq__10.1016+j.molcel.2016.04.030",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "limca__10.1038+s41592-024-02239-0",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "dna_others",
+          "label": "other independentlyindexednuclear libraries",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "<a href=\"https://doi.org/10.1038/s41592-024-02239-0\">Wu et al., Nature Methods2024</a>; directly cited pex2423v1 protocol and its original attachedLiMCAOligos workbook.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "long-read-chia-pet__10.1038+nprot.2017.012",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "loop-assembly__10.1111+nph.15625",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "m3-seq__10.1038+s41564-023-01462-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "m6a-sac-seq__10.1038+s41587-022-01243-z",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "rna",
+          "label": "Actual independently prepared FTO- RNA library input: 30\u2013100 ng poly(A)+ or rRNA-depleted RNA; actual transcript identities unassembled",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Hu et al.2022 doi:10.1038/s41587-022-01243-z, accepted manuscript Methods211\u2013227; publisher SupplementaryTable1; VOR procedure applicability unverified",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "m6a-seq__10.1038+nature11112",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "m6ace-seq__10.1038+s41467-019-13561-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mab-seq__10.1038+nbt.3073",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "maester__10.1038+s41587-022-01210-8",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "cdna",
+          "label": "10x Genomics 3\u2032 v3 cDNA, 20 ng per reaction",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Defining source: <a href=\"https://doi.org/10.1038/s41587-022-01210-8\">Miller et al., <i>Nature Biotechnology</i> (2022)</a>.",
+          "status": "source_named_handoff",
+          "upstream": {
+            "protocol": "10x-chromium-single-cell-3-ge-v3",
+            "stage": "Full-length amplified cDNA before fragmentation; 20 ng aliquot per reaction",
+            "page": "10x-3prime-v3.html",
+            "source": "MAESTER Methods, 10x Genomics 3\u2032 v3 and MAESTER 10x 3\u2032 v3; Supplementary Table 3 and Figure 3.",
+            "limitation": "The source identifies 3\u2032 v3 cDNA, not a specific revision of the linked guide. Mitochondrial target occupancy and complete first-cycle products are not established by the platform name; this is a source-named link without state inheritance.",
+            "version": "",
+            "title": "",
+            "url": ""
+          }
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "malbac-dt__10.1101+2019.12.31.892190",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "malbac__10.1126+science.1229164",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mario__10.1038+ncomms12023",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mars-seq2-0__10.1038+s41596-019-0164-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mars-seq__10.1126+science.1247651",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "matq-seq__10.1038+nmeth.4145",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mc-4c__10.1038+s41588-018-0161-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mcscrb-seq__10.1038+s41467-018-05347-6",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "peer_wells",
+          "label": "barcoded cDNA from the other wells",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1038/s41467-018-05347-6",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "meta3c__10.7554+eLife.03318",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "methyl-hic__10.1038+s41592-019-0502-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "methylc-seq__10.1038+nprot.2014.114",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "methylrad__10.1098+rsob.150130",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "miclip__10.1038+nmeth.3453",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "micro-c__10.1016+j.cell.2015.05.048",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "microbe-seq__10.1126+science.abm1483",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "microsplit__10.1126+science.aba5257",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "microwell-seq__10.1016+j.cell.2018.02.001",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mim-trnaseq__10.1016+j.molcel.2021.01.028",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "miracl-seq__10.1016+j.cell.2020.08.003",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mnet-seq__10.1016+j.cell.2015.03.027",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "moclo__10.1371+journal.pone.0016765",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "modified-smart-seq__10.1007+7651_2021_435",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "moffat-two-step-crispr-screen-readout",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "molecular-pixelation-mpx__10.1038+s41592-024-02268-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "molseq__10.1038+s41598-026-41186-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "mpra__10.1038+nbt.2137",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "multi-cut-tag__10.1016+j.molcel.2021.09.019",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "multi-tag__10.1038+s41587-022-01522-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "music__10.1038+s41586-024-07239-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nagano-single-cell-hi-c__10.1038+nature12593",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nano-cop__10.1016+j.molcel.2019.11.017",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nano-cut-tag__10.1038+s41587-022-01535-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nano-trnaseq__10.1038+s41587-023-01743-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nano3p-seq__10.1038+s41592-022-01714-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nanopore-cas9-targeted-sequencing-ncats__10.1038+s41587-020-0407-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nanoseq__10.1038+s41586-021-03477-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nebnext-enzymatic-methyl-seq-v2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nebnext-low-bias-small-rna",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nebnext-single-cell-low-input-rna",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nebnext-ultra-ii-directional-rna",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nebnext-ultra-ii-dna-library-prep-user-adaptor",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nebnext-ultra-ii-fs-dna-pcr-free",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nextera-mate-pair",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nextera-xt-dna-library-prep",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "dna",
+          "label": "1ng standard genomicDNA; no amplicon-route bead substitution",
+          "kind": "biological sample",
+          "primary": true,
+          "source": "Illumina Nextera XT Product Documentation15031942v07 April2023; selected standard genomicDNA/XT-v2 indexes/bead normalization. AdapterSequences1000000002694v22 September2025 is later reference only; troubleshooting770-2015-015 qualifies partial adapters and physical ss endpoint.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "ng-capture-c__10.1038+nmeth.3664",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nice-seq__10.1186+s13059-017-1247-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nick-seq__10.1093+nar+gkaa473",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "nt_matched_control",
+          "label": "Actual corresponding source negative-control PCR library; upstream preparation/amount/whole polymers unassembled",
+          "kind": "sequencing library",
+          "primary": false,
+          "source": "Cao2020 published Materials and Methods; positive nickase-validation NT/TdT branches",
+          "status": "needs_source_review"
+        },
+        {
+          "material": "tdt_matched_control",
+          "label": "Actual corresponding source negative-control PCR library; upstream preparation/amount/whole polymers unassembled",
+          "kind": "sequencing library",
+          "primary": false,
+          "source": "Cao2020 published Materials and Methods; positive nickase-validation NT/TdT branches",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "nju-seq__10.1016+j.crmeth.2024.100721",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "nm-seq__10.1038+nmeth.4294",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ntt-seq__10.1038+s41587-022-01588-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oak__10.1038+s41467-024-53227-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ok-seq__10.1038+ncomms10208",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "olink-explore__10.1016+j.mcpro.2021.100168",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "omni-atac__10.1038+nmeth.4396",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "organic-profiling__10.1038+nmeth.2766",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ottr-seq__10.1073+pnas.2107900118",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ovation-rna-seq-v2__10.1093+nar+gkr547",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxbs-seq__10.1126+science.1220671",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-cdna-pcr-sequencing-v14",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-direct-cdna-sequencing",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-direct-rna-sequencing-rna004",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-ligation-sequencing-v14",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-native-barcoding-v14",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-rapid-sequencing-v14",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "oxford-nanopore-ultra-long-v14",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pacbio-isoseq-smrtbell-prep-kit-3-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pacbio-kinnex-full-length-rna",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pacbio-smrtbell-express-template-prep-kit-2-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pacbio-smrtbell-prep-kit-3-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pacbio-telobait__10.1038+s41467-023-35823-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "paired-seq__10.1038+s41594-019-0323-x",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "paired-vh-vl__10.1038+nbt.2492",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pairedtag__10.1038+s41592-021-01060-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "paiso-seq__10.1038+s41467-019-13228-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pandora-seq__10.1038+s41556-021-00652-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "par-clip__10.1016+j.cell.2010.03.009",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "paris__10.1016+j.cell.2016.04.028",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pars__10.1038+nature09322",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pbat__10.1093+nar+gks454",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pcl-seq__10.1101+gr.279906.124",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pem-seq__10.1038+s41421-019-0088-8",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "petri-seq__10.1038+s41564-020-0729-6",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "phage-atac__10.1038+s41587-021-01065-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "phospho-seq__10.1038+s41467-025-56590-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "photon__10.1038+s41467-025-59801-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pi-atac-seq__10.1038+s41467-018-07115-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "picoplex-dna-seq",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "other_libraries",
+          "label": "other PicoPLEX libraries, each with a different dual-index pair (up to 48 in all)",
+          "kind": "sequencing library",
+          "primary": false,
+          "source": "Rubicon Genomics (now Takara Bio) <a href=\"https://takara.co.kr/file/manual/pdf/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated%28RB3381%29.pdf\">PicoPLEX DNA-seq Instruction Manual QAM-106-002</a> (Cat# R300381).",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pip-seq__10.1038+s41587-023-01685-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pipe__10.1002+prot.21786",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pixel-seq__10.1016+j.cell.2022.10.021",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "plac-seq__10.1038+cr.2016.137",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "plate-scatac-seq__10.1038+s41467-018-07771-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "playr__10.1038+nmeth.3742",
+      "status": "no_unique_graph",
+      "inputs": []
+    },
+    {
+      "protocol": "point__10.1016+j.molcel.2021.02.034",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "kit_reagents",
+          "label": "Actual historical NEBNext UltraII Directional RNA Library Prep E7760S reagent collection; edition, components and stock packaging unassembled",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Sousa-Lu\u00eds et al.2021 doi:10.1016/j.molcel.2021.02.034, VOR STAR Methods JATS487\u2013503",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "pore-c__10.1038+s41587-022-01289-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "primeflow-rna-assay__10.1038+ncomms6641",
+      "status": "no_unique_graph",
+      "inputs": []
+    },
+    {
+      "protocol": "pro-cap__10.1126+science.1229386",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pro-seq__10.1126+science.1229386",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "probac-seq__10.1038+s41596-024-01002-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "prox-seq__10.1038+s41592-022-01684-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "library_mix_bulk",
+          "label": "Sourcefreshmix1xPhusionHFbuffer/dNTP/SYBR/DMSO/library-fwd+rev500nM;buffernameisnotafreshenzymeaddition",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "PublishedPMC6710248 mainMethods163\u2013187/Fig1; publishedSI MOESM1 Note1/Table1 originalp11. Two selected originals; no full linked-source or absence audit.",
+          "status": "needs_source_review"
+        },
+        {
+          "material": "other_pcr_contributions",
+          "label": "Other actual source PCR products contributing to the library pool; identities, amounts and upstream preparations unassigned",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "PublishedPMC6710248 mainMethods163\u2013187/Fig1; publishedSI MOESM1 Note1/Table1 originalp11. Two selected originals; no full linked-source or absence audit.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "proximity-network-assay__10.1101+2025.06.19.660329",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pseudo-seq__10.1038+nature13802",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "pta__10.1073+pnas.2024176118",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "q5-site-directed-mutagenesis",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "quantum-barcoding-qbc__10.1038+s42003-020-0896-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "quartz-seq2__10.1186+s13059-018-1407-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "quartz-seq__10.1186+gb-2013-14-4-r31",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "quikchange-ii-site-directed-mutagenesis",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "qurie-seq__10.1016+j.crmeth.2021.100070",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "r-chip__10.1016+j.molcel.2017.10.008",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "r2c2__10.1073+pnas.1806447115",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "indexed_cdna",
+          "label": "Tn5Prime indexed SIRV E2 full-length ds cDNA",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Defining source: <a href=\"https://doi.org/10.1073/pnas.1806447115\">Volden et al., <i>PNAS</i> (2018)</a>.",
+          "status": "source_named_handoff",
+          "upstream": {
+            "protocol": "",
+            "stage": "Amplified full-length, dual-indexed SIRV E2 cDNA before Tn5 tagmentation",
+            "page": "",
+            "source": "Volden et al. 2018, published Results and Materials and Methods (PMC6166824, lines 65, 145\u2013149); reference 13; Supplementary Table S3.",
+            "limitation": "The cited Tn5Prime method supplies the cDNA preparation, not a tagmented Illumina library. No source-owned Tn5Prime intermediate is modelled here; this link imports no molecular state. The R2C2 study's SIRV-specific preparation and oligos remain local.",
+            "version": "",
+            "title": "Tn5Prime \u2014 Cole et al. 2018",
+            "url": "https://doi.org/10.1093/nar/gky182"
+          }
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "rage-seq__10.1038+s41467-019-11049-4",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "cdna",
+          "label": "Chromium 3\u2032 v2 full-length cDNA (2 extra amplification cycles)",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Singh et al., NatureCommunications(2019), <a href=\"https://doi.org/10.1038/s41467-019-11049-4\">doi:10.1038/s41467-019-11049-4</a>; Methods droplet RNA, capture design, targeted capture, Nanopore sequencing and demultiplexing.",
+          "status": "source_named_handoff",
+          "upstream": {
+            "protocol": "10x-chromium-single-cell-3-ge-v2",
+            "stage": "Full-length amplified cDNA before expression-library fragmentation",
+            "page": "10x-3prime-v2.html",
+            "source": "Singh et al. 2019, published Methods, droplet RNA preparation and source initial cDNA allocation.",
+            "limitation": "RAGE-Seq adds two source-specific amplification cycles before this input. The linked standard v2 preparation does not supply that extra step or an established exact historical revision; molecular state remains locally declared.",
+            "version": "",
+            "title": "",
+            "url": ""
+          }
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "raisin-rna-seq__10.1016+j.cell.2020.08.003",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ramda-seq__10.1038+s41467-018-02866-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "rampage__10.1101+gr.139618.112",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "rca-gip__10.1007+s10529-009-0128-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "redeem__10.1038+s41586-024-07066-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "repli-g-single-cell",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "rf-cloning__10.1016+j.jbbm.2005.12.008",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ribo-seq__10.1126+science.1168978",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ribomethseq-illumina__10.1093+nar+gkw547",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "ribose-seq__10.1038+nmeth.3259",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "other_libraries",
+          "label": "Other indexed libraries for the source equimolar pool; members/counts unassigned",
+          "kind": "sequencing library",
+          "primary": false,
+          "source": "Koh2015 associated manuscript library Methods and sequencing; corrected2019 Table8; Addendum",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "ric-seq__10.1038+s41586-020-2249-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "rnascope__10.1016+j.jmoldx.2011.08.002",
+      "status": "no_unique_graph",
+      "inputs": []
+    },
+    {
+      "protocol": "s3-atac__10.1038+s41587-021-00962-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "s3-wgs__10.1038+s41587-021-00962-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "safe-seqs__10.1073+pnas.1105422108",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "saferseqs__10.1038+s41587-021-00900-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "samosa-tag__10.1038+s41588-024-01748-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sc-end5-seq__10.1101+2021.04.04.438388",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scbs-seq__10.1038+nmeth.3035",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sccaps__10.1101+2024.02.12.579864",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sccare-seq__10.1038+s41594-023-01066-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sccat-seq__10.1038+s41467-018-08205-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sccc__10.1016+j.cell.2020.06.037",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sccool-seq__10.1038+cr.2017.82",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scdam-t-seq__10.1038+s41587-019-0150-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scdamid__10.1016+j.cell.2015.08.040",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scdnase-seq__10.1038+nature15740",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scgestalt__10.1038+s41596-018-0058-x",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scget-seq__10.1038+s41587-021-01031-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scgro-seq__10.1038+s41586-024-07517-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-atac-seq-2018__10.1038+nature25981",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "round1_peers",
+          "label": "first-round indexed tagmented nuclei from other wells",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1038/nature25981",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "sci-atac-seq3__10.1126+science.aba7612",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-atac-seq__10.1126+science.aab1601",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "round1_peers",
+          "label": "first-round indexed tagmented nuclei from other wells",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1126/science.aab1601",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "sci-car-seq__10.1126+science.aau0730",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-hi-c__10.1038+nmeth.4155",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-plex__10.1126+science.aax6234",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-rna-seq3__10.1038+s41586-019-0969-x",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-rna-seq__10.1126+science.aam8940",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-seq__10.1038+nmeth.4154",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sci-space__10.1126+science.abb9536",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scid-seq__10.1016+j.isci.2018.11.009",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scifi-atac-seq__10.1101+2023.09.17.558155",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scifi-rna-seq__10.1101+2019.12.17.879304",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "peer_wells",
+          "label": "first-strand cDNA from the other RT wells",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Defining source: Datlinger et al., Nature Methods 18:635 (2021), https://doi.org/10.1038/s41592-021-01153-z, Supplementary Table 1 and Supplementary Protocol v2021-01-25; gel-bead oligo drawn only in the article's Extended Data Fig. 3a (image)",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "sciplex-atac-seq__10.1186+s12864-023-09832-1",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "pcrwell_peers",
+          "label": "independently PCR-indexed otherwell libraries",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Booth et al., <a href=\"https://doi.org/10.1186/s12864-023-09832-1\">BMCGenomics2023 Methods169\u2013197/247\u2013271 and published SupplementaryTable4</a>; linked author two-level protocol, printedID87966, modified4Oct2023.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "scisor-seq2__10.1038+s41593-024-01616-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scito-seq__10.1038+s41592-021-01222-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scm-t-seq__10.1038+nmeth.3728",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scmethyl-hic__10.1038+s41592-019-0502-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scmnase-seq__10.1038+s41586-018-0567-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scmt-seq__10.1186+s13059-016-0950-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scnmt-seq__10.1038+s41467-018-03149-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scnome-seq__10.7554+eLife.23203",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scone-seq__10.1126+sciadv.abp8901",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scrb-seq__10.1101+003236",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "peer_wells",
+          "label": "barcoded cDNA from the other wells",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1101/003236",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "scrcat-seq__10.1038+s41467-020-18976-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "screpli-seq__10.1038+s41596-020-0378-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scribo-seq__10.1038+s41586-021-03887-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scrica-seq__10.1038+s41467-024-52335-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scrrbs__10.1101+gr.161679.113",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scsnv-seq__10.1186+s13059-024-03169-y",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "expanded",
+          "label": "expanded edited population carrying source iBAR6N/PuroR12N guide cassette; source lentiviral integration and doxycycline-induced base editing precede these library branches",
+          "kind": "biological sample",
+          "primary": true,
+          "source": "Defining source: <a href=\"https://doi.org/10.1186/s13059-024-03169-y\">Cooper et al., <i>Genome Biology</i> (2024)</a>.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "scsplat__10.1101+2021.10.14.464375",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scsprite__10.1101+2020.08.11.242081",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sctaps__10.1101+2024.02.12.579864",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sctem-seq__10.1038+s41598-022-09765-x",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "scths-seq__10.1038+nbt.4038",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sctrio-seq__10.1038+cr.2016.23",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sdr-seq__10.1038+s41592-025-02805-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sec-seq__10.1038+s41467-023-39367-8",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "seq-scope__10.1016+j.cell.2021.05.010",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "seq-well-s3__10.1016+j.immuni.2020.09.015",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "seq-well__10.1038+nmeth.4179",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sf4su-seq__10.1093+nar+gkag652",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "shape-map__10.1038+nmeth.3029",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "shape-seq__10.1073+pnas.1106501108",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "share-seq__10.1016+j.cell.2020.09.056",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sherry__10.1073+pnas.1919800117",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sic-seq__10.1038+nbt.3880",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sif-seq__10.1038+nmeth.2886",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "simple-seq__10.1038+s41587-024-02148-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "single-stranded-ancient-dna__10.1038+nprot.2013.038",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "site-seq__10.1038+nmeth.4284",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slam-seq__10.1038+nmeth.4435",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slic__10.1038+nmeth1010",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slice__10.1093+nar+gkr1288",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slide-dna-seq__10.1038+s41586-021-04217-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slide-seq__10.1126+science.aaw1219",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slide-seqv2__10.1038+s41587-020-0739-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slide-tags__10.1038+s41586-023-06837-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "slim__10.1093+nar+gnh172",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "small-seq__10.1038+nbt.3701",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "smart-seq2__10.1038+nmeth.2639",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "smart-seq3__10.1038+s41587-020-0497-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "smart-seq3xpress__10.1038+s41587-022-01311-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "smart-seq__10.1038+nbt.2282",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "smmip__10.1101+gr.147686.112",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "smol-seq__10.1038+s41587-025-02554-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sn-m3c-seq__10.1038+s41592-019-0547-z",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snaptotal-seq__10.1038+s41467-024-50291-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snare-seq__10.1038+s41587-019-0290-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snatac-seq__10.1038+s41593-018-0079-3",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snhi-c__10.1038+nature21711",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snmc-seq2__10.1038+s41467-018-06355-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snmc2t-seq__10.1016+j.xgen.2022.100107",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snrandom-seq__10.1038+s41467-023-38409-5",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snu-seq__10.1093+nar+gkag652",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "snubar-atac__10.1016+j.molcel.2021.09.026",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "soe-pcr__10.1016+0378-1119(89)90359-4",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spatac-seq__10.1038+s41556-024-01449-0",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spatial-atac-rna-seq__10.1038+s41586-023-05795-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spatial-atac-seq__10.1101+2021.06.06.447244",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spatial-cut-tag__10.1126+science.abg7216",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spatial-vdj__10.1126+science.adf8486",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "source",
+          "label": "Full-length Visium Rev A cDNA from upstream Step4.3 cleanup, before fragmentation",
+          "kind": "molecular material",
+          "primary": true,
+          "source": "Final published Science adf8486 Methods, Preparation of Spatial GEX and target enrichment: CG000239 Rev A;10ul full-length Visium cDNA before fragmentation.",
+          "status": "validated_handoff",
+          "upstream": {
+            "protocol": "10x-visium-spatial-gene-expression",
+            "version": "CG000239 Rev A",
+            "name": "full_length_cdna_rev_a",
+            "material": "full_length_cdna",
+            "producer": "cdna_cleanup",
+            "page": "visium.html",
+            "source": "10x Genomics CG000239 Rev A, Appendix printed p75 and Steps4.2\u20134.3 printed pp49\u201350; exact source cited by Engblom et al.2023",
+            "limitation": "Source-printed amplified duplex pattern; actual transcript, spot/UMI values and recovery are variable. Native first-cycle PCR and earlier slide-release strand chemistry remain unvalidated. No fragmentation, ligation adapter, P5/P7 or sample index is present at this handoff."
+          }
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "speac-seq__10.1038+s41596-024-01056-1",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spear-atac__10.1038+s41467-021-23213-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "spindrop__10.1038+s41467-023-40322-w",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "splash__10.1016+j.molcel.2016.04.028",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "split-seq__10.1126+science.aam8999",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sprite__10.1016+j.cell.2018.05.024",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "starmap__10.1126+science.aat5691",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "starr-seq__10.1126+science.1232542",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "start-seq__10.1126+science.1181421",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "stereo-seq__10.1016+j.cell.2022.04.003",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "stevens-single-cell-hi-c__10.1038+nature21429",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "stlfr__10.1101+gr.245126.118",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "strand-seq__10.1038+nmeth.2206",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "strt-c1__10.1038+nmeth.2772",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "pooled_tagged_cdna_peers",
+          "label": "other chamber-indexed tagmented cDNA",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1038/nmeth.2772",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "strt-seq-2i__10.1038+s41598-017-16546-4",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "subarray_pool_peers",
+          "label": "other well-indexed cDNA from the subarray",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1038/s41598-017-16546-4",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "strt-seq__10.1101+gr.110882.110",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "pooled_cdna_peers",
+          "label": "other well-barcoded cDNA from the plate",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "https://doi.org/10.1101/gr.110882.110",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "structure-seq2__10.1093+nar+gkx533",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sum-seq__10.1038+s41592-025-02700-8",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "superrca__10.1038+s41467-022-31397-y",
+      "status": "no_unique_graph",
+      "inputs": []
+    },
+    {
+      "protocol": "surecell-3-wta-for-ddseq",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "sureplex",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "pool_context",
+          "label": "other independentlyprepared normalizedss libraries; equalvolumes/sample indices retained",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Illumina <a href=\"https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/sureplex-protocol-reference-guide-15053626-02.pdf\">SurePlex15053626v02, September2020</a>; <a href=\"https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/veriseq-pgs-library-prep-reference-guide-15052877-05.pdf\">VeriSeqPGS15052877v05, August2021</a>; <a href=\"https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/veriseq-pgs-guidance-note-1000000138837-00.pdf\">GuidanceNote1000000138837v00</a>.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "sureselect-xt-hs2-dna",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "other_indexed_libraries",
+          "label": "other uniquely dual-indexed HS2 libraries",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Agilent G9957-90000 Version B0 (May 2026), Chapter 4 Step 1, Table 30",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "tab-seq__10.1016+j.cell.2012.04.027",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tail-seq__10.1016+j.molcel.2014.02.007",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tang-2009__10.1038+nmeth.1315",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "taps__10.1038+s41587-019-0041-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tar-circular__10.1073+pnas.93.24.13925",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "target-seq__10.1016+j.molcel.2019.01.009",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "tx_peers",
+          "label": "independently prepared othercell transcriptome libraries;equalmolarpooling",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Rodriguez-Meira et al. MolecularCell2019 doi:10.1016/j.molcel.2019.01.009; publishedPMC6436961 STARMethods/keyresources; originalmmc1 full-length96well protocol; mmc3TableS2.",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "tcp-seq__10.1038+nature18647",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "cdna_supplies",
+          "label": "Actual source cDNA/library-preparation molecular supplies; whole oligos, enzymes and internal order unassembled",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Published2016SupplementaryDiscussion2a286\u2013340/Fig/abstract and originalTable3MOESM90 DNA probes. Defining Nature main cached as subscriptionpreview, fullMethods and2017detailedprotocol ordinary unreviewed. Narrow applied production route, not reconstructed full2016recipe.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "tea-seq__10.7554+eLife.63632",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tell-seq__10.1101+gr.260380.119",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "telo-seq__10.1038+s41467-024-48917-7",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "telomere-profiling__10.1126+science.ado0431",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "telopcr-seq__10.1002+1873-3468.12444",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tf-chrdp__10.3389+fcell.2025.1561540",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tgirt-seq__10.1261+rna.054809.115",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "time-seq__10.1038+s43587-023-00555-2",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "lambda_spike",
+          "label": "100 ng unmethylated lambda DNA tagmented with each pool (conversion-efficiency control)",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Griffin et al., Nature Aging (2024), Supplementary Information and Supplementary Table 5; doi:10.1038/s43587-023-00555-2 (Methods, TIME-seq library preparation)",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "timelapse-seq__10.1038+nmeth.4582",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tip-seq__10.1083+jcb.202103078",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tirtl-seq__10.1038+s41592-025-02907-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tla__10.1038+nbt.2959",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "ngs_prep",
+          "label": "manufacturer Illumina library-preparation components; selected kit unassigned",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "de Vree et al., Nat Biotechnol32:1019\u20131025 (2014), doi10.1038/nbt.2959. Published main Online Methods: TLA sample preparation and Bioinformatics; Supplementary Fig1 and generic tissue-culture Supplementary Protocol through TLA PCR. Generic locus only, not a target-specific demonstration.",
+          "status": "needs_source_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "topo-ta-cloning",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "trac-looping__10.1038+s41592-018-0107-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "trael-seq__10.1371+journal.pbio.3000886",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tri-c__10.1038+s41588-018-0253-2",
+      "status": "inspected_declaration",
+      "inputs": [
+        {
+          "material": "other_indexed_libraries",
+          "label": "other differentially indexed Tri-C libraries",
+          "kind": "molecular material",
+          "primary": false,
+          "source": "Oudelaar et al., Nature Genetics 50:1744 (2018), doi:10.1038/s41588-018-0253-2, Online Methods 'Tri-C - Experimental procedure'",
+          "status": "pool_or_control_review"
+        }
+      ],
+      "exports": []
+    },
+    {
+      "protocol": "trip__10.1038+nprot.2014.072",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "trueprime-single-cell__10.1038+ncomms13296",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "trueprime__10.1038+ncomms13296",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "truseq-dna-pcr-free",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "truseq-stranded-mrna",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tsa-seq__10.1083+jcb.201807108",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tt-seq__10.1126+science.aad9841",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "tuc-seq__10.1002+anie.201707465",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "txci-atac-seq__10.1101+2023.05.11.540245",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "uda-seq__10.1038+s41592-024-02586-y",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "uditas__10.1186+s12864-018-4561-9",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "umi-4c__10.1038+nmeth.3922",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "user-cloning__10.1093+nar+gkm041",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "vasa-seq__10.1038+s41587-022-01361-8",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "wellda-seq__10.1101+2024.09.06.611519",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "xr-seq__10.1101+gad.261271.115",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "yamat-seq__10.1093+nar+gkx005",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "yeast-telotag__10.1101+gr.275868.121",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "yeast-toolkit__10.1021+sb500366v",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    },
+    {
+      "protocol": "zipseq__10.1038+s41592-020-0880-2",
+      "status": "inspected_declaration",
+      "inputs": [],
+      "exports": []
+    }
+  ]
+}

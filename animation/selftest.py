@@ -555,6 +555,19 @@ def complement_for_test(seq):
 
 
 class NativeTests(unittest.TestCase):
+    def test_unborn_transcripts_have_no_captions_or_end_markers(self):
+        from .synthesis_examples import celseq
+        from .render import Renderer,Style
+        class Labels(Renderer):
+            def text(self,c,text,x,y,size=24,color='text',align='left',max_width=None):
+                if self.in_molecule_layer and (text=='RNA transcript' or text in {'5′','3′'} and color=='rna'):self.ghosts.append(text)
+                return super().text(c,text,x,y,size,color,align,max_width)
+        m=celseq();shot=m.shots[1];offset=m.shots[0].timing()[2];r=Labels(Style(960,540));r.ghosts=[]
+        r.image(m,(offset+shot.transition/2)/1.5)
+        self.assertEqual(r.ghosts,[])
+        r.ghosts=[];r.image(m,(offset+shot.establish+shot.action*.5)/1.5)
+        self.assertIn('RNA transcript',r.ghosts)
+
     def test_padlock_end_labels_do_not_overlap_molecule_captions(self):
         from .boloramis import movie
         from .render import Renderer,Style
@@ -644,6 +657,13 @@ if __name__=='__main__':
     suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(RNaseHTests))
     suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(SubstrateSimulationTests))
     suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(PadlockTests))
+    from .selftest_capture_ligation import CaptureLigationTests
+    from .selftest_synthesis_examples import SynthesisTests
+    from .selftest_assembly_transposition import AssemblyTranspositionTests
+    from .selftest_golden_gate import GoldenGateTests
+    from .selftest_collection import CollectionTests
+    for cls in [CaptureLigationTests,SynthesisTests,AssemblyTranspositionTests,GoldenGateTests,CollectionTests]:
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cls))
     if '--native'in sys.argv:suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(NativeTests))
     result=unittest.TextTestRunner(verbosity=2).run(suite)
     raise SystemExit(not result.wasSuccessful())

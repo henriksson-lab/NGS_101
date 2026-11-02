@@ -7,7 +7,7 @@ from chemdraw import (duplex_rows, panel, protocol_graph_panels,
                       workflow_from_sections, workflow_panel)
 from page import head, info
 from protocol_graph import AnnotationSlot
-from protocol_views import render_annotations
+from protocol_views import render_annotations, handoff_section
 
 
 def render(m) -> str:
@@ -19,6 +19,7 @@ def render(m) -> str:
     parts = [head(m.TITLE), f'<div class="wrap"{graph_attr}>', f'<h1>{m.TITLE}</h1>',
              f'<p class="research-notes"><a href="{m.NOTES}">Research notes</a></p>',
              info(m.SOURCE), info(m.SUMMARY)]
+    if graph is not None:parts.append(handoff_section(graph))
     def annotations(slot):
         if graph is not None:
             markup = render_annotations(graph, slot)

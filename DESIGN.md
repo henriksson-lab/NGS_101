@@ -5,6 +5,33 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-11-01 — Link preparations through versioned molecular intermediates
+
+**Decision.** A source-owned graph may export a named produced molecular intermediate,
+including one consumed later in its own route. An intermediate-only component graph
+uses `required_output=Disposition.STORED`, with an actual produced molecular terminal,
+primary-template provenance and source coverage. This is distinct from an NGS endpoint;
+a stored intermediate never satisfies a sequencing or constructed-DNA requirement.
+
+A downstream `import_material` receives the actual exported state, identifier features,
+uncertainty and chemical declaration. It requires the source protocol and revision,
+positive local evidence for the handoff and explicit stage/primer-site requirements.
+Mutation, changed exports, mismatched revisions/stages and dependency cycles fail.
+Exports describe reusable molecular declarations, not extra physical aliquots or a
+proof that either protocol's biochemical reactions have been validated.
+
+Source-named input links are a separate weaker declaration. Use them when a paper
+identifies an upstream preparation but exact historical compatibility remains open.
+They render the link and its limitation without importing or completing the molecule.
+Method ancestry and shared-primer similarity do not establish a material handoff.
+
+**First application.** Engblom Spatial VDJ cites VisiumCG000239RevA. Its pre-fragmentation
+cDNA and PN2000089 primers come from a separately read RevA component on the Visium
+page. The page's default RevF indexed library is not substituted. GoT, RAGE-Seq and
+MAESTER receive source-named Chromium links with their remaining version/geometry
+limits. `tools/audit_protocol_inputs.py` inventories public declarations and explicit
+links; its text-selected candidates are a review queue, not source evidence.
+
 ## 2026-10-21 — Construct assembly has its own typed endpoint
 
 **Decision.** A protocol graph defaults to a sequencing output. A construct-building

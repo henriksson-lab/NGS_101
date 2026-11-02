@@ -1787,4 +1787,7 @@ with tempfile.TemporaryDirectory() as _tmp:
 from selftest_rna_lariat import run as run_rna_lariat_checks
 run_rna_lariat_checks(check)
 
+from selftest_handoffs import run as run_handoff_checks
+run_handoff_checks(check)
+
 check.report()

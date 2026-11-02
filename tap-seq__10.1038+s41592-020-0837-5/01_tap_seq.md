@@ -49,3 +49,18 @@ A **separate intrinsic source-table notice** is required: published SI actual PD
 Actual source CROP primers now enter as separate exact polymers alongside the still-unassembled gene pools. Each source 50 µl KAPA reagent is decomposed into copresent functional components, not fresh independent doses. Source Qubit aliquots, BioAnalyzer aliquot and loading/remainder are explicit. Existing cell identity/UMI and sample-index roles remain structured with unresolved coordinates; no 16+10 partition is inferred from the 26-cycle readout. The artificial 30-X target placeholder has been replaced by a length-unassigned molecular role.
 
 The required `unassembled_source` item is unchanged and uncovered. Full gene-panel, intermediate and final-strand assemblies remain available-but-unimplemented, so this is a **blocked model scope**, not a source-absence claim or a newly unavailable document. No complete marker is emitted.
+
+## Upstream-input follow-up, 2 November 2026
+
+🟢 Re-read published MOESM1 Chromium-run step8 (text1226–1246), including
+replacement of the template-switch oligo by low-TE/water, and associated
+PMC7610614 Methods191/197 for the purified GEM-RT input boundary. The latter
+remains an accepted manuscript, not verified final-VOR equivalence. The mandatory
+bundle scraper returned426 sequences across five files. No new primer or native
+reaction recipe was inferred.
+
+The private preview now links to the standard Chromium3′v2 preparation as a
+qualified upstream reference, explicitly stating the local TSO omission. Standard
+template-switched or amplified cDNA is not an equivalent input and is not imported.
+The full-assembly publication hold is unchanged. The separate Drop-seq route is
+not selected by this declaration.

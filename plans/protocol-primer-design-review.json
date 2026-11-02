@@ -1,0 +1,370 @@
+{
+  "date": "2026-11-01",
+  "scope": "Systematic declaration inventory and bounded source-qualified handoffs. This is not a human-content review of every protocol page or an absence audit.",
+  "candidate_inputs": 47,
+  "completed": [
+    "Spatial VDJ primer-design walkthrough and exact Visium CG000239 Rev A intermediate import, including fixed-site checks.",
+    "Separate source-owned Visium Rev A and Rev F exports; no revision equivalence assumed.",
+    "Published-source input links for GoT 3′ v2 recovered first-strand cDNA, RAGE-seq 3′ v2 amplified cDNA and MAESTER 3′ v3 amplified cDNA.",
+    "Version/stage/signature/primer-site checks, cycle detection, public upstream links and offline inventory tool."
+  ],
+  "remaining": [
+    {
+      "task": "Resolve final Spatial VDJ TruSeq indexing orders from the cited Ståhl 2016 original and its linked chemistry material.",
+      "state": "blocked_on_source",
+      "locator": "10.1126/science.aaf2403; geturl.txt; Spatial VDJ source review checklist",
+      "limitation": "No confirmed absence claim. Do not infer an indexing kit from modern Visium chemistry."
+    },
+    {
+      "task": "Bind exact historical Chromium exports for the three qualified source-named links.",
+      "state": "needs_source_version_check",
+      "limitation": "A platform name does not establish an exact guide revision or first-strand/amplified-stage identity. Current links do not import molecular state."
+    },
+    {
+      "task": "Consider a source-qualified Tn5Prime producer for R2C2.",
+      "state": "producer_not_modelled",
+      "limitation": "Keep R2C2 input explicit until the exact predecessor/version is available."
+    },
+    {
+      "task": "Review private/notes-only enrichment and library-conversion protocols, starting with DASH/MAD-DASH.",
+      "state": "outside_public_inventory",
+      "limitation": "The inventory scans public schematic declarations; it cannot establish coverage of private partial models."
+    },
+    {
+      "task": "Continue page-level reconstruction reviews in bounded batches.",
+      "state": "pending",
+      "limitation": "505 declarations scanned does not mean 505 reader-facing pages were reviewed. Prioritize primer binding portions, tails, modifications, inherited identifiers and readout."
+    }
+  ],
+  "candidate_triage": [
+    {
+      "protocol": "arm-seq__10.1038+nmeth.3508",
+      "material": "treated_kit_reagents",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "arm-seq__10.1038+nmeth.3508",
+      "material": "control_kit_reagents",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066",
+      "material": "viral_template",
+      "disposition": "biological_or_unassigned_template",
+      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+    },
+    {
+      "protocol": "cel-seq2__10.1186+s13059-016-0938-8",
+      "material": "peer_wells",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "cel-seq__10.1016+j.celrep.2012.08.003",
+      "material": "peer_wells",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "clippr-seq__10.1093+nar+gkae058",
+      "material": "clippr_kit_inventory",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "clippr-seq__10.1093+nar+gkae058",
+      "material": "clipp_kit_inventory",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "cola-seq__10.1016+j.molcel.2022.11.004",
+      "material": "cells",
+      "disposition": "biological_or_unassigned_template",
+      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+    },
+    {
+      "protocol": "damage-seq__10.1073+pnas.1614430113",
+      "material": "pcr_mix",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "dnbseq-library-circularization",
+      "material": "indexed_library",
+      "disposition": "caller_selected_library",
+      "rationale": "Generic adapter-bearing indexed library input has no uniquely named producer. A future caller-selected protocol/revision may bind it explicitly."
+    },
+    {
+      "protocol": "fastgro__10.1016+j.celrep.2020.108373",
+      "material": "library_supplies",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "got__10.1038+s41586-019-1367-0",
+      "material": "first_cdna",
+      "disposition": "source_named_handoff",
+      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+    },
+    {
+      "protocol": "hyden-seq__10.1038+nsmb.2957",
+      "material": "other_library_stocks",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "hydrapsiseq__10.1093+nar+gkaa769",
+      "material": "other_libraries",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "iclip__10.1038+nsmb.1838",
+      "material": "cdna_glycoblue",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "libra-seq__10.1016+j.cell.2019.11.003",
+      "material": "polymerase",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "limca__10.1038+s41592-024-02239-0",
+      "material": "dna_others",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "m6a-sac-seq__10.1038+s41587-022-01243-z",
+      "material": "rna",
+      "disposition": "biological_or_unassigned_template",
+      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+    },
+    {
+      "protocol": "maester__10.1038+s41587-022-01210-8",
+      "material": "cdna",
+      "disposition": "source_named_handoff",
+      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+    },
+    {
+      "protocol": "mcscrb-seq__10.1038+s41467-018-05347-6",
+      "material": "peer_wells",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "nextera-xt-dna-library-prep",
+      "material": "dna",
+      "disposition": "biological_or_unassigned_template",
+      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+    },
+    {
+      "protocol": "nick-seq__10.1093+nar+gkaa473",
+      "material": "nt_matched_control",
+      "disposition": "control_preparation",
+      "rationale": "Locally prepared control/spike, not an established separate catalogue-protocol handoff. Source-specific preparation remains local."
+    },
+    {
+      "protocol": "nick-seq__10.1093+nar+gkaa473",
+      "material": "tdt_matched_control",
+      "disposition": "control_preparation",
+      "rationale": "Locally prepared control/spike, not an established separate catalogue-protocol handoff. Source-specific preparation remains local."
+    },
+    {
+      "protocol": "picoplex-dna-seq",
+      "material": "other_libraries",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "point__10.1016+j.molcel.2021.02.034",
+      "material": "kit_reagents",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
+      "material": "library_mix_bulk",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
+      "material": "other_pcr_contributions",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "r2c2__10.1073+pnas.1806447115",
+      "material": "indexed_cdna",
+      "disposition": "producer_not_in_catalogue",
+      "rationale": "Input is named Tn5Prime indexed SIRV E2 full-length cDNA. No exact Tn5Prime producer page is registered; do not substitute SMART-seq2."
+    },
+    {
+      "protocol": "rage-seq__10.1038+s41467-019-11049-4",
+      "material": "cdna",
+      "disposition": "source_named_handoff",
+      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+    },
+    {
+      "protocol": "ribose-seq__10.1038+nmeth.3259",
+      "material": "other_libraries",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "sci-atac-seq-2018__10.1038+nature25981",
+      "material": "round1_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "sci-atac-seq__10.1126+science.aab1601",
+      "material": "round1_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "scifi-rna-seq__10.1101+2019.12.17.879304",
+      "material": "peer_wells",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "sciplex-atac-seq__10.1186+s12864-023-09832-1",
+      "material": "pcrwell_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "scrb-seq__10.1101+003236",
+      "material": "peer_wells",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "scsnv-seq__10.1186+s13059-024-03169-y",
+      "material": "expanded",
+      "disposition": "biological_or_unassigned_template",
+      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+    },
+    {
+      "protocol": "spatial-vdj__10.1126+science.adf8486",
+      "material": "source",
+      "disposition": "validated_handoff",
+      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+    },
+    {
+      "protocol": "strt-c1__10.1038+nmeth.2772",
+      "material": "pooled_tagged_cdna_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "strt-seq-2i__10.1038+s41598-017-16546-4",
+      "material": "subarray_pool_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "strt-seq__10.1101+gr.110882.110",
+      "material": "pooled_cdna_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "sureplex",
+      "material": "pool_context",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "sureselect-xt-hs2-dna",
+      "material": "other_indexed_libraries",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "target-seq__10.1016+j.molcel.2019.01.009",
+      "material": "tx_peers",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    },
+    {
+      "protocol": "tcp-seq__10.1038+nature18647",
+      "material": "cdna_supplies",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "time-seq__10.1038+s43587-023-00555-2",
+      "material": "lambda_spike",
+      "disposition": "control_preparation",
+      "rationale": "Locally prepared control/spike, not an established separate catalogue-protocol handoff. Source-specific preparation remains local."
+    },
+    {
+      "protocol": "tla__10.1038+nbt.2959",
+      "material": "ngs_prep",
+      "disposition": "supplies_not_prepared_library",
+      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+    },
+    {
+      "protocol": "tri-c__10.1038+s41588-018-0253-2",
+      "material": "other_indexed_libraries",
+      "disposition": "pool_or_peer_preparation",
+      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+    }
+  ],
+  "refresh": "python3 tools/audit_protocol_inputs.py; review candidates against originals before adding links",
+  "catalogue_entries_considered": 505,
+  "graph_declarations_loaded": 501,
+  "entries_without_unique_protocol_graph": [
+    "playr__10.1038+nmeth.3742",
+    "primeflow-rna-assay__10.1038+ncomms6641",
+    "rnascope__10.1016+j.jmoldx.2011.08.002",
+    "superrca__10.1038+s41467-022-31397-y"
+  ],
+  "verification": {
+    "shared_checks_passed": 2222,
+    "handoff_contract_checks_included": 22,
+    "visium_checks_passed": 20,
+    "spatial_vdj_checks_passed": 42,
+    "got_checks_passed": 3,
+    "rage_seq_checks_passed": 2,
+    "maester": "construction enforced during page build; standalone selftest is intentionally empty",
+    "full_site": "598/598 builders; all relative links and anchors resolve; final build used --no-checks after shared checks ran separately",
+    "source_transcription_guard": "690 exact checks; zero failures for the two affected protocol graphs",
+    "limitations": "Successful contract/source checks do not establish complete native reaction validation."
+  },
+  "followup_2026_11_02": {
+    "completed": [
+      "R2C2 source-named input now links to cited Tn5Prime original without inventing a producer model; the imported material is explicitly pre-tagmentation cDNA.",
+      "TAP-seq private model links modified Chromium 3′ v2 GEM-RT input, with TSO omission explicit and no standard-state import.",
+      "Separate static notes/draft inventory: 333 entries, 51 literal input candidates. This does not execute or complete private models."
+    ],
+    "deferred": [
+      "Chromium exact revision imports remain open; source-named links stay qualified.",
+      "DASH input uses historical NuGEN/Nextera components without an established source-owned producer; no generic substitute.",
+      "MAD-DASH selected route prepares its own RNA-to-cDNA input; no separate upstream-library producer established.",
+      "Tn5Prime molecular producer remains unmodelled; external original link is not a state export."
+    ],
+    "next_candidates": [
+      "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "multi-seq__10.1038+s41592-019-0433-8"
+    ],
+    "verification": {
+      "shared_checks": 2227,
+      "handoff_contract_checks": 27,
+      "r2c2_checks": 3,
+      "tap_seq_checks": 21,
+      "source_guard": "R2C2: 0 exact/0 failures, two whole inputs remain unassembled. TAP-seq: 6 exact/0 failures, two whole inputs remain unassembled. Source guard does not prove complete substrate geometry.",
+      "docs": "1654 generated pages current",
+      "site": "598/598 builders; 504 finished public schematics; all relative links/anchors resolve. Build used --no-checks after separate 2227-check shared suite."
+    }
+  }
+}

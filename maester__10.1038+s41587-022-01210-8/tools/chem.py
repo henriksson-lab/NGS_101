@@ -9,6 +9,8 @@ and footnotes).  Supplementary Figure 3 (MOESM1 PDF p. 3, rendered) draws the
 final 10x product.
 """
 from __future__ import annotations
+from protocol_handoff import declare_input_origin
+
 
 import sys
 from pathlib import Path
@@ -146,7 +148,7 @@ def sections():
 def protocol_graph():
     graph = ProtocolGraph(TITLE, authority=SOURCE)
     template = cdna_template()
-    cdna = graph.input("cdna", "10x Genomics 3′ v3 cDNA, 20 ng per reaction", MaterialKind.BIOLOGICAL,
+    cdna = graph.input("cdna", "10x Genomics 3′ v3 cDNA, 20 ng per reaction", MaterialKind.MOLECULAR,
                        state=template, primary=True)
     mt = graph.input("mt_primers", "12 mitochondrial primer mixes (2–11 handle-tailed primers each, 65 total)",
                      MaterialKind.OLIGO, source=SOURCE + " (Supplementary Table 3)")
@@ -209,6 +211,7 @@ def protocol_graph():
         "cdna", "mt_primers", "got_p5", "pcr1_polymerase", "pcr1_multiplex", "ampure_1x", "pool_cleanup",
         "p5_generic", "got_p7", "pcr2_polymerase", "pcr2_index", "ampure_08x", "final_cleanup", "library"),
         SOURCE)
+    declare_input_origin(graph,'cdna',protocol='10x-chromium-single-cell-3-ge-v3',stage='Full-length amplified cDNA before fragmentation; 20 ng aliquot per reaction',page='10x-3prime-v3.html',source='MAESTER Methods, 10x Genomics 3′ v3 and MAESTER 10x 3′ v3; Supplementary Table 3 and Figure 3.',limitation='The source identifies 3′ v3 cDNA, not a specific revision of the linked guide. Mitochondrial target occupancy and complete first-cycle products are not established by the platform name; this is a source-named link without state inheritance.')
     return graph.require_publishable()
 
 

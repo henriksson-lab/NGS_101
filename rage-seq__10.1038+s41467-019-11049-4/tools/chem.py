@@ -1,3 +1,4 @@
+from protocol_handoff import declare_input_origin
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from protocol_model import role
@@ -95,7 +96,7 @@ def protocol_graph():
     graph = ProtocolGraph(TITLE, authority=source)
     cdna_state = _duplex(_amplicon("amplified 10x 3′ v2 full-length cDNA"))
     cdna = graph.input("cdna", "Chromium 3′ v2 full-length cDNA (2 extra amplification cycles)",
-                       MaterialKind.BIOLOGICAL, state=cdna_state, primary=True)
+                       MaterialKind.MOLECULAR, state=cdna_state, primary=True)
     expression = graph.product("expression_branch", "30 µL (tumor 35 µL) cDNA for the Illumina library",
                                MaterialKind.MOLECULAR, state=cdna_state)
     receptor = graph.product("receptor_branch", "remaining cDNA for targeted capture",
@@ -137,6 +138,7 @@ def protocol_graph():
                 reason="Methods states the remainder of the Chromium 3′ v2 protocol was followed (shearing, Illumina library construction); this page does not redraw that vendor chemistry.")
     graph.sequence(short, SequencingPlan(library=SHORT_LIBRARY,acquired_roles=("Read 1","Read 2"),limitation="NextSeq500 source150bps paired-end, >50000 raw reads/cell; exact per-read/index cycle allocation and native read geometry unassigned."))
     graph.declare_reviewed_scope(REVIEWED_TARGETS, source)
+    declare_input_origin(graph,'cdna',protocol='10x-chromium-single-cell-3-ge-v2',stage='Full-length amplified cDNA before expression-library fragmentation',page='10x-3prime-v2.html',source='Singh et al. 2019, published Methods, droplet RNA preparation and source initial cDNA allocation.',limitation='RAGE-Seq adds two source-specific amplification cycles before this input. The linked standard v2 preparation does not supply that extra step or an established exact historical revision; molecular state remains locally declared.')
     return graph.require_publishable()
 
 

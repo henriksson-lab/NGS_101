@@ -7,6 +7,7 @@ import r2c2 as R
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, panel, protocol_graph_panels
 from page import head, info
+from protocol_views import handoff_section
 
 OUT = H.parent / "r2c2.html"
 
@@ -20,6 +21,7 @@ def render():
         info('Defining source: <a href="https://doi.org/10.1073/pnas.1806447115">Volden et al., <i>PNAS</i> (2018)</a>.'),
         info('A terminally matched DNA splint closes each full-length cDNA. Phi29 copies that circle repeatedly so one nanopore read contains several observations of the same molecule.'),
         info(R.CAVEAT),
+        handoff_section(graph),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Final nanopore library</h2>',
         panel(R.final_rows(), cls="long",

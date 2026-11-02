@@ -10,7 +10,7 @@ import re
 
 SCHEMA = 'ngs101.animation/4'
 DEFAULT_SPEED = 1.5
-KINDS = {'extend', 'anneal', 'separate', 'seal', 'cleave', 'fold', 'tail', 'bind', 'release', 'rca', 'transcribe', 'resect', 'convert', 'capture', 'transfer', 'highlight', 'displace', 'pair', 'unpair', 'strand_transfer', 'resect3', 'follow', 'peel'}
+KINDS = {'extend', 'anneal', 'separate', 'seal', 'cleave', 'fold', 'tail', 'bind', 'release', 'rca', 'transcribe', 'resect', 'convert', 'capture', 'transfer', 'highlight', 'displace', 'pair', 'unpair', 'strand_transfer', 'resect3', 'follow', 'peel', 'introduce'}
 BASES = set('ACGTUNRYSWKMBDHV')
 
 
@@ -54,6 +54,7 @@ class Strand:
     circular: bool = False
     nicks: list[int] = field(default_factory=list)
     marks: dict[str, str] = field(default_factory=dict)
+    mark_label_offsets: dict[str,tuple[float,float]] = field(default_factory=dict)
     # Kept intervals beyond a growing gap; coordinates are half-open.
     preserve: list[tuple[int, int]] = field(default_factory=list)
     # Region colors/labels do not infer chemical function.
@@ -74,6 +75,9 @@ class Strand:
     def validate(self):
         if any(not isinstance(i,int) or not 0<=i<len(self.sequence) for i in self.sealed_marks):raise ValueError("junction mark leaves strand")
         if self.nucleotide_ids and len(self.nucleotide_ids)!=len(self.sequence):raise ValueError('one nucleotide identity per base required')
+        for key,offset in self.mark_label_offsets.items():
+            if key not in self.marks or len(offset)!=2:raise ValueError('mark label offset needs an existing mark and two coordinates')
+            for v in offset:finite(v,'mark label offset')
         for a,b,dx,dy in self.pieces:
             if not 0<=a<b<=len(self.sequence):raise ValueError('initial piece leaves strand')
             finite(dx,'piece displacement');finite(dy,'piece displacement')
@@ -139,7 +143,7 @@ class Junction:
     def validate(self):
         if self.acceptor_3prime!='OH' or self.donor_5prime not in {'P','App'}:
             raise ValueError('ligation requires a free 3primeOH and 5prime phosphate or adenylated phosphate')
-        if self.mode not in {'nick','splinted','single-strand'} or not self.source:
+        if self.mode not in {'nick','splinted','single-strand','blunt'} or not self.source:
             raise ValueError('ligation requires explicit source-scoped end geometry')
 
 
@@ -228,6 +232,7 @@ class Shot:
     inventory: dict[str, str] = field(default_factory=dict)
     camera: tuple[float,float,float] = (800.,500.,1.)
     transition: float = 0.
+    product_pool: bool = False
     chemical_pairs: list[tuple[str,str]] = field(default_factory=list)
     chemistry_generated: bool = False
     initial_nucleotides: list[str] = field(default_factory=list)
@@ -308,6 +313,9 @@ class Shot:
             s = by_id[e.strand]
             if e.enzyme_class not in {'','polymerase','ligase','nuclease','transposase'}:raise ValueError('unknown enzyme class')
             if e.kind in {'follow','peel'} and (e.template not in by_id or e.amount<=0):raise ValueError('binding layout requires a template and positive nucleotide spacing')
+            if e.kind=='introduce':
+                if not self.chemistry_generated or e.molecular_operation.get('kind')!='reagent':raise ValueError('intact reagent introduction requires a generated reagent operation')
+                if e.molecular_operation.get('pairing_added') or e.molecular_operation.get('backbone_removed'):raise ValueError('reagent introduction cannot hide reactions')
             if self.chemistry_generated and e.kind in {'extend','tail','seal','cleave','strand_transfer','rca','transcribe','resect','resect3','convert','pair','unpair'} and not e.molecular_operation:
                 raise ValueError('chemical animation event lacks a generated reaction')
             if e.kind in {'pair','unpair'} and e.pairing not in {p.key for p in self.pairings}:
@@ -433,7 +441,9 @@ class Movie:
 
     def to_dict(self):
         self.validate()
-        return asdict(self)
+        result=asdict(self)
+        for shot in result["shots"]:shot["initial_released"]=sorted(shot["initial_released"])
+        return result
 
     @classmethod
     def from_dict(cls, d):

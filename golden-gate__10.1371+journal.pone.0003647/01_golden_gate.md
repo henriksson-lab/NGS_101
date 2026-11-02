@@ -18,4 +18,20 @@ Example bases are declared in the protocol-owned module and drawn with inferred 
 
 ## Deferred
 
-Original Figure1 graphic; source donor/vector maps, alternative ligation products and full supplement review. No missing-information claim is accepted.
+Source donor/vector maps, alternative ligation products and full supplement review. No missing-information claim is accepted.
+
+
+## Animation follow-up, 1 November 2026
+
+🟢 Inspected original published PDF page2 Figure1 and its basic-strategy/subcloning
+text. The figure explicitly separates recognition sites from cleavage positions
+and depicts site loss in the stable selected product. The experimental mixture
+contains BsaI and T4 DNA ligase in ATP-containing buffer; molecular animation
+panels are relations in that mixture, not a claim of separate source incubations.
+
+🟡 The animation retains this module's invented linear parts. Canonical BsaI
+1/5 offsets after its six-base motif become simulator7/11 offsets from motif
+start. Two cuts per duplex flank, actual four-base cohesive contacts and four
+nick-sealing bonds generate both circular strands; no polymerase fill-in is
+invented. Every flanking nucleotide remains in explicit off-products. See
+`animation/golden-gate-source-review.md` for scope and reading locators.

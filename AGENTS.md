@@ -301,6 +301,15 @@ distinction does not waive source checks or establish that information is absent
   ```` {{oligo: module.fn()}} ```` are expanded by `build_docs.py`; every lib and protocol
   module is in scope, and an unresolvable fact is a build error. Don't hard-code numbers
   in prose that the model can compute.
+- **Prepared library/cDNA inputs have explicit upstream provenance.** When a source
+  consumes another named protocol's product, use a versioned `protocol_handoff`
+  import or an explicitly unvalidated `declare_input_origin` link. Select the actual
+  intermediate (for example pre-fragmentation cDNA), never a similarly labelled final
+  indexed library. Source owners expose produced material exports; preserve features,
+  uncertainty and exact source-version limits. Intermediate-only components may end
+  with `required_output=Disposition.STORED`; this does not satisfy an NGS endpoint.
+  Run `tools/audit_protocol_inputs.py` to keep the cross-protocol review inventory
+  current. Method ancestry/shared primers alone never authorize a material import.
 - **Sequencing primers are declared** by reference (`seqprimers`), and `sp.section()`
   derives where they bind; a declared primer without a site fails the build unless the
   protocol says why.

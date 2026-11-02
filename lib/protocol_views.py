@@ -227,14 +227,65 @@ def render_annotations(graph: ProtocolGraph, slot: AnnotationSlot) -> str:
     return "\n".join(rendered)
 
 
+@dataclass(frozen=True)
+class HandoffSection:
+    """Place source-owned material links at a deliberate point in a dense page."""
+    def render(self,graph):return handoff_section(graph)
+
+
+def _protocol_title(identifier):
+    from pathlib import Path
+    import csv
+    with (Path(__file__).resolve().parents[1]/'catalogue'/'ours.tsv').open()as stream:
+        for row in csv.DictReader(stream,delimiter='\t'):
+            if row['dir']==identifier:return row['protocol']
+    return identifier
+
+
+def handoff_section(graph: ProtocolGraph) -> str:
+    """Show actual material provenance, never inferred method ancestry."""
+    rows=[]
+    for identifier,binding in graph.imports.items():
+        ref=binding.reference
+        rows.append((html.escape(graph.materials[identifier].label),
+            '<a href="'+html.escape(ref.href,quote=True)+'">'+html.escape(_protocol_title(ref.protocol)+' · '+ref.version)+'</a>',
+            html.escape(binding.export.material.label),html.escape(ref.limitation)))
+    for identifier,ref in graph.input_origins.items():
+        rows.append((html.escape(graph.materials[identifier].label),
+            '<a href="'+html.escape(ref.href,quote=True)+'">'+html.escape(ref.title or _protocol_title(ref.protocol))+'</a>',
+            html.escape(ref.stage)+' (source-named handoff; no imported molecular state)',
+            html.escape(ref.limitation)))
+    result=('<section class="protocol-handoffs"><h2>Starting material from another protocol</h2>'+table(('Material','Upstream preparation','Intermediate','Validation scope'),rows)+'</section>')if rows else''
+    for identifier,binding in graph.imports.items():
+        state=graph.materials[identifier].state
+        if state is not None:
+            result+=_detail_panel(state,
+                'Starting molecule from '+_protocol_title(binding.reference.protocol)+' '+binding.reference.version+'. The imported intermediate retains its declared variable regions and identifier features.')
+    if graph.exports:
+        result+='<section class="protocol-exports"><h2>Reusable molecular intermediates</h2>'
+        for export in graph.exports.values():result+=export_section(export)
+        result+='</section>'
+    return result
+
+
+def export_section(export) -> str:
+    ref=export.reference
+    return ('<section id="export-'+html.escape(ref.name,quote=True)+'"><h3>'+html.escape(export.material.label)+' — '+html.escape(ref.version)+'</h3>'
+        +info('Defined after '+html.escape(ref.producer)+'. '+html.escape(ref.limitation))
+        +(_detail_panel(export.material.state,'Source-owned intermediate; variable regions retain their declared uncertainty.')if export.material.state is not None else'')+'</section>')
+
+
 def assemble_page(graph: ProtocolGraph, parts: Iterable[str | AnnotationSlot |
                                                        OligoSection | WorkflowSection |
                                                        PrimerBindingSection | ReadLayoutSection |
                                                        OffsetPrimerSection |
-                                                       PlanLimitationSection]) -> str:
+                                                       PlanLimitationSection | HandoffSection]) -> str:
     """Place declared view slots and reject annotations a page forgot to render."""
+    parts=tuple(parts)
     output = []
     seen = set()
+    handoffs=''if any(isinstance(part,HandoffSection)for part in parts)else handoff_section(graph)
+    placed_handoffs=False
     for part in parts:
         if isinstance(part, AnnotationSlot):
             if part in seen:
@@ -245,9 +296,12 @@ def assemble_page(graph: ProtocolGraph, parts: Iterable[str | AnnotationSlot |
             output.append(part.render())
         elif isinstance(part, (WorkflowSection, PrimerBindingSection,
                                ReadLayoutSection, OffsetPrimerSection,
-                               PlanLimitationSection)):
+                               PlanLimitationSection,HandoffSection)):
             output.append(part.render(graph))
         elif isinstance(part, str):
+            if handoffs and not placed_handoffs and '</h1>'in part:
+                at=part.index('</h1>')+len('</h1>')
+                part=part[:at]+handoffs+part[at:];placed_handoffs=True
             output.append(part)
         else:
             raise TypeError("page part must be HTML or a declared view")

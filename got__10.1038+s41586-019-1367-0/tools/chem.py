@@ -1,3 +1,4 @@
+from protocol_handoff import declare_input_origin
 """Vendor-revision-owned native molecular declaration."""
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 from protocol_model import molecule, role
@@ -72,7 +73,7 @@ def oligos():
  yield oligo('selected zero-stagger CALR reverse',[Segment('handle',STAGGER),Segment('CALR',CALR)])
 def protocol_graph():
  g=ProtocolGraph(TITLE,authority=SOURCE)
- first=g.input('first_cdna','selected3′v2 native recovered first-strand10x cDNA; prior version-native kit chemistry bounded',M.BIOLOGICAL,state=native_state('recovered single-stranded firstcopy'),primary=True)
+ first=g.input('first_cdna','selected3′v2 native recovered first-strand10x cDNA; prior version-native kit chemistry bounded',M.MOLECULAR,state=native_state('recovered single-stranded firstcopy'),primary=True)
  kit=g.input('native_amp_kit','source10x cDNA amplification reagents/primer mix; one extra3′v2 cycle; native recommendedcyclecount unassigned',M.CONDITION)
  amp=g.product('native_amplified','native amplified10x cDNA mixture',M.MOLECULAR,state=native_state('amplified double-strand copies'))
  g.react('native_amp_boundary','Source native10x cDNA amplification with extra3′v2 cycle',K.MAGIC,((first,I.TEMPLATE),(kit,I.CONDITION)),(amp,),reason='Source delegates native10x version-specific mixture, ordered oligos and base program to manufacturer. Named amplification and sourceextra cycle explicit; no false symmetric unknownprimerpool.')
@@ -96,5 +97,6 @@ def protocol_graph():
  rp=g.input('rpi','sourceRPI-X; selected8baseindex member unassigned',M.OLIGO,state=mol('RPI-X',Segment('P7',illumina.P7),Segment('index','N'*8,placeholder=True,feature=INDEX),Segment('RPI3prime',RPI)))
  x=pcr(g,'index_pcr',x,targeted(True),'Second sourcePCR completesP7/index; cyclecount unassigned',fp,rp,pol)
  finish(g,x,'genotype_library','native linearGoT genotyping library',{'acquired_roles':('Read 1','Read 2','Index 1 (i7)'),'read_lengths':{'Read 1':26,'Index 1 (i7)':8}})
+ declare_input_origin(g,'first_cdna',protocol='10x-chromium-single-cell-3-ge-v2',stage='Recovered, template-switched first-strand cDNA before bulk amplification',page='10x-3prime-v2.html',source='Nam et al. 2019, published Methods, GoT 3′ v2; source-owned declaration SOURCE.',limitation='The source names 3′ v2 recovered cDNA. Exact guide revision and complete native first-strand/end compatibility with the linked reference model are not established; its state is not silently imported.')
  return manual_scope(g)
 REVIEWED=('first_cdna','native_amp_kit','native_amp_boundary','native_cleanup_selection','native_cleanup','allocate','expression_boundary','expression_library','kapa','reamp','reamp_cleanup_selection','reamp_cleanup','si_pcr','locus_primer','target_pol','target_pcr','target_cleanup_selection','target_cleanup','p5','rpi','index_pcr','genotype_library_retain','genotype_library')

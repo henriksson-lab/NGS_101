@@ -5,6 +5,7 @@ from adapter_ligation import AdapterLigationGeometry
 import illumina as il
 import seqprimers as sp
 from pcr import PCRGeometry
+from protocol_handoff import export_material
 from protocol_graph import DetailView, Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 from protocol_model import molecule, role
 TITLE = "10x Visium Spatial Gene Expression — array capture"
@@ -134,7 +135,7 @@ def oligos():
 
 def _cleanup(g, key, template, label, *, final=False, double=False):
     beads=g.input(key+"_beads", label, MaterialKind.SELECTION, source=SOURCE)
-    kept=g.product(key+"_product", label+" retained cDNA", MaterialKind.LIBRARY if final else MaterialKind.MOLECULAR, state=template.state)
+    kept=g.product(key+"_product", label+" retained cDNA", MaterialKind.LIBRARY if final else MaterialKind.MOLECULAR, state=template.state,chemical_state=template.chemical_state)
     wastes=[g.product(key+"_small", "removed supernatant/short-product fraction", MaterialKind.WASTE)]
     if double: wastes.append(g.product(key+"_large", "first-cut bead fraction not transferred with supernatant", MaterialKind.WASTE))
     g.react(key, label, StepKind.CLEANUP, ((template,InputRole.TEMPLATE),(beads,InputRole.SELECTION)), (kept,*wastes), changes_molecule=False)
@@ -178,7 +179,7 @@ def protocol_graph():
     wf=g.input("wta_forward","PN-2000089 cDNA forward",MaterialKind.OLIGO,state=printed("forward",("primer",CDNA_PCR_FORWARD)),source=SOURCE+" Appendix p70")
     wr=g.input("wta_reverse","PN-2000089 cDNA reverse",MaterialKind.OLIGO,state=printed("reverse",("primer",CDNA_PCR_REVERSE)),source=SOURCE+" Appendix p70")
     wp=g.input("wta_polymerase","Amp Mix PN-2000047/2000103; cycles rounded from Cq",MaterialKind.CATALYST)
-    amp=g.product("amplified","amplified double-stranded spatial cDNA",MaterialKind.MOLECULAR,state=duplex_state)
+    amp=g.product("amplified","amplified double-stranded spatial cDNA",MaterialKind.MOLECULAR,state=duplex_state,chemical_state={"stage":"amplified_full_length_cdna","polymer":"DNA","strandedness":"duplex_pattern","fragmented":False,"spatial_barcode_nt":16,"umi_nt":12,"sample_index_present":False})
     g.react("wta","Amplify the transferred cDNA with the printed primers",StepKind.PCR,
             ((main,InputRole.TEMPLATE),(wf,InputRole.STRUCTURAL),(wr,InputRole.STRUCTURAL),(wp,InputRole.CATALYST)),(amp,),
             geometry=PCRGeometry.unavailable(main.state,reason="The actual template is the conditional transferred single strand. "
@@ -217,4 +218,20 @@ def protocol_graph():
         "adapter","ligase","ligate","ligation_cleanup_beads","ligation_cleanup","visium_forward","visium_reverse","visium_polymerase","visium_pcr",
         "index_size_select_beads","index_size_select","index_size_select_product"),SOURCE)
     g.annotate(DetailView("reverse_transcribe","Slide-primer docking","Sequence pattern is printed; slide attachment chemistry remains unassigned.",state=capture_scene()))
-    return g.require_publishable()
+    g.require_publishable()
+    export_material(g,'full_length_cdna_rev_f',clean,protocol='10x-visium-spatial-gene-expression',version='CG000239 Rev F',page='visium.html',source=SOURCE+' Step3.3, Appendix p70',limitation='Source-printed amplified duplex pattern before fragmentation. Native released-strand/PCR geometry is unresolved; spot/UMI/transcript members vary. This Rev F export is not substituted for the Rev A preparation cited by Spatial VDJ.')
+    return g
+
+
+# Separately source-owned older intermediate, not a revision override on Rev F.
+from visium_rev_a import full_length_export as rev_a_export
+from protocol_views import export_section
+from chemdraw import workflow_from_protocol_graph,workflow_panel
+_rev_a=rev_a_export()
+TOPOLOGY_PANELS=(("Earlier Visium revision used by Spatial VDJ",
+    '<p><a href="../spatial-vdj__10.1126+science.adf8486/spatial-vdj.html">Engblom Spatial VDJ</a> cites CG000239 Rev A. Its full-length cDNA is exposed below from an independent Rev A declaration; it is not taken from the Rev F indexed library above.</p>'
+    +export_section(_rev_a)
+    +'<details><summary>Rev A cDNA amplification and cleanup</summary>'
+    +workflow_panel(workflow_from_protocol_graph(_rev_a.graph,_rev_a.reference.material),cls='long')+'</details>'),)
+
+ADDITIONAL_MATERIAL_EXPORTS=(_rev_a,)
