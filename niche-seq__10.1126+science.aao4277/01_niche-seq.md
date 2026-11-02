@@ -31,3 +31,12 @@ The required `pending` source item remains uncovered: detailed local supplementa
 The limited code change adds a literal reviewed frontend input/step inventory for prepared tissue,820nm photoactivation,940nm imaging, dissociation and FACS. It deliberately does not mark the unread MARS stock/operation covered as complete library chemistry. PA-GFP remains a protein photolabel rather than an inline DNA spatial barcode; uncollected cells retain an unresolved fate. Upstream cell transfers, other cohorts and controls are not silently turned into additional library members.
 
 One existing associated-manuscript original only, with no acquisition or reading expansion. Existing seven checks pass and the partial graph renders in a temporary private preview. No page builder, completion marker, historical MARS constructor or current kit was added. Notes status remains a source-scope hold; no missing-information claim.
+
+## Full input-ledger review, 2 November 2026
+
+Associated manuscript Results47/51 and reference7 (text99–101) were reread.
+The named MARS-seq component is [Jaitin2014](../mars-seq__10.1126+science.1247651/mars-seq.html),
+not MARS-seq2.0. `mars_stocks` supplies a delegated library operation after locally
+sorted niche cells; it is not an already prepared cDNA library input. Exact local
+MARS-seq conditions, detailed local supplementary Methods and final-publication
+applicability remain unreviewed; no predecessor constructor is imported.

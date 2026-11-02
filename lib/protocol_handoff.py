@@ -32,7 +32,7 @@ def material_signature(material):
 def _known_strands(material):
     from chemdraw import Construct,Scene,revcomp
     state=material.state
-    def sequence(segments):return ''.join('?'*max(1,len(s.top))if s.placeholder or s.is_role_token()else s.top.replace('U','T')for s in segments)
+    def sequence(segments):return ''.join('?'*max(1,len(s.top))if s.placeholder or s.inferred or s.is_role_token()else s.top.replace('U','T')for s in segments)
     if isinstance(state,Scene):return tuple(sequence(s.segs)for s in state.strands.values())
     if isinstance(state,Construct):
         top=sequence(state)
@@ -125,6 +125,9 @@ def handoff_problems(graph,stack):
     problems=[]
     for name,export in graph.exports.items():
         if export.graph is not graph or export.reference.name!=name:problems.append('invalid material export '+name);continue
+        if export.reference.material not in graph.materials:problems.append('exported material no longer exists: '+name);continue
+        producer=graph.producer_of(export.reference.material)
+        if producer is None or producer.id!=export.reference.producer:problems.append('exported material producer changed: '+name)
         if material_signature(export.material)!=export.signature:problems.append('exported material changed: '+name)
     for key,binding in graph.imports.items():
         ref=binding.reference;export=binding.export
@@ -132,6 +135,7 @@ def handoff_problems(graph,stack):
         if ref.protocol!=binding.expected_protocol or ref.version!=binding.expected_version:problems.append('material handoff version mismatch: '+key)
         if export.graph.exports.get(ref.name)is not export:problems.append('material export is no longer declared: '+key)
         if material_signature(graph.materials[key])!=export.signature:problems.append('imported molecular declaration changed: '+key)
+        if ref.material not in export.graph.materials:problems.append('upstream material no longer exists: '+key);continue
         if material_signature(export.material)!=export.signature:problems.append('upstream molecular declaration changed: '+key)
         try:_check_sites(export.material,binding.required_sites)
         except ValueError as error:problems.append(str(error))

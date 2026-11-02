@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "scope": "Six source-block replacements following independent cached-original availability audit. Source-qualified ancestry comparisons only; no molecular import, source-absence assertion, historical-inspiration claim for guesses, or central registry edits.",
+  "reviews": {
+    "drop-scchip-seq__10.1038+s41588-019-0424-9": {
+      "status": "reviewed",
+      "formal_assignment": "cannot_formally_assign",
+      "reason": "The correct published2019 original is available under its descriptive company-hosted filename. Its design can be compared with the earlier registered Drop-ChIP method; comparison/citation alone is not attributed inspiration.",
+      "sources": [
+        {
+          "url": "https://hifibio.com/wp-content/uploads/2024/07/Droplet-Screening-Nature-Genetics-Paper.pdf",
+          "locator": "drop-scchip-seq__10.1038+s41588-019-0424-9/Droplet-Screening-Nature-Genetics-Paper.pdf.txt DOI/title1-9; introduction30-68; Methods scChIP-seq1816+; library preparation1941+; printed publication31May2019line1642",
+          "identity": "published Grosselin 2019 Nature Genetics article PDF hosted by author company; why: Read defining Methods beyond downloaded Springer supplements",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4636926.1/PMC4636926.1.xml",
+          "locator": "drop-chip__10.1038+nbt.3383/nbt.3383_PMC4636926.xml.txt published title/abstract47; introduction61; droplet digestion/barcoding and pooled immunoprecipitation design67-75; article-meta pub-date2015",
+          "identity": "full-text JATS XML (PMC Cloud)",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        }
+      ],
+      "external_predecessors": [],
+      "inference_status": "guessed_candidate",
+      "inference_reason": "Grosselin2019 and Rotem2015 Drop-ChIP both use microfluidic partitioning, nucleosome preparation, cellular DNA barcodes and pooled chromatin immunoprecipitation. Droplet-fusion hardware, barcode chemistry and coverage improvements differ. This is a guessed earlier operational analogue, not established historical inspiration.",
+      "blockers": [],
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim.",
+      "reviewed": "2026-11-02"
+    },
+    "nebnext-enzymatic-methyl-seq-v2": {
+      "status": "reviewed",
+      "formal_assignment": "external",
+      "reason": "The exact defining E8015 manual, rather than the unrelated index-primer supplement, is available and directly identifies its earlier commercial method.",
+      "sources": [
+        {
+          "url": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale8015.pdf?hash=0B45AC60310F69EC62F2A2822FF857A2&rev=224af38f17a145749b296dab1c27cea0&sc_lang=en",
+          "locator": "nebnext-enzymatic-methyl-seq-v2/manuale8015.pdf.txt printed NEB E8015S/L Version2.0_7/26 header1-6; explicit E7120 predecessor118-124; conversion chemistry141-147",
+          "identity": "NEB E8015 official manual v2.0 July 2026; why: Current vendor original; compare its index-kit list with Fig. 1 caption and earlier cited revision.",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://www.neb.com/en/products/e7120-nebnext-enzymatic-methyl-seq-kit",
+          "locator": "Official live product-page title NEBNext Enzymatic Methyl-seq Kit; product-number tableE7120S/E7120L; link recommending updated E8015. Identity-only verification, not historical reaction/version substitution.",
+          "identity": "Original NEBNext Enzymatic Methyl-seq Kit E7120; current official vendor identity page (Japanese localized response)",
+          "availability": "live official identity page inspected; chemistry claims below derive from exact cached E8015manual, not a reconstructed E7120 revision"
+        }
+      ],
+      "external_predecessors": [
+        {
+          "relation": "adapted_component",
+          "basis": "documented",
+          "scope": "Original EM-seq enzymatic methylation-conversion framework updated in E8015",
+          "evidence": [
+            {
+              "url": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale8015.pdf?hash=0B45AC60310F69EC62F2A2822FF857A2&rev=224af38f17a145749b296dab1c27cea0&sc_lang=en",
+              "locator": "nebnext-enzymatic-methyl-seq-v2/manuale8015.pdf.txt printed NEB E8015S/L Version2.0_7/26 header1-6; explicit E7120 predecessor118-124; conversion chemistry141-147"
+            },
+            {
+              "url": "https://www.neb.com/en/products/e7120-nebnext-enzymatic-methyl-seq-kit",
+              "locator": "Official live product-page title NEBNext Enzymatic Methyl-seq Kit; product-number tableE7120S/E7120L; link recommending updated E8015. Identity-only verification, not historical reaction/version substitution."
+            }
+          ],
+          "rationale": "The exact E8015 Version2.0_7/26 manual explicitly describes EM-seq v2 as an updated and streamlined version of the original NEBNext EM-seq E7120 protocol. Its overview names TET2/T4-BGT protection followed by APOBEC conversion.",
+          "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. E7120 is a named external kit method, not a registered internal node. No particular historical E7120 manual revision, buffer equivalence or shared adapter sequence is asserted.",
+          "reviewed": "2026-11-02",
+          "title": "Original NEBNext Enzymatic Methyl-seq Kit (EM-seq; NEB E7120)",
+          "url": "https://www.neb.com/en/products/e7120-nebnext-enzymatic-methyl-seq-kit"
+        }
+      ],
+      "inference_status": "not_needed",
+      "inference_reason": "The inspected source explicitly identifies this bounded earlier method/component; broader ancestry is not inferred.",
+      "blockers": [],
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim.",
+      "reviewed": "2026-11-02"
+    },
+    "oxbs-seq__10.1126+science.1220671": {
+      "status": "reviewed",
+      "formal_assignment": "internal",
+      "reason": "The original2012 Science article is available and explicitly combines oxidative bisulfite treatment with the registered2008 Illumina RRBS method in its oxRRBS experiments.",
+      "sources": [
+        {
+          "url": "https://www.babraham.ac.uk/sites/default/files/media/files/22539555.pdf",
+          "locator": "oxbs-seq__10.1126+science.1220671/22539555.pdf.txt own Booth title/abstract20-29 (preceding article tail excluded); chemistry114-141; oxRRBS combination477-486; reference21 at735; own DOI/publication765-778",
+          "identity": "Booth et al. 2012 original Science article, Babraham author-institution copy; why: Original defining article mirror found on author institution; generic DOI fetch did not discover it.",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2896277.1/PMC2896277.1.xml",
+          "locator": "rrbs-illumina__10.1038+nature07107/nature07107_PMC2896277.xml.txt published defining DOI/title; abstract64; MspI size-selection/bisulfite Illumina design68-70",
+          "identity": "full-text JATS XML (PMC Cloud)",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        }
+      ],
+      "external_predecessors": [],
+      "inference_status": "not_needed",
+      "inference_reason": "The inspected source explicitly identifies this bounded earlier method/component; broader ancestry is not inferred.",
+      "blockers": [],
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim.",
+      "reviewed": "2026-11-02"
+    },
+    "oxford-nanopore-rapid-sequencing-v14": {
+      "status": "reviewed",
+      "formal_assignment": "cannot_formally_assign",
+      "reason": "The exact registered SQK-RAD114 RevQ protocol is available. A physically inspected earlier official brochure supplies an identified, chronologically earlier Rapid kit chemistry analogue.",
+      "sources": [
+        {
+          "url": "https://nanoporetech.com/document/rapid-sequencing-sqk-rad114",
+          "locator": "oxford-nanopore-rapid-sequencing-v14/rapid-sequencing-sqk-rad114.html.txt printed RSE_9177_v114_revQ_12Dec2025 at164/205/245; preparation purpose255-256; tagmentation274; FragmentationMix455+; RapidAdapter481-499",
+          "identity": "Oxford Nanopore Rapid Sequencing Kit V14 protocol; why: Primary commercial authority for SQK-RAD114 reaction order and kit components.",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://store.nanoporetech.jp/sites/default/files/s3/literature/product-brochure.pdf",
+          "locator": "oxford-nanopore-direct-cdna-sequencing/product-brochure.pdf.txt original rendered PDFpage7/printedpp12-13: RapidSQK-RAD004 column and transposase→adapter attachment drawing; text289-416; printed brochureBR_1009(EN)_V5_30Nov2020line1191",
+          "identity": "Oxford Nanopore product brochure BR_1009(EN)_V5_30Nov2020 (hand download 2026-10-17); why: Which RNA kit? table lists SQK-DCS109 input, prep time, PCR/RT requirement",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        }
+      ],
+      "external_predecessors": [
+        {
+          "relation": "adapted_component",
+          "basis": "guessed",
+          "scope": "Transposase cleavage/tagging followed by rapid sequencing-adapter attachment",
+          "evidence": [
+            {
+              "url": "https://nanoporetech.com/document/rapid-sequencing-sqk-rad114",
+              "locator": "oxford-nanopore-rapid-sequencing-v14/rapid-sequencing-sqk-rad114.html.txt printed RSE_9177_v114_revQ_12Dec2025 at164/205/245; preparation purpose255-256; tagmentation274; FragmentationMix455+; RapidAdapter481-499"
+            },
+            {
+              "url": "https://store.nanoporetech.jp/sites/default/files/s3/literature/product-brochure.pdf",
+              "locator": "oxford-nanopore-direct-cdna-sequencing/product-brochure.pdf.txt original rendered PDFpage7/printedpp12-13: RapidSQK-RAD004 column and transposase→adapter attachment drawing; text289-416; printed brochureBR_1009(EN)_V5_30Nov2020line1191"
+            }
+          ],
+          "rationale": "SQK-RAD114 and the earlier SQK-RAD004 Rapid kit both cleave/tag genomic DNA with a transposase and then attach sequencing adapters without library PCR. The original2020 brochure drawing and kit table were visually inspected to distinguish Rapid from the adjacent ligation/PCR columns. This is a guessed earlier chemistry analogue, not a documented historical derivation.",
+          "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. Different kit generations; no equivalence of adapter sequences, attachment mechanism details, FragmentationMix, pore or motor is asserted.",
+          "reviewed": "2026-11-02",
+          "chronology": {
+            "parent_year": 2020,
+            "child_year": 2025,
+            "locator": "Printed brochure BR_1009(EN)_V5_30Nov2020line1191; current registered Rapid source RSE_9177_v114_revQ_12Dec2025lines164/245"
+          },
+          "title": "Oxford Nanopore Rapid Sequencing Kit SQK-RAD004 (2020 brochure version)",
+          "url": "https://store.nanoporetech.jp/sites/default/files/s3/literature/product-brochure.pdf"
+        }
+      ],
+      "inference_status": "guessed_candidate",
+      "inference_reason": "SQK-RAD114 and the earlier SQK-RAD004 Rapid kit both cleave/tag genomic DNA with a transposase and then attach sequencing adapters without library PCR. The original2020 brochure drawing and kit table were visually inspected to distinguish Rapid from the adjacent ligation/PCR columns. This is a guessed earlier chemistry analogue, not a documented historical derivation.",
+      "blockers": [],
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim.",
+      "reviewed": "2026-11-02"
+    },
+    "pacbio-kinnex-full-length-rna": {
+      "status": "reviewed",
+      "formal_assignment": "internal_and_external",
+      "reason": "The actual current Kinnex preparation source matches the registered commercial method. Its application note explicitly identifies MAS-Seq and the Iso-Seq express2.0 cDNA input; the separate registered Iso-Seq owner identifies that same cDNA kit while also having a different monomer-library branch.",
+      "sources": [
+        {
+          "url": "https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf",
+          "locator": "pacbio-kinnex-full-length-rna/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf.txt printed103-238-700REV09AUG2026 header36-37; workflow42-56; named Iso-Seqexpress2.0 kit and cDNA components191-254",
+          "identity": "PacBio Kinnex full-length RNA procedure; why: Primary commercial authority for concatenation, cleanup and SMRTbell preparation.",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf",
+          "locator": "pacbio-kinnex-full-length-rna/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf.txt printed102-326-591REV03NOV2024line38; explicit MAS-Seq method71-79; Iso-Seqexpress2.0cDNA input87-88; AlKhafaji2023 title/DOI822-825",
+          "identity": "PacBio Kinnex full-length RNA application note Rev03; why: Linked directly from the official dataset README; check source scope for array assembly and index/primer information.",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://www.pacb.com/wp-content/uploads/Procedure-checklist-%E2%80%93-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf",
+          "locator": "pacbio-isoseq-smrtbell-prep-kit-3-0/Procedure-checklist-_-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf.txt printed102-396-000REV10SEP2026line47; title/branching1-12; same Iso-Seqexpress2.0kit103-071-500 and cDNA component identifiers247-276; RT/template-switching section454",
+          "identity": "PacBio Iso-Seq express 2.0 cDNA procedure; why: 102-396-000 Rev10 Sep2026; primary commercial protocol",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        }
+      ],
+      "external_predecessors": [
+        {
+          "relation": "adapted_component",
+          "basis": "documented",
+          "scope": "Programmed cDNA concatenation principle commercialized in Kinnex",
+          "evidence": [
+            {
+              "url": "https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf",
+              "locator": "pacbio-kinnex-full-length-rna/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf.txt printed102-326-591REV03NOV2024line38; explicit MAS-Seq method71-79; Iso-Seqexpress2.0cDNA input87-88; AlKhafaji2023 title/DOI822-825"
+            }
+          ],
+          "rationale": "The Kinnex application note explicitly says that the kit utilizes MAS-Seq and names AlKhafaji2023 programmed cDNA concatenation as the method. This establishes a documented method-development link.",
+          "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. The research MAS-Seq assembly and commercial Kinnex array are not equated: member count, oligos, junctions, enzymes, conditions and input versions remain separately qualified.",
+          "reviewed": "2026-11-02",
+          "title": "MAS-Seq: High-throughput RNA isoform sequencing using programmed cDNA concatenation (AlKhafaji etal2023)",
+          "url": "https://doi.org/10.1038/s41587-023-01815-7"
+        }
+      ],
+      "inference_status": "not_needed",
+      "inference_reason": "The inspected source explicitly identifies this bounded earlier method/component; broader ancestry is not inferred.",
+      "blockers": [],
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim.",
+      "reviewed": "2026-11-02"
+    },
+    "truseq-dna-pcr-free": {
+      "status": "reviewed",
+      "formal_assignment": "cannot_formally_assign",
+      "reason": "The exact2017 TruSeq DNA PCR-Free guide is available. Kozarewa2009 is an identified and chemically close earlier PCR-free Illumina analogue; its cached manuscript provenance is explicitly qualified rather than promoted to an authoritative final source.",
+      "sources": [
+        {
+          "url": "https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-dna-pcr-free-workflow/truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf",
+          "locator": "truseq-dna-pcr-free/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt printed1000000039279v00October2017title1-5; introduction112-124; fragmentation453-455; endrepair/size-selection817-1126; dAtailing1127-1232; adapterligation1235-1470; no libraryPCR in workflow",
+          "identity": "TruSeq DNA PCR-Free Reference Guide 1000000039279 v00; why: Authoritative commercial reaction order and conditions.",
+          "availability": "cached original identity and specified sections physically inspected; manifest URL checked"
+        },
+        {
+          "url": "https://doi.org/10.1038/nmeth.1311",
+          "locator": "Physical cached original /husky/henriksson/NGS101_papers/sources/shape-seq__10.1073+pnas.1106501108/kozarewa2009_sanger_author.pdf.txt; printed author-manuscript/final-edited-form citation3-5; title9-12; abstract20-28; no-PCR adapter-library principle95-110",
+          "identity": "Kozarewa etal Amplification-free Illumina sequencing-library preparation facilitates improved mapping and assembly of(G+C)-biased genomes; printed NatMethods2009April6(4)291-295 DOI10.1038/nmeth.1311; author-manuscript copy",
+          "availability": "Physical cached author-manuscript title/DOI/date and design inspected. No manifest receipt for this filename was found; download origin and authoritative final-version equivalence are unresolved. Canonical DOI here is the printed identity, not an invented download receipt."
+        }
+      ],
+      "external_predecessors": [
+        {
+          "relation": "adapted_component",
+          "basis": "guessed",
+          "scope": "Adapter-ligated end-prepared genomic DNA sequenced without library PCR",
+          "evidence": [
+            {
+              "url": "https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-dna-pcr-free-workflow/truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf",
+              "locator": "truseq-dna-pcr-free/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt printed1000000039279v00October2017title1-5; introduction112-124; fragmentation453-455; endrepair/size-selection817-1126; dAtailing1127-1232; adapterligation1235-1470; no libraryPCR in workflow"
+            },
+            {
+              "url": "https://doi.org/10.1038/nmeth.1311",
+              "locator": "Physical cached original /husky/henriksson/NGS101_papers/sources/shape-seq__10.1073+pnas.1106501108/kozarewa2009_sanger_author.pdf.txt; printed author-manuscript/final-edited-form citation3-5; title9-12; abstract20-28; no-PCR adapter-library principle95-110"
+            }
+          ],
+          "rationale": "The printed Kozarewa2009 manuscript and TruSeq2017 guide both describe end-prepared/A-tailed genomic DNA, adapter ligation and omission of library PCR while retaining flow-cell amplification. This is a provenance-qualified guessed earlier chemical analogue; the TruSeq source does not establish author inspiration or derivation.",
+          "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. The earlier cached file has no manifest receipt and is an author manuscript, not verified as the authoritative final version. No exact adapter, index, oligo, yield, enzyme condition or revision is inherited; this weak relation records chemical analogy only.",
+          "reviewed": "2026-11-02",
+          "chronology": {
+            "parent_year": 2009,
+            "child_year": 2017,
+            "locator": "Physically inspected Kozarewa manuscript final-edited-form citation NatMethods2009April6(4)291-295 DOI10.1038/nmeth.1311 lines3-5; TruSeq reference guide1000000039279v00October2017lines1-5"
+          },
+          "title": "Amplification-free Illumina sequencing-library preparation facilitates improved mapping and assembly of(G+C)-biased genomes (Kozarewa etal2009)",
+          "url": "https://doi.org/10.1038/nmeth.1311"
+        }
+      ],
+      "inference_status": "guessed_candidate",
+      "inference_reason": "The printed Kozarewa2009 manuscript and TruSeq2017 guide both describe end-prepared/A-tailed genomic DNA, adapter ligation and omission of library PCR while retaining flow-cell amplification. This is a provenance-qualified guessed earlier chemical analogue; the TruSeq source does not establish author inspiration or derivation.",
+      "blockers": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.1311",
+          "reason": "Earlier candidate author-manuscript copy lacks its own manifest receipt. The publisher route redirected to inaccessible identity authorization; PMC2664327 returned browser verification. These do not block the exact TruSeq guide, but leave candidate final-version/download provenance unresolved."
+        }
+      ],
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim.",
+      "reviewed": "2026-11-02"
+    }
+  },
+  "proposed_relations": [
+    {
+      "relation": "adapted_component",
+      "basis": "guessed",
+      "scope": "Droplet chromatin digestion and cell barcoding before pooled chromatin immunoprecipitation",
+      "evidence": [
+        {
+          "url": "https://hifibio.com/wp-content/uploads/2024/07/Droplet-Screening-Nature-Genetics-Paper.pdf",
+          "locator": "drop-scchip-seq__10.1038+s41588-019-0424-9/Droplet-Screening-Nature-Genetics-Paper.pdf.txt DOI/title1-9; introduction30-68; Methods scChIP-seq1816+; library preparation1941+; printed publication31May2019line1642"
+        },
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4636926.1/PMC4636926.1.xml",
+          "locator": "drop-chip__10.1038+nbt.3383/nbt.3383_PMC4636926.xml.txt published title/abstract47; introduction61; droplet digestion/barcoding and pooled immunoprecipitation design67-75; article-meta pub-date2015"
+        }
+      ],
+      "rationale": "Grosselin2019 and Rotem2015 Drop-ChIP both use microfluidic partitioning, nucleosome preparation, cellular DNA barcodes and pooled chromatin immunoprecipitation. Droplet-fusion hardware, barcode chemistry and coverage improvements differ. This is a guessed earlier operational analogue, not established historical inspiration.",
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. No inference that hydrogel beads, barcode transfer, chromatin substrates or amplification schemes are identical.",
+      "reviewed": "2026-11-02",
+      "chronology": {
+        "parent_year": 2015,
+        "child_year": 2019,
+        "locator": "Rotem original PMC4636926 article-meta/pub-date2015; Grosselin original printed Publishedonline31May2019line1642"
+      },
+      "parent": "drop-chip__10.1038+nbt.3383",
+      "child": "drop-scchip-seq__10.1038+s41588-019-0424-9"
+    },
+    {
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Illumina RRBS branch combined with oxidative bisulfite treatment",
+      "evidence": [
+        {
+          "url": "https://www.babraham.ac.uk/sites/default/files/media/files/22539555.pdf",
+          "locator": "oxbs-seq__10.1126+science.1220671/22539555.pdf.txt own Booth title/abstract20-29 (preceding article tail excluded); chemistry114-141; oxRRBS combination477-486; reference21 at735; own DOI/publication765-778"
+        },
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2896277.1/PMC2896277.1.xml",
+          "locator": "rrbs-illumina__10.1038+nature07107/nature07107_PMC2896277.xml.txt published defining DOI/title; abstract64; MspI size-selection/bisulfite Illumina design68-70"
+        }
+      ],
+      "rationale": "Booth2012 state that they combined oxidative bisulfite treatment with RRBS and identify Meissner etal Nature454766(2008) as reference21. The registered RRBS original confirms the MspI-defined reduced-representation, bisulfite and Illumina framework.",
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. Applies to the oxRRBS branch only. It does not claim that all oxBS chemistry descends from RRBS, or import its precise adapters, oxidation conditions or end geometry.",
+      "reviewed": "2026-11-02",
+      "parent": "rrbs-illumina__10.1038+nature07107",
+      "child": "oxbs-seq__10.1126+science.1220671"
+    },
+    {
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Iso-Seq express2.0 cDNA synthesis/amplification component before concatenation",
+      "evidence": [
+        {
+          "url": "https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf",
+          "locator": "pacbio-kinnex-full-length-rna/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf.txt printed103-238-700REV09AUG2026 header36-37; workflow42-56; named Iso-Seqexpress2.0 kit and cDNA components191-254"
+        },
+        {
+          "url": "https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf",
+          "locator": "pacbio-kinnex-full-length-rna/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf.txt printed102-326-591REV03NOV2024line38; explicit MAS-Seq method71-79; Iso-Seqexpress2.0cDNA input87-88; AlKhafaji2023 title/DOI822-825"
+        },
+        {
+          "url": "https://www.pacb.com/wp-content/uploads/Procedure-checklist-%E2%80%93-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf",
+          "locator": "pacbio-isoseq-smrtbell-prep-kit-3-0/Procedure-checklist-_-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf.txt printed102-396-000REV10SEP2026line47; title/branching1-12; same Iso-Seqexpress2.0kit103-071-500 and cDNA component identifiers247-276; RT/template-switching section454"
+        }
+      ],
+      "rationale": "The Kinnex source and its2024 application note explicitly name full-length cDNA generated with Iso-Seq express2.0 as input. The registered Iso-Seq owner uses that named cDNA-preparation kit before its separate SMRTbell3.0 monomer branch.",
+      "limits": "Bounded component ancestry review, at most three originals per child. No molecular-state inheritance, exhaustive source review, independent-invention assertion or accepted missing-information claim. Scope is the named cDNA-preparation method only, not the parent final SMRTbell library. The September2026 Iso-Seq Rev10 guide is inspected only to identify the registered owner/component; it does not replace the August2026 Kinnex steps or establish whole-revision equivalence. No molecular handoff is created.",
+      "reviewed": "2026-11-02",
+      "parent": "pacbio-isoseq-smrtbell-prep-kit-3-0",
+      "child": "pacbio-kinnex-full-length-rna"
+    }
+  ],
+  "availability_scope": {
+    "six_replacement_reviews": 6,
+    "maximum_originals_per_child": 3,
+    "scope_matches": "TruSeqv00Oct2017, SQK-RAD114RevQ12Dec2025, KinnexREV09Aug2026 and E8015Version2.0_7/26 match their registered current/declared commercial scopes. Later documents are only identity/comparator evidence, never replacements for those defining versions.",
+    "scraper": "All six child bundles were scraped in the independent availability audit. Additional original comparator files were individually scraped; original Kinnex application note was included in its bundle. Hits/modifications reviewed for source orientation only; no absence claims.",
+    "visual_inspection": "Original ONT2020brochure PDFpage7 rendered and viewed to resolve adjacent Rapid/Ligation/PCR columns.",
+    "bounded_online_identity_checks": "Official E7120 vendor identity page inspected to verify an external method URL. Kozarewa canonical publisher/PMC routes were checked briefly for identity/provenance; they remained gated. No fetcher, source-cache migration or recursive reference chase."
+  }
+}

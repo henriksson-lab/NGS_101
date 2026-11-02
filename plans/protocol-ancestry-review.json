@@ -1,0 +1,98 @@
+{
+  "date": "2026-11-02",
+  "status": "complete_bounded_pass_with_explicit_source_followups",
+  "goal": "Gather ancestry information for all838 catalogue protocols as far as possible; add missing-predecessor audit and explicit review outcomes including external predecessors, source blockers, inability to assign formally, stronger inferred derivation and weaker guessed earlier chemistry analogues.",
+  "baseline": {
+    "protocols": 838,
+    "relations": 124,
+    "children_with_prior_curated_relationships": 106,
+    "protocols_requiring_new_assessment": 732
+  },
+  "round": "catalogue/curation_rounds/2026-11-02-catalogue-ancestry.json",
+  "registry": "catalogue/protocol_ancestry_reviews.json",
+  "helpers": [
+    "lib/protocol_ancestry.py:ancestry_audit",
+    "lib/protocol_ancestry.py:protocols_without_predecessors",
+    "tools/audit_protocol_ancestry.py",
+    "lib/protocol_ancestry_similarity.py:rank_candidates",
+    "tools/suggest_protocol_ancestors.py"
+  ],
+  "evidence_levels": {
+    "documented": "Explicit source attribution within stated method/component scope.",
+    "inferred": "Reasoned likely derivation, clearly qualified; not formal attribution.",
+    "guessed": "Looser earlier chemistry analogue, without established descent/inspiration; located evidence, date ordering and scope limits required."
+  },
+  "completion_conditions": [
+    "Every catalogue ID has a prior-curated, newly reviewed, explicitly source-blocked or justified not-applicable outcome; unreviewed candidate assessments remain pending.",
+    "Formal attribution is distinct from inference and guessing; no forced predecessor or universal independent-origin/absence claims.",
+    "External predecessor identities and actual original-source blockers recorded with original URLs and limits.",
+    "All accepted internal relationships form a valid known-ID graph; guesses have defensible earlier chronology.",
+    "Audit, review registry, full/local graph, similarity helper and ordinary offline website tests verified."
+  ],
+  "limits": "Bounded max10minutes/three originals per protocol. A complete bounded ancestry pass is not full chemistry validation, exhaustive genealogy or a two-reader missing-information audit. Existing positive lineage curation is retained and labelled prior curation, not newly read originals.",
+  "verification": {
+    "focused_ancestry_checks": 35,
+    "shared_checks": 2266,
+    "lineage_checks": 21,
+    "live_browser_checks": 22,
+    "site": "598/598 builders;504 finished public schematics; all relative links and anchors resolve. Full build used --no-checks after separate shared suite.",
+    "coverage": "All838 current catalogue IDs have outcomes;732 new assigned IDs reconcile exactly without overlap;106 explicitly retained prior-curated records. --check-reviewed exits0.",
+    "published_data": "_site graph data/script match current generated outputs; invisible/private/illustrative endpoints stay withheld and are explained.",
+    "public_graph": {
+      "protocols": 478,
+      "external_predecessors": 71,
+      "curated_relations": 335,
+      "documented": 162,
+      "inferred": 62,
+      "guessed": 111,
+      "curated_protocols": 342,
+      "similarities": 565
+    },
+    "limits": "A complete bounded pass is not exhaustive historical genealogy, a full chemistry audit or an independent source-absence finding. Guessed analogues never become formal ancestors or molecular compatibility claims."
+  },
+  "summary": {
+    "protocols": 838,
+    "new_bounded_reviews": 732,
+    "prior_curated_protocols": 106,
+    "review_states": {
+      "reviewed": 648,
+      "source_blocked": 84,
+      "existing_curated": 106
+    },
+    "formal_assignments": {
+      "cannot_formally_assign": 553,
+      "internal": 211,
+      "external": 71,
+      "internal_and_external": 3
+    },
+    "inference_assessments": {
+      "supported": 82,
+      "guessed_candidate": 211,
+      "not_needed": 282,
+      "no_defensible_candidate": 178,
+      "blocked": 85
+    },
+    "internal_relations": 498,
+    "internal_evidence": {
+      "documented": 242,
+      "inferred": 55,
+      "guessed": 201
+    },
+    "external_parent_references": 121,
+    "external_evidence": {
+      "inferred": 28,
+      "documented": 77,
+      "guessed": 16
+    },
+    "protocols_with_any_source_or_comparison_blocker": 87
+  },
+  "source_audit": "31 purported source blocks independently checked; six accessible originals reassessed, remaining identities/version gaps explicit.",
+  "identity_policy": "Ancestry refers to the cited original method, never an invented experimental molecule. Known method DOIs map internally even if their molecular page is illustrative; public graph eligibility still withholds illustrative/private/notes pages. Distinct methods within one paper keep separate identities.",
+  "completed_features": [
+    "Audit functions/CLI separate missing internal parent, missing formal attribution, unreviewed, source-blocked, external, inferred and guessed outcomes.",
+    "Per-protocol original-source availability/version records, external identities and inability to assign formally.",
+    "Distinct documented/inferred/guessed graph levels; optional gray-dotted guesses require earlier publication chronology.",
+    "Explainable IDF chemistry/sequence ranking with unknown coverage bounds, exact defining-DOI years and optional DOI-citation line pointers.",
+    "Method identities remain separate from invented molecular examples and physical material handoffs."
+  ]
+}

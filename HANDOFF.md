@@ -1,3 +1,112 @@
+# Completed catalogue ancestry pass — 2 November 2026
+
+The catalogue-wide ancestry goal is complete as a bounded pass: all838 protocols
+have outcomes.106 prior-curated records are labelled prior evidence;732 new
+source/candidate assessments comprise648 reviewed and84 source/version/provenance
+blocked. Three further comparison-source followups are retained (87 protocols
+with any blocker). No unreviewed IDs remain. This is not exhaustive genealogy or
+complete chemistry/source-absence validation.
+
+Canonical reviews: catalogue/protocol_ancestry_reviews.json. Internal lineage:
+catalogue/protocol_lineage.json (498relationships).121 external-parent references
+are stored in the reviews. Across both:319documented,83inferred,217guessed links.
+Guessed means a loose earlier chemistry analogue, not established inspiration or
+descent. It has located evidence/date order and a separate optional dotted-gray
+filter. Inability to assign formally remains explicit; no forced ancestor.
+
+Audit: python3 tools/audit_protocol_ancestry.py --filter all --check-reviewed --summary
+Filters include no-parent, no-formal-parent, unreviewed, blocked, external,
+cannot-assign, inferred, guessed and unlinked. --public still counts known hidden
+registry ancestors. Source/comparison blockers retain actual URLs. Candidate helper:
+python3 tools/suggest_protocol_ancestors.py <dir> --limit 8; optional --source points
+to a manifest/version-verified original text twin after mandatory primer scan.
+Chemistry facets and exact known sequences have IDF scores/unknown coverage bounds;
+known-DOI citation line pointers are independent clues, not ancestry assertions.
+Only exact defining-DOI metadata supplies years; grouped source rows do not.
+
+An ancestry edge identifies the original method, not the invented molecular
+instance on an illustrative page. Such internal identities remain usable with
+explicit scope, but illustrative/private/notes endpoints remain withheld publicly.
+External originals are source-linked nodes. Current public graph has478 registered
+nodes plus71 external originals and335 scoped links (111 guessed optional).
+Hidden known predecessor links are explained instead of labelled uncurated.
+
+Verification:2266shared checks,35focused ancestry checks,21lineage checks,
+22liveChrome checks (evidence filters, external originals, formal/source-block
+states, multi-parent focus, SVGexport and mobile). All598builders and relative
+links/anchors pass; published graph data/script match current outputs. Coverage
+reconciles all732 assigned reviews across A244/B187/C244/delegatedtail57 exactly.
+Independent blocked-source audit found six available originals; all six were
+reassessed and cleared. Round reports and final receipts are linked from
+plans/protocol-ancestry-review.json and the selected round ledger.
+
+Current changes include this goal and the preceding full input-ledger goal;
+nothing staged/committed after baseline12eb13e0. Historical checkpoints follow.
+
+# Active goal — catalogue-wide ancestry, 2 November 2026
+
+User asks for a missing-predecessor audit, explicit ancestry-review records, and
+source-qualified ancestry information for all838 protocols as far as possible.
+Later clarifications require separate inability-to-assign-formally, inferred likely
+derivation, and still weaker guessed earlier chemistry analogues. Guesses are not
+established inspiration/descent and need earlier date evidence. No forced ancestor.
+
+Plan: plans/protocol-ancestry-review.json. Canonical state:
+catalogue/protocol_ancestry_reviews.json plus catalogue/protocol_lineage.json.
+Tools: audit_protocol_ancestry.py (filters/summary/check-reviewed),
+suggest_protocol_ancestors.py (IDF chemistry+sequence candidates; optional selected
+original DOI-citation line pointers). Cached metadata years must match defining DOI,
+not arbitrary grouped bibliography rows. Unit coverage covers review/graph distinction,
+external origins, blocked originals, known versus guessed chronology, missing coverage
+bounds and exact DOI identity. Run python3 tools/selftest_protocol_ancestry.py for the current focused suite.
+
+Round assignments: catalogue/curation_rounds/2026-11-02-catalogue-ancestry.json.
+106 previously curated children retained explicitly as prior evidence;732 other
+protocols assigned. ancestry-a.json is final244reviews/115internal edges/17external
+predecessors and has been merged centrally (239 internal relations total so far).
+The remaining workers are active: ancestry-b original indices0–186 (187items),
+ancestry-c all244 with hypothesis reassessment, and ancestry-a-tail the delegated
+last57 previously untouched b items. Tail results are a separate file; don't double
+count original b ownership. See live shard JSONs and agent messages for progress.
+Do not treat their preliminary generic abstract-pass records as final candidate
+assessments before workers confirm completion.
+
+Public/local graph now supports external source-linked nodes, source blockers,
+formal-attribution limitations and separate guessed dotted-gray filter (defaultoff).
+The native Chrome benchmark was updated for dynamic graph size and new evidence
+levels; an edge-label handler typo was caught and fixed, rerun passed. Full catalogue
+merge, final source/coverage checks and full site build remain outstanding. Current
+changes include the prior completed input-ledger goal and are unstaged/uncommitted.
+
+# Full input-ledger and ancestry checkpoint — 2 November 2026
+
+User goal: complete the full finite protocol-input ledger with parallel workers,
+and curate which protocols are based on previous protocols. Baseline commit is
+12eb13e0. This follow-up remains unstaged and uncommitted.
+
+All98 candidate inputs have bounded review outcomes:96 role-reviewed, two source
+rechecks blocked (TCP-seq/Rapture). Four no-unique-graph assay exceptions were
+reviewed manually. Full evidence/version limits and actual deferrals are in
+catalogue/curation_rounds/2026-11-02-full-protocol-input-ledger.json, with four
+separate reader reports. Run python3 tools/check_protocol_input_ledger.py after
+refreshing public/notes snapshots. This is not a complete chemistry review or
+accepted missing-information audit; blocked source/molecular details stay open.
+
+Added qualified original-Perturb-seq→Chromiumv1 and DASH→Ovationv2 input links,
+with source-stage limits and no state inheritance. Tightened DNBSEQ to compatible
+MGI dual-barcode PCR input. Improved delegated-component explanations and selected
+Perturb-seq primer reconstruction. Corrected GoT/MAESTER accepted-manuscript source
+identity and GoT's overly strong template-switched-population wording.
+
+Curated16 new documented lineage edges, total124. Existing Relationships viewer
+and local graphs show26 eligible public relations; notes-only endpoints stay
+withheld. Registry remains independent of material imports and sequence similarity.
+Required-site checks now reject inferred sequence segments; changed producer and
+removed upstream-material diagnostics have regression checks.31 handoff checks,
+2231 shared checks,20Visium and42Spatial checks pass. All598site builders and relative-link checks pass;17live Chrome ancestry-viewer
+checks pass, including filters, multi-parent focus, standaloneSVG export and mobile
+layout. Final receipts live in the round ledger and main plan.
+
 # Follow-up checkpoint — 2 November 2026
 
 Continued cross-protocol input curation. R2C2 now links its pre-tagmentation SIRV

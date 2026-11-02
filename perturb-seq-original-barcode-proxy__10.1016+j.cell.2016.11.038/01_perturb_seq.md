@@ -35,3 +35,13 @@ The associated accepted manuscript Methods318–405 was re-read, including the o
 The current model remains a private post-WTA enrichment fragment. It has no acquired sequencing terminal and retains the required `unassembled_source` item. Its existing source-positive 5 ng WTA allocation, indexed dial-out PCR and 2% agarose recovery do not themselves account for that declared remaining input/library scope. The original historical capture/RT preparation, final occupied strands and primer/read geometry remain unassembled. This is a model/source-scope hold, not a claim that the paper omitted these details. The selected WTA-to-GBC boundary may be useful independently, but its exact input identity and declared source scope still need reconciliation; dictionary preparation or a modern Chromium recipe must not fill the gap by analogy.
 
 The actual article delegates the cell-to-WTA preparation to historical manufacturer instructions. The relevant document/revision is not identified in this pass; no unavailable disclosure document is invented for an unassigned component. The manifest retains real gated supplementary originals. Existing source requests for FigureS1/FigureS5/TableS1 and the final-VOR comparison remain open. No fresh retrieval or source expansion occurred.
+
+## Full input-ledger review, 2 November 2026
+
+The input now has a source-named link to the original Chromium preparation,
+whose defining paper is explicitly cited as Zheng2016 (DOI10.1038/ncomms14049)
+in the inspected associated manuscript. WTA precedes the approximately5ng
+GBC dial-out allocation. Exact guide revision, complete WTA polymers and
+final-publication equivalence remain unverified; no molecular state is imported.
+The private preview also shows both full primer orders and explains the selected
+P5–sample-index–source-R1–BFP binding-arm concatenation from the model.

@@ -1248,3 +1248,10 @@ or separately required version-of-record Methods available.
     Needed: Published original Visualization and analysis of gene expression in tissue sections by spatial transcriptomics, and its chemistry-relevant linked material. This is reference 6 in Engblom 2023's Spatial VDJ indexing paragraph; inspect the original indexing procedure and whole primer orders.
     Status: 2026-11-01. Cached standard retrieval manifest is manual/no-open-fulltext; no original text on disk. No undiscovered supplement filename is assumed. Visium CG000239 Rev A is now obtained and does not need to be downloaded for this follow-up.
     Directory: doi_10.1126+science.aaf2403
+
+172. Rapture — defining original for the input-pool review
+    https://pmc.ncbi.nlm.nih.gov/articles/PMC4788223/
+    https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4788223/fullTextXML
+    Needed: Defining Rapture article DOI 10.1534/genetics.115.183665, including library pooling and pre-capture Methods. The current local bundle contains manual/failed original routes, so the new input-role pass cannot independently recheck prior notes against an original body.
+    Status: 2026-11-02 full input-ledger review. Manifest reports challenge/host cooldown or fullTextXML HTTP 500; no original text was read in this pass. Automated cooldowns retained. The existing File S1 request is separate and still needed as listed above. No source-absence claim.
+    Directory: rapture__10.1534+genetics.115.183665

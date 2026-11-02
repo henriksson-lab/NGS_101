@@ -44,3 +44,14 @@ The published SI's embedded protocol (December21,2018; PDFpp32–35/text2069–2
 For any later extension, preserve separate actual sample-labeling reactions before the documented sample pool, prepared22µl versus used20µl anchor/barcode and co-anchor stocks, and molecular BSA in quench/washes. Historical10x supplies cannot be represented solely as a condition. Actual KAPA ReadyMix components are co-present supplies from the stated stock, not invented fresh reagent doses; Qubit/Bioanalyzer and loading allocations need explicit retained stocks.
 
 The SI anchor order and19nt additive remain distinct from the associated manuscript's reversed anchor-domain order and20nt additive (AM154/188). SI2165–2226 is selected for the modeled protocol. Its instruction to repeat cycling steps8–12 times retains an unassigned total-cycle convention; AM204's8cycles is not silently merged. The source's2µM/10X stock wording is retained without a corrected-molarity assumption. This preflight independently viewed the actual SI p33 oligo/stock panel and reread AM150–158/184–214 as a separately qualified comparison. Two originals, mandatory bundle scraper, no acquisition/model/build changes and no whole final/AM equivalence. Notes status remains a model-scope hold.
+
+## Full input-ledger review, 2 November 2026
+
+Published SI protocol steps9–12 (text2132–2145) were reread after the mandatory
+bundle scraper. The historical10x capture/RT procedure is a delegated component
+inside MULTI-seq, not an external prepared-library input: `tenx` is a condition,
+while the model produces `post_rt` from the labeled cells. The private preview
+links the Chromium3′v2 reference preparation with its exact historical revision
+and full local substrate still unresolved. The `rpi` candidate is an actual PCR
+primer, not another protocol's finished library. No v3 recipe or manuscript oligo
+variant is silently imported.

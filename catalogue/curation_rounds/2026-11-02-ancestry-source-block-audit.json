@@ -1,0 +1,1325 @@
+{
+  "schema_version": 1,
+  "owner": "independent_ancestry_c",
+  "scope": "Independent bounded cached-source availability audit of all31 ancestry-a source-blocked entries.",
+  "reviews": [
+    {
+      "protocol": "calling-card-seq-genomic-ty5-recovery__10.1101+gr.114850.110",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://genome.cshlp.org/content/21/5/748",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "cast-seq__10.1016+j.stem.2021.02.002",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://www.sciencedirect.com/science/article/pii/S1934590921000527",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "cotech__10.1038+s41592-021-01129-z",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/s41592-021-01129-z",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "2020.10.15.339226_media-1.pdf",
+          "url": "https://www.biorxiv.org/content/biorxiv/early/2020/10/16/2020.10.15.339226/DC1/embed/media-1.pdf?download=true",
+          "bytes": "305350",
+          "md5": "f4b014781808dd1bf64e8db768641e62",
+          "what": "biorxiv supplementary file, v1",
+          "text_available": true
+        },
+        {
+          "file": "2020.10.15.339226_v1.full.pdf",
+          "url": "https://www.biorxiv.org/content/10.1101/2020.10.15.339226v1.full.pdf",
+          "bytes": "10172457",
+          "md5": "16841871fb6f27f8308701d9a0fec877",
+          "what": "biorxiv full text, v1",
+          "text_available": true
+        },
+        {
+          "file": "s41592-021-01129-z_41592_2021_1129_MOESM1_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01129-z/MediaObjects/41592_2021_1129_MOESM1_ESM.pdf",
+          "bytes": "407331",
+          "md5": "d9c6f10b72be9f9498e768ab03c23810",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "s41592-021-01129-z_41592_2021_1129_MOESM2_ESM.pdf",
+          "url": "",
+          "bytes": "83504",
+          "md5": "a88a6fdfe86efca10c5ad66d4d7d2fd3",
+          "what": "(on disk, not fetched by get_sources: added by hand?)",
+          "text_available": true
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "disco__10.1038+s41592-021-01391-1",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/s41592-021-01391-1",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "DisCo_protocol.pdf",
+          "url": "https://www.epfl.ch/labs/deplanckelab/wp-content/uploads/2021/09/DisCo_protocol.pdf",
+          "bytes": "760266",
+          "md5": "f5aabf009740e60a56932941235d31ec",
+          "what": "Author DisCo bench protocol; why: Source for template-switching, SMART PCR and custom SeqB read-primer oligos.",
+          "text_available": true
+        },
+        {
+          "file": "s41592-021-01391-1_41592_2021_1391_MOESM1_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01391-1/MediaObjects/41592_2021_1391_MOESM1_ESM.pdf",
+          "bytes": "598352",
+          "md5": "8baebcf4bd52bef9907b7373ad82cb12",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "s41592-021-01391-1_41592_2021_1391_MOESM2_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-021-01391-1/MediaObjects/41592_2021_1391_MOESM2_ESM.pdf",
+          "bytes": "3047187",
+          "md5": "c1e87b6260e83aa035d4097747c52246",
+          "what": "Springer supplementary file",
+          "text_available": true
+        }
+      ],
+      "finding": "partial_original_available_block_retained",
+      "reason": "An author DisCo step-by-step laboratory protocol is available and contains molecular reagents/steps, but it calls itself most up-to-date without a printed historical revision/date. Do not substitute it silently for the defining2021/2022 published article. It provides a real narrower source for source-qualified follow-up even while the defining-body/version block remains.",
+      "inspected": [
+        {
+          "file": "DisCo_protocol.pdf",
+          "url": "https://www.epfl.ch/labs/deplanckelab/wp-content/uploads/2021/09/DisCo_protocol.pdf",
+          "printed_identity": "DisCo step-by-step laboratory protocol; author-hosted current protocol; no printed revision/date established in header",
+          "locator": "DisCo_protocol.pdf.txt title1; introduction3-14 (most up-to-date claim13); publication-Methods dependency18-20; primer-reagent headings104-120",
+          "availability": "cached author original body; exact applicability to published article revision remains unestablished"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "dream__10.4161+epi.22552",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC3528692.",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "drna-seq__10.1038+nature08756",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nature08756",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nature08756.html",
+          "url": "https://www.nature.com/articles/nature08756",
+          "bytes": "379229",
+          "md5": "a85dcc63badf8632d372ef9b63e36bbc",
+          "what": "Published defining dRNA-seq article; why: Exact main Methods and supplementary identities when generic DOI route has no open full text.",
+          "text_available": true
+        },
+        {
+          "file": "nature08756_41586_2010_BFnature08756_MOESM206_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM206_ESM.pdf",
+          "bytes": "295124",
+          "md5": "968467507631fb0696590dea8698102c",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nature08756_41586_2010_BFnature08756_MOESM207_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM207_ESM.pdf",
+          "bytes": "4325690",
+          "md5": "ace572bd2f8d3e13d7ed6be41b78cf28",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nature08756_41586_2010_BFnature08756_MOESM208_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature08756/MediaObjects/41586_2010_BFnature08756_MOESM208_ESM.pdf",
+          "bytes": "449828",
+          "md5": "f6ad53c87e989fd5e370666673a11bb1",
+          "what": "Springer supplementary file",
+          "text_available": true
+        }
+      ],
+      "finding": "partial_original_available_block_retained",
+      "reason": "Cached publisher HTML has exact defining title/DOI and abstract, but explicitly says preview of subscription content at lines650-652. It is not the full main Methods body. Published supplementary originals are available; that narrower scope does not by itself remove the main-body availability block.",
+      "inspected": [
+        {
+          "file": "nature08756.html",
+          "url": "https://www.nature.com/articles/nature08756",
+          "printed_identity": "Sharma etal2010 Nature The primary transcriptome of the major human pathogen Helicobacter pylori; DOI10.1038/nature08756",
+          "locator": "nature08756.html.txt title6; Published17February2010line525; abstract633; subscription-preview notice650-652; SupplementaryMethods listing1388-1389; DOI1456",
+          "availability": "cached publisher original is an abstract/metadata preview, not full article body"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "drop-scchip-seq__10.1038+s41588-019-0424-9",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/s41588-019-0424-9",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "Droplet-Screening-Nature-Genetics-Paper.pdf",
+          "url": "https://hifibio.com/wp-content/uploads/2024/07/Droplet-Screening-Nature-Genetics-Paper.pdf",
+          "bytes": "33563225",
+          "md5": "f89c7b680a85f85ae46f79e9d717dc4d",
+          "what": "published Grosselin 2019 Nature Genetics article PDF hosted by author company; why: Read defining Methods beyond downloaded Springer supplements",
+          "text_available": true
+        },
+        {
+          "file": "s41588-019-0424-9_41588_2019_424_MOESM1_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-019-0424-9/MediaObjects/41588_2019_424_MOESM1_ESM.pdf",
+          "bytes": "22654997",
+          "md5": "03266724c53c6dd483055af6a7a735b3",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "s41588-019-0424-9_41588_2019_424_MOESM2_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41588-019-0424-9/MediaObjects/41588_2019_424_MOESM2_ESM.pdf",
+          "bytes": "80395",
+          "md5": "5b14bfc3b10752c48e8e0ea293d27598",
+          "what": "Springer supplementary file",
+          "text_available": true
+        }
+      ],
+      "finding": "defining_original_available",
+      "reason": "The main published article and its full Methods are already manifested under a descriptive company-hosted filename. It is not merely the publisher supplement or an unrelated preprint.",
+      "inspected": [
+        {
+          "file": "Droplet-Screening-Nature-Genetics-Paper.pdf",
+          "url": "https://hifibio.com/wp-content/uploads/2024/07/Droplet-Screening-Nature-Genetics-Paper.pdf",
+          "printed_identity": "Published Grosselin etal2019 NatureGenetics article; title High-throughput single-cell ChIP-seq identifies heterogeneity of chromatin states in breast cancer; printed DOI10.1038/s41588-019-0424-9",
+          "locator": "Droplet-Screening-Nature-Genetics-Paper.pdf.txt Title/DOI/header1-9; publishedonline31May2019line1642; full Methods1790+ and sequencing-library preparation1941+",
+          "availability": "cached original and text twin verified; identity/header and named body-section pointers inspected"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "recommended_action": "Reopen source-blocked ancestry record using this exact defining original/version. Availability correction alone is not a completed ancestry review and introduces no parent edge.",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "g4-seq__10.1038+nbt.3295",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nbt.3295",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nbt.3295_41587_2015_BFnbt3295_MOESM27_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3295/MediaObjects/41587_2015_BFnbt3295_MOESM27_ESM.pdf",
+          "bytes": "5320900",
+          "md5": "253962e1373ce180ae5741a5c3a15759",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nbt.3295_41587_2015_BFnbt3295_MOESM28_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3295/MediaObjects/41587_2015_BFnbt3295_MOESM28_ESM.pdf",
+          "bytes": "468254",
+          "md5": "3e817e9166743b651a6f97c72275fc1a",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nbt.3295_41587_2015_BFnbt3295_MOESM31_ESM.xml",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3295/MediaObjects/41587_2015_BFnbt3295_MOESM31_ESM.xml",
+          "bytes": "29995",
+          "md5": "19bba335467be005e64fd7283c7ba805",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nbt.3295_41587_2015_BFnbt3295_MOESM32_ESM.xml",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3295/MediaObjects/41587_2015_BFnbt3295_MOESM32_ESM.xml",
+          "bytes": "29424",
+          "md5": "e8dfdf3df3632f1534d317a38d3488e3",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nbt.3295_41587_2015_BFnbt3295_MOESM33_ESM.xml",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3295/MediaObjects/41587_2015_BFnbt3295_MOESM33_ESM.xml",
+          "bytes": "34192",
+          "md5": "907af1bc33f4701e7cdceffd0c7aeb22",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nbt.3295_41587_2015_BFnbt3295_MOESM34_ESM_main.txt",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3295/MediaObjects/41587_2015_BFnbt3295_MOESM34_ESM.zip#code/main.txt",
+          "bytes": "8857",
+          "md5": "98d5ffb173deaf269b3b585eceab312b",
+          "what": "Springer supplementary file (from the zip)",
+          "text_available": false
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "glass-seq__10.1016+j.bios.2026.118973",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://www.sciencedirect.com/science/article/pii/S0956566326006056",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "lcr__10.1021+sb4001992",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1021/sb4001992",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "megawhop__10.2144+02335st03",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://www.tandfonline.com/doi/pdf/10.2144/02335st03",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "methyl-maps__10.1101+gr.101535.109",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC2892098.",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "multiplexed-ht-selex__10.1101+gr.100552.109",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://genome.cshlp.org/content/20/6/861.full.pdf",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "nagano-single-cell-hi-c__10.1038+nature12593",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nature12593",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nature12593-s1.pdf",
+          "url": "https://www.nature.com/nature/journal/v502/n7469/extref/nature12593-s1.pdf",
+          "bytes": "763938",
+          "md5": "804af673370784ca9ebabd5eb7c11f2e",
+          "what": "Nagano 2013 supplementary methods; why: Prints the twelve inline-tag adapter duplexes and both amplification primers with terminal modifications. (already on disk)",
+          "text_available": true
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "nebnext-enzymatic-methyl-seq-v2",
+      "prior_reason": "The inspected adapter/primer supplement is not a defining E8015 enzymatic-methylation chemistry guide. Original kit-version applicability must be checked before attributing development.",
+      "prior_blockers": [
+        {
+          "url": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale3390_e3392_e3400_e3402_e3404_e3406_e3408.pdf?hash=8EE0583AD7C279099AD42A4BED2E02C4&rev=5ff8b9feee654647afbf052dbfc87c36&sc_lang=en",
+          "reason": "The inspected adapter/primer supplement is not a defining E8015 enzymatic-methylation chemistry guide. Original kit-version applicability must be checked before attributing development."
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "manuale3390_e3392_e3400_e3402_e3404_e3406_e3408.pdf",
+          "url": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale3390_e3392_e3400_e3402_e3404_e3406_e3408.pdf?hash=8EE0583AD7C279099AD42A4BED2E02C4&rev=5ff8b9feee654647afbf052dbfc87c36&sc_lang=en",
+          "bytes": "1051112",
+          "md5": "cdaf97ab03bfcc8e63dba1e97048fb62",
+          "what": "NEB LV Unique Dual Index Primers official manual; why: Linked E8015 primer kits; prints expected index reads by well.",
+          "text_available": true
+        },
+        {
+          "file": "manuale8015.pdf",
+          "url": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale8015.pdf?hash=0B45AC60310F69EC62F2A2822FF857A2&rev=224af38f17a145749b296dab1c27cea0&sc_lang=en",
+          "bytes": "582928",
+          "md5": "7fcf7e4b23928253fad74eb4b677e146",
+          "what": "NEB E8015 official manual v2.0 July 2026; why: Current vendor original; compare its index-kit list with Fig. 1 caption and earlier cited revision.",
+          "text_available": true
+        }
+      ],
+      "finding": "defining_original_available",
+      "reason": "The exact E8015 chemistry manual is already present, separate from the E3390-family indexing-primer supplement. Overview118 describes v2 as an updated/streamlined original-EM-seq workflow, an actual attribution passage available for subsequent ancestry review.",
+      "inspected": [
+        {
+          "file": "manuale8015.pdf",
+          "url": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale8015.pdf?hash=0B45AC60310F69EC62F2A2822FF857A2&rev=224af38f17a145749b296dab1c27cea0&sc_lang=en",
+          "printed_identity": "NEBNext Enzymatic Methyl-seq v2 Kit NEB E8015S/L; Version2.0_7/26",
+          "locator": "manuale8015.pdf.txt Printedtitle/catalogue/version1-6; full protocol table-of-contents11; overview118-127 and library construction162+",
+          "availability": "cached original and text twin verified; identity/header and named body-section pointers inspected"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "recommended_action": "Reopen source-blocked ancestry record using this exact defining original/version. Availability correction alone is not a completed ancestry review and introduces no parent edge.",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "nested-patch-pcr__10.1101+gr.078204.108",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://genome.cshlp.org/content/18/11/1844",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "oxbs-seq__10.1126+science.1220671",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://www.science.org/doi/suppl/10.1126/science.1220671/suppl_file/booth-som.revision.1.pdf",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "22539555.pdf",
+          "url": "https://www.babraham.ac.uk/sites/default/files/media/files/22539555.pdf",
+          "bytes": "294721",
+          "md5": "938673681498c08fe4ad125a83a4ba4b",
+          "what": "Booth et al. 2012 original Science article, Babraham author-institution copy; why: Original defining article mirror found on author institution; generic DOI fetch did not discover it.",
+          "text_available": true
+        },
+        {
+          "file": "24008380.pdf",
+          "url": "https://www.babraham.ac.uk/sites/default/files/media/files/24008380.pdf",
+          "bytes": "617893",
+          "md5": "46adcb970d21f441c474bcd1d02a0e11",
+          "what": "Booth et al. later Nature Protocols oxBS-seq original, Babraham institutional copy; why: Detailed later protocol links exact original Science supplementary filename; distinguish from defining 2012 version.",
+          "text_available": true
+        },
+        {
+          "file": "PMC3919000_PMC3919000.xml",
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3919000.1/PMC3919000.1.xml",
+          "bytes": "99142",
+          "md5": "1fdd94459d4964f15cc88317088f9a05",
+          "what": "full-text JATS XML (PMC Cloud)",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_41596_2013_BFnprot2013115_MOESM11_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2013.115/MediaObjects/41596_2013_BFnprot2013115_MOESM11_ESM.pdf",
+          "bytes": "472340",
+          "md5": "87b8cafe2923d8f02a01efde2f1c37a8",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_41596_2013_BFnprot2013115_MOESM12_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2013.115/MediaObjects/41596_2013_BFnprot2013115_MOESM12_ESM.pdf",
+          "bytes": "395984",
+          "md5": "5a023c0fdff7bacd5da5515e4c7cbbe2",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_41596_2013_BFnprot2013115_MOESM13_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2013.115/MediaObjects/41596_2013_BFnprot2013115_MOESM13_ESM.pdf",
+          "bytes": "276933",
+          "md5": "1e1a63f08dc722e473b54176ffaca3ca",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_41596_2013_BFnprot2013115_MOESM14_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2013.115/MediaObjects/41596_2013_BFnprot2013115_MOESM14_ESM.pdf",
+          "bytes": "120658",
+          "md5": "8eba84af1e60e6f93346de564a8f2a3d",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_41596_2013_BFnprot2013115_MOESM15_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2013.115/MediaObjects/41596_2013_BFnprot2013115_MOESM15_ESM.pdf",
+          "bytes": "172194",
+          "md5": "f6346c2add96d4967b2c4bce5d480682",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_41596_2013_BFnprot2013115_MOESM16_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2013.115/MediaObjects/41596_2013_BFnprot2013115_MOESM16_ESM.pdf",
+          "bytes": "366480",
+          "md5": "3edf28bcd1a30b11afed6fafe6810fc6",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2013.115_PMC3919000.html",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3919000/",
+          "bytes": "206720",
+          "md5": "a74b7d47b6be020218b30d71d381434a",
+          "what": "PMC article page: full text",
+          "text_available": true
+        }
+      ],
+      "finding": "defining_original_available",
+      "reason": "The Babraham-hosted original published Science article is already present. Its first lines contain a preceding article tail, which must be excluded; own title/body/DOI establish the correct original.",
+      "inspected": [
+        {
+          "file": "22539555.pdf",
+          "url": "https://www.babraham.ac.uk/sites/default/files/media/files/22539555.pdf",
+          "printed_identity": "Booth etal2012 Science Quantitative Sequencing of5-Methylcytosine and5-Hydroxymethylcytosine at Single-Base Resolution; DOI10.1126/science.1220671",
+          "locator": "22539555.pdf.txt Own article title/abstract20-29; own articlebody oxidation114-141; own publicationdate/DOI765-778",
+          "availability": "cached original and text twin verified; identity/header and named body-section pointers inspected"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "recommended_action": "Reopen source-blocked ancestry record using this exact defining original/version. Availability correction alone is not a completed ancestry review and introduces no parent edge.",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "oxford-nanopore-rapid-sequencing-v14",
+      "prior_reason": "Selected about.html is platform/about content, not the exactSQK-RAD114 chemistry original; source-version/procedure applicability remains unresolved.",
+      "prior_blockers": [
+        {
+          "url": "https://epi2me.nanoporetech.com/about/",
+          "reason": "Selected about.html is platform/about content, not the exactSQK-RAD114 chemistry original; source-version/procedure applicability remains unresolved."
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "about.html",
+          "url": "https://epi2me.nanoporetech.com/about/",
+          "bytes": "80375",
+          "md5": "cc90bb2e0dc20cfd458f161543089454",
+          "what": "EPI2ME original application overview; why: Vendor Data Analysis links this downstream-analysis application source; inspect before source-scope exclusion.",
+          "text_available": true
+        },
+        {
+          "file": "bam.html",
+          "url": "https://software-docs.nanoporetech.com/output-specifications/latest/read_formats/bam/",
+          "bytes": "61696",
+          "md5": "ac5a9ef21db987a607f9455a094cc09a",
+          "what": "ONT original BAM output specification; why: Retrieved Output Specifications index names this read format; inspect kit, adapter and orientation metadata definitions.",
+          "text_available": true
+        },
+        {
+          "file": "basecall_overview.html",
+          "url": "https://software-docs.nanoporetech.com/dorado/latest/basecaller/basecall_overview/",
+          "bytes": "45064",
+          "md5": "01a761e06801923fcf91c2f83794367c",
+          "what": "Dorado original basecalling overview; why: Vendor Data Analysis links this read-processing source; inspect actual kit/readout scope.",
+          "text_available": true
+        },
+        {
+          "file": "chemistry-technical-document.html",
+          "url": "https://nanoporetech.com/document/chemistry-technical-document",
+          "bytes": "713850",
+          "md5": "d9a41bb5fddd2741032d881b41c5f465",
+          "what": "Oxford Nanopore chemistry technical document; why: Adapter, motor and pore-entry roles.",
+          "text_available": true
+        },
+        {
+          "file": "contaminants.html",
+          "url": "https://community.nanoporetech.com/contaminants",
+          "bytes": "66720",
+          "md5": "36401ae6070fe3b11631ce50bddbd7eb",
+          "what": "ONT original DNA contaminant-tolerance document; why: Input QC directly links this original; inspect actual source before judging molecular-library relevance.",
+          "text_available": true
+        },
+        {
+          "file": "data-analysis.html",
+          "url": "https://nanoporetech.com/document/data-analysis",
+          "bytes": "420944",
+          "md5": "f0e722aa74550a5ffc1a9fd9d95426f6",
+          "what": "ONT original data-analysis guide; why: Rapid protocol links basecalling and downstream analysis; verify sequence/readout scope.",
+          "text_available": true
+        },
+        {
+          "file": "dorado.html",
+          "url": "https://github.com/nanoporetech/dorado",
+          "bytes": "357839",
+          "md5": "df9c4b454c162e71100c5d10d7c38192",
+          "what": "ONT original Dorado repository entry and README; why: Vendor Data Analysis links this source; inspect actual read-processing and adapter-trimming instructions.",
+          "text_available": true
+        },
+        {
+          "file": "experiment-companion-minknow.html",
+          "url": "https://nanoporetech.com/document/experiment-companion-minknow",
+          "bytes": "1297015",
+          "md5": "3763849c5167f4c8d2da67af735bec36",
+          "what": "MinKNOW original experiment companion; why: Rapid protocol links sequencing acquisition/readout instructions; inspect source scope.",
+          "text_available": true
+        },
+        {
+          "file": "flow-cell-check.html",
+          "url": "https://nanoporetech.com/document/flow-cell-check",
+          "bytes": "387641",
+          "md5": "80ccabfc44ff2ce49179fd89f4c98707",
+          "what": "Flow Cell Check original; why: Rapid protocol explicitly links flow-cell checking; verify source scope before exclusion.",
+          "text_available": true
+        },
+        {
+          "file": "flow-cell-wash-kit-exp-wsh004-or-exp-wsh004-xl-know-how.html",
+          "url": "https://nanoporetech.com/document/requirements/flow-cell-wash-kit-exp-wsh004-or-exp-wsh004-xl-know-how",
+          "bytes": "374202",
+          "md5": "ea3d63426ea696ec057d87d0ccb7ea79",
+          "what": "ONT original Flow Cell Wash Kit know-how; why: Wash protocol names this source for mechanism/performance and reuse scope.",
+          "text_available": true
+        },
+        {
+          "file": "flow-cell-wash-kit-exp-wsh004.html",
+          "url": "https://nanoporetech.com/document/flow-cell-wash-kit-exp-wsh004",
+          "bytes": "530213",
+          "md5": "d4bcc4c2ac797158defd573b984ab393",
+          "what": "Flow Cell Wash Kit EXP-WSH004 original; why: Rapid protocol links reuse and nuclease-flush instructions; inspect actual reagent and source scope.",
+          "text_available": true
+        },
+        {
+          "file": "index.html",
+          "url": "https://software-docs.nanoporetech.com/dorado/latest/index.html",
+          "bytes": "63177",
+          "md5": "4d8ba25189919aa6d826c92ef1255a83",
+          "what": "Dorado original getting-started documentation; why: Equivalent explicit index of vendor-linked /dorado/latest/; distinct local filename from Output Specifications.",
+          "text_available": true
+        },
+        {
+          "file": "input-dna-rna-qc.html",
+          "url": "https://nanoporetech.com/document/input-dna-rna-qc",
+          "bytes": "398968",
+          "md5": "88a01b8d9a16597d5c6d26b1d9eeea10",
+          "what": "Input DNA and RNA quality-control original; why: Rapid protocol explicitly links this input-QC source; inspect relevance to declared library chemistry.",
+          "text_available": true
+        },
+        {
+          "file": "latest.html",
+          "url": "https://software-docs.nanoporetech.com/output-specifications/latest/",
+          "bytes": "23273",
+          "md5": "1f16fb8b683f3c625fac715e6eac64f5",
+          "what": "ONT original output specifications; why: Data Analysis and MinKNOW both name this source; inspect adapter/kit metadata and readout scope.",
+          "text_available": true
+        },
+        {
+          "file": "models.html",
+          "url": "https://software-docs.nanoporetech.com/dorado/latest/models/models/",
+          "bytes": "39568",
+          "md5": "4ec342a648c4fc4d7d28e540ae27fc5c",
+          "what": "Dorado original model names and chemistry documentation; why: MinKNOW directly links the understanding-model-names anchor; inspect chemistry/readout selection semantics.",
+          "text_available": true
+        },
+        {
+          "file": "mods.html",
+          "url": "https://software-docs.nanoporetech.com/dorado/latest/basecaller/mods/",
+          "bytes": "45565",
+          "md5": "4cc7d56dc3b33b5b426f2342bd1ec47c",
+          "what": "Dorado original modified-base documentation; why: Vendor Data Analysis directly links this original; assess readout rather than physical adapter-assembly scope.",
+          "text_available": true
+        },
+        {
+          "file": "pod5.html",
+          "url": "https://software-docs.nanoporetech.com/output-specifications/latest/read_formats/pod5/",
+          "bytes": "27051",
+          "md5": "1977b613ac4e548201379f2c789267f1",
+          "what": "ONT original POD5 output specification; why: Retrieved output/read-processing documents link the raw-signal format; inspect read-versus-molecule scope.",
+          "text_available": true
+        },
+        {
+          "file": "rapid-sequencing-dna-v14-pcr-barcoding-sqk-rpb114-24.html",
+          "url": "https://nanoporetech.com/document/rapid-sequencing-dna-v14-pcr-barcoding-sqk-rpb114-24",
+          "bytes": "696604",
+          "md5": "6fa53e7ae147eb8f3ae7033878ac8f5e",
+          "what": "ONT original Rapid PCR Barcoding V14 protocol linked by chemistry companion; why: Inspect actual distinct-kit scope before excluding its PCR/barcode recipe from unbarcoded RAD114.",
+          "text_available": true
+        },
+        {
+          "file": "rapid-sequencing-sqk-rad114.html",
+          "url": "https://nanoporetech.com/document/rapid-sequencing-sqk-rad114",
+          "bytes": "603544",
+          "md5": "75aaebe01b65e9b46a47afc681ce3434",
+          "what": "Oxford Nanopore Rapid Sequencing Kit V14 protocol; why: Primary commercial authority for SQK-RAD114 reaction order and kit components.",
+          "text_available": true
+        },
+        {
+          "file": "read_trimming.html",
+          "url": "https://software-docs.nanoporetech.com/dorado/latest/basecaller/read_trimming/",
+          "bytes": "52616",
+          "md5": "eb5dca9ad4bf9268f205ccb1b5fb4b3e",
+          "what": "Dorado original read-trimming documentation; why: Retrieved author Dorado README/basecall overview explicitly link adapter/primer detection and trimming; inspect actual Rapid readout semantics.",
+          "text_available": true
+        },
+        {
+          "file": "wfindex.html",
+          "url": "https://labs.epi2me.io/wfindex/",
+          "bytes": "110752",
+          "md5": "85921d64e5f628dc71016a75cb7b361a",
+          "what": "EPI2ME original workflow index; why: Vendor Data Analysis links this actual tools index; inspect readout/software scope without datasets.",
+          "text_available": true
+        }
+      ],
+      "finding": "defining_original_available",
+      "reason": "The exact vendor preparation protocol is already present; platform about.html was an inappropriate source selector. Keep this actual printed revision instead of silently substituting current exports.",
+      "inspected": [
+        {
+          "file": "rapid-sequencing-sqk-rad114.html",
+          "url": "https://nanoporetech.com/document/rapid-sequencing-sqk-rad114",
+          "printed_identity": "ONT Rapid Sequencing KitV14-gDNA SQK-RAD114; printed RSE_9177_v114_revQ_12Dec2025",
+          "locator": "rapid-sequencing-sqk-rad114.html.txt Kit/revision164/205/245; step-by-step purpose255-256; tagmentation274 and RapidAdapter attachment481-499",
+          "availability": "cached original and text twin verified; identity/header and named body-section pointers inspected"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "recommended_action": "Reopen source-blocked ancestry record using this exact defining original/version. Availability correction alone is not a completed ancestry review and introduces no parent edge.",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "pacbio-kinnex-full-length-rna",
+      "prior_reason": "Selected adapter barcode-set XML identifies index members, not Kinnex preparation history or reaction design; defining procedure needs inspection.",
+      "prior_blockers": [
+        {
+          "url": "https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-MAS_adapters/MAS-Seq_Adapter_v3/MAS-Seq_Adapter_v3.barcodeset.xml",
+          "reason": "Selected adapter barcode-set XML identifies index members, not Kinnex preparation history or reaction design; defining procedure needs inspection."
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "41587_2023_1815_MOESM1_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-023-01815-7/MediaObjects/41587_2023_1815_MOESM1_ESM.pdf",
+          "bytes": "7861017",
+          "md5": "6a7d18570c3f27f1d69c186c12e15da2",
+          "what": "Supplementary Information: original MAS-ISO-seq oligo Table1 and figures; why: Publisher-linked attachment to the MAS-Seq predecessor cited by the Kinnex application note; check exact component/version scope.",
+          "text_available": true
+        },
+        {
+          "file": "41587_2023_1815_MOESM2_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-023-01815-7/MediaObjects/41587_2023_1815_MOESM2_ESM.pdf",
+          "bytes": "58141",
+          "md5": "490c099df671103d2c0b052fa244b6bd",
+          "what": "Original MAS-ISO-seq reporting summary; why: Publisher-linked attachment to the MAS-Seq predecessor cited by the Kinnex application note; check exact component/version scope.",
+          "text_available": true
+        },
+        {
+          "file": "Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf",
+          "url": "https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf",
+          "bytes": "4093735",
+          "md5": "cca267db8c85cbb40c3d6a006dcf5760",
+          "what": "PacBio Kinnex full-length RNA application note Rev03; why: Linked directly from the official dataset README; check source scope for array assembly and index/primer information.",
+          "text_available": true
+        },
+        {
+          "file": "MAS-Seq_Adapter_v3.barcodeset.xml",
+          "url": "https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-MAS_adapters/MAS-Seq_Adapter_v3/MAS-Seq_Adapter_v3.barcodeset.xml",
+          "bytes": "1334",
+          "md5": "6ffe39e1d1a75dc67ab6d70d681a77a3",
+          "what": "PacBio Kinnex MAS-Seq v3 adapter barcode set; why: Official reference metadata linking the segmentation adapter FASTA.",
+          "text_available": true
+        },
+        {
+          "file": "PMC12236355_PMC12236355.xml",
+          "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12236355.1/PMC12236355.1.xml",
+          "bytes": "118616",
+          "md5": "dc269410ab6404d43c9df10fdfdc0404",
+          "what": "full-text JATS XML (PMC Cloud)",
+          "text_available": true
+        },
+        {
+          "file": "Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf",
+          "url": "https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf",
+          "bytes": "773702",
+          "md5": "3d1406f0395024feef12088c84a116f7",
+          "what": "PacBio Kinnex full-length RNA procedure; why: Primary commercial authority for concatenation, cleanup and SMRTbell preparation.",
+          "text_available": true
+        },
+        {
+          "file": "README.txt",
+          "url": "https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/README.txt",
+          "bytes": "6791",
+          "md5": "ccf5497655c93284faa033f6b2ab8f85",
+          "what": "PacBio Kinnex full-length RNA public dataset README; why: Official dataset inventory and linked references.",
+          "text_available": false
+        },
+        {
+          "file": "SMRT-Link-User-Guide-v13.1.pdf",
+          "url": "https://www.pacb.com/wp-content/uploads/SMRT-Link-User-Guide-v13.1.pdf",
+          "bytes": "3898176",
+          "md5": "f321980f47854f51d633ec844c68f504",
+          "what": "PacBio SMRT Link v13.1 user guide; why: Original analysis guide names the MAS8 default segmentation adapter FASTA and distinguishes primer/barcode reference sets.",
+          "text_available": true
+        },
+        {
+          "file": "multiplexing.html",
+          "url": "https://www.pacb.com/multiplexing/",
+          "bytes": "360331",
+          "md5": "0a87315f41a8cc568a1ce0820b107113",
+          "what": "PacBio multiplexing resource page; why: Official Kinnex kit-to-FASTAs mapping and clarification that concatenation segments are not sample indexes.",
+          "text_available": true
+        }
+      ],
+      "finding": "defining_original_available",
+      "reason": "The defining commercial preparation procedure is already present, not just the adapter barcode-set XML. Its printed2026 revision provides a bounded reviewable kit chemistry source; it is not evidence of earlier kit revisions.",
+      "inspected": [
+        {
+          "file": "Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf",
+          "url": "https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf",
+          "printed_identity": "Preparing Kinnex libraries using the Kinnex full-length RNA kit;103-238-700REV09AUG2026",
+          "locator": "Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf.txt Title/purpose1-10; printedrevision36-37; workflow42-56 and cDNA synthesis213+",
+          "availability": "cached original and text twin verified; identity/header and named body-section pointers inspected"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "recommended_action": "Reopen source-blocked ancestry record using this exact defining original/version. Availability correction alone is not a completed ancestry review and introduces no parent edge.",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "pare__10.1038+nbt1417",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nbt1417",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nbt1417_41587_2008_BFnbt1417_MOESM9_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt1417/MediaObjects/41587_2008_BFnbt1417_MOESM9_ESM.pdf",
+          "bytes": "1901742",
+          "md5": "5ccf37820646ce44c1f89a4003af3799",
+          "what": "Springer supplementary file",
+          "text_available": true
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "pipe__10.1002+prot.21786",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://is.muni.cz/el/1431/jaro2010/Bi8980/um/IV.ChapterCloning4.pdf",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "quikchange-ii-site-directed-mutagenesis",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://www.agilent.com/cs/library/usermanuals/public/200523.pdf",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "rca-gip__10.1007+s10529-009-0128-9",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://pubmed.ncbi.nlm.nih.gov/19760115/",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "site-seq__10.1038+nmeth.4284",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.4284",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nmeth.4284_41592_2017_BFnmeth4284_MOESM85_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4284/MediaObjects/41592_2017_BFnmeth4284_MOESM85_ESM.pdf",
+          "bytes": "811529",
+          "md5": "f960dff2f4ca4a2e3214870297240c84",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nmeth.4284_41592_2017_BFnmeth4284_MOESM94_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4284/MediaObjects/41592_2017_BFnmeth4284_MOESM94_ESM.pdf",
+          "bytes": "1283319",
+          "md5": "141d1d9effd4ac2cf722a9246e167642",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nmeth.4284_41592_2017_BFnmeth4284_MOESM95_ESM.txt",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4284/MediaObjects/41592_2017_BFnmeth4284_MOESM95_ESM.txt",
+          "bytes": "9153",
+          "md5": "e42329d4ff842ffbff7795bb0463a51e",
+          "what": "Springer supplementary file",
+          "text_available": false
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "soe-pcr__10.1016+0378-1119(89)90359-4",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1016/0378-1119(89)90359-4",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "spidr__10.1016+j.cell.2025.06.042",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2025.06.042",
+          "reason": "Source manifest unavailable"
+        }
+      ],
+      "manifest_status": "absent_or_empty",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "traps-seq__10.1038+s41592-023-01841-y",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://www.biorxiv.org/content/10.1101/2021.12.19.473400v1.supplementary-material",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "s41592-023-01841-y_41592_2023_1841_MOESM1_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-023-01841-y/MediaObjects/41592_2023_1841_MOESM1_ESM.pdf",
+          "bytes": "2138182",
+          "md5": "c6d839b7cc92b5c05681be63ad526323",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "s41592-023-01841-y_41592_2023_1841_MOESM2_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-023-01841-y/MediaObjects/41592_2023_1841_MOESM2_ESM.pdf",
+          "bytes": "2637654",
+          "md5": "1c897518673ae88f3fa2370f25c28295",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "s41592-023-01841-y_41592_2023_1841_MOESM3_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-023-01841-y/MediaObjects/41592_2023_1841_MOESM3_ESM.pdf",
+          "bytes": "4606775",
+          "md5": "2bd79ae495c8fd6a5b5a85c84b666b27",
+          "what": "Springer supplementary file",
+          "text_available": true
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "trip__10.1038+nprot.2014.072",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nprot.2014.072",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nprot.2014.072_41596_2014_BFnprot2014072_MOESM448_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM448_ESM.pdf",
+          "bytes": "635051",
+          "md5": "e6cd9d89f9e327b52323b9decb0e7ca6",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2014.072_41596_2014_BFnprot2014072_MOESM449_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM449_ESM.pdf",
+          "bytes": "198513",
+          "md5": "4af62072742c7af8c8b9e6c5c575d72a",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2014.072_41596_2014_BFnprot2014072_MOESM450_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM450_ESM.pdf",
+          "bytes": "193161",
+          "md5": "d034161b62ccac54f1bb5cd4f0451185",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2014.072_41596_2014_BFnprot2014072_MOESM451_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM451_ESM.pdf",
+          "bytes": "78203",
+          "md5": "d85b46638e6d3a1c1bd11940f191c326",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nprot.2014.072_41596_2014_BFnprot2014072_MOESM452_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM452_ESM.pdf",
+          "bytes": "92165",
+          "md5": "e11fa4ae1d802cf9084373409c5eecd1",
+          "what": "Springer supplementary file",
+          "text_available": true
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "truseq-dna-pcr-free",
+      "prior_reason": "Available adapter-sequence compendium does not by itself establish PCR-free kit development/history; exact defining kit guide needs inspection.",
+      "prior_blockers": [
+        {
+          "url": "https://support-docs.illumina.com/SHARE/AdapterSequences/1000000002694_22_ilmn-adapter-sequences.pdf",
+          "reason": "Available adapter-sequence compendium does not by itself establish PCR-free kit development/history; exact defining kit guide needs inspection."
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "illumina_1000000002694_22_ilmn-adapter-sequences.pdf",
+          "url": "https://support-docs.illumina.com/SHARE/AdapterSequences/1000000002694_22_ilmn-adapter-sequences.pdf",
+          "bytes": "600886",
+          "md5": "a02253fc76ff8890ee3630acfb1bb8ef",
+          "what": "Illumina Adapter Sequences 1000000002694 v22; why: Canonical public TruSeq adapter and sequencing-primer sequences.",
+          "text_available": true
+        },
+        {
+          "file": "illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf",
+          "url": "https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-dna-pcr-free-workflow/truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf",
+          "bytes": "997016",
+          "md5": "816296f601b8492bdd87bd81d41a3ae5",
+          "what": "TruSeq DNA PCR-Free Reference Guide 1000000039279 v00; why: Authoritative commercial reaction order and conditions.",
+          "text_available": true
+        }
+      ],
+      "finding": "defining_original_available",
+      "reason": "The kit reference guide is already manifested alongside the broad adapter-sequence compendium. Its exact2017 kit procedure is available for a bounded ancestry assessment.",
+      "inspected": [
+        {
+          "file": "illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf",
+          "url": "https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-dna-pcr-free-workflow/truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf",
+          "printed_identity": "Illumina TruSeq DNA PCR-Free ReferenceGuide;Document1000000039279v00October2017",
+          "locator": "illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt Title/document/date1-5; Chapter2Protocol53+; LigateAdapters entry64",
+          "availability": "cached original and text twin verified; identity/header and named body-section pointers inspected"
+        }
+      ],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "recommended_action": "Reopen source-blocked ancestry record using this exact defining original/version. Availability correction alone is not a completed ancestry review and introduces no parent edge.",
+      "scraper": "Mandatory bundle scrape completed successfully; hit/modification context inspected for availability-checked originals; no sequence or absence claim.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "ucaps-seq__10.1021+jacs.1c11269",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://pdfs.semanticscholar.org/a0a6/41d33e2b54c072508c07b706a945868f7ba2.pdf",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    },
+    {
+      "protocol": "umi-4c__10.1038+nmeth.3922",
+      "prior_reason": "A defining original with verified applicability was not available for this bounded source reading; no formal predecessor assignment made.",
+      "prior_blockers": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.3922",
+          "reason": "No available defining primary article/manual text twin in manifested originals; no preprint substitution"
+        }
+      ],
+      "manifest_status": "available",
+      "available_manifested_originals": [
+        {
+          "file": "nmeth.3922_41592_2016_BFnmeth3922_MOESM330_ESM.pdf",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3922/MediaObjects/41592_2016_BFnmeth3922_MOESM330_ESM.pdf",
+          "bytes": "17681297",
+          "md5": "739e56f8eb8bd38165e15ca60942938b",
+          "what": "Springer supplementary file",
+          "text_available": true
+        },
+        {
+          "file": "nmeth.3922_41592_2016_BFnmeth3922_MOESM331_ESM_umi4c-usage.html",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3922/MediaObjects/41592_2016_BFnmeth3922_MOESM331_ESM.zip#umi4c-usage.html",
+          "bytes": "1325306",
+          "md5": "8d4493072cb0a78df7583c8f864d3226",
+          "what": "Springer supplementary file (from the zip)",
+          "text_available": true
+        }
+      ],
+      "finding": "block_retained",
+      "reason": "No defining main original with verified printed identity located in this bounded manifest/file availability check. Available supplements, if listed, do not establish that the missing main article is available.",
+      "inspected": [],
+      "limits": "Availability/identity audit only, no whole-chemistry or source-absence conclusion; no network retrieval, fetcher expansion, predecessor assignment or central edits.",
+      "reviewed": "2026-11-02",
+      "scraper": "No article-body reading performed: manifest/file availability check only.",
+      "unmanifested_original_check": "No additional unmanifested PDF/XML/DOCX originals were found in this protocol source directory. Genuine vendor PDF originals under upstream_ prefixes were also checked by manifest; none added to this audit."
+    }
+  ],
+  "summary": {
+    "assigned_source_blocks": 31,
+    "defining_original_available": 6,
+    "partial_original_available_block_retained": 2,
+    "block_retained": 23,
+    "network_requests": 0,
+    "central_or_worker_A_edits": 0,
+    "source_absence_claims": 0,
+    "proposed_ancestors": 0
+  },
+  "scraper_scope": "Eight bundles with actual original identity/body-pointer reading were scanned using tools/scrape_primers.py --max-hits3; all returned0. Logs are temporary /tmp/ancestry-a-block-audit-scans. Scraper output is discovery only; it does not prove presence/absence of a reaction or source disclosure."
+}

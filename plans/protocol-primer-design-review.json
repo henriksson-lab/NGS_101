@@ -1,12 +1,16 @@
 {
-  "date": "2026-11-01",
+  "date": "2026-11-02",
   "scope": "Systematic declaration inventory and bounded source-qualified handoffs. This is not a human-content review of every protocol page or an absence audit.",
-  "candidate_inputs": 47,
+  "candidate_inputs": 98,
   "completed": [
     "Spatial VDJ primer-design walkthrough and exact Visium CG000239 Rev A intermediate import, including fixed-site checks.",
     "Separate source-owned Visium Rev A and Rev F exports; no revision equivalence assumed.",
-    "Published-source input links for GoT 3′ v2 recovered first-strand cDNA, RAGE-seq 3′ v2 amplified cDNA and MAESTER 3′ v3 amplified cDNA.",
-    "Version/stage/signature/primer-site checks, cycle detection, public upstream links and offline inventory tool."
+    "Source-qualified input links (with accepted manuscripts explicitly identified) for GoT 3′ v2 recovered first-strand cDNA, RAGE-seq 3′ v2 amplified cDNA and MAESTER 3′ v3 amplified cDNA.",
+    "Version/stage/signature/primer-site checks, cycle detection, public upstream links and offline inventory tool.",
+    "All98 inventoried input candidates have source-qualified role/link dispositions or explicit source blockers; four no-unique-graph assays reviewed manually.",
+    "Curated16 additional documented component/method relationships in the existing full/local lineage graph.",
+    "Linked original Perturb-seq WTA to original Chromium, and DASH input to Ovationv2 with intervening Nextera preparation explicit.",
+    "Corrected GoT/MAESTER accepted-manuscript provenance, tightened DNBSEQ input compatibility, and improved selected primer/delegated-component explanations."
   ],
   "remaining": [
     {
@@ -17,7 +21,7 @@
     },
     {
       "task": "Bind exact historical Chromium exports for the three qualified source-named links.",
-      "state": "needs_source_version_check",
+      "state": "deferred_after_bounded_input_review",
       "limitation": "A platform name does not establish an exact guide revision or first-strand/amplified-stage identity. Current links do not import molecular state."
     },
     {
@@ -27,297 +31,903 @@
     },
     {
       "task": "Review private/notes-only enrichment and library-conversion protocols, starting with DASH/MAD-DASH.",
-      "state": "outside_public_inventory",
+      "state": "deferred_after_bounded_input_review",
       "limitation": "The inventory scans public schematic declarations; it cannot establish coverage of private partial models."
     },
     {
       "task": "Continue page-level reconstruction reviews in bounded batches.",
-      "state": "pending",
-      "limitation": "505 declarations scanned does not mean 505 reader-facing pages were reviewed. Prioritize primer binding portions, tails, modifications, inherited identifiers and readout."
+      "state": "broader_followup_outside_completed_input_round",
+      "limitation": "The finite98-input ledger and four assay exceptions were reviewed. This does not constitute a reconstruction review of all501 graph pages; those remain separate bounded page-level rounds."
+    },
+    {
+      "task": "Obtain defining full Methods for source-blocked input-role reviews.",
+      "state": "blocked_on_source",
+      "locator": "TCP-seq cdna_supplies and Rapture other_plates in full-round ledger.",
+      "limitation": "Current source previews/manual retrieval rows cannot establish the complete input/pooling procedure. No confirmed absence claim."
     }
   ],
   "candidate_triage": [
     {
+      "scope": "public",
       "protocol": "arm-seq__10.1038+nmeth.3508",
       "material": "treated_kit_reagents",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "NEBNext Small RNA supplies convert the protocol's treated/control RNA into libraries; these graph inputs are reagent inventories, not prebuilt external libraries.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "arm-seq__10.1038+nmeth.3508",
       "material": "control_kit_reagents",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "NEBNext Small RNA supplies convert the protocol's treated/control RNA into libraries; these graph inputs are reagent inventories, not prebuilt external libraries.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066",
       "material": "viral_template",
       "disposition": "biological_or_unassigned_template",
-      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+      "review_status": "reviewed",
+      "rationale": "The viral template is extracted DNA or locally reverse-transcribed RNA. It is a biological template boundary, not an NGS library from another protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "cel-seq2__10.1186+s13059-016-0938-8",
       "material": "peer_wells",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Per-cell cDNA comes from sibling wells of the selected tube workflow; an independently named protocol is not the producer. C1 pooling happens at another stage and is not substituted.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "cel-seq__10.1016+j.celrep.2012.08.003",
       "material": "peer_wells",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The detailed 2012 protocol explicitly pools cells for the same IVT; peer cDNA inputs are local siblings of the same preparation.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "clippr-seq__10.1093+nar+gkae058",
       "material": "clippr_kit_inventory",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "Collibri supplies make separate CLiPP and CLiPPR libraries from treated/untreated RNA. They are kit components, not existing DNA-library inputs.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "clippr-seq__10.1093+nar+gkae058",
       "material": "clipp_kit_inventory",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "Collibri supplies make separate CLiPP and CLiPPR libraries from treated/untreated RNA. They are kit components, not existing DNA-library inputs.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "cola-seq__10.1016+j.molcel.2022.11.004",
       "material": "cells",
       "disposition": "biological_or_unassigned_template",
-      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+      "review_status": "reviewed",
+      "rationale": "RNA from 200 million K562 cells is the biological source. The phrase library cohort does not make the cells an upstream sequencing library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "damage-seq__10.1073+pnas.1614430113",
       "material": "pcr_mix",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "The local PCR mixture is a reagent supply added after local adapter processing. This candidate does not denote an imported prepared library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "dnbseq-library-circularization",
       "material": "indexed_library",
-      "disposition": "caller_selected_library",
-      "rationale": "Generic adapter-bearing indexed library input has no uniquely named producer. A future caller-selected protocol/revision may bind it explicitly."
+      "disposition": "reviewed_caller_selected_input",
+      "review_status": "reviewed",
+      "rationale": "Tightened graph input to MGI DuplexUMI/UDB or MGI dual-barcode standard PCR product; structured input-class/strandedness/single-barcode exclusion. No unique producer is named.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     },
     {
+      "scope": "public",
       "protocol": "fastgro__10.1016+j.celrep.2020.108373",
       "material": "library_supplies",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "NEBNext Ultra II kit and index supplies convert locally recovered RNA into a sequencing library; the inventory is not a prebuilt library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "got__10.1038+s41586-019-1367-0",
       "material": "first_cdna",
-      "disposition": "source_named_handoff",
-      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Retained Chromium3primev2 recovered-first-strand source link; corrected associated-manuscript provenance and final-version limitation.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     },
     {
+      "scope": "public",
       "protocol": "hyden-seq__10.1038+nsmb.2957",
       "material": "other_library_stocks",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Locally amplified HydEn libraries are pooled for sequencing. Other library stocks are unassigned pool members; no distinct producer method is established by this pooling statement.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "hydrapsiseq__10.1093+nar+gkaa769",
       "material": "other_libraries",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Libraries made by this route are multiplexed for HiSeq1000. The other-library input is pool context, not a source-identified different protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "iclip__10.1038+nsmb.1838",
       "material": "cdna_glycoblue",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "GlycoBlue is explicitly a precipitation carrier added to local cDNA, not a supplied cDNA molecule or another method's output.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "libra-seq__10.1016+j.cell.2019.11.003",
       "material": "polymerase",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "The input is aggregate amplification supplies within the local antigen-reporter library route. CITE-seq ancestry is separately source-named; the kit supply is not a prepared CITE-seq library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "limca__10.1038+s41592-024-02239-0",
       "material": "dna_others",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The DNA/cDNA branches are prepared per cell and pooled locally. Other independently indexed nuclear libraries are peer preparations; atlas/reference data are analytical, not physical substrates.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "m6a-sac-seq__10.1038+s41587-022-01243-z",
       "material": "rna",
       "disposition": "biological_or_unassigned_template",
-      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+      "review_status": "reviewed",
+      "rationale": "The FTO-minus input is an independently prepared RNA control, with poly(A)+ or rRNA-depleted RNA. It is not a previously sequenced or adapter-bearing external library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "maester__10.1038+s41587-022-01210-8",
       "material": "cdna",
-      "disposition": "source_named_handoff",
-      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Retained Chromium3primev3 full-length WTA input link; corrected associated-manuscript provenance.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     },
     {
+      "scope": "public",
       "protocol": "mcscrb-seq__10.1038+s41467-018-05347-6",
       "material": "peer_wells",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Barcoded cDNA from the other wells is pooled within mcSCRB-seq itself. SCRB-seq is ancestry, not a prebuilt physical input to this pool.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "nextera-xt-dna-library-prep",
       "material": "dna",
       "disposition": "biological_or_unassigned_template",
-      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+      "review_status": "reviewed",
+      "rationale": "The selected input is1ng genomic DNA for this kit. It is neither an imported NGS library nor authority for the separate amplicon input branch.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "nick-seq__10.1093+nar+gkaa473",
       "material": "nt_matched_control",
-      "disposition": "control_preparation",
-      "rationale": "Locally prepared control/spike, not an established separate catalogue-protocol handoff. Source-specific preparation remains local."
+      "disposition": "local_control_preparation",
+      "review_status": "reviewed",
+      "rationale": "Matching negative-control PCR products are explicitly combined with each experimental preparation. They are locally prepared matched controls, not a source-named external protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "nick-seq__10.1093+nar+gkaa473",
       "material": "tdt_matched_control",
-      "disposition": "control_preparation",
-      "rationale": "Locally prepared control/spike, not an established separate catalogue-protocol handoff. Source-specific preparation remains local."
+      "disposition": "local_control_preparation",
+      "review_status": "reviewed",
+      "rationale": "Matching negative-control PCR products are explicitly combined with each experimental preparation. They are locally prepared matched controls, not a source-named external protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "picoplex-dna-seq",
       "material": "other_libraries",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The manual combines equal aliquots of separately indexed PicoPLEX DNA-seq libraries from the same workflow. Other libraries are local pool peers.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "point__10.1016+j.molcel.2021.02.034",
       "material": "kit_reagents",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "The NEBNext Ultra II kit is the finishing reagent collection for locally purified RNA. It is not an imported library substrate.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
       "material": "library_mix_bulk",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "The library-PCR mixture is freshly assembled reagent supply. Separately prepared PCR products are pooled after local amplification; the text does not identify a distinct producer protocol for those pool members.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
       "material": "other_pcr_contributions",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The library-PCR mixture is freshly assembled reagent supply. Separately prepared PCR products are pooled after local amplification; the text does not identify a distinct producer protocol for those pool members.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "r2c2__10.1073+pnas.1806447115",
       "material": "indexed_cdna",
-      "disposition": "producer_not_in_catalogue",
-      "rationale": "Input is named Tn5Prime indexed SIRV E2 full-length cDNA. No exact Tn5Prime producer page is registered; do not substitute SMART-seq2."
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Retained Tn5Prime original source link and pre-tagmentation SIRV input scope; generic SMARTseq2/10x/Dropseq compatibility discussion is not actual input provenance.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     },
     {
+      "scope": "public",
       "protocol": "rage-seq__10.1038+s41467-019-11049-4",
       "material": "cdna",
-      "disposition": "source_named_handoff",
-      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Retained Chromium3primev2 full-length cDNA source link with two extra source-specific PCR cycles.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     },
     {
+      "scope": "public",
       "protocol": "ribose-seq__10.1038+nmeth.3259",
       "material": "other_libraries",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Locally indexed libraries are mixed equimolarly and normalized before MiSeq. Pool membership is not a cross-protocol material-inheritance claim.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "sci-atac-seq-2018__10.1038+nature25981",
       "material": "round1_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Round1 wells are pooled and nuclei are redistributed for the next index round within the same adapted sci-ATAC workflow. Ancestry from2015 does not turn sibling nuclei into imported finished libraries.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "sci-atac-seq__10.1126+science.aab1601",
       "material": "round1_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Nuclei tagged in first-round wells are pooled and redistributed within this method. The round1 peer input is local combinatorial-index context.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "scifi-rna-seq__10.1101+2019.12.17.879304",
       "material": "peer_wells",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Preindexed cDNA remains inside cells/nuclei that are pooled and loaded into droplets within scifi-RNA-seq. Other RT wells are sibling preparations, not an external library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "sciplex-atac-seq__10.1186+s12864-023-09832-1",
       "material": "pcrwell_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "PCR-amplified products from each well are pooled in the local two-level sciPlex-ATAC procedure. The earlier bioRxiv record is superseded and excluded from current chemistry/evidence.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "scrb-seq__10.1101+003236",
       "material": "peer_wells",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The source pools cDNA from384 wells, cleans it and amplifies it. These are sibling SCRB preparations, not a pre-existing library from nanoCAGE or mcSCRB-seq.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "scsnv-seq__10.1186+s13059-024-03169-y",
       "material": "expanded",
       "disposition": "biological_or_unassigned_template",
-      "rationale": "Text-selected label does not establish another protocol as producer; retain local input until positive source evidence identifies one."
+      "review_status": "reviewed",
+      "rationale": "The expanded population has already undergone lentiviral guide/barcode integration and doxycycline-induced editing. It is a biological cell population entering later assays, not an NGS library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "spatial-vdj__10.1126+science.adf8486",
       "material": "source",
-      "disposition": "validated_handoff",
-      "rationale": "Located published source inspected; see molecular import or qualified input-origin declaration in protocol module."
+      "disposition": "reviewed_material_import",
+      "review_status": "reviewed",
+      "rationale": "Retained exact source-owned CG000239RevA full-length cDNA import; final article explicitly cites that revision and pre-enrichment input.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     },
     {
+      "scope": "public",
       "protocol": "strt-c1__10.1038+nmeth.2772",
       "material": "pooled_tagged_cdna_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Each chamber's local tagged cDNA library is pooled after tagmentation. The source-described original STRT method establishes ancestry, not external chamber-library supply.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "strt-seq-2i__10.1038+s41598-017-16546-4",
       "material": "subarray_pool_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Dual-indexed subarrays are produced and pooled within STRT-seq-2i. Neither sibling subarrays nor their pool is a separately named upstream NGS protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "strt-seq__10.1101+gr.110882.110",
       "material": "pooled_cdna_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The96 per-cell first-strand reactions are pooled and amplified within original STRT. Other cDNA wells are sibling preparations.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "sureplex",
       "material": "pool_context",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Equal volumes of normalized libraries from the same SurePlex/VeriSeq workflow are pooled. The pool-context input does not establish another producer method.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "sureselect-xt-hs2-dna",
       "material": "other_indexed_libraries",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Pre-capture pooling takes separately indexed HS2 libraries produced by the same workflow. Distinct sample indexes do not imply a distinct upstream protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "target-seq__10.1016+j.molcel.2019.01.009",
       "material": "tx_peers",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "The source prepares and pools barcoded per-cell transcriptome material in the TARGET-seq route. Other transcriptome contributions are sibling preparations; SMART-seq2 is component ancestry, not imported material.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "tcp-seq__10.1038+nature18647",
       "material": "cdna_supplies",
-      "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "disposition": "supplies_declaration_source_blocked",
+      "review_status": "blocked",
+      "rationale": "The graph label denotes cDNA/library reagent supplies, but the defining full Methods remains inaccessible in this bundle. Retain a source-blocked classification rather than treating the preview or recovered tables as a complete original.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "time-seq__10.1038+s43587-023-00555-2",
       "material": "lambda_spike",
-      "disposition": "control_preparation",
-      "rationale": "Locally prepared control/spike, not an established separate catalogue-protocol handoff. Source-specific preparation remains local."
+      "disposition": "local_control_preparation",
+      "review_status": "reviewed",
+      "rationale": "100ng unmethylated lambda phage DNA is tagmented with each pool to measure conversion efficiency. It is a local spike/control preparation, not a borrowed NGS library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "tla__10.1038+nbt.2959",
       "material": "ngs_prep",
       "disposition": "supplies_not_prepared_library",
-      "rationale": "Label describes reagent/kit supplies, not a prepared molecular library input. Does not establish cross-protocol inheritance."
+      "review_status": "reviewed",
+      "rationale": "The source sends local inverse-PCR products to manufacturer Illumina library preparation. The input candidate is unassigned finishing reagents, not an already made external library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
     },
     {
+      "scope": "public",
       "protocol": "tri-c__10.1038+s41588-018-0253-2",
       "material": "other_indexed_libraries",
-      "disposition": "pool_or_peer_preparation",
-      "rationale": "Other wells/libraries or pooled peers are locally named inputs. A distinct upstream protocol is not established by pooling alone."
+      "disposition": "local_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Independently indexed Tri-C replicates are pooled locally before viewpoint capture. Other indexed libraries are sibling preparations; their pool does not establish a new upstream protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "ap-seq__10.1186+s13059-018-1582-2",
+      "material": "kapa",
+      "disposition": "local_library_reagent",
+      "review_status": "reviewed",
+      "rationale": "KAPA KK8504 is a fresh downstream kit contribution to the locally enriched DNA, not a prepared library supplied by another protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "bubble-seq__10.1101+gr.155218.113",
+      "material": "genomic",
+      "disposition": "raw_genomic_template",
+      "review_status": "reviewed",
+      "rationale": "The source starts origin preparations from cellular/genomic RI material. The adjacent cDNA procedure is a separate assay, not an upstream library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "bubble-seq__10.1101+gr.155218.113",
+      "material": "ngs_reagents",
+      "disposition": "local_library_reagents_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "This is an unassembled local origin-library NGS continuation. Exact Supplemental Methods and directly cited RI originals remain unreviewed; no supplier-matching library is imported.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "cc-seq__10.1038+s41467-019-12802-5",
+      "material": "other_library_aliquots",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "Additional locally prepared CC-seq libraries are multiplexing contributions, not an established separate upstream protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "claps-seq__10.1093+nar+gkab1022",
+      "material": "other_qualified_aliquots",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "Qualified libraries are prepared locally and pooled after production PCR. Separate genomic-input libraries are a control branch, not CLAPS input.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "crispr-ds__10.1101+gr.235291.118",
+      "material": "other_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "The source quantifies and pools completed sample libraries before sequencing; no separate preparation method is identified by this pool input.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "tagmented_cdna",
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Added Ovationv2 source-named input link with intervening Nextera partial-adapter preparation explicit; no Ovation-only product substitution.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "kapa",
+      "disposition": "reviewed_reagent_false_positive",
+      "review_status": "reviewed",
+      "rationale": "Actual KAPA amplification catalyst, not a prepared library or predecessor protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "other_libraries",
+      "disposition": "reviewed_peer_pool",
+      "review_status": "reviewed",
+      "rationale": "Separate quantified libraries in actual sequencing pool; source does not establish a distinct producer protocol for every member.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dna-circle-sequencing__10.1073+pnas.1319590110",
+      "material": "downstream_stock",
+      "disposition": "local_library_reagents_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "Circle sequencing precedes standard sequencing-library preparation; the aggregate stock denotes that downstream conversion, with its exact detailed SI still unreviewed.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dnase-hi-c__10.1038+nmeth.3205",
+      "material": "forward",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "The input is an amplification primer species for the locally assembled DNase Hi-C library; its library-related label does not denote prepared input DNA.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "espan__10.1016+j.molcel.2014.09.017",
+      "material": "meyer_method",
+      "disposition": "reviewed_delegated_component",
+      "review_status": "reviewed",
+      "rationale": "meyer_method is a condition for a downstream ssDNA-library operation after locally produced nascent ssDNA, not an external prepared-library input. Added original DOI link in private preview.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "excision-seq__10.1101+gr.174052.114",
+      "material": "post_pcr_recipe",
+      "disposition": "local_library_reagents_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "The aggregate contribution belongs to local amplification/workup; source detailed library construction is delegated to the unreviewed Supplemental Methods.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "g4rp-seq__10.1038+s41467-018-07224-8",
+      "material": "truseq",
+      "disposition": "local_library_reagent",
+      "review_status": "reviewed",
+      "rationale": "The source adds a historical TruSeq RNA kit to extracted G4RP RNA. A kit name does not identify an inherited library or exact revision.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "gbs__10.1371+journal.pone.0019379",
+      "material": "dna",
+      "disposition": "raw_genomic_template",
+      "review_status": "reviewed",
+      "rationale": "CTAB-extracted plant genomic DNA is the biological sample, not a sequencing library supplied by another catalogue method.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "lam-htgts__10.1038+nbt.3101",
+      "material": "p5",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "P5 is a final PCR primer stock; source Methods105/107 describes its role in reconstructing sequencing tags on local HTGTS products.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "lam-htgts__10.1038+nbt.3101",
+      "material": "p7",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "P7 is the paired final PCR primer stock, not a prepared input library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "lm-seq__10.1038+srep09570",
+      "material": "other_indexed_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "Indexed RNA-derived libraries are prepared locally and pooled for HiSeq2500; pool membership is not a producer-method claim.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "m1a-seq__10.1038+nature16998",
+      "material": "kit",
+      "disposition": "local_library_reagent",
+      "review_status": "reviewed",
+      "rationale": "Historical NEBNext Ultra RNA reagent contribution follows local immunocapture/input processing. Exact reagent revision remains unverified, without state inheritance.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "m6a-label-seq__10.1038+s41589-020-0526-9",
+      "material": "",
+      "disposition": "local_library_reagents_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "This nonliteral-ID input is an aggregate RT/library reagent contribution in the private branches. Published SI Figure4 supports the local RT/library boundary; full core Methods remain unavailable in the cached main preview.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "m6a-orl-seq__10.1039+d2sc03181g",
+      "material": "qpcr_forward",
+      "disposition": "analytical_primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "FP-Library-qPCR is an analytical qPCR primer stock for cycle selection, not an upstream library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "m6a-orl-seq__10.1039+d2sc03181g",
+      "material": "qpcr_reverse",
+      "disposition": "analytical_primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "RP-Library-qPCR is the paired analytical primer stock; source TableS1/section10e separates cycle selection from section10f preparative PCR.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "mad-dash__10.1093+nar+gkz425",
+      "material": "other_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "The source locally constructs each small-RNA library and pools quantified completed preparations. This does not import another protocol library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "maestro__10.1038+s41551-022-00855-9",
+      "material": "other_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "Quantified final captured products are pooled for sequencing; conventional-capture comparisons are separately described, not producer assignments for this input.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "material": "rt_primer",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "rTd is the adaptor-complementary RT primer stock added during local library production.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "material": "pcr_f",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "Library PCR F is an amplification primer stock; the source locally ligates adapters and prepares the cDNA substrate.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "material": "pcr_r",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "Library PCR R is the paired amplification primer stock, not an external molecular library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "meta-cs__10.1073+pnas.2013106118",
+      "material": "other_cells",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "Independent single-cell libraries prepared by the same META-CS route are pooled before fragment-size selections.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "migs__10.1093+nar+gkp992",
+      "material": "kit_oligos",
+      "disposition": "local_library_reagent",
+      "review_status": "reviewed",
+      "rationale": "Historical Illumina ChIP-Seq kit oligo classes contribute to locally captured MBD DNA. Exact kit internals are not inherited from another protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "material": "tenx",
+      "disposition": "reviewed_delegated_component",
+      "review_status": "reviewed",
+      "rationale": "tenx is a delegated capture/RT condition inside the workflow; labeled cells produce post_rt locally. Added source-qualified Chromiumv2 reference link in private preview.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "material": "rpi",
+      "disposition": "reviewed_primer_false_positive",
+      "review_status": "reviewed",
+      "rationale": "TruSeqRPIX is an actual library-PCR primer, not another prepared-library input; the6base sample index remains unassigned.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "niche-seq__10.1126+science.aao4277",
+      "material": "mars_stocks",
+      "disposition": "reviewed_delegated_component",
+      "review_status": "reviewed",
+      "rationale": "mars_stocks are supplies for MARSseq after locally selected niche cells, not a prebuilt library input. Notes link original Jaitin2014 MARSseq, not MARSseq2.0.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "nscr__10.1101+gr.176099.114",
+      "material": "handoff_condition",
+      "disposition": "local_library_continuation_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "The selected source RNaseI-released fraction enters WGAII and facility sequencing. The condition is not imported DNA, and it does not establish full historical adapter/library chemistry.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "material": "wta",
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Added original Chromium WTA source-named link tied to actual cited Zheng paper; added full selected dial-out/P7 primer orders and explanation of 3prime BFP binding arm versus5prime tails.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "phip-seq__10.1038+nbt.1856",
+      "material": "particles",
+      "disposition": "source_local_display_construct",
+      "review_status": "reviewed",
+      "rationale": "T7-Pep is the source-defined biological phage-display library constructed by this study, not a prepared NGS library from a separately identified catalogue protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "plato__10.1038+nbt.2539",
+      "material": "other_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "Locally processed display-derived PCR libraries are combined for multiplex sequencing. The source display collection is distinct from an NGS-preparation predecessor.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "rapture__10.1534+genetics.115.183665",
+      "material": "other_plates",
+      "disposition": "blocked_source_recheck",
+      "review_status": "blocked",
+      "rationale": "The private declaration names peer plate-indexed libraries. Current local MANIFEST contains only failed/manual original routes, so this pass cannot independently upgrade prior notes to a new source-verified pool conclusion.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "repair-seq-crispr-outcomes__10.1016+j.cell.2021.10.002",
+      "material": "screen_cells",
+      "disposition": "biological_screen_input",
+      "review_status": "reviewed",
+      "rationale": "Cells are harvested from the same study’s perturbation/repair screen before genomic-DNA library preparation. This is not a prepared sequencing library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "rg4-seq__10.1038+nmeth.3965",
+      "material": "rna",
+      "disposition": "rna_template_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "The available published Figure1 starts with RNA before adapter ligation. The source main Methods are unavailable locally, leaving exact fragmentation/input preparation unreviewed; no separate producer protocol is established.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "ribo-itp__10.1038+s41586-023-06228-9",
+      "material": "other_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "The source pools sample libraries after D-Plex preparation and Bioanalyzer assessment; these are independent same-method preparations.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "scgr-seq__10.1016+j.isci.2021.102882",
+      "material": "dna_standards",
+      "disposition": "calibration_control",
+      "review_status": "reviewed",
+      "rationale": "Takara DNA standards are separate real-time-PCR calibration preparations, not a cDNA library entering the sample route.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "slic-cage__10.1101+gr.235937.118",
+      "material": "other_libraries",
+      "disposition": "peer_library_pool",
+      "review_status": "reviewed",
+      "rationale": "The source explicitly keeps SLIC-CAGE libraries separate for quality control and pools only before sequencing. The nAnT-iCAGE ancestry is a recipe relationship, not a separate input molecule.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "snap-seq__10.1038+s41557-019-0279-9",
+      "material": "pcr_forward",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "The stock is a local library-amplification primer, not a prepared library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "snap-seq__10.1038+s41557-019-0279-9",
+      "material": "pcr_reverse",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "The stock is the paired library-amplification primer, not a producer protocol.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "snap-seq__10.1038+s41557-019-0279-9",
+      "material": "qa_kit",
+      "disposition": "analytical_reagent",
+      "review_status": "reviewed",
+      "rationale": "KAPA Library Quantification kit is analytical QA of locally produced DNA, not a sequencing-library source.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "sns-seq__10.1101+gr.124644.111",
+      "material": "ga_library",
+      "disposition": "local_library_reagents_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "The sample is converted locally to double-stranded nascent DNA before historical GAII sequencing. Exact library conversion is unreviewed; the continuation does not name a distinct upstream producer.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "spots__10.1038+s41587-022-01536-3",
+      "material": "amplification_additive",
+      "disposition": "primer_reagent",
+      "review_status": "reviewed",
+      "rationale": "The published SI adds a fresh FB-additive primer to the cDNA amplification mixture. It is separate from the earlier second-strand-synthesis dose and is not an imported library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "ssdna-seq-permanganate__10.1016+j.cell.2013.04.033",
+      "material": "illumina_prep",
+      "disposition": "local_library_reagents_with_source_hold",
+      "review_status": "reviewed",
+      "rationale": "Illumina preparation follows the local permanganate/nuclease/TdT/streptavidin route. Unread original detailed SI prevents assigning historical molecular recipe, not a named prebuilt-library origin.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "stamp__10.1038+s41592-021-01128-0",
+      "material": "ampure",
+      "disposition": "cleanup_reagent",
+      "review_status": "reviewed",
+      "rationale": "AMPure is the local cDNA-cleanup material/selection, whose supernatant is retained for a separate feature-library branch; it is not prepared input DNA.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "tamc-seq__10.1038+ncomms2527",
+      "material": "phix_spike",
+      "disposition": "sequencing_control",
+      "review_status": "reviewed",
+      "rationale": "PhiX is a separate loading/calibration control, explicitly dedicated lane and1% spike. It does not supply the enriched sample library.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+    },
+    {
+      "scope": "notes",
+      "protocol": "tap-seq__10.1038+s41592-020-0837-5",
+      "material": "cdna",
+      "disposition": "reviewed_source_named_link",
+      "review_status": "reviewed",
+      "rationale": "Retained qualified Chromiumv2 GEMRT link, TSO deliberately omitted; standard template-switched/amplified cDNA is not equivalent.",
+      "evidence_report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
     }
   ],
   "refresh": "python3 tools/audit_protocol_inputs.py; review candidates against originals before adding links",
@@ -365,6 +975,38 @@
       "source_guard": "R2C2: 0 exact/0 failures, two whole inputs remain unassembled. TAP-seq: 6 exact/0 failures, two whole inputs remain unassembled. Source guard does not prove complete substrate geometry.",
       "docs": "1654 generated pages current",
       "site": "598/598 builders; 504 finished public schematics; all relative links/anchors resolve. Build used --no-checks after separate 2227-check shared suite."
+    }
+  },
+  "active_round": "catalogue/curation_rounds/2026-11-02-full-protocol-input-ledger.json",
+  "goal_addendum_2026_11_02": "While completing every row of the finite input ledger, curate which protocols are based on previous protocols in catalogue/protocol_lineage.json and rebuild full/local relationship graphs. Distinguish documented ancestry, explicit design inference and physical material handoffs; no chemistry inherited from similarity.",
+  "review_status": "full_bounded_input_ledger_review_complete_with_explicit_deferrals",
+  "public_candidate_inputs": 47,
+  "notes_candidate_inputs": 51,
+  "notes_entries_considered": 333,
+  "full_round_2026_11_02": {
+    "ledger": "catalogue/curation_rounds/2026-11-02-full-protocol-input-ledger.json",
+    "candidate_rows": 98,
+    "protocols_with_candidates": 84,
+    "role_reviewed": 96,
+    "source_blocked_reviews": 2,
+    "manual_assay_reviews": 4,
+    "ancestry_edges_added": 16,
+    "ancestry_registry_total": 124,
+    "scope": "Finite input-role and ancestry review completed. Prepared-input linkage does not imply complete native chemistry, full-page primer reconstruction or an accepted absence audit. Source/model blockers remain explicit per row.",
+    "shared_contract_fixes": [
+      "Inferred segments cannot establish required known primer sites.",
+      "Changed producing operations invalidate exported boundaries; removed upstream material produces a diagnostic."
+    ],
+    "verification": {
+      "shared_checks": 2231,
+      "handoff_contract_checks": 31,
+      "lineage_checks": 21,
+      "browser_checks": 17,
+      "coverage": "98/98 candidates plus4/4 manually reviewed assay exceptions; coverage validator also rejects omitted/duplicate rows, unsupported reviewed claims and unqualified blockers.",
+      "affected_protocol_checks": "DNBSEQ98; GoT3; eSPAN8; MULTI-seq15; originalPerturb7; NICHE7; DASH5; Visium20; SpatialVDJ42. MAESTER construction checked by builder.",
+      "source_guard": "Worker upstream pass13 exact/0failures/1existing exemption across6graphs; not a whole-chemistry validation.",
+      "site": "598/598 builders;504 finished published schematics; every relative link/anchor resolves. Built with --no-checks after separate shared suite.",
+      "ancestry": "124 registry relations;26 public relations across42 connected protocols;17 live Chrome interaction/export/mobile checks passed."
     }
   }
 }

@@ -8,6 +8,10 @@ parser.add_argument('--site',type=Path,default=ROOT/'_site')
 parser.add_argument('--report',type=Path,default=Path('/tmp/protocol-lineage-browser.json'))
 parser.add_argument('--screenshot',type=Path)
 args=parser.parse_args()
+payload=json.loads((args.site/'assets/protocol_lineage.json').read_text())
+share='share-seq__10.1016+j.cell.2020.09.056'
+share_visible={share}|{e[k]for e in payload['relations']if e['basis']!='guessed'and share in(e['parent'],e['child'])for k in('parent','child')}
+share_all={share}|{e[k]for e in payload['relations']if share in(e['parent'],e['child'])for k in('parent','child')}
 class WS:
  def __init__(self,url):
   from urllib.parse import urlparse
@@ -91,11 +95,30 @@ with tempfile.TemporaryDirectory(prefix='chem-lineage-browser-') as profile:
   check('curated graph defaults to documented and inferred ancestry only',"document.querySelectorAll('[data-relation]').length>=8 && document.querySelectorAll('[data-similarity]').length===0")
   check('graph exposes multiple SHARE-seq parents',"document.querySelectorAll('[data-protocol=\"share-seq__10.1016+j.cell.2020.09.056\"]').length===1")
   if args.screenshot:args.screenshot.write_bytes(base64.b64decode(ws.call('Page.captureScreenshot',{'format':'png'})['result']['data']))
-  toggle('inferred',False);check('inference filter removes only inferred links',"document.querySelectorAll('[data-relation]').length==="+str(initial-1));toggle('inferred',True)
+  inferred=ev("[...document.querySelectorAll('[data-relation]')].filter(e=>e.getAttribute('aria-label').endsWith(', inferred')).length")
+  guess_count=sum(e['basis']=='guessed'for e in payload['relations'])
+  toggle('guessed',True)
+  check('guessed analogues have a separate optional filter',"[...document.querySelectorAll('[data-relation]')].filter(e=>e.getAttribute('aria-label').endsWith(', guessed')).length==="+str(guess_count))
+  if guess_count:
+   ev("[...document.querySelectorAll('[data-relation]')].find(e=>e.getAttribute('aria-label').endsWith(', guessed')).dispatchEvent(new MouseEvent('click',{bubbles:true}));true")
+   check('guessed edge details explicitly deny established ancestry',"document.getElementById('lineage-detail').textContent.includes('Guessed predecessor') && document.getElementById('lineage-detail').textContent.includes('not established ancestry')")
+  external=next((n for n in payload['nodes']if n.get('external')),None)
+  if external:
+   selector='[data-protocol='+json.dumps(external['id'])+']'
+   ev('document.querySelector('+json.dumps(selector)+").dispatchEvent(new MouseEvent('click',{bubbles:true}));true")
+   check('external predecessors link to their original source',"document.getElementById('lineage-detail').textContent.includes('outside this catalogue') && document.getElementById('lineage-detail').textContent.includes('Open predecessor source')")
+  toggle('guessed',False)
+  for state,label in [('cannot_formally_assign','No formal ancestor assigned'),('source_blocked','Ancestry source review blocked')]:
+   entry=next((n for n in payload['nodes']if n.get('ancestry_review',{}).get('formal_assignment'if state=='cannot_formally_assign'else'status')==state),None)
+   if entry:
+    ev("document.getElementById('lineage-search').value="+json.dumps(entry['title'])+';true');click('find')
+    check('protocol details retain '+state,"document.getElementById('lineage-detail').textContent.includes("+json.dumps(label)+')')
+  click('all')
+  toggle('inferred',False);check('inference filter removes only inferred links',"document.querySelectorAll('[data-relation]').length==="+str(initial-inferred));toggle('inferred',True)
   ev("document.querySelector('[data-relation]').dispatchEvent(new MouseEvent('click',{bubbles:true}));true")
   check('edge selection shows evidence, scope and limits',"document.getElementById('lineage-detail').textContent.includes('Scope') && document.getElementById('lineage-detail').textContent.includes('Limits') && !!document.querySelector('#lineage-detail a[href^=\"https://doi.org/\"]')")
   ev("document.getElementById('lineage-search').value='SHARE-seq';true");click('find')
-  check('search focuses selected protocol and both source parents',"document.querySelectorAll('.lineage-node').length===3 && document.getElementById('lineage-detail').textContent.includes('SPLiT-seq') && document.getElementById('lineage-detail').textContent.includes('Paired-seq')")
+  check('search focuses selected protocol and both source parents',"document.querySelectorAll('.lineage-node').length==="+str(len(share_visible))+" && document.getElementById('lineage-detail').textContent.includes('SPLiT-seq') && document.getElementById('lineage-detail').textContent.includes('Paired-seq')")
   before=ev("document.querySelector('#lineage-canvas svg>g').getAttribute('transform')");click('plus')
   check('zoom controls alter SVG transform',"document.querySelector('#lineage-canvas svg>g').getAttribute('transform')!=="+json.dumps(before))
   ev("document.getElementById('lineage-canvas').focus();true");before=ev("document.querySelector('#lineage-canvas svg>g').getAttribute('transform')")
@@ -112,8 +135,8 @@ with tempfile.TemporaryDirectory(prefix='chem-lineage-browser-') as profile:
   check('unlinked public protocols can be included without inventing edges',"document.querySelectorAll('.lineage-node').length>100 && document.querySelectorAll('[data-relation]').length==="+str(initial))
   ws.call('Page.navigate',{'url':page.replace('lineage.html','lineage-test/local.html')});wait("!!document.querySelector('.protocol-lineage-local')")
   ev("document.querySelector('details').open=true;true")
-  check('local graph renders source-qualified multi-parent view',"document.querySelectorAll('.protocol-lineage-local svg a').length===3 && document.body.textContent.includes('Solid: source-documented')")
-  href=ev("document.querySelector('.protocol-lineage-local p a').href");ws.call('Page.navigate',{'url':href});wait("document.querySelectorAll('.lineage-node').length===3")
+  check('local graph renders source-qualified multi-parent view',"document.querySelectorAll('.protocol-lineage-local svg a').length==="+str(len(share_all))+" && document.body.textContent.includes('Solid: source-documented')")
+  href=ev("document.querySelector('.protocol-lineage-local p a').href");ws.call('Page.navigate',{'url':href});wait("document.querySelectorAll('.lineage-node').length==="+str(len(share_visible)))
   check('local link opens focused full graph',"document.getElementById('lineage-detail').textContent.includes('SHARE-seq') && location.search.includes('protocol=share-seq')")
   check('no uncaught browser errors',"window.__errors.length===0")
   ws.call('Emulation.setDeviceMetricsOverride',{'width':390,'height':844,'deviceScaleFactor':1,'mobile':True});check('mobile graph layout avoids document overflow',"document.documentElement.scrollWidth<=window.innerWidth+1")

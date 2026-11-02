@@ -59,8 +59,12 @@ def sections():
 
 def protocol_graph():
     graph = ProtocolGraph(TITLE, authority=SOURCE)
-    ds_library = graph.input("indexed_library", "adapter-bearing indexed dsDNA library",
-                             MaterialKind.MOLECULAR, primary=True)
+    ds_library = graph.input("indexed_library", "MGI Duplex UMI/UDB dual-barcode PCR library (caller-selected upstream preparation)",
+                             MaterialKind.MOLECULAR, primary=True,
+                             chemical_state={"input_class": "MGI Duplex UMI/UDB or MGI dual-barcode standard PCR product",
+                                             "strandedness": "double-stranded DNA", "single_barcode_compatible": False,
+                                             "upstream_producer": "caller selected; no unique protocol inferred"},
+                             source=SOURCE + " (Manual7.0 sections1.1–1.2; no selected complete upstream polymer)")
     denaturant = graph.input("denaturant", "95 °C, 3 min heat denaturation of 1 pmol PCR product in 48 µL TE, then ice",
                              MaterialKind.CONDITION)
     strand = graph.product("library_strand", LINEAR.name, MaterialKind.MOLECULAR,

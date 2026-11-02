@@ -78,3 +78,13 @@ The defining article's [Supplementary Table 5](https://www.nature.com/articles/s
 - 🟢 Read 1 is 26 cycles (3′ v2 and 5′) or 28 cycles (3′ v3); Read 2 is 98 or 130 cycles; the sample-index read is 8 cycles. Circularization GoT was sequenced PE150 on MiSeq. The exact barcode/UMI split follows the chosen 10x chemistry.
 - 🟢 The cell barcode and UMI are the molecular join key to the parent expression profile.
 - 🟡 Exact 10x primer bases are not retyped from a secondary source; the final page records the barcode, UMI, target and read direction by role.
+
+## Full input-ledger review, 2 November 2026
+
+Manifest identity was checked: PMC6782071 is an associated author manuscript,
+not a verified final-VOR original. Methods196 explicitly names recovered first-strand
+3′v2/v3/5′ cDNA, and the selected3′v2 route retains its own amplification changes.
+The input link now carries that manuscript/version qualification; no exact historical
+guide revision or complete input state is inherited. Mandatory bundle scraper:
+55 sequences across four files. The published method's full-recipe equivalence
+was not established by this bounded reading.

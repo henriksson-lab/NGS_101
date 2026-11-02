@@ -10,10 +10,10 @@ from chemdraw import Construct,Segment,feature
 from protocol_views import handoff_section
 
 
-def producer(*, drawable=True):
+def producer(*, drawable=True, inferred_body=False):
     g=ProtocolGraph('Synthetic source',authority='Synthetic fixture, not laboratory chemistry',required_output=Disposition.STORED)
     x=g.input('sample','input',K.MOLECULAR,state=Construct([Segment('body','ACGT')]),primary=True)
-    y=g.product('cdna','unfragmented DNA',K.MOLECULAR,state=Construct([Segment('body','ACGT'),Segment('umi','NNN',placeholder=True,feature=feature('fixture.umi','umi','random'))])if drawable else None,chemical_state={'stage':'full_length','fragmented':False},inferred=True,source='Explicit synthetic inferred example')
+    y=g.product('cdna','unfragmented DNA',K.MOLECULAR,state=Construct([Segment('body','ACGT',inferred=inferred_body),Segment('umi','NNN',placeholder=True,feature=feature('fixture.umi','umi','random'))])if drawable else None,chemical_state={'stage':'full_length','fragmented':False},inferred=True,source='Explicit synthetic inferred example')
     enzyme=g.input('enzyme','synthetic fixture enzyme',K.CATALYST)
     g.react('prepare','Synthetic preparation',S.EXTENSION,((x,R.TEMPLATE),(enzyme,R.CATALYST)),(y,))
     g.mark_terminal(Terminal(y.id,Disposition.STORED,'Intermediate fixture'))
@@ -44,6 +44,9 @@ def run(c):
     c.raises('wrong source version rejected',lambda:import_material(ProtocolGraph('bad'), 'x',e,expected_protocol='fixture-source',expected_version='Rev B',source='test'))
     c.raises('wrong source protocol rejected',lambda:import_material(ProtocolGraph('bad'), 'x',e,expected_protocol='another-source',expected_version='Rev A',source='test'))
     c.raises('fragmented/wrong-stage contracts rejected',lambda:import_material(ProtocolGraph('bad'),'x',e,expected_protocol='fixture-source',expected_version='Rev A',source='test',requirements={'fragmented':True}))
+    known_site=import_material(ProtocolGraph('fixed site'),'input',producer()[1],expected_protocol='fixture-source',expected_version='Rev A',source='Synthetic affirmative handoff',required_sites={'fixed site':'ACGT'})
+    c('source-known fixed segment can establish a required site',known_site.state.get('body').top,'ACGT')
+    c.raises('inferred bases cannot establish a required known template site',lambda:import_material(ProtocolGraph('inferred site'),'input',producer(inferred_body=True)[1],expected_protocol='fixture-source',expected_version='Rev A',source='Synthetic affirmative handoff',required_sites={'inferred site':'ACGT'}))
     c.raises('a missing downstream primer site rejects the handoff',lambda:import_material(ProtocolGraph('bad'),'x',e,expected_protocol='fixture-source',expected_version='Rev A',source='test',required_sites={'missing site':'GAGAGAGAGAGA'}))
     c.raises('a variable UMI cannot prove a concrete primer site',lambda:import_material(ProtocolGraph('bad'),'x',e,expected_protocol='fixture-source',expected_version='Rev A',source='test',required_sites={'unknown site':'AAA'}))
     c.raises('unprocessed inputs cannot masquerade as exports',lambda:export_material(p,'bad','sample',protocol='fixture-source',version='Rev A',page='source.html',source='test',limitation='fixture'))
@@ -54,6 +57,11 @@ def run(c):
     c.raises('producer mutation is detected',g2.require_publishable)
     p3,e3=producer();g3=consumer(e3);del p3.exports['full_length']
     c.raises('retired export is detected',g3.require_publishable)
+    removed,removed_export=producer();removed_consumer=consumer(removed_export);del removed.materials['cdna']
+    c('removed source material reports a diagnostic',any('no longer exists'in x for x in removed_consumer.publication_problems()),True)
+    changed,changed_export=producer();changed_consumer=consumer(changed_export)
+    changed.steps['prepare']=replace(changed.steps['prepare'],id='different_producer')
+    c('changed producing operation invalidates an exported boundary',any('producer changed'in x for x in changed_consumer.publication_problems()),True)
     p4,e4=producer();g4=consumer(e4)
     declare_input_origin(p4,'sample',protocol='named-source',stage='source-named input',page='named.html',source='Synthetic located claim',limitation='No exact version binding')
     c('source-named reference does not import a state',len(p4.imports),0)

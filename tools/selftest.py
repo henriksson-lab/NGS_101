@@ -1790,4 +1790,7 @@ run_rna_lariat_checks(check)
 from selftest_handoffs import run as run_handoff_checks
 run_handoff_checks(check)
 
+from selftest_protocol_ancestry import run as run_ancestry_checks
+run_ancestry_checks(check)
+
 check.report()

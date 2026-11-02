@@ -39,3 +39,20 @@ CLAPS-seq labels genomic8-oxoG (OG) with an amine-biotin reagent and uses captur
 ## Remaining scope
 
 Whole end-prep/extension/PCR formulations, exact selectedN5 members, biological damage identities, complete sealed products, read masks and quantitative recovery remain open model questions. Control-OGT biochemical assays, input-kit libraries and computational duplicate/guanine-coordinate filters are separate scopes. They are not physical purification or validation of every modelled molecule. No additional disclosure document or confirmed absence is invented.
+
+## Component ancestry and prepared inputs, 2 November 2026
+
+🟢 The published Results (PMC8643665, text165) explicitly describes combining
+and optimizing the selective OG-labeling strategy of OG-seq (reference22,
+DOI10.1021/jacs.6b12604) with the DNA-polymerase-stalling strategy of Damage-seq
+(reference28, DOI10.1073/pnas.1614430113). These are two distinct component
+relationships. OG needs the bulky chemical label to produce the stalling readout;
+neither the original lesion chemistry nor the complete library recipe is assumed
+equal to its predecessor.
+
+The input named “other qualified libraries” is a sequencing-pool contribution,
+not a library imported for CLAPS chemistry. The same published Methods121
+prepares each CLAPS library locally before qualifying and pooling it. Its exact
+pool members and amounts remain unassigned; pooling does not identify another
+protocol as their producer. The independently prepared genomic-input controls
+in Methods125 remain separate from the selected CLAPS library route.

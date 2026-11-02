@@ -45,3 +45,19 @@ The one5µl prepared SYBR qPCR stock supplies copresent enzyme, nucleotide, fluo
 ## Limits
 
 🟡 Whole atom-resolved chemical products, RNA occupancy/end heterogeneity, reaction yields, all side products, RNA/cDNA ligation junctions, complete PCR/library molecules, kit operations and sequencing-primer landing remain unresolved. Source-labelled comparisons, chemical-reagent synthesis and predecessor recipes were not imported. The3′OH acceptor views are inferred by construction; narrow source-known donor ends do not establish all ligation products. No missing-information claim, full chemistry audit or second absence pass is made.
+
+## Component ancestry and analytical primers, 2 November 2026
+
+🟢 Published ESI section10 (text568) explicitly calls its library construction a
+modified version of reference9. That reference is Li, Xiong et al., Molecular
+Cell68:993–1005 (2017), the m1A-MAP paper, DOI10.1016/j.molcel.2017.10.019;
+the cited authors and bibliographic identity were checked. This is a
+post-enrichment library-construction relationship, not inheritance of m1A
+selection chemistry or an imported m1A-MAP library.
+
+The ESI TableS1 `FP-Library-qPCR` and `RP-Library-qPCR` are analytical primer
+stocks for the section10e cycle-selection assay. Their names do not denote
+upstream sequencing libraries. The assay consumes a cDNA aliquot and determines
+the amplification schedule; it does not add a new biological identifier. Source
+section10f's preparative PCR remains a separate operation. Exact occupied
+whole-library geometry is still unassembled in this private model.

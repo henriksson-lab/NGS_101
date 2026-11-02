@@ -45,3 +45,12 @@ Model correction 2026-10-17: the previous page used a shared generic dual-index 
 - The Read 2 sequencing primer that anneals to the GoT-P7 arm is not printed. The Methods say only that the forward-strand workflow needs no custom primer.
 - 🟡 The CB (16) and UMI (12) lengths are read from the Supplementary Figure 3 drawing and the 28-cycle Read 1. The poly(dT) length is not modelled.
 - Deferred: 10x 3′ v3 user guide (parent cDNA ends), Nam/Landau 2019 GoT Table S5 (origin of P5-generic), Seq-Well branch chemistry beyond the Table 2 header.
+
+## Full input-ledger review, 2 November 2026
+
+Manifest identity was checked: PMC9288977 is an associated author manuscript,
+not a verified final-VOR original. Methods133/157–163 specify3′v3 WTA cDNA and
+20ng targeted-PCR inputs; the separate Seq-Well/Drop-seq branches do not supply
+this input. The source-named link now states that manuscript/version limitation.
+Mandatory bundle scraper:313 sequences across two files. Exact historical guide
+revision, target occupancy and full first-cycle products remain unresolved.

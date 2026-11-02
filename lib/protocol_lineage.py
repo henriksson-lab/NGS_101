@@ -1,4 +1,4 @@
-"""Curated protocol ancestry and independent sequence-component similarity.
+"""Evidence-qualified ancestry, earlier-method guesses and sequence similarity.
 
 Neither relation is an input to a protocol's molecular constructor or chemistry checks.
 """
@@ -18,7 +18,30 @@ BASES_MIN = 16
 SIMILARITY_MIN = .15
 SIMILARITY_NEIGHBOURS = 3
 RELATIONS = {'derived_from', 'adapted_component'}
-EVIDENCE_BASES = {'documented', 'inferred'}
+EVIDENCE_BASES = {'documented', 'inferred', 'guessed'}
+
+
+def validate_guess_chronology(entry):
+    """A loose chemistry analogy must still point to an earlier method."""
+    if entry.get('basis') != 'guessed':
+        return
+    chronology = entry.get('chronology', {})
+    if not isinstance(chronology, dict):
+        raise ValueError('Guessed predecessor needs publication chronology')
+    parent, child = chronology.get('parent_year'), chronology.get('child_year')
+    if type(parent) is not int or type(child) is not int or not 1600 <= parent <= child <= 2200:
+        raise ValueError('Guessed predecessor needs earlier publication chronology')
+    if not isinstance(chronology.get('locator'), str) or not chronology['locator'].strip():
+        raise ValueError('Guessed chronology needs inspected date evidence')
+    if parent == child:
+        from datetime import date
+        try:
+            first = date.fromisoformat(chronology['parent_date'])
+            second = date.fromisoformat(chronology['child_date'])
+        except (KeyError, ValueError, TypeError):
+            raise ValueError('Same-year guesses need exact earlier publication dates')
+        if first.year != parent or second.year != child or first >= second:
+            raise ValueError('Guessed predecessor must precede the child')
 
 
 def validate_registry(data: dict, known: set[str]) -> list[dict]:
@@ -49,6 +72,7 @@ def validate_registry(data: dict, known: set[str]) -> list[dict]:
             url = urlparse(source.get('url', ''))
             if url.scheme != 'https' or not url.netloc or not source.get('locator', '').strip():
                 raise ValueError('Lineage evidence needs an HTTPS source and inspected locator')
+        validate_guess_chronology(entry)
         seen.add((parent, child))
         children[parent].append(child)
         edge = dict(entry)
@@ -146,7 +170,7 @@ def sequence_similarity(catalogue: dict, eligible: set[str], *, neighbours=SIMIL
                 'scope': 'Similarity of declared primers/adapters/fixed parts only; not ancestry, experimental similarity or complete chemistry equivalence. Missing sequence coverage is unknown.'}
 
 
-def build_payload(rows: list[dict], eligible: list[dict], registry: dict, components: dict) -> dict:
+def build_payload(rows: list[dict], eligible: list[dict], registry: dict, components: dict, ancestry_reviews: dict | None = None) -> dict:
     known = {r['dir']: r for r in rows}
     relations = validate_registry(registry, set(known))
     supplied = {r['id']: r for r in eligible}
@@ -164,14 +188,36 @@ def build_payload(rows: list[dict], eligible: list[dict], registry: dict, compon
                       'modality': row['modality'], 'status': row['status']})
     public = {n['id'] for n in nodes}
     visible = [r for r in relations if r['parent'] in public and r['child'] in public]
+    for node in nodes:
+        node['withheld_predecessor_count'] = sum(edge['child'] == node['id'] and edge['parent'] not in public for edge in relations)
     similarities, metric = sequence_similarity(components, public)
+    external_nodes = {}
+    reviews = {}
+    if ancestry_reviews is not None:
+        from protocol_ancestry import validate_reviews
+        reviews = validate_reviews(ancestry_reviews, set(known), relations)
+        for node in nodes:
+            review = reviews.get(node['id'], {})
+            node['ancestry_review'] = {key: review[key] for key in
+                ('status', 'formal_assignment', 'reason', 'inference_status', 'inference_reason', 'blockers', 'limits') if key in review}
+            for parent in review.get('external_predecessors', []):
+                external_id = 'external_' + sha256((parent['url'] + '\0' + parent['title'].casefold()).encode()).hexdigest()[:16]
+                external_nodes[external_id] = {'id': external_id, 'title': parent['title'],
+                    'url': parent['url'], 'modality': 'outside catalogue', 'status': 'external', 'external': True}
+                edge = {key: parent[key] for key in ('relation', 'basis', 'scope', 'evidence', 'rationale', 'limits', 'reviewed')}
+                if 'chronology' in parent:edge['chronology'] = parent['chronology']
+                edge.update(parent=external_id, child=node['id'], external=True,
+                    id='x_' + sha256((external_id + '\0' + node['id']).encode()).hexdigest()[:16])
+                visible.append(edge)
+    nodes.extend(external_nodes[key] for key in sorted(external_nodes))
     return {'schema_version': 1, 'nodes': nodes, 'relations': visible,
             'similarities': similarities, 'similarity_method': metric,
             'scope': registry.get('scope', ''),
-            'stats': {'protocols': len(nodes), 'curated_relations': len(visible),
+            'stats': {'protocols': len(public), 'external_predecessors': len(external_nodes), 'curated_relations': len(visible),
                       'documented': sum(r['basis'] == 'documented' for r in visible),
                       'inferred': sum(r['basis'] == 'inferred' for r in visible),
-                      'curated_protocols': len({r[k] for r in visible for k in ('parent', 'child')}),
+                      'guessed': sum(r['basis'] == 'guessed' for r in visible),
+                      'curated_protocols': len({r[k] for r in visible for k in ('parent', 'child') if r[k] in public}),
                       'similarities': len(similarities)}}
 
 
@@ -195,18 +241,26 @@ def local_view(protocol: str, payload: dict, *, prefix='../') -> str:
                 positions[pid] = (x, (height - len(members) * 54) / 2 + i * 54)
         for edge in edges:
             a, b = positions[edge['parent']], positions[edge['child']]
-            color = '#287d89' if edge['basis'] == 'documented' else '#a67415'
-            dash = '' if edge['basis'] == 'documented' else ' stroke-dasharray="5 4"'
+            color = '#287d89' if edge['basis'] == 'documented' else '#a67415' if edge['basis'] == 'inferred' else '#777b85'
+            dash = '' if edge['basis'] == 'documented' else ' stroke-dasharray="5 4"' if edge['basis'] == 'inferred' else ' stroke-dasharray="2 4"'
             x1, y1, x2, y2 = a[0] + 180, a[1] + 20, b[0], b[1] + 20
             parts.append(f'<path d="M{x1},{y1} C{x1+35},{y1} {x2-35},{y2} {x2},{y2}" fill="none" stroke="{color}" stroke-width="1.7"{dash}><title>{escape(edge["basis"]+": "+edge["scope"])}</title></path><path d="M{x2-7},{y2-4} L{x2},{y2} L{x2-7},{y2+4}" fill="none" stroke="{color}"/>')
         for pid, (x, y) in positions.items():
-            label = nodes[pid]['title']
+            label = nodes[pid]['title'] + (' (outside catalogue)' if nodes[pid].get('external') else '')
             short = label if len(label) <= 26 else label[:24] + '…'
-            url = link if pid == protocol else prefix + nodes[pid]['url']
+            url = link if pid == protocol else nodes[pid]['url'] if nodes[pid].get('external') else prefix + nodes[pid]['url']
             parts.append(f'<a href="{escape(url)}"><rect x="{x}" y="{y}" width="180" height="40" rx="6" fill="{"#e8f3f5" if pid == protocol else "#f5f7fa"}" stroke="#ccd7df"/><text x="{x+90}" y="{y+24}" text-anchor="middle" fill="#21364b">{escape(short)}</text><title>{escape(label)}</title></a>')
-        parts.append('</svg></div><p>Solid: source-documented · dashed: inferred. Links describe development or component scope, not identical chemistry.</p>')
+        parts.append('</svg></div><p>Solid: source-documented · dashed: inferred · dotted gray: guessed earlier chemistry analogue. Guesses are not established ancestry; no link establishes identical chemistry.</p>')
     else:
-        parts.append('<p>No curated ancestry links yet. This does not establish independent origins.</p>')
+        if not nodes[protocol].get('withheld_predecessor_count'):
+            parts.append('<p>No curated ancestry links yet. This does not establish independent origins.</p>')
+    if nodes[protocol].get('withheld_predecessor_count'):
+        parts.append('<p>Some predecessor or candidate links are withheld until the corresponding protocol pages are available.</p>')
+    review = nodes[protocol].get('ancestry_review', {})
+    if review.get('formal_assignment') == 'cannot_formally_assign':
+        parts.append('<p>No formal ancestor assigned in this review. ' + escape(review.get('inference_reason', '')) + '</p>')
+    if review.get('status') == 'source_blocked':
+        parts.append('<p>Ancestry review is blocked on original sources.</p>')
     parts.append(f'<p><a href="{escape(link)}">Explore relationships and sequence similarity</a></p></details>')
     return ''.join(parts)
 

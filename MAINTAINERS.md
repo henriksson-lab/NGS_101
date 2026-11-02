@@ -718,3 +718,69 @@ source-qualified local intermediate only after that owner and version are modell
 `python3 tools/audit_protocol_inputs.py --notes` separately inventories literal
 input calls in notes/draft modules without executing incomplete graphs. Its separate
 snapshot is not complete graph coverage; indirect/nonliteral calls remain outside it.
+
+The completed finite input-role round is recorded in
+`catalogue/curation_rounds/2026-11-02-full-protocol-input-ledger.json`. It covers both
+snapshots and manually accounts for public assays without a unique graph. Each
+candidate has a disposition, inspected originals/version scope, limits and actual
+source/model deferrals. Re-run `python3 tools/check_protocol_input_ledger.py` after
+refreshing the snapshots; it rejects missing, duplicate or unfinished review rows.
+This is review accounting, not chemical validation or a missing-information audit.
+Required fixed-site checks treat inferred segments as barriers as well as unknown
+windows; a guessed sequence cannot establish known molecular compatibility.
+
+### Auditing ancestry coverage and suggesting earlier methods
+
+`lib/protocol_ancestry.py` provides `ancestry_audit()` and
+`protocols_without_predecessors()`. Counts use the full internal registry, including
+parents withheld from the public viewer. Guessed links are not counted as established
+predecessors by default. `catalogue/protocol_ancestry_reviews.json` stores separate
+review and formal-attribution outcomes, source identities/locations, actual blockers,
+external predecessors, and likely-predecessor assessments. `cannot_formally_assign`
+does not mean independent invention. Documented component ancestry is narrower than
+whole-method descent. Existing curated records are labelled as prior curation,
+not falsely presented as a fresh source read.
+
+```sh
+python3 tools/audit_protocol_ancestry.py                         # no internal predecessor
+python3 tools/audit_protocol_ancestry.py --public --summary
+python3 tools/audit_protocol_ancestry.py --filter unreviewed
+python3 tools/audit_protocol_ancestry.py --filter blocked
+python3 tools/audit_protocol_ancestry.py --filter external
+python3 tools/audit_protocol_ancestry.py --filter cannot-assign
+python3 tools/audit_protocol_ancestry.py --filter guessed
+python3 tools/audit_protocol_ancestry.py --filter inferred
+python3 tools/audit_protocol_ancestry.py --filter no-formal-parent --format json
+python3 tools/audit_protocol_ancestry.py --filter all --check-reviewed
+python3 tools/suggest_protocol_ancestors.py smart-seq3__10.1038+s41587-020-0497-0
+python3 tools/selftest_protocol_ancestry.py
+```
+
+An internal relationship remains in `catalogue/protocol_lineage.json`. Its `basis`
+may additionally be `guessed`: a weaker earlier chemistry analogue, explicitly not
+established descent. These and external predecessor records require original evidence,
+scope, rationale and limits as before. Guesses also need `chronology` with integer
+`parent_year`, `child_year` and inspected date `locator`; same-year ordering needs
+ISO `parent_date` and `child_date`. External records use `title` and original `url`
+in place of internal endpoint IDs. A supported inference or guessed-candidate outcome
+must have its corresponding typed relationship, not just a prose claim.
+
+`protocol_ancestry_similarity.rank_candidates()` uses IDF-weighted Jaccard in curated
+chemistry facets (75%) and exact non-inferred sequence components (25%). It ranks by
+the lower bound and reports upper bounds for unknown channels. Cached metadata years
+restrict candidates to earlier papers; missing dates and same-year order are unknown,
+not guessed. Unknown/unassigned facets, universal features and invented molecular sequences
+do not supply positive evidence. A known published method represented by an
+illustrative diagram may be considered as the original method, explicitly labelled
+`method_concept_only`; its invented sequences are excluded. Registry ancestry
+refers to the cited method, not the invented experimental instance. Public graph
+eligibility still excludes illustrative pages. Similarity is discovery only; verify dates,
+source identity and relevant chemistry before recording any ancestry hypothesis.
+
+The suggestion CLI can also take `--source /external/path/selected-original.txt`
+after manifest/version verification and the mandatory primer scan. Its separate
+`cited_protocols` list contains exact defining-DOI source-line pointers; a citation
+is not itself ancestry. Only metadata rows matching each protocol's defining DOI
+supply years: grouped bibliography rows for other cited methods cannot overwrite
+that date. Conflicting or missing dates remain unknown. Keep user-upload receipt
+provenance separately from the original's stable identity URL when necessary.

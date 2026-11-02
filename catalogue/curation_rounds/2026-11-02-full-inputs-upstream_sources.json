@@ -1,0 +1,708 @@
+{
+  "schema": 1,
+  "date": "2026-11-02",
+  "owner": "upstream_sources",
+  "scope": "All15 assigned ledger rows; bounded source-stage review, not complete native reaction validation or accepted absence audit.",
+  "rows": [
+    {
+      "scope": "public",
+      "protocol": "dnbseq-library-circularization",
+      "material": "indexed_library",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_caller_selected_input",
+      "action": "Tightened graph input to MGI DuplexUMI/UDB or MGI dual-barcode standard PCR product; structured input-class/strandedness/single-barcode exclusion. No unique producer is named.",
+      "source_checklist": [
+        {
+          "original": "SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf",
+          "locator": "https://global-mgitech.com/wp-content/uploads/Documents/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Manual7.0 sections1.1–1.2, text199–212",
+          "identity": "Published manufacturer manual7.0; printed title/revision verified",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-dnbseq-library-circularization.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Select an actual upstream MGI kit/revision and reconstruct complete adapter-bearing PCR product before importing state."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "public",
+      "protocol": "got__10.1038+s41586-019-1367-0",
+      "material": "first_cdna",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Retained Chromium3primev2 recovered-first-strand source link; corrected associated-manuscript provenance and final-version limitation.",
+      "source_checklist": [
+        {
+          "original": "s41586-019-1367-0_PMC6782071.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6782071.1/PMC6782071.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Methods GoT, text196",
+          "identity": "Associated author manuscript; manifest author manuscript True; finalVOR equivalence not established",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-got__10.1038+s41586-019-1367-0.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact historical guide revision and complete recovered first-strand/end state remain unverified; no molecular import."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "public",
+      "protocol": "maester__10.1038+s41587-022-01210-8",
+      "material": "cdna",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Retained Chromium3primev3 full-length WTA input link; corrected associated-manuscript provenance.",
+      "source_checklist": [
+        {
+          "original": "s41587-022-01210-8_PMC9288977.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9288977.1/PMC9288977.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Methods133,139–163; references3/4 text304–318",
+          "identity": "Associated author manuscript; manifest author manuscript True; finalVOR equivalence not established",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-maester__10.1038+s41587-022-01210-8.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact guide revision, complete WTA/occupied targets and finalVOR applicability remain unverified."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "public",
+      "protocol": "r2c2__10.1073+pnas.1806447115",
+      "material": "indexed_cdna",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Retained Tn5Prime original source link and pre-tagmentation SIRV input scope; generic SMARTseq2/10x/Dropseq compatibility discussion is not actual input provenance.",
+      "source_checklist": [
+        {
+          "original": "pnas.1806447115_PMC6166824.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6166824.1/PMC6166824.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Results65; Methods145–149; Discussion133–135; reference13",
+          "identity": "Published final original; manifest author manuscript False",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-r2c2__10.1073+pnas.1806447115.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "No registered source-owned Tn5Prime intermediate; full library/overlap geometry remains locally incomplete."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "public",
+      "protocol": "rage-seq__10.1038+s41467-019-11049-4",
+      "material": "cdna",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Retained Chromium3primev2 full-length cDNA source link with two extra source-specific PCR cycles.",
+      "source_checklist": [
+        {
+          "original": "s41467-019-11049-4_PMC6635368.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6635368.1/PMC6635368.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Methods Droplet-based scRNA-Seq, text164–166",
+          "identity": "Published final original; manifest author manuscript False",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-rage-seq__10.1038+s41467-019-11049-4.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact historical guide revision and complete amplified-cDNA state remain unverified; source modifications are not supplied by a standard-v2 import."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "public",
+      "protocol": "spatial-vdj__10.1126+science.adf8486",
+      "material": "source",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_material_import",
+      "action": "Retained exact source-owned CG000239RevA full-length cDNA import; final article explicitly cites that revision and pre-enrichment input.",
+      "source_checklist": [
+        {
+          "original": "science_adf8486_final_browser.html",
+          "locator": "https://www.science.org/doi/full/10.1126/science.adf8486",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Final Methods1623–1630 and SR preparation1643–1666",
+          "identity": "Final published article; manifest authorized institutional full-text browser original",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-spatial-vdj__10.1126+science.adf8486.scrape.log",
+      "molecular_import_status": "existing_exact_revision_import",
+      "remaining_source_or_model_work": [
+        "Downstream full-index oligo orders depend on cited Stahl2016 chemistry; that distinct blocker does not invalidate the checked cDNA import."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "tagmented_cdna",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Added Ovationv2 source-named input link with intervening Nextera partial-adapter preparation explicit; no Ovation-only product substitution.",
+      "source_checklist": [
+        {
+          "original": "s13059-016-0904-5_PMC4778327.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Preparation of cDNA Methods191; library amplification/pooling Methods211",
+          "identity": "Published final original; manifest author manuscript False",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-dash__10.1186+s13059-016-0904-5.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact historical Ovation revision, Nextera implementation and complete adapter-bearing input remain unassembled."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "kapa",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_reagent_false_positive",
+      "action": "Actual KAPA amplification catalyst, not a prepared library or predecessor protocol.",
+      "source_checklist": [
+        {
+          "original": "s13059-016-0904-5_PMC4778327.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Preparation of cDNA Methods191; library amplification/pooling Methods211",
+          "identity": "Published final original; manifest author manuscript False",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-dash__10.1186+s13059-016-0904-5.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "other_libraries",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_peer_pool",
+      "action": "Separate quantified libraries in actual sequencing pool; source does not establish a distinct producer protocol for every member.",
+      "source_checklist": [
+        {
+          "original": "s13059-016-0904-5_PMC4778327.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Preparation of cDNA Methods191; library amplification/pooling Methods211",
+          "identity": "Published final original; manifest author manuscript False",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-dash__10.1186+s13059-016-0904-5.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Actual pool membership/ratios remain unassigned; pooling alone does not establish ancestry."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "espan__10.1016+j.molcel.2014.09.017",
+      "material": "meyer_method",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_delegated_component",
+      "action": "meyer_method is a condition for a downstream ssDNA-library operation after locally produced nascent ssDNA, not an external prepared-library input. Added original DOI link in private preview.",
+      "source_checklist": [
+        {
+          "original": "j.molcel.2014.09.017_PMC4362665.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4362665.1/PMC4362665.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Results68; Methods152/156; Meyer2012 bibliography282–284",
+          "identity": "Associated author manuscript; finalVOR/erratum/SI scope unresolved",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-espan__10.1016+j.molcel.2014.09.017.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Read actual cited Meyer2012 original and local SI; erratum identity/content and finalVOR applicability remain unresolved."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "material": "tenx",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_delegated_component",
+      "action": "tenx is a delegated capture/RT condition inside the workflow; labeled cells produce post_rt locally. Added source-qualified Chromiumv2 reference link in private preview.",
+      "source_checklist": [
+        {
+          "original": "s41592-019-0433-8_41592_2019_433_MOESM1_ESM.pdf",
+          "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0433-8/MediaObjects/41592_2019_433_MOESM1_ESM.pdf",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Published SI protocol steps9–12, text2132–2145; explicit v3 comparison2066–2080",
+          "identity": "Published Springer supplementary original; not manuscript variant",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-multi-seq__10.1038+s41592-019-0433-8.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact historical guide revision and complete local bead/cDNA geometry remain unassembled; publishedSI and manuscript variants remain distinct."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "material": "rpi",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_primer_false_positive",
+      "action": "TruSeqRPIX is an actual library-PCR primer, not another prepared-library input; the6base sample index remains unassigned.",
+      "source_checklist": [
+        {
+          "original": "s41592-019-0433-8_41592_2019_433_MOESM1_ESM.pdf",
+          "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0433-8/MediaObjects/41592_2019_433_MOESM1_ESM.pdf",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Published SI protocol steps9–12, text2132–2145; explicit v3 comparison2066–2080",
+          "identity": "Published Springer supplementary original; not manuscript variant",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-multi-seq__10.1038+s41592-019-0433-8.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "niche-seq__10.1126+science.aao4277",
+      "material": "mars_stocks",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_delegated_component",
+      "action": "mars_stocks are supplies for MARSseq after locally selected niche cells, not a prebuilt library input. Notes link original Jaitin2014 MARSseq, not MARSseq2.0.",
+      "source_checklist": [
+        {
+          "original": "science.aao4277_PMC7234837.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7234837.1/PMC7234837.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Results47–51; reference7 text99–101",
+          "identity": "Associated author manuscript; finalVOR and local detailed SI unresolved",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-niche-seq__10.1126+science.aao4277.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Detailed local SI, original MARSseq component/version and finalVOR applicability remain unreviewed; no state import."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "material": "wta",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Added original Chromium WTA source-named link tied to actual cited Zheng paper; added full selected dial-out/P7 primer orders and explanation of 3prime BFP binding arm versus5prime tails.",
+      "source_checklist": [
+        {
+          "original": "j.cell.2016.11.038_PMC5181115.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5181115.1/PMC5181115.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Single-cell library preparation318–342; Zheng2016 bibliography909–911",
+          "identity": "Associated author manuscript; finalVOR and detailed SI unresolved",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact guide revision, full WTA/GBC transcript/primer landings and finalVOR applicability remain unverified; source is associated manuscript."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    },
+    {
+      "scope": "notes",
+      "protocol": "tap-seq__10.1038+s41592-020-0837-5",
+      "material": "cdna",
+      "review_state": "bounded_review_complete",
+      "disposition": "reviewed_source_named_link",
+      "action": "Retained qualified Chromiumv2 GEMRT link, TSO deliberately omitted; standard template-switched/amplified cDNA is not equivalent.",
+      "source_checklist": [
+        {
+          "original": "s41592-020-0837-5_41592_2020_837_MOESM1_ESM.pdf",
+          "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-020-0837-5/MediaObjects/41592_2020_837_MOESM1_ESM.pdf",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Published SI Chromium run step8, text1230–1247",
+          "identity": "Published Springer supplementary original",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        },
+        {
+          "original": "s41592-020-0837-5_PMC7610614.xml",
+          "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7610614.1/PMC7610614.1.xml",
+          "availability": "read_local_original_text_twin",
+          "sections_inspected": "Methods187–197",
+          "identity": "Associated author manuscript; finalVOR equivalence not established",
+          "linked_information_disposition": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence."
+        }
+      ],
+      "scraper_log": "/tmp/full-inputs-tap-seq__10.1038+s41592-020-0837-5.scrape.log",
+      "molecular_import_status": "no_state_import",
+      "remaining_source_or_model_work": [
+        "Exact historical guide revision and full target-pool/end geometry remain unassembled; private publication hold remains."
+      ],
+      "absence_claim": "none; not a complete source review or two-reader absence audit"
+    }
+  ],
+  "proposed_lineage_relations": [
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v2",
+      "child": "got__10.1038+s41586-019-1367-0",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Chromium3primev2 recovered cDNA and local targeted genotyping extension",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41586-019-1367-0",
+          "locator": "Associated author manuscript PMC6782071, Methods Genotyping of Transcriptomes, text196"
+        }
+      ],
+      "rationale": "The inspected method explicitly adapts the10x platform and retains recovered cDNA for targeted genotyping.",
+      "limits": "Associated-manuscript source; exact finalVOR and guide-revision equivalence remain unverified. Selected3primev2 component only, not all GoT branches or inherited chemistry.",
+      "reviewed": "2026-11-02"
+    },
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v3",
+      "child": "maester__10.1038+s41587-022-01210-8",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Chromium3primev3 full-length WTA followed by mitochondrial-transcript enrichment",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01210-8",
+          "locator": "Associated author manuscript PMC9288977, Methods133 and155–163"
+        }
+      ],
+      "rationale": "The source explicitly generates3primev3 WTA and uses that cDNA for MAESTER.",
+      "limits": "Associated-manuscript source; source-named platform component does not pin a guide revision, occupied targets, exact chemistry or complete molecular products.",
+      "reviewed": "2026-11-02"
+    },
+    {
+      "parent": "seq-well-s3__10.1016+j.immuni.2020.09.015",
+      "child": "maester__10.1038+s41587-022-01210-8",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Seq-WellS3 WTA generation used before MAESTER targeted enrichment",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01210-8",
+          "locator": "Associated author manuscript PMC9288977, Single-cellRNA-sequencing Methods131 and MAESTER139–145"
+        }
+      ],
+      "rationale": "The source explicitly follows Seq-WellS3 and enriches mitochondrial transcripts from its WTA.",
+      "limits": "This is the separately described Seq-Well branch, not the selected10x graph and not evidence of equal adapters or primers. Associated-manuscript/finalVOR equivalence remains unverified.",
+      "reviewed": "2026-11-02"
+    },
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v2",
+      "child": "rage-seq__10.1038+s41467-019-11049-4",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Chromium3primev2 cDNA shared with antigen-receptor capture and nanopore readout",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41467-019-11049-4",
+          "locator": "Published PMC6635368, Droplet-basedscRNA-seq Methods166"
+        }
+      ],
+      "rationale": "The source explicitly prepares3primev2 cDNA, adds two PCR cycles, and retains material for targeted capture.",
+      "limits": "Method/component adaptation only; two added cycles and exact historical guide/end/primer states remain local, not supplied by the predecessor link.",
+      "reviewed": "2026-11-02"
+    },
+    {
+      "parent": "10x-visium-spatial-gene-expression",
+      "child": "spatial-vdj__10.1126+science.adf8486",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "VisiumCG000239RevA spatial cDNA preparation extended by receptor-transcript enrichment",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1126/science.adf8486",
+          "locator": "Final published article browser original, Preparation and sequencing of SpatialGEX Methods1623–1630"
+        }
+      ],
+      "rationale": "The final article explicitly identifies VisiumCG000239RevA and uses Visium cDNA as target-enrichment input.",
+      "limits": "Component scope is the full-length RevA intermediate; default VisiumRevF final indexed library and native downstream products are not implied.",
+      "reviewed": "2026-11-02"
+    },
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049",
+      "child": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Original Chromium droplet transcriptome/WTA frontend with expressed-GBC dial-out",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2016.11.038",
+          "locator": "Associated author manuscript PMC5181115, Singlecelllibrarypreparation318–326; Zheng2016 bibliography909–911 DOI10.1038/ncomms14049"
+        }
+      ],
+      "rationale": "The inspected original-Perturbseq implementation explicitly cites the original Chromium paper for its droplet preparation and performs GBC amplification after WTA.",
+      "limits": "Accepted-manuscript source only; historical guide revision, complete polymers and finalVOR equivalence remain unverified. DirectsgRNA capture and later Chromium versions are not inherited.",
+      "reviewed": "2026-11-02"
+    },
+    {
+      "parent": "ovation-rna-seq-v2__10.1093+nar+gkr547",
+      "child": "dash__10.1186+s13059-016-0904-5",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Ovationv2 cDNA-amplification component before separately described Nextera and DASH processing",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13059-016-0904-5",
+          "locator": "Published PMC4778327, PreparationofcDNA Methods191"
+        }
+      ],
+      "rationale": "The source explicitly uses NuGENOvationv2 to amplify random-primedRNA before adding partial sequencing adapters and Cas9 processing.",
+      "limits": "Ovation-only product is not the complete DASH input. Exact historical revision, intervening Nextera implementation and whole substrate remain unassembled; no state inheritance.",
+      "reviewed": "2026-11-02"
+    }
+  ],
+  "lineage_deferred": [
+    {
+      "protocol": "r2c2__10.1073+pnas.1806447115",
+      "reason": "Actual cited Tn5Prime parent is not registered. Do not replace with a directSMARTseq2 edge or generic compatible10x/Dropseq protocols."
+    },
+    {
+      "protocol": "espan__10.1016+j.molcel.2014.09.017",
+      "reason": "Actual cited Meyer2012 ssDNA original DOI10.1126/science.1224344 is not a registered protocol node; retain original link rather than substitute a later ssDNA method."
+    },
+    {
+      "protocol": "niche-seq__10.1126+science.aao4277",
+      "reason": "MARSseq component edge already registered; no duplicate proposed."
+    },
+    {
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "reason": "Chromiumv2 component edge already registered; current review confirms narrow delegated component."
+    },
+    {
+      "protocol": "tap-seq__10.1038+s41592-020-0837-5",
+      "reason": "Chromiumv2/CROPseq/Dropseq component edges already registered; selected input remains TSO-omittedv2."
+    },
+    {
+      "protocol": "dnbseq-library-circularization",
+      "reason": "Caller-selected compatible MGI input does not identify one producer lineage parent."
+    }
+  ],
+  "verification": [
+    {
+      "protocol": "espan__10.1016+j.molcel.2014.09.017",
+      "action": "test",
+      "returncode": 0,
+      "log": "/tmp/full-inputs-espan__10.1016+j.molcel.2014.09.017-test.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 8 checks passed"
+      ]
+    },
+    {
+      "protocol": "espan__10.1016+j.molcel.2014.09.017",
+      "action": "build",
+      "returncode": 0,
+      "log": "/tmp/full-inputs-espan__10.1016+j.molcel.2014.09.017-build.log",
+      "tail": [
+        "wrote /data/henriksson/github/chem/espan__10.1016+j.molcel.2014.09.017/espan.html  (27,638 bytes)"
+      ]
+    },
+    {
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "action": "test",
+      "returncode": 0,
+      "log": "/tmp/full-inputs-multi-seq__10.1038+s41592-019-0433-8-test.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 15 checks passed"
+      ]
+    },
+    {
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "action": "build",
+      "returncode": 0,
+      "log": "/tmp/full-inputs-multi-seq__10.1038+s41592-019-0433-8-build.log",
+      "tail": [
+        "wrote /data/henriksson/github/chem/multi-seq__10.1038+s41592-019-0433-8/chem.html  (32,264 bytes)"
+      ]
+    },
+    {
+      "protocol": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "action": "test",
+      "returncode": 0,
+      "log": "/tmp/full-inputs-perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038-test.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 7 checks passed"
+      ]
+    },
+    {
+      "protocol": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "action": "build",
+      "returncode": 0,
+      "log": "/tmp/full-inputs-perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038-build.log",
+      "tail": [
+        "wrote /data/henriksson/github/chem/perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038/chem.html  (21,683 bytes)"
+      ]
+    },
+    {
+      "protocol": "got__10.1038+s41586-019-1367-0",
+      "action": "test",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "got__10.1038+s41586-019-1367-0/tools/selftest.py"
+      ],
+      "log": "/tmp/full-inputs-got__10.1038+s41586-019-1367-0-test.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 3 checks passed"
+      ]
+    },
+    {
+      "protocol": "got__10.1038+s41586-019-1367-0",
+      "action": "build",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "got__10.1038+s41586-019-1367-0/tools/build_page.py"
+      ],
+      "log": "/tmp/full-inputs-got__10.1038+s41586-019-1367-0-build.log",
+      "tail": [
+        "wrote /data/henriksson/github/chem/got__10.1038+s41586-019-1367-0/got.html"
+      ]
+    },
+    {
+      "protocol": "maester__10.1038+s41587-022-01210-8",
+      "action": "test",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "maester__10.1038+s41587-022-01210-8/tools/selftest.py"
+      ],
+      "log": "/tmp/full-inputs-maester__10.1038+s41587-022-01210-8-test.log",
+      "tail": []
+    },
+    {
+      "protocol": "maester__10.1038+s41587-022-01210-8",
+      "action": "build",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "maester__10.1038+s41587-022-01210-8/tools/build_page.py"
+      ],
+      "log": "/tmp/full-inputs-maester__10.1038+s41587-022-01210-8-build.log",
+      "tail": [
+        "wrote /data/henriksson/github/chem/maester__10.1038+s41587-022-01210-8/maester.html  (54,606 bytes)"
+      ]
+    },
+    {
+      "protocol": "dnbseq-library-circularization",
+      "action": "test",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "dnbseq-library-circularization/tools/selftest.py"
+      ],
+      "log": "/tmp/full-inputs-dnbseq-library-circularization-test.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 98 checks passed"
+      ]
+    },
+    {
+      "protocol": "dnbseq-library-circularization",
+      "action": "build",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "dnbseq-library-circularization/tools/build_page.py"
+      ],
+      "log": "/tmp/full-inputs-dnbseq-library-circularization-build.log",
+      "tail": [
+        "wrote /data/henriksson/github/chem/dnbseq-library-circularization/dnbseq.html"
+      ]
+    },
+    {
+      "protocol": "niche-seq__10.1126+science.aao4277",
+      "action": "test",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "niche-seq__10.1126+science.aao4277/tools/chem.py"
+      ],
+      "log": "/tmp/full-inputs-niche-seq__10.1126+science.aao4277-test.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 7 checks passed"
+      ]
+    },
+    {
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "action": "test",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "dash__10.1186+s13059-016-0904-5/tools/selftest.py"
+      ],
+      "log": "/tmp/full-inputs-dash-selftest.log",
+      "tail": [
+        "",
+        "==============================================================",
+        "all 5 checks passed"
+      ]
+    }
+  ],
+  "source_guard": "Source oligos: 13 checked, 0 failed, 0 source bundles skipped, 1 strands exempted from text matching, 3 inputs without exact states, 6 graphs",
+  "retrieval_requests": [],
+  "critical_review": {
+    "date": "2026-11-02",
+    "local_findings": [
+      {
+        "protocol": "got__10.1038+s41586-019-1367-0",
+        "finding": "Existing source-named stage said template-switched recovered cDNA, while inspected Methods names the recovered first-strand population after emulsion breakage, without declaring every molecule switched.",
+        "resolution": "Removed template-switched qualifier from stage; exact end/product limitations retained; GoT3checks/build rerun pass."
+      }
+    ],
+    "lineage_review": "All7 parent/child IDs registered. All proposals are scoped adapted_component edges from explicit source-named preparation use. Author-manuscript evidence remains marked; no inferred whole-protocol chemistry or unknown external node is promoted. Existing edges are not duplicated.",
+    "shared_findings_sent_to_root": [
+      {
+        "finding": "Strict required_sites accepts bases in Segment.inferred regions because _known_strands does not mask inferred segments.",
+        "reproduction": "Synthetic inferred TTTTCCCC segment passes required primer GGGG.",
+        "proposal": "Mask inferred segments as barriers for strict known-site validation and add negative regression test; root owns decision/patch."
+      },
+      {
+        "finding": "Removed source material can raise KeyError during handoff_problems; export reference producer is not compared to current producer.",
+        "proposal": "Report invalid removed/stale export before dereference and compare producer identity; root owns patch."
+      }
+    ]
+  }
+}

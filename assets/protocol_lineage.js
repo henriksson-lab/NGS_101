@@ -7,6 +7,7 @@
   function element(tag,attrs,text,parent=world){const e=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))e.setAttribute(key,value);if(text!==undefined)e.textContent=text;parent.append(e);return e;}
   function sourceLink(text,url){const a=node('a',text);a.href=url;return a;}
   function protocolButton(id){const b=node('button',nodes.get(id).title,'lineage-detail-button');b.type='button';b.addEventListener('click',()=>choose(id,true));return b;}
+  function basisLabel(basis){return basis==='documented'?'Source-documented':basis==='inferred'?'Inferred':'Guessed predecessor · chemistry analogy, not established ancestry';}
   function relations(){return data.relations.filter(e=>$(e.basis).checked);}
   function adjacency(edges,similarities){
     const map=new Map();for(const n of nodes.keys())map.set(n,new Set());
@@ -19,14 +20,23 @@
     history.replaceState(null,'','?protocol='+encodeURIComponent(id));draw();details(id);
   }
   function details(id){
-    const item=nodes.get(id),box=$('detail');box.replaceChildren(node('h2',item.title),sourceLink('Open protocol schematic',item.url));
+    const item=nodes.get(id),box=$('detail');box.replaceChildren(node('h2',item.title),sourceLink(item.external?'Open predecessor source':'Open protocol schematic',item.url));
+    if(item.external)box.append(node('p','Predecessor outside this catalogue.','lineage-basis'));
+    const review=item.ancestry_review||{};
+    if(review.formal_assignment==='cannot_formally_assign')box.append(node('p','No formal ancestor assigned in this review.','lineage-basis'),node('p',review.reason||''),node('p',review.inference_reason||''));
+    if(review.status==='source_blocked'||(review.blockers||[]).length){
+      box.append(node('h3',review.status==='source_blocked'?'Ancestry source review blocked':'Ancestry comparison sources pending'));
+      for(const blocker of review.blockers||[])box.append(sourceLink(blocker.url,blocker.url),node('p',blocker.reason));
+    }
+    if(review.status==='unreviewed'||!item.external&&!review.status)box.append(node('p','Ancestry has not yet been reviewed.','lineage-detail-muted'));
     const edges=data.relations.filter(e=>id===e.parent||id===e.child);
-    if(!edges.length)box.append(node('p','No curated ancestry links yet. This does not establish independent origins.','lineage-detail-muted'));
-    for(const [heading,field]of [['Parents','child'],['Descendants','parent']]){
-      const list=edges.filter(e=>e[field]===id);if(!list.length)continue;box.append(node('h3',heading));const ul=node('ul');
+    if(item.withheld_predecessor_count)box.append(node('p','Some predecessor or candidate links are withheld until the corresponding protocol pages are available.','lineage-detail-muted'));
+    if(!edges.length&&!item.withheld_predecessor_count)box.append(node('p','No curated ancestry links yet. This does not establish independent origins.','lineage-detail-muted'));
+    for(const [heading,field,guessed]of [['Predecessors','child',false],['Guessed earlier analogues','child',true],['Descendants','parent',false],['Later chemistry analogues','parent',true]]){
+      const list=edges.filter(e=>e[field]===id&&(e.basis==='guessed')===guessed);if(!list.length)continue;box.append(node('h3',heading));const ul=node('ul');
       for(const e of list){
         const li=node('li'),other=e.parent===id?e.child:e.parent;
-        li.append(protocolButton(other),node('div',e.basis==='documented'?'Source-documented':'Inferred','lineage-basis'),node('div',e.scope));
+        li.append(protocolButton(other),node('div',basisLabel(e.basis),'lineage-basis'),node('div',e.scope));
         const more=node('button','Evidence','lineage-detail-button');more.type='button';more.addEventListener('click',()=>edgeDetails(e));li.append(more);ul.append(li);
       }box.append(ul);
     }
@@ -42,7 +52,7 @@
   }
   function edgeDetails(edge){
     const box=$('detail');
-    box.replaceChildren(node('h2','Method relationship'),protocolButton(edge.parent),node('p','↓'),protocolButton(edge.child),node('p',edge.basis==='documented'?'Source-documented':'Inferred','lineage-basis'),node('h3','Scope'),node('p',edge.scope),node('p',edge.rationale),node('h3','Limits'),node('p',edge.limits));
+    box.replaceChildren(node('h2',edge.basis==='guessed'?'Guessed earlier chemistry analogue':'Method relationship'),protocolButton(edge.parent),node('p','↓'),protocolButton(edge.child),node('p',basisLabel(edge.basis),'lineage-basis'),node('h3','Scope'),node('p',edge.scope),node('p',edge.rationale),node('h3','Limits'),node('p',edge.limits));
     for(const source of edge.evidence)box.append(sourceLink(source.url,source.url),node('p',source.locator));
     box.append(node('small','Reviewed '+edge.reviewed));
   }
@@ -122,24 +132,25 @@
       path.addEventListener('click',()=>similarityDetails(e));path.addEventListener('keydown',event=>{if(event.key==='Enter')similarityDetails(e);});
     }
     for(const e of visibleEdges){
-      const a=positions.get(e.parent),b=positions.get(e.child),x1=a.x+200,y1=a.y+22,x2=b.x,y2=b.y+22,color=e.basis==='documented'?'#287d89':'#a67415';
+      const a=positions.get(e.parent),b=positions.get(e.child),x1=a.x+200,y1=a.y+22,x2=b.x,y2=b.y+22,color=e.basis==='documented'?'#287d89':e.basis==='inferred'?'#a67415':'#777b85';
       const group=element('g',{class:'lineage-edge','data-relation':e.id,tabindex:0,role:'button','aria-label':nodes.get(e.parent).title+' to '+nodes.get(e.child).title+', '+e.basis});
       const d='M'+x1+','+y1+' C'+(x1+35)+','+y1+' '+(x2-35)+','+y2+' '+x2+','+y2;
       element('path',{d,fill:'none',stroke:'transparent','stroke-width':14},undefined,group);
-      element('path',{d,fill:'none',stroke:color,'stroke-width':1.8,'stroke-dasharray':e.basis==='inferred'?'6 4':''},undefined,group);
+      element('path',{d,fill:'none',stroke:color,'stroke-width':1.8,'stroke-dasharray':e.basis==='inferred'?'6 4':e.basis==='guessed'?'2 4':''},undefined,group);
       element('path',{d:'M'+(x2-8)+','+(y2-5)+' L'+x2+','+y2+' L'+(x2-8)+','+(y2+5),fill:'none',stroke:color,'stroke-width':1.8},undefined,group);
       group.addEventListener('click',()=>edgeDetails(e));group.addEventListener('keydown',event=>{if(event.key==='Enter')edgeDetails(e);});
     }
     for(const id of shown){
       const p=positions.get(id),item=nodes.get(id),group=element('g',{class:'lineage-node','data-protocol':id,tabindex:0,role:'button','aria-label':item.title});
-      element('rect',{x:p.x,y:p.y,width:200,height:44,rx:7,fill:id===selected?'#e5f2f5':'#f6f8fa',stroke:id===selected?'#287d89':'#c8d5df','stroke-width':id===selected?2:1},undefined,group);
-      element('title',{},item.title,group);
+      element('rect',{x:p.x,y:p.y,width:200,height:44,rx:7,fill:id===selected?'#e5f2f5':item.external?'#fff7e9':'#f6f8fa',stroke:id===selected?'#287d89':'#c8d5df','stroke-width':id===selected?2:1,'stroke-dasharray':item.external?'4 3':''},undefined,group);
+      element('title',{},item.title+(item.external?' (outside catalogue)':''),group);
       const words=item.title.length>28?item.title.slice(0,26)+'…':item.title;
       element('text',{x:p.x+100,y:p.y+27,'text-anchor':'middle','font-family':'sans-serif','font-size':13,fill:'#20364b'},words,group);
       group.addEventListener('click',()=>choose(id));group.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();choose(id);}});
     }
     if(!shown.length)element('text',{x:24,y:50,'font-family':'sans-serif','font-size':14,fill:'#526579'},'No relationships match these filters. Find a protocol or include unlinked protocols.');
-    $('status').textContent=shown.length+' of '+nodes.size+' public protocols · '+visibleEdges.length+' curated links'+(visibleSimilarities.length?' · '+visibleSimilarities.length+' similarity links':'')+'. Lineage curation is partial.';
+    const publicShown=shown.filter(id=>!nodes.get(id).external).length,externalShown=shown.length-publicShown;
+    $('status').textContent=publicShown+' of '+(data.stats?.protocols||[...nodes.values()].filter(n=>!n.external).length)+' public protocols'+(externalShown?' · '+externalShown+' external predecessors':'')+' · '+visibleEdges.length+' curated links'+(visibleSimilarities.length?' · '+visibleSimilarities.length+' similarity links':'')+'. Lineage curation is partial.';
     $('export').disabled=!shown.length;fit();
   }
   $('find').addEventListener('click',()=>{
@@ -148,7 +159,7 @@
     if(item&&q)choose(item.id,true);else $('status').textContent='No matching public protocol.';
   });
   $('search').addEventListener('keydown',event=>{if(event.key==='Enter'){$('find').click();event.preventDefault();}});
-  for(const id of ['documented','inferred','similar','isolated'])$(id).addEventListener('change',draw);
+  for(const id of ['documented','inferred','guessed','similar','isolated'])$(id).addEventListener('change',draw);
   $('focus').addEventListener('click',()=>{focused=true;draw();});$('all').addEventListener('click',()=>{focused=false;draw();});
   $('fit').addEventListener('click',fit);$('plus').addEventListener('click',()=>zoom(1.25));$('minus').addEventListener('click',()=>zoom(.8));
   $('canvas').addEventListener('wheel',event=>{if(!data)return;event.preventDefault();const box=$('canvas').getBoundingClientRect();zoom(event.deltaY<0?1.12:1/1.12,event.clientX-box.left,event.clientY-box.top);},{passive:false});

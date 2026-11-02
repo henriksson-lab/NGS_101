@@ -209,7 +209,13 @@ distinction does not waive source checks or establish that information is absent
    Multiple parents are allowed. Record inspected evidence, scope and limits, and
    distinguish documented ancestry from design-based inference. Shared primers
    suggest links to investigate; computed similarity never establishes ancestry
-   or authorizes inheriting chemistry. Leave uncurated origins unspecified.
+   or authorizes inheriting chemistry. Record ancestry-review outcomes in
+   `catalogue/protocol_ancestry_reviews.json`: external predecessors, actual original-source
+   blockers, or inability to assign formally. Assess a likely earlier design when formal
+   attribution is unavailable; use `inferred` for reasoned likely derivation and `guessed`
+   for a weaker earlier chemistry analogue, with evidence, scope and chronology. Do not
+   force a candidate when none is defensible. Use `tools/audit_protocol_ancestry.py` and
+   `tools/suggest_protocol_ancestors.py` to identify unfinished review and candidates.
 5. Add the directory to `catalogue/ours.tsv` with status `notes`, `section` `published`
    (or `wip` for our own unpublished work; the catalogue self-test pins the wip set, so
    update its `WIP` too) and `modality` `DNA` / `RNA` / `multi`. Re-run

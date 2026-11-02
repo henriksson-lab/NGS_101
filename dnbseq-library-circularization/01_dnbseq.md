@@ -20,3 +20,12 @@ DNBSEQ converts an adapter-bearing linear library into single-stranded circles a
 ## 3. Molecular path
 
 Circularization changes the topology before sequencing. Rolling-circle replication then changes copy number without making independent PCR molecules: all repeated units in one nanoball derive from one closed library strand.
+
+## Full input-ledger review, 2 November 2026
+
+Manual7.0 sections1.1–1.2 (text199–212) were reread after mandatory source
+scraping. The graph input now explicitly requires an MGI DuplexUMI/UDB or
+MGI dual-barcode standard PCR product. This is a caller-selected compatible
+preparation, not arbitrary Illumina dsDNA and not a uniquely identified upstream
+protocol. Whole adapter/end compatibility remains kit-specific and unassembled;
+no automatic input-state import or guessed producer link is added.

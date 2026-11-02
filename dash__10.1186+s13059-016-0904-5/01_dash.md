@@ -31,3 +31,15 @@ Published original PMC4778327 Methods191–211 was re-read. Its manifest identif
 The normal publication gate still retains `unreviewed_full_input_geometry`: exact NuGEN/Nextera input polymers, complete source guide-transcription implementation and historical index/primer/read geometry remain unassembled. Some required source facts are present in the available main: Methods197 prints complete guide-template oligos, PCR primers, pooled transcription templates and T7 transcription/cleanup. The remaining work is therefore not a claim that the guide sequence is absent or unavailable. The cited optimized-scaffold and assembly originals, plus input-preparation sources, were not followed in this bounded pass. No superseded preprint or other DASH application was substituted.
 
 Additional model work should preserve actual independently prepared DASH/no-DASH samples and their unknown pooling composition, fresh first/second PCR supplies, analytical ddPCR contributions/remainders and source-positive producer scope. The main's pooling statement does not identify every control's physical pool membership or quantitative ratio. The present generic other-library input does not establish those details. Exact dose/index/whole-strand completion and guide-producer assembly remain deferred; no coverage exclusion or source-absence claim was made.
+
+## Full input-ledger review, 2 November 2026
+
+Published main Methods191 and211 were reread after mandatory bundle scraping
+(185sequences/fivefiles). The graph now links the source-named amplification
+component to [Ovation RNA-Seq V2](../ovation-rna-seq-v2__10.1093+nar+gkr547/ovation-rna-seq-v2.html),
+while explicitly retaining the intervening Nextera partial-adapter preparation.
+Ovation's amplified cDNA alone is not the complete DASH substrate; no state is
+imported. Historical whole polymers, Nextera implementation and adapter ends
+remain unassembled. The `kapa` inventory hit is an amplification catalyst, and
+`other_libraries` represents independent pool contributions, not a distinct
+established predecessor protocol.

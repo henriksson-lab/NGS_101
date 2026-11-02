@@ -348,21 +348,28 @@
           "material": "tagmented_cdna",
           "label": "Source HeLa/CSF NuGEN-amplified, Nextera-partial-adapter cDNA; historical full polymers unassembled",
           "file": "dash__10.1186+s13059-016-0904-5/tools/dash.py",
-          "line": 38,
-          "status": "literal_declaration_needs_source_review"
+          "line": 39,
+          "status": "literal_declaration_needs_source_review",
+          "declared_origin": {
+            "protocol": "ovation-rna-seq-v2__10.1093+nar+gkr547",
+            "page": "ovation-rna-seq-v2.html",
+            "stage": "Ovation v2 amplified cDNA after a separately described Nextera partial-adapter preparation",
+            "source": "Published PMC4778327, Preparation of cDNA from HeLa RNA and CSF samples, text191.",
+            "limitation": "The source explicitly names NuGEN Ovation v2 for amplification, then applies a Nextera preparation before DASH. The linked Ovation product alone is not the final DASH substrate. Historical kit revision, Nextera implementation, complete polymers and adapter ends remain unassembled; this reference imports no molecular state."
+          }
         },
         {
           "material": "kapa",
           "label": "Source KAPA library-amplification chemistry",
           "file": "dash__10.1186+s13059-016-0904-5/tools/dash.py",
-          "line": 58,
+          "line": 59,
           "status": "literal_declaration_needs_source_review"
         },
         {
           "material": "other_libraries",
           "label": "Other source separately prepared, quantified libraries for sequencing pool",
           "file": "dash__10.1186+s13059-016-0904-5/tools/dash.py",
-          "line": 66,
+          "line": 67,
           "status": "literal_declaration_needs_source_review"
         }
       ]
@@ -490,7 +497,7 @@
           "material": "meyer_method",
           "label": "Source cited Meyer2012 ssDNA library method, precise components/version unreviewed",
           "file": "espan__10.1016+j.molcel.2014.09.017/tools/chem.py",
-          "line": 85,
+          "line": 86,
           "status": "literal_declaration_needs_source_review"
         }
       ]
@@ -1117,8 +1124,15 @@
           "material": "wta",
           "label": "Source10x whole-transcriptome amplified cDNA, including expressed polyadenylated BFP/GBC transcript products",
           "file": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038/tools/chem.py",
-          "line": 77,
-          "status": "literal_declaration_needs_source_review"
+          "line": 79,
+          "status": "literal_declaration_needs_source_review",
+          "declared_origin": {
+            "protocol": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049",
+            "page": "10x-chromium-single-cell-3-ge-v1.html",
+            "stage": "Whole-transcriptome amplified cDNA before guide-barcode dial-out PCR",
+            "source": "Associated author manuscript PMC5181115, Single cell library preparation, text318\u2013326 and Zheng2016 bibliography909\u2013911 (DOI10.1038/ncomms14049).",
+            "limitation": "The inspected source explicitly cites the original Chromium paper, but its exact historical manufacturer-guide revision and complete WTA polymers remain unverified. This reference imports no molecular state and does not establish final-publication equivalence of the accepted manuscript."
+          }
         }
       ]
     },

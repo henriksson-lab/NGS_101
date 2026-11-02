@@ -6,6 +6,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from chemdraw import Scene
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan
 from pcr import PCRGeometry
+from protocol_handoff import declare_input_origin
 SOURCE='Gu et al.2016 DOI10.1186/s13059-016-0904-5; published PMC4778327 Fig1, Methods191–211; published Additionalfile1 guide table'
 GUIDE='ATTTTCAGTGTATTGCTTTG'
 
@@ -68,6 +69,10 @@ def protocol_graph():
     g.react('pool','Source library pooling/quantification handoff',S.POOL,((reamplified,R.TEMPLATE),(other,R.TEMPLATE)),(pooled,))
     g.sequence(pooled,SequencingPlan(acquired_roles=('Read 1','Read 2'),read_lengths={'Read 1':135,'Read 2':135},limitation='Source HiSeq4000PE135; exact final-library/run-primer/index landing remains unassembled.'))
     g.declare_reviewed_scope(['tagmented_cdna','cas9','guide_pool','rnp_buffer','assemble_rnp','cut','proteinase','proteolyze','organic_extract_reagent','organic_extract','ethanol_recovery_reagent','ethanol_recovery','index_forward','index_reverse','kapa','index_pcr','size_selection_reagent','size_selection','dna_cleanup_reagent','dna_cleanup','q_pcr','other_libraries','pool','pooled_library'],SOURCE)
+    declare_input_origin(g,'tagmented_cdna',protocol='ovation-rna-seq-v2__10.1093+nar+gkr547',page='ovation-rna-seq-v2.html',
+        stage='Ovation v2 amplified cDNA after a separately described Nextera partial-adapter preparation',
+        source='Published PMC4778327, Preparation of cDNA from HeLa RNA and CSF samples, text191.',
+        limitation='The source explicitly names NuGEN Ovation v2 for amplification, then applies a Nextera preparation before DASH. The linked Ovation product alone is not the final DASH substrate. Historical kit revision, Nextera implementation, complete polymers and adapter ends remain unassembled; this reference imports no molecular state.')
     g.add_source_item(SourceItem('unreviewed_full_input_geometry','Exact NuGEN/Nextera input, full guide RNA transcription and historical index/primer/read geometry','Published Methods191/197/211 and directly cited originals'))
     return g
 

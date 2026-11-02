@@ -1,0 +1,3260 @@
+{
+  "date": "2026-11-02",
+  "scope": "Full finite protocol-input ledger: every current public graph candidate and literal notes/draft candidate, plus four public entries without a unique graph reviewed separately by coordinator. Source-informed handoff review, not complete chemistry review of all catalogue protocols.",
+  "rules": "Capped breadth first: maximum10minutes/three originals per protocol; no accepted absence claims without independent gate; no guessed inheritance. Each row must finish with evidence-backed disposition or concrete source/model blocker.",
+  "rows": [
+    {
+      "scope": "public",
+      "protocol": "arm-seq__10.1038+nmeth.3508",
+      "material": "treated_kit_reagents",
+      "label": "Actual named historical NEBNext Small RNA Library Prep Kit for Illumina contributions; edition, components and packaging unassembled",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Cozen et al. 2015 doi:10.1038/nmeth.3508, Methods Treatment of RNA with AlkB; library preparation; associated author manuscript, whole VOR equivalence not established",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "NEBNext Small RNA supplies convert the protocol's treated/control RNA into libraries; these graph inputs are reagent inventories, not prebuilt external libraries.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "nmeth.3508_PMC4553111.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Methods, library preparation, text105–107",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4553111.1/PMC4553111.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "arm-seq__10.1038+nmeth.3508",
+      "material": "control_kit_reagents",
+      "label": "Actual named historical NEBNext Small RNA Library Prep Kit for Illumina contributions; edition, components and packaging unassembled",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Cozen et al. 2015 doi:10.1038/nmeth.3508, Methods Treatment of RNA with AlkB; library preparation; associated author manuscript, whole VOR equivalence not established",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "NEBNext Small RNA supplies convert the protocol's treated/control RNA into libraries; these graph inputs are reagent inventories, not prebuilt external libraries.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "nmeth.3508_PMC4553111.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Methods, library preparation, text105–107",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4553111.1/PMC4553111.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066",
+      "material": "viral_template",
+      "label": "viral DNA or reverse-transcribed cDNA",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Defining protocol: <a href=\"https://doi.org/10.1038/nprot.2017.066\">Quick et al., <i>Nature Protocols</i> (2017)</a>.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_or_unassigned_template",
+        "rationale": "The viral template is extracted DNA or locally reverse-transcribed RNA. It is a biological template boundary, not an NGS library from another protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "nprot.2017.066_PMC5902022.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Procedure, cDNA synthesis and DNA extraction, text297–325; multiplex PCR table355–367",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5902022.1/PMC5902022.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "cel-seq2__10.1186+s13059-016-0938-8",
+      "material": "peer_wells",
+      "label": "barcoded duplex cDNA from the other cells of one IVT",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1186/s13059-016-0938-8",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Per-cell cDNA comes from sibling wells of the selected tube workflow; an independently named protocol is not the producer. C1 pooling happens at another stage and is not substituted.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s13059-016-0938-8_PMC4848782.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Methods RNA-seq text115; Results tube-versus-C1 distinction79; abstract45",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4848782.1/PMC4848782.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "cel-seq__10.1016+j.celrep.2012.08.003",
+      "material": "peer_wells",
+      "label": "independently indexed ds-cDNA from other cells",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "<a href=\"https://doi.org/10.1016/j.celrep.2012.08.003\">Hashimshony et al., Cell Reports2012</a>; original mmc4 CEL-Seq Protocol2012-07-16 and mmc5 article/S1.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The detailed 2012 protocol explicitly pools cells for the same IVT; peer cDNA inputs are local siblings of the same preparation.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "j.celrep.2012.08.003_mmc4.pdf",
+            "identity": "Cell Reports 2012 supplement: detailed 'CEL-Seq Protocol' (T. Hashimshony, July 16 2012), 40 RT primers, MessageAmp II and TruSeq Small RNA library steps; publisher CDN; hand-fetched 2026-10-17; published_original_or_vendor_original",
+            "sections": "Detailed CEL-Seq Protocol, pooling cells for IVT and cDNA-column cleanup, text179–190",
+            "availability": "original_available_read",
+            "url": "https://ars.els-cdn.com/content/image/1-s2.0-S2211124712002288-mmc4.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "clippr-seq__10.1093+nar+gkae058",
+      "material": "clippr_kit_inventory",
+      "label": "Actual Collibri Stranded RNA library preparation aggregate supplies; number/packaging/addition schedule unassembled, not a proven premix",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Published OUP/NAR2024 PDF Methods77–122/Resultsmethodologyp4/actualFig1p5; associatedSIrolemap p1 andTableS8rawXML validationroles. AMXMLidentityheaderonly excluded; conservative4identity exposure/capexception recorded. No vendor/predecessor recipe inheritance.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "Collibri supplies make separate CLiPP and CLiPPR libraries from treated/untreated RNA. They are kit components, not existing DNA-library inputs.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nar_gkae058_PMC11014417.pdf",
+            "identity": "article PDF (PMC Cloud); published_layout_or_published_supplement",
+            "sections": "Published-layout PDF, Library preparation and RNA-sequencing, text114–124",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11014417.358/PMC11014417.358.pdf"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "clippr-seq__10.1093+nar+gkae058",
+      "material": "clipp_kit_inventory",
+      "label": "Actual Collibri Stranded RNA library preparation aggregate supplies; number/packaging/addition schedule unassembled, not a proven premix",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Published OUP/NAR2024 PDF Methods77–122/Resultsmethodologyp4/actualFig1p5; associatedSIrolemap p1 andTableS8rawXML validationroles. AMXMLidentityheaderonly excluded; conservative4identity exposure/capexception recorded. No vendor/predecessor recipe inheritance.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "Collibri supplies make separate CLiPP and CLiPPR libraries from treated/untreated RNA. They are kit components, not existing DNA-library inputs.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nar_gkae058_PMC11014417.pdf",
+            "identity": "article PDF (PMC Cloud); published_layout_or_published_supplement",
+            "sections": "Published-layout PDF, Library preparation and RNA-sequencing, text114–124",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11014417.358/PMC11014417.358.pdf"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "cola-seq__10.1016+j.molcel.2022.11.004",
+      "material": "cells",
+      "label": "Source K562 library cohort: RNA from200million cells",
+      "kind": "biological sample",
+      "primary": true,
+      "source": "Accepted author manuscript NIHMS1854138/PMC10448999, DOI10.1016/j.molcel.2022.11.004; introduction72/workflow90–94/STARMethods216–230. Final publication equivalence unverified. TableS4/S5 identities cited, actual oligo documents unresolved; no preprint sequence inheritance.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_or_unassigned_template",
+        "rationale": "RNA from 200 million K562 cells is the biological source. The phrase library cohort does not make the cells an upstream sequencing library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "j.molcel.2022.11.004_PMC10448999.xml",
+            "identity": "Accepted author manuscript NIHMS1854138/PMC10448999.1, full-text JATS XML from PMC Cloud; original header checked; final-published-body equivalence unverified; associated_author_manuscript",
+            "sections": "Associated manuscript, CoLa-seq library preparation, text226; Results95",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10448999.1/PMC10448999.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "damage-seq__10.1073+pnas.1614430113",
+      "material": "pcr_mix",
+      "label": "Unassigned molecular reagent supply for source library PCR; no kit recipe inferred",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Published Hu2016 main Results/Figure1; relevant SI unavailable, scope explicitly partial",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "The local PCR mixture is a reagent supply added after local adapter processing. This candidate does not denote an imported prepared library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "pnas.1614430113_PMC5068337.html",
+            "identity": "PMC article page: full text; published_original_or_vendor_original",
+            "sections": "PMC full article HTML, Damage-seq method paragraph and Figure1, text1137–1148",
+            "availability": "original_available_read",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5068337/"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "dnbseq-library-circularization",
+      "material": "indexed_library",
+      "label": "adapter-bearing indexed dsDNA library",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Commercial protocol: MGI <a href=\"https://global-mgitech.com/wp-content/uploads/Documents/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf\">MGIEasy Dual Barcode Circularization Kit User Manual 7.0</a> (part SOP-013-B02-185, kit version V1.0, Sep. 2024) and <a href=\"https://en.mgi-tech.com/Uploads/Temp/file/20240530/66583952cae5b.pdf\">DNBSEQ Dual Barcode Adapter &amp; Barcode Sequences 3.0</a>.",
+      "status": "needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_caller_selected_input",
+        "rationale": "Tightened graph input to MGI DuplexUMI/UDB or MGI dual-barcode standard PCR product; structured input-class/strandedness/single-barcode exclusion. No unique producer is named.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf",
+            "identity": "Published manufacturer manual7.0; printed title/revision verified",
+            "sections": "Manual7.0 sections1.1–1.2, text199–212",
+            "availability": "read_local_original_text_twin",
+            "url": "https://global-mgitech.com/wp-content/uploads/Documents/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf"
+          }
+        ],
+        "deferred": [
+          "Select an actual upstream MGI kit/revision and reconstruct complete adapter-bearing PCR product before importing state."
+        ],
+        "changes": [
+          "Tightened graph input to MGI DuplexUMI/UDB or MGI dual-barcode standard PCR product; structured input-class/strandedness/single-barcode exclusion. No unique producer is named."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "fastgro__10.1016+j.celrep.2020.108373",
+      "material": "library_supplies",
+      "label": "Aggregate source historical NEBNext UltraII Directional RNA-library supplies; packaging/stock count/internal order unassigned",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Published Cell Reports33,108373(10Nov2020), actual publisher-layout PDF cached as NIHMS1645786-supplement-2, MethodsPDFp16/e3(lines2218–2240). Detailed cited protocol export is separate/version-qualified; no complete equivalence asserted.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "NEBNext Ultra II kit and index supplies convert locally recovered RNA into a sequencing library; the inventory is not a prebuilt library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "j.celrep.2020.108373_supp_NIHMS1645786-supplement-2.pdf",
+            "identity": "Published Cell Reports33,108373 article plus Supplemental Information (publisher-layout PDF; printed10Nov2020/DOI verified; cached as PMC associated supplement2); published_layout_or_published_supplement",
+            "sections": "Published-layout article plus SI, library-production paragraph text2253–2256 and key-resource kit rows1993–2010",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7702699.1/NIHMS1645786-supplement-2.pdf"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "got__10.1038+s41586-019-1367-0",
+      "material": "first_cdna",
+      "label": "selected3′v2 native recovered first-strand10x cDNA; prior version-native kit chemistry bounded",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Nam et al. Nature2019 doi:10.1038/s41586-019-1367-0; publishedPMC6782071 Methods GoT/CircularizationGoT; originalSupplementTable5.",
+      "status": "source_named_handoff",
+      "upstream": {
+        "protocol": "10x-chromium-single-cell-3-ge-v2",
+        "stage": "Recovered, template-switched first-strand cDNA before bulk amplification",
+        "page": "10x-3prime-v2.html",
+        "source": "Nam et al. 2019, published Methods, GoT 3′ v2; source-owned declaration SOURCE.",
+        "limitation": "The source names 3′ v2 recovered cDNA. Exact guide revision and complete native first-strand/end compatibility with the linked reference model are not established; its state is not silently imported.",
+        "version": "",
+        "title": "",
+        "url": ""
+      },
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Retained Chromium3primev2 recovered-first-strand source link; corrected associated-manuscript provenance and final-version limitation.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s41586-019-1367-0_PMC6782071.xml",
+            "identity": "Associated author manuscript; manifest author manuscript True; finalVOR equivalence not established",
+            "sections": "Methods GoT, text196",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6782071.1/PMC6782071.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact historical guide revision and complete recovered first-strand/end state remain unverified; no molecular import."
+        ],
+        "changes": [
+          "Retained Chromium3primev2 recovered-first-strand source link; corrected associated-manuscript provenance and final-version limitation."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "hyden-seq__10.1038+nsmb.2957",
+      "material": "other_library_stocks",
+      "label": "Actual other source libraries for sequencing pool; indices, stock quantities and whole polymers unassembled",
+      "kind": "sequencing library",
+      "primary": false,
+      "source": "Original HydEn-seq Methods; publisherTable1,selectedARC84",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Locally amplified HydEn libraries are pooled for sequencing. Other library stocks are unassigned pool members; no distinct producer method is established by this pooling statement.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "nsmb.2957_PMC4351163.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, HydEn-Seq Methods text134; pooled-library finish",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4351163.1/PMC4351163.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "hydrapsiseq__10.1093+nar+gkaa769",
+      "material": "other_libraries",
+      "label": "Other source libraries for actualmultiplexedrun; identities,indexmembers,countsunassigned",
+      "kind": "sequencing library",
+      "primary": false,
+      "source": "Marchand et al. 2020 doi:10.1093/nar/gkaa769, published Methods and Supplementary Figure S1",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Libraries made by this route are multiplexed for HiSeq1000. The other-library input is pool context, not a source-identified different protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nar_gkaa769_PMC7641733.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, Library preparation and high-throughput sequencing, text99–101",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7641733.1/PMC7641733.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "iclip__10.1038+nsmb.1838",
+      "material": "cdna_glycoblue",
+      "label": "Source0.5µlGlycoBlue for cDNA precipitation",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "König et al. 2010 doi:10.1038/nsmb.1838, publisher Supplementary Methods pp1–4",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "GlycoBlue is explicitly a precipitation carrier added to local cDNA, not a supplied cDNA molecule or another method's output.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nsmb.1838_41594_2010_BFnsmb1838_MOESM21_ESM.pdf",
+            "identity": "Springer supplementary file; published_layout_or_published_supplement",
+            "sections": "Published supplementary methods, cDNA precipitation, text2137–2140; compared RNA precipitation2115–2118",
+            "availability": "original_available_read",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "libra-seq__10.1016+j.cell.2019.11.003",
+      "material": "polymerase",
+      "label": "Actual cDNA-PCR aggregate supplies; stock packaging/formulation unassigned",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1016/j.cell.2019.11.003; final-version author manuscript Methods198–220; whole VOR equivalence not established",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "The input is aggregate amplification supplies within the local antigen-reporter library route. CITE-seq ancestry is separately source-named; the kit supply is not a prepared CITE-seq library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "j.cell.2019.11.003_PMC7158953.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, single-cell library preparation, text216",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7158953.1/PMC7158953.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "limca__10.1038+s41592-024-02239-0",
+      "material": "dna_others",
+      "label": "other independentlyindexednuclear libraries",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "<a href=\"https://doi.org/10.1038/s41592-024-02239-0\">Wu et al., Nature Methods2024</a>; directly cited pex2423v1 protocol and its original attachedLiMCAOligos workbook.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The DNA/cDNA branches are prepared per cell and pooled locally. Other independently indexed nuclear libraries are peer preparations; atlas/reference data are analytical, not physical substrates.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s41592-024-02239-0_PMC11166570.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, Single-cell WGA and Library construction, text197–205",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11166570.1/PMC11166570.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "m6a-sac-seq__10.1038+s41587-022-01243-z",
+      "material": "rna",
+      "label": "Actual independently prepared FTO- RNA library input: 30–100 ng poly(A)+ or rRNA-depleted RNA; actual transcript identities unassembled",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Hu et al.2022 doi:10.1038/s41587-022-01243-z, accepted manuscript Methods211–227; publisher SupplementaryTable1; VOR procedure applicability unverified",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_or_unassigned_template",
+        "rationale": "The FTO-minus input is an independently prepared RNA control, with poly(A)+ or rRNA-depleted RNA. It is not a previously sequenced or adapter-bearing external library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "s41587-022-01243-z_PMC9378555.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, m6A-SAC library construction215; FTO/control design231/239",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9378555.1/PMC9378555.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "maester__10.1038+s41587-022-01210-8",
+      "material": "cdna",
+      "label": "10x Genomics 3′ v3 cDNA, 20 ng per reaction",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Defining source: <a href=\"https://doi.org/10.1038/s41587-022-01210-8\">Miller et al., <i>Nature Biotechnology</i> (2022)</a>.",
+      "status": "source_named_handoff",
+      "upstream": {
+        "protocol": "10x-chromium-single-cell-3-ge-v3",
+        "stage": "Full-length amplified cDNA before fragmentation; 20 ng aliquot per reaction",
+        "page": "10x-3prime-v3.html",
+        "source": "MAESTER Methods, 10x Genomics 3′ v3 and MAESTER 10x 3′ v3; Supplementary Table 3 and Figure 3.",
+        "limitation": "The source identifies 3′ v3 cDNA, not a specific revision of the linked guide. Mitochondrial target occupancy and complete first-cycle products are not established by the platform name; this is a source-named link without state inheritance.",
+        "version": "",
+        "title": "",
+        "url": ""
+      },
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Retained Chromium3primev3 full-length WTA input link; corrected associated-manuscript provenance.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s41587-022-01210-8_PMC9288977.xml",
+            "identity": "Associated author manuscript; manifest author manuscript True; finalVOR equivalence not established",
+            "sections": "Methods133,139–163; references3/4 text304–318",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9288977.1/PMC9288977.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact guide revision, complete WTA/occupied targets and finalVOR applicability remain unverified."
+        ],
+        "changes": [
+          "Retained Chromium3primev3 full-length WTA input link; corrected associated-manuscript provenance."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "mcscrb-seq__10.1038+s41467-018-05347-6",
+      "material": "peer_wells",
+      "label": "barcoded cDNA from the other wells",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1038/s41467-018-05347-6",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Barcoded cDNA from the other wells is pooled within mcSCRB-seq itself. SCRB-seq is ancestry, not a prebuilt physical input to this pool.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s41467-018-05347-6_PMC6062574.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, mcSCRB-seq cDNA pooling143; Figure1/workflow45",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6062574.1/PMC6062574.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "nextera-xt-dna-library-prep",
+      "material": "dna",
+      "label": "1ng standard genomicDNA; no amplicon-route bead substitution",
+      "kind": "biological sample",
+      "primary": true,
+      "source": "Illumina Nextera XT Product Documentation15031942v07 April2023; selected standard genomicDNA/XT-v2 indexes/bead normalization. AdapterSequences1000000002694v22 September2025 is later reference only; troubleshooting770-2015-015 qualifies partial adapters and physical ss endpoint.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_or_unassigned_template",
+        "rationale": "The selected input is1ng genomic DNA for this kit. It is neither an imported NGS library nor authority for the separate amplicon input branch.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "illumina_15031942_07_nextera-xt-product-documentation.pdf",
+            "identity": "Nextera XT Product Documentation 15031942 v07; why: Authoritative solution tagmentation, neutralization and indexed-PCR workflow.; published_original_or_vendor_original",
+            "sections": "Nextera XT Product Documentation15031942v07, DNA Input Recommendations and Tagment Genomic DNA",
+            "availability": "original_available_read",
+            "url": "https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_nextera/nextera-xt/15031942_07_nextera-xt-product-documentation.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "nick-seq__10.1093+nar+gkaa473",
+      "material": "nt_matched_control",
+      "label": "Actual corresponding source negative-control PCR library; upstream preparation/amount/whole polymers unassembled",
+      "kind": "sequencing library",
+      "primary": false,
+      "source": "Cao2020 published Materials and Methods; positive nickase-validation NT/TdT branches",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_control_preparation",
+        "rationale": "Matching negative-control PCR products are explicitly combined with each experimental preparation. They are locally prepared matched controls, not a source-named external protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nar_gkaa473_PMC7337925.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, NT and TdT library preparation/control pooling, text143–149",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7337925.1/PMC7337925.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "nick-seq__10.1093+nar+gkaa473",
+      "material": "tdt_matched_control",
+      "label": "Actual corresponding source negative-control PCR library; upstream preparation/amount/whole polymers unassembled",
+      "kind": "sequencing library",
+      "primary": false,
+      "source": "Cao2020 published Materials and Methods; positive nickase-validation NT/TdT branches",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_control_preparation",
+        "rationale": "Matching negative-control PCR products are explicitly combined with each experimental preparation. They are locally prepared matched controls, not a source-named external protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nar_gkaa473_PMC7337925.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, NT and TdT library preparation/control pooling, text143–149",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7337925.1/PMC7337925.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "picoplex-dna-seq",
+      "material": "other_libraries",
+      "label": "other PicoPLEX libraries, each with a different dual-index pair (up to 48 in all)",
+      "kind": "sequencing library",
+      "primary": false,
+      "source": "Rubicon Genomics (now Takara Bio) <a href=\"https://takara.co.kr/file/manual/pdf/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated%28RB3381%29.pdf\">PicoPLEX DNA-seq Instruction Manual QAM-106-002</a> (Cat# R300381).",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The manual combines equal aliquots of separately indexed PicoPLEX DNA-seq libraries from the same workflow. Other libraries are local pool peers.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "PicoPLEX-DNA-seq-Manual-QAM-106-002-updated_RB3381_.pdf",
+            "identity": "PicoPLEX DNA-seq instruction manual QAM-106-002; why: Primary commercial authority for the three reaction modules, dual-index plate and Illumina output.; published_original_or_vendor_original",
+            "sections": "Manual QAM-106-002, Dual Index Plate280–300; Library Pooling for Purification625–630",
+            "availability": "original_available_read",
+            "url": "https://takara.co.kr/file/manual/pdf/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated%28RB3381%29.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "point__10.1016+j.molcel.2021.02.034",
+      "material": "kit_reagents",
+      "label": "Actual historical NEBNext UltraII Directional RNA Library Prep E7760S reagent collection; edition, components and stock packaging unassembled",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Sousa-Luís et al.2021 doi:10.1016/j.molcel.2021.02.034, VOR STAR Methods JATS487–503",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "The NEBNext Ultra II kit is the finishing reagent collection for locally purified RNA. It is not an imported library substrate.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "j.molcel.2021.02.034_PMC8122139.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, POINT method489 and POINT-seq493; key-resource E7760S405",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8122139.1/PMC8122139.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
+      "material": "library_mix_bulk",
+      "label": "Sourcefreshmix1xPhusionHFbuffer/dNTP/SYBR/DMSO/library-fwd+rev500nM;buffernameisnotafreshenzymeaddition",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "PublishedPMC6710248 mainMethods163–187/Fig1; publishedSI MOESM1 Note1/Table1 originalp11. Two selected originals; no full linked-source or absence audit.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "The library-PCR mixture is freshly assembled reagent supply. Separately prepared PCR products are pooled after local amplification; the text does not identify a distinct producer protocol for those pool members.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s41467-019-11486-1_PMC6710248.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, qPCR183 and index/library PCR187",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6710248.1/PMC6710248.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "proximity-barcoding-assay-pba__10.1038+s41467-019-11486-1",
+      "material": "other_pcr_contributions",
+      "label": "Other actual source PCR products contributing to the library pool; identities, amounts and upstream preparations unassigned",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "PublishedPMC6710248 mainMethods163–187/Fig1; publishedSI MOESM1 Note1/Table1 originalp11. Two selected originals; no full linked-source or absence audit.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The library-PCR mixture is freshly assembled reagent supply. Separately prepared PCR products are pooled after local amplification; the text does not identify a distinct producer protocol for those pool members.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s41467-019-11486-1_PMC6710248.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, qPCR183 and index/library PCR187",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6710248.1/PMC6710248.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "r2c2__10.1073+pnas.1806447115",
+      "material": "indexed_cdna",
+      "label": "Tn5Prime indexed SIRV E2 full-length ds cDNA",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Defining source: <a href=\"https://doi.org/10.1073/pnas.1806447115\">Volden et al., <i>PNAS</i> (2018)</a>.",
+      "status": "source_named_handoff",
+      "upstream": {
+        "protocol": "",
+        "stage": "Amplified full-length, dual-indexed SIRV E2 cDNA before Tn5 tagmentation",
+        "page": "",
+        "source": "Volden et al. 2018, published Results and Materials and Methods (PMC6166824, lines 65, 145–149); reference 13; Supplementary Table S3.",
+        "limitation": "The cited Tn5Prime method supplies the cDNA preparation, not a tagmented Illumina library. No source-owned Tn5Prime intermediate is modelled here; this link imports no molecular state. The R2C2 study's SIRV-specific preparation and oligos remain local.",
+        "version": "",
+        "title": "Tn5Prime — Cole et al. 2018",
+        "url": "https://doi.org/10.1093/nar/gky182"
+      },
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Retained Tn5Prime original source link and pre-tagmentation SIRV input scope; generic SMARTseq2/10x/Dropseq compatibility discussion is not actual input provenance.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "pnas.1806447115_PMC6166824.xml",
+            "identity": "Published final original; manifest author manuscript False",
+            "sections": "Results65; Methods145–149; Discussion133–135; reference13",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6166824.1/PMC6166824.1.xml"
+          }
+        ],
+        "deferred": [
+          "No registered source-owned Tn5Prime intermediate; full library/overlap geometry remains locally incomplete."
+        ],
+        "changes": [
+          "Retained Tn5Prime original source link and pre-tagmentation SIRV input scope; generic SMARTseq2/10x/Dropseq compatibility discussion is not actual input provenance."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "rage-seq__10.1038+s41467-019-11049-4",
+      "material": "cdna",
+      "label": "Chromium 3′ v2 full-length cDNA (2 extra amplification cycles)",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Singh et al., NatureCommunications(2019), <a href=\"https://doi.org/10.1038/s41467-019-11049-4\">doi:10.1038/s41467-019-11049-4</a>; Methods droplet RNA, capture design, targeted capture, Nanopore sequencing and demultiplexing.",
+      "status": "source_named_handoff",
+      "upstream": {
+        "protocol": "10x-chromium-single-cell-3-ge-v2",
+        "stage": "Full-length amplified cDNA before expression-library fragmentation",
+        "page": "10x-3prime-v2.html",
+        "source": "Singh et al. 2019, published Methods, droplet RNA preparation and source initial cDNA allocation.",
+        "limitation": "RAGE-Seq adds two source-specific amplification cycles before this input. The linked standard v2 preparation does not supply that extra step or an established exact historical revision; molecular state remains locally declared.",
+        "version": "",
+        "title": "",
+        "url": ""
+      },
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Retained Chromium3primev2 full-length cDNA source link with two extra source-specific PCR cycles.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s41467-019-11049-4_PMC6635368.xml",
+            "identity": "Published final original; manifest author manuscript False",
+            "sections": "Methods Droplet-based scRNA-Seq, text164–166",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6635368.1/PMC6635368.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact historical guide revision and complete amplified-cDNA state remain unverified; source modifications are not supplied by a standard-v2 import."
+        ],
+        "changes": [
+          "Retained Chromium3primev2 full-length cDNA source link with two extra source-specific PCR cycles."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "ribose-seq__10.1038+nmeth.3259",
+      "material": "other_libraries",
+      "label": "Other indexed libraries for the source equimolar pool; members/counts unassigned",
+      "kind": "sequencing library",
+      "primary": false,
+      "source": "Koh2015 associated manuscript library Methods and sequencing; corrected2019 Table8; Addendum",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Locally indexed libraries are mixed equimolarly and normalized before MiSeq. Pool membership is not a cross-protocol material-inheritance claim.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "nmeth.3259_PMC4686381.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, DNA sequencing113",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4686381.1/PMC4686381.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "sci-atac-seq-2018__10.1038+nature25981",
+      "material": "round1_peers",
+      "label": "first-round indexed tagmented nuclei from other wells",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1038/nature25981",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Round1 wells are pooled and nuclei are redistributed for the next index round within the same adapted sci-ATAC workflow. Ancestry from2015 does not turn sibling nuclei into imported finished libraries.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "nature25981_PMC5866720.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, Collection of sci-ATAC-seq data117; adaptation statement77; reference1",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5866720.1/PMC5866720.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "sci-atac-seq__10.1126+science.aab1601",
+      "material": "round1_peers",
+      "label": "first-round indexed tagmented nuclei from other wells",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1126/science.aab1601",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Nuclei tagged in first-round wells are pooled and redistributed within this method. The round1 peer input is local combinatorial-index context.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "science.aab1601_PMC4836442.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, integrated method45 and Figure1 caption251",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4836442.1/PMC4836442.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "scifi-rna-seq__10.1101+2019.12.17.879304",
+      "material": "peer_wells",
+      "label": "first-strand cDNA from the other RT wells",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Defining source: Datlinger et al., Nature Methods 18:635 (2021), https://doi.org/10.1038/s41592-021-01153-z, Supplementary Table 1 and Supplementary Protocol v2021-01-25; gel-bead oligo drawn only in the article's Extended Data Fig. 3a (image)",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Preindexed cDNA remains inside cells/nuclei that are pooled and loaded into droplets within scifi-RNA-seq. Other RT wells are sibling preparations, not an external library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "s41592-021-01153-z_PMC7612019.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Published-study associated manuscript, scifi-RNA workflow41/61",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7612019.1/PMC7612019.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "sciplex-atac-seq__10.1186+s12864-023-09832-1",
+      "material": "pcrwell_peers",
+      "label": "independently PCR-indexed otherwell libraries",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Booth et al., <a href=\"https://doi.org/10.1186/s12864-023-09832-1\">BMCGenomics2023 Methods169–197/247–271 and published SupplementaryTable4</a>; linked author two-level protocol, printedID87966, modified4Oct2023.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "PCR-amplified products from each well are pooled in the local two-level sciPlex-ATAC procedure. The earlier bioRxiv record is superseded and excluded from current chemistry/evidence.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s12864-023-09832-1_PMC10696879.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original",
+            "sections": "Published BMC original, two-level preparation179–197; origins77–89; refs17/23",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10696879.1/PMC10696879.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "scrb-seq__10.1101+003236",
+      "material": "peer_wells",
+      "label": "barcoded cDNA from the other wells",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1101/003236",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The source pools cDNA from384 wells, cleans it and amplifies it. These are sibling SCRB preparations, not a pre-existing library from nanoCAGE or mcSCRB-seq.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "003236-1.pdf",
+            "identity": "(fetched by hand) SCRB-seq Supplementary Information: methods, oligos, Fig S1, Tables S1-S3; defining_preprint_supplement_no_published_version_substituted",
+            "sections": "Defining SCRB-seq supplementary methods, template-switching/pooling57–66",
+            "availability": "original_available_read",
+            "url": "https://www.biorxiv.org/highwire/filestream/827/field_highwire_adjunct_files/0/003236-1.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "scsnv-seq__10.1186+s13059-024-03169-y",
+      "material": "expanded",
+      "label": "expanded edited population carrying source iBAR6N/PuroR12N guide cassette; source lentiviral integration and doxycycline-induced base editing precede these library branches",
+      "kind": "biological sample",
+      "primary": true,
+      "source": "Defining source: <a href=\"https://doi.org/10.1186/s13059-024-03169-y\">Cooper et al., <i>Genome Biology</i> (2024)</a>.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_or_unassigned_template",
+        "rationale": "The expanded population has already undergone lentiviral guide/barcode integration and doxycycline-induced editing. It is a biological cell population entering later assays, not an NGS library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s13059-024-03169-y_PMC10789043.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, base-editing experiment119",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10789043.1/PMC10789043.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "spatial-vdj__10.1126+science.adf8486",
+      "material": "source",
+      "label": "Full-length Visium Rev A cDNA from upstream Step4.3 cleanup, before fragmentation",
+      "kind": "molecular material",
+      "primary": true,
+      "source": "Final published Science adf8486 Methods, Preparation of Spatial GEX and target enrichment: CG000239 Rev A;10ul full-length Visium cDNA before fragmentation.",
+      "status": "validated_handoff",
+      "upstream": {
+        "protocol": "10x-visium-spatial-gene-expression",
+        "version": "CG000239 Rev A",
+        "name": "full_length_cdna_rev_a",
+        "material": "full_length_cdna",
+        "producer": "cdna_cleanup",
+        "page": "visium.html",
+        "source": "10x Genomics CG000239 Rev A, Appendix printed p75 and Steps4.2–4.3 printed pp49–50; exact source cited by Engblom et al.2023",
+        "limitation": "Source-printed amplified duplex pattern; actual transcript, spot/UMI values and recovery are variable. Native first-cycle PCR and earlier slide-release strand chemistry remain unvalidated. No fragmentation, ligation adapter, P5/P7 or sample index is present at this handoff."
+      },
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_material_import",
+        "rationale": "Retained exact source-owned CG000239RevA full-length cDNA import; final article explicitly cites that revision and pre-enrichment input.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "science_adf8486_final_browser.html",
+            "identity": "Final published article; manifest authorized institutional full-text browser original",
+            "sections": "Final Methods1623–1630 and SR preparation1643–1666",
+            "availability": "read_local_original_text_twin",
+            "url": "https://www.science.org/doi/full/10.1126/science.adf8486"
+          }
+        ],
+        "deferred": [
+          "Downstream full-index oligo orders depend on cited Stahl2016 chemistry; that distinct blocker does not invalidate the checked cDNA import."
+        ],
+        "changes": [
+          "Retained exact source-owned CG000239RevA full-length cDNA import; final article explicitly cites that revision and pre-enrichment input."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "strt-c1__10.1038+nmeth.2772",
+      "material": "pooled_tagged_cdna_peers",
+      "label": "other chamber-indexed tagmented cDNA",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1038/nmeth.2772",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Each chamber's local tagged cDNA library is pooled after tagmentation. The source-described original STRT method establishes ancestry, not external chamber-library supply.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nmeth.2772_41592_2014_BFnmeth2772_MOESM266_ESM.pdf",
+            "identity": "Springer supplementary file; published_layout_or_published_supplement",
+            "sections": "Published SI, pooled tagmented libraries161–165; modified STRT protocol124–138 and reference1",
+            "availability": "original_available_read",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.2772/MediaObjects/41592_2014_BFnmeth2772_MOESM266_ESM.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "strt-seq-2i__10.1038+s41598-017-16546-4",
+      "material": "subarray_pool_peers",
+      "label": "other well-indexed cDNA from the subarray",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1038/s41598-017-16546-4",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Dual-indexed subarrays are produced and pooled within STRT-seq-2i. Neither sibling subarrays nor their pool is a separately named upstream NGS protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "s41598-017-16546-4_PMC5703850.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published Methods, indexed cDNA pooling166 and pooled tagmented samples170",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5703850.1/PMC5703850.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "strt-seq__10.1101+gr.110882.110",
+      "material": "pooled_cdna_peers",
+      "label": "other well-barcoded cDNA from the plate",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "https://doi.org/10.1101/gr.110882.110",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The96 per-cell first-strand reactions are pooled and amplified within original STRT. Other cDNA wells are sibling preparations.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "gr.110882.110_PMC3129258.html",
+            "identity": "PMC article page: full text; published_original_or_vendor_original",
+            "sections": "Published PMC article HTML, workflow1163 and pooling1220/1256",
+            "availability": "original_available_read",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3129258/"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "sureplex",
+      "material": "pool_context",
+      "label": "other independentlyprepared normalizedss libraries; equalvolumes/sample indices retained",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Illumina <a href=\"https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/sureplex-protocol-reference-guide-15053626-02.pdf\">SurePlex15053626v02, September2020</a>; <a href=\"https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/veriseq-pgs-library-prep-reference-guide-15052877-05.pdf\">VeriSeqPGS15052877v05, August2021</a>; <a href=\"https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/veriseq-pgs-guidance-note-1000000138837-00.pdf\">GuidanceNote1000000138837v00</a>.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Equal volumes of normalized libraries from the same SurePlex/VeriSeq workflow are pooled. The pool-context input does not establish another producer method.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "illumina_veriseq-pgs-library-prep-reference-guide-15052877-05.pdf",
+            "identity": "VeriSeq PGS Library Prep Reference Guide; why: Primary commercial authority for tagmentation, S5xx/N7xx indexed PCR and single-read MiSeq acquisition. (already on disk); published_original_or_vendor_original",
+            "sections": "VeriSeq PGS Library Prep Reference Guide15052877v05, Pool Libraries for the MiSeq System",
+            "availability": "original_available_read",
+            "url": "https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/veriseq-pgs/veriseq-pgs-library-prep-reference-guide-15052877-05.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "sureselect-xt-hs2-dna",
+      "material": "other_indexed_libraries",
+      "label": "other uniquely dual-indexed HS2 libraries",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Agilent G9957-90000 Version B0 (May 2026), Chapter 4 Step 1, Table 30",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Pre-capture pooling takes separately indexed HS2 libraries produced by the same workflow. Distinct sample indexes do not imply a distinct upstream protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "G9957-90000.pdf",
+            "identity": "Agilent SureSelect XT HS2 DNA protocol G9957-90000 Version B0 May 2026 (78 pages); hand-downloaded by the maintainer on the institutional network 2026-10-17 and placed here; identity checked against the printed DOI/title before placement; published_original_or_vendor_original",
+            "sections": "Agilent G9957-90000 VersionB0, workflow overview and Hybridization/Capture/Amplification113–116",
+            "availability": "original_available_read",
+            "url": "https://www.agilent.com/cs/library/usermanuals/public/G9957-90000.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "target-seq__10.1016+j.molcel.2019.01.009",
+      "material": "tx_peers",
+      "label": "independently prepared othercell transcriptome libraries;equalmolarpooling",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Rodriguez-Meira et al. MolecularCell2019 doi:10.1016/j.molcel.2019.01.009; publishedPMC6436961 STARMethods/keyresources; originalmmc1 full-length96well protocol; mmc3TableS2.",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "The source prepares and pools barcoded per-cell transcriptome material in the TARGET-seq route. Other transcriptome contributions are sibling preparations; SMART-seq2 is component ancestry, not imported material.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "j.molcel.2019.01.009_PMC6436961.xml",
+            "identity": "full-text JATS XML (PMC Cloud); published_original_or_vendor_original",
+            "sections": "Published2019 original, transcriptome library preparation605–611; RT/PCR development128/138",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6436961.1/PMC6436961.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "tcp-seq__10.1038+nature18647",
+      "material": "cdna_supplies",
+      "label": "Actual source cDNA/library-preparation molecular supplies; whole oligos, enzymes and internal order unassembled",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Published2016SupplementaryDiscussion2a286–340/Fig/abstract and originalTable3MOESM90 DNA probes. Defining Nature main cached as subscriptionpreview, fullMethods and2017detailedprotocol ordinary unreviewed. Narrow applied production route, not reconstructed full2016recipe.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "blocked",
+        "disposition": "supplies_declaration_source_blocked",
+        "rationale": "The graph label denotes cDNA/library reagent supplies, but the defining full Methods remains inaccessible in this bundle. Retain a source-blocked classification rather than treating the preview or recovered tables as a complete original.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "nature18647.html",
+            "identity": "Published TCP-seq defining main article; why: Needed actual full article/source index to map recovered supplementary files before chemistry adoption.; subscription_preview_only",
+            "sections": "Publisher nature18647 landing page, subscription-preview notice608; no complete Methods",
+            "availability": "subscription_preview_only",
+            "url": "https://www.nature.com/articles/nature18647"
+          }
+        ],
+        "deferred": [
+          "Defining nature18647 full published Methods remains required; cached publisher HTML is subscription preview, not complete Methods."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "time-seq__10.1038+s43587-023-00555-2",
+      "material": "lambda_spike",
+      "label": "100 ng unmethylated lambda DNA tagmented with each pool (conversion-efficiency control)",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Griffin et al., Nature Aging (2024), Supplementary Information and Supplementary Table 5; doi:10.1038/s43587-023-00555-2 (Methods, TIME-seq library preparation)",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_control_preparation",
+        "rationale": "100ng unmethylated lambda phage DNA is tagmented with each pool to measure conversion efficiency. It is a local spike/control preparation, not a borrowed NGS library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "PMC11332592_PMC11332592.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, Tagmentation189",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11332592.1/PMC11332592.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "tla__10.1038+nbt.2959",
+      "material": "ngs_prep",
+      "label": "manufacturer Illumina library-preparation components; selected kit unassigned",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "de Vree et al., Nat Biotechnol32:1019–1025 (2014), doi10.1038/nbt.2959. Published main Online Methods: TLA sample preparation and Bioinformatics; Supplementary Fig1 and generic tissue-culture Supplementary Protocol through TLA PCR. Generic locus only, not a target-specific demonstration.",
+      "status": "needs_source_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "supplies_not_prepared_library",
+        "rationale": "The source sends local inverse-PCR products to manufacturer Illumina library preparation. The input candidate is unassigned finishing reagents, not an already made external library.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established.",
+        "originals": [
+          {
+            "file": "DeLaat_Key_2014_DeVree_Targeted-sequencing-by-proximity-ligation-for-comprehensive-variant-deletion-and-local-haplotyping.pdf",
+            "identity": "Published deVree2014 original author institutional PDF; why: Original methods for requested inverse-PCR methods; published_original_or_vendor_original",
+            "sections": "Published institutional PDF, Online Methods inverse PCR and NGS1114–1117",
+            "availability": "original_available_read",
+            "url": "https://www.hubrecht.eu/app/uploads/2017/11/DeLaat_Key_2014_DeVree_Targeted-sequencing-by-proximity-ligation-for-comprehensive-variant-deletion-and-local-haplotyping.pdf"
+          }
+        ],
+        "deferred": [
+          "Exact sequence/end/stock/recovery details remain under the existing protocol-local scope; classification of this input does not resolve them."
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "public",
+      "protocol": "tri-c__10.1038+s41588-018-0253-2",
+      "material": "other_indexed_libraries",
+      "label": "other differentially indexed Tri-C libraries",
+      "kind": "molecular material",
+      "primary": false,
+      "source": "Oudelaar et al., Nature Genetics 50:1744 (2018), doi:10.1038/s41588-018-0253-2, Online Methods 'Tri-C - Experimental procedure'",
+      "status": "pool_or_control_review",
+      "owner": "public_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_peer_pool",
+        "rationale": "Independently indexed Tri-C replicates are pooled locally before viewpoint capture. Other indexed libraries are sibling preparations; their pool does not establish a new upstream protocol.",
+        "limits": "Bounded input-role review only. No whole-protocol chemistry validation, full linked-source review, missing-information conclusion or exact molecular compatibility is established. The inspected original is an associated accepted manuscript; final-VOR equivalence is not asserted.",
+        "originals": [
+          {
+            "file": "s41588-018-0253-2_PMC6265079.xml",
+            "identity": "full-text JATS XML (PMC Cloud); associated_author_manuscript",
+            "sections": "Associated manuscript, biological replicates155 and capture enrichment175–177",
+            "availability": "original_available_read",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6265079.1/PMC6265079.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "ap-seq__10.1186+s13059-018-1582-2",
+      "material": "kapa",
+      "label": "source KAPA KK8504 library preparation; historical oligos and exact recipe unassembled",
+      "file": "ap-seq__10.1186+s13059-018-1582-2/tools/chem.py",
+      "line": 91,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagent",
+        "rationale": "KAPA KK8504 is a fresh downstream kit contribution to the locally enriched DNA, not a prepared library supplied by another protocol.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "s13059-018-1582-2_PMC6284305.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Methods183: PreCR fractions, re-pooling, KAPA KK8504 library preparation and HiSeq runs.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6284305.1/PMC6284305.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "bubble-seq__10.1101+gr.155218.113",
+      "material": "genomic",
+      "label": "source log-phaseGM06990 chromosomalDNA; ten RI isolations per duplicate library",
+      "file": "bubble-seq__10.1101+gr.155218.113/tools/chem.py",
+      "line": 108,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "raw_genomic_template",
+        "rationale": "The source starts origin preparations from cellular/genomic RI material. The adjacent cDNA procedure is a separate assay, not an upstream library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "gr.155218.113_PMC3814878.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published introduction41, Methods227–233: duplicate origin/RI preparations contrasted with separately prepared cDNA libraries.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3814878.1/PMC3814878.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "bubble-seq__10.1101+gr.155218.113",
+      "material": "ngs_reagents",
+      "label": "actual origin-library NGS construction pending SupplementalMethods; do not substitute adjacent cDNA GenomeAnalyzerIIx paragraph",
+      "file": "bubble-seq__10.1101+gr.155218.113/tools/chem.py",
+      "line": 120,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagents_with_source_hold",
+        "rationale": "This is an unassembled local origin-library NGS continuation. Exact Supplemental Methods and directly cited RI originals remain unreviewed; no supplier-matching library is imported.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "gr.155218.113_PMC3814878.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published introduction41, Methods227–233: duplicate origin/RI preparations contrasted with separately prepared cDNA libraries.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3814878.1/PMC3814878.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "cc-seq__10.1038+s41467-019-12802-5",
+      "material": "other_library_aliquots",
+      "label": "Other source multiplexed library aliquots; identities/amounts unassembled",
+      "file": "cc-seq__10.1038+s41467-019-12802-5/tools/chem.py",
+      "line": 30,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "Additional locally prepared CC-seq libraries are multiplexing contributions, not an established separate upstream protocol.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "s41467-019-12802-5_PMC6813358.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Methods217/221/225: locally prepared custom-adapter/PCR libraries, molarity QA and multiplex sequencing pools.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6813358.1/PMC6813358.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "claps-seq__10.1093+nar+gkab1022",
+      "material": "other_qualified_aliquots",
+      "label": "Source other qualified sequencing-library aliquots at pool boundary; their stock preparations, identities and volumes unassembled",
+      "file": "claps-seq__10.1093+nar+gkab1022/tools/chem.py",
+      "line": 86,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "Qualified libraries are prepared locally and pooled after production PCR. Separate genomic-input libraries are a control branch, not CLAPS input.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "nar_gkab1022_PMC8643665.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published Methods99–125: genomic preparation, both adapter steps, production PCR, qualified-library pooling and separate input controls; Results165; references22/28 verified.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8643665.1/PMC8643665.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [
+          "Added source-qualified component ancestry and pooling-boundary explanation to main research note."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "crispr-ds__10.1101+gr.235291.118",
+      "material": "other_libraries",
+      "label": "Independentsource sequencing-pool libraries",
+      "file": "crispr-ds__10.1101+gr.235291.118/tools/chem.py",
+      "line": 59,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "The source quantifies and pools completed sample libraries before sequencing; no separate preparation method is identified by this pool input.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "gr.235291.118_PMC6169890.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published Results54/60 and Methods152/155–174: local CRISPR fragmentation, DS adapter preparation/capture and final sample pooling/PhiX.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6169890.1/PMC6169890.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "tagmented_cdna",
+      "label": "Source HeLa/CSF NuGEN-amplified, Nextera-partial-adapter cDNA; historical full polymers unassembled",
+      "file": "dash__10.1186+s13059-016-0904-5/tools/dash.py",
+      "line": 38,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Added Ovationv2 source-named input link with intervening Nextera partial-adapter preparation explicit; no Ovation-only product substitution.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s13059-016-0904-5_PMC4778327.xml",
+            "identity": "Published final original; manifest author manuscript False",
+            "sections": "Preparation of cDNA Methods191; library amplification/pooling Methods211",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact historical Ovation revision, Nextera implementation and complete adapter-bearing input remain unassembled."
+        ],
+        "changes": [
+          "Added Ovationv2 source-named input link with intervening Nextera partial-adapter preparation explicit; no Ovation-only product substitution."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "kapa",
+      "label": "Source KAPA library-amplification chemistry",
+      "file": "dash__10.1186+s13059-016-0904-5/tools/dash.py",
+      "line": 58,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_reagent_false_positive",
+        "rationale": "Actual KAPA amplification catalyst, not a prepared library or predecessor protocol.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s13059-016-0904-5_PMC4778327.xml",
+            "identity": "Published final original; manifest author manuscript False",
+            "sections": "Preparation of cDNA Methods191; library amplification/pooling Methods211",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [
+          "Actual KAPA amplification catalyst, not a prepared library or predecessor protocol."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "dash__10.1186+s13059-016-0904-5",
+      "material": "other_libraries",
+      "label": "Other source separately prepared, quantified libraries for sequencing pool",
+      "file": "dash__10.1186+s13059-016-0904-5/tools/dash.py",
+      "line": 66,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_peer_pool",
+        "rationale": "Separate quantified libraries in actual sequencing pool; source does not establish a distinct producer protocol for every member.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s13059-016-0904-5_PMC4778327.xml",
+            "identity": "Published final original; manifest author manuscript False",
+            "sections": "Preparation of cDNA Methods191; library amplification/pooling Methods211",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4778327.1/PMC4778327.1.xml"
+          }
+        ],
+        "deferred": [
+          "Actual pool membership/ratios remain unassigned; pooling alone does not establish ancestry."
+        ],
+        "changes": [
+          "Separate quantified libraries in actual sequencing pool; source does not establish a distinct producer protocol for every member."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "dna-circle-sequencing__10.1073+pnas.1319590110",
+      "material": "downstream_stock",
+      "label": "Historical source-compatible Illumina library conversion components; actual workup/end/adapter chemistry unassembled",
+      "file": "dna-circle-sequencing__10.1073+pnas.1319590110/tools/chem.py",
+      "line": 45,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagents_with_source_hold",
+        "rationale": "Circle sequencing precedes standard sequencing-library preparation; the aggregate stock denotes that downstream conversion, with its exact detailed SI still unreviewed.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "source_pdf_25b44e781411953c4d40.pdf",
+            "identity": "Published2013 DNA circle-sequencing article in UC repository; why: Primary indexed original identifies title/DOI/finalprint;verify returned identity,not a later revision.; Published2013 DNA circle-sequencing article in UC repository; why: Primary indexed original identifies title/DOI/finalprint;verify returned identity,not a later revision.",
+            "sections": "Published main abstract12–26 and Materials and Methods499–513: circle preparation precedes ordinary library conversion; detailed protocol delegated to SI.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://escholarship.org/content/qt3gt268r9/qt3gt268r9_noSplash_fda4f316e06527ded407567209a30186.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "dnase-hi-c__10.1038+nmeth.3205",
+      "material": "forward",
+      "label": "Table23 universal PCR primer; full library landing geometry unassembled",
+      "file": "dnase-hi-c__10.1038+nmeth.3205/tools/chem.py",
+      "line": 172,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "The input is an amplification primer species for the locally assembled DNase Hi-C library; its library-related label does not denote prepared input DNA.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "nmeth.3205_PMC4281301.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript Methods145–158: local adapter ligation, capture, universal/indexed amplification primers and separate targeted continuation.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4281301.1/PMC4281301.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "espan__10.1016+j.molcel.2014.09.017",
+      "material": "meyer_method",
+      "label": "Source cited Meyer2012 ssDNA library method, precise components/version unreviewed",
+      "file": "espan__10.1016+j.molcel.2014.09.017/tools/chem.py",
+      "line": 85,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_delegated_component",
+        "rationale": "meyer_method is a condition for a downstream ssDNA-library operation after locally produced nascent ssDNA, not an external prepared-library input. Added original DOI link in private preview.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "j.molcel.2014.09.017_PMC4362665.xml",
+            "identity": "Associated author manuscript; finalVOR/erratum/SI scope unresolved",
+            "sections": "Results68; Methods152/156; Meyer2012 bibliography282–284",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4362665.1/PMC4362665.1.xml"
+          }
+        ],
+        "deferred": [
+          "Read actual cited Meyer2012 original and local SI; erratum identity/content and finalVOR applicability remain unresolved."
+        ],
+        "changes": [
+          "meyer_method is a condition for a downstream ssDNA-library operation after locally produced nascent ssDNA, not an external prepared-library input. Added original DOI link in private preview."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "excision-seq__10.1101+gr.174052.114",
+      "material": "post_pcr_recipe",
+      "label": "source PCR and library workup, exact primers/conditions unassembled",
+      "file": "excision-seq__10.1101+gr.174052.114/tools/chem.py",
+      "line": 102,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagents_with_source_hold",
+        "rationale": "The aggregate contribution belongs to local amplification/workup; source detailed library construction is delegated to the unreviewed Supplemental Methods.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "gr.174052.114_PMC4158761.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Results60 and Methods118: local pre-/post-digestion libraries; detailed construction delegated to Supplemental Methods.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4158761.1/PMC4158761.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "g4rp-seq__10.1038+s41467-018-07224-8",
+      "material": "truseq",
+      "label": "Source Illumina TruSeq RNA Library Prep kit; exact edition/strand/oligos/index member unreviewed",
+      "file": "g4rp-seq__10.1038+s41467-018-07224-8/tools/chem.py",
+      "line": 71,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagent",
+        "rationale": "The source adds a historical TruSeq RNA kit to extracted G4RP RNA. A kit name does not identify an inherited library or exact revision.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "s41467-018-07224-8_PMC6226477.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Results76/86 and Methods148: RNA fragmentation/ribodepletion followed by named TruSeq kit; matched input and replicate comparisons.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6226477.1/PMC6226477.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "gbs__10.1371+journal.pone.0019379",
+      "material": "dna",
+      "label": "Source genomic DNA100ng;upstream CTAB extraction outside selected library graph",
+      "file": "gbs__10.1371+journal.pone.0019379/tools/chem.py",
+      "line": 79,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "raw_genomic_template",
+        "rationale": "CTAB-extracted plant genomic DNA is the biological sample, not a sequencing library supplied by another catalogue method.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "journal.pone.0019379_PMC3087801.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC0; open access True; author manuscript False",
+            "sections": "Published Methods77/96: CTAB genomic-DNA extraction and sample DNA allocation; development discussion71/191/201–203 distinguishes RAD strategy.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3087801.1/PMC3087801.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "lam-htgts__10.1038+nbt.3101",
+      "material": "p5",
+      "label": "SourceTable8P5PCRIII whole primer body; occupied library landing unassembled",
+      "file": "lam-htgts__10.1038+nbt.3101/tools/chem.py",
+      "line": 99,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "P5 is a final PCR primer stock; source Methods105/107 describes its role in reconstructing sequencing tags on local HTGTS products.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "nbt.3101_PMC4320661.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript abstract35 and Methods105/107: paired-end-tailed nested PCR followed by P5/P7 PCR; reference23/28/44 identities inspected in original XML.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4320661.1/PMC4320661.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "lam-htgts__10.1038+nbt.3101",
+      "material": "p7",
+      "label": "SourceTable8P7PCRIII whole primer body; occupied library landing unassembled",
+      "file": "lam-htgts__10.1038+nbt.3101/tools/chem.py",
+      "line": 99,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "P7 is the paired final PCR primer stock, not a prepared input library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "nbt.3101_PMC4320661.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript abstract35 and Methods105/107: paired-end-tailed nested PCR followed by P5/P7 PCR; reference23/28/44 identities inspected in original XML.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4320661.1/PMC4320661.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "lm-seq__10.1038+srep09570",
+      "material": "other_indexed_libraries",
+      "label": "Other actually prepared indexed library contributions; chosen samples/molecules/amounts unassigned",
+      "file": "lm-seq__10.1038+srep09570/tools/chem.py",
+      "line": 187,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "Indexed RNA-derived libraries are prepared locally and pooled for HiSeq2500; pool membership is not a producer-method claim.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "srep09570_PMC4381617.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Methods89/95: local RNA-to-cDNA/adapter/index-PCR preparation followed by indexed-library pooling and HiSeq2500.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4381617.1/PMC4381617.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "m1a-seq__10.1038+nature16998",
+      "material": "kit",
+      "label": "Actual historicalNEBNextUltra RNA library molecularsupplies; exactedition/oligos/strandprocessing/stockpackagingunreviewed",
+      "file": "m1a-seq__10.1038+nature16998/tools/chem.py",
+      "line": 58,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagent",
+        "rationale": "Historical NEBNext Ultra RNA reagent contribution follows local immunocapture/input processing. Exact reagent revision remains unverified, without state inheritance.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "nature16998_PMC4842015.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access False; author manuscript True",
+            "sections": "Associated manuscript Methods160: source-specific modified m6A-seq immunocapture and historical NEBNext Ultra RNA kit contribution.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4842015.1/PMC4842015.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "m6a-label-seq__10.1038+s41589-020-0526-9",
+      "material": "",
+      "label": "Source RT/library preparation reagents; complete molecular components and fresh-versus-retained stock identities unassembled",
+      "file": "m6a-label-seq__10.1038+s41589-020-0526-9/tools/chem.py",
+      "line": 17,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagents_with_source_hold",
+        "rationale": "This nonliteral-ID input is an aggregate RT/library reagent contribution in the private branches. Published SI Figure4 supports the local RT/library boundary; full core Methods remain unavailable in the cached main preview.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "s41589-020-0526-9.html",
+            "identity": "Published defining main page; why: Inspect actual final Methods and supplement identities; do not replace core library preparation with validation oligos.; Published defining main page; why: Inspect actual final Methods and supplement identities; do not replace core library preparation with validation oligos.",
+            "sections": "Final Nature HTML abstract661 and supplement identity listing only; full core Methods not exposed by this cached subscription preview.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://www.nature.com/articles/s41589-020-0526-9"
+          },
+          {
+            "file": "s41589-020-0526-9_41589_2020_526_MOESM31_ESM.pdf",
+            "identity": "Springer supplementary file; Published source supplement; associated manuscript is not substituted for its values.",
+            "sections": "Published SI Figure4 workflow, text137–207; RT/library construction boundaries only, not analytical RT-screen reagents as production recipe.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41589-020-0526-9/MediaObjects/41589_2020_526_MOESM31_ESM.pdf"
+          }
+        ],
+        "deferred": [
+          {
+            "url": "https://www.nature.com/articles/s41589-020-0526-9",
+            "reason": "Cached defining main exposes subscription-preview abstract, not production core Methods."
+          }
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "m6a-orl-seq__10.1039+d2sc03181g",
+      "material": "qpcr_forward",
+      "label": "Source1ul10uMFP-Library-qPCR",
+      "file": "m6a-orl-seq__10.1039+d2sc03181g/tools/chem.py",
+      "line": 199,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "analytical_primer_reagent",
+        "rationale": "FP-Library-qPCR is an analytical qPCR primer stock for cycle selection, not an upstream library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "d2sc03181g_PMC9600483.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published main Methods111/119 for post-treatment RNA input and library boundary; analytical comparisons127/131 inspected without adopting their probe-screen reagents as production chemistry.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/PMC9600483.1.xml"
+          },
+          {
+            "file": "d2sc03181g_supp_SC-013-D2SC03181G-s002.pdf",
+            "identity": "supplementary file (PMC Cloud); Published source supplement; associated manuscript is not substituted for its values.",
+            "sections": "Published ESI TableS1 at132–139; section10 at567–568/707–743; reference9 at1399–1402.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/SC-013-D2SC03181G-s002.pdf"
+          },
+          {
+            "file": "j.molcel.2017.10.019_PMC5722686.xml",
+            "identity": "Associated author manuscript; used only for bibliographic identity, not final-recipe equivalence.",
+            "sections": "Header/title/author/DOI only, text1–28, to resolve the child SI reference9 identity. No predecessor chemistry was adopted.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5722686.1/PMC5722686.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [
+          "Added source-qualified library-component ancestry and analytical-primer role explanation to main research note."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "m6a-orl-seq__10.1039+d2sc03181g",
+      "material": "qpcr_reverse",
+      "label": "Source1ul10uMRP-Library-qPCR equalsRTprimer",
+      "file": "m6a-orl-seq__10.1039+d2sc03181g/tools/chem.py",
+      "line": 200,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "analytical_primer_reagent",
+        "rationale": "RP-Library-qPCR is the paired analytical primer stock; source TableS1/section10e separates cycle selection from section10f preparative PCR.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "d2sc03181g_PMC9600483.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published main Methods111/119 for post-treatment RNA input and library boundary; analytical comparisons127/131 inspected without adopting their probe-screen reagents as production chemistry.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/PMC9600483.1.xml"
+          },
+          {
+            "file": "d2sc03181g_supp_SC-013-D2SC03181G-s002.pdf",
+            "identity": "supplementary file (PMC Cloud); Published source supplement; associated manuscript is not substituted for its values.",
+            "sections": "Published ESI TableS1 at132–139; section10 at567–568/707–743; reference9 at1399–1402.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9600483.1/SC-013-D2SC03181G-s002.pdf"
+          },
+          {
+            "file": "j.molcel.2017.10.019_PMC5722686.xml",
+            "identity": "Associated author manuscript; used only for bibliographic identity, not final-recipe equivalence.",
+            "sections": "Header/title/author/DOI only, text1–28, to resolve the child SI reference9 identity. No predecessor chemistry was adopted.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5722686.1/PMC5722686.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [
+          "Added source-qualified library-component ancestry and analytical-primer role explanation to main research note."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "mad-dash__10.1093+nar+gkz425",
+      "material": "other_libraries",
+      "label": "Other source independently prepared matching-cohort libraries; exact batch identities unassembled",
+      "file": "mad-dash__10.1093+nar+gkz425/tools/chem.py",
+      "line": 118,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "The source locally constructs each small-RNA library and pools quantified completed preparations. This does not import another protocol library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "nar_gkz425_PMC6698666.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published Methods52/56/59–62: local RNA-to-PCR library generation, cleanup, quantified library pooling and chosen sequencing cohorts.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6698666.1/PMC6698666.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "maestro__10.1038+s41551-022-00855-9",
+      "material": "other_libraries",
+      "label": "Independent source sequencing-pool libraries; identities/amounts unassigned",
+      "file": "maestro__10.1038+s41551-022-00855-9/tools/chem.py",
+      "line": 48,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "Quantified final captured products are pooled for sequencing; conventional-capture comparisons are separately described, not producer assignments for this input.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "s41551-022-00855-9_PMC9089460.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript Methods159/163/167/183/187: probe design/preparation, MAESTRO and conventional capture and final library pooling.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9089460.1/PMC9089460.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "material": "rt_primer",
+      "label": "rTd DNA cDNA primer complementary to 3ILL; Table S7 polymer unreviewed",
+      "file": "mazter-seq__10.1016+j.cell.2019.06.013/tools/mazter.py",
+      "line": 126,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "rTd is the adaptor-complementary RT primer stock added during local library production.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "ss_Cell_DecipheringThe-m6ACode_PV2019.pdf",
+            "identity": "Published MAZTER-seq defining article mirrored by authors institute; why: Original institutional PDF route identified after generic DOI retrieval found no open full text.; Published MAZTER-seq defining article mirrored by authors institute; why: Original institutional PDF route identified after generic DOI retrieval found no open full text.",
+            "sections": "Published STAR Methods3368–3376: adaptor-complementary rTd RT primer and local library PCR F/R, cleanups and NextSeq readout.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://weizmann.elsevierpure.com/ws/portalfiles/portal/111306132/ss_Cell_DecipheringThe-m6ACode_PV2019.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "material": "pcr_f",
+      "label": "Library PCR primer F, Table S7",
+      "file": "mazter-seq__10.1016+j.cell.2019.06.013/tools/mazter.py",
+      "line": 147,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "Library PCR F is an amplification primer stock; the source locally ligates adapters and prepares the cDNA substrate.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "ss_Cell_DecipheringThe-m6ACode_PV2019.pdf",
+            "identity": "Published MAZTER-seq defining article mirrored by authors institute; why: Original institutional PDF route identified after generic DOI retrieval found no open full text.; Published MAZTER-seq defining article mirrored by authors institute; why: Original institutional PDF route identified after generic DOI retrieval found no open full text.",
+            "sections": "Published STAR Methods3368–3376: adaptor-complementary rTd RT primer and local library PCR F/R, cleanups and NextSeq readout.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://weizmann.elsevierpure.com/ws/portalfiles/portal/111306132/ss_Cell_DecipheringThe-m6ACode_PV2019.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "material": "pcr_r",
+      "label": "Library PCR primer R, Table S7",
+      "file": "mazter-seq__10.1016+j.cell.2019.06.013/tools/mazter.py",
+      "line": 148,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "Library PCR R is the paired amplification primer stock, not an external molecular library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "ss_Cell_DecipheringThe-m6ACode_PV2019.pdf",
+            "identity": "Published MAZTER-seq defining article mirrored by authors institute; why: Original institutional PDF route identified after generic DOI retrieval found no open full text.; Published MAZTER-seq defining article mirrored by authors institute; why: Original institutional PDF route identified after generic DOI retrieval found no open full text.",
+            "sections": "Published STAR Methods3368–3376: adaptor-complementary rTd RT primer and local library PCR F/R, cleanups and NextSeq readout.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://weizmann.elsevierpure.com/ws/portalfiles/portal/111306132/ss_Cell_DecipheringThe-m6ACode_PV2019.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "meta-cs__10.1073+pnas.2013106118",
+      "material": "other_cells",
+      "label": "Other independently prepared single-cell libraries; identities/masses unassigned",
+      "file": "meta-cs__10.1073+pnas.2013106118/tools/chem.py",
+      "line": 77,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "Independent single-cell libraries prepared by the same META-CS route are pooled before fragment-size selections.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "pnas.2013106118_PMC7923680.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC-ND; open access True; author manuscript False",
+            "sections": "Published Methods179/191: adapter-pool loading and locally prepared single-cell libraries pooled before serial size selections.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7923680.1/PMC7923680.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "migs__10.1093+nar+gkp992",
+      "material": "kit_oligos",
+      "label": "Aggregate actual source kit library-contributing oligo classes; members/counts/whole polymers and packaging unassigned",
+      "file": "migs__10.1093+nar+gkp992/tools/chem.py",
+      "line": 139,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagent",
+        "rationale": "Historical Illumina ChIP-Seq kit oligo classes contribute to locally captured MBD DNA. Exact kit internals are not inherited from another protocol.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "nar_gkp992_PMC2811030.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published Methods48: MBD-isolated DNA enters historical Illumina ChIP-Seq Sample Prep Kit; separate bisulfite validation paragraph84 inspected.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2811030.1/PMC2811030.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "material": "tenx",
+      "label": "Published SI referenced10xworkflow through post-RT cDNA retrieval; historical molecular recipe unassembled",
+      "file": "multi-seq__10.1038+s41592-019-0433-8/tools/chem.py",
+      "line": 114,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_delegated_component",
+        "rationale": "tenx is a delegated capture/RT condition inside the workflow; labeled cells produce post_rt locally. Added source-qualified Chromiumv2 reference link in private preview.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s41592-019-0433-8_41592_2019_433_MOESM1_ESM.pdf",
+            "identity": "Published Springer supplementary original; not manuscript variant",
+            "sections": "Published SI protocol steps9–12, text2132–2145; explicit v3 comparison2066–2080",
+            "availability": "read_local_original_text_twin",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0433-8/MediaObjects/41592_2019_433_MOESM1_ESM.pdf"
+          }
+        ],
+        "deferred": [
+          "Exact historical guide revision and complete local bead/cDNA geometry remain unassembled; publishedSI and manuscript variants remain distinct."
+        ],
+        "changes": [
+          "tenx is a delegated capture/RT condition inside the workflow; labeled cells produce post_rt locally. Added source-qualified Chromiumv2 reference link in private preview."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "multi-seq__10.1038+s41592-019-0433-8",
+      "material": "rpi",
+      "label": "Published SI TruSeqRPIX with unassigned6base library index",
+      "file": "multi-seq__10.1038+s41592-019-0433-8/tools/chem.py",
+      "line": 130,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_primer_false_positive",
+        "rationale": "TruSeqRPIX is an actual library-PCR primer, not another prepared-library input; the6base sample index remains unassigned.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s41592-019-0433-8_41592_2019_433_MOESM1_ESM.pdf",
+            "identity": "Published Springer supplementary original; not manuscript variant",
+            "sections": "Published SI protocol steps9–12, text2132–2145; explicit v3 comparison2066–2080",
+            "availability": "read_local_original_text_twin",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-019-0433-8/MediaObjects/41592_2019_433_MOESM1_ESM.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [
+          "TruSeqRPIX is an actual library-PCR primer, not another prepared-library input; the6base sample index remains unassigned."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "niche-seq__10.1126+science.aao4277",
+      "material": "mars_stocks",
+      "label": "Source-delegated MARS-seq library-preparation stocks; exact local historical version, quantities and whole oligos unassembled",
+      "file": "niche-seq__10.1126+science.aao4277/tools/chem.py",
+      "line": 53,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_delegated_component",
+        "rationale": "mars_stocks are supplies for MARSseq after locally selected niche cells, not a prebuilt library input. Notes link original Jaitin2014 MARSseq, not MARSseq2.0.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "science.aao4277_PMC7234837.xml",
+            "identity": "Associated author manuscript; finalVOR and local detailed SI unresolved",
+            "sections": "Results47–51; reference7 text99–101",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7234837.1/PMC7234837.1.xml"
+          }
+        ],
+        "deferred": [
+          "Detailed local SI, original MARSseq component/version and finalVOR applicability remain unreviewed; no state import."
+        ],
+        "changes": [
+          "mars_stocks are supplies for MARSseq after locally selected niche cells, not a prebuilt library input. Notes link original Jaitin2014 MARSseq, not MARSseq2.0."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "nscr__10.1101+gr.176099.114",
+      "material": "handoff_condition",
+      "label": "source library handoff; no invented additional purification",
+      "file": "nscr__10.1101+gr.176099.114/tools/chem.py",
+      "line": 137,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_continuation_with_source_hold",
+        "rationale": "The selected source RNaseI-released fraction enters WGAII and facility sequencing. The condition is not imported DNA, and it does not establish full historical adapter/library chemistry.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "gr.176099.114_PMC4381527.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY-NC; open access True; author manuscript False",
+            "sections": "Published Methods151–157: RNaseI released fraction directly enters WGAII, with saved unamplified control, followed by facility HiSeq sequencing.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4381527.1/PMC4381527.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+      "material": "wta",
+      "label": "Source10x whole-transcriptome amplified cDNA, including expressed polyadenylated BFP/GBC transcript products",
+      "file": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038/tools/chem.py",
+      "line": 77,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Added original Chromium WTA source-named link tied to actual cited Zheng paper; added full selected dial-out/P7 primer orders and explanation of 3prime BFP binding arm versus5prime tails.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "j.cell.2016.11.038_PMC5181115.xml",
+            "identity": "Associated author manuscript; finalVOR and detailed SI unresolved",
+            "sections": "Single-cell library preparation318–342; Zheng2016 bibliography909–911",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5181115.1/PMC5181115.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact guide revision, full WTA/GBC transcript/primer landings and finalVOR applicability remain unverified; source is associated manuscript."
+        ],
+        "changes": [
+          "Added original Chromium WTA source-named link tied to actual cited Zheng paper; added full selected dial-out/P7 primer orders and explanation of 3prime BFP binding arm versus5prime tails."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "phip-seq__10.1038+nbt.1856",
+      "material": "particles",
+      "label": "Prebuilt T7-Pep display library",
+      "file": "phip-seq__10.1038+nbt.1856/tools/phip.py",
+      "line": 81,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "source_local_display_construct",
+        "rationale": "T7-Pep is the source-defined biological phage-display library constructed by this study, not a prepared NGS library from a separately identified catalogue protocol.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "nbt.1856_PMC4169279.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript54/60/81: the authors construct the T7-Pep display library in this method; it is not an NGS sequencing-library handoff.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4169279.1/PMC4169279.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "plato__10.1038+nbt.2539",
+      "material": "other_libraries",
+      "label": "Other source independently prepared/quantified secondPCR libraries; actual batch identities unassembled",
+      "file": "plato__10.1038+nbt.2539/tools/chem.py",
+      "line": 99,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "Locally processed display-derived PCR libraries are combined for multiplex sequencing. The source display collection is distinct from an NGS-preparation predecessor.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "nbt.2539_PMC4110636.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access False; author manuscript True",
+            "sections": "Associated manuscript69/71/87/91/95/99/225: locally constructed display libraries and RNA recovery/RT/PCR2 libraries, multiplex sequencing.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4110636.1/PMC4110636.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "rapture__10.1534+genetics.115.183665",
+      "material": "other_plates",
+      "label": "Independent source plate-indexed libraries; actual selected pool and pre-capture aliquots unassigned",
+      "file": "rapture__10.1534+genetics.115.183665/tools/chem.py",
+      "line": 61,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "blocked",
+        "disposition": "blocked_source_recheck",
+        "rationale": "The private declaration names peer plate-indexed libraries. Current local MANIFEST contains only failed/manual original routes, so this pass cannot independently upgrade prior notes to a new source-verified pool conclusion.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [],
+        "deferred": [
+          {
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC4788223.",
+            "reason": "Actual cached manifest reports PMC challenge/host cooldown or fullTextXML HTTP500; no original body is on disk. Automated cooldowns retained."
+          },
+          {
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4788223/",
+            "reason": "Actual cached manifest reports PMC challenge/host cooldown or fullTextXML HTTP500; no original body is on disk. Automated cooldowns retained."
+          },
+          {
+            "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4788223/fullTextXML",
+            "reason": "Actual cached manifest reports PMC challenge/host cooldown or fullTextXML HTTP500; no original body is on disk. Automated cooldowns retained."
+          }
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "repair-seq-crispr-outcomes__10.1016+j.cell.2021.10.002",
+      "material": "screen_cells",
+      "label": "Source cells collected at end of pooled Repair-seq screen; prior integrated perturbation/outcome constructs and editing treatments outside selected library-prep boundary",
+      "file": "repair-seq-crispr-outcomes__10.1016+j.cell.2021.10.002/tools/chem.py",
+      "line": 37,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_screen_input",
+        "rationale": "Cells are harvested from the same study’s perturbation/repair screen before genomic-DNA library preparation. This is not a prepared sequencing library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "j.cell.2021.10.002_PMC9074467.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access False; author manuscript True",
+            "sections": "Associated manuscript Results110: local CRISPRi/transduction/repair screen and subsequent DNA extraction; separate scRNA-seq Methods240 inspected for scope distinction.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9074467.1/PMC9074467.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "rg4-seq__10.1038+nmeth.3965",
+      "material": "rna",
+      "label": "Source RNA library input; exact fragmentation/end preparation blocked on main Methods",
+      "file": "rg4-seq__10.1038+nmeth.3965/tools/chem.py",
+      "line": 59,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "rna_template_with_source_hold",
+        "rationale": "The available published Figure1 starts with RNA before adapter ligation. The source main Methods are unavailable locally, leaving exact fragmentation/input preparation unreviewed; no separate producer protocol is established.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "nmeth.3965_41592_2016_BFnmeth3965_MOESM355_ESM.pdf",
+            "identity": "Springer supplementary file; Published source supplement; associated manuscript is not substituted for its values.",
+            "sections": "Published supplementary Figure1 caption/flowchart text1–11; no detailed main Methods.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3965/MediaObjects/41592_2016_BFnmeth3965_MOESM355_ESM.pdf"
+          }
+        ],
+        "deferred": [
+          {
+            "url": "https://www.nature.com/articles/nmeth.3965",
+            "reason": "No defining main original in current source bundle; source main Methods required for exact preparation."
+          }
+        ],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "ribo-itp__10.1038+s41586-023-06228-9",
+      "material": "other_libraries",
+      "label": "Other source libraries selected for approximately equimolar pooling; actual membership and sequences unassigned",
+      "file": "ribo-itp__10.1038+s41586-023-06228-9/tools/chem.py",
+      "line": 109,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "The source pools sample libraries after D-Plex preparation and Bioanalyzer assessment; these are independent same-method preparations.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "s41586-023-06228-9_PMC10307641.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Methods248: D-Plex preparation, aliquot amplification/Bioanalyzer assessment and approximately equimolar library pooling before size selection.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10307641.1/PMC10307641.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "scgr-seq__10.1016+j.isci.2021.102882",
+      "material": "dna_standards",
+      "label": "Actual source Takara DNA standards for library quantification; separate calibration preparations, quantities unassembled",
+      "file": "scgr-seq__10.1016+j.isci.2021.102882/tools/chem.py",
+      "line": 78,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "calibration_control",
+        "rationale": "Takara DNA standards are separate real-time-PCR calibration preparations, not a cDNA library entering the sample route.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "j.isci.2021.102882_PMC8349903.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Methods350 and RamDA discussion222/234: independent Takara calibration DNA standards versus source same-cell cDNA library; reference Hayashi identity428.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8349903.1/PMC8349903.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "slic-cage__10.1101+gr.235937.118",
+      "material": "other_libraries",
+      "label": "Other source independently prepared/QCchecked libraries; exact batchmembership/amounts unassigned",
+      "file": "slic-cage__10.1101+gr.235937.118/tools/chem.py",
+      "line": 103,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "peer_library_pool",
+        "rationale": "The source explicitly keeps SLIC-CAGE libraries separate for quality control and pools only before sequencing. The nAnT-iCAGE ancestry is a recipe relationship, not a separate input molecule.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer.",
+        "originals": [
+          {
+            "file": "gr.235937.118_PMC6280763.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence CC BY; open access True; author manuscript False",
+            "sections": "Published Methods175–191, especially187: nAnT-iCAGE continuation and local carrier-removal exceptions; individual libraries pooled only prior to sequencing. Comparison/ancestry boundaries39/47/49/61–69.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6280763.1/PMC6280763.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "snap-seq__10.1038+s41557-019-0279-9",
+      "material": "pcr_forward",
+      "label": "source library forwardPCR primer",
+      "file": "snap-seq__10.1038+s41557-019-0279-9/tools/chem.py",
+      "line": 191,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "The stock is a local library-amplification primer, not a prepared library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "s41557-019-0279-9_PMC6589398.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript Methods113: local library amplification primers and separate KAPA quantification; source substrate/chemistry distinctions33/37/51/61.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6589398.1/PMC6589398.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "snap-seq__10.1038+s41557-019-0279-9",
+      "material": "pcr_reverse",
+      "label": "source library reversePCR primer",
+      "file": "snap-seq__10.1038+s41557-019-0279-9/tools/chem.py",
+      "line": 192,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "The stock is the paired library-amplification primer, not a producer protocol.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "s41557-019-0279-9_PMC6589398.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript Methods113: local library amplification primers and separate KAPA quantification; source substrate/chemistry distinctions33/37/51/61.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6589398.1/PMC6589398.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "snap-seq__10.1038+s41557-019-0279-9",
+      "material": "qa_kit",
+      "label": "Actual KAPA library quantification kit contribution; internal recipe unassembled",
+      "file": "snap-seq__10.1038+s41557-019-0279-9/tools/chem.py",
+      "line": 203,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "analytical_reagent",
+        "rationale": "KAPA Library Quantification kit is analytical QA of locally produced DNA, not a sequencing-library source.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "s41557-019-0279-9_PMC6589398.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript Methods113: local library amplification primers and separate KAPA quantification; source substrate/chemistry distinctions33/37/51/61.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6589398.1/PMC6589398.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "sns-seq__10.1101+gr.124644.111",
+      "material": "ga_library",
+      "label": "Source historicalGAII library continuation; exact reagents/oligos/workup unreviewed",
+      "file": "sns-seq__10.1101+gr.124644.111/tools/chem.py",
+      "line": 110,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagents_with_source_hold",
+        "rationale": "The sample is converted locally to double-stranded nascent DNA before historical GAII sequencing. Exact library conversion is unreviewed; the continuation does not name a distinct upstream producer.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "gr.124644.111_PMC3205567.html",
+            "identity": "PMC article page: full text; PMC article page: full text",
+            "sections": "Published PMC HTML Methods1372: local nascent-DNA enrichment, random priming/Klenow conversion and GAII sequencing; separate sheared genomic control.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3205567/"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "spots__10.1038+s41587-022-01536-3",
+      "material": "amplification_additive",
+      "label": "Actual fresh source1uL0.2uM FB additive for cDNA amplification, distinct from second-strand dose",
+      "file": "spots__10.1038+s41587-022-01536-3/tools/chem.py",
+      "line": 82,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "primer_reagent",
+        "rationale": "The published SI adds a fresh FB-additive primer to the cDNA amplification mixture. It is separate from the earlier second-strand-synthesis dose and is not an imported library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "s41587-022-01536-3_PMC10272089.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access False; author manuscript True",
+            "sections": "Associated manuscript Results56/58/60: Visium/CITE-seq strategy, fixation/permeabilization and ADT-background design. Additive-dose evidence comes from separately identified published SI.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10272089.1/PMC10272089.1.xml"
+          },
+          {
+            "file": "s41587-022-01536-3_41587_2022_1536_MOESM1_ESM.pdf",
+            "identity": "Springer supplementary file; Published source supplement; associated manuscript is not substituted for its values.",
+            "sections": "Published SI Chromium/Visium continuation and cDNA amplification, text1024–1054; local additive dose versus earlier second-strand dose.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-022-01536-3/MediaObjects/41587_2022_1536_MOESM1_ESM.pdf"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "ssdna-seq-permanganate__10.1016+j.cell.2013.04.033",
+      "material": "illumina_prep",
+      "label": "Actual source-delegated Illumina library molecular supplies; stock packaging, tail removal/end repair/adapters/PCR unreviewed",
+      "file": "ssdna-seq-permanganate__10.1016+j.cell.2013.04.033/tools/chem.py",
+      "line": 120,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_library_reagents_with_source_hold",
+        "rationale": "Illumina preparation follows the local permanganate/nuclease/TdT/streptavidin route. Unread original detailed SI prevents assigning historical molecular recipe, not a named prebuilt-library origin.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established. Historical source/reaction/library details remain model or source obligations; this classification does not discharge publication holds.",
+        "originals": [
+          {
+            "file": "j.cell.2013.04.033_PMC3684982.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access False; author manuscript True",
+            "sections": "Associated manuscript Results104/Figure3A and108/110: local chemical/nuclease/tailing capture precedes Illumina library preparation; detailed SI remains inaccessible.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3684982.1/PMC3684982.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "stamp__10.1038+s41592-021-01128-0",
+      "material": "ampure",
+      "label": "Source post-cDNA Ampure cleanup; exact historical geometry unreviewed",
+      "file": "stamp__10.1038+s41592-021-01128-0/tools/chem.py",
+      "line": 63,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "cleanup_reagent",
+        "rationale": "AMPure is the local cDNA-cleanup material/selection, whose supernatant is retained for a separate feature-library branch; it is not prepared input DNA.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "s41592-021-01128-0_PMC8148648.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access True; author manuscript True",
+            "sections": "Associated manuscript Methods202, preparation/cleanup-supernatant/feature-library portion through QA and NovaSeq readout; cell preparation128/132 distinguished.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8148648.1/PMC8148648.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "tamc-seq__10.1038+ncomms2527",
+      "material": "phix_spike",
+      "label": "Actual source1percent PhiX loadingcontrol library contribution; full control polymer and stock preparation unreviewed",
+      "file": "tamc-seq__10.1038+ncomms2527/tools/chem.py",
+      "line": 90,
+      "status": "literal_declaration_needs_source_review",
+      "owner": "notes_inputs",
+      "review": {
+        "status": "reviewed",
+        "disposition": "sequencing_control",
+        "rationale": "PhiX is a separate loading/calibration control, explicitly dedicated lane and1% spike. It does not supply the enriched sample library.",
+        "limits": "Bounded input-role/source pass only; no complete native chemistry or two-reader source-absence audit is claimed. No molecular state is imported from a similarly named kit, library or shared primer. Available main is an associated author manuscript; final-VOR procedural equivalence is not established.",
+        "originals": [
+          {
+            "file": "ncomms2527_PMC3679896.xml",
+            "identity": "full-text JATS XML (PMC Cloud); PMC licence TDM; open access False; author manuscript True",
+            "sections": "Associated manuscript Methods156: actual dedicated PhiX control lane and1% PhiX spike; analysis comparisons84/172 are not molecular inputs.",
+            "availability": "read_from_cached_original_text",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3679896.1/PMC3679896.1.xml"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json"
+      }
+    },
+    {
+      "scope": "notes",
+      "protocol": "tap-seq__10.1038+s41592-020-0837-5",
+      "material": "cdna",
+      "label": "35µl source10x3primev2 GEM-RT cDNA; RT template-switch oligo omitted upstream",
+      "file": "tap-seq__10.1038+s41592-020-0837-5/tools/chem.py",
+      "line": 55,
+      "status": "literal_declaration_needs_source_review",
+      "declared_origin": {
+        "protocol": "10x-chromium-single-cell-3-ge-v2",
+        "page": "10x-3prime-v2.html",
+        "stage": "Purified GEM-RT cDNA before targeted PCR; upstream template-switch oligo omitted",
+        "source": "Published Supplementary Information MOESM1, Chromium run step 8 (PDF text lines 1226–1246); associated manuscript Methods Cell barcoding and reverse transcription (PMC7610614, line 191).",
+        "limitation": "TAP-seq deliberately omits the v2 RT primer containing the TSO. The linked standard Chromium v2 route is a reference preparation, not an equivalent substrate: its template-switched or amplified cDNA must not be imported. Exact historical guide revision remains unverified; no molecular state is inherited."
+      },
+      "owner": "upstream_sources",
+      "review": {
+        "status": "reviewed",
+        "disposition": "reviewed_source_named_link",
+        "rationale": "Retained qualified Chromiumv2 GEMRT link, TSO deliberately omitted; standard template-switched/amplified cDNA is not equivalent.",
+        "limits": "Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Only directly named precursor identity/stage used here; exact reactions/versions not inherited. Unread linked originals remain follow-up, not evidence of absence. Bounded input-role review only; no complete native chemistry or accepted missing-information claim.",
+        "originals": [
+          {
+            "file": "s41592-020-0837-5_41592_2020_837_MOESM1_ESM.pdf",
+            "identity": "Published Springer supplementary original",
+            "sections": "Published SI Chromium run step8, text1230–1247",
+            "availability": "read_local_original_text_twin",
+            "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-020-0837-5/MediaObjects/41592_2020_837_MOESM1_ESM.pdf"
+          },
+          {
+            "file": "s41592-020-0837-5_PMC7610614.xml",
+            "identity": "Associated author manuscript; finalVOR equivalence not established",
+            "sections": "Methods187–197",
+            "availability": "read_local_original_text_twin",
+            "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7610614.1/PMC7610614.1.xml"
+          }
+        ],
+        "deferred": [
+          "Exact historical guide revision and full target-pool/end geometry remain unassembled; private publication hold remains."
+        ],
+        "changes": [
+          "Retained qualified Chromiumv2 GEMRT link, TSO deliberately omitted; standard template-switched/amplified cDNA is not equivalent."
+        ],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json"
+      }
+    }
+  ],
+  "manual_entries": [
+    {
+      "scope": "manual_assay",
+      "protocol": "playr__10.1038+nmeth.3742",
+      "material": "starting_material",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_input_not_prepared_library",
+        "rationale": "Fixed/permeabilized cells retain target RNA. The reporter circle is assembled locally from added probes, insert and backbone; no prepared sequencing library is handed in.",
+        "limits": "Source-level input review only; no ProtocolGraph exists to validate a material boundary. Later2019 protocol is not substituted for2016 chemistry.",
+        "originals": [
+          {
+            "file": "sources/playr__10.1038+nmeth.3742/nmeth.3742_PMC4767631.xml.txt",
+            "identity": "Defining article associated accepted manuscript; MANIFEST explicitly marks author manuscript True. No final-VOR equivalence asserted.",
+            "sections": "Introduction46–58; Methods Cell fixation/permeabilization and PLAYR protocol100–106",
+            "availability": "read_cached_original"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-coordinator.json"
+      }
+    },
+    {
+      "scope": "manual_assay",
+      "protocol": "primeflow-rna-assay__10.1038+ncomms6641",
+      "material": "starting_material",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_input_not_prepared_library",
+        "rationale": "Human leukocytes/PBMCs are fixed/permeabilized and probed in situ. No upstream NGS or amplified-cDNA library is imported.",
+        "limits": "The2014 input finding does not equate its three-fluorochrome chemistry with the2022 commercial kit, and no full source review is claimed.",
+        "originals": [
+          {
+            "file": "sources/primeflow-rna-assay__10.1038+ncomms6641/ncomms6641_PMC4256720.xml.txt",
+            "identity": "Associated accepted manuscript of Porichis2014; MANIFEST author manuscript True. Current public assay uses a separately identified2022 vendor guide.",
+            "sections": "Introduction69; Methods137 PBMC staining and hybridizations",
+            "availability": "read_cached_original"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-coordinator.json"
+      }
+    },
+    {
+      "scope": "manual_assay",
+      "protocol": "rnascope__10.1016+j.jmoldx.2011.08.002",
+      "material": "starting_material",
+      "review": {
+        "status": "reviewed",
+        "disposition": "biological_input_not_prepared_library",
+        "rationale": "FFPE tissue and cellular RNA are probed directly using double-Z hybridization. No pre-existing sequencing/cDNA library is the starting material.",
+        "limits": "Current kit universal sequences and patent/example equivalence are outside this input-boundary review. No unique ProtocolGraph exists.",
+        "originals": [
+          {
+            "file": "sources/rnascope__10.1016+j.jmoldx.2011.08.002/j.jmoldx.2011.08.002_PMC3338343.html.txt",
+            "identity": "Defining published2012 article full-text PMC page; article identity/title/citation inspected.",
+            "sections": "Tissue specimens1190–1192; design1195–1204; assay procedure1211–1222",
+            "availability": "read_cached_original"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-coordinator.json"
+      }
+    },
+    {
+      "scope": "manual_assay",
+      "protocol": "superrca__10.1038+s41467-022-31397-y",
+      "material": "starting_material",
+      "review": {
+        "status": "reviewed",
+        "disposition": "local_preparation_not_external_library",
+        "rationale": "Bone-marrow or whole-blood gDNA is extracted locally; targeted PCR, first-circle assembly and RCA occur within the assay. Comparison NGS/ddPCR preparations are not superRCA inputs.",
+        "limits": "No unique ProtocolGraph exists. Exact assay oligos, end phosphorylation and complete molecular states are not established by this review.",
+        "originals": [
+          {
+            "file": "sources/superrca__10.1038+s41467-022-31397-y/s41467-022-31397-y_PMC9276831.xml.txt",
+            "identity": "Defining published2022 article; source-bundle published DOI/PMC identity inspected.",
+            "sections": "Results59–77; Discussion165–171; Methods188–202 extraction/PCR/circularization/first RCA",
+            "availability": "read_cached_original"
+          }
+        ],
+        "deferred": [],
+        "changes": [],
+        "absence_claim": false,
+        "report": "catalogue/curation_rounds/2026-11-02-full-inputs-coordinator.json"
+      }
+    }
+  ],
+  "reports": [
+    "catalogue/curation_rounds/2026-11-02-full-inputs-upstream_sources.json",
+    "catalogue/curation_rounds/2026-11-02-full-inputs-public_inputs.json",
+    "catalogue/curation_rounds/2026-11-02-full-inputs-notes_inputs.json",
+    "catalogue/curation_rounds/2026-11-02-full-inputs-coordinator.json"
+  ],
+  "lineage": {
+    "registry": "catalogue/protocol_lineage.json",
+    "relations_before": 108,
+    "relations_after": 124,
+    "added": 16,
+    "scope": "Source-qualified method development/component adaptation; material handoffs and independent sequence similarity remain separate. Notes-only endpoints remain withheld publicly until eligible."
+  },
+  "completion": "All98 candidate rows and four assay exceptions have explicit bounded source-review outcomes; source/model deferrals remain open. Not complete chemistry validation or a two-reader absence audit.",
+  "summary": {
+    "candidate_rows": 98,
+    "manual_assay_entries": 4,
+    "candidate_statuses": {
+      "reviewed": 96,
+      "blocked": 2
+    },
+    "dispositions": {
+      "supplies_not_prepared_library": 11,
+      "biological_or_unassigned_template": 5,
+      "local_peer_pool": 21,
+      "reviewed_caller_selected_input": 1,
+      "reviewed_source_named_link": 7,
+      "local_control_preparation": 3,
+      "reviewed_material_import": 1,
+      "supplies_declaration_source_blocked": 1,
+      "local_library_reagent": 4,
+      "raw_genomic_template": 2,
+      "local_library_reagents_with_source_hold": 6,
+      "peer_library_pool": 10,
+      "reviewed_reagent_false_positive": 1,
+      "reviewed_peer_pool": 1,
+      "primer_reagent": 9,
+      "reviewed_delegated_component": 3,
+      "analytical_primer_reagent": 2,
+      "reviewed_primer_false_positive": 1,
+      "local_library_continuation_with_source_hold": 1,
+      "source_local_display_construct": 1,
+      "blocked_source_recheck": 1,
+      "biological_screen_input": 1,
+      "rna_template_with_source_hold": 1,
+      "calibration_control": 1,
+      "analytical_reagent": 1,
+      "cleanup_reagent": 1,
+      "sequencing_control": 1
+    }
+  },
+  "verification": {
+    "shared_checks": 2231,
+    "handoff_contract_checks": 31,
+    "lineage_checks": 21,
+    "browser_checks": 17,
+    "coverage": "98/98 candidates plus4/4 manually reviewed assay exceptions; coverage validator also rejects omitted/duplicate rows, unsupported reviewed claims and unqualified blockers.",
+    "affected_protocol_checks": "DNBSEQ98; GoT3; eSPAN8; MULTI-seq15; originalPerturb7; NICHE7; DASH5; Visium20; SpatialVDJ42. MAESTER construction checked by builder.",
+    "source_guard": "Worker upstream pass13 exact/0failures/1existing exemption across6graphs; not a whole-chemistry validation.",
+    "site": "598/598 builders;504 finished published schematics; every relative link/anchor resolves. Built with --no-checks after separate shared suite.",
+    "ancestry": "124 registry relations;26 public relations across42 connected protocols;17 live Chrome interaction/export/mobile checks passed."
+  },
+  "status": "bounded_review_complete_with_explicit_deferrals"
+}

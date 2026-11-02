@@ -1,0 +1,88 @@
+{
+  "date": "2026-11-02",
+  "scope": "Four public assay entries omitted by unique-ProtocolGraph discovery; manual input-boundary/source-version review, not chemistry migration or absence audit.",
+  "rows": [
+    {
+      "scope": "manual_assay",
+      "protocol": "playr__10.1038+nmeth.3742",
+      "material": "starting_material",
+      "disposition": "biological_input_not_prepared_library",
+      "originals": [
+        {
+          "file": "sources/playr__10.1038+nmeth.3742/nmeth.3742_PMC4767631.xml.txt",
+          "identity": "Defining article associated accepted manuscript; MANIFEST explicitly marks author manuscript True. No final-VOR equivalence asserted.",
+          "sections": "Introduction46–58; Methods Cell fixation/permeabilization and PLAYR protocol100–106",
+          "availability": "read_cached_original"
+        }
+      ],
+      "rationale": "Fixed/permeabilized cells retain target RNA. The reporter circle is assembled locally from added probes, insert and backbone; no prepared sequencing library is handed in.",
+      "limits": "Source-level input review only; no ProtocolGraph exists to validate a material boundary. Later2019 protocol is not substituted for2016 chemistry.",
+      "ancestry": "Proximity-ligation concepts and bibliography29/30 are named, but no inspected registered predecessor is selected; no new edge inferred from generic RCA.",
+      "changes": [],
+      "deferred": [],
+      "absence_claim": false
+    },
+    {
+      "scope": "manual_assay",
+      "protocol": "primeflow-rna-assay__10.1038+ncomms6641",
+      "material": "starting_material",
+      "disposition": "biological_input_not_prepared_library",
+      "originals": [
+        {
+          "file": "sources/primeflow-rna-assay__10.1038+ncomms6641/ncomms6641_PMC4256720.xml.txt",
+          "identity": "Associated accepted manuscript of Porichis2014; MANIFEST author manuscript True. Current public assay uses a separately identified2022 vendor guide.",
+          "sections": "Introduction69; Methods137 PBMC staining and hybridizations",
+          "availability": "read_cached_original"
+        }
+      ],
+      "rationale": "Human leukocytes/PBMCs are fixed/permeabilized and probed in situ. No upstream NGS or amplified-cDNA library is imported.",
+      "limits": "The2014 input finding does not equate its three-fluorochrome chemistry with the2022 commercial kit, and no full source review is claimed.",
+      "ancestry": "Original explicitly derives flow-FISH from QuantiGene ViewRNA FISH cell assay. That predecessor has no registered catalogue node, so record external predecessor without manufacturing an RNAscope→PrimeFlow ancestry edge.",
+      "changes": [],
+      "deferred": [],
+      "absence_claim": false
+    },
+    {
+      "scope": "manual_assay",
+      "protocol": "rnascope__10.1016+j.jmoldx.2011.08.002",
+      "material": "starting_material",
+      "disposition": "biological_input_not_prepared_library",
+      "originals": [
+        {
+          "file": "sources/rnascope__10.1016+j.jmoldx.2011.08.002/j.jmoldx.2011.08.002_PMC3338343.html.txt",
+          "identity": "Defining published2012 article full-text PMC page; article identity/title/citation inspected.",
+          "sections": "Tissue specimens1190–1192; design1195–1204; assay procedure1211–1222",
+          "availability": "read_cached_original"
+        }
+      ],
+      "rationale": "FFPE tissue and cellular RNA are probed directly using double-Z hybridization. No pre-existing sequencing/cDNA library is the starting material.",
+      "limits": "Current kit universal sequences and patent/example equivalence are outside this input-boundary review. No unique ProtocolGraph exists.",
+      "ancestry": "Article describes similarity to earlier bDNA signal amplification reference12; no registered precursor identity established in this pass, and similarity is not direct descent.",
+      "changes": [],
+      "deferred": [],
+      "absence_claim": false
+    },
+    {
+      "scope": "manual_assay",
+      "protocol": "superrca__10.1038+s41467-022-31397-y",
+      "material": "starting_material",
+      "disposition": "local_preparation_not_external_library",
+      "originals": [
+        {
+          "file": "sources/superrca__10.1038+s41467-022-31397-y/s41467-022-31397-y_PMC9276831.xml.txt",
+          "identity": "Defining published2022 article; source-bundle published DOI/PMC identity inspected.",
+          "sections": "Results59–77; Discussion165–171; Methods188–202 extraction/PCR/circularization/first RCA",
+          "availability": "read_cached_original"
+        }
+      ],
+      "rationale": "Bone-marrow or whole-blood gDNA is extracted locally; targeted PCR, first-circle assembly and RCA occur within the assay. Comparison NGS/ddPCR preparations are not superRCA inputs.",
+      "limits": "No unique ProtocolGraph exists. Exact assay oligos, end phosphorylation and complete molecular states are not established by this review.",
+      "ancestry": "Padlock genotyping concepts are credited; generic affinity with padlock protocols does not authorize a specific registered predecessor edge. No new lineage edge proposed.",
+      "changes": [],
+      "deferred": [],
+      "absence_claim": false
+    }
+  ],
+  "lineage_edges": [],
+  "source_policy": "All four bundle scrapers rerun; originals inspected at listed sections; no source-absence claims or independent full review asserted."
+}

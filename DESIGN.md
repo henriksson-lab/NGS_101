@@ -5,6 +5,31 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-11-02 — Record ancestry review outcomes and weaker chemistry analogues
+
+A missing parent link is a curation state, never proof of independent origin.
+`catalogue/protocol_ancestry_reviews.json` records per-protocol review status,
+formal attribution, actual source blockers, external predecessors and assessment
+of the most likely earlier design. A bounded source pass may explicitly say that
+it cannot formally assign an ancestor. This is not a publication-wide absence
+claim. It must separately record a supported inference, a weaker guessed earlier
+analogue, an unsuccessful candidate assessment, or a source blocker.
+
+Relationship evidence has three levels: `documented` for source attribution,
+`inferred` for a reasoned likely relationship, and `guessed` for a weaker earlier
+chemistry analogue. Guesses require located design evidence, explicit limits and
+verified earlier publication ordering; they never satisfy formal attribution.
+Similarity helpers rank chemistry facets and exact known sequence components,
+with common features downweighted and unknown coverage explicit. Scores generate
+review candidates; they never automatically create any of these relationships.
+
+External predecessors remain distinct from registered protocol identities and
+molecular producers. The public graph may show an external original as a labelled
+source-linked node for an eligible child; private endpoints remain withheld.
+Guessed relationships have their own optional filter and dotted-gray rendering.
+Neither an edge, a review state nor a similarity score supplies chemistry to a
+protocol. A formal component attribution is scoped, not whole-protocol identity. A registered defining-publication identity may represent the original method even when its molecular diagram is illustrative: registry edges then refer to that cited method, never the invented example instance. Public eligibility stays unchanged; illustrative pages are still excluded from the graph, and invented sequences do not contribute to candidate similarity.
+
 ## 2026-11-01 — Link preparations through versioned molecular intermediates
 
 **Decision.** A source-owned graph may export a named produced molecular intermediate,

@@ -34,7 +34,8 @@ def render_page():
     g = protocol_graph()
     parts = [head(TITLE), '<main class="wrap"><h1>' + html.escape(TITLE) + '</h1>',
              '<p><a href="' + NOTES + '">Research notes</a></p>', info(SOURCE),
-             info('Private incomplete model. ' + CAVEAT)]
+             info('Private incomplete model. ' + CAVEAT),
+             info('Library construction delegates to <a href="https://doi.org/10.1126/science.1224344">Meyer et al. 2012</a>, cited by the inspected associated manuscript. eSPAN produces the selected nascent ssDNA locally, then applies that library method; the named method is not a prebuilt library input. Its exact components and final-publication applicability remain unreviewed here.')]
     if callable(globals().get('oligos')):
         parts.extend(['<h2>Source ordering oligos</h2>', *oligos()])
     for label, terminal in PREVIEWS:

@@ -3,9 +3,11 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from dataclasses import dataclass,replace
-from chemdraw import Construct,Scene,Segment,feature,revcomp,panel,workflow_from_protocol_graph,workflow_panel
+from chemdraw import Construct,Scene,Segment,feature,revcomp,oligo,panel,workflow_from_protocol_graph,workflow_panel
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SourceItem
 from pcr import PCRGeometry
+from protocol_handoff import declare_input_origin
+from protocol_views import handoff_section
 from page import head,info
 PAGE_FILE='chem.html'
 
@@ -35,7 +37,7 @@ def render_page():
     g=protocol_graph()
     return '\n'.join([head(TITLE),'<main class="wrap"><h1>'+TITLE+'</h1>',
         '<p class="research-notes"><a href="'+NOTE+'">Research notes</a></p>',
-        info('Private incomplete source model. '+LIMIT),detail(),
+        info('Private incomplete source model. '+LIMIT),handoff_section(g),detail(),
         ''.join(workflow_panel(workflow_from_protocol_graph(g,x)) for x in ENDPOINTS),'</main>'])
 
 def selftest():
@@ -83,12 +85,16 @@ def protocol_graph():
     g.react('dial_pcr','Dial-out PCR enriches barcode-proxy transcript after WTA',S.PCR,((source,R.TEMPLATE),(f,R.STRUCTURAL),(r,R.STRUCTURAL),(enzyme,R.CATALYST)),(product,),
         geometry=PCRGeometry.unavailable(unknown('original barcode-proxy cDNA'),reason='Printed primers known; original GBC transcript and historical10x opposite end are not assembled. This is not direct sgRNA capture.'))
     purified=cleanup(g,'gel',product,'Gel-recovered original Perturb-seq GBC library material','2%agarose gel;appropriate band excision')
+    declare_input_origin(g,'wta',protocol='10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049',page='10x-chromium-single-cell-3-ge-v1.html',
+        stage='Whole-transcriptome amplified cDNA before guide-barcode dial-out PCR',
+        source='Associated author manuscript PMC5181115, Single cell library preparation, text318–326 and Zheng2016 bibliography909–911 (DOI10.1038/ncomms14049).',
+        limitation='The inspected source explicitly cites the original Chromium paper, but its exact historical manufacturer-guide revision and complete WTA polymers remain unverified. This reference imports no molecular state and does not establish final-publication equivalence of the accepted manuscript.')
     return limit(g,purified)
 
 def detail():
     sc=Scene()
     for s in identifiers():sc.strand(s.name,[s],label=s.name+' (role only; not asserted contiguous or assigned width)')
-    return panel(sc.rows(),caption='Three distinct identities: proxy guide barcode, cell barcode and UMI')
+    return info('Reconstruct the selected dial-out primer 5′→3′ by joining P5, its sample index, the source-named R1 handle, and the BFP-specific 3′ binding arm. Only the terminal BFP arm is gene-specific; the 5′ sequence installs sequencing/indexing structure. The GBC is a separate expressed proxy, not this sample index. The opposite PCR primer is the printed P7 order; its exact landing on the historical WTA substrate remains unassembled.')+'<h2>Selected primer orders</h2><seq>'+oligo('Dial-out primer — printed TCGCCTTA example',list(dial_primer()))+oligo('P7 reverse primer',[Segment('P7 primer',il.P7)])+'</seq>'+panel(sc.rows(),caption='Three distinct identities: proxy guide barcode, cell barcode and UMI')
 def source_checks(c,g):
     c('Proxy guide identity is distinct from cell and molecular identity',tuple(x.feature.role for x in identifiers()),('guide_barcode','cell_barcode','umi'))
     c('Dial-out reaction starts from transferred WTA',g.steps['dial_pcr'].inputs[0].material,'wta_aliquot_chosen')

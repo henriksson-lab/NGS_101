@@ -708,10 +708,10 @@
       "inputs": [
         {
           "material": "indexed_library",
-          "label": "adapter-bearing indexed dsDNA library",
+          "label": "MGI Duplex UMI/UDB dual-barcode PCR library (caller-selected upstream preparation)",
           "kind": "molecular material",
           "primary": true,
-          "source": "Commercial protocol: MGI <a href=\"https://global-mgitech.com/wp-content/uploads/Documents/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf\">MGIEasy Dual Barcode Circularization Kit User Manual 7.0</a> (part SOP-013-B02-185, kit version V1.0, Sep. 2024) and <a href=\"https://en.mgi-tech.com/Uploads/Temp/file/20240530/66583952cae5b.pdf\">DNBSEQ Dual Barcode Adapter &amp; Barcode Sequences 3.0</a>.",
+          "source": "Commercial protocol: MGI <a href=\"https://global-mgitech.com/wp-content/uploads/Documents/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf\">MGIEasy Dual Barcode Circularization Kit User Manual 7.0</a> (part SOP-013-B02-185, kit version V1.0, Sep. 2024) and <a href=\"https://en.mgi-tech.com/Uploads/Temp/file/20240530/66583952cae5b.pdf\">DNBSEQ Dual Barcode Adapter &amp; Barcode Sequences 3.0</a>. (Manual7.0 sections1.1\u20131.2; no selected complete upstream polymer)",
           "status": "needs_source_review"
         }
       ],
@@ -1041,14 +1041,14 @@
           "label": "selected3\u2032v2 native recovered first-strand10x cDNA; prior version-native kit chemistry bounded",
           "kind": "molecular material",
           "primary": true,
-          "source": "Nam et al. Nature2019 doi:10.1038/s41586-019-1367-0; publishedPMC6782071 Methods GoT/CircularizationGoT; originalSupplementTable5.",
+          "source": "Nam et al. Nature2019 doi:10.1038/s41586-019-1367-0; associated author manuscript PMC6782071 Methods GoT/CircularizationGoT; originalSupplementTable5.",
           "status": "source_named_handoff",
           "upstream": {
             "protocol": "10x-chromium-single-cell-3-ge-v2",
-            "stage": "Recovered, template-switched first-strand cDNA before bulk amplification",
+            "stage": "Recovered first-strand cDNA after emulsion breakage, before bulk amplification",
             "page": "10x-3prime-v2.html",
-            "source": "Nam et al. 2019, published Methods, GoT 3\u2032 v2; source-owned declaration SOURCE.",
-            "limitation": "The source names 3\u2032 v2 recovered cDNA. Exact guide revision and complete native first-strand/end compatibility with the linked reference model are not established; its state is not silently imported.",
+            "source": "Nam et al. 2019, associated author manuscript PMC6782071 Methods, GoT 3\u2032 v2 (text196).",
+            "limitation": "The inspected associated author manuscript names 3\u2032 v2 recovered cDNA; final-publication equivalence is not established here. Exact guide revision and complete native first-strand/end compatibility with the linked reference model are not established; its state is not silently imported.",
             "version": "",
             "title": "",
             "url": ""
@@ -1480,8 +1480,8 @@
             "protocol": "10x-chromium-single-cell-3-ge-v3",
             "stage": "Full-length amplified cDNA before fragmentation; 20 ng aliquot per reaction",
             "page": "10x-3prime-v3.html",
-            "source": "MAESTER Methods, 10x Genomics 3\u2032 v3 and MAESTER 10x 3\u2032 v3; Supplementary Table 3 and Figure 3.",
-            "limitation": "The source identifies 3\u2032 v3 cDNA, not a specific revision of the linked guide. Mitochondrial target occupancy and complete first-cycle products are not established by the platform name; this is a source-named link without state inheritance.",
+            "source": "Associated author manuscript PMC9288977 Methods, 10x Genomics 3\u2032 v3 and MAESTER 10x 3\u2032 v3 (text133/157\u2013163); Supplementary Table 3 and Figure 3.",
+            "limitation": "The inspected associated author manuscript identifies 3\u2032 v3 cDNA, not a specific revision of the linked guide; final-publication equivalence remains unverified. Mitochondrial target occupancy and complete first-cycle products are not established by the platform name; this is a source-named link without state inheritance.",
             "version": "",
             "title": "",
             "url": ""
