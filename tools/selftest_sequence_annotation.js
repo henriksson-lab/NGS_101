@@ -69,6 +69,35 @@ check('ambiguous indexes and unproven orientation are unresolved', () => {
   const noBasis=JSON.parse(JSON.stringify(indexed)); delete noBasis.templates[0].index_spans[0].basis;
   assert.equal(SA.annotate(query,noBasis).indexCandidates[0].forwardSequence,null);
 });
+check('concrete source sample index supplies a variable window without changing literal annotations', () => {
+  const source=left+'AACCGTTA'+right, changed=left+'GTCAGTAC'+right;
+  const concrete={protocols,components:[component('source-primer',source,['p1'])],
+    templates:[Object.assign({},template,{sequence:source})]};
+  for (const query of [changed,SA.revcomp(changed)]) {
+    const result=SA.annotate(query,concrete),hit=result.indexCandidates[0];
+    assert.equal(hit.sequence,'GTCAGTAC'); assert.equal(hit.forwardSequence,'GTACTGAC');
+    assert.equal(hit.status,'ready'); assert.equal(result.hits.length,0);
+  }
+  assert.equal(concrete.templates[0].sequence,source);
+  assert.equal(SA.annotate(source,concrete).hits[0].component,'source-primer');
+  assert.equal(SA.annotate(left.slice(0,-1)+'C'+'GTCAGTAC'+right,concrete).indexCandidates.length,0);
+  const ambiguous=SA.annotate(left+'GTNAGTAC'+right,concrete).indexCandidates[0];
+  assert.equal(ambiguous.status,'unresolved'); assert.equal(ambiguous.forwardSequence,null);
+});
+check('all structured sample-index windows vary independently in the same template', () => {
+  const middle='GACCTAGTCGATGCAT', secondStart=left.length+8+middle.length;
+  const concrete={protocols,components:[],templates:[Object.assign({},template,{
+    sequence:left+'AACCGTTA'+middle+'TTCAGGAC'+right,
+    index_spans:[template.index_spans[0],{start:secondStart,end:secondStart+8,
+      feature_id:'index5',role:'i5',to_forward:'forward',basis:'explicit fixture orientation'}]
+  })]};
+  const query=left+'GTCAGTAC'+middle+'AGCTTCAG'+right;
+  for (const input of [query,SA.revcomp(query)]) {
+    const candidates=SA.annotate(input,concrete).indexCandidates;
+    assert.equal(candidates.length,2);
+    assert.deepEqual(Object.fromEntries(candidates.map(c=>[c.role,c.forwardSequence])),{i7:'GTACTGAC',i5:'AGCTTCAG'});
+  }
+});
 check('short flanks never yield a guessed index', () => {
   const short=JSON.parse(JSON.stringify(indexed)); short.templates[0].sequence='AAA'+'N'.repeat(8)+right; short.templates[0].index_spans[0].start=3;short.templates[0].index_spans[0].end=11;
   const candidate=SA.annotate('AAA'+'AACCGTTA'+right,short).indexCandidates[0];
@@ -116,12 +145,58 @@ check('core result limits cannot be disabled or exceed protocol maximum', () => 
 });
 check('symmetric template anchors cannot assign a nonpalindromic index orientation', () => {
   const anchor='AGCTACGTCAGTTCGA';
-  const symmetric={protocols,components:[],templates:[Object.assign({},template,{sequence:anchor+'N'.repeat(8)+SA.revcomp(anchor)})]};
+  // A concrete source index must not make symmetric flanks appear directional.
+  const symmetric={protocols,components:[],templates:[Object.assign({},template,{sequence:anchor+'TTCAGGAC'+SA.revcomp(anchor)})]};
   const candidates=SA.annotate(anchor+'AACCGTTA'+SA.revcomp(anchor),symmetric).indexCandidates;
   assert.equal(candidates.length,1); assert.equal(candidates[0].strand,'both');
   assert.equal(candidates[0].status,'unresolved'); assert.equal(candidates[0].forwardSequence,null);
   const capped=SA.annotate((anchor+'AACCGTTA'+SA.revcomp(anchor)).repeat(1100),symmetric);
   assert.equal(capped.indexCandidatesTruncated,true);
   assert.ok(capped.indexCandidates.every(candidate=>candidate.status==='unresolved' && !candidate.forwardSequence));
+});
+const geometries=[{id:'canonical.i7',role:'i7',outer:left,inner:right,
+  to_forward:'reverse_complement',basis:'Synthetic canonical geometry fixture',min_anchor:12}];
+check('canonical arms directly resolve variable-width indexes without a protocol catalogue',()=>{
+  for(const width of [6,8,10,12,16]) {
+    const index='GTCAGTACAGTTCGAC'.slice(0,width),primer=left+index+right+'GACT';
+    for(const input of [primer,SA.revcomp(primer)]) {
+      const result=SA.indexGeometryCandidates(input,geometries);
+      assert.equal(result.truncated,false);assert.equal(result.candidates.length,1);
+      const hit=result.candidates[0];assert.equal(hit.forwardSequence,SA.revcomp(index));
+      assert.equal(hit.status,'ready');assert.equal(hit.protocol,undefined);
+      assert.equal(hit.end-hit.start,width);
+    }
+  }
+});
+check('canonical arms accept exact terminal inner prefixes and preserve strand coordinates',()=>{
+  const index='AGCTTCAG';
+  for(const width of [12,13,15,16]) for(const strand of ['+','-']) {
+    const primer=left+index+right.slice(0,width),input=strand==='+'?primer:SA.revcomp(primer);
+    const hit=SA.indexGeometryCandidates(input,geometries).candidates[0];
+    assert.equal(hit.forwardSequence,SA.revcomp(index));assert.equal(hit.strand,strand);
+    assert.deepEqual([hit.start,hit.end],strand==='+'?[left.length,left.length+8]:[width,width+8]);
+  }
+});
+check('canonical geometry retains literal arms and ambiguous observed indexes cannot export',()=>{
+  for(const primer of [left.slice(0,-1)+'C'+'AGCTTCAG'+right,left+'AGCTTCAG'+right.slice(0,11),left+'AGCTTCAG'+right.slice(0,12)+'A',left+right])
+    assert.equal(SA.indexGeometryCandidates(primer,geometries).candidates.length,0);
+  const hit=SA.indexGeometryCandidates(left+'AGNTTCAG'+right,geometries).candidates[0];
+  assert.equal(hit.status,'unresolved');assert.equal(hit.forwardSequence,null);
+});
+check('duplicate canonical families agree on one index span without increasing candidate counts',()=>{
+  const duplicate={...geometries[0],id:'same-arms'},shorter={...geometries[0],id:'shorter-arm',inner:right.slice(0,12)};
+  const result=SA.indexGeometryCandidates(left+'AGCTTCAG'+right,[...geometries,duplicate,shorter]);
+  assert.equal(result.candidates.length,1);assert.equal(result.candidates[0].forwardSequence,'CTGAAGCT');
+});
+check('nested PE-style full and suffix arms preserve competing boundaries',()=>{
+  const rules=[{...geometries[0],id:'full-PE-fixture',inner:'CGGTC'+right},
+    {...geometries[0],id:'PE-suffix-fixture',inner:right}];
+  const result=SA.indexGeometryCandidates(left+'AGCTTCAG'+'CGGTC'+right,rules);
+  assert.deepEqual(result.candidates.map(hit=>hit.end-hit.start),[8,13]);
+  assert.equal(new Set(result.candidates.map(hit=>hit.forwardSequence)).size,2);
+});
+check('canonical geometry candidates are bounded and explicitly report truncation',()=>{
+  const result=SA.indexGeometryCandidates((left+'AGCTTCAG'+right).repeat(1100),geometries);
+  assert.equal(result.candidates.length,1000);assert.equal(result.truncated,true);
 });
 console.log(count+' checks passed');

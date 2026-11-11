@@ -11,20 +11,32 @@
       if(!text.trim()) return {empty:true,values:{},protocols:[],candidates:[]};
       const sequence=matcher.normalizeInput(text);
       if(cache.has(sequence)) return cache.get(sequence);
-      const result=matcher.annotate(sequence,catalogue), candidates=result.indexCandidates || [],values={};
+      // Kit binding sequences establish index position and orientation. Protocol
+      // annotations neither gate this path nor override a canonical placement.
+      const result=matcher.indexGeometryCandidates(sequence,catalogue.index_geometries || []);
+      const candidates=result.candidates,values={};
+      const truncated=result.truncated;
       const errors=[],warnings=[];
-      if(result.indexCandidatesTruncated) errors.push('Index candidate limit reached. Shorten the primer input.');
+      // Only explicit shared universal primers establish absence of an index.
+      // Exact known components are insufficient: their feature annotation may be
+      // incomplete. A matching index candidate always takes precedence.
+      const nonindexed=!truncated && !candidates.length &&
+        (catalogue.nonindexed_primers || []).some(primer => [sequence,matcher.revcomp(sequence)].some(query =>
+          primer.sequence===query || (primer.allow_extension &&
+          (query.startsWith(primer.sequence) || (Number.isInteger(primer.min_prefix) &&
+            query.length>=primer.min_prefix && primer.sequence.startsWith(query))))));
+      if(truncated) errors.push('Index candidate limit reached. Shorten the primer input.');
       for(const role of ['i7','i5']) {
         const records=candidates.filter(c=>c.role===role), ready=records.filter(c=>c.status==='ready'&&c.forwardSequence);
         const distinct=[...new Set(ready.map(c=>c.forwardSequence))];
         if(distinct.length>1) errors.push('Conflicting '+role+' values were detected.');
         else if(distinct.length===1) values[role]=distinct[0];
         // A matching unresolved placement can contradict the resolved interpretation.
-        if(records.some(c=>c.status!=='ready'||!c.forwardSequence)) errors.push('A matching '+role+' template has unresolved bases or orientation.');
+        if(records.some(c=>c.status!=='ready'||!c.forwardSequence)) errors.push('A matching '+role+' binding geometry has unresolved bases or orientation.');
       }
-      if(!Object.keys(values).length) errors.push('No orientation-resolved index template matched this primer.');
-      if(candidates.some(c=>!c.role)) warnings.push('Other matching templates have unresolved index roles.');
-      const output={empty:false,values,protocols:[...new Set(candidates.filter(c=>c.status==='ready').map(c=>c.protocol))],candidates,warnings,error:[...new Set(errors)].join(' ')};
+      if(!Object.keys(values).length && !nonindexed) errors.push('No index was located between supported Illumina binding sequences.');
+      if(nonindexed) warnings.push('This universal primer contains no sample index.');
+      const output={empty:false,nonindexed,values,method:'binding_geometry',protocols:[],candidates,warnings,error:[...new Set(errors)].join(' ')};
       cache.set(sequence,output);return output;
     };
   }
@@ -37,6 +49,7 @@
       if(distinct.length>1) errors.push('The primers disagree on '+role+'.');
       else if(distinct.length===1) values[role]=distinct[0];
     }
+    if(!errors.length && results.some(r=>!r.empty) && !Object.keys(values).length) errors.push('No sample index was supplied. Add an indexed primer.');
     if(!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(row.sampleId)||row.sampleId.toLowerCase()==='undetermined') errors.push('Use a Sample_ID with letters, numbers, underscores or hyphens (Undetermined is reserved).');
     return {...row,values,results,protocols:[...new Set(results.flatMap(r=>r.protocols))],empty:results.every(r=>r.empty),error:errors.join(' ')};
   }

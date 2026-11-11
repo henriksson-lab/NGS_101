@@ -216,17 +216,28 @@ data-section snippet. Missing primers produce empty fields; an i5-only row remai
 partial and needs i7 information before demultiplexing. BaseSpace Run Planning provides
 setup inputs rather than a manual CSV. Unknown combinations cannot default to another orientation.
 
-Candidates require a structured `sample_index` feature and compatible matched template,
-with at least 12 concrete flanking bases on both sides. Canonical contiguous P5/read-1
-or P7/read-2 arms establish the Illumina-forward axis. Reverse query strands and raw
-P7-primer orientation are normalized before applying the software profile. An ambiguous
-index, unknown axis, insufficient anchoring or contradictory orientation remains
-unresolved. A free barcode-length query is insufficient. UMIs and inline cell barcodes
-are not exported as sequencer indexes. A sample table accepts primers in either order
-without protocol or candidate selectors.
-Matching templates that agree on an index value are deduplicated; conflicting values
-remain unresolved and prevent that row from exporting. Neither this detection nor
-independently declared index values establish a valid experimental primer pair.
+Sample-sheet extraction uses known Illumina binding sequences directly: P5 plus
+TruSeq Read 1 or Nextera S5, and P7 plus TruSeq Read 2, Nextera S7, Small RNA,
+or the full historical paired-end Read 2 arm. The intervening gap supplies the
+index and its length. No protocol match, molecular sample-index feature, barcode
+whitelist, or example index value is required. Canonical arms are exported from
+`illumina` and `nextera`; the browser does not maintain a second sequence table.
+Exact terminal inner-arm prefixes require at least 12 matching bases. Unknown
+index bases, incompatible binding sequences, contradictory placements and explicit
+candidate limits block export. The canonical universal P5 primer carries no index
+and may accompany an indexed primer. Unrecognized supplied primers still block
+the row. Reverse query strands and the raw P7-primer orientation are normalized
+before applying the selected instrument/software profile.
+
+Protocol templates and structured index annotations remain available to sequence
+annotation; they do not gate or override this kit-based sample-sheet extraction.
+This determines the bases between binding sites, not the intended run cycle count,
+experimental primer pairing, or biological use of those bases.
+
+`tools/selftest_samplesheet_catalogue.py` exercises all exported kit geometries and
+the declared raw oligo/PCR primer queries through the real browser API. Synthetic
+index substitutions and reverse strands test extraction independently of a source's
+chosen barcode. Its generated audit reports belong outside the checkout.
 
 Profiles cover original MiSeq, MiniSeq standard/Rapid, iSeq 100, NextSeq 500/550 and
 1000/2000, NovaSeq 6000 v1.5 and X/X Plus, MiSeq i100 sequencing orders, and legacy HiSeq
@@ -252,13 +263,12 @@ The index feature moved out of the annotation view into `samplesheet.html`, gene
 `build_samplesheet.py`. `assets/samplesheet_batch.js` resolves primer pairs and formats
 multiple rows through the existing orientation policy; `assets/samplesheet_ui.js` supplies
 an editable table, add/remove controls and tab-separated list import (up to 200 samples).
-Either primer may be omitted. Both index roles are detected from template geometry,
-not column order. Per-primer “Use for all i5/i7” buttons check the source primer’s unique
+Either primer may be omitted. Both index roles are detected from kit binding sequences,
+not column order or protocol features. Per-primer “Use for all i5/i7” buttons check the source primer’s unique
 role and replace that role in other rows, preserving the partner primer. Clipboard
 fallback, duplicate Sample_ID checks and invalidation of stale output apply to the whole
 table. Unknown supplied primers, conflicting values and ambiguous orientations stay
-unexported. Alternate templates without an established role remain visible warnings and
-do not override an independently resolved index geometry. Run Planning provides setup
+unexported. Protocol-template annotations do not override independently resolved kit binding geometry. Run Planning provides setup
 inputs without a manual CSV.
 
 Each visible highlighted annotation region now has a primer/component dropdown. Selecting

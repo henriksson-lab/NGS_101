@@ -44,6 +44,10 @@ TRIM_SEEN_IN_READ2 = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 # RA5 is printed with U as RNA; T is used here for DNA-construct arithmetic.
 TRUSEQ_SMALL_RNA_RA5 = "GTTCAGAGTTCTACAGTCCGACGATC"
 TRUSEQ_SMALL_RNA_RA3 = "TGGAATTCTCGGGTGCCAAGG"
+# Indexed RPI PCR arm: the shared 12-base TruSeq prefix followed by the DNA
+# reverse complement of the Small RNA RA3 adapter (same vendor document).
+TRUSEQ_SMALL_RNA_PCR_ARM = (TRUSEQ_READ2[:12] +
+                            TRUSEQ_SMALL_RNA_RA3.translate(str.maketrans("ACGT", "TGCA"))[::-1])
 
 # Historical (Genome Analyzer-era) paired-end oligos. Illumina Adapter Sequences,
 # Document # 1000000002694 v22, "Oligonucleotide Sequences for Paired End (PE) DNA

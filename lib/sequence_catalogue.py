@@ -90,8 +90,17 @@ def index_axis(sequence, start, end):
         seq = revcomp(sequence) if reverse else sequence
         a, b = (len(seq) - end, len(seq) - start) if reverse else (start, end)
         for role, outer, inners in (('i5', il.P5, (il.TRUSEQ_READ1, nx.S5)),
-                                     ('i7', il.P7, (il.TRUSEQ_READ2, nx.S7))):
-            if seq[:a].endswith(outer) and any(seq[b:].startswith(inner) for inner in inners):
+                                     ('i7', il.P7, (il.TRUSEQ_READ2, nx.S7,
+                                                    il.TRUSEQ_SMALL_RNA_PCR_ARM,
+                                                    il.PE_READ2_PRIMER, il.PE_READ2_ARM))):
+            # Source primers can stop within the read arm. Accept an exact terminal
+            # prefix with the same minimum anchoring required by the browser matcher;
+            # do not accept a divergent tail or invent the missing terminal bases.
+            tail = seq[b:]
+            inner_match = any(tail.startswith(inner) or
+                              (len(tail) >= MIN_LENGTH and inner.startswith(tail))
+                              for inner in inners)
+            if seq[:a].endswith(outer) and inner_match:
                 rc = (role == 'i7') != reverse
                 matches.append({'role': role, 'to_forward': 'reverse_complement' if rc else 'forward',
                                 'basis': 'Contiguous canonical ' + ('P5/read-1' if role == 'i5' else 'P7/read-2') + ' arms flanking the structured sample index.'})
@@ -147,6 +156,13 @@ def extract_graph(graph, protocol):
         return {"occurrences": [], "templates": [], "unrepresented_oligos": []}
     occurrences, templates, unrepresented = [], [], []
     declared_sequences = {}
+    primer_queries = []
+
+    def record_primer(sequence, label, locator, source, inferred=False):
+        sequence = sequence.upper()
+        if sequence and not set(sequence) - set('ACGTN'):
+            primer_queries.append({'protocol': protocol, 'label': label, 'locator': locator,
+                                   'source': source, 'sequence': sequence, 'inferred': bool(inferred)})
 
     def add(sequence, name, locator, role, source, inferred=False, feature=None, **metadata):
         sequence = sequence.upper()
@@ -175,6 +191,9 @@ def extract_graph(graph, protocol):
         if material.kind not in (MaterialKind.OLIGO, MaterialKind.ADAPTER):
             continue
         declared_polymers = list(polymers(material.state))
+        if (isinstance(material.state, str) and material.state
+                and not set(material.state.upper()) - set('ACGTN')):
+            declared_polymers = [('state', [Segment(material.label, material.state.upper())])]
         if not declared_polymers:
             unrepresented.append(material.id)
         for path, segments in declared_polymers:
@@ -184,6 +203,10 @@ def extract_graph(graph, protocol):
                 declared_sequences.setdefault(full, []).append(
                     material.inferred or any(s.inferred for s in segments))
             made = template(segments, protocol, material.label, locator, material.source, material.inferred)
+            raw = made['sequence'] if made else ''.join(s.top.upper() for s in segments)
+            if made or not any(s.placeholder for s in segments):
+                record_primer(raw, material.label, locator, material.source,
+                              material.inferred or any(s.inferred for s in segments))
             if made:
                 templates.append(made)
             run, run_inferred, run_names = '', material.inferred, []
@@ -235,6 +258,8 @@ def extract_graph(graph, protocol):
                 matching = declared_sequences.get(sequence.upper(), [])
                 inferred = (getattr(primer, 'inferred', False) or getattr(geometry, 'inferred', False)
                             or bool(matching and all(matching)))
+                record_primer(sequence, primer.name, 'step:' + step.id + '/' + side,
+                              step.source, inferred)
                 metadata = {}
                 if hasattr(geometry, 'availability'):
                     metadata['geometry_availability'] = geometry.availability
@@ -247,14 +272,57 @@ def extract_graph(graph, protocol):
             add(primer.seq, primer.name, 'sequencing:' + material_id + '/primer:' + str(i),
                 'sequencing reference', primer.source, reference_only=True,
                 reference_role=primer.role, note=primer.note)
-    return {'occurrences': occurrences, 'templates': templates,
+    return {'occurrences': occurrences, 'templates': templates, 'primer_queries': primer_queries,
             'unrepresented_oligos': sorted(unrepresented)}
 
 
+def index_geometries():
+    """Illumina index positions follow kit binding sequences, independent of protocols.
+
+    The variable gap has no assumed length or barcode whitelist. These rules
+    establish readout position/orientation, not the biological use of the bases.
+    """
+    import illumina as il
+    import nextera as nx
+    families = [('i5', 'TruSeq', il.P5, il.TRUSEQ_READ1),
+                ('i5', 'Nextera', il.P5, nx.S5),
+                ('i7', 'TruSeq', il.P7, il.TRUSEQ_READ2),
+                ('i7', 'Nextera', il.P7, nx.S7),
+                ('i7', 'Small RNA', il.P7, il.TRUSEQ_SMALL_RNA_PCR_ARM),
+                ('i7', 'historical PE', il.P7, il.PE_READ2_PRIMER)]
+    return [{'id': 'illumina.' + role + '.' + name.replace(' ', '_'),
+             'label': name + ' ' + role, 'role': role, 'outer': outer, 'inner': inner,
+             'min_anchor': MIN_LENGTH,
+             'to_forward': 'reverse_complement' if role == 'i7' else 'forward',
+             'basis': 'Known Illumina flow-cell and sequencing-primer binding sequences flank this index.'}
+            for role, name, outer, inner in families]
+
+
+def nonindexed_primers():
+    """Canonical zero-index primer arms, including shared P5/Read-1 overlap.
+
+    Target-specific 3-prime extensions do not insert an index between the known
+    binding sites. A terminal partial arm must still contain 12 inner-arm bases.
+    """
+    import illumina as il
+    result = [{'id': 'illumina.TRUSEQ_P5_FULL', 'sequence': il.TRUSEQ_P5_FULL,
+               'allow_extension': True, 'min_prefix': len(il.P5) - 4 + MIN_LENGTH}]
+    for geometry in index_geometries():
+        result.append({'id': geometry['id'] + '.unindexed',
+                       'sequence': geometry['outer'] + geometry['inner'],
+                       'allow_extension': True,
+                       'min_prefix': len(geometry['outer']) + MIN_LENGTH})
+    result.append({'id': 'illumina.Small_RNA.P5.unindexed',
+                   'sequence': il.P5 + il.TRUSEQ_SMALL_RNA_RA5,
+                   'allow_extension': True, 'min_prefix': len(il.P5) + MIN_LENGTH})
+    return result
+
+
 def combine(protocols, extractions, report=()):
-    groups, templates = {}, []
+    groups, templates, primer_queries = {}, [], []
     for extracted in extractions:
         templates.extend(extracted['templates'])
+        primer_queries.extend(extracted.get('primer_queries', []))
         for item in extracted['occurrences']:
             seq = item['sequence']
             canonical = min(seq, revcomp(seq))
@@ -271,6 +339,9 @@ def combine(protocols, extractions, report=()):
     templates = sorted({t['id']: t for t in templates}.values(), key=lambda t: (t['protocol'], t['id']))
     return {'schema_version': 1, 'min_length': MIN_LENGTH,
             'protocols': sorted(protocols, key=lambda p: p['id']), 'components': components,
-            'templates': templates, 'report': sorted(report, key=lambda p: p['protocol']),
+            'templates': templates, 'nonindexed_primers': nonindexed_primers(),
+            'index_geometries': index_geometries(),
+            'primer_queries': primer_queries,
+            'report': sorted(report, key=lambda p: p['protocol']),
             'stats': {'protocols': len(protocols), 'components': len(components), 'templates': len(templates),
                       'occurrences': sum(len(c['occurrences']) for c in components)}}

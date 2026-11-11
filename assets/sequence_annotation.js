@@ -124,12 +124,19 @@
     }
     for (const template of catalogue.templates || []) {
       if (template.inferred && !includeInferred) continue;
-      const pattern = template.sequence || '';
-      if (!/^[ACGTN]+$/.test(pattern)) continue;
+      const declaredPattern = template.sequence || '';
+      if (!/^[ACGTN]+$/.test(declaredPattern)) continue;
+      const spans = (template.index_spans || []).filter(span =>
+        Number.isInteger(span.start) && Number.isInteger(span.end) && span.start >= 0 && span.end > span.start && span.end <= declaredPattern.length);
+      // A declared sample-index window supplies geometry and length, not a fixed
+      // sample identity. Keep the source bases in annotation components, while
+      // matching other samples against the same literal surrounding sequence.
+      const patternBases = Array.from(declaredPattern);
+      for (const span of spans) patternBases.fill('N',span.start,span.end);
+      const pattern = patternBases.join('');
       const runs = Array.from(pattern.matchAll(/[ACGT]+/g)).sort((a,b) => b[0].length-a[0].length || a.index-b.index);
-      for (const span of template.index_spans || []) {
+      for (const span of spans) {
         const base = {template:template.id,protocol:template.protocol,label:template.label,feature_id:span.feature_id,role:span.role || null,source:template.source,locator:template.locator,inferred:!!template.inferred,basis:span.basis || null};
-        if (!(Number.isInteger(span.start) && Number.isInteger(span.end) && span.start >= 0 && span.end > span.start && span.end <= pattern.length)) continue;
         if (span.inferred && !includeInferred) continue;
         const left = (pattern.slice(0,span.start).match(/[ACGT]+$/) || [''])[0].length;
         const right = (pattern.slice(span.end).match(/^[ACGT]+/) || [''])[0].length;
@@ -179,6 +186,61 @@
     }
     return finish(false);
   }
+  function indexGeometryCandidates(sequence, geometries) {
+    const grouped=new Map(),reverseSequence=revcomp(sequence),candidateLimit=1000;
+    function finish(truncated) {
+      return {candidates:Array.from(grouped.values()).sort((a,b)=>a.start-b.start || a.end-b.end || a.role.localeCompare(b.role)),truncated};
+    }
+    function add(geometry,query,strand,a,b) {
+      const start=strand==='+'?a:sequence.length-b,end=strand==='+'?b:sequence.length-a;
+      const observed=query.slice(a,b),known=/^[ACGT]+$/.test(observed);
+      const forward=known?(geometry.to_forward==='forward'?observed:revcomp(observed)):null;
+      const key=[start,end,geometry.role,geometry.to_forward].join(':');
+      const existing=grouped.get(key);
+      if(existing) {
+        if(existing.strand!==strand) {
+          existing.strand='both';
+          if(existing.forwardSequence!==forward) {
+            existing.forwardSequence=null;existing.status='unresolved';
+            existing.reason='Both orientations of the canonical arms match this index span; its orientation is ambiguous.';
+          }
+        }
+        return true;
+      }
+      if(grouped.size>=candidateLimit)return false;
+      grouped.set(key,{template:geometry.id,label:geometry.id,role:geometry.role,
+        basis:geometry.basis,start,end,strand,sequence:observed,forwardSequence:forward,
+        status:known?'ready':'unresolved',reason:known?'':'The index contains ambiguous or RNA bases.'});
+      return true;
+    }
+    for(const geometry of geometries || []) {
+      const {outer,inner}=geometry,minAnchor=Math.max(12,Number(geometry.min_anchor)||12);
+      if(!['i5','i7'].includes(geometry.role) || !['forward','reverse_complement'].includes(geometry.to_forward) || !geometry.basis ||
+         typeof outer!=='string' || typeof inner!=='string' || !/^[ACGT]+$/.test(outer) || !/^[ACGT]+$/.test(inner) ||
+         outer.length<minAnchor || inner.length<minAnchor)continue;
+      for(const strand of ['+','-']) {
+        const query=strand==='+'?sequence:reverseSequence;
+        let from=0,outerStart;
+        while((outerStart=query.indexOf(outer,from))!==-1) {
+          from=outerStart+1;
+          const indexStart=outerStart+outer.length;
+          // The inner arm locates the variable-width index; no kit barcode width
+          // or protocol-specific sample-index annotation is needed.
+          let innerFrom=indexStart+1,innerStart;
+          while((innerStart=query.indexOf(inner,innerFrom))!==-1) {
+            innerFrom=innerStart+1;
+            if(!add(geometry,query,strand,indexStart,innerStart))return finish(true);
+          }
+          // A primer may terminate within the canonical inner arm. Only exact
+          // terminal prefixes count; a target-specific divergent tail does not.
+          for(let position=Math.max(indexStart+1,query.length-inner.length+1);position<=query.length-minAnchor;position++) {
+            if(inner.startsWith(query.slice(position)) && !add(geometry,query,strand,indexStart,position))return finish(true);
+          }
+        }
+      }
+    }
+    return finish(false);
+  }
   function annotate(input, catalogue, options) {
     options = options || {};
     const sequence = normalizeInput(input,options);
@@ -203,5 +265,5 @@
     return {sequence,hits,overview:nonoverlapping(hits),protocols:rank(hits,catalogue,maxProtocols),indexCandidates:indexes.candidates,indexCandidatesTruncated:indexes.truncated,truncated};
   }
   function createMatcher(catalogue) { return {annotate:(sequence,options) => annotate(sequence,catalogue,options)}; }
-  return {normalizeInput,parse:normalizeInput,annotate,createMatcher,revcomp};
+  return {normalizeInput,parse:normalizeInput,annotate,createMatcher,revcomp,indexGeometryCandidates};
 }));

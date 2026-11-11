@@ -72,6 +72,7 @@
         for(const role of ['i7','i5'])field(row[role],result.values[role]?policy.formatIndex(result.values[role],role,instrument,workflow).value:'',role==='i7'?'index':'index2');
         row.note.textContent=Object.keys(result.values).length===1?'Partial: '+Object.keys(result.values)[0]+' only. ':'i7 + i5. ';
         for(const detail of result.results)for(const warning of detail.warnings||[])row.note.append(document.createTextNode(warning+' '));
+        if(!result.protocols.length){row.note.append(document.createTextNode('Located from Illumina binding sequences.'));return;}
         const matches=node('details'),summary=node('summary',result.protocols.length+' template matches');matches.append(summary);row.note.append(matches);
         for(const id of result.protocols.slice(0,5)){
           const p=protocols.get(id);if(!p)continue;

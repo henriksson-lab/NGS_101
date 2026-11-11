@@ -68,6 +68,9 @@ jobs:
       - name: Build the site
         run: python3 build_site.py
 
+      - name: Audit index extraction across source primer declarations
+        run: python3 tools/selftest_samplesheet_catalogue.py
+
       # Needs the rendered pages on disk (it lints every generated page), so after the build.
       - name: Renderer and docs self-test
         run: python3 tools/selftest.py

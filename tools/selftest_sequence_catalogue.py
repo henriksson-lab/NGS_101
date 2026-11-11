@@ -3,6 +3,7 @@
 from pathlib import Path
 from types import SimpleNamespace
 import json
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,7 +15,7 @@ import illumina as il
 import seqprimers as sp
 from pcr import PCRGeometry, PCRPrimer
 from build_sequence_index import public_url
-from sequence_catalogue import combine, extract_graph, informative, index_axis, template
+from sequence_catalogue import combine, extract_graph, informative, index_axis, index_geometries, nonindexed_primers, template
 
 
 def main():
@@ -70,6 +71,53 @@ def main():
     reversed_template = revcomp(il.P7 + 'AACCGTTA' + il.TRUSEQ_READ2)
     check('reverse i7 polymer transforms coordinates and axis',
           index_axis(reversed_template, len(il.TRUSEQ_READ2), len(il.TRUSEQ_READ2) + 8)['to_forward'], 'forward')
+    # Short source primer arms must resolve full-length user primers without
+    # protocol selection. Exercise the Python export through the real browser API.
+    shortened = []
+    for width in (12, 22, 23, 31):
+        partial = il.P7 + 'NNNNNNNN' + il.TRUSEQ_READ2[:width]
+        axis = index_axis(partial, len(il.P7), len(il.P7) + 8)
+        check(f'terminal {width}-base read arm establishes i7 axis',
+              axis.get('to_forward'), 'reverse_complement')
+        check(f'reverse terminal {width}-base arm preserves axis',
+              index_axis(revcomp(partial), width, width + 8).get('to_forward'), 'forward')
+        shortened.append(template([Segment('P7', il.P7),
+                                   Segment('index', 'NNNNNNNN', feature=idx),
+                                   Segment('read2 prefix', il.TRUSEQ_READ2[:width])],
+                                  'fixture', f'partial {width}', f'input:{width}'))
+    for tail in (il.TRUSEQ_READ2[:11], il.TRUSEQ_READ2[:22] + 'A',
+                 'N' + il.TRUSEQ_READ2[1:23]):
+        check('short, divergent or ambiguous read arm cannot establish axis',
+              index_axis(il.P7 + 'NNNNNNNN' + tail, len(il.P7), len(il.P7) + 8), {})
+    fixture = {'protocols': [], 'components': [], 'templates': shortened,
+               'index_geometries': index_geometries()}
+    queries = [il.P7 + value + il.TRUSEQ_READ2 + 'TCTACTATTCTTTCCCCTGCACTGT'
+               for value in ('ATACTCAA', 'GCTGAGAA')]
+    browser = subprocess.run(['node', '-e', """
+const fs = require('fs'), assert = require('node:assert/strict');
+const api = require('./assets/samplesheet_batch.js');
+const matcher = require('./assets/sequence_annotation.js');
+const {catalogue, queries} = JSON.parse(fs.readFileSync(0, 'utf8'));
+for (const reverse of [false, true]) {
+  const rows = queries.map((q, i) => ({sampleId:'S'+i,
+    primer1:reverse ? matcher.revcomp(q) : q, primer2:''}));
+  const result = api.analyze(rows, catalogue);
+  assert.deepEqual(result.values, [['S0','TTGAGTAT',''],['S1','TTCTCAGC','']]);
+}
+const bad = api.analyze([{sampleId:'bad', primer1:queries[0].replace('ATACTCAA','ATNCTCAA')}], catalogue);
+assert.equal(bad.valid.length, 0);
+"""], input=json.dumps({'catalogue': fixture, 'queries': queries}),
+                             text=True, capture_output=True, cwd=ROOT)
+    check('PCR primers resolve through kit geometry regardless of source templates: ' + browser.stderr,
+          browser.returncode, 0)
+    for arm in (il.TRUSEQ_SMALL_RNA_PCR_ARM, il.PE_READ2_PRIMER, il.PE_READ2_ARM):
+        primer = il.P7 + 'AACCGTTA' + arm
+        check('Small RNA or historical paired-end index PCR axis: ' + arm,
+              index_axis(primer, len(il.P7), len(il.P7) + 8).get('to_forward'),
+              'reverse_complement')
+        check('reverse Small RNA or historical paired-end index PCR axis: ' + arm,
+              index_axis(revcomp(primer), len(arm), len(arm) + 8).get('to_forward'),
+              'forward')
     symbolic = template([Segment('P5', il.P5),
                          Segment('index', '[index]', placeholder=True, length_bp=8, feature=idx),
                          Segment('read1', seq)], 'fixture', 'symbolic', 'input')
@@ -165,6 +213,46 @@ def main():
     synthetic_export = extract_graph(synthetic, 'synthetic')
     check('invented examples cannot become annotation or sample-sheet references',
           (synthetic_export['occurrences'], synthetic_export['templates']), ([], []))
+    raw_graph = ProtocolGraph('raw primer fixture', authority='fixture source')
+    raw_reverse = il.P7 + 'ATACTCAA' + il.TRUSEQ_READ2
+    raw_graph.input('plain', 'plain DNA primer', MaterialKind.OLIGO, state=raw_reverse)
+    raw_export = extract_graph(raw_graph, 'raw_fixture')
+    check('plain DNA source primer is retained for catalogue-wide browser audit',
+          raw_export['primer_queries'][0]['sequence'], raw_reverse)
+    check('plain DNA state retains its searchable sequence',
+          any(o['sequence'] == raw_reverse for o in raw_export['occurrences']), True)
+    check('plain DNA state no longer reported unrepresented',
+          'plain' in raw_export['unrepresented_oligos'], False)
+    # This primary extraction route has no protocol/library/feature declarations.
+    kit_catalogue = {'protocols': [], 'components': [], 'templates': [],
+                     'index_geometries': index_geometries(),
+                     'nonindexed_primers': nonindexed_primers()}
+    browser = subprocess.run(['node', '-e', """
+const fs=require('fs'),assert=require('node:assert/strict');
+const api=require('./assets/samplesheet_batch.js'),matcher=require('./assets/sequence_annotation.js');
+const c=JSON.parse(fs.readFileSync(0,'utf8'));
+for(const g of c.index_geometries) for(const width of [6,8,10,12,16]) {
+ const raw='ACGTTGCAAAGCTAGC'.slice(0,width),primer=g.outer+raw+g.inner;
+ for(const sequence of [primer,matcher.revcomp(primer)]) {
+  const result=api.analyze([{sampleId:'kit',primer1:sequence}],c);
+  assert.equal(result.valid.length,1,JSON.stringify(result.results[0]));
+  assert.equal(result.results[0].values[g.role],g.to_forward==='forward'?raw:matcher.revcomp(raw));
+ }
+}
+const g=c.index_geometries.find(g=>g.label==='TruSeq i7');
+const both=api.analyze([{sampleId:'pair',primer1:c.nonindexed_primers[0].sequence,
+ primer2:g.outer+'ATACTCAA'+g.inner}],c);
+assert.deepEqual(both.values,[['pair','TTGAGTAT','']]);
+for(const tail of ['CTTGTGGAAAGGACGAAACACCG','TGCACCTTGTGGAAAGGACGAAACACCG']) {
+ const stagger=api.analyze([{sampleId:'stagger',primer1:c.nonindexed_primers[0].sequence+tail,
+ primer2:g.outer+'ATACTCAA'+g.inner}],c);
+ assert.equal(stagger.valid.length,1,JSON.stringify(stagger.results[0]));
+ assert.deepEqual(stagger.values,[['stagger','TTGAGTAT','']]);
+}
+
+"""], input=json.dumps(kit_catalogue), text=True, capture_output=True, cwd=ROOT)
+    check('all kit families extract variable index lengths without protocols or features: ' + browser.stderr,
+          browser.returncode, 0)
     check.report()
 
 

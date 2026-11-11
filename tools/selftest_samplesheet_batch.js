@@ -5,7 +5,8 @@ const api=require('../assets/samplesheet_batch.js'),matcher=require('../assets/s
 const left='ACGTCAGATCGT',right='GCTACGATCGTA',l2='TTGCGATCCGTA',r2='CACTGATCGTGC';
 const p7=left+'AACCGGTA'+right,p5=l2+'ACGTTGCA'+r2;
 function template(id,role,l,r,protocol='p'){return {id,protocol,label:id,sequence:l+'NNNNNNNN'+r,index_spans:[{feature_id:role,role,start:12,end:20,to_forward:'forward',basis:'Synthetic fixture'}]};}
-const catalogue={protocols:[{id:'p',title:'<b>Synthetic</b>',url:'p/page.html'}],components:[],templates:[template('seven','i7',left,right),template('five','i5',l2,r2)]};
+function geometry(id,role,outer,inner,to_forward='forward'){return {id,role,outer,inner,to_forward,basis:'Synthetic binding geometry fixture',min_anchor:12};}
+const catalogue={index_geometries:[geometry('seven','i7',left,right),geometry('five','i5',l2,r2)],nonindexed_primers:[],protocols:[{id:'p',title:'<b>Synthetic</b>',url:'p/page.html'}],components:[],templates:[template('seven','i7',left,right),template('five','i5',l2,r2)]};
 let count=0;function check(label,fn){fn();count++;console.log('PASS '+label);}
 const row={sampleId:'Sample_1',primer1:p7,primer2:p5};
 check('NovaSeq X bcl2fastq defaults and automatic roles in either primer order',()=>{
@@ -17,17 +18,49 @@ check('either primer can be omitted and blank input is an empty field',()=>{
  assert.deepEqual(api.analyze([{...row,primer1:''}],catalogue).values,[['Sample_1','','TGCAACGT']]);
  assert.equal(api.analyze([{sampleId:'',primer1:'',primer2:''}],catalogue).valid.length,0);
 });
-check('duplicate template matches do not require protocol/candidate selection',()=>{
- const c={...catalogue,templates:[...catalogue.templates,template('seven-copy','i7',left,right,'other')]};assert.equal(api.analyze([row],c).valid.length,1);
+check('explicit universal non-indexed partner works in either slot and strand',()=>{
+ const universal='GTCAGATCGACTGACTGACCTAGT',c={...catalogue,nonindexed_primers:[{id:'fixture.universal',sequence:universal}]};
+ for(const unindexed of [universal,matcher.revcomp(universal)]) for(const primers of [[p7,unindexed],[unindexed,p7]]) {
+  const result=api.analyze([{...row,primer1:primers[0],primer2:primers[1]}],c);
+  assert.deepEqual(result.values,[['Sample_1','AACCGGTA','']]);
+  const partner=result.results[0].results.find(r=>r.nonindexed);
+  assert.deepEqual(partner.values,{});assert.equal(partner.warnings.length,1);
+ }
+ const alone=api.analyze([{...row,primer1:universal,primer2:''}],c);
+ assert.equal(alone.valid.length,0);assert.match(alone.results[0].error,/No sample index was supplied/);
+ const altered=api.analyze([{...row,primer1:p7,primer2:'A'+universal.slice(1)}],c);
+ assert.equal(altered.valid.length,0);assert.match(altered.results[0].error,/No index was located/);
+ // Index evidence cannot be overridden by the non-indexed reference field.
+ const conflicting={...catalogue,nonindexed_primers:[{id:'fixture.bad-reference',sequence:p7}]};
+ assert.equal(api.detector(conflicting)(p7).nonindexed,false);
+ assert.deepEqual(api.detector(conflicting)(p7).values,{i7:'AACCGGTA'});
+ const unknown={...c,components:[{id:'known-component',sequence:'TTAGGCTACTAGGATCACTGATCA',occurrences:[{protocol:'p',name:'PCR primer'}]}]};
+ assert.equal(api.analyze([{...row,primer2:'TTAGGCTACTAGGATCACTGATCA'}],unknown).valid.length,0);
 });
-check('unresolved alternate role is preserved as a warning without overriding resolved geometry',()=>{
- const other=template('unknown','i7',left,right);delete other.index_spans[0].role;const c={...catalogue,templates:[...catalogue.templates,other]};
- const result=api.analyze([row],c);assert.equal(result.valid.length,1);assert(result.results[0].results[0].warnings.length);
+check('duplicate canonical binding rules agree without protocol/candidate selection',()=>{
+ const c={...catalogue,index_geometries:[...catalogue.index_geometries,geometry('seven-copy','i7',left,right)]};
+ const result=api.analyze([row],c);assert.equal(result.valid.length,1);assert.equal(result.results[0].results[0].candidates.length,1);
 });
-check('conflicting index values and unknown supplied primers never export',()=>{
- const c={...catalogue,templates:[...catalogue.templates,{...template('conflict','i7',left,right),index_spans:[{...catalogue.templates[0].index_spans[0],to_forward:'reverse_complement'}]}]};
+check('protocol templates cannot gate or contradict kit binding geometry',()=>{
+ const contradictory=template('opposite','i7',left,right);contradictory.index_spans[0].to_forward='reverse_complement';
+ const c={...catalogue,templates:[contradictory,{...template('inferred','i5',l2,r2),inferred:true}],components:[]};
+ const result=api.analyze([row],c);assert.deepEqual(result.values,[['Sample_1','AACCGGTA','TGCAACGT']]);
+ assert.deepEqual(result.results[0].protocols,[]);assert.equal(result.results[0].results[0].method,'binding_geometry');
+ assert.deepEqual(api.analyze([row],{index_geometries:catalogue.index_geometries}).values,result.values);
+ assert.equal(api.analyze([row],{templates:catalogue.templates}).valid.length,0,'Protocol templates alone never extract an index');
+});
+check('conflicting binding geometries and unknown supplied primers never export',()=>{
+ const c={...catalogue,index_geometries:[...catalogue.index_geometries,geometry('conflict','i7',left,right,'reverse_complement')]};
  assert.equal(api.analyze([row],c).valid.length,0);assert.match(api.analyze([row],c).results[0].error,/Conflicting/);
  assert.equal(api.analyze([{...row,primer2:'ACGTACGTACGT'}],catalogue).valid.length,0);
+});
+check('nested inner arms retain competing index boundaries without silent priority',()=>{
+ // The historical PE full arm and its suffix have this geometry: a suffix-only
+ // rule would misread the extra five bases as part of the index.
+ const c={index_geometries:[geometry('full-PE-fixture','i7',left,'CGGTC'+right),geometry('PE-suffix-fixture','i7',left,right)]};
+ const result=api.analyze([{sampleId:'Nested',primer1:left+'AACCGGTA'+'CGGTC'+right}],c);
+ assert.equal(result.valid.length,0);assert.match(result.results[0].error,/Conflicting/);
+ assert.deepEqual(result.results[0].results[0].candidates.map(hit=>hit.end-hit.start),[8,13]);
 });
 check('disagreeing paired primers, duplicate samples and invalid IDs are excluded',()=>{
  assert.equal(api.analyze([{...row,primer2:left+'TTTTGGTA'+right}],catalogue).valid.length,0);
@@ -50,7 +83,7 @@ check('workflow changes apply RC and required Header exactly once',()=>{
  assert.match(api.analyze([row],catalogue,'nextseq500','bssh-bclconvert-v2').csv,/^\[Header\]\nIndexOrientation,Forward\n\n\[BCLConvert_Data\]/);
  assert(api.analyze([row],catalogue,'novaseqx','run-planning').inputOnly);
 });
-check('inferred template is excluded',()=>assert.equal(api.analyze([row],{...catalogue,templates:catalogue.templates.map(t=>({...t,inferred:true}))}).valid.length,0));
+check('inferred protocol templates have no effect on direct kit geometry extraction',()=>assert.equal(api.analyze([row],{...catalogue,templates:catalogue.templates.map(t=>({...t,inferred:true}))}).valid.length,1));
 
 // Small DOM boundary fixture uses the real batch detector and orientation formatter.
 class Element{
@@ -81,7 +114,7 @@ vm.runInNewContext(fs.readFileSync(require('path').join(__dirname,'../assets/sam
  get('batch-paste').value='Sample_ID\tPrimer1\tPrimer2\nOne\t'+p5+'\t'+p7+'\nTwo\t'+p7;
  get('batch-import').listeners.click();compactRows();await get('batch-detect').listeners.click();
  assert.equal(get('batch-export').hidden,false);assert.match(get('batch-output').value,/One,AACCGGTA,TGCAACGT/);assert.match(get('batch-output').value,/Two,AACCGGTA,/);
- const tr=get('primer-rows').children[0];assert.match(tr.children[5].textContent,/<b>Synthetic<\/b>/,'Catalogue names remain text');
+ const tr=get('primer-rows').children[0];assert.match(tr.children[5].textContent,/Located from Illumina binding sequences/,'Detection describes kit geometry without protocol mapping');
  get('batch-copy-csv').listeners.click();await new Promise(r=>setTimeout(r,0));assert.equal(get('batch-copy-fallback').hidden,false);assert.match(get('batch-copy-fallback').value,/\[Data\]/);
  // Use the first row's i5 primer for every sample; second row's i7 remains intact.
  await tr.children[1].children[1].children[0].listeners.click();

@@ -26,7 +26,7 @@ def render_page():
 <link rel="stylesheet" href="assets/sequence_annotation.css">
 <main class="wrap annotation-tool samplesheet-tool">
 <div class="annotation-intro"><h1>Illumina sample-sheet indexes</h1>
-<p>Enter primers 5′ → 3′ in either order; either may be blank. i5/i7 are detected automatically.</p></div>
+<p>Enter primers 5′ → 3′ in either order; either may be blank. i5/i7 are located from known Illumina binding sequences, without selecting a protocol.</p></div>
 <div class="annotation-card">
 <div class="sample-fields"><label>Instrument<select id="batch-instrument"></select></label><label>Sample-sheet workflow<select id="batch-workflow"></select></label></div>
 <div id="batch-profile" class="muted"></div>

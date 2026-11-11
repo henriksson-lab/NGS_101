@@ -945,8 +945,9 @@ Unknown regions remain boundaries. Inferred associations require explicit opt-in
 Protocol suggestions are capped navigation aids, with common and overlapping support
 prevented from inflating the apparent evidence. The submitted sequence stays local.
 
-Sample-sheet export requires a structured sample-index feature, anchored template match
-and established orientation axis. Instrument and preparation/demultiplexing workflow
+Sample-sheet export locates variable-width index gaps directly between known Illumina
+flow-cell and sequencing-primer binding sequences. Protocol matches and structured
+sample-index features do not gate extraction or override the kit binding geometry. Instrument and preparation/demultiplexing workflow
 jointly select the manufacturer-documented transformation and output column. Unresolved
 index values or unsupported combinations remain unexportable. A matching sequence does
 not verify source transcription, chemistry, experimental index pairing or run settings.
@@ -959,8 +960,8 @@ protocol. Instrument name alone is insufficient to determine sample-sheet i5 ori
 
 **Decision.** Keep the sequence annotator and sample-sheet index tool in separate tabs.
 Sample-sheet rows accept two unlabeled primer sequences in either order, with either
-omitted. Template geometry determines i5/i7; users do not choose candidate roles. Agreeing
-values across declarations are deduplicated without identifying experimental chemistry.
+omitted. Kit binding geometry determines i5/i7; users do not choose candidate roles.
+Agreeing placements are deduplicated without identifying experimental chemistry.
 Conflicting values or unresolved supplied primers block their row. The requested defaults
 are NovaSeq X and manual bcl2fastq; users can change instrument and workflow independently.
 Missing input stays an empty column, and an i5-only row is explicitly partial.
