@@ -107,7 +107,7 @@ _validate()
 
 def protocol_graph():
     source=("Chemistry authority: BD Whole Transcriptome Analysis Alpha Protocol "
-            "23-21179-00 (December 2018); platform paper: "
+            "23-21179-00 (December 2018); application paper (catalogue identity, not platform-development authority): "
             "https://doi.org/10.1038/s41592-018-0255-0")
     graph=ProtocolGraph("BD Rhapsody WTA",authority=source)
     cells=graph.input("cells","single-cell suspension",MaterialKind.BIOLOGICAL,primary=True)

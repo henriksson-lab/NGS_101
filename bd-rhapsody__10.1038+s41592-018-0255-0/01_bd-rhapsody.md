@@ -22,13 +22,36 @@
 > Universal Oligo, the BD AbSeq Primer and both library primers.
 
 **BD Rhapsody** (formerly BD Resolve) is a commercial BD Biosciences platform. The
-catalogue keys it to its first use in a Nature Methods paper:
+catalogue retains an application-paper key inherited from scg_lib_structs:
 
 Yoon S-J, Elahi LS, Pașca AM, Marton RM, Gordon A, Revah O, Miura Y, Walczak EM,
 Holdgate GM, Fan HC, Huguenard JR, Geschwind DH, Pașca SP. "Reliability of human cortical
 organoid generation." *Nat Methods* 16, 75–78 (2019).
 doi:[10.1038/s41592-018-0255-0](https://doi.org/10.1038/s41592-018-0255-0) · PMID 30573846 ·
 PMC6677388.
+
+### How to cite this entry
+
+The DOI above is a relevant **application paper**, not a platform-development or
+vendor-protocol citation. Its Methods section, "Single-cell gene expression
+(BD Rhapsody system)", explicitly identifies BD Rhapsody (formerly BD Resolve)
+and describes microwell capture, barcoded beads, reverse transcription and library
+preparation (cached published-identity author manuscript, JATS text lines 418–447).
+The organoid title is therefore not evidence of an erroneous DOI join. No claim
+that this was the first use of the platform is established here.
+
+For the random-primer-extension chemistry drawn on this page, cite **BD Whole
+Transcriptome Analysis Alpha Protocol, 23-21179-00, December 2018**, alongside the
+NGS 101 schematic. Cite Yoon et al. when discussing that organoid study's use of
+Rhapsody. The paper's older ligation workflow differs from the vendor RPE workflow
+drawn here; neither source should silently stand in for the other. For stochastic
+barcoding's development, investigate the separately identified Fan et al. 2015
+paper below rather than relabelling Yoon et al. as the development paper.
+
+The DOI in the directory and public URL is a stable catalogue identity, not a
+guarantee that its paper defines every displayed chemistry step. Keep that URL;
+downstream citation tables should preserve this application-versus-chemistry
+distinction rather than flagging a wrong DOI or replacing it with another paper.
 
 (H. Christina Fan, a co-author, is first author of the CytoSeq paper below.) Papers
 this one cites for the platform (not fetched, not in the catalogue row): Fan HC,

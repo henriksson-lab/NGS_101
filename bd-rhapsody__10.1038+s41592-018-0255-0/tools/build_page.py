@@ -20,7 +20,7 @@ def render():
     r2=Construct([R._s("cDNA","XXXXXXXX...",placeholder=True)])
     return "\n".join([head("BD Rhapsody WTA library chemistry"),'<div class="wrap" data-protocol-complete="true">',
       '<h1>BD Rhapsody WTA &mdash; microwell bead capture and random-primer second strand</h1>',
-      info('Defining platform-use paper: <a href="https://doi.org/10.1038/s41592-018-0255-0">Yoon et al., <i>Nature Methods</i> (2019)</a>. Chemistry authority: BD Whole Transcriptome Analysis Alpha Protocol 23-21179-00 (December 2018).'),
+      info('Application paper and stable catalogue key: <a href="https://doi.org/10.1038/s41592-018-0255-0">Yoon et al., “Reliability of human cortical organoid generation”, <i>Nature Methods</i> (2019)</a>. Its Methods explicitly used BD Rhapsody; it is not a platform-development paper. For the chemistry drawn here, cite BD Whole Transcriptome Analysis Alpha Protocol 23-21179-00 (December 2018). The DOI in this page’s URL identifies the application-paper catalogue entry, not the authority for every reaction.'),
       '<div class="caveat"><b>Workflow and sequence boundary.</b> This page follows BD\'s documented random-primer-extension workflow, not the older ligation route summarized in the paper. The checked BD alpha protocol prints the Randomer but does not resolve the bead, Universal Oligo or library-primer sequences; other relevant BD kit documents remain unchecked or unavailable. Dotted regions are architecture placeholders, not a claim that BD never published those bases.</div>',
       render_annotations(graph,AnnotationSlot.INTRO),
       '<h2>Key oligos</h2><seq>'+oligo("BD Randomer",R.randomer_segments())+

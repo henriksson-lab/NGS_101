@@ -111,6 +111,19 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed, 1 input without exact state (Randomer N9; vendor PDF under upstream_* name excluded); source audit check 1 blocked; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-11-13-bd-citation-role",
+      "reviewer": "primary-curator",
+      "date": "2026-11-13",
+      "documents": 1,
+      "locations": "PMC6677388 JATS title/author identity and Methods Single-cell gene expression (BD Rhapsody system), text lines418–447. Prior vendor-chemistry review retained.",
+      "oligo_scraper": "Rerun over the cached source bundle; no oligo or chemistry changes in this citation-role review.",
+      "findings": "The organoid DOI correctly identifies a study explicitly using BD Rhapsody (formerly BD Resolve). It is an application-paper catalogue key, not a platform-development or vendor-RPE-chemistry citation. Removed unsupported first-use wording; clarified source roles on page, notes and catalogue. Existing route discrepancy and missing-information review remain unchanged.",
+      "deferred": [
+        "No protocol_links.tsv or course citation file exists in this checkout; downstream course changes are outside this repository."
+      ],
+      "scope": "Bibliographic relevance and citation-role clarification only; not an absence audit or a new chemistry review."
     }
   ]
 }
