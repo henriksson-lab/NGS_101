@@ -53,3 +53,6 @@ from .golden_gate import movie as golden_gate
 EXAMPLES.update({'crispr-mip':crispr_mip,'smallseq':smallseq,'hic':hic,
                  'celseq':celseq,'dropseq':dropseq,'scrrbs':scrrbs,
                  'gibson':gibson,'atac':atac,'rnaseh':rnaseh,'golden-gate':golden_gate})
+
+from .splinkerette import movie as splinkerette
+EXAMPLES['splinkerette']=splinkerette

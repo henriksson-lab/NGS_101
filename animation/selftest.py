@@ -662,7 +662,8 @@ if __name__=='__main__':
     from .selftest_assembly_transposition import AssemblyTranspositionTests
     from .selftest_golden_gate import GoldenGateTests
     from .selftest_collection import CollectionTests
-    for cls in [CaptureLigationTests,SynthesisTests,AssemblyTranspositionTests,GoldenGateTests,CollectionTests]:
+    from .selftest_splinkerette import SplinkeretteTests
+    for cls in [CaptureLigationTests,SynthesisTests,AssemblyTranspositionTests,GoldenGateTests,CollectionTests,SplinkeretteTests]:
         suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cls))
     if '--native'in sys.argv:suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(NativeTests))
     result=unittest.TextTestRunner(verbosity=2).run(suite)

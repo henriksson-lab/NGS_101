@@ -49,6 +49,9 @@ jobs:
       - name: Shared annealing self-test
         run: python3 tools/selftest_annealing.py
 
+      - name: Shared nucleotide simulator self-test
+        run: python3 tools/selftest_nucleotide_simulator.py
+
       - name: Sequence catalogue self-test
         run: python3 tools/selftest_sequence_catalogue.py
 

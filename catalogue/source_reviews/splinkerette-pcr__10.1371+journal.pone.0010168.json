@@ -1,0 +1,51 @@
+{
+  "dir": "splinkerette-pcr__10.1371+journal.pone.0010168",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1371/journal.pone.0010168; journal.pone.0010168_PMC2854151.pdf / .xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Introduction mechanism and inverse-PCR comparison; rendered Figure1B–C; Table1 oligos; Discussion unmodified adapter design. PDF/JATS are two formats of one published original.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "protocol_s1",
+      "role": "published_supplement",
+      "locator": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0010168.s002&type=supplementary",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Steps2–7; Tables2–14, especially adapter end chemistry, Table13 literal orders and its Horn attribution. Published DOC; no later lab-site revision substituted.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "insertion_workbook",
+      "role": "published_supplement",
+      "locator": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0010168.s001&type=supplementary",
+      "availability": "downloaded_not_inspected",
+      "relevance": "not_used_for_synthetic_locus",
+      "reason": "No study-specific insertion reconstruction or absence claim; this example uses explicitly invented template DNA."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-11-04-splinkerette",
+      "reviewer": "primary-curator",
+      "date": "2026-11-04",
+      "scope": "Source-qualified illustrative molecular implementation; not a complete absence audit",
+      "locations": "Published Introduction/Figure1C/Table1 and Protocol S1 Steps2–7, Tables2–14",
+      "findings": "Unphosphorylated oligos permit one-strand ligation; first transposon-primed copy generates adapter-primer complement; nested boundary formation requires actual subsequent copies.",
+      "documents": 2,
+      "oligo_scraper": "Run across the fetched article and both extracted supplements; verified literal relevant orders in original Table1/Protocol S1 Table13 and rendered Figure1C.",
+      "deferred": [
+        "Whole-vessel kinetics/background and quantitative folding are outside model scope.",
+        "No study-specific insertion locus is reconstructed.",
+        "Earlier attributed originals are not inherited chemistry authorities."
+      ]
+    }
+  ]
+}

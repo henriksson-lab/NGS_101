@@ -40,6 +40,7 @@ def run(directory,names):
         # Separate exportable vector figure; this is not proof of MP4 content.
         renderer.svg(reviewdir/'final.svg',m,max(0,m.duration()-1))
         files=list(Path(__file__).parent.glob('*.py'))
+        files.append(Path(__file__).resolve().parents[1]/'lib'/'nucleotide_simulator.py')
         if m.provenance.get('protocol_module'):files.append(Path(m.provenance['protocol_module']))
         record=dict(example=name,video=str(video),movie_sha256=hashlib.sha256(video.read_bytes()).hexdigest(),source_scene_match=True,export=export,video_info=info,shots=len(m.shots),frames=frames,limits=m.provenance.get('limits',[]),visual_review='pending',code_sha256={str(p):hashlib.sha256(p.read_bytes()).hexdigest()for p in files})
         (reviewdir/'audit.json').write_text(json.dumps(record,indent=2)+'\n');records[name]=record

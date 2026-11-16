@@ -14,12 +14,37 @@ class EndPreparedDuplex:
     five_prime_phosphate: bool = True
     three_prime_overhang: str = "A"
     overhang_inferred: bool = False
+    five_prime_phosphates: tuple[bool, bool] | None = None
 
     def __post_init__(self) -> None:
         if not len(self.insert):
             raise ValueError("end prep needs a non-empty duplex insert")
+        if self.five_prime_phosphates is not None and (len(self.five_prime_phosphates) != 2 or any(type(v) is not bool for v in self.five_prime_phosphates)):
+            raise ValueError('declare one inherited phosphate state per strand')
         if len(self.three_prime_overhang) != 1:
             raise ValueError("this model represents one-nucleotide 3' overhangs")
+
+
+
+    def phosphate_for(self, strand: str) -> bool:
+        if strand not in ('top', 'bottom'):
+            raise ValueError('strand must be top or bottom')
+        if self.five_prime_phosphates is None:
+            return self.five_prime_phosphate
+        return self.five_prime_phosphates[0 if strand == 'top' else 1]
+
+
+def dA_tail_only(insert: Construct, *, top_five_prime_phosphate: bool,
+                 bottom_five_prime_phosphate: bool, inferred: bool = False) -> EndPreparedDuplex:
+    """Add 3-prime A geometry while retaining explicitly supplied 5-prime groups.
+
+    This does not polish overhangs, phosphorylate primers or establish that an
+    arbitrary PTA product is a blunt, tail-compatible duplex.
+    """
+    states = (top_five_prime_phosphate, bottom_five_prime_phosphate)
+    return EndPreparedDuplex(insert, five_prime_phosphate=all(states),
+                             three_prime_overhang='A', overhang_inferred=inferred,
+                             five_prime_phosphates=states)
 
 
 def repair_and_dA_tail(insert: Construct, *, inferred: bool = False) -> EndPreparedDuplex:
@@ -40,10 +65,10 @@ def dA_tailed_scene(product: EndPreparedDuplex, label: str = "end-prepared DNA")
     bottom_body = complement_segments(body)
     role_tokens = tuple(s.name for s in bottom_body if s.is_role_token())
     sc = Scene(); sc.strand("top", [*body, top_a], label=label,
-                            mod5="p" if product.five_prime_phosphate else "")
+                            mod5="p" if product.phosphate_for("top") else "OH" if product.five_prime_phosphates is not None else "")
     sc.anneal("bottom", [*bottom_body, bottom_a], to="top",
               pair=(bottom_body[-1].name, body[0].name), label=label,
-              unpaired=role_tokens, mod5="p" if product.five_prime_phosphate else "")
+              unpaired=role_tokens, mod5="p" if product.phosphate_for("bottom") else "OH" if product.five_prime_phosphates is not None else "")
     sc.overhang("top", top_a.name, polarity="3-prime", owner="substrate", text="3′ dA")
     sc.overhang("bottom", bottom_a.name, polarity="3-prime", owner="substrate", text="3′ dA")
     return sc
@@ -71,7 +96,7 @@ class ThreePrimeOverhangAdapter:
         return self.top[-1]
 
     def accepts(self, product: EndPreparedDuplex) -> bool:
-        return (product.five_prime_phosphate
+        return (product.phosphate_for("top") and product.phosphate_for("bottom")
                 and bases_pair(self.overhang_3, product.three_prime_overhang))
 
     def scene(self) -> Scene:
@@ -90,8 +115,8 @@ def cohesive_ligation_geometry(product: EndPreparedDuplex,
                                 adapter: ThreePrimeOverhangAdapter,
                                 *, statement: str) -> AdapterLigationGeometry:
     """The two explicit, compatible reagent ends before dA/dT adapter ligation."""
-    if not adapter.accepts(product):
-        raise ValueError("adapter and end-prepared substrate overhangs are incompatible")
+    if not bases_pair(adapter.overhang_3, product.three_prime_overhang):
+        raise ValueError("adapter and substrate overhangs are incompatible")
     return AdapterLigationGeometry.known(
         "cohesive", dA_tailed_scene(product), adapter.scene(), statement=statement)
 

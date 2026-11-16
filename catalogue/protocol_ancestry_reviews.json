@@ -33808,6 +33808,58 @@
       "blockers": [],
       "limits": "Bounded source/component ancestry review; no molecular-state inheritance, exhaustive parent search, independent-invention assertion or accepted source-absence claim. Inference is a design-based likely predecessor, not author attribution. Unassigned discovery candidates, where available, are listed in this round report; their original chemistry has not been established by the discovery metric. No exhaustive no-parent finding is made.",
       "reviewed": "2026-11-02"
+    },
+    "splinkerette-pcr__10.1371+journal.pone.0010168": {
+      "status": "reviewed",
+      "formal_assignment": "external",
+      "reason": "Published article and Protocol S1 explicitly credit earlier splinkerette development and the adapter oligos.",
+      "sources": [
+        {
+          "url": "https://doi.org/10.1371/journal.pone.0010168",
+          "locator": "Introduction splinkerette design; Figure1C; Protocol S1 Table13 note/references.",
+          "identity": "Potter and Luo2010 published article and its published Protocol S1",
+          "availability": "original_text_and_figure_read"
+        }
+      ],
+      "external_predecessors": [
+        {
+          "title": "Splinkerettes—improved vectorettes for greater efficiency in PCR walking; Devon et al.1995",
+          "url": "https://doi.org/10.1093/nar/23.9.1644",
+          "relation": "adapted_component",
+          "basis": "documented",
+          "scope": "Splinkerette PCR method and hairpin adapter concept",
+          "evidence": [
+            {
+              "url": "https://doi.org/10.1371/journal.pone.0010168",
+              "locator": "Published Introduction, paragraph beginning An alternative approach; Protocol S1 Table13 note and reference2."
+            }
+          ],
+          "rationale": "The Introduction explicitly attributes the original splinkerette technique to reference9.",
+          "limits": "Attribution read in the 2010 published original; predecessor chemistry is not imported or assumed interchangeable. The short locus here is synthetic.",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "title": "Splinkerette PCR for more efficient characterization of gene trap events; Horn et al.2007",
+          "url": "https://doi.org/10.1038/ng0807-933",
+          "relation": "adapted_component",
+          "basis": "documented",
+          "scope": "The two adapter oligos and two adapter PCR primers",
+          "evidence": [
+            {
+              "url": "https://doi.org/10.1371/journal.pone.0010168",
+              "locator": "Published Introduction, paragraph beginning An alternative approach; Protocol S1 Table13 note and reference2."
+            }
+          ],
+          "rationale": "Protocol S1 Table13 explicitly states that SPLNK-GATC-TOP, SPLNK-BOT, SPLNK#1 and SPLNK#2 derive from its reference2.",
+          "limits": "Attribution read in the 2010 published original; predecessor chemistry is not imported or assumed interchangeable. The short locus here is synthetic.",
+          "reviewed": "2026-11-04"
+        }
+      ],
+      "inference_status": "not_needed",
+      "inference_reason": "Directly documented method and component attribution suffice; no design-based parent is invented.",
+      "blockers": [],
+      "limits": "Bounded ancestry review. Parent originals were not needed to transcribe the 2010 source-owned oligos and are not molecular authorities for this implementation. Synthetic locus is illustrative.",
+      "reviewed": "2026-11-04"
     }
   }
 }

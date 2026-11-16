@@ -5,6 +5,27 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-11-04 — Share reaction trajectories between definitions and animations
+
+The standard-library nucleotide/connectivity engine lives in
+`lib/nucleotide_simulator.py`; the historical animation import re-exports it.
+A protocol may own a source-scoped selected-reaction trajectory and expose its
+snapshots to both the step-by-step graph and native presentation renderer. The
+engine receives explicit substrates, end chemistry, enzyme capabilities and
+conditions. It does not receive a desired product or infer source biology.
+
+Splinkerette PCR exercises same-strand folding, asymmetric one-strand ligation
+and primer sites created by prior copying. Declared folds are checked pairing
+constraints, not free-energy predictions or universal priming blocks. Linear
+sequence maps use checked Scene placement; a separate FoldLayout shows the
+hairpin conformation. Synthetic template DNA remains labelled as illustrative.
+Other restriction fragments and earlier PCR strands remain in the inventory.
+Moving them out of the movie viewport does not imply physical removal.
+
+Stock reagents enter movies through explicit intact-reagent operations. Chemistry
+state is unchanged during shot transitions; only coordinates interpolate.
+Native rendering dependencies remain optional and outside ordinary site builds.
+
 ## 2026-11-02 — Record ancestry review outcomes and weaker chemistry analogues
 
 A missing parent link is a curation state, never proof of independent origin.

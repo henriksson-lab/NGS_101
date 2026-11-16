@@ -20,8 +20,7 @@ def finite(value, name):
     return value
 
 
-def complement(seq):
-    return seq.upper().replace('U', 'T').translate(str.maketrans('ACGTRYSWKMBDHVN', 'TGCAYRSWMKVHDBN'))
+from lib.nucleotide_simulator import complement
 
 
 @dataclass
@@ -273,11 +272,17 @@ class Shot:
         by_id = {s.id: s.validate() for s in self.strands}
         if self.chemistry_generated:
             ids=[i for strand in self.strands for i in strand.nucleotide_ids]
+            # Planned stock primers may arrive and extend within one shot.
+            # Their atoms stay invisible until the explicit intake operation;
+            # no generated product may substitute for an intact reagent.
+            intake={a['id'] for e in self.events if e.kind=='introduce'
+                    and e.molecular_operation.get('kind')=='reagent'
+                    for a in e.molecular_operation.get('added',[])}
             if any(not strand.nucleotide_ids for strand in self.strands):raise ValueError('simulated view needs physical nucleotide identities')
             for strand in self.strands:
                 n=len(strand.sequence)if strand.initially_visible is None else strand.initially_visible
                 present=list(strand.nucleotide_ids[:n])+[id for a,b in strand.preserve for id in strand.nucleotide_ids[a:b]]
-                if set(present)-set(self.initial_nucleotides):raise ValueError('visible molecule is absent from initial simulated state')
+                if set(present)-set(self.initial_nucleotides)-intake:raise ValueError('visible molecule is absent from initial simulated state')
             if len(set(ids))!=len(ids):raise ValueError('one physical nucleotide cannot appear in two drawn molecules')
         if len(by_id) != len(self.strands): raise ValueError('duplicate strand ids')
         for strand in self.strands:
