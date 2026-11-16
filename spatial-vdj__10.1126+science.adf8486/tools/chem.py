@@ -5,7 +5,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'10x-visium-spatial-gene-expression'/'tools'))
 import visium_rev_a
-from chemdraw import Scene,Segment,feature,complement_segments
+from chemdraw import (Scene,Segment,Construct,MolecularState,Workflow,workflow_panel,
+                      feature,complement_segments,revcomp)
+from protocol_model import role
 from protocol_handoff import import_material
 from pcr import PCRGeometry
 import oligos_spatial_vdj as oligos
@@ -238,30 +240,112 @@ def oligo_tables():
     return ''.join(groups)
 
 
+def receptor_class(stage):
+    """Expected region order for a selected TRB product, never a literal locus.
+
+    Primer-contributed ends are computed from actual source oligos. The variable
+    transcript stays a role token: no allele, V-site spacing or full amplicon is
+    manufactured. These inferred classes do not replace the graph's unresolved
+    molecular transitions or establish source-specific PCR occupancy.
+    """
+    if stage not in {'captured','outer','inner','indexed'}:
+        raise ValueError('unknown Spatial VDJ product class')
+    prefix=list(visium_rev_a.full_cdna())[:6]
+    # This variable region is explicitly not assigned a physical nucleotide
+    # length. Its source-oriented class order follows 3′ capture of receptor RNA.
+    body=[role('TRB: constant / J / CDR3 / retained V',inferred=True)]
+    if stage=='captured':
+        parts=prefix+body+list(visium_rev_a.full_cdna())[-2:]
+    elif stage=='outer':
+        parts=prefix+body+[Segment('outer-primer-derived V end',
+            revcomp(oligos.OUTER_SOURCE['TRBV10-1_outer'].upper()),'r2',inferred=True)]
+    else:
+        target=oligos.INNER_SOURCE['TRBV10-1_inner'][1].upper()
+        parts=prefix+body+[
+            Segment('inner-primer-derived V end',revcomp(target),'r2',inferred=True),
+            Segment('copied inner 5′ Read2 handle',revcomp(oligos.illumina.TRUSEQ_READ2),'r2',inferred=True)]
+        if stage=='indexed':
+            parts=[role('P5 / indexing-primer extension; exact order unassembled',inferred=True)]+parts+[
+                role('sample index / P7 extension; exact order unassembled',inferred=True)]
+    return Construct(parts,'INFERRED — '+stage+' TRB molecule class; not an occupied transcript reconstruction')
+
+
+def step_scene(stage,*,primers=False):
+    con=visium_rev_a.full_cdna() if stage=='input' else receptor_class(stage)
+    bottom=complement_segments(list(con))
+    sc=Scene.duplex(list(con),bottom=bottom,
+        unpaired=tuple(seg.name for seg in bottom if seg.is_role_token()),
+        label='Full-length cDNA' if stage=='input' else 'INFERRED — '+stage+' TRB class')
+    sc.labels('top')
+    if primers:
+        # These are independent reagent orders. Do not place a V primer against
+        # a made-up complementary template and claim actual binding validation.
+        sc.strand('partread1',[Segment('PartRead1',oligos.PARTREAD1,'r1')],label='Incoming PartRead1 → barcode / UMI / receptor')
+        if primers=='outer':
+            sc.strand('v_primer',[Segment('TRBV10-1 outer',oligos.OUTER_SOURCE['TRBV10-1_outer'].upper(),'r2')],
+                label='Incoming outer V primer → constant-region / tag side')
+        elif primers=='inner':
+            sc.strand('v_primer',[
+                Segment('5′ Read2 overhang',oligos.illumina.TRUSEQ_READ2,'r2'),
+                Segment('3′ V-specific binding part',oligos.INNER_SOURCE['TRBV10-1_inner'][1].upper())],
+                label='Incoming inner V primer; 3′ target binds, 5′ handle overhangs')
+        else:
+            sc.strand('tso_primer',[Segment('PN-2000089 reverse',visium_rev_a.REVERSE,'tso')],
+                label='Incoming partial TSO primer → full receptor / tag side')
+        sc.note('v_primer' if primers in {'outer','inner'} else 'tso_primer',
+            'Separate reagent rows; V-allele coordinates and occupied primer complexes remain unassembled.')
+    return sc
+
+
+def molecular_walkthrough():
+    """One connected explanatory Workflow, complementary to the process audit.
+
+    This shows source-supported transformations and conditional molecular
+    classes. It is not a second validated preparation graph or a simulation.
+    """
+    w=Workflow(MolecularState('0 · Input: Visium CG000239 Rev A full-length cDNA, before fragmentation',
+                              tuple(step_scene('input',primers='cdna').rows())),track_graph=False)
+    def add(action,stage,name,explanation,primers=False):
+        sc=step_scene(stage,primers=primers)
+        sc.note('bottom',name)
+        w.react(action,sc.rows(),name=name,note=explanation)
+    add('1 · Preamplify separate 10 ng subsamples with the cDNA primer pair','input',
+        'Retain both full-length cDNA handles and the original spatial barcode / UMI',
+        'Take 10 µl of each Visium cDNA stock, split into 10 ng template subsamples, and amplify each separately. Each reaction: 25 µl 2× KAPA HiFi HotStart ReadyMix KK2602, 7.5 µl cDNA primers and 17.5 µl sample/water. Programme: 98°C 3 min; 98°C 15 s / 63°C 30 s / 72°C 2 min; 72°C 1 min final. The source contradicts itself on cycle count (“six times” / “five cycles”); the intended count is unresolved.')
+    add('2 · Pool completed reactions, purify and concentrate','input',
+        'Full-length cDNA retained; no fragmentation or new sequence added',
+        'Pool only after the separate PCRs. Purify with 0.6× SPRIselect and elute each library in 40 µl Qiagen EB. The source then delegates concentration and capture setup to IDT xGen DNA-library capture version 4, optional Appendix A, then Plate protocol step 13. Those delegated operations are not replaced by a current kit recipe.')
+    add('3 · Hybridize IG + TRA/TRB constant-region baits for 16 h; capture and wash','captured',
+        'INFERRED — enriched full-length receptor class; the spatial tag remains connected',
+        'Data S1 supplies the probe pools and universal-adapter blockers. Capture selects receptor molecules without intentionally trimming the ends. The selected experiment uses IG:TR 1:3: TR sequences were triplicated in the probe order and equal volumes of the produced IG/TR pools were mixed. This is not a threefold TR-pool volume. Exact occupied bait/template complexes and linked historical capture chemistry remain unassembled.',primers='cdna')
+    add('4 · Postcapture PCR: 14 cycles with the same cDNA primer pair','captured',
+        'INFERRED — amplified receptor-enriched full-length cDNA; clean before V-specific PCR',
+        'This is the second experiment’s single 14-cycle branch, with the common cDNA-PCR reagents/programme, followed by AMPure purification. The first experiment’s 7-cycle then 5-cycle alternative is not combined into this route. The receptor and spatial tag still share a full-length molecule.',primers='outer')
+    add('5 · In each of four replicates, outer TRBV + PartRead1 PCR, 12 cycles','outer',
+        'INFERRED — outer TRB product: tag end retained, TSO-side end replaced by the V-primer boundary',
+        'Use 2.5–5 ng captured cDNA per replicate. PartRead1 binds the universal tag-side handle and extends toward the receptor. The outer V primer binds upstream of CDR3 in transcript orientation and extends toward the constant region and tag. The selected product retains spatial barcode, UMI, CDR3 and constant-region sequence; it no longer needs the distant TSO end. The drawing shows a TRBV10-1 primer-derived end as one source example, not the full pool’s occupancy.')
+    add('6 · Clean and quantify each outer product; transfer 5 ng to inner PCR','outer',
+        'INFERRED — each replicate remains separate; no new DNA segment is introduced',
+        'Source cleanup: 0.6× AMPure, two 80% ethanol washes, EB elution after 15 min at 37°C; Qubit and Bioanalyzer. Use qPCR to calibrate cycling. Transfer 5 ng from each replicate to its own inner reaction.',primers='inner')
+    add('7 · Inner TRBV + the same PartRead1 PCR, 8 cycles','inner',
+        'INFERRED — bounded inner-product class after copying both primer ends',
+        'Only the V-side primer changes, so this is seminested PCR. Its 3′ V-specific portion binds closer to CDR3; its 5′ Read2-compatible tail initially overhangs the template. Extension retains that tail on the primer strand; subsequent template copying makes its complement. The duplex shown is the later bounded product class, not an immediate first-cycle duplex. The diagram retains the source handle in the correct strand polarity; actual V sites and allele-specific products remain unassembled.')
+    add('8 · Clean and quantify; pool 10 ng from each of the four inner replicates','inner',
+        'INFERRED — one sample-level pool; original spot barcodes and UMIs still distinguish molecules',
+        'Use the source AMPure/ethanol cleanup and Qubit/Bioanalyzer checks. Pool 10 ng per replicate at indexing, not earlier. All four replicates receive one sample index and cannot be distinguished as technical replicates afterwards.')
+    add('9 · TruSeq index PCR, 8 cycles; AMPure cleanup and QC','indexed',
+        'INFERRED — final library architecture; unresolved whole index-primer arms are explicit',
+        'Indexing adds the external sequencing/sample-index arms; it does not create new spatial barcodes or UMIs. The final Methods delegate the selected TruSeq index primers to reference 6. Their actual whole orders, index polarity and final primer landing remain unassembled; bracketed arms are not invented adapter sequences.')
+    add('10 · Pool indexed samples and sequence on NovaSeq 6000 SP','indexed',
+        'INFERRED — same library enters sequencing: Read1 35 nt / index 6 nt / Read2 259 nt',
+        'Read1 recovers spatial-tag information; the long Read2 is designed to cover CDR3 and part of the constant region from the V side. The published run lengths are exact; this region-level class does not establish the first sequenced base or every SR cycle boundary. Map receptor calls to the retained Visium barcode and collapse by barcode plus UMI.')
+    return w
+
+
 def render_page():
     g=protocol_graph()
     paper='<a href="https://www.science.org/doi/full/10.1126/science.adf8486">Published article</a>'
     data='<a href="https://www.science.org/doi/suppl/10.1126/science.adf8486/suppl_file/science.adf8486_data_s1_to_s5.zip">Data S1 (within Data S1–S5)</a>'
-    stages = table(('Stage', 'What happens', 'What this preserves or selects'), (
-        ('1 · Start before fragmentation',
-         'Take full-length, spatially barcoded Visium cDNA. Amplify separate 10 ng subsamples, then pool the completed reactions and bead-clean.',
-         'Retain the connection between a receptor transcript and its tissue-spot tag. Conventional fragmented gene-expression libraries can lose the distant CDR3 region.'),
-        ('2 · Enrich receptor transcripts',
-         'Hybridize IG and TRA/TRB constant-region probes together for 16 hours, with adapter-blocking oligos, then capture and wash. Use the selected 1:3 IG:TR probe ratio.',
-         'Select receptor-containing cDNA while retaining its spatial barcode and UMI. Even the TR-only short-read route starts with combined IG/TR capture.'),
-        ('3 · Amplify captured cDNA',
-         'Use the second experiment’s single 14-cycle postcapture PCR, followed by purification.',
-         'Supply enriched material for the receptor-specific amplification; the first experiment’s two-PCR alternative is a separate branch.'),
-        ('4 · Outer TRB PCR',
-         'In each of four replicates, amplify 2.5–5 ng with the outer TRBV pool and PartRead1 for 12 cycles. Clean and quantify each product.',
-         'Select TRB transcripts using a V-region primer upstream of CDR3 and a primer at the shared spatial-cDNA handle.'),
-        ('5 · Inner TRB PCR',
-         'Use 5 ng from each outer product with inner TRBV primers and the same PartRead1 for 8 cycles. Clean and quantify each replicate.',
-         'Move the V primer close to CDR3 and introduce its Read2-compatible handle. This is seminested PCR because only the V-side primer changes.'),
-        ('6 · Index and sequence',
-         'Pool 10 ng from each of the four inner products, give that pool one sample index in an 8-cycle PCR, then purify and pool samples for NovaSeq 6000 SP.',
-         'The four technical replicates become one indexed sample; they are not independently identifiable in the sequencing pool.'),
-    ))
     reads=table(('Read', 'Cycles', 'How to interpret it'), (
         ('Read 1', str(g.sequencing['library'].read_lengths['R1']),
          'Short spatial-tag read. The published run recipe is explicit; an exact cycle-by-cycle SR binding and base map is not assembled here.'),
@@ -297,7 +381,14 @@ def render_page():
         '<p>Spatial VDJ adds immune-receptor sequencing to a spatial gene-expression experiment. A receptor’s complementarity-determining region 3 (<strong>CDR3</strong>) helps distinguish lymphocyte clones. The spatial barcode places that sequence on the tissue image, so clone distributions can be compared with gene-expression patterns and anatomical regions.</p>',
         '<p>The crucial starting point is <strong>full-length cDNA before fragmentation</strong>. The receptor sequence and the spatial tag are still connected at that stage. Constant-region hybridization capture enriches rare receptor transcripts; the short-read route then uses seminested PCR to bring the CDR3 region within reach of Illumina sequencing. '+paper+', Results “Spatial VDJ” and target-enrichment/SR Methods.</p>',
         HandoffSection(),
-        '<h2 id="preparation">From spatial cDNA to a TRB library</h2>',stages,
+         '<h2 id="preparation">Step by step: from full-length cDNA to the TRB library</h2>',
+        '<p>Follow the connected molecular states below. The top strand runs from the spatial-tag end toward the receptor’s V end; its receptor sequence therefore appears in the reverse order to the original RNA. A variable <strong>constant / J / CDR3 / V</strong> region replaces the unknown transcript, with no invented allele or measurable length. Each reagent row gives a source primer, not a fabricated occupied V-gene binding site.</p>',
+        caveat('INFERRED — the walkthrough shows expected molecular classes, not validated full amplicons. The upstream Visium duplex and input primer orders are source declarations. The selected receptor products retain those source tag features; their V-site placement, amplicon sequence and index-primer arms remain unresolved. Dotted inferred sequence and bracketed regions preserve those limits. The separate process graph below records the actual partial-validation boundary.'),
+        workflow_panel(molecular_walkthrough(),caption='Step-by-step SR-TRB preparation: source input, receptor capture, outer PCR, seminested handle addition and indexed library class'),
+        table(('Receptor / index PCR','Published programme'),(
+            ('Outer TRB, 12 cycles','98°C 5 min; 12 × (98°C 20 s, 65°C 30 s, 72°C 90 s); 72°C 7 min.'),
+            ('Inner TRB, 8 cycles','98°C 5 min; 8 × (98°C 20 s, 72°C 30 s, 72°C 90 s); 72°C 7 min. Both consecutive 72°C entries are retained as printed.'),
+            ('Indexing, 8 cycles','98°C 3 min; 8 × (98°C 20 s, 60°C 30 s, 72°C 90 s); 72°C 5 min.'))),
         '<p><strong>Why capture IG for a TRB experiment?</strong> The authors cocaptured IG and TR to provide enough product for the capture protocol despite low TR transcript abundance. They recommend both probe pools for either sequencing route. The selected 1:3 ratio comes from triplicating TR probe sequences in the order and mixing equal volumes of the resulting IG and TR pools; it does not mean adding three volumes of TR pool. '+paper+', “Target enrichment of spatial cDNA”.</p>',
         '<h2 id="primers">How to reconstruct the primers</h2>',
         '<p>All ordering sequences below are written <strong>5′→3′</strong>. The upstream Visium Rev A appendix supplies the cDNA primer pair; the receptor-specific orders come from published Data S1. Gene-specific target portions and shared 5′ tails are kept separate so that a handle is not mistaken for a genomic binding site.</p>',
@@ -328,6 +419,20 @@ def selftest():
     from checks import Check,Source,have
     from storage import sources_root
     c=Check();g=protocol_graph()
+    # The explanatory product class must preserve upstream identifier identity
+    # and the polarity of a handle copied from the incoming inner primer.
+    upstream_tags={seg.name:seg.feature for seg in visium_rev_a.full_cdna() if seg.feature}
+    for stage in ('captured','outer','inner','indexed'):
+        model=receptor_class(stage)
+        c(stage+' class retains the same upstream tag features',
+          {seg.name:seg.feature for seg in model if seg.feature},upstream_tags)
+        c(stage+' unknown receptor region is not assigned an invented nucleotide length',
+          next(seg for seg in model if seg.is_role_token() and seg.name.startswith('TRB:')).length_bp,None)
+    model=receptor_class('inner')
+    c('Inner product carries the full source primer on the opposite strand',
+      revcomp(model.top()[-len(oligos.INNER['TRBV10-1_inner']):]),oligos.INNER['TRBV10-1_inner'])
+    c('Outer-specific primer sequence is not silently inherited at the inner boundary',
+      list(model)[-2].top!=revcomp(oligos.OUTER_SOURCE['TRBV10-1_outer'].upper()),True)
     upstream=g.imports['source']
     c('Starting cDNA is imported from the exact source Visium revision',upstream.reference.version,'CG000239 Rev A')
     c('Starting cDNA is the upstream produced cleanup output',upstream.reference.producer,'cdna_cleanup')

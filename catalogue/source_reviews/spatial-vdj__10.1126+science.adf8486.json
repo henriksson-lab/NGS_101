@@ -141,6 +141,21 @@
       ],
       "oligo_scraper": "Mandatory bundle scraper rerun after validated PDF/ZIP extraction; inspected selected original workbook rows and branch context, not scraper-only evidence.",
       "verification": "36 focused checks pass;678 exact source-matched strand checks/0 failures/4 inputs without exact states;74 scoped chemistry claims unresolved/0 contradictory. Independent supplied-original reader compared all321 source-row fixtures against original workbook XML with0 mismatches; implementation review closed;36 checks pass independently, no remaining critical defect in inspected scope."
+    },
+    {
+      "round": "2026-11-16-spatial-vdj-walkthrough",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "documents": 1,
+      "scope": "Step-by-step presentation of source-supported preparation and explicitly inferred molecular classes; no complete chemistry or absence review.",
+      "locations": "Final published Science article target enrichment and SR Spatial VDJ Methods, cached HTML text1625–1668; existing DataS1 source-owned oligo declarations used without importing new biology.",
+      "findings": "Replaced stage-summary table with a visible connected molecular Workflow. Exact upstream identifier features retained; primer-derived ends and copied Read2 handle computed from source orders. Unknown receptor interval and whole index arms remain explicit, and graph validation status is unchanged.",
+      "oligo_scraper": "Rerun on external source bundle; no new sequence transcription in this pass.",
+      "deferred": [
+        "Exact occupied receptor/V-allele sites and full amplicons.",
+        "Source-linked historical indexing and capture geometry remain deferred as previously recorded."
+      ],
+      "verification": "Protocol52 checks pass; page builds and duplex-pairing lint passes."
     }
   ],
   "linked_information": {

@@ -87,3 +87,35 @@ The final indexing paragraph directly cites Ståhl2016 (reference6,
 DOI10.1126/science.aaf2403). That original's existing external manifest records a manual,
 unavailable source with no cached original. Its indexing chemistry is deferred; a
 modern Visium/TruSeq index recipe is not substituted. This is not an absence claim.
+
+## Step-by-step presentation follow-up — 16 November 2026
+
+🟢 Re-read the final published target-enrichment and SR Spatial VDJ Methods,
+text1625–1668, together with the existing DataS1 primer declarations. The source
+primer scraper was rerun over the external bundle. No additional molecular source
+or historical kit version is presumed read in this presentation pass.
+
+The public page now leads with one connected molecular Workflow rather than a
+six-row summary and a hidden audit graph. It shows the source-owned Visium input,
+preamplification, post-PCR pooling/concentration, capture, postcapture PCR, outer
+TRBV amplification, per-replicate cleanup, inner amplification, replicate pooling,
+index PCR and sequencing. Reaction notes supply the published inputs, conditions,
+replicate boundaries and the unresolved preamplification-cycle discrepancy.
+
+🟡 The receptor-specific output drawings are **expected region-level classes**,
+not new validated source-instance amplicons. They preserve the exact upstream
+spatial-barcode/UMI feature identities. The unknown receptor interval is labelled
+constant / J / CDR3 / retained V in the direction of the displayed tag-side DNA
+strand, which is opposite to the receptor RNA. It has no assigned nucleotide length.
+Outer/inner primer-derived ends and the copied Read2 handle are computed from the
+published source primer orders with the appropriate reverse complement. A literal
+V allele, occupied V-priming complex or exact CDR3 coordinate is not fabricated.
+The paired strands come from Scene rather than manually aligned sequence columns.
+
+The inner-product duplex represents the bounded class reached after copying both
+primer ends. The first inner V primer initially carries an unpaired5′ handle;
+its complementary copy cannot appear in the same initial binding event. This
+walkthrough explains that distinction without claiming a full reaction simulation.
+Index/P5/P7 extensions remain explicitly unassembled role tokens. The process graph
+and its unresolved transitions remain available separately; these explanatory
+drawings do not increase the protocol's chemical-validation completeness score.
