@@ -6,7 +6,9 @@ sys.path.insert(0,str(HERE.parents[1]/'lib'))
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem,SourceCoverage
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from chemdraw import Scene,Segment
+from chemdraw import (Scene,Segment,Construct,complement_segments,MolecularState,
+                     Workflow,workflow_panel)
+from protocol_model import role,closed_circle
 
 def unknown_scene():
  s=Scene();s.strand('unassembled',[Segment('unknown_template','[unassembled]',placeholder=True,inferred=True)]);return s
@@ -128,6 +130,67 @@ def _publication_coverage(g):
  _cover_reviewed_targets(g,SOURCE_TARGETS)
  return g.require_publishable()
 
+def rna_classes(kind):
+ """Selected associated-RNA classes; not a literal circRNA or occupied duplex."""
+ sc=Scene()
+ if kind in {'input','associated','captured','released','control'}:
+  sc.strand('mrna',[role('polyadenylated mRNA body',inferred=True),
+                   role('poly(A) tail; length unassigned')],label='mRNA class')
+  if kind=='captured':
+   sc.strand('bead_oligo',[role('support-linked oligo-dT; whole length unassembled',inferred=True)],rev=True,
+             label='Support-linked oligo-dT')
+ if kind not in {'library'}:
+  circle=closed_circle('Circular RNA class',
+      (role('circRNA body; sequence and backsplice coordinate unassembled',inferred=True),),
+      closure_label='pre-existing closed RNA backbone, not an AMT-induced ligation')
+  rows=sc.rows() if sc.strands else []
+  rows+=circle.rows()
+  if kind=='input':
+   sc.note('mrna','Candidate RNA association before AMT/UV; exact partner sequence and occupied interaction remain unassembled.')
+   rows=sc.rows()+circle.rows()
+  if kind in {'associated','captured'}:
+   sc.note('mrna','AMT-stabilized RNA duplex association; crosslink positions unassembled. No new phosphodiester partner junction.')
+   rows=sc.rows()+circle.rows()
+  if kind=='enriched':
+   rest=Scene();rest.strand('debris',[role('copresent RNaseR digestion products / resistant linear species',inferred=True)],label='Other RNA classes')
+   rows+=rest.rows()
+  return rows
+ parts=[role('historical Collibri adapter / index end; whole order unassembled',inferred=True),
+        role('cDNA copied from the selected RNA fraction',inferred=True),
+        role('other library end; full kit geometry unassembled',inferred=True)]
+ bottom=complement_segments(parts);sc.strand('dna',parts,label='INFERRED cDNA library')
+ sc.anneal('other',bottom,to='dna',pair=(bottom[-1].name,parts[0].name),
+           unpaired=tuple(s.name for s in bottom),label='DNA complement class')
+ return sc.rows()
+
+
+def molecular_walkthroughs():
+ def start(kind,name):return Workflow(MolecularState(name,tuple(rna_classes(kind))),track_graph=False)
+ def step(w,title,kind,note):w.react(title,rna_classes(kind),name=title,note=note)
+ common=start('input','INFERRED — candidate RNA association before AMT crosslinking')
+ step(common,'1 · AMT incubation and 365 nm UV duplex crosslinking','associated',
+      'Selected betaTC6 route: 20 µg/ml AMT, 37°C for 30 min, then two 7 min exposures at 365 nm on ice, 5 cm from the source. The existing circRNA backbone is already circular. AMT stabilizes an RNA-duplex association; the source procedure does not create a new covalent phosphodiester mRNA–circRNA read junction.')
+ step(common,'2 · TRIzol isolation, DNase and RNA QC','associated',
+      'Retain RNA through the selected source precipitation route and remove DNA contamination. The associated species represent candidate captured complexes, not an assertion that every molecule is crosslinked or every observed pair is a direct biological interaction.')
+ step(common,'3 · Allocate 10 µg RNA to magnetic oligo-dT capture','captured',
+      'Poly(A) RNA provides the capture handle. Associated RNA can be recovered through the preserved duplex/crosslink relationship even though a circRNA has no poly(A) tail. Oligo-dT body, tail length, occupied pairing and the kit workflow remain unassembled. Wash/elute under the named NEBNext isolation protocol; its later validation-experiment volumes are not substituted for production.')
+ step(common,'4 · Photoreverse for 5 min; divide recovered RNA into two halves','released',
+      'Figure1 and Results identify 254 nm UV; the Methods literal 254 nM is preserved in the source-discrepancy discussion. Reversal releases candidate RNA partners for separate downstream preparations. This is not physical concatenation of their sequences. Source UV damage and incomplete reversal are not assumed absent.')
+ treated=start('released','One half: CLiPPR RNaseR branch')
+ step(treated,'5R · RNaseR treatment enriches circular RNA classes','enriched',
+      'RNaseR acts on susceptible linear RNAs. Closed circles lack a normal free-end entry point, but the preparation is not a perfectly pure circle fraction: resistant linear RNAs and digestion products remain possible. No source circle sequence, RNaseR dose or perfect digestion endpoint is invented from the method name.')
+ step(treated,'6R · Allocate 10 ng to Collibri stranded RNA library preparation','library',
+      'The output sequenced by Illumina is a cDNA library made from treated RNA. Full adapter sequences, terminal chemistry, fragmentation, strand marking and index-primer orders remain unassembled for the source kit; no modern kit recipe is filled in. Residual/ribosomal/linear reads are not asserted absent.')
+ step(treated,'7R · TapeStation QC; NextSeq550 single-end150','library',
+      'The treated branch supplies circRNA-candidate reads for backsplice-junction analysis. The reported read length is 150 bases; a complete library-primer landing map is not established by the region-level diagram.')
+ control=start('control','Other half: untreated CLiPP mRNA-comparison branch')
+ step(control,'5C · No RNaseR; allocate 25 ng to the same named Collibri kit','library',
+      'The paired control preserves poly(A)-captured RNA without the RNaseR enrichment. Its source input is 25 ng, not the treated branch’s 10 ng. The diagram does not claim that this fraction contains only mRNA or that every circRNA is absent.')
+ step(control,'6C · TapeStation QC; separate NextSeq550 single-end150 library','library',
+      'CLiPP reads identify mRNA candidates. Computational sequence comparison with circRNAs, followed by the source validation experiments, proposes candidate partners. The two RNA partners are not physically encoded as one joined sequencing read, and the graph does not assert physical pooling of the two libraries.')
+ return common,treated,control
+
+
 def render_page():
  from page import head,caveat,table
  from protocol_views import assemble_page,WorkflowSection
@@ -135,7 +198,9 @@ def render_page():
  return assemble_page(g,[head('CLiPPR-seq — capture of mRNA-associated circular RNA'),
  '<main class="wrap" data-protocol-complete="true"><h1>CLiPPR-seq</h1><p>AMT crosslinking preserves RNA-duplex associations before poly(A) capture. Photoreversal releases the associated RNAs; RNase R enriches circular RNA for sequencing. A separate untreated CLiPP library supplies the mRNA comparison.</p><p><a href="https://doi.org/10.1093/nar/gkae058">Singh et al., Nucleic Acids Research (2024)</a> · <a href="01_clippr-seq.html">Research note and evidence scope</a></p>',
  caveat('<strong>Source-qualified preparation, with partial molecular detail.</strong> The published PDF supports the betaTC6 workflow below. RNA sequences, occupied crosslinks, capture-oligo length and complete Collibri library molecules remain unassembled. The method enriches candidate associations; it does not establish exclusive direct binding or a covalently joined partner read.'),
- '<h2>Preparation</h2><ol><li>Incubate cells with AMT at 20 µg/ml for 30 min at 37°C, then give two 7 min 365-nm UV exposures on ice.</li><li>Isolate RNA using the selected TRIzol route, treat with DNase and allocate 10 µg for oligo-dT magnetic capture.</li><li>Photoreverse for 5 min and split the recovered RNA into halves. Treat one half with RNase R; retain the other as CLiPP control.</li><li>Prepare separate Collibri stranded libraries from 10 ng treated RNA and 25 ng untreated RNA, then allocate DNA for TapeStation QC and sequencing.</li></ol>',
+ '<h2>Step by step: capture an association, then sequence two separate RNA fractions</h2>',
+ '<p>These inferred molecular-class drawings distinguish an existing RNA circle, its mRNA association, oligo-dT selection, photoreversal and the two library branches. Unknown RNA sequences and kit arms remain bracketed. They explain source-supported molecular order, not fully validated occupied duplexes or biochemical yields.</p>',
+ *(workflow_panel(w,caption=caption)for w,caption in zip(molecular_walkthroughs(),('Shared capture and release: crosslinking is not partner ligation','CLiPPR: RNaseR enrichment then a cDNA library','CLiPP: untreated comparison, independently converted into a cDNA library'))),
  '<h2>Known molecular parts</h2>',table(('Part','Role and limit'),(('AMT plus 365-nm UV','RNA-duplex crosslinking class; occupied sites and atom maps unassembled.'),('Oligo-dT magnetic support','Captures poly(A) RNA and associated crosslinked RNA. Whole support oligo and hybrid occupancy remain unresolved.'),('RNase R','Circular-RNA enrichment; linear fragments and incompletely digested material are not assumed absent.'),('Collibri stranded RNA preparation','Actual kit oligo, catalyst and nucleotide inventory classes are retained; exact bodies, packaging and finishing order are unresolved.'))),
  '<h2>Read setup</h2><p>Illumina NextSeq 550, single-end 150 bases for each library. No physical pooling is asserted. Whole read-primer landing sites and index layout remain unassembled; candidate partners are inferred by comparing circRNA sequences with the CLiPP mRNA library and by validation.</p>',
  '<h2>Source wording and scope</h2><p>The abstract and Methods heading say “proximity ligation”; Figure 1 and the executed overview describe AMT crosslinking and photoreversal. This page models that physical capture without inventing a phosphodiester RNA–RNA join. Methods prints “254 nM”; Figure 1 and Results identify 254 nm UV. The page uses the figure wavelength interpretation and preserves both source values.</p><p>The PMC-hosted PDF visibly uses the published OUP/NAR2024 layout. Associated supplement index and TableS8 were checked for reagent roles; their validation, knockdown and reporter oligos are not assigned as sequencing adapters. The associated author manuscript is not used as a substitute for the inspected published chemistry. Detailed RNase R and kit originals remain outside this source pass.</p>',

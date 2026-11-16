@@ -64,6 +64,21 @@
       ],
       "oligo_scraper": "Mandatorywholeexistingbundlescraper200displayedhits/1representation; rawsourceordersandS8originalcontexts retained.",
       "verification": "26focusedPASS; buildPASS; publication_problems=[]; wrappercomplete-marker/H1/H2/details/captionsparsed; duplexlint0; combinedsourceguard35exact0failed0exemptions/3unassembledexternalinventories; 79steps/18localrelationsestablished/2conditional/77unresolved/0contradictory. Newunreviewedgraphinputregressionstillrejectspublication."
+    },
+    {
+      "documents": 3,
+      "locations": "Published PMC8191787 Methods181/227/237/239; original SI FigS8 PDFp12 visually inspected; existing SupplementaryTablesFinal S1/S3 source-order fixtures rerun.",
+      "findings": "Eight visible molecular steps connect source multiplex RNA-splinted padlock closure, retained-primer RCA, timed BSPEG9 anchoring and fresh SBL/imaging rounds. New inferred plus/minus ligated-read classes display source3OH/5P joins while leaving whole nonamer pattern/occupancy and reported-base mapping unassembled. Native cell/RNA context is retained when drawings focus on DNA components.",
+      "deferred": [
+        "Actual occupied ACTN1 transcript and whole sample remain unassembled; perfect-match RNA remains conditional/inferred.",
+        "Aminoallyl-dU sites/anchoring stoichiometry, nonamer patterns/cycle offsets and full fluorescence-to-reported-base mapping remain unassembled."
+      ],
+      "oligo_scraper": "Ran complete external bundle /tmp/boloramis-presentation-primers.log;200 hits in1 file. Existing original S1/S3 probe/primer source tests rerun; actual S8 graphical end polarities inspected.",
+      "verification": "26 protocol checks, schematic build and pairing lint passed; priority50.5 to9.9. Source local primer/anchor pairing reused; inferred joins do not promote complete chemistry/readout validation.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

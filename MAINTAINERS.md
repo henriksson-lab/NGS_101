@@ -288,6 +288,80 @@ build that has the sources.
 deployment → Source: **GitHub Actions**. The next push to `main` (or a manual run of the
 "Pages" workflow) builds and deploys the site.
 
+## Prioritizing step-by-step presentation reviews
+
+The presentation standard is a visible molecular walkthrough, not merely a large
+amount of text or a formally valid graph. Use this offline triage before choosing
+a bounded review batch:
+
+```sh
+python3 build_site.py                         # refresh generated page inputs
+python3 tools/audit_protocol_presentation.py  # top 30 finished published pages
+python3 tools/audit_protocol_presentation.py --built-only --exclude-source-blocked
+python3 tools/audit_protocol_presentation.py --format tsv --output /tmp/presentation.tsv
+python3 tools/audit_protocol_presentation.py --format json --output /tmp/presentation.json
+python3 tools/audit_protocol_presentation.py --site _site --limit 20
+python3 tools/audit_protocol_presentation.py spatial-vdj__10.1126+science.adf8486
+python3 tools/selftest_presentation_audit.py
+```
+
+The default scans sibling generated schematic HTML for finished published entries;
+`--site` instead inspects an assembled site's files. It never executes a protocol
+module, fetches an article, calls an LLM or rebuilds a page. Rebuild first when
+comparing a change; JSON includes the input HTML SHA256. Missing build outputs
+score100 **as a separate build/discovery queue**, not a verdict on the protocol.
+Use `--built-only` for presentation-only work or `--include-unfinished` to inventory
+notes/draft entries too. Explicit directory arguments can inspect any catalogue row.
+
+Higher0–100 scores mean earlier inspection. The additive contributions are:
+
+| Signal | Maximum points |
+|---|---:|
+| No initially visible native reaction steps |30 (12 for a single step) |
+| No initially visible native strand states |25 |
+| Fraction of reaction outputs without strand drawings |25 |
+| Fraction without detected fixed sequence |15 |
+| Workflow in closed details with fewer than three visible steps |10 |
+| More than250 visible prose words per sequence-bearing step |10 |
+| Explicitly unmodelled graph steps |6 |
+| Declared molecular/geometry/readout limits |6 |
+
+Contributions are capped at100. Fixed-sequence detection requires at least six
+ACGT/U characters across a native state; it is a heuristic, not transcription
+validation. Native topology/fold bases also count. Role-only diagrams may be
+entirely appropriate when sources constrain the available detail; inspect them
+rather than inventing DNA to lower a score. Variable inserts, barcode placeholders
+and inference alone do not add a penalty. Counts exclude SVG labels/tooltips,
+script/style text, sequence code blocks, navigation and closed-detail prose from
+the prose-density measure. Repeated identical reaction labels do not inflate
+coverage. Optional analytical/workup branches should stay collapsed if the main
+molecular walkthrough is visible; additional hidden branches alone do not penalize it.
+
+Reports include visible/hidden steps, sequence-bearing outputs, model level and
+raw signals, weak-step labels (JSON), source-review status, unread relevant-source
+count and any historical molecular-state-audit finding. A blocked source review
+does not automatically prevent a useful presentation correction. The optional
+filter excludes explicitly blocked reviews and unavailable relevant originals,
+including incomplete reviews whose overall status is still `in_progress`. Ordinary
+unread material stays in the queue. A `read` entry can still describe a limited
+preview: inspect its source-review scope before selecting chemistry work.
+
+This parser recognizes our native SVG classes and ordinary HTML hidden/closed
+attributes. It does not execute CSS/JavaScript or assess visual overlap, primer
+correctness, chemical causality, branch coverage, exact product identity or source
+truth. Legacy/image-based diagrams may be undercounted; `legacy_panels` is exposed
+for inspection. A long set of cleanup steps is not better chemistry, and a low
+score is not a completed human review. Keep findings in the existing bounded
+review ledgers; historical `fixed` dispositions are not current pass marks.
+Generated reports belong in `/tmp` or another scratch directory, not the public
+index. The scorer and its tests have no effect on publication eligibility.
+
+The JSON/TSV report also includes maximum visible diagram width and strand-prefix
+columns. These advisory counters help find labels that push molecules far to the
+right. They do not change the score: long biological sequences can legitimately
+need horizontal scrolling. Inspect the drawing before shortening labels or splitting
+a view, and retain the scientific qualifications in captions and step notes.
+
 ## Adding a protocol
 
 1. `mkdir -p <name>/tools <name>/ref`

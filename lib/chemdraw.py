@@ -384,9 +384,9 @@ class Row:
     prefix: str = ""
     suffix: str = ""
     visual: ("StrandVisual | ComponentVisual | SpanVisual | ArrowVisual | CommentVisual | "
-             "HairpinCapVisual | YAdapterVisual | tuple[StrandVisual | ComponentVisual | "
+             "HairpinCapVisual | YAdapterVisual | CircleClosureVisual | tuple[StrandVisual | ComponentVisual | "
              "SpanVisual | ArrowVisual | CommentVisual | HairpinCapVisual | "
-             "YAdapterVisual, ...] | None") = None
+             "YAdapterVisual | CircleClosureVisual, ...] | None") = None
     chunk_titles: list[str | None] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -463,6 +463,22 @@ class CommentVisual:
     """Prose annotation anchored to a molecular column."""
     start: int
     text: str
+
+
+@dataclass(frozen=True)
+class CircleClosureVisual:
+    """A covalent return from the displayed 3′ boundary to the 5′ boundary.
+
+    The boundaries are display coordinates on one reference row, not chemical
+    cut sites or a claim that a duplex has two fully sealed strands.
+    """
+    start: int
+    end: int
+    label: str
+
+    def __post_init__(self) -> None:
+        if self.end<=self.start or not self.label.strip():
+            raise ValueError('circle closure needs ordered row boundaries and a label')
 
 
 @dataclass(frozen=True)
@@ -1235,6 +1251,16 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
     out: list[str] = []
 
     visuals = visual if isinstance(visual, tuple) else (() if visual is None else (visual,))
+    for closure in (v for v in visuals if isinstance(v,CircleClosureVisual)):
+        left=x+closure.start*cell-4;right=x+closure.end*cell+4
+        middle=y+(font+3)/2;bottom=y+font*2.7
+        out.append(f'<path class="chem-circle-closure" fill="none" stroke="var(--ink-muted)" '
+                   f'stroke-width="1.6" d="M {right:.2f} {middle:.2f} '
+                   f'Q {right+10:.2f} {middle:.2f} {right+10:.2f} {middle+10:.2f} '
+                   f'V {bottom-8:.2f} Q {right+10:.2f} {bottom:.2f} {right+2:.2f} {bottom:.2f} '
+                   f'H {left-2:.2f} Q {left-10:.2f} {bottom:.2f} {left-10:.2f} {bottom-8:.2f} '
+                   f'V {middle+10:.2f} Q {left-10:.2f} {middle:.2f} {left:.2f} {middle:.2f}">'
+                   f'<title>{html.escape(closure.label)}</title></path>')
     for strand_visual in (v for v in visuals if isinstance(v, StrandVisual)):
         x1 = x + strand_visual.start * cell - 4
         x2 = x + strand_visual.end * cell + 4
@@ -1594,18 +1620,14 @@ def circle_rows(con: Construct, closure_label: str = "covalently closed") -> lis
     """
     if not len(con):
         raise ValueError("a circle needs at least one base")
-    lead = "  .-> "
-    molecule = strand_row(con, prefix=lead, suffix=" -.")
-    left, right = lead.index("."), len(molecule.plain()) - 1
-    width = right - left - 1
-    label = (f" ** {closure_label}: {con.segments[-1].name} -> "
-             f"{con.segments[0].name} ** ")
-    if len(label) > width:
-        label = " ** circularisation ** "
-    pad = width - len(label)
-    close = (" " * left + "'" + "-" * (pad // 2) + label
-             + "-" * (pad - pad // 2) + "'")
-    return [molecule, Row(chunks=[(close, None, False)])]
+    molecule = strand_row(con, prefix="      ", suffix="   ")
+    visual=molecule.visual
+    assert isinstance(visual,StrandVisual)
+    molecule.visual=(visual,CircleClosureVisual(visual.start,visual.end,closure_label))
+    # Reserve the return path's vertical extent without treating ASCII marks as
+    # geometry. Plain/copy rendering gets an explicit topology caption instead.
+    return [molecule,Row(),Row(chunks=[(closure_label,None,False)],
+                              visual=CommentVisual(visual.start,closure_label))]
 
 
 # ------------------------------------------------------------------- pairing

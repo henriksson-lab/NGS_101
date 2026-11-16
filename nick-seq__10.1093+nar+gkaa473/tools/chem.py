@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/'lib')]
-from chemdraw import Construct,Scene,Segment,feature
+from chemdraw import Construct,Scene,Segment,feature,complement_segments,MolecularState,Workflow,workflow_panel
 from protocol_graph import InputRole as R,MaterialKind as K,StepKind as S,ProtocolGraph,SequencingPlan
 from protocol_model import molecule,role
 from protocol_graph import Terminal,Disposition
@@ -117,10 +117,85 @@ def protocol_graph():
 
 ADDITIONAL_REVIEWED_SCOPE=('blocking_selection_selected','blocking_selection_remaining','blocking_selection','sap_processing','nt_pol_i','tail_nucleotides','nt_kit_nucleotides','nt_kit_catalysts','tdt_kit_nucleotides','tdt_kit_catalysts','nt_matched_control','nt_positive_control_pool','nt_control_pool','tdt_matched_control','tdt_positive_control_pool','tdt_control_pool','nt_loading_selected','nt_loading_remaining','nt_loading','tdt_loading_selected','tdt_loading_remaining','tdt_loading')
 
+def nick_class(kind):
+ sc=Scene()
+ if kind in {'nicked','translated'}:
+  # Separate fragments on one nicked strand, placed against one intact opposite
+  # strand. No covalent strand is invented across the target nick.
+  left=role('upstream genomic DNA',inferred=True)
+  copied=role('new PT-containing DNA',inferred=True)
+  right=role('downstream genomic DNA',inferred=True)
+  reference=[left,right]if kind=='nicked'else[left,copied,right]
+  opposite=complement_segments(reference)
+  sc.strand('opposite',opposite,rev=True,mod3='old dd-block',label='Intact opposite strand class')
+  extending=[left]if kind=='nicked'else[left,copied]
+  sc.anneal('upstream',extending,to='opposite',pair=(left.name,left.name+"'"),
+            unpaired=tuple(x.name for x in extending),mod3='OH',above=True,label='INFERRED nick 3′OH side')
+  sc.anneal('downstream',[right],to='opposite',pair=(right.name,right.name+"'"),
+            unpaired=(right.name,),mod5='P',mod3='old dd-block',above=True,label='INFERRED nick 5′P side')
+  sc.note('opposite','Two rows above are the two fragments of the same nicked strand. Old-end blocks and newly created nick ends are distinct. Unknown genomic coordinates and conversion/background remain unassembled.')
+  if kind=='translated':sc.note('upstream','PolI extends the nick-derived 3′ end using α-thio-dNTPs while nick translation processes downstream DNA. New copied DNA carries the PT-protected backbone class; copied extent is unassigned.')
+  return sc.rows()
+ if kind in {'nt_digest','nt_purified'}:
+  sc.strand('pt',[role('PT-protected copied oligonucleotide',inferred=True)],label='INFERRED NT target class')
+  if kind=='nt_digest':sc.strand('debris',[role('genomic digestion fragments / remaining background',inferred=True)],label='Copresent DNA classes')
+  return sc.rows()
+ if kind in {'denatured','tailed'}:
+  parts=[role('nick-derived genomic strand',inferred=True)]
+  if kind=='tailed':parts.append(role('poly(dT) tail; length unassigned',inferred=True))
+  sc.strand('target',parts,mod3='OH',label='INFERRED TdT substrate'if kind=='denatured'else'INFERRED polyT-tailed DNA')
+  sc.strand('other',[role('other denatured / old-end-blocked DNA strands',inferred=True)],label='Other DNA still copresent')
+  return sc.rows()
+ if kind in {'nt_library','tdt_library'}:
+  branch='NT'if kind=='nt_library'else'TdT'
+  sc.strand('library',[role('historical SMART ChIP library end',inferred=True),
+      role(branch+' genome-derived interval',inferred=True),
+      role('source sample index; coordinates and body unassembled',inferred=True,
+           molecular_feature=feature('nick_'+branch.lower()+'_sample_index','sample_index','unknown')),
+      role('other historical library end',inferred=True)],label='INFERRED '+branch+' library class')
+  return sc.rows()
+ mod='dd-blocked class'if kind=='blocked'else'old end class unassigned'
+ parts=[role('genomic DNA fragment',inferred=True)];other=complement_segments(parts)
+ sc.strand('top',parts,mod3=mod,label='INFERRED source DNA class')
+ sc.anneal('other',other,to='top',pair=(other[0].name,parts[0].name),unpaired=(other[0].name,),mod3=mod,label='DNA complement class')
+ return sc.rows()
+
+
+def molecular_walkthroughs():
+ def start(title,kind):return Workflow(MolecularState(title,tuple(nick_class(kind))),track_graph=False)
+ def step(w,title,kind,note):w.react(title,nick_class(kind),name=title,note=note)
+ shared=start('Genomic DNA before old-end blocking','input')
+ step(shared,'1 · Fragment in three separate restriction reactions, then purify and pool','input',
+      'E.coli DH10B DNA, 1 µg per reaction: NciI; HindIII+XhoI; or SalI+XbaI+NdeI, each with RNaseA. Purify each separately before mixing. Select 1 µg pooled DNA for blocking. These are three actual preparations, not one mixed-enzyme tube; native/background ends remain possible.')
+ step(shared,'2 · Remove old 3′ phosphates and block old extendable ends with ddNTPs','blocked',
+      'SAP 1 µl, 37°C 30 min then 70°C 10 min. Add 2 µl ddNTPs (2.5 mM each) and PolI 1 µl / 10 U, 37°C 40 min. dd incorporation removes the normal extendable 3′OH in the blocked class. Add fresh SAP for excess-nucleotide processing, 37°C 30 min / 75°C 10 min, then DyeEx-desalt. Background and incomplete conversion are not asserted absent.')
+ step(shared,'3 · INFERRED — create new target nicks, then split into complementary branches','nicked',
+      'Nickase-validation route: Nb.BsmI and Nb.BsrDI, 10 U each, 50 µl, 65°C 1 h; 80°C 20 min and cool at 0.1°C/s. Newly created nick-derived ends differ from the old dd-blocked ends. No additional purification precedes the split. The local two-fragment / intact-opposite-strand drawing is a conditional nick class, not a particular genomic site. Iodine/PT and EndoIV/AP front ends are separate applications.')
+ nt=start('One nicked-DNA aliquot: positive nick-translation branch','nicked')
+ step(nt,'4NT · PolI nick translation creates a PT-protected copied tract','translated',
+      '50 µl: fresh PolI 2 µl and α-thio-dNTPs 2 µl (2.5 mM each), 15°C 90 min then 75°C 20 min. DyeEx-clean before nuclease treatment. The paper describes a 100–200-nt PT-oligo target class; no individual copied extent is imposed. Original template DNA remains copresent until digestion. The source NT negative reaction substitutes water for PolI, but its full separate production is not reconstructed by this positive-branch drawing.')
+ step(nt,'5NT · ExoIII, then denaturation and RecJf digest background DNA','nt_digest',
+      'ExoIII 200 U, 37°C 60 min; denature 95°C 3 min and ice-quench; RecJf 60 U, 37°C 60 min (an extra 60 U is source-qualified for some complex samples), then 80°C 10 min. ExoIII acts 3′→5′ and RecJf 5′→3′. The PT-protected copied class resists the intended digestion; DNA fragments and possible background are not physically removed by enzyme action alone.')
+ step(nt,'6NT · Recover protected oligos; prepare the separate indexed NT library','nt_library',
+      'Zymo Oligo Clean & Concentrator physically purifies the target preparation. The historical SMART ChIP-seq kit supplies the library continuation and 12 final PCR cycles. Exact kit primers, adapter architecture and complete products remain unassembled; no modern or RNA library recipe is substituted. Pool each positive PCR product with its corresponding negative-control product before AMPure size selection.')
+ step(nt,'7NT · Sequence the NT library on NextSeq500, paired-end75','nt_library',
+      'Select the actual loading contribution and keep remaining library stock explicit. NT read evidence is interpreted with the complementary TdT branch computationally; the branches are not one hybrid molecule or one inferred physical pool. The first three Read1 bases are trimmed computationally, not declared a UMI.')
+ tdt=start('Other nicked-DNA aliquot: positive TdT branch','nicked')
+ step(tdt,'4T · Denature before terminal transferase tailing','denatured',
+      'Source nick-converted DNA 100 ng, 95°C 3 min in 20 µl water. Nick-derived genomic strand fragments become accessible as single strands; the old-end-blocked and other denatured DNA classes remain copresent. Denaturation does not create a new genomic sequence or remove the old end blocks.')
+ step(tdt,'5T · Add poly(dT) to the eligible nick-derived 3′ end','tailed',
+      '30 µl: 3 µl DNA SMART buffer, 1 µl TdT and 1 µl DNA SMART T-Tailing Mix; 37°C 20 min, then 70°C 10 min. The source names polyT tailing, but exact tail length and full nucleotide-mix formulation remain unassigned. The tail is a priming handle, not a deduplication UMI or sample index.')
+ step(tdt,'6T · Historical SMART priming/template switching, indexed PCR and sequencing','tdt_library',
+      'The source SMART ChIP-seq kit supplies primer annealing/template switching and 12 final PCR cycles. Combine each positive PCR product with its corresponding negative-control PCR product, AMPure-size-select and sequence NextSeq500 paired-end75. Whole kit oligos/read landing remain unassembled. Genomic T adjacency can confound tail-based calls; paired NT evidence helps computationally, without physically joining the two library types.')
+ return shared,nt,tdt
+
+
 def render_page():
  g=protocol_graph().require_publishable()
  return assemble_page(g,(head(TITLE),'<div class="wrap" data-protocol-complete="true"><h1>Nick-seq</h1>',info(SOURCE),'<p>'+SUMMARY+'</p>',info(CAVEAT),
  '<h2>Complementary preparations</h2><p>The source makes three separate restriction preparations, purifies each and pools them. Blocking suppresses pre-existing extendable ends before nickase conversion. NT incorporates phosphorothioate nucleotides and digests susceptible template material; TdT instead adds a polyT tail. These remain separate physical library preparations.</p>',
+ '<h2>Step by step</h2><p>INFERRED — source-supported end/backbone classes below distinguish old blocked ends from new nicks, and nick translation from terminal tailing. Genomic bases, occupied sites and whole kit products remain unassembled. Separate nick-fragment rows are not covalently joined across the nick.</p>',
+ *(workflow_panel(w,caption=caption)for w,caption in zip(molecular_walkthroughs(),('Shared DNA preparation and new-nick creation','NT: protect newly copied DNA, then digest background','TdT: make a tail on the complementary nick-side class'))),
  '<h2>Library and read setup</h2><p>Both branches use the historical SMART ChIP-seq kit and 12 final PCR cycles. Each positive PCR product is combined with its corresponding negative-control product before AMPure size selection. Kit nucleotide and catalyst supplies are explicit, with unknown identities, packaging and full oligo polymers. NextSeq 500: Read 1 75 bases and Read 2 75 bases; acquired index mask and member values remain unassigned. The first three Read 1 bases are removed computationally, not assigned UMI meaning.</p>',
  '<details><summary>Full preparation workflow and unresolved chemistry</summary>',WorkflowSection('Restriction preparation → blocking → separate NT and TdT libraries'),'</details>',
  '<p><a href="'+NOTES+'">Source notes and remaining questions</a></p></div>'))

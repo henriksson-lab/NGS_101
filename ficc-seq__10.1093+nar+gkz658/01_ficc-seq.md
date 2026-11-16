@@ -37,3 +37,10 @@ The results workbook and supplement figures are ordinary unread originals under 
 The schematic shows the published endogenous HEK293/TRMT2A preparation through its physical HiSeq 4000 single-end 50-cycle library contribution. Literal source inventories cover the selected actual operations and supplies; new inputs are not automatically source-reviewed. The catalytic-trap and source-unit findings remain required and mapped locally, without excluding or deleting a source obligation. Full preparation and chemistry warnings are retained below the overview in a collapsed workflow.
 
 The two literal “400ml TE buffer” gel-extraction instructions remain visible on the public page alongside their subsequent 1.5-ml collection-tube instruction. The model does not decide the executed extraction volume. Whole occupied RNA/cDNA/circle products and identifier read-cycle spans remain unresolved even though all five source oligo orders and the local BamHI pairing are represented.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read published introduction/Figure1A for 5FU/FUTP catalytic trapping and source-specific truncation interpretation, and the complete FICC-Seq Supplementary Methods paragraph for HEK293 library preparation. Eleven visible states connect RNA terminal changes, protein removal, RT, cDNA topology, BamHI opening and PCR. Existing source volume ambiguity and exact oligos remain visible.
+
+🟡 Circle/PCR reference classes carry inferred occupied geometry and unknown copied-RNA sequence. The BamHI duplex remains a checked local view, not a fully assembled circle or cut product. The native input is explicitly before 5FU trapping. Split N2+N3 UMI pieces now have distinct part identities under one shared molecule group; the earlier duplicate feature ID with conflicting definitions is corrected without changing the source five-base UMI or X4 sample-code meanings. This is a bounded presentation review, not complete reaction/source validation.

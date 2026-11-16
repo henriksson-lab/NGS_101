@@ -40,6 +40,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle0sequence-likehits/0representations;actualsourcefigures/captionsverified. Zerohitsnotabsenceevidence;wholeprimers/kitinventoryunassembled.",
       "verification": "24focusedPASS after localpositive-unassembledgeometry/intendedsource3Aview refinement;sourceguard0exact0failed0externalunknown,threeproducedwhole-unassembledadapter/PCRprimerclassesoutsideexternalguard. Chemistry28steps29unresolved0contradictory. Actualstock/control/QC/capturefatespreserved. Criticalpeerpending."
+    },
+    {
+      "documents": 1,
+      "locations": "Published PMC7329539 Methods143 HiCoP procedure and Results67–71 / Fig1 rationale for silica enrichment; source MboI choice and biotin-dCTP fill-in explicit.",
+      "findings": "Ten visible connected states now distinguish MboI digestion/fill/contact joining, sonication/input allocation, CoP selection before decrosslinking, DNA recovery, C1 capture and separate adapter/PCR continuation. Ideal filled ends/junction computed from canonical MboI recognition/cut definition, with explicit inferred occupied geometry and unknown genomic partners.",
+      "deferred": [
+        "Complete source fixation/digestion conditions, occupied genomic/biotin/end products and source-version in-situHiC finishing recipe remain unassembled.",
+        "Whole adapters/PCR primers, source index architecture and complete read-primer landing remain unassembled; no CoP-only Tn5/qPCR/HiSeq recipe inherited."
+      ],
+      "oligo_scraper": "Ran complete external bundle /tmp/hicop-presentation-primers.log;0hits is not an absence finding. Main selected physical preparation read directly.",
+      "verification": "Protocol suite, schematic build and pairing lint passed; priority65.4 to12.0. Source-coverage and unresolved geometry declarations remain unchanged.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

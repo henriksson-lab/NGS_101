@@ -5,6 +5,29 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-11-16 — Visible molecular steps are the presentation standard
+
+A protocol page should primarily explain the preparation through connected,
+visible molecular steps: incoming substrate, reagent/primer role, reaction change,
+retained identifiers and final molecule/read direction. Long prose, a final-library
+panel alone, a process graph of unnamed mixtures or a workflow hidden in closed
+details does not establish that standard. Source-supported region-level diagrams
+are useful when exact molecules remain unresolved; never invent binding sites,
+sequences or biochemical transitions to improve presentation or an audit score.
+
+`tools/audit_protocol_presentation.py` ranks rendered pages for review using native
+diagram semantics, visible versus collapsed steps, strand/sequence coverage,
+prose density and bounded contributions from declared model gaps. It runs offline,
+without importing protocol models, building pages, fetching sources or using an
+LLM. Scores identify inspection candidates, not quality grades, source-absence
+findings, molecular validation or permission to publish. Zero score is not approval.
+Inference and variable barcode/insert regions are not faults by themselves.
+
+Build gaps and source-review blockers are reported separately. The historical
+`molecular_state_audit.tsv` remains a work queue, not current visual certification.
+Presentation scores do not change chemistry completeness, source-review outcomes
+or public catalogue eligibility. No minimum-score CI or publication gate is added.
+
 ## 2026-11-04 — Share reaction trajectories between definitions and animations
 
 The standard-library nucleotide/connectivity engine lives in

@@ -36,3 +36,10 @@ S1 Figure explicitly places P5–seq–U1/D1 forward primers and P7–index–U2
 ## Open boundaries
 
 The full genomic reporter and selected index/barcode lookup require S1 Table and applicable strain/construct sources. Historical PCR formulation and exact run landing are unassembled, not confirmed absent. No predecessor/vendor recipe is inherited. The public source-qualified page retains these limits; its typed publication gate accounts for reviewed operations and material fates without asserting complete molecular validation.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read published Epi-Decoder Methods and barcode counting/preprocessing. The page now follows shared chromatin into separate INPUT/IP recoveries, four UP/DN PCRs, actual equimolar pooling and single-read sequencing. HO/KanMX remains separate from ADE2.
+
+🟡 New intended PCR-reference views compute reverse complements and custom-read primer binding from the exact S7 orders. The source custom read primer is a complete suffix of its forward PCR primer. Reporter features cover the 20-base barcode role only, with unknown optional flanks separate; they do not absorb a whole unassembled interval. Selected genomic alleles and six-base index members remain unassigned, so no full cycle/landing map is claimed. This bounded presentation pass does not complete molecular/source review.

@@ -41,3 +41,12 @@ input or operation still fails the normal publication gate. Terminal analytical
 aliquots are typed as QC, while the protein fraction remains an unresolved non-NGS
 assay continuation. Whole kit oligos, molecular products and occupied sites remain
 unassembled and visibly qualified; page publication does not establish those claims.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read the published Methods3.3–3.9 and3.13–3.18 and rendered Figure1 (PDFp9). The public page now leads with three connected workflows: shared capture, DNA recovery/library construction, and separate RNA recovery/RT/second-strand/library construction.
+
+🟡 The drawings are explicit molecule classes, not fabricated sequence-bearing substrates or simulations. Crosslinked DNA/RNA are associated through the captured protein complex, not covalently ligated into a sequencing chimera. Random hexamers are primers, not UMIs. RNA first-strand and second-strand synthesis precede DNA tagmentation. Chromatin DNA and RNA-derived cDNA remain separate labelled branches; no physical library pooling is invented. Exact Tn5 transfer/gap geometry, whole index/adapter orders, crosslink atoms, primer occupancy and residual species remain unresolved. The process graph's completeness and source-review status are unchanged.
+
+The historical source test Tn5 amount is not assigned as an optimized production dose. Two-stage bead selection retains the first supernatant then the second bead-bound fraction. Figure1's molecular order is explained in the page rather than replaced by the graph of inventory components and controls, which stays available in details.

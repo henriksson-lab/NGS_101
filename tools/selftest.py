@@ -52,6 +52,17 @@ run_common(check)
 from selftest_assembly import run as run_assembly_checks
 run_assembly_checks(check)
 
+# A reference circle has a real SVG return path, not printed punctuation.
+from chemdraw import CircleClosureVisual, circle_rows, panel_svg
+_circle_rows=circle_rows(Construct([Segment('circle fixture','ACGTCAGT')]),'retained covalent closure')
+_circle_markup=panel_svg(_circle_rows)
+check('circle SVG contains one semantic covalent return path',_circle_markup.count('class="chem-circle-closure"'),1)
+check('circle return names its actual declared closure','retained covalent closure' in _circle_markup,True)
+check('circle SVG does not use ASCII arrow geometry','.->' in _circle_markup,False)
+check('circle visual anchors closure to actual reference boundaries',
+      next(v for v in _circle_rows[0].visual if isinstance(v,CircleClosureVisual)).end-
+      next(v for v in _circle_rows[0].visual if isinstance(v,CircleClosureVisual)).start,8)
+
 # Unassigned nicks must never acquire a drawn covalent closure or coordinates.
 from protocol_model import unsealed_circular_duplex
 _unsealed_parts = (Segment("declared component", "ACGT", inferred=True),)

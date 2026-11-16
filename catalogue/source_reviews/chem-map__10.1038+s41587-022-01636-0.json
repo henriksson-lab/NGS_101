@@ -31,6 +31,16 @@
       "inspection_scope": "Published ref24 SI1 actualPDFp6\u20137/printed143\u2013151: three whole oligos,5P,duplexannealing and loading quantities.",
       "pass_1": null,
       "pass_2": null
+    },
+    {
+      "id": "ref40_indexed_primers",
+      "role": "predecessor",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14590/MediaObjects/41586_2015_BFnature14590_MOESM36_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Bounded2026-11-16 pass: published reference40 originalTable1 Sheet1 A/B cells, all indexedv2Ad1/v2Ad2 rows/headers; rawXLSX ZIP/XML compared. This covers primer constant bodies,8ntorderedindex windows and name/order orientation only; no original2015cellular recipe or selectedChem-mapindex members inherited.",
+      "pass_1": null,
+      "pass_2": null
     }
   ],
   "bounded_checks": [
@@ -62,13 +72,28 @@
       ],
       "oligo_scraper": "Mandatorywholeavailablebundlererun:Chem-map9hits2files/CATCH4hits2representations. Relevantoriginalwholeoligos/figures andTableS1rowinspected; pointerhitsnotfacts.",
       "verification": "36focusedPASS; localpage/notebuild; sourceguard4exact0failed10wholeexternalPCRprimersunassembled; chemistry131steps6localduplexclaimsestablished136unresolved0contradictory. Typedgraphpublication_problems=[]; pairinglint0."
+    },
+    {
+      "documents": 3,
+      "locations": "Published Chem-map PMC10497411 Methods131–159 and reference40 identity; directly cited published Buenrostro2015 Table1 original MOESM36 Sheet1 A/B cells, all indexedv2Ad1/v2Ad2 rows, sourceURL identity verified; existing delegatedref24 adapter-SI source fixture reused only for that component.",
+      "findings": "Ten visible reaction steps distinguish adapter loading and five-sample drug/antibody recruitment from tagmentation, independent PCRs and actual pooling. Direct reference40 originalTable1 resolves v2 primer constant bodies and8ntorderedindex windows; underlying actual primer inventories now carry known families with unknown selected members. Ad2.1 source-name index is reverse complement of its ordered index, both retained publicly.",
+      "deferred": [
+        "Actual Chem-map.x index assignments, acquired index orientation/masks, occupied transposome/genomic/repair geometry and full read landing remain unassembled.",
+        "No whole 2015 scATAC/G4 cellular recipe or default source index assignment inherited. Tagmentation reference components do not assert a filled complementary strand before repair."
+      ],
+      "oligo_scraper": "Ran Chem-map bundle /tmp/chemmap-presentation-primers.log and referenced DOI bundle /tmp/chemmap-ref40-primers.log; reference40 source hits verified directly in original published XLSX cells, not associated-manuscript chemistry.",
+      "verification": "43 protocol checks passed including originalURL identity, all indexed primer-family whole-order comparisons and exact name/order examples; page build and pairing lint passed. Source constant bodies import canonical sequences rather than retyping them. Priority59.6 to20.0.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {
     "result": "enumerated",
     "pass_1": null,
     "pass_2": null,
-    "notes": "Specificref24component inspected; ref40primer/ownFRET/controldocuments deferred undercap, notabsence."
+    "notes": "Specificref24component inspected. Bounded2026-11-16followup read directlycitedref40 publishedTable1 and resolvedconstantprimerbodies/8ntorderedwindows. ActualChem-mapindexmember assignments, ownFRET andcontrol documents remain deferred/unassigned; noabsenceclaim."
   },
   "missing_claims": [],
   "conclusion": "Source-qualifiedpublicpreparationpage withreviewedinventory/typedQC/completeworkflowfates; molecular/sourcecompleteness remainsboundedandpartial, noacceptedabsence.",

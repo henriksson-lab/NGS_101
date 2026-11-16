@@ -64,6 +64,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle rerun; Epi40hits2files/FastGRO2hits2files, pointersnotfacts. Epi sixwholeorder/namecells independentlyrechecked; FastGROsourceknownclass/noadoptedexactlibraryoligos.",
       "verification": "19focusedPASS; localpagebuild+note build; sourceguard0exact0failed (oneproducedwholekitoligoinventoryoutsideexternalguardexplicit); chemistry34steps34unresolved0contradictory. Typedpublication_problems=[]; duplexlint0."
+    },
+    {
+      "documents": 1,
+      "locations": "Printed published CellReports33,108373 (MOESM/supplement-2.pdf), Results492–508 and Methods2218–2240, page e3 standard versus low-input recipe. Existing cited protocol32136 differences preserved rather than re-read as final authority.",
+      "findings": "Nine visible connected molecular-class steps distinguish resident-polymerase RNA extension, prepared labelled RNA spike, sonication, thiol-linked reversible biotinylation, affinity capture and DTT disulfide release; historical library remains unassembled. Full preparation remains available under details.",
+      "deferred": [
+        "Historical NEBNext UltraII Directional kit oligos, complete final construct/read/index geometry and exact acquired run lengths remain unassembled.",
+        "Source molecule sequences, modified-site occupancy and disulfide atom maps are not supplied by the diagram; existing main/export differences retained."
+      ],
+      "oligo_scraper": "Ran whole external bundle; /tmp/fastgro-presentation-primers.log; source hits remain validation/readout roles, not library adapters.",
+      "verification": "Protocol suite and page build passed; presentation priority85 to35.0; no literal biological bases invented to lower score.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

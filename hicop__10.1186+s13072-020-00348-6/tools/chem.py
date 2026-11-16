@@ -6,7 +6,9 @@ sys.path.insert(0,str(HERE.parents[1]/'lib'))
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SequencingPlan,SourceItem,SourceCoverage
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from chemdraw import Scene,Segment
+from chemdraw import Scene,Segment,complement_segments,MolecularState,Workflow,workflow_panel
+from protocol_model import role
+from restriction import MBOI
 
 def unknown_scene():
  s=Scene();s.strand('unassembled',[Segment('unknown_template','[unassembled]',placeholder=True,inferred=True)]);return s
@@ -153,6 +155,59 @@ def _publication_coverage(g):
  _cover_reviewed_targets(g,SOURCE_TARGETS)
  return g.require_publishable()
 
+def contact_class(kind):
+ sc=Scene()
+ def duplex(key,parts,label):
+  bottom=complement_segments(parts);sc.strand(key,parts,label=label)
+  sc.anneal(key+'_other',bottom,to=key,pair=(bottom[-1].name,parts[0].name),
+            unpaired=tuple(x.name for x in bottom if x.is_role_token()),label='DNA complement class')
+ if kind in {'chromatin','digested','filled'}:
+  for side in ('A','B'):
+   parts=[role('genomic partner '+side,inferred=True)]
+   if kind=='filled':
+    core=Segment('ideal filled MboI end '+side,MBOI.site,inferred=True,note='Derived fully filled end class; actual occupied ends and biotin incorporation unassembled')
+    parts=parts+[core]if side=='A'else[core]+parts
+   duplex(side,parts,'INFERRED partner '+side)
+  if kind=='digested':sc.note('B','MboI recognizes '+MBOI.site+'; exact occupied cuts, cohesive-end populations and fragment boundaries remain unassembled here.')
+  if kind=='filled':sc.note('B','Biotin-dCTP is the source fill-in nucleotide. These are ideal filled ends, not proof of full conversion or an occupied biotin atom map.')
+  return sc.rows()
+ if MBOI.end!='5-prime':raise ValueError('Intended filled-junction view requires the declared 5-prime cohesive-end enzyme')
+ # A local ideal fully filled and ligated motif, independent of unknown flanks.
+ junction=MBOI.site[:MBOI.bottom_cut]+MBOI.site[MBOI.top_cut:]
+ parts=[role('genomic partner A',inferred=True),Segment('ideal filled-MboI join',junction,inferred=True),role('genomic partner B',inferred=True)]
+ if kind=='library':parts=[role('source adapter / PCR end',inferred=True)]+parts+[role('other source library end',inferred=True)]
+ duplex('contact',parts,'INFERRED contact DNA'if kind!='library'else'INFERRED library class')
+ if kind in {'joined','sonicated','column','purified','bound'}:
+  sc.note('contact','Ideal fully filled '+MBOI.name+' junction '+junction+' is derived from the recognition/cut declaration; selected genomic partners, complete occupied ends and actual biotin incorporation remain unassembled.')
+ return sc.rows()
+
+
+def molecular_walkthrough():
+ w=Workflow(MolecularState('Source-prepared crosslinked K562 chromatin',tuple(contact_class('chromatin'))),track_graph=False)
+ def step(title,kind,note):w.react(title,contact_class(kind),name=title,note=note)
+ step('1 · Digest prepared crosslinked chromatin with MboI','digested',
+      'Start with source-prepared 10⁷ crosslinked K562 cells. The defining HiCoP Methods names MboI, but upstream fixation allocation and detailed digestion conditions remain unassembled. The preceding CoP-only fixation/Tn5/HiSeq recipes are not substituted. Partner classes are local examples, not a declared genomic interaction or pair of measured fragments.')
+ step('2 · INFERRED — fill restriction ends with biotin-dCTP-containing supplies','filled',
+      'The source explicitly names biotin-labelled dCTP fill-in. The end views show an ideal fully filled MboI class derived from the canonical cut definition; actual end occupancy, polymerase identity/dose, remaining nucleotide mix and conversion are unassembled. Biotin is a covalently incorporated affinity handle, not a cell barcode or antibody input.')
+ step('3 · INFERRED — T4 DNA ligase joins filled contact ends','joined',
+      'Source T4 ligation creates contact DNA before the accessibility enrichment. The ideal fully filled local junction is computed from the MboI recognition and cut positions; it is not imported from a generic Hi-C recipe or presented as an observed whole genomic molecule. Unligated/background products and nonspecific interactions remain possible.')
+ step('4 · Sonicate; retain separate 40-µl input and 360-µl column allocation','sonicated',
+      'Wash, resuspend in 400 µl cold TE and sonicate on Q800R2 for 20 min, 15 s on / 25 s off at 60% amplitude. Save 40 µl input; the remaining 360 µl enters the CoP column. This local view follows a contact-bearing fragment class, not every sonicated molecule; break positions and junction recovery remain unassembled.')
+ step('5 · Silica-column selection happens before crosslink reversal','column',
+      'Use the named PCR purification column, DongSheng N1093; elute in 40 µl EB. The source attributes enrichment to preferential recovery of protein-free DNA rather than protein-bound chromatin. This physical selection occurs while crosslinked chromatin is still the input. It is distinct from an ordinary post-deproteinization DNA cleanup, and does not establish exclusive regulatory contacts or perfect purity.')
+ step('6 · RNaseA, proteinaseK and overnight crosslink reversal; recover DNA','purified',
+      'For the independently retained selected/input stocks: RNaseA 1 µl at source100 mg/ml, 37°C 30 min; ProteinaseK 5 µl at 10 mg/ml, 55°C 30 min; then 65°C overnight. Purify DNA into 50 µl EB and allocate Qubit QC. Source literal RNaseA concentration is retained. This stage follows the accessibility selection; saved input is not pooled into the selected HiCoP library.')
+ step('7 · Streptavidin C1 capture enriches biotin-bearing contact DNA','bound',
+      'Prepare 5 µl C1 beads at 10 mg/ml: prewash in 200 µl TWB, resuspend in 50 µl 2×binding buffer, add to recovered DNA and rotate 15 min at room temperature. Wash in 200 µl TWB at 55°C for 2 min with mixing, reclaim magnetically and repeat. Bound DNA remains with support for finishing. Biotin–streptavidin is affinity binding, not a new DNA junction or a covalent bond that must be cleaved.')
+ w.react('8 · INFERRED — repair and dA-tail the selected DNA ends',intended_atail_scene().rows(),
+      note='The source delegates end repair/dA-tailing to in-situ Hi-C. This is a cropped intended fragment-end view of the retained contact-DNA class, not loss of the internal junction or an assertion of every occupied end. Actual repair enzymes/doses, whole adapter bodies and exact source-version finishing geometry remain unassembled.')
+ step('9 · Add adapters; PCR 13–19 cycles and size-select','library',
+      'The source adds adapters to DNA fragments, amplifies with Illumina primers for 13–19 cycles, and selects using 0.55–0.75× VAHTS DNA Clean beads. Whole adapter/primer orders, sample-index architecture and occupied landing remain unassembled; no canonical kit shell is filled in. This is not the preceding CoP-only Tn5/five-cycle/qPCR branch.')
+ step('10 · Quantify and allocate the selected NovaSeq PE150 library','library',
+      'Use Qubit and physically allocate library for Illumina NovaSeq paired-end150. Untransferred stocks, saved input and discarded workup fractions remain distinct in the full graph. Exact index cycles and complete read-primer landing are not inferred from the platform label; contact calling and interaction filtering are subsequent computational analyses.')
+ return w
+
+
 def render_page():
  from page import head,caveat,table
  from chemdraw import panel
@@ -162,6 +217,8 @@ def render_page():
  '<main class="wrap" data-protocol-complete="true"><h1>HiCoP</h1><p>HiCoP combines contact ligation with silica-column enrichment of protein-free chromatin fragments. Biotin capture then retains contact-library DNA for adapter addition, PCR and paired-end sequencing.</p><p><a href="https://doi.org/10.1186/s13072-020-00348-6">Zhang et al., Epigenetics &amp; Chromatin (2020)</a> · <a href="01_hicop.html">Research note and evidence scope</a></p>',
  caveat('<strong>Partial molecular declaration from the published HiCoP procedure.</strong> Complete genomic contact products, occupied ends, exact adapter/primer bodies and read-primer landing sites remain unassembled. Column and affinity selection do not establish exclusive regulatory contacts. The intended substrate A-tail view below is inferred in an unresolved genomic context.'),
  '<h2>Preparation</h2><ol><li>Digest 10⁷ source-prepared crosslinked cells with MboI, fill with biotin-labelled dCTP and join contacts with T4 ligase.</li><li>Sonicate in 400 µl TE. Save 40 µl as input and column-select the remaining 360 µl before de-crosslinking.</li><li>Elute 40 µl, treat with RNase A and proteinase K, reverse crosslinks and purify DNA into 50 µl EB; retain an actual Qubit allocation.</li><li>Capture DNA on prepared C1 streptavidin beads and wash. Retain bead-associated DNA for end repair/dA-tailing and adapter addition.</li><li>Amplify 13–19 cycles, select with 0.55–0.75× VAHTS beads, quantify and allocate the library for sequencing.</li></ol>',
+ '<h2>Step by step</h2><p>INFERRED — these local ideal molecule classes explain the selected source operations. Filled MboI ends and the derived junction are conditional examples; complete genomic partners, occupied biotin/end geometry and library finishing remain unassembled.</p>',
+ workflow_panel(molecular_walkthrough(),caption='Contact formation, pre-decrosslink column selection, biotin capture and source library continuation'),
  '<h2>Known molecular parts</h2>',table(('Part','Role and limit'),(('Biotin-labelled dCTP','Source fill-in nucleotide and affinity handle; exact modified atom/linker and occupied sites unassembled.'),('Silica column','Physical enrichment occurs before crosslink reversal. Excluded material and saved input remain separate.'),('C1 streptavidin beads','5 µl at 10 mg/ml, prewashed and resuspended in 50 µl binding buffer; retained DNA proceeds to library finishing.'),('Illumina primer pair','Both PCR functional classes are explicit; whole bodies, sample-index architecture and occupied sites remain unresolved.'))),
  panel(intended_atail_scene().rows(),caption='INFERRED — intended source dA-tailed substrate class; occupied genomic fragment and adapter geometry unassembled'),
  '<h2>Read setup</h2><p>Illumina NovaSeq, paired-end 150 bases. Exact read-primer sites, index cycles and complete library molecules remain unresolved. No physical sample pool is invented.</p>',

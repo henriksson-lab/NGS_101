@@ -42,3 +42,12 @@ The known local adapter duplexes are declared fully. Actual genome insertions, o
 ## Public preparation page
 
 The public page displays the source-defined preparation, known local oligos/duplexes, read setup, unresolved molecular boundaries and all material fates. Analytical fractions have the QC material type. A curator-written inventory covers external inputs and operations; repetition is parameterized only by the source-defined sample/IVT counts, without scanning the graph to manufacture coverage. Passing this workflow gate does not establish the unassembled molecular transitions or complete source review.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read the published Chem-map Methods and followed its directly cited reference40 for the v2Ad1.x/v2Ad2.x primers. The official published Nature2015 Table1 (MOESM36 original XLSX, Sheet1 A/B cells) resolves the constant bodies and8ntorderedindex windows. All indexed source rows were compared against canonical-body assemblies; exact URL/file identity was checked in its external MANIFEST. Actual Chem-map index-member assignments remain unselected.
+
+🟢 Table1 names v2_Ad1.1_TAGATCGC and orders TAGATCGC in its index window. It names v2_Ad2.1_TAAGGCGA but orders TCGCCTTA, its reverse complement. The page preserves both source names and molecular orders; it does not convert them into an automatic samplesheet convention or assign those examples to the study. The protocol graph now supplies the verified primer families rather than wholly unassembled primer polymers. A normal doi: source route is recorded in catalogue/extra_sources.tsv.
+
+🟡 Ten visible steps retain independent reagent/drug/secondary-complex preparations, all five sample stocks, actual21of25µlPCR allocations and later balanced pooling. Tagmentation reference components no longer imply an assembled filled complementary strand. Conditional PCR boundaries retain unknown genomic/repair intervals and selected indexes; full occupied products/read landing and acquired index masks remain unresolved. The 2015 and G4 cellular recipes are not imported. This bounded positive-source presentation/primer pass does not complete source or reaction validation.

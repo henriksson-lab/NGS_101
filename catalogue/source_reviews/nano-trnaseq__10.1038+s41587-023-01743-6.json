@@ -39,6 +39,21 @@
       ],
       "oligo_scraper": "Mandatoryownerbundlelog/tmp/round39-nano-scraper.log plus rootrepeat/tmp/ngs39-nano-root-scraper.log. WholemodifiedTableS25rawXML andactualFig1bPDFp3viewed; RNAandDNAresiduesparsedwithoutlosingsugaridentity.",
       "verification": "16focusedchecksPASS; externalinputoligoguard4checked/0failed/0exceptions/1RMXunrepresented; chemistry4localestablishedrelations/20unresolved/0contradictory. Independent critical implementation recheck closed16PASS/same2originals."
+    },
+    {
+      "documents": 1,
+      "locations": "Published PMC10791586 Methods202/206, original rendered Fig1b PDFp3 and nearby Results; existing original MOESM3 TableS25 transcription suite rerun for complete modified orders.",
+      "findings": "Nine visible connected steps plus original modified oligo table distinguish two separate reagent-annealing branches and native-tRNA processing through padding, RTA, direct-addition protective RT and historical RMX. Known local pairing is retained; intended product order follows Fig1b and is marked inferred. Initial tRNA aminoacylation remains unassigned until deacylation.",
+      "deferred": [
+        "Occupied tRNA/end/splint register, exact sealed junctions, RT truncation extent and historical RNA002 motor/RMX geometry remain unassembled.",
+        "Native heterogeneous tRNA sequence and conversion yield not invented; no PCR or RNA004 kit continuation added."
+      ],
+      "oligo_scraper": "Ran complete external bundle; /tmp/nanotrna-presentation-primers.log (19 hits/3 files). Existing original TableS25 raw order fixture checks rerun; no new unrelated source recipe inherited.",
+      "verification": "Protocol suite, schematic build and pairing lint passed; priority53.5 to12.7. Published Fig1b visually inspected.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

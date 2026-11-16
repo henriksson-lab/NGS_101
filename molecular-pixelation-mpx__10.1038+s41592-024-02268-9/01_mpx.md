@@ -27,3 +27,12 @@ The public schematic covers the selected published preparation through its physi
 Main30minAOC/15000cells/30minUSER versusSI45min/20000cells/15minUSER; mainselected,SIcleanupseparatelyqualified. Full occupied molecular products, primer landing and unspecified read masks remain unassembled rather than silently supplied from another method or current kit.
 
 The source RCA, gap-fill and Q5 preparations retain their known contributing functions explicitly. Each RCA supply inventory yields co-present phi29, nucleotide substrates and buffer; each gap-fill supply inventory yields the source ligase/polymerase, dNTPs, NAD+ and buffer. The actual Q5 master mix supplies polymerase, nucleotides and buffer. These are component views of the same source additions, not fresh independent enzyme/nucleotide doses. Aggregate gap-fill/RCA packaging and stock counts are unassigned. No occupied product, yield or per-base concentration convention is inferred.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Published main Fig.1 and Methods describe independent A/B DNA-pixel production followed by two successive cell-surface neighborhood-transfer reactions. The visible walkthrough preserves main/SI differences and distinguishes exonuclease cleavage from physical washing.
+
+🟢 Published MOESM4 workbook Table S5 oligos (original sheet14, A2:D12) supplies pixel, splint, RCA-primer, GFP, PCR and BC1 orders. The original modification columns distinguish 5′ phosphate and BC1 3′ Azido-PEG4. Source transcription tests check those raw workbook cells; Table S4 maps BC1 to CD274.
+
+🟡 Two-repeat RCA excerpts are computed reverse complements with retained UPI feature identities. Their finite copy count, circle closure classes and reporter inventory drawings are explanatory. Exact occupied gap-fill geometry, final intact amplicon and read/index landing remain unassembled. This bounded presentation pass does not complete the source audit or promote chemistry validation.

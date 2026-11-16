@@ -28,3 +28,10 @@
 ## Limits
 
 Unreacted/off-target classes and residual fractions remain unresolved; no ideal molecular selection/yield is asserted. All concentrations/timing are source-qualified; full occupied cellular molecules, complete nonamer patterns and biochemical fixation products need further directly linked evidence. The public schematic retains these source and molecular limits. Publication checks cover the declared workflow and inventory; complete chemistry and the missing-information audit remain unfinished.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read published Methods181/227/237/239 and visually inspected original SupplementaryFigureS8 PDFp12. The public walkthrough now follows the actual multiplex preparation through direct RNA-splinted ligation, 2h37°C RCA, timed BS(PEG)9 anchoring and eight fresh sequencing-by-ligation rounds. The 20µl borate addition occurs halfway through fixation, not at time zero.
+
+🟡 New local successful plus/minus ligated-read classes preserve source end polarity: plus nonamer5P joins anchor3OH, minus nonamer3OH joins phosphorylated anchor5P. Nine-base nonamer bodies and occupancy remain inferred/unassembled; known anchor pairing is checked by Scene. Seven stripping intervals separate eight rounds, rather than eight successive extensions of one ligated chain. Perfect-match RNA, whole sample and reported-base mapping remain unresolved; no whole reaction/source review is claimed.

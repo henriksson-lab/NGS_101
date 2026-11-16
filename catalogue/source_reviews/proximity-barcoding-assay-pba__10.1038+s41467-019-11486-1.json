@@ -33,6 +33,21 @@
       "oligo_scraper": "Mandatory source-bundle scraper executed; only selected original source pointers were evidence. All used modifications/orderings checked against selected originals.",
       "locations": "PublishedmainFig1/Methods163\u2013187 andtagmeaning/sourceanalysisoverview; PublishedSI Note1 andTable1 selectedwholeAb1/padlock/template/blockorderings; originalp11 resolvesfive2primeO-methylUblocker andalternativeSTV-onlystarredrows",
       "verification": "44focusedchecks(PHOTON12/PSS16/PBA16);sourceguard9exact0failed0exceptions2unassembledover2graphs;scopedchemistry2established/57unresolved/0contradictory. PSS helper-only; complete products/read geometry unassembled."
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC6710248 mainMethods163–187; published SI1 original Table1 pages10–11 visually rendered and inspected, including underlined Ab1 proteinTag and terminal blocking-oligo mU notation.",
+      "findings": "Nine visible steps distinguish independent uracil-containing DNA RCA factory from exosome staining/capture, reporter extension, one UNG/Phusion source addition and two downstream amplification stages. Original Table1 underlining resolves Ab1 proteinTag at bases23–30 as AACAATGG; structured feature added separately from moleculeTag. Whole padlock/template/Ab1 reagent views now public.",
+      "deferred": [
+        "Selected actual antibody/pool assignments and correspondence between main PCR names and SI universal/index rows remain unassembled.",
+        "Occupied circle closure, reporter copy/stop geometry, full final construct and acquired read/index mask remain unassembled."
+      ],
+      "oligo_scraper": "Ran complete external bundle /tmp/pba-presentation-primers.log;18 hits/1 file. Selected source hits checked against original rendered SI1 Table1 pages10–11.",
+      "verification": "Protocol suite, page build and pairing lint passed; priority52.1 to15.0; five original-source transcription/modification guards added.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

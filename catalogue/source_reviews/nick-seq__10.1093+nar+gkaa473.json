@@ -104,6 +104,21 @@
       ],
       "oligo_scraper": "Mandatory whole existing bundle scraper: /tmp/unlinked-nick-preflight-scraper.log; Nick941hits/5representations, HydEn12hits/2representations. Nick genomic neighborhoods are not ordering oligos; HydEn concatenated table hit rejected against actual Table1p4. No absence inference.",
       "verification": "16 focused PASS; normal publication gate empty; source guard combined5exact0failed0exemptions2wholeunknownexternal; pairing0; scoped chemistry25steps/25unresolved0contradictory."
+    },
+    {
+      "documents": 1,
+      "locations": "Published PMC7337925 main Materials/Methods133–159 NT/TdT procedures and source Figure1 mechanism/caption163; separate nickase, iodine and EndoIV applications read for scope.",
+      "findings": "Ten visible molecular steps distinguish old dd-blocked ends, new nick3OH/5P ends, PolI PT-backbone copying and exonuclease digestion from the separate denature/TdT polyT branch. Separate nick-side fragments are placed against one intact complementary template using Scene rather than joining DNA across the nick.",
+      "deferred": [
+        "Historical SMART ChIP kit whole oligos, exact genomic coordinates, nick/copy occupancy, barcode member/index mask and negative-control upstream full production remain unassembled.",
+        "Original supplemental DOCX graphics retain historical unread status; no absence claim or substitute iodine/AP source recipe introduced."
+      ],
+      "oligo_scraper": "Ran complete source bundle /tmp/nick-presentation-primers.log;941 hits/5 files; no additional library oligo assigned from data/reference tables.",
+      "verification": "Protocol suite, schematic build and pairing lint passed; priority90.8 to34.3. Diagrams do not fabricate fixed genomic bases or tail length to improve triage score.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ]
 }

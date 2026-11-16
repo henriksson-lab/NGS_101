@@ -2,7 +2,8 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from chemdraw import Scene,Segment,feature
+from chemdraw import Scene,Segment,feature,MolecularState,Workflow,workflow_panel,complement_segments
+from protocol_model import role
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 class B:
     def __init__(self,title,authority,label):
@@ -131,6 +132,63 @@ def declare_page_scope(g):
         'loading','load_library','library',
     ), AUTHORITY)
 
+def molecular_class(kind):
+    sc=Scene()
+    if kind in {'engaged','runon'}:
+        dna=[role('native transcribed DNA interval',inferred=True)]
+        other=complement_segments(dna)
+        sc.strand('dna',dna,label='INFERRED genomic DNA')
+        sc.anneal('other',other,to='dna',pair=(other[0].name,dna[0].name),unpaired=(other[0].name,),label='DNA complement class')
+        rna=[role('pre-existing nascent RNA',inferred=True)]
+        if kind=='runon':rna.append(role('run-on RNA extension containing 4-thiouridine',inferred=True))
+        sc.strand('rna',rna,label='INFERRED extended RNA'if kind=='runon'else'INFERRED nascent RNA')
+        return sc.rows()
+    if kind=='library':
+        dna=[role('historical directional-kit end / sample index',molecular_feature=feature('fastgro.sample','sample_index','unknown'),inferred=True),
+             role('cDNA copied from enriched run-on RNA',inferred=True),role('other historical library end',inferred=True)]
+        other=complement_segments(dna);sc.strand('dna',dna,label='INFERRED cDNA library')
+        sc.anneal('other',other,to='dna',pair=(other[-1].name,dna[0].name),unpaired=tuple(x.name for x in other),label='DNA complement class')
+        return sc.rows()
+    rna=[role('run-on RNA fragment containing incorporated 4-thiouridine',inferred=True)]
+    state={'isolated':'Extracted labelled RNA; no genomic DNA–RNA covalent join',
+           'fragmented':'Sonicated RNA population; positions and end chemistry unassembled',
+           'biotin':'RNA–S–S–biotin adduct class; not a phosphodiester backbone modification',
+           'bound':'Biotin-associated RNA retained on streptavidin support',
+           'released':'DTT-released thiol-labelled RNA; biotin adduct reductively cleaved',
+           'clean':'Purified enriched RNA after column DNase; not perfectly pure'}.get(kind,kind)
+    sc.strand('rna',rna,label='INFERRED enriched RNA')
+    if kind in {'isolated','fragmented','biotin','bound','released','clean'}:
+        sc.strand('spike',[role('separate prepared labelled Drosophila RNA spike',inferred=True)],label='Separate RNA spike')
+    sc.note('rna',state)
+    if kind in {'biotin','bound'}:
+        sc.note('rna','HPDP provides the reversible disulfide-linked biotin affinity handle; exact modified sites and atom map remain unassembled.')
+    if kind=='bound':sc.note('rna','Streptavidin–biotin is an affinity interaction. It is distinct from the covalent RNA-associated disulfide that DTT reduces.')
+    return sc.rows()
+
+
+def molecular_walkthrough():
+    w=Workflow(MolecularState('INFERRED — engaged transcription complexes in source cells',tuple(molecular_class('engaged'))),track_graph=False)
+    def step(title,kind,note):w.react(title,molecular_class(kind),name=title,note=note)
+    step('1 · Isolate nuclei while preserving engaged transcription complexes','engaged',
+         'Start with 5–20 million cells: cold PBS washes, swelling buffer 5 min on ice, glycerol wash, then 1% Igepal lysis and two nuclei washes. Freeze nuclei on dry ice and store at −80°C; thaw on ice for run-on. The source freezing-buffer pH, concentration and EDTA notation differences remain listed below. No purified RNA polymerase is added.')
+    step('2 · Nuclear run-on incorporates 4-thio-UTP into new RNA','runon',
+         'Mix nuclei with an equal volume of prewarmed run-on buffer and incubate 7 min at 30°C. Resident engaged polymerases extend existing RNA. The added buffer lists ATP, GTP and 4-thio-UTP at 500 µM each and CTP at 2 µM; these are not relabeled as final mixed concentrations. Actual genomic bases, extension length and label occupancy remain unassembled.')
+    step('3 · Extract RNA; allocate up to 150 µg and add prepared RNA spike','isolated',
+         'TRIzol LS extraction, source ethanol precipitation and water resuspension precede Qubit quantification. Selected route adds 5–10% prepared labelled Drosophila RNA after run-on rather than spiking nuclei before run-on. Percentage basis and exact spike dose remain unassigned. Spike molecules are separate from sample RNA.')
+    step('4 · Sonicate RNA and compare fragment QC with an unfragmented aliquot','fragmented',
+         'Bioruptor UCD-200 high setting, 1–5 cycles of 30 s on / 30 s off. The run-on label is retained on label-bearing fragments. TapeStation uses separate analytical allocations; its QC material is not returned to the production stock. Fragment boundaries and chemical ends are not invented.')
+    step('5 · Couple HPDP-biotin to incorporated thiols','biotin',
+         'Published standard route: 200 µg/ml HPDP-biotin, 20 mM Tris pH7.5, 2 mM EDTA and 40% DMF; 2 h at 25°C in the dark, 800 rpm. A reversible disulfide links the RNA-associated thiol and biotin-containing adduct. Ethanol precipitation follows. This is not the separate low-input MTS-biotin recipe.')
+    step('6 · Streptavidin capture, hot washes and room-temperature washes','bound',
+         'Prepare 100 µl M280 streptavidin beads per sample with two washes; capture 15 min at 4°C with rotation. Wash three times at 65°C and three times at room temperature in the stated Tris/EDTA/NaCl/Tween buffer. Nonselected material leaves with supernatants. Label-specific capture does not prove quantitative recovery or perfect removal of background.')
+    step('7 · DTT reduces the disulfide and releases labelled RNA','released',
+         'Use source 100 mM DTT. Reduction removes the biotin-associated disulfide adduct and releases RNA from the affinity support; it does not cleave a covalent biotin–streptavidin bond or establish conversion to ordinary unmodified uridine. Residual bead material remains a distinct outcome. The cited export’s self-referential second-release instruction is not silently reconstructed.')
+    step('8 · Column-bind, digest DNA on column, wash and elute RNA','clean',
+         'The standard route uses Zymo RNA Clean and Purification with in-column DNase before final wash/elution. Quantify recovered RNA by Qubit and allocate it to library preparation. This differs from assigning the low-input route’s earlier TURBO DNase step to the standard workflow.')
+    step('9 · Make a barcoded directional cDNA library; sequence on NextSeq500','library',
+         'The paper names NEBNext Ultra II Directional RNA preparation. Its historical whole oligos, internal fragmentation/RT/strand-marking schedule, index width/values, primer landing and run lengths remain unassembled. The diagram marks those ends as inferred roles and does not fill them with a modern kit recipe. Loading and untransferred library stock remain separate physical fates.')
+    return w
+
 PAGE_FILE = 'fastgro.html'
 
 def render_page():
@@ -180,6 +238,9 @@ def render_page():
     claims=check_graph(g)
     audit=('<h2>Molecular validation scope</h2>'+table(('Claim status','Computed count'),tuple((s.value,str(sum(c.status==s for c in claims)))for s in Status))
            +'<p>The complete graph below retains unresolved molecular transitions, QC allocations, discarded capture fractions and untransferred stock remainders.</p>')
-    return assemble_page(g,[head('fastGRO — nuclear run-on and reversible RNA capture'),overview,audit,WorkflowSection('Complete preparation and material fates'),PlanLimitationSection('library'),'<p><a href="01_fastgro.html">Research note and source comparison</a></p></div>'])
+    return assemble_page(g,[head('fastGRO — nuclear run-on and reversible RNA capture'),overview,
+        '<h2>Step by step: extend RNA, label its thiols, capture and release</h2><p>INFERRED — these molecular-class drawings show source-supported changes and retained components. Unknown biological sequences, occupied transcription bubbles and modified-base coordinates remain bracketed; the terminal library is a role-level class, not a validated whole construct.</p>',
+        workflow_panel(molecular_walkthrough(),caption='Standard HPDP-biotin route; prepared RNA spike, not nuclei spike'),audit,
+        '<details><summary>Complete preparation, allocations and model warnings</summary>',WorkflowSection('Complete preparation and material fates'),'</details>',PlanLimitationSection('library'),'<p><a href="01_fastgro.html">Research note and source comparison</a></p></div>'])
 
 if __name__=='__main__':selftest()

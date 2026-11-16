@@ -62,6 +62,21 @@
       ],
       "oligo_scraper": "Mandatorywholebundle rerun; Epi40hits2files/FastGRO2hits2files, pointersnotfacts. Epi sixwholeorder/namecells independentlyrechecked; FastGROsourceknownclass/noadoptedexactlibraryoligos.",
       "verification": "17focusedPASS; localpagebuild+note build; sourceguard10exact0failed; chemistry33steps37unresolved0contradictory. Typedpublication_problems=[]; duplexlint0."
+    },
+    {
+      "documents": 1,
+      "locations": "Published PMC6059479 main Methods170 Epi-Decoder(TAG-ChIP-Barcode-Seq),174 barcode counting and178 preprocessing; existing original S7 whole primer transcription tests rerun.",
+      "findings": "Nine visible connected steps distinguish shared chromatin preparation, separate input/TAP-IP recoveries, four PCRs and actual pooled contributions. New computed read-primer views show the custom UP/DN read oligos as complete forward-primer suffixes against inferred PCR-reference complements. Twenty-base reporter features remain separate from unknown flanks and six-base sample indexes.",
+      "deferred": [
+        "Selected source genomic alleles/barcodes, sample-index members, full occupied sonicated/PCR products and read/index cycle masks remain unassembled.",
+        "Source fix-solution stock/final concentration convention retained; no ADE2 workflow, exact PCR schedule or perfect ChIP selection inferred."
+      ],
+      "oligo_scraper": "Ran complete external bundle /tmp/epidecoder-presentation-primers.log;40 hits/2 files. Whole S7 PCR/read orders checked by existing original workbook suite; relevant PCR pairs/plate distinctions verified in published main Methods.",
+      "verification": "Protocol suite, schematic build and pairing lint passed; priority62 to21.0. Local read-primer complementarity enforced by Scene, not a claim of full source allele validation.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

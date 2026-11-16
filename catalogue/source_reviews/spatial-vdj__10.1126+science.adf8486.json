@@ -156,6 +156,36 @@
         "Source-linked historical indexing and capture geometry remain deferred as previously recorded."
       ],
       "verification": "Protocol52 checks pass; page builds and duplex-pairing lint passes."
+    },
+    {
+      "round": "2026-11-16-index-read-feasibility",
+      "documents": 3,
+      "reviewer": "primary-curator-parallel-data-review",
+      "date": "2026-11-16",
+      "scope": "Bounded read-data feasibility only; no full reaction/source or accepted absence review.",
+      "locations": "Same final published article Methods1645–1668/SRanalysis1693–1698/dataavailability1764; direct EGA EGAD00001011062 metadata; direct Zenodo7961605 ZIP64 central directory and four CRC-validated small README/analysis/report text members.",
+      "findings": "Raw FASTQs require controlled EGA access. Public SR TRA/TRB .vdjca and exported matrix.tsv are concrete read-derived candidates. Actual public TRB report verifies MiXCR3.0.13 saveOriginalReads=true on already preprocessed/merged input,43,999 reads. Trimming/consensus provenance remains unresolved; no biological read-bearing member fetched.",
+      "access": "Public ZIP metadata read with HTTP206 ranges; inspected archive-size25609313924 / central-directory587380bytes /2965entries. Small TRB report CRC32fe9b1c96 verified. No full ZIP, FASTQ, BAM or .vdjca downloaded.",
+      "deferred": [
+        "Bounded manifested matrix.tsv target-sequence sample or version-compatible MiXCR export; verify read fields/trimming/consensus and retained technical tails.",
+        "If technical ends were removed, authorized pre-trim R1/R2 plus sample sheet/index or original oligo records are needed.",
+        "Read-supported copied endpoint sequence alone cannot uniquely determine the original primer order, modifications or equivalent PCR design; existing chemistry remains unassembled."
+      ]
+    },
+    {
+      "round": "2026-11-16-public-target-sequence-sample",
+      "documents": 1,
+      "reviewer": "primary-curator-public-data-followup",
+      "date": "2026-11-16",
+      "scope": "Separate capped follow-up of one directly linked public archive member; first 100 processed alignment rows only, not original sequencer reads or accepted absence review.",
+      "locations": "Zenodo7961605/SpatialVDJ_forZenodo_resubmission.zip member SpatialVDJ_forZenodo/data/tonsil/2_SR-SpatialVDJ/TRB/Tonsil_merged.matrix.tsv; exact source ZIP headers and bounded131072-byte compressed member prefix.",
+      "findings": "Inspected only TSV targetSequences fields in the first 100 exported TRB rows /200 target strings,100x35nt and100x259nt. Saved-input VDJCA contents and raw EGA reads were not inspected; cloneId alone does not establish clone consensus. No exact full or12/16/20nt window of canonical P5/P7/TruSeqRead1/Read2 or source PartRead1 on either orientation. No informative technical read-through in this first 100-row sample; no whole-study absence or primer-order inference.",
+      "provenance": "Sample SHA2564dab7e97e6e6e17dea09d44ad66931c0d456b969e4ab46d37034c5e9c003dc62. External CHEM_DATA/read_samples/spatial-vdj__10.1126+science.adf8486/index-tail-probe-2026-11-16/ sample, manifest and derived summary. Whole-member CRC retained from exact central directory, not verified from partial prefix.",
+      "verification": "Protocol-local standard-library sampler enforces max-reads1–100, compressed-prefix cap, exact HTTP206 intervals (including suffix total), member name/CRC/sizes/layout, existing and incoming sample hashes, external storage and byte-line trimming before UTF8. Offline24-check sampler suite passed; no further downloads. No complete .vdjca or ZIP downloaded.",
+      "deferred": [
+        "Informative shorter-insert pre-trim paired reads, qualities and sample/index data or original indexing-oligo records.",
+        "Complete original primer synthesis order/modifications cannot be uniquely inferred from a chemically equivalent copied endpoint alone."
+      ]
     }
   ],
   "linked_information": {

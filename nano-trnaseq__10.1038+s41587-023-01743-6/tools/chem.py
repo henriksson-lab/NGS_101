@@ -5,7 +5,8 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / 'lib'))
-from chemdraw import Scene, Segment, revcomp
+from chemdraw import Scene, Segment, revcomp, MolecularState, Workflow, workflow_panel
+from protocol_model import role
 from adapter_ligation import AdapterLigationGeometry
 from protocol_graph import (ProtocolGraph, MaterialKind as K, InputRole as R,
                             StepKind as S, Terminal, Disposition, SequencingPlan, SourceItem, SourceCoverage)
@@ -290,6 +291,57 @@ def _publication_coverage(g):
     return g.require_publishable()
 
 
+def tRNA_class(kind):
+    sc=Scene()
+    native=[role('native tRNA; sequence unknown',inferred=True),
+            Segment('mature tRNA NCCA end','NCCA',inferred=True,
+                    note='Source mature-tRNA recognition class, not a selected occupied yeast molecule or UMI')]
+    if kind in {'input','deacylated'}:
+        sc.strand('rna',native,label=('INFERRED input tRNA'if kind=='input'else'INFERRED deacylated tRNA'))
+        return sc.rows()
+    # Figure1b identifies the intended dual-end padded RNA order. It does not
+    # establish a unique occupied ligation product, tRNA sequence or conversion.
+    parts=[Segment('source RNA5 padding',bases('rna5'),inferred=True,note='24 RNA residues; terminal N is a binding discriminator, not UMI')]
+    parts+=native
+    for sugar in ('RNA','DNA'):
+        seq=''.join(base.replace('U','T')for block,base in residues(RAW['rna3'])if block==sugar)
+        parts.append(Segment('source RNA3 '+sugar+' block',seq,inferred=True,note=sugar+' sugar; from complete modified source ordering'))
+    sc.strand('rna',parts,label='INFERRED padded tRNA')
+    if kind in {'rta','rt','motor'}:
+        sc.note('rna','RTA is ligated at the 3′ poly(A)-containing padding end. The complete Y duplex is shown separately; exact poly(A)/T-tail register and full joined complex remain unassembled.')
+    if kind in {'rt','motor'}:
+        sc.strand('cdna',[role('protective cDNA companion; extent and RT truncation unassembled',inferred=True)],
+                  label='INFERRED protective cDNA')
+    if kind=='motor':
+        sc.note('rna','Historical RNA002 RMX/motor is attached after RT cleanup. Whole RMX strands and motor occupancy remain unresolved; native RNA is the nanopore read substrate.')
+    return sc.rows()
+
+
+def molecular_walkthroughs():
+    reagents=Workflow(MolecularState('Separate source padding oligos',tuple(oligo_scene('rna5').rows()+oligo_scene('rna3').rows())),track_graph=False)
+    reagents.react('1R · Anneal RNA5 and mixed RNA3:DNA padding oligos',padding_scene().rows(),
+        note='1:1 molar ratio, final 50 ng/µl, 10 mM Tris pH7.5 / 50 mM NaCl and RNasin. Heat 75°C 15 s, then cool to 25°C at 0.1°C/s. RNA3 has a source 5′ phosphate and three terminal DNA A residues. The calculated paired core preserves whole orders and sugar blocks; it is a reagent duplex, not a complete tRNA ligation product.')
+    rta=Workflow(MolecularState('Separate source RTA A/B DNA oligos',tuple(oligo_scene('rta_a').rows()+oligo_scene('rta_b').rows())),track_graph=False)
+    rta.react('1T · Anneal the source RTA A/B pair independently',rta_scene().rows(),
+        note='The paper orders the source RTA-equivalent DNA oligos from IDT and anneals them under the padding annealing conditions. RTA A is 5′ phosphorylated. The divergent arms are not forced into an extra duplex; unused prepared stock remains distinct from the aliquot added to tRNA.')
+    sample=Workflow(MolecularState('INFERRED — commercial native total yeast tRNA, selected branch',tuple(tRNA_class('input'))),track_graph=False)
+    sample.react('2 · Deacylate and recover tRNA',tRNA_class('deacylated'),
+        note='Commercial S. cerevisiae total tRNA AM7119 in 10 µl water plus 95 µl 100 mM Tris pH9, 37°C 30 min. Recover with the source ≥17-nt Zymo cleanup, increasing ethanol to 1.3× after RNA Prep Buffer; use a separate TapeStation allocation. The product class is shown after deacylation; no actual heterogeneous tRNA sequence or occupied aminoacyl state is invented.')
+    sample.react('3 · INFERRED — ligate both padding ends with T4 RNA ligase2',tRNA_class('padded'),
+        note='Use prepared padding at tRNA:padding 1.2:1, with source assumed average tRNA length 90 nt for allocation. In 50 µl: 20% PEG8000, 1× Rnl2 buffer, 4 µl in-house 6 mg/ml T4 RNA ligase2 and 1 µl RNasin; room temperature 2 h. Figure1b supports the intended dual-end padding order. Exact occupied NCCA/splint register, sealed junctions, incomplete ligation and product yields remain unassembled.')
+    sample.react('4 · Clean up padded RNA, quantify and select 200 ng',tRNA_class('padded'),
+        note='2× RNAClean XP, 15 min at room temperature, fresh 70% ethanol wash and water elution for 10 min. RNA-HS Qubit consumes an analytical aliquot. Only 200 ng of padded tRNA enters the next reaction; unused sample and adapter stocks are not implicitly consumed.')
+    sample.react('5 · INFERRED — ligate preannealed RTA to the padding tail',tRNA_class('rta'),
+        note='Approximately 4.3 pmol / 200 ng padded tRNA plus 8.6 pmol RTA (RNA:RTA 1:2). In 15 µl: 1× Quick Ligation buffer, fresh 1.5 µl T4 DNA ligase and 0.5 µl RNasin; room temperature 30 min. The source 3′ padding poly(A) segment supports RTA annealing. Complete poly(A)/T register and whole ligated Y complex remain unassembled.')
+    sample.react('6 · Protective RT is added directly to the ligation reaction',tRNA_class('rt'),
+        note='Add the entire 25 µl master (13 µl water, 2 µl 10 mM dNTPs, 8 µl 5× Maxima buffer and 2 µl Maxima H Minus RT) directly to the 15 µl ligation reaction. Incubate 60°C 1 h, 85°C 5 min, then 4°C; clean with 2× RNAClean XP. Native RNA persists. cDNA may truncate at modified bases and is protective support, not an assertion of complete copying or an RNA-to-DNA readout switch.')
+    sample.react('7 · INFERRED — add historical RNA002 RMX sequencing adapters',tRNA_class('motor'),
+        note='After RT cleanup, perform a separate 40 µl ligation with fresh 3 µl T4 DNA ligase, 6 µl RMX and 1× Quick Ligation buffer; room temperature 30 min. This is distinct from the earlier 1.5 µl ligase addition. Whole historical RMX/motor geometry remains unassembled; no current RNA004 reagent is substituted.')
+    sample.react('8 · Recover and load the native-RNA library',tRNA_class('motor'),
+        note='2× RNAClean XP, 10 min; two 150 µl WSB washes; elute in 20 µl ELB for 10 min. Add 17.5 µl water and 37.5 µl vortexed RRB; keep on ice. QC/prime/load FLO-MIN106 using SQK-RNA002. There is no source PCR in this selected route; protective cDNA is not the native RNA that passes through the pore.')
+    return reagents,rta,sample
+
+
 def render_page():
     from page import head,caveat,table
     from chemdraw import panel
@@ -299,6 +351,10 @@ def render_page():
       '<main class="wrap" data-protocol-complete="true"><h1>Nano-tRNAseq</h1><p>RNA splint adapters pad native tRNAs before RNA002 motor-adapter preparation. Reverse transcription adds protective cDNA; the RNA remains the nanopore sequencing substrate.</p><p><a href="https://doi.org/10.1038/s41587-023-01743-6">Defining published article</a> · <a href="01_nano-trnaseq.html">Research note and source scope</a></p>',
       caveat('<strong>Selected published preparation.</strong> This page follows the commercial total yeast tRNA branch in Methods202/206 and the original TableS25 oligos. It does not assemble an occupied biological tRNA, complete ligation junctions or the historical RNA002 RMX/motor complex. Known local duplexes are reagent views, not proof of a unique product or perfect ligation.'),
       '<h2>Preparation</h2><ol><li>Deacylate commercial total yeast tRNA and recover RNA with the source ≥17-nt cleanup; allocate a separate TapeStation assay.</li><li>Anneal the RNA5 and mixed RNA3:DNA splint adapters, allocate prepared stock and ligate with T4 RNA ligase2. Clean up, quantify an analytical aliquot and select 200 ng padded RNA.</li><li>Ligate the preannealed RTA duplex in 15 µl. Add the entire 25 µl Maxima RT master directly to that reaction, then clean up.</li><li>Add historical RNA002 RMX with a fresh 3 µl T4 DNA ligase contribution, recover in 20 µl ELB and add water/RRB. Keep stock and loading allocations distinct.</li></ol>',
+      '<h2>Step by step</h2><p>INFERRED — reagent duplexes use the published oligos. Product-class drawings follow Figure1b and retain unknown tRNA sequence, occupied joins, RT extent and RMX/motor geometry as explicit limits. T represents U only in displayed RNA sequence blocks; the complete modified orders below retain source sugar notation.</p>',
+      *(workflow_panel(w,caption=caption)for w,caption in zip(molecular_walkthroughs(),('Prepare the padding reagent','Prepare RTA separately','Selected native yeast tRNA preparation: padding, protective RT and nanopore loading'))),
+      '<h2>Published complete oligo orders</h2>',table(('Component','Modified source order, 5′ to 3′'),tuple(RAW.items())),
+      '<p>r prefixes denote RNA sugars; bare bases denote DNA. /5Phos/ is a source 5′ phosphate. The RNA5 terminal N is a discriminator-binding class, not a barcode. Order notation is retained rather than replaced with a DNA-only sequence.</p>',
       '<h2>Known molecular parts</h2>',table(('Part','Source-supported role and limit'),(('RNA5','24 RNA residues, including the terminal source N discriminator-binding class. It is not a UMI.'),('RNA3:DNA','30 RNA residues followed by three DNA A residues. Source written rA followed by AAAA includes one RNA A plus three DNA A, not four DNA residues.'),('RTA A/B','Known whole DNA oligos and paired stem with divergent arms. Poly(A)/T-tail binding register and occupied tRNA junction remain unassembled.'),('RMX','Actual historical motor-adapter inventory; whole strands, motor and chemical ends remain unresolved. No RNA004 component is substituted.'))),
       panel(padding_scene().rows(),caption='Published padding reagent duplex; source sugar blocks retained, complete tRNA acceptor not drawn'),
       panel(rta_scene().rows(),caption='Published RTA reagent duplex with divergent Y arms; source-known local pairing only'),

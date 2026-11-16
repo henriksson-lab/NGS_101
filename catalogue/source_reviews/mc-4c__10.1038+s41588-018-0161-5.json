@@ -48,6 +48,20 @@
         "PublishedSI2reportingsummary/otherworkbookTable1 notread; no chemistry irrelevance or complete versionaudit asserted."
       ],
       "oligo_scraper": "Mandatorywholebundle scan; selectedsourcewholeoligos followedtoactualoriginaltable/PDF/ZIPXML. No scraperabsence inference."
+    },
+    {
+      "documents": 2,
+      "locations": "Published institute-hosted original ResultsMC-4C strategy text85–108, Methods1606–1642/1670–1682; source HS2 primer orders independently checked in published Table2 XLSX by existing test.",
+      "findings": "Visible concatemer→secondary-digest circle→Cas9-opened template→bounded HS2 amplicon→historical ONT boundary. VP-cut parental intervals retained; Cas9 linearization distinguished from perfect depletion; source FWD/REV ends computed.",
+      "deferred": [
+        "Exact genomic contact order/sites, full guide RNA/scaffold and historical ONT adapter/kit-flowcell geometry remain unassembled."
+      ],
+      "oligo_scraper": "Rerun across cached bundle: source DNA orders verified by existing Table2 XML transcription fixture.",
+      "verification": "Protocol suite/page build pass; pairing lint0. Presentation score92.2→12.0; source molecular limitations retained.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

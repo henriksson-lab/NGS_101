@@ -1,7 +1,10 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from chemdraw import Scene,Segment,revcomp,feature
+from chemdraw import (Scene,Segment,Construct,revcomp,feature,complement_segments,
+                     MolecularState,Workflow,workflow_panel)
+from protocol_model import role,closed_circle
+from restriction import DPNII
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
@@ -112,6 +115,73 @@ def _publication_scope(g):
         g.declare_reviewed_scope(('pcr'+str(number)+'_stock','pcr'+str(number)+'_components','pcr'+str(number)),AUTHORITY)
     return g.require_publishable()
 
+def contact_parts():
+    return [role('viewpoint end toward contacts',inferred=True),
+            Segment('first DpnII ligation junction',DPNII.site,inferred=True),
+            role('contact fragment A',inferred=True),
+            Segment('next DpnII ligation junction',DPNII.site,inferred=True),
+            role('other contacts; order unknown',inferred=True),
+            role('other viewpoint end',inferred=True)]
+
+
+def class_scene(kind):
+    sc=Scene()
+    if kind in {'chromatin','fragments'}:
+        for j,label in enumerate(('viewpoint fragment','contact fragment A','contact fragment B')):
+            top=[role(label if kind=='fragments'else label.replace('fragment','genomic interval'),inferred=True)];bottom=complement_segments(top)
+            sc.strand('f'+str(j),top,label='INFERRED — '+label)
+            sc.anneal('b'+str(j),bottom,to='f'+str(j),pair=(bottom[0].name,top[0].name),
+                      unpaired=(bottom[0].name,),label='Complement class')
+        sc.note('b2','Separate restriction fragments; occupied contacts / ligation probability unassembled.'if kind=='fragments'else'Uncut genomic interval references in crosslinked chromatin, not pre-created restriction fragments; exact loci / contacts unassembled.')
+        return sc
+    if kind=='circle':
+        return closed_circle('INFERRED — one reference strand of a duplex multi-contact circle',
+            tuple(contact_parts()+[role('viewpoint interval between inverse primers; VP guide target',inferred=True)]),
+            closure_label='secondary ligation closure; exact HindIII junction unassembled')
+    if kind=='amplicon':
+        parts=[Segment('HS2 FWD primer-derived end',ORDERS['FWD'],'r1')]+contact_parts()+[
+            Segment('HS2 REV primer-derived end',revcomp(ORDERS['REV']),'r2')]
+    elif kind=='ont':
+        parts=[role('historical ONT end; unresolved',inferred=True),
+            Segment('HS2 FWD boundary',ORDERS['FWD'],'r1')]+contact_parts()+[
+            Segment('HS2 REV boundary',revcomp(ORDERS['REV']),'r2'),
+            role('other ONT end; unresolved',inferred=True)]
+    elif kind=='linearized':
+        parts=[role('VP-cut to FWD interval',inferred=True)]+contact_parts()+[
+            role('REV to VP-cut interval',inferred=True)]
+    else:parts=contact_parts()
+    bottom=complement_segments(parts);sc.strand('top',parts,label='INFERRED contact DNA')
+    sc.anneal('bottom',bottom,to='top',pair=(bottom[-1].name,parts[0].name),
+              unpaired=tuple(p.name for p in bottom if p.is_role_token()),label='DNA complement')
+    if kind=='linearized':sc.note('bottom','VP-guide cleavage opens the circle between the inverse-primer sites; contact-spanning primer directions now converge on a linear template.')
+    return sc
+
+
+def molecular_walkthrough():
+    w=Workflow(MolecularState('INFERRED — crosslinked chromatin before DpnII digestion',
+                              tuple(class_scene('chromatin').rows())),track_graph=False)
+    def step(title,kind,note):w.react(title,class_scene(kind).rows(),name=title,note=note)
+    step('1a · DpnII restriction digestion in crosslinked chromatin','fragments',
+         'Digest source crosslinked chromatin to create restriction fragments. The unknown interval references are not declared exact genomic cuts, positions or contacts. Subsequent joining is a separate operation below.')
+    step('1b · Proximity ligation retains multi-contact concatemers','concatemer',
+         'Published Results and Figure1 describe 3C-derived DNA concatemers containing fragments captured in spatial proximity. The fetal-liver route uses DpnII in 500 µl and a 2 ml first ligation. Canonical DpnII junctions are shown, but actual genomic fragment identities/orientations, ligation ends and regular4C conditions remain unassembled. Brackets are variable classes, not an invented genomic sequence.')
+    step('2 · Reverse crosslinks and purify; digest with HindIII overnight','concatemer',
+         'Release ligation products from the chromatin complexes, precipitate on NucleoMag P-beads and perform the secondary digest. The source uses HindIII for HS2; SacI for Man1A is a different branch. This trims the original long concatemers into PCR-compatible multi-contact templates; exact HindIII coordinates remain unassigned.')
+    step('3 · Heat-inactivate the enzyme; dilute ligation at DNA 5 ng/µl','circle',
+         'The secondary restriction fragments are circularized by diluted ligation. A circle can contain the viewpoint and several contact fragments. The drawn reference-strand order is illustrative; source-specific fragment lengths and exact closure bases are not established by this region-level map. Purify on P-beads and a Qiagen PCR column.')
+    step('4 · Three Cas9/guide preparations cut viewpoint and flanking targets','linearized',
+         'The Results distinguish two purposes: the viewpoint guide cuts between the outward-facing inverse-PCR primers to reduce rolling-circle amplification, while flanking-fragment guides suppress abundant uninformative templates. Thus Cas9 is not simply a perfect removal step. Each source guide allocation is 600 ng with 15 pmol Cas9 in 300 µl for 30 min at room temperature; add all three to 20 µg template for 3–6 h at 37°C. Actual occupied targets and cleavage products remain unassembled.')
+    step('5 · SDS inactivate Cas9, purify and allocate 96 separate PCRs','linearized',
+         'Add 1/25 volume of 10% SDS, 70°C 5 min, followed by 0.6× AMPure. Each of 96 physical PCRs receives 100 ng treated template in 25 µl. These are distinct template allocations, not 96 copies of one molecule. Cut/unreacted/off-target classes remain in the source mixture until the stated workup; neither guide sequence templates nor analysis filtering establish perfect depletion.')
+    step('6 · HS2 FWD / REV viewpoint PCR, 31 cycles','amplicon',
+         'Use the literal HS2 primer orders shown below with PhireII: 98°C 30 s; 31 cycles of 98°C 10 s / 57°C 20 s / 72°C 90 s; 72°C 5 min. The expected bounded product contains a primer-derived FWD end, captured contact fragments and the reverse complement of REV at the opposite reference-strand boundary. The outer VP-cut intervals remain on parental templates; PCR bounds the new product rather than degrading those intervals. No complete genomic primer-site alignment or exact amplicon is claimed.')
+    step('7 · Pool all 96 products; clean 1 ml and select 1.5–8 kb','amplicon',
+         'The source pools after PCR, selects 1 ml for 0.6× AMPure cleanup/size selection, then uses Pippin HT to retain 1.5–8 kb products. Source fragment filters affect which long molecules reach sequencing; they do not introduce molecular barcodes.')
+    step('8 · Historical ONT preparation and MinION sequencing','ont',
+         'The publication lists SQK-NSK007, SQK-LSK108 or SQK-LSK208 and the contemporary R9/R9.4/R9.5 flow cells. It does not establish their assignment for this displayed molecule. Bracketed adapter/motor/end classes mark that unresolved boundary; no current ONT adapter recipe is substituted. Long reads preserve several contact junctions; computational far-cis/trans-fragment fingerprints are not synthetic UMIs.')
+    return w
+
+
 def render_page():
     from page import head,caveat,table
     from chemdraw import panel
@@ -119,7 +189,9 @@ def render_page():
     g=protocol_graph()
     return assemble_page(g,[head('MC-4C'),'<main class="wrap" data-protocol-complete="true"><h1>MC-4C</h1><p>Long-read multi-contact chromatin libraries with viewpoint-specific amplification and Cas9 depletion of uninformative template classes.</p><p><a href="https://doi.org/10.1038/s41588-018-0161-5">Defining published article</a> · <a href="01_mc-4c.html">Research note</a></p>',
       caveat('Selected published fetal-liver HS2 preparation, beginning with prepared crosslinked chromatin. Regular4C base conditions, occupied genomic contact molecules, complete guideRNA bodies, ligation/PCR products and historical ONT adapters/kit-flowcell assignment remain unassembled. Partial DNA guide-template primers below are not reconstructed functional guideRNAs. The workflow records source operations and actual stocks, not complete reaction validation or perfect Cas9 depletion.'),
-      '<h2>Preparation</h2>',table(('Stage','Source operation'),(('Template','DpnII first digest/ligation, crosslink reversal and recovery; HindIII second digestion and diluted circularization. Regular4C details remain compound.'),('Deplete','Prepare three RNA guides from overlap-PCR/T7 templates; each600ng guide preincubates with15pmolCas9 in300µl. Add all three preparations to20µg MC4C template.'),('Amplify','Allocate96 separate100ng templates to25µl PhireII reactions,31cycles; pool all96actual products and select1ml for0.6xAMPure cleanup/size selection.'),('Finish','PippinHT1.5–8kb, historicalONT library kit, then selected MinION loading contribution; untransferred stocks remain separate.'))),
+      '<h2>Step by step: contacts → circles → viewpoint-spanning reads</h2>',
+      '<p>The visible workflow distinguishes a multi-contact concatemer, a secondary-digest circle, Cas9-opened template and the bounded PCR product. Its bracketed regions are inferred molecular classes, not measured genomic coordinates. Exact source primer boundaries are shown only where amplification contributes those primers.</p>',
+      workflow_panel(molecular_walkthrough(),caption='MC-4C selected HS2 route: proximity ligation, circularization, Cas9 opening, inverse PCR and long-read library boundary'),
       '<h2>Source HS2 primer inventory</h2>',table(('DNA oligo','Whole source ordering'),tuple((name,ORDERS[name])for name in ('FWD','REV','gRNA_A_template','gRNA_VP_template','gRNA_B_template'))),
       '<h2>Read setup and scope</h2><p>The source lists SQK-NSK007, SQK-LSK108 or SQK-LSK208 and R9/R9.4/R9.5 flow cells according to the run. Exact kit-to-flowcell assignment and primer landing remain unassembled; no current ONT constructor is substituted.</p><p>Primary/secondary contact classification, validity filtering and far-cis/trans-fragment fingerprints are computational analyses. They do not physically remove molecules and are not synthetic UMIs. Supplementary Figure5 compares ligation-derived contact classes; it is not an extra wet cleanup.</p>',
       '<details><summary>Complete source preparation, all96PCRs and unresolved transitions</summary>',WorkflowSection('Actual physical preparation and fractions'),PlanLimitationSection('library'),'</details></main>'])

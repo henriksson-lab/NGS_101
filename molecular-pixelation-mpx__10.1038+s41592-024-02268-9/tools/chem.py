@@ -3,7 +3,10 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from protocol_graph import ProtocolGraph, MaterialKind as K, InputRole as R, StepKind as S, SourceItem,SourceCoverage, SequencingPlan, Terminal, Disposition
-from chemdraw import Scene,Segment
+from chemdraw import (Scene,Segment,Construct,MolecularState,Workflow,workflow_panel,
+                     revcomp,feature)
+from protocol_model import role,closed_circle
+from illumina import P5,P7,TRUSEQ_READ1,TRUSEQ_READ2
 from adapter_ligation import AdapterLigationGeometry
 from circular import CircularizationGeometry
 from pcr import PCRGeometry
@@ -162,12 +165,132 @@ def selftest():
     c('Selected reviewed preparation passes normal publication gate',g.publication_problems(),[])
     g.input('unreviewed_addition','Regression-only unreviewed stock',K.CONDITION)
     c('New stock cannot auto-publish',any('unreviewed_addition' in p and 'source-inventory' in p for p in g.publication_problems()),True)
+    from checks import Source,have
+    from storage import sources_root
+    import zipfile,xml.etree.ElementTree as E
+    source=sources_root()/Path(__file__).resolve().parents[1].name/'s41592-024-02268-9_supp_41592_2024_2268_MOESM4_ESM.xlsx'
+    if have(c,Source(source,'https://doi.org/10.1038/s41592-024-02268-9')):
+        with zipfile.ZipFile(source)as z:
+            ns={'s':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+            ss=[''.join(x.itertext())for x in E.fromstring(z.read('xl/sharedStrings.xml')).findall('s:si',ns)]
+            cells={}
+            for x in E.fromstring(z.read('xl/worksheets/sheet14.xml')).findall('.//s:c',ns):
+                v=x.find('s:v',ns)
+                if v is not None and x.get('t')=='s':cells[x.get('r')]=ss[int(v.text)]
+        for letter,row in (('A',2),('B',4)):
+            left,right,splint,primer=PIXEL_ORDERS[letter]
+            c('Original '+letter+' padlock order',cells['D'+str(row)],left+'N'*25+right)
+            c('Original '+letter+' 5prime phosphate',cells['B'+str(row)],'Phosphate')
+            c('Original '+letter+' splint',cells['D'+str(row+1)],splint)
+            c('Original '+letter+' RCA primer',cells['D'+str(6 if letter=='A'else 7)],primer)
+        for name,row in (('ILM_p5_PCR',10),('ILM_p7_PCR',11)):
+            c('Original modified '+name,cells['D'+str(row)],PCR_ORDERS[name])
+        c('Original modified B_GFP',cells['D9'],GFP_ORDERS['B_GFP'])
+        c('Original A_GFP body',cells['D8'],GFP_ORDERS['A_GFP'].removeprefix('/5Phos/'))
+        c('Original A_GFP 5prime phosphate',cells['B8'],'Phosphate')
+        c('Original BC1 body',cells['D12'],''.join(s.top for s in reporter_parts()))
+        c('Original BC1 conjugation end',cells['C12'],'Azido-PEG4')
     c.report()
 
 
+# Published MOESM4 workbook, Table S5 oligos (sheet14, cells A2:D12).
+# Modification columns were checked in the original XLSX XML, not inferred from names.
+PIXEL_ORDERS = {
+ 'A': ('TGGTTAGGCGAATTGGACGAGG', 'GGAACTCGAGGAATGTAAGACC',
+       'CCTCGTCCAATTCGCCTAACCAGGTCTTACATTCCTCGAGTTCC', 'CTCGTCCAATTCGCCTAACCAG'),
+ 'B': (TRUSEQ_READ1[4:], 'CTGCCTGTGTATCCTGATGTTG',
+       'AAGAGCGTCGTGTAGGGAAAGACAACATCAGGATACACAGGCAG', 'AGAGCGTCGTGTAGGGAAAGAC'),
+}
+GFP_ORDERS = {'A_GFP': '/5Phos/CTGCCTGTGTATCCTGATGTTGGTTAGGCGAATTGGACGAGG',
+              'B_GFP': 'mU'*5+TRUSEQ_READ1[4:-4]}
+def _terminal_ps3(seq):
+ return seq[:-3]+''.join('*'+base for base in seq[-3:])
+
+
+PCR_ORDERS = {
+ 'ILM_p5_PCR': P5+'[Index_8nt]'+_terminal_ps3(TRUSEQ_READ1[:24]),
+ 'ILM_p7_PCR': P7+'[Index_8nt]'+_terminal_ps3(TRUSEQ_READ2[:20]),
+}
+
+def pixel_parts(letter):
+ left,right,_,_=PIXEL_ORDERS[letter]
+ return (Segment(letter+' first arm',left),
+         Segment(letter+' UPI','N'*25,'cbc',feature=feature('mpx.pixel_'+letter.lower(),'molecular_complex_barcode','random',note='Pixel neighborhood identifier; not a preassigned cell barcode')),
+         Segment(letter+' second arm',right))
+
+def pixel_rows(letter,kind):
+ parts=pixel_parts(letter);_,_,splint,primer=PIXEL_ORDERS[letter]
+ if kind=='circle':
+  return list(closed_circle(letter+' circular RCA-template class',parts,
+       closure_label='INFERRED — closed template backbone; yield and occupied splint geometry unassembled').rows())
+ sc=Scene()
+ if kind=='linear':
+  sc.strand('padlock',list(parts),label=letter+' Pix_PL · 5′ phosphate')
+  sc.strand('splint',[Segment(letter+' PLT',splint)],label=letter+' Pix_PLT · separate oligo')
+  sc.note('splint','Source RCA-primer order (separate reagent inventory): '+primer+'. Its dosing/occupied initiation complex is unassembled here; this row does not add an extra primer to the ligation tube.')
+ else:
+  # Display two repeated copies only as an explicitly inferred finite excerpt.
+  from dataclasses import replace
+  repeat=[replace(part,top=revcomp(part.top),inferred=True)for part in reversed(parts)]
+  excerpt=[replace(part,name=part.name+' copy '+str(copy))for copy in (1,2)for part in repeat]
+  sc.strand('pixel',excerpt,
+            label='INFERRED '+letter+' RCA · 2 repeats')
+  sc.note('pixel','Backbone excerpt is normalized to the DNA T alphabet. Positions copied with dUTP would contain U instead; the source per-pixel nucleotide formulation and exact modified positions remain unassembled.')
+ return sc.rows()
+
+def reporter_parts():
+ # One literal published BC1 reporter; source Table S4 maps BC1 to CD274.
+ return [Segment('BS1','GGAACTCGAGGAATGTAAGACC'),
+        Segment('AOC UMI','N'*10,'umi',feature=feature('mpx.aoc_umi','umi','random')),
+        Segment('CD274 BC1','TCCCTTGC','cbc',feature=feature('mpx.protein_bc1','feature_barcode','fixed',note='Published BC1 example, CD274')),
+        Segment('AOC PCR end','AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC')]
+
+def reporter_rows(stage):
+ sc=Scene();parts=reporter_parts()
+ if stage=='aoc':
+  sc.strand('aoc',parts,label='Source BC1 reporter')
+ else:
+  # Ordered intact products require a full gap-fill / ligation model, not role concatenation.
+  sc.strand('aoc',parts,label='BC1 component reference')
+  for letter in ('A','B'):
+   if letter=='B' and stage in {'a','released'}:continue
+   sc.strand('gained_'+letter,[role(letter+' neighborhood UPI incorporated into reporter',length_bp=25,
+        molecular_feature=feature('mpx.pixel_'+letter.lower(),'molecular_complex_barcode','random'),inferred=True)],
+        label='INFERRED '+letter+'-UPI inventory')
+ if stage=='library':
+  sc.strand('ends',[role('indexed Illumina PCR ends; whole amplicon unassembled',inferred=True)],
+            label='INFERRED library ends')
+ return sc.rows()
+
+def molecular_walkthroughs():
+ factories=[]
+ for letter in ('A','B'):
+  w=Workflow(MolecularState('Separate '+letter+' pixel reagents',tuple(pixel_rows(letter,'linear'))),track_graph=False)
+  w.react('1'+letter+' · Circularize the pixel template',pixel_rows(letter,'circle'),
+      note='300 nM template and 200 nM padlock, 400 U T4 DNA ligase, 50 µl, 37°C 30 min then 75°C 10 min. Source names and whole orders are shown separately; occupied splint geometry and closure yield remain unassembled.')
+  w.react('2'+letter+' · Exonuclease I / III, then allocate circle stock to RCA',pixel_rows(letter,'circle'),
+      note='10 U ExoI and 20 U ExoIII, 37°C 30 min then 85°C 20 min. Linear substrates are enzymatically degraded, not physically removed by this arrow. Only an aliquot supplying 5 nM template enters 75 µl RCA; remaining stock and digestion products are not assumed absent.')
+  w.react('3'+letter+' · Phi29 rolling-circle amplification; rSAP treatment',pixel_rows(letter,'rca'),
+      note='7.5 U phi29, 0.75 mM source dAUGC or dNTP formulation, 37°C 4 min then 65°C 10 min. rSAP 1 U, 37°C 20 min then 65°C 5 min inactivates free nucleotides; it does not purify away DNA. The reverse-complement repeat excerpt illustrates copying direction, not whole pixel length or the per-pixel nucleotide formulation.')
+  factories.append(w)
+ assay=Workflow(MolecularState('Prepared antibody–oligo reporter stock and cells before staining',tuple(reporter_rows('aoc'))),track_graph=False)
+ assay.react('4 · Fix, block, stain and stabilize bound AOCs',reporter_rows('aoc'),
+      note='Main-article route: 1% PFA 15 min at room temperature; blocking 15 min at 4°C; 80 AOCs each 5 µg/ml, 30 min at 4°C; secondary antibody 20 µg/ml, 30 min at 37°C. Wash between stages. The BC1 order is one published example, not the complete 80-reagent panel or perfect target occupancy.')
+ assay.react('5 · A pixels hybridize; gap filling and ligation transfer A-UPIs',reporter_rows('a'),
+      note='15,000 stained cells, 1 nM A pixels and 2 µM A-GFP in 50 µl; 55°C 15 min then wash. T4 DNA polymerase 3 U, Taq ligase 40 U, 100 µM dNTPs and 0.5 mM NAD+, 37°C 20 min, then wash. A pixel can contact several nearby reporters. Inventory rows distinguish acquired UPI from a fully validated occupied junction.')
+ assay.react('6 · USER degrades A pixels; wash before adding B pixels',reporter_rows('released'),
+      note='Main route: USER 1 U in 50 µl, 37°C 30 min, then wash. The copied A-neighborhood identifier remains on reporters; the large A-pixel scaffold is degraded. Cleavage and physical washing are distinct operations. The source nucleotide alternatives and exact uracil positions remain unassembled.')
+ assay.react('7 · B-pixel hybridization and second gap-fill ligation',reporter_rows('ab'),
+      note='Use the corresponding B-pixel/B-GFP reaction, with the same reported hybridization and gap-fill conditions. Each intended reporter now records an A neighborhood and a B neighborhood, in addition to its antibody identity and molecular UMI. B-UPI is not a second sample index or predetermined cell label.')
+ assay.react('8 · Allocate fewer than 1,000 cells; lambda exonuclease',reporter_rows('ab'),
+      note='15 µl reaction: lambda exonuclease 10 U, 100 µM dNTPs, 1 mM NAD+ in rCutSmart; 37°C 30 min then 75°C 10 min. This targets incomplete products with unprotected 5′ ends; it does not establish perfect removal or a pure intact reporter population.')
+ assay.react('9 · Indexed Q5 PCR, two SPRI cleanups and sequencing',reporter_rows('library'),
+      note='40 µl PCR with the source ILM_p5_PCR / ILM_p7_PCR orders, each 0.4 µM, containing separate 8-nt sample indexes. SI supplies the 30-of-40-µl cleanup allocation. Quantify and load 0.65 nM with 15% PhiX on NextSeq2000: Read1 44 cycles, Read2 78. Exact amplicon junctions, read landing and index masks remain unassembled. Pixelator reconstructs neighborhood graphs computationally.')
+ return (*factories,assay)
+
 PAGE_FILE = 'molecular_pixelation.html'
 def render_page():
-    from page import head,info
+    from page import head,info,table
     from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
     g=protocol_graph().require_publishable()
     return assemble_page(g,[head('Molecular pixelation'),'<div class="wrap" data-protocol-complete="true"><h1>Molecular pixelation</h1>',
@@ -175,7 +298,11 @@ def render_page():
       info('Source: <a href="https://doi.org/10.1038/s41592-024-02268-9">Molecular pixelation: spatial proteomics of single cells by sequencing</a>, published main and Supplementary Protocol. This page selects the main-article fixed-cell route. Antibody conjugates are prepared stocks; CD3 capping, rituximab and uropod perturbations are separate experiments.'),
       '<h2>Published instruction differences</h2>',info(SOURCE_DIFFERENCES),
       '<h2>Molecular components</h2><p>The antibody cocktail contains 80 conjugates. Each independent A/B pixel factory circularizes source template/padlock oligos, treats linear substrates with exonucleases, allocates circle preparation to phi29 RCA and treats remaining free nucleotides with rSAP. The assay then uses selected portions of these pixel stocks; it does not circularize the cells or consume every prepared stock in full.</p>',
-      '<p>Protein identifiers, antibody-oligo UMIs, pixel UPIs and eight-base sample indexes have distinct meanings. UPIs describe molecular neighborhoods, not predetermined cell barcodes. Exact source oligo bodies, variable-window coordinates, occupied complexes, sealed junctions and primer landing are unassembled here. No illustrative whole construct is substituted for them.</p>',
+      '<p>Protein identifiers, antibody-oligo UMIs, pixel UPIs and eight-base sample indexes have distinct meanings. UPIs describe molecular neighborhoods, not predetermined cell barcodes. Selected literal pixel, gap-fill, PCR and BC1 orders from published Table S5 are shown below. Whole occupied complexes, sealed junctions, final amplicon order and primer landing remain unassembled; no complete construct is substituted for them.</p>',
+      '<h2>Step by step</h2><p>INFERRED — the two pixel-factory diagrams show literal source oligos and a computed repeat excerpt. Reporter diagrams separate retained and newly acquired components; they do not claim assembled occupied complexes, exact gap-fill junctions or a complete final amplicon.</p>',
+      *(workflow_panel(w,caption=caption)for w,caption in zip(molecular_walkthroughs(),('Independent A-pixel reagent factory','Independent B-pixel reagent factory','Cell-bound reporter: two successive neighborhood-labeling reactions'))),
+      '<h2>Published gap-fill and indexing oligos</h2>',table(('Oligo','Source order, 5′ to 3′'),tuple(GFP_ORDERS.items())+tuple(PCR_ORDERS.items())),
+      '<p>Table S5 also gives the pixel orders above and the BC1 example. /5Phos/ denotes the separate 5′ phosphate column; BC1 carries 3′ Azido-PEG4. mU denotes the source 2′-O-methyl uridines, and * marks source phosphorothioate linkages. Index values remain study-specific.</p>',
       '<h2>Preparation and reads</h2><p>Fix, block and stain cells, then stabilize bound conjugates with secondary antibody. Hybridize A pixels, perform gap filling and ligation, cleave A pixels with USER and wash. Repeat hybridization and gap filling with B pixels. Count cells and allocate fewer than 1,000 to the lambda-exonuclease/PCR branch. Purify the selected PCR portion twice and quantify before physical PhiX addition.</p>',
       info('The source sequence run is NextSeq 2000 paired-end 44 + 78 cycles with 15% PhiX. Full read/index masks remain unresolved. SI Step 4 supplies the separately qualified 30-of-40-µl PCR cleanup allocation. Pixelator graph reconstruction and filtering are computational, not additional physical purification.'),PlanLimitationSection('library'),
       '<details><summary>Full preparation, pixel factories and chemistry warnings</summary>',WorkflowSection('Source-qualified main-article preparation'),'</details>',

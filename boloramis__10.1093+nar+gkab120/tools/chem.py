@@ -3,7 +3,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from dataclasses import dataclass
-from chemdraw import Scene,Segment,Construct,revcomp,feature
+from chemdraw import Scene,Segment,Construct,revcomp,feature,MolecularState,Workflow,workflow_panel
+from protocol_model import role,closed_circle
 from circular import circularize_ssdna,rolling_circle,CircularizationGeometry
 from adapter_ligation import AdapterLigationGeometry
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition,SourceCoverage,MolecularRelation as MR
@@ -42,7 +43,7 @@ def rca_scene():
     pieces=[]
     for i in range(product.copies):
         pieces.extend([Segment('repeat'+str(i)+' primer',unit[:copy_start]),Segment('repeat'+str(i)+' copied4code',unit[copy_start:copy_end],feature=feature('boloramis.actn1.copy','feature_barcode','fixed',group='boloramis.actn1',part='copied_5_to_8',note='Copiedcomplementofsource4ntredundanttargetcode, notUMI')),Segment('repeat'+str(i)+' arms',unit[copy_end:start]),Segment('repeat'+str(i)+' targetbarcode',needle,feature=feature('boloramis.actn1.code','feature_barcode','fixed',group='boloramis.actn1',part='whole_targetcode',note='Complementarycopy ofsourceACTN1code, notnewUMI')),Segment('repeat'+str(i)+' right',unit[start+len(needle):])])
-    sc=Scene();sc.strand('RCA',[x for x in pieces if x.top],label='DerivedDNA backbone repeat example; aminoallyl-dU positions/occupancyunassembled');return sc
+    sc=Scene();sc.strand('RCA',[x for x in pieces if x.top],label='RCA DNA · 3 illustrative repeats');return sc
 
 def sequencing_anchor_scene(minus=False):
     product=rca();u=product.unit;site=revcomp(ANCHOR);assert u.count(site)==1
@@ -163,6 +164,45 @@ def selftest():
     c('Unreviewedadditioncannotautopublish',any('unreviewed_added_stock' in p and 'source-inventory' in p for p in g.publication_problems()),True);c.report()
 
 PAGE_FILE = 'boloramis.html'
+def ligated_read_scene(minus=False):
+    # A local, inferred successful ligation class, not a fully specified nonamer
+    # or a claim about the fluorescence-to-reported-base cycle offset.
+    sc=Scene();parts=[x for x in rca_scene().strands['RCA'].segs if x.name.startswith('repeat0 ')]
+    sc.strand('RCA',parts,label='RCA local window')
+    anchor=Segment('source anchor',ANCHOR)
+    nonamer=role('nonamer',length_bp=9,inferred=True)
+    product=[nonamer,anchor]if minus else[anchor,nonamer]
+    sc.anneal('ligated read',product,to='RCA',pair=('source anchor','repeat0 primer'),
+              unpaired=(nonamer.name,),mod5='dye'if minus else'',mod3=''if minus else'source dye',
+              label='INFERRED '+('minus'if minus else'plus')+' ligation')
+    left,right=(nonamer.name,anchor.name)if minus else(anchor.name,nonamer.name)
+    sc.junction('ligated read',left,right,text='INFERRED — 3′OH + 5′P sealed by T4 DNA ligase')
+    return sc
+
+
+def molecular_walkthrough():
+    sc=Scene();sc.strand('rna',[role('native cellular RNA; whole molecule unassembled',inferred=True)],label='INFERRED cellular RNA')
+    w=Workflow(MolecularState('Cellular RNA before preparation',tuple(sc.rows())),track_graph=False)
+    w.react('1 · Fix and permeabilize the co-culture',sc.rows(),
+        note='4% PFA for 15 min, PBS rinse, then 0.25% TritonX100 for 15 min. The actual multiplex experiment contains 957 mRNA probes targeting 96 mRNAs plus 77 miRNA probes; it is not replaced by an invented ACTN1 singleplex. Cell/RNA/protein context remains copresent while subsequent diagrams focus on one selected DNA component.')
+    w.react('2 · INFERRED — hybridize the ACTN1 padlock arms onto an RNA target',ConditionalRNAMatch().scene().rows(),
+        note='Actual 10 µM multiplex padlock pool with RCA primers at 1:1 molar ratio, 1 h at 37°C in 10% formamide / 6×SSC; wash before ligation. This is a local conditional zoom: the 25-nt RNA is computed from the exact 18-nt and 7-nt source arms, not an independently verified occupied ACTN1 transcript. Both DNA arm rows belong to the same 60-nt covalent padlock, whose backbone continues off-panel.')
+    w.react('3 · SplintR seals the DNA ends on the RNA splint',closed_circle('Selected successful DNA-circle component; RNA/cellular context retained',tuple(probe()),
+        closure_label='Source 3′OH / 5′P padlock closure; occupied perfect-match RNA context inferred').rows(),
+        note='Source SplintR 210 nM (1:50), 1 h at room temperature, then three hybridization-buffer rinses. The padlock 3′ hydroxyl and 5′ phosphate are ligated directly on RNA; no reverse transcription is required. The circle is one successful component, not all probes converted or unligated/off-target products proven absent. Native RNA/cell context is not removed by changing the diagram focus.')
+    w.react('4 · Retained RCA primer directs Phi29 rolling-circle amplification',rca_scene().rows(),
+        note='Use the retained source mRNA RCA primer, not an invented fresh oligo addition. The actual mix supplies Phi29 1 U/µl, 250 µM dNTPs, 40 µM aminoallyl-dUTP and 200 µg/ml BSA in 1×Phi29 buffer, 2 h at 37°C, followed by three 5-min washes in 2×SSC. The backbone is computed from the exact circle and primer. Three displayed repeats are illustrative; actual copy number and aminoallyl-dU positions/occupancy remain unassembled. Barcode copies identify ACTN1 target identity, not unique cells or RNA molecules.')
+    w.react('5 · Anchor RCA products to surrounding proteins with BS(PEG)9',rca_scene().rows(),
+        note='After MES rinse, begin 172 µl water + 4 µl 500 mM MES + 4 µl BS(PEG)9. At 15 min add 20 µl 1 M borate and continue to 30 min total; quench with 1 M Tris pH8 and rinse PBS three times. This links aminoallyl groups to copresent proteins to reduce spot movement. It is not a new DNA-backbone ligation, and the complete fixation mixture is not present at time zero. Adduct stoichiometry and whole sample remain unassembled.')
+    w.react('6 · Add fresh sequencing anchors for an imaging round',sequencing_anchor_scene().rows()+sequencing_anchor_scene(True).rows(),
+        note='Use the source plus and 5′-phosphorylated minus anchors, with co-pooled miRNA anchors retained in the actual preparation. Dilute 100 µM stocks 1:100 in 6×SSC / 10% formamide; incubate 15 min, wash three times in 6×SSC and rinse ligase buffer. The drawings are local views of persistent RCA, not physical fragmentation or two new amplicons. Exact nonamer patterns and cycle offsets remain unassembled.')
+    w.react('7 · INFERRED — ligate fluorescent nonamers on either anchor side',ligated_read_scene().rows()+ligated_read_scene(True).rows(),
+        note='Source S8 gives plus nonamers 5′P / 3′dye and minus nonamers 5′dye / 3′OH; the minus anchor supplies its 5′P. The inferred successful products show the corresponding 3′OH–5′P joins. Actual 200 µl mix: 168 µl water, 10 µl T4 DNA ligase, 2 µl 100 µM nonamer stock, 20 µl 10×buffer; 45–60 min at room temperature. Cy5, TexasRed, Cy3 and FAM labels are source-known, but complete nine-base patterns, occupied pairings and reported-base mapping remain unassembled.')
+    w.react('8 · Image, strip read oligos and repeat eight imaging rounds',rca_scene().rows(),
+        note='After three 6×SSC washes, image the fixed sample in place; imaging does not consume an aliquot. Between rounds, strip at 80°C three times for 3 min in 80% formamide / source Triton mixture, then rinse 6×SSC three times. Seven stripping intervals separate eight fresh anchor/nonamer rounds: these are not eight consecutive polymerase extensions or a growing covalent sequencing chain. The fixed RCA backbone persists; miRNA exclusion is downstream computational analysis.')
+    return w
+
+
 def render_page():
     from page import head,info
     from chemdraw import panel
@@ -172,6 +212,8 @@ def render_page():
     return assemble_page(g,[head('BOLORAMIS — RNA-splinted padlocks'),'<div class="wrap" data-protocol-complete="true"><h1>BOLORAMIS</h1>',
       '<p>Identify RNA targets directly in fixed cells using barcoded DNA padlocks. SplintR closes probes on RNA without reverse transcription; Phi29 rolling-circle amplification produces localized copies for eight rounds of nonamer sequencing by ligation.</p>',
       info('Sources: <a href="https://doi.org/10.1093/nar/gkab120">Liu et al., NAR 2021</a>, published main, Supplementary Tables and Figure S8. The actual multiplex experiment contains 957 mRNA probes and 77 miRNA probes. One ACTN1 probe is shown in detail; the other real pool members remain copresent and unexpanded in this model.'),
+      '<h2>Step by step</h2><p>INFERRED — the RNA match and successful ligated-read examples are conditional molecular classes. Whole occupied RNA/cell complexes, nonamer patterns and fluorescence-to-reported-base offsets remain unassembled. Native cellular context persists when the drawings zoom into the DNA component.</p>',
+      workflow_panel(molecular_walkthrough(),caption='Direct RNA-splinted padlock closure, localized RCA and repeated sequencing-by-ligation imaging'),
       '<h2>Probe and barcode</h2><p>The selected 60-nt probe has an 18-nt arm, a copied 4-nt target code, a 23-nt anchor, the complete 8-nt target code, and a 7-nt arm. The copied code repeats the last four bases of the eight-base code. These codes identify a target gene, not a cell or a unique RNA molecule.</p>',OligoSection('Source oligos',tuple(entries)),
       '<h2>RNA-splinted closure</h2>',info('INFERRED — the illustrated 25-nt RNA is calculated from perfect complementarity to the source probe arms. Its transcript sequence and actual occupied complex have not been independently verified. Inferred RNA bases are marked below. The two displayed DNA end tracts belong to one covalent padlock whose backbone continues off-panel.'),
       panel(ConditionalRNAMatch().scene().rows(),caption='INFERRED — conditional perfect-match RNA splint; source probe 5′ phosphate and 3′ hydroxyl meet at the closure nick.'),

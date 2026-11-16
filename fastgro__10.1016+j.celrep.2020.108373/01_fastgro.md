@@ -39,3 +39,10 @@ Whole RNA/engaged-complex/adduct structures, exact4sU occupancy, specificity/rec
 ## Public page scope
 
 The public page follows the selected published standard preparation and displays the source/protocol differences above. Four analytical allocations are typed QC materials. A literal curator-written source inventory covers each external input, operation and sequencing endpoint. Passing that gate establishes reviewed workflow coverage and terminal fates, while the computed molecular relations remain unresolved. Historical kit/index/readout facets are labelled unassigned in the model rather than filled from a modern kit recipe.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read the published Cell Reports Results492–508 and Methods2218–2240 (printed page e3) for standard run-on, HPDP-biotin affinity capture and reductive release. Standard and low-input DNase/biotin chemistry remain distinct; source/export differences are retained.
+
+🟡 Nine visible connected class-level states distinguish resident transcription polymerase from an added enzyme, RNA spike from nuclei spike, reversible disulfide labeling from streptavidin affinity and DTT release from backbone degradation. Unknown biological sequences, label occupancy and the historical library continuation remain explicitly unassembled. No source or absence review is completed by this presentation change.

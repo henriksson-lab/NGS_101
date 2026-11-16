@@ -33,3 +33,12 @@ Kit originals, reference 20 treatment details, original read-primer landing and 
 ## Public preparation page
 
 The source-qualified page now has a validated protocol graph with explicit source inventories and correctly typed QC allocations. It shows the source-supported preparation and read setup while retaining unresolved kit bodies, occupied molecular states and complete read geometry. Full workflow fractions and chemistry limitations remain visible in an expandable section. The publication gate does not establish a complete molecular reconstruction or an absence audit.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read the published NAR Methods for AMT/365nm crosslinking, selected TRIzol/DNase route,10µgpolyA capture,254nm photoreversal, RNaseR split and10ngtreated/25nguntreated Collibri libraries followed by NextSeq550SE150. The public page now leads with a connected shared workflow and separate treated/control molecular-class workflows.
+
+🟡 Circular RNA is shown as a pre-existing closed backbone, not a circle made by AMT. Crosslinking preserves candidate RNA duplex associations; poly(A) capture uses the mRNA as the capture handle. Unknown tail and capture-oligo lengths remain role tokens. No complete occupied duplex, literal RNA body or phosphodiester partner ligation is manufactured. Photoreversal separates the associated molecules rather than concatenating their sequences. RNaseR enriches the treated branch without a claim of perfect circular specificity or absent digestion products.
+
+The actual sequenced output is a cDNA library, not RNA directly fed into Illumina. Complete Collibri adapter/strand-marking/index structures and kit-internal reaction order remain unresolved. The untreated CLiPP comparison remains a separate preparation and computational partner-candidate analysis, not a physically joined paired-RNA read. Source graph and validation-completeness status remain unchanged.

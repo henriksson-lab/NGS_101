@@ -1,7 +1,9 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from chemdraw import Scene,Segment,feature
+from chemdraw import (Scene,Segment,feature,revcomp,complement_segments,
+                     MolecularState,Workflow,workflow_panel)
+from protocol_model import role
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition
 from pcr import PCRGeometry
 class B:
@@ -146,6 +148,66 @@ def declare_page_scope(g):
 
 PAGE_FILE = 'epi-decoder.html'
 
+def amplicon_parts(locus):
+    fw=ORDERS['2B_'+locus+'_Fw'];read=ORDERS['2B_'+locus+'_Seq']
+    rv=ORDERS['2B_'+locus+'_Rv_all'];p7,foot=rv.split('N'*6)
+    if not fw.endswith(read):raise ValueError('Custom read oligo must be retained as a complete forward-primer suffix')
+    return [Segment(locus+' P5-side primer prefix',fw[:-len(read)],inferred=True),
+            Segment(locus+' custom sequencing site',read,inferred=True),
+            role(locus+' flank, if any',inferred=True),
+            role(locus+' reporter barcode',length_bp=20,inferred=True,
+                 molecular_feature=genomic_reporter().strands['HO reporter partial context'].segs[0 if locus=='UP'else 2].feature),
+            role(locus+' other flank, if any',inferred=True),
+            Segment(locus+' reverse genomic foot',revcomp(foot),inferred=True),
+            Segment(locus+' reverse-complement sample index','N'*6,inferred=True,
+                    feature=feature('epidecoder.sample','sample_index','unknown',note='Source input/IP plate index; selected member unassigned')),
+            Segment(locus+' P7-side boundary',revcomp(p7),inferred=True)]
+
+
+def amplicon_rows():
+    sc=Scene()
+    for locus in ('UP','DN'):
+        sc.strand(locus,amplicon_parts(locus),label='INFERRED BC_'+locus+' PCR')
+    return sc.rows()
+
+
+def read_binding_scene(locus):
+    top=amplicon_parts(locus);bottom=complement_segments(top)
+    sc=Scene();sc.strand('reference',top,label='INFERRED '+locus+' reference')
+    sc.anneal('complement',bottom,to='reference',pair=(bottom[-1].name,top[0].name),
+              unpaired=tuple(x.name for x in bottom if x.is_role_token()),label='Intended complement')
+    sc.anneal('custom read',[Segment(locus+' supplied custom read primer',ORDERS['2B_'+locus+'_Seq'])],
+              to='complement',pair=(locus+' supplied custom read primer',locus+" custom sequencing site'"),
+              label='Source custom read primer')
+    return sc
+
+
+def molecular_walkthroughs():
+    def reporter():return genomic_reporter().rows()
+    common=Workflow(MolecularState('HO/KanMX reporter in the pooled yeast library',tuple(reporter())),track_graph=False)
+    common.react('1 · Fix the pooled, TAP-tagged yeast culture and quench',reporter(),
+        note='Grow pooled colonies to log phase, OD660 about 0.4. Add one-tenth culture volume of source Fix Solution for 20 min; quench with final 125 mM glycine for 5 min. Source prints 1% formaldehyde in that solution; stock/final convention remains unresolved. Each clone links an endogenous tagged protein to two reporter identities; fixation does not install new DNA barcodes.')
+    common.react('2 · Lyse, sonicate and separate input from TAP-ChIP material',reporter(),
+        note='Approximately 1.5×10⁹ cells: bead-beat in 200 µl breaking buffer, wash in FA buffer, Bioruptor PICO 10 min at 30 s intervals and clarify. Allocate 100 µl chromatin as INPUT and 1 ml to IP; keep untransferred stock distinct. Sonication changes fragment boundaries, not the clone-linked barcode sequences. The reporter diagram is a source locus reference, not an assertion that both barcodes remain on every sonicated fragment.')
+    branches=[]
+    for fate in ('INPUT','IP'):
+        w=Workflow(MolecularState('Separate '+fate+' chromatin allocation',tuple(reporter())),track_graph=False)
+        if fate=='IP':
+            w.react('3IP · IgG-Sepharose captures TAP-associated chromatin',reporter(),
+                note='Prewash IgG-Sepharose6 FastFlow three times in PBS/BSA. Capture from the separate 1 ml chromatin aliquot for 6 h at 4°C with rotation. Wash twice FA, twice high-salt FA, twice RIPA and once TE; elute in 100 µl SDS-containing buffer, 65°C 10 min. Reporter enrichment reflects protein association and background; this is not DNA barcode ligation or perfect occupancy selection.')
+        w.react('4'+fate+' · Recover de-crosslinked DNA independently',reporter(),
+            note='For '+fate+': add 0.5 µl RNaseA (10 mg/ml) and 10 µl ProteinaseK (10 mg/ml) in 70 µl TE; 50°C 1 h, then 65°C overnight. QIAquick-purify DNA. INPUT and IP are not pooled at this stage. Crosslink reversal/proteolysis release DNA; no new barcode is generated.')
+        w.react('5'+fate+' · INFERRED — separate UP and DN PCRs with indexed reverse primers',amplicon_rows(),
+            note='Allocate '+fate+' DNA to two separate PCRs: 2B_UP_Fw + 2B_UP_Rv_all and 2B_DN_Fw + 2B_DN_Rv_all. A six-base sample index distinguishes the source input/IP plate. Exact source polymerase, cycle schedule, selected barcode/index members and full genomic amplicons remain unassembled. Intended PCR-reference classes show primer-derived boundaries, not validated whole molecules.')
+        branches.append(w)
+    finish=Workflow(MolecularState('Four independently generated source PCR stocks',tuple(amplicon_rows())),track_graph=False)
+    finish.react('6 · Select equimolar PCR contributions, pool and gel-select',amplicon_rows(),
+        note='Mix actual selected PCR contributions equimolarly and select 100–150-bp DNA from an agarose gel. Untransferred stocks and excluded gel fractions remain separate. Indexed sample pools can enter a sequencing masterpool. The two representative UP/DN reference classes do not imply shared input/IP indexes or that only two original PCRs were prepared.')
+    finish.react('7 · Supply custom read primers; sequence the indexed reporter pools',amplicon_rows(),
+        note='Source HiSeq2500 / MiSeq, single-end longer than 50 bases; no exact integer cycle count is inferred. The mixed UP/DN preparation uses both custom oligos shown below. Local binding is computed against intended primer-derived sites; complete genomic alleles and actual cycle spans remain unassembled. Counting/reporting 20-base barcodes and six-base sample indexes is computational, followed by separate IP/input normalization.')
+    return common,*branches,finish
+
+
 def render_page():
     from page import head,info,caveat,table
     from chemdraw import panel
@@ -189,6 +251,11 @@ def render_page():
     claims=check_graph(g)
     audit=('<h2>Molecular validation scope</h2>'+table(('Claim status','Computed count'),tuple((s.value,str(sum(c.status==s for c in claims)))for s in Status))
            +'<p>Unresolved molecular relations and all side-fraction fates remain visible in the complete source-qualified workflow below.</p>')
-    return assemble_page(g,[head('Epi-Decoder — reporter barcodes and TAP-ChIP'),overview,oligos,audit,WorkflowSection('Complete preparation and material fates'),PlanLimitationSection('library'),'<p><a href="01_epi-decoder.html">Research note and open boundaries</a></p></div>'])
+    return assemble_page(g,[head('Epi-Decoder — reporter barcodes and TAP-ChIP'),overview,
+        '<h2>Step by step</h2><p>INFERRED — source locus references and intended PCR classes distinguish the shared chromatin preparation, separate input/IP branches and four PCRs. Exact occupied fragments, genomic alleles, index members and complete primer/read geometry remain unassembled.</p>',
+        *(workflow_panel(w,caption=caption)for w,caption in zip(molecular_walkthroughs(),('Shared chromatin preparation','Input: clone abundance reference','TAP-ChIP: protein-associated reporter DNA','Combine selected PCR contributions for sequencing'))),
+        '<h2>How the custom read primers relate to the PCR primers</h2><p>Each source custom read oligo is a complete suffix of its forward PCR primer. These computed local sites explain the primer design; the unknown genomic interval still prevents an exact barcode/read-cycle map.</p>',
+        *(panel(read_binding_scene(locus).rows(),caption='INFERRED — '+locus+' PCR reference and local custom-read primer pairing; whole source allele unassembled')for locus in ('UP','DN')),
+        oligos,audit,'<details><summary>Complete preparation, allocations and model warnings</summary>',WorkflowSection('Complete preparation and material fates'),'</details>',PlanLimitationSection('library'),'<p><a href="01_epi-decoder.html">Research note and open boundaries</a></p></div>'])
 
 if __name__=='__main__':selftest()

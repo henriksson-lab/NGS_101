@@ -54,6 +54,21 @@
       ],
       "oligo_scraper": "Mandatory bundle scrape5hits/1representation; originalDOCXfullmodifiedsourcefixtures checked5exact0failed0exemptions.",
       "verification": "23focusedPASS, normalgatePASS, actualpagebuild/pairingPASS,5sourceexact0failed0exemptions0externalunknown, chemistry40unresolved0contradictory; new-unreviewed-input regression fails publication as intended."
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC6821191 introduction52 / Fig1A caption56 and Fig3 truncation discussion; published SupplementaryMethods original DOCX FICC-Seq paragraph4, complete selected HEK293/5FU recipe and whole modified oligos.",
+      "findings": "Eleven visible connected molecular-class steps now follow native RNA through catalytic trapping, L3/ddC ligation, radiolabeled RNP selection, peptide-bearing RNA, split-UMI RT, circle/BamHI opening and PCR. Split UMI definitions corrected to distinct first/last parts under one common molecule group, allowing construction without conflicting definitions.",
+      "deferred": [
+        "Complete occupied RNA/adduct/primer-landing/circle/cut molecules, exact sealed junctions and identifier cycle positions remain unassembled.",
+        "Source twice-printed400ml TE / 1.5ml tube inconsistency retained, executed volume unresolved; source ligation mix12ul not normalized."
+      ],
+      "oligo_scraper": "Ran complete bundle /tmp/ficc-presentation-primers.log; all5 modified source orders verified in published SupplementaryMethods paragraph4; existing original-DOCX transcription tests rerun.",
+      "verification": "Protocol suite, schematic build and pairing lint passed; priority54.7 to16.1; Construct now accepts split source UMI through explicit grouped parts.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

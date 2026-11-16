@@ -31,3 +31,10 @@ The PCR primer supply inventory exposes forward- and reverse-role primer classes
 The public schematic uses the published standard antibody-directed preparation through gel-purified amplified DNA and its physical sequencing allocation. Its source inventory is a literal curator-reviewed list covering fixation/localization, copying/capture and library finishing; adding an input does not automatically extend that evidence coverage. The existing proximity and identifier source findings remain required and mapped to the operations that implement their scope. No required source item was removed or excluded.
 
 Known source RT and adapter sequences are displayed. Standard PCR primer bodies, occupied substrates, complete amplicons and run-cycle spans remain unassembled. This does not substitute analytical SI qPCR primers or current vendor kit sequences for the source library primer supplies. Full preparation and chemistry warnings remain available in the collapsed workflow.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read the published standard ARTR Methods from fixation/antibody localization through cDNA ligation and amplification. Ten visible states now distinguish the retained pAG-RTase, six nucleotide classes, imaging before extraction, RNaseH/A-T1 digestion and preblocked streptavidin capture. Prepared pAG fusion-protein manufacture remains upstream of this selected library workflow.
+
+🟡 The known N10 RT primer is random priming, while N8 on the separately ligated5P/3SpC3 adapter is the molecular UMI. The intended 3′cDNA-to-5′adapter join is inferred in an unassembled occupied context; SpC3 is nonnucleotide. Formamide/heat release is not asserted to remove biotin chemically. Whole PCR orders/index/run lengths and complete UMI read-cycle mapping remain unassembled; E7335S remains a source example, not an inherited kit recipe. This bounded presentation review does not complete source or reaction validation.

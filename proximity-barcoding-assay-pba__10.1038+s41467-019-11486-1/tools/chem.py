@@ -3,7 +3,9 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SequencingPlan,Terminal,Disposition,SourceCoverage
-from chemdraw import Scene,Segment,feature
+from chemdraw import Scene,Segment,feature,revcomp,MolecularState,Workflow,workflow_panel
+from protocol_model import role,closed_circle
+from dataclasses import replace
 from pcr import PCRGeometry
 from circular import CircularizationGeometry
 from illumina import P5,P7,TRUSEQ_READ1,TRUSEQ_READ2
@@ -18,8 +20,9 @@ BLOCK='CTAGTGCTGGATGATCGTCC'+'U'*5
 def inventory(name):
     sc=Scene()
     if name=='ab1':
-        # Whole source ordering known; fixed eight-base proteinTag boundary remains unassigned locally.
-        parts=[Segment('source_Ab1_fixed',AB1.split('N')[0]),Segment('moleculeTag','N'*8,placeholder=True,feature=feature('pba_molecule','umi','random')),Segment('common_arm',AB1.split('N')[-1])];mod5='thiol-MC6-D'
+        # Table1 original PDFp10 underlines the eight-base proteinTag; p11 names that convention.
+        fixed=AB1.split('N')[0]
+        parts=[Segment('source_Ab1_common_5',fixed[:-8]),Segment('Ab1 proteinTag',fixed[-8:],feature=feature('pba.ab1.protein','feature_barcode','fixed',note='Underlined source Ab1 proteinTag; actual antibody assignment not selected')),Segment('moleculeTag','N'*8,placeholder=True,feature=feature('pba_molecule','umi','random')),Segment('common_arm',AB1.split('N')[-1])];mod5='thiol-MC6-D'
     elif name=='padlock':parts=[Segment('padlock_start',PADLOCK[:20]),Segment('complexTag','N'*15,placeholder=True,feature=feature('pba_complex','molecular_complex_barcode','random')),Segment('padlock_rest',PADLOCK[35:])];mod5='P'
     else:parts=[Segment(name,{'template':TEMPLATE,'block':BLOCK}[name],note='Five terminalUare2primeO-methylRNA'if name=='block'else'Source ligationtemplate andRCAprimer')];mod5=''
     sc.strand(name,parts,mod5=mod5);return sc
@@ -49,7 +52,7 @@ def protocol_graph():
     adj=g.input('primer_adjustment','SourceRCAprimersameorderingasligationtemplate adjusted100nM;additionalamountunassigned',K.OLIGO,state=inventory('template'));b=g.input('reanneal_condition','Source37C20min',K.CONDITION);templ=g.product('rca_template','Sourcecirclecomponentafterreannealing',K.MOLECULAR);primer=g.product('retained_rca_primer','Co-retainedsourceRCAprimercomponent;sametube,notphysicalfraction',K.OLIGO,state=inventory('template'));g.react('reanneal','SourceRCAprimeradjustment/reannealing',S.HYBRIDIZATION,((dig,R.TEMPLATE),(adj,R.STRUCTURAL),(b,R.CONDITION)),(templ,primer))
     phi=g.input('phi29','Sourcephi29.1Uul/dAGCU1mM37C10min',K.CATALYST);rca=g.product('rca_reaction','Sourceuracil-containingRCAproductspluscompanions; repeats/geometryunassembled',K.MOLECULAR);g.react('rca','SourceRCA',S.EXTENSION,((templ,R.TEMPLATE),(primer,R.STRUCTURAL),(phi,R.CATALYST),(g.input('rca_nts','Actual d(A,U,G,C)TP1mM substrates; source uracil-containing DNA RCA',K.MOLECULAR),R.STRUCTURAL)),(rca,))
     h=g.input('rca_heat','Source65C10min',K.CONDITION);rcastock=g.product('rca_stock','Sourceheat-terminatedRCAstockkeptminus20C;totalvolumeunassigned',K.MOLECULAR);g.react('rca_stop','SourceRCAheatstop',S.THERMAL_TREATMENT,((rca,R.TEMPLATE),(h,R.CONDITION)),(rcastock,));take=g.product('rca_selected','Source25ulRCAproductat1nM;stockdilution/transferamountunassigned',K.MOLECULAR);rem=g.product('rca_remainder','UntransferredRCAstock;amountunassigned',K.MOLECULAR);g.react('rca_aliquot','SourceRCAstockallocation',S.SPLIT,((rcastock,R.TEMPLATE),),(take,rem));g.mark_terminal(Terminal(rem.id,Disposition.STORED,'Sourcekeptstock;untransferredfraction'))
-    probes=g.input('probe_pool','Sourcepreconjugated40probe/38proteinantibodypool20nMeach;SMCC/reduction/dialysisupstreamunassembled',K.MOLECULAR,chemical_state={'unpositioned_protein_identifier':feature('pba.protein','feature_barcode','unknown',note='Source proteinTag meaning known; whole conjugate/tag coordinate and specimen assignment unassembled')})
+    probes=g.input('probe_pool','Sourcepreconjugated40probe/38proteinantibodypool20nMeach;SMCC/reduction/dialysisupstreamunassembled',K.MOLECULAR,chemical_state={'pool_protein_identifier':feature('pba.protein','feature_barcode','unknown',note='Source proteinTag meaning known; Ab1 position verified from Table1 underlining, actual antibody/pool assignments unassembled')})
     op('stain','Sourceantibody-exosomebinding4Covernight',S.BINDING,'SourcePBAbufferinclsalmonDNA/BSA','SourceexosomeswithboundandfreeAOCpool',((probes,R.STRUCTURAL),))
     selected=g.product('one_ul','Source1ulstainedstock',K.MOLECULAR);left=g.product('stain_remainder','Untransferredstainedstock;amountunassigned',K.MOLECULAR);g.react('stain_aliquot','Actualsource1ulallocation',S.SPLIT,((x,R.TEMPLATE),),(selected,left));g.mark_terminal(Terminal(left.id,Disposition.STORED,'Untransferredstocklateruseunassigned'));x=selected
     op('dilute','Source1ulcomplexesdilutedin25ulPBAbuffer aswritten',S.GENERIC,'SourcePBAbuffer','Sourcedilutedcomplexstock;25ultotalvsdiluentnotresolved')
@@ -116,6 +119,15 @@ def selftest():
     c('Physicalselectionnotreadfilter',g.steps['purify'].kind,S.CLEANUP)
     c('Actual pool consumes independent source contribution',g.steps['pool_boundary'].kind==S.POOL and 'other_pcr_contributions' in {i.material for i in g.steps['pool_boundary'].inputs},True)
     c('Source RCA consumes nucleotide substrates','rca_nts' in {i.material for i in g.steps['rca'].inputs},True)
+    from checks import Source,have
+    from storage import sources_root
+    source=sources_root()/Path(__file__).resolve().parents[1].name/'s41467-019-11486-1_supp_41467_2019_11486_MOESM1_ESM.pdf.txt'
+    if have(c,Source(source,'https://doi.org/10.1038/s41467-019-11486-1')):
+        text=''.join(source.read_text().split())
+        for name,seq in (('Ab1',AB1),('padlock',PADLOCK),('ligation template',TEMPLATE)):
+            c('Original published Table1 whole '+name,seq in text,True)
+        c('Original Table1 Ab1 thiol modification',('/5ThioMC6-D/'+AB1)in text,True)
+        c('Original blocker retains five methyl-U residues',(BLOCK[:-5]+'mU'*5)in text,True)
     c('Source-qualified publication gate',g.publication_problems(),[]);c.report()
 
 
@@ -131,14 +143,73 @@ def _publication_coverage(g):
             g.cover_source_item(SourceCoverage(key,'modelled',target))
     return g.require_publishable()
 
+def circular_parts():
+    return tuple(inventory('padlock').strands['padlock'].segs)
+
+
+def molecular_class(kind):
+    if kind=='circle':
+        return list(closed_circle('INFERRED — source intended padlock circle',circular_parts(),
+            closure_label='Source padlock circularization; exact occupied splint closure and yield unassembled').rows())
+    sc=Scene()
+    if kind=='rca':
+        # Source d(A,U,G,C)TP produces uracil-containing DNA, not an RNA transcript.
+        repeat=[replace(x,top=revcomp(x.top).replace('T','U'),inferred=True,
+                        note='Computed reverse-complement RCA copy with source dUTP; DNA sugar despite U letter')for x in reversed(circular_parts())]
+        sc.strand('rca',[replace(x,name=x.name+' copy '+str(copy))for copy in (1,2)for x in repeat],
+                  label='INFERRED RCA DNA · 2 repeats')
+        return sc.rows()
+    if kind=='library':
+        sc.strand('library',[role('historical source indexed library end',inferred=True),
+            role('reporter-derived protein / molecule / complex tag interval; whole order unassembled',inferred=True),
+            role('opposite source library end',inferred=True)],label='INFERRED library class')
+        return sc.rows()
+    parts=list(inventory('ab1').strands['ab1'].segs)
+    if kind=='extended':
+        parts=[replace(x,inferred=True)for x in parts]+[
+            role('other copied RCA sequence, if any',inferred=True),
+            Segment('copied complexTag','N'*15,inferred=True,feature=circular_parts()[1].feature),
+            role('remaining copied sequence; blocker stop unassembled',inferred=True)]
+    sc.strand('reporter',parts,mod5='thiol-MC6-D',
+        label='INFERRED extended Ab1'if kind=='extended'else'Source Ab1 reporter')
+    if kind=='extended':sc.note('reporter','The antibody reporter supplies the extendable 3′ end. ProteinTag and moleculeTag were present before extension; complexTag is copied from the RCA template. Exact copied flanks and covalent product geometry remain unassembled.')
+    return sc.rows()
+
+
+def molecular_walkthroughs():
+    reagent=Workflow(MolecularState('Separate source padlock and ligation template',tuple(inventory('padlock').rows()+inventory('template').rows())),track_graph=False)
+    reagent.react('1R · Circularize the 5′-phosphorylated padlock',molecular_class('circle'),
+        note='100 nM padlock and 100 nM template, T4 DNA ligase 0.01 U/µl, 1 mM ATP in phi29 buffer; 37°C 30 min. The padlock’s 15 random bases define complexTag. The template is a separate ligation splint and later RCA-primer order, not part of the sealed padlock backbone. Occupied closure and yield remain unassembled.')
+    reagent.react('2R · Exonuclease treatment, then primer adjustment and reannealing',molecular_class('circle'),
+        note='ExoI 0.2 U/µl and ExoIII 2 U/µl, 37°C 30 min then 85°C 20 min. Susceptible linear oligos are degraded; fragments are not physically purified away by that arrow. Adjust the same template/RCA-primer order to 100 nM and anneal at 37°C for 20 min. Surviving original primer and additional amount remain unassigned.')
+    reagent.react('3R · Phi29 RCA makes a repeated uracil-containing DNA template',molecular_class('rca'),
+        note='Phi29 0.1 U/µl with source d(A,U,G,C)TP at 1 mM, 37°C 10 min, then 65°C 10 min. Store at −20°C. Repeats are computed reverse complements using U for copied T positions under the source nucleotide mix; they remain DNA. A two-copy excerpt does not assign actual copy count or full molecular geometry. Allocate 25 µl at 1 nM for the binding step; keep remaining stock distinct.')
+    assay=Workflow(MolecularState('Prepared antibody–DNA reporter and isolated exosome input',tuple(molecular_class('reporter'))),track_graph=False)
+    assay.react('1E · Stain exosomes and capture a selected aliquot through CTB',molecular_class('reporter'),
+        note='Prepared pool: 40 probes against 38 proteins, 20 nM each, in PBA buffer at 4°C overnight. Transfer 1 µl, dilute in 25 µl PBA buffer as printed, and select 20 µl for a CTB-coated capture well, 15 min at room temperature. CTB is immobilized through biotin/streptavidin; isolated exosomes and prepared conjugates are the upstream boundary. The nonselected fraction is removed physically; perfect capture is not asserted.')
+    assay.react('2E · Bind RCA templates and the extension-blocking oligo; wash',molecular_class('reporter'),
+        note='After two washes add 25 µl RCA product at 1 nM plus 500 nM blocking oligo; 37°C 15 min, then wash twice. One repeated RCA template can associate with nearby antibody reporters. The blocker prevents extension into adjacent complexTag monomers; its five terminal mU residues are 2′-O-methyl RNA, not a non-nucleotide spacer. Whole occupied complexes and blocking efficiency remain unassembled.')
+    assay.react('3E · INFERRED — T4 DNA polymerase extends reporters across complexTag',molecular_class('extended'),
+        note='25 µl T4 DNA polymerase buffer, 1.25 U enzyme and 100 µM d(A,T,G,C)TP, room temperature 15 min. This copies a shared physical complex identifier onto reporters already carrying a protein identifier and eight-base molecule identifier. It is not ligation of neighboring antibodies or computational installation of a tag. The diagram does not invent exact copied flanks, blocker stop position or perfect extension.')
+    assay.react('4E · One source UNG/Phusion addition processes uracil templates and amplifies',molecular_class('library'),
+        note='After washing, add the single 30 µl source bulk mixture: Phusion 0.02 U/µl, UNG 0.02 U/µl, pba-fwd/rev, nucleotides and buffer. Incubate 37°C 15 min, 95°C 2 min, then 30 PCR cycles. UNG removes uracil bases; abasic/fragment classes and companions are not asserted physically removed. The source bulk addition supplies both enzymes, not invented separate fresh doses.')
+    assay.react('5E · Two index cycles, then 20-fold dilution and 15 library-PCR cycles',molecular_class('library'),
+        note='Transfer 1 µl amplification reaction into 10 µl indexing mix; two cycles with fwd-index/rev-index. Dilute indexed products 20-fold into the listed library-fwd/rev mix and run 15 cycles. Source downstream mix names do not establish a fresh polymerase addition; retained catalyst amounts/activity remain unassigned. Whole correspondence between main primer names and SI D-index/universal rows remains unresolved, so an index mask is not invented.')
+    assay.react('6E · Pool actual PCR contributions, QIAquick-purify and sequence',molecular_class('library'),
+        note='Pool the selected PCR product with other actual source contributions and purify. Source reports MiSeq v2 300-cycle kit or NextSeq 75SE. Kit capacity is not the acquired paired/index cycle mask. ProteinTag, moleculeTag and complexTag support computational grouping; actual antibody/sample assignments and complete read-primer landing remain unassembled.')
+    return reagent,assay
+
+
 def render_page():
     from page import head,caveat,table
     from chemdraw import panel
     from protocol_views import assemble_page,WorkflowSection
     g=protocol_graph()
-    content=[head('Proximity barcoding assay'),'<main class="wrap" data-protocol-complete="true"><h1>'+'Proximity barcoding assay'+'</h1><p>'+'Antibody–DNA reporters on captured exosomes copy a shared tag from an RCA product. Sequencing these reporter tags links protein measurements to the same physical complex; it does not directly sequence an exosome genome.'+'</p><p><a href="'+'https://doi.org/10.1038/s41467-019-11486-1'+'">Defining published article</a> · <a href="01_chem.html">Research note and source scope</a></p>',caveat('<strong>Source-qualified preparation.</strong> Actual source-known inputs and process order are retained. Unknown occupied molecules, yields and whole library/read geometry remain explicit; local reagent views do not prove a unique reaction product.'),'<h2>Preparation</h2><ol>'+'<li>Prepare the source padlock/RCA reagent, retaining its primer and uracil-containing DNA components. Allocate the selected RCA contribution and keep its stock remainder separate.</li><li>Begin the assay with isolated exosomes and a prepared antibody–DNA pool. Stain, allocate the source 1 µl contribution, dilute and take the actual 20 µl capture input for CTB-coated wells.</li><li>Bind RCA products and blocking oligo, wash, and extend captured reporters with T4 DNA polymerase. The blocker limits extension into adjacent RCA monomers; complete extension products remain unassembled.</li><li>Add the source UNG/Phusion mixture. Allocate 1 µl of amplification reaction for indexing, then dilute indexed product into the library PCR. Carryover enzyme amount/activity remains unassigned; no extra fresh enzyme is invented.</li><li>Pool the selected PCR product with other actual source PCR contributions and purify with QIAquick before sequencing.</li>'+'</ol>','<h2>Known molecular parts</h2>',table(('Part','Role and source limit'),(('Reporter tags', 'Source eight-base molecule tags are molecular identifiers. The fixed protein-tag position and actual pool members remain unassigned in the whole conjugate.'), ('RCA complex tag', 'Fifteen random bases identify a source complex. The RCA template is physically copied onto reporters, not a computationally assigned pixel.'), ('Blocking oligo', 'Whole source sequence with five terminal 2′-O-methyl U residues. These are modified nucleotides, not a non-nucleotide spacer.'), ('UNG', 'Uracil-processing and PCR share one actual source bulk addition. Abasic fragments and other companions are not assumed physically removed by enzyme action alone.')))]
+    content=[head('Proximity barcoding assay'),'<main class="wrap" data-protocol-complete="true"><h1>'+'Proximity barcoding assay'+'</h1><p>'+'Antibody–DNA reporters on captured exosomes copy a shared tag from an RCA product. Sequencing these reporter tags links protein measurements to the same physical complex; it does not directly sequence an exosome genome.'+'</p><p><a href="'+'https://doi.org/10.1038/s41467-019-11486-1'+'">Defining published article</a> · <a href="01_chem.html">Research note and source scope</a></p>',caveat('<strong>Source-qualified preparation.</strong> Actual source-known inputs and process order are retained. Unknown occupied molecules, yields and whole library/read geometry remain explicit; local reagent views do not prove a unique reaction product.'),'<h2>Preparation</h2><ol>'+'<li>Prepare the source padlock/RCA reagent, retaining its primer and uracil-containing DNA components. Allocate the selected RCA contribution and keep its stock remainder separate.</li><li>Begin the assay with isolated exosomes and a prepared antibody–DNA pool. Stain, allocate the source 1 µl contribution, dilute and take the actual 20 µl capture input for CTB-coated wells.</li><li>Bind RCA products and blocking oligo, wash, and extend captured reporters with T4 DNA polymerase. The blocker limits extension into adjacent RCA monomers; complete extension products remain unassembled.</li><li>Add the source UNG/Phusion mixture. Allocate 1 µl of amplification reaction for indexing, then dilute indexed product into the library PCR. Carryover enzyme amount/activity remains unassigned; no extra fresh enzyme is invented.</li><li>Pool the selected PCR product with other actual source PCR contributions and purify with QIAquick before sequencing.</li>'+'</ol>','<h2>Known molecular parts</h2>',table(('Part','Role and source limit'),(('Reporter tags', 'Source eight-base molecule tags are molecular identifiers. Original Table1 underlines the Ab1 proteinTag AACAATGG, immediately before the eight-base moleculeTag; actual antibody/pool assignment remains unselected.'), ('RCA complex tag', 'Fifteen random bases identify a source complex. The RCA template is physically copied onto reporters, not a computationally assigned pixel.'), ('Blocking oligo', 'Whole source sequence with five terminal 2′-O-methyl U residues. These are modified nucleotides, not a non-nucleotide spacer.'), ('UNG', 'Uracil-processing and PCR share one actual source bulk addition. Abasic fragments and other companions are not assumed physically removed by enzyme action alone.')))]
+    content.extend(['<h2>Step by step</h2><p>INFERRED — reagent circles, finite RCA excerpts and reporter-product classes explain the source reaction order. Exact occupied closure/copy/stop geometries and complete library molecules remain unassembled; this adds no new chemistry-validation claim.</p>',*(workflow_panel(w,caption=caption)for w,caption in zip(molecular_walkthroughs(),('Independent uracil-containing RCA reagent preparation','Selected exosome assay: copy a complex tag onto antibody reporters')))])
+    content.extend(panel(inventory(name).rows(),caption='Whole published '+name+' reagent; source modification and identifier meanings retained')for name in ('ab1','padlock','template'))
     content.append(panel(inventory('block').rows(),caption='Whole source blocking oligo; five terminal U residues are 2prime-O-methyl RNA'))
-    content.extend(['<h2>Read setup</h2><p>'+'MiSeq Reagent Kit v2, 300-cycle kit, or NextSeq 75SE as reported. The MiSeq kit capacity does not assign an actual read/index mask; selected sample-index values and whole primer landing remain unassembled.'+'</p>','<h2>Source limits</h2><p>'+'The biological input boundary is isolated exosomes plus prepared antibody–DNA conjugates, not a complete exosome-isolation/conjugate-manufacturing graph. The selected exosome route does not use the starred STV-only adapter variants in SI1 Table1. Main primer names are not silently mapped to unverified table members. Unknown occupied circles, reporter extensions and read geometry remain explicit.'+'</p>','<details><summary>Full workflow, stock fractions and unresolved chemistry</summary>',WorkflowSection('Selected published preparation'),'</details></main>'])
+    content.extend(['<h2>Read setup</h2><p>'+'MiSeq Reagent Kit v2, 300-cycle kit, or NextSeq 75SE as reported. The MiSeq kit capacity does not assign an actual read/index mask; selected sample-index values and whole primer landing remain unassembled.'+'</p>','<h2>Source limits</h2><p>'+'The biological input boundary is isolated exosomes plus prepared antibody–DNA conjugates, not a complete exosome-isolation/conjugate-manufacturing graph. The selected exosome route does not use the starred STV-only adapter variants in SI1 Table1. Original Table1 pages10–11 underlines proteinTag/sampleTag positions; Ab1 proteinTag is now structured separately. Main primer names are not silently mapped to unverified table members. Unknown occupied circles, reporter extensions and read geometry remain explicit.'+'</p>','<details><summary>Full workflow, stock fractions and unresolved chemistry</summary>',WorkflowSection('Selected published preparation'),'</details></main>'])
     return assemble_page(g,content)
 
 if __name__=='__main__':selftest()

@@ -31,3 +31,10 @@ The generic preceding NGS section describes CoP-seq alternatives including Tn5 a
 ## Public preparation page
 
 The source-qualified page now has a validated protocol graph with explicit source inventories and correctly typed QC allocations. It shows the source-supported preparation and read setup while retaining unresolved kit bodies, occupied molecular states and complete read geometry. Full workflow fractions and chemistry limitations remain visible in an expandable section. The publication gate does not establish a complete molecular reconstruction or an absence audit.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read published HiCoP Methods143 and the main silica-selection rationale. The visible walkthrough now places the CoP column before RNase/proteinaseK/crosslink reversal, retains the distinct40µl input versus360µl selected allocation, and distinguishes subsequent biotin-affinity capture from accessibility selection. Source RNaseA concentration and selected NovaSeqPE150/13–19PCRcycles/VAHTS details remain literal.
+
+🟡 Fully filled local MboI end/junction classes are computed from the canonical recognition/cut definition, with no imported Hi-C nucleotide formulation or occupied genomic molecule. Source biotin-dCTP choice remains local. Exact ends/biotin incorporation, whole adapters/primers and final read landing remain unassembled; the cropped A-tail view does not imply loss of the internal contact junction. No full source/chemistry review or exclusive regulatory-contact selection is claimed.

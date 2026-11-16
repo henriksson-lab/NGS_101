@@ -29,6 +29,9 @@ class B:
 
 from adapter_ligation import AdapterLigationGeometry
 from illumina import P5,P7,TRUSEQ_READ1
+from chemdraw import MolecularState,Workflow,workflow_panel
+from protocol_model import closed_circle,role
+from dataclasses import replace
 AUTHORITY='PublishedPMC6821191 FICCMethods/introductionFig1/computation plusoriginalSupplementaryMethodsDOCXfullselectedrecipe. EndogenousHEK293TRMT2A/5FU only; noHAP1/iCLIP/mutantmiCLIP/LCMSrecipeinheritance. Twooriginals; cappedpartialnotabsenceaudit.'
 SOURCE_ORDERS={'l3':'rAppAGATCGGAAGAGCGGTTCAG/ddC/','rt':'5Phos/NNXXXXNNNAGATCGGAAGAGCGTCGTGGATCCTGAACCGC','bamhi':'GTTCAGGATCCACGACGCTCTTCAAAA','p5':'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT','p3':'CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT'}
 L3='AGATCGGAAGAGCGGTTCAG';RT_FIXED=revcomp(TRUSEQ_READ1[-18:])+'GGATCC'+'TGAACCGC'
@@ -50,7 +53,7 @@ rt cdna_precip cdna_gel cdna_band cdna_extract size_precip circle bamhi_anneal b
 linear_precip pcr_input accuprime_components pcr library_gel library_band library_extract
 library_precip loading load library'''.split()
 def rt_parts():
-    return [Segment('umi_first','NN',feature=feature('ficc.molecule','umi','random',group='ficc.molecule',note='Sourcefive randomdeduplicationbases,firsttwohere')),Segment('sample_index','XXXX',placeholder=True,feature=feature('ficc.sample','sample_index','fixed',note='Sourcefixed4ntsampledemultiplexingcode; actualsequenceunassigned')),Segment('umi_last','NNN',feature=feature('ficc.molecule','umi','random',group='ficc.molecule',note='Remainingthree randomdeduplicationbases')),Segment('fixed_adapter_prefix',RT_FIXED[:6]),Segment('bamhi_binding_window',RT_FIXED[6:29]),Segment('fixed_rt_suffix',RT_FIXED[29:])]
+    return [Segment('umi_first','NN',feature=feature('ficc.molecule.first','umi','random',group='ficc.molecule',part='first',note='Source five random deduplication bases split N2 + N3; first two here')),Segment('sample_index','XXXX',placeholder=True,feature=feature('ficc.sample','sample_index','fixed',note='Sourcefixed4ntsampledemultiplexingcode; actualsequenceunassigned')),Segment('umi_last','NNN',feature=feature('ficc.molecule.last','umi','random',group='ficc.molecule',part='last',note='Source five random deduplication bases split N2 + N3; remaining three here')),Segment('fixed_adapter_prefix',RT_FIXED[:6]),Segment('bamhi_binding_window',RT_FIXED[6:29]),Segment('fixed_rt_suffix',RT_FIXED[29:])]
 def oligo_scene(name):
     s=Scene()
     if name=='l3':
@@ -153,6 +156,63 @@ def selftest():
     c.report()
 
 PAGE_FILE = 'ficc_seq.html'
+def molecular_class(kind):
+    if kind in {'circle','bamhi'}:
+        parts=tuple([replace(x,inferred=True)for x in rt_parts()]+[
+            role('copied RNA interval; RT endpoint and circle junction unassembled',inferred=True)])
+        rows=list(closed_circle('INFERRED — intended circularized cDNA class',parts,
+                   closure_label='INFERRED — 3′ cDNA to 5′ phosphorylated primer-derived end; occupied junction unassembled').rows())
+        if kind=='bamhi':rows+=local_bamhi_interface().rows()
+        return rows
+    sc=Scene()
+    if kind in {'input','trap','ligated','labelled','peptide','rt'}:
+        parts=[role('native RNA sequence; cell-specific molecule unassembled'if kind=='input'else'TRMT2A-associated RNA fragment; native sequence / adduct site unassembled',inferred=True)]
+        if kind not in {'input','trap'}:parts+=[Segment('ligated L3 body',L3,inferred=True),Segment('physical terminal ddC','C',inferred=True)]
+        sc.strand('rna',parts,mod5='32P'if kind in {'labelled','peptide','rt'}else'',
+                  mod3='ddC'if kind not in {'input','trap'}else'',label='INFERRED RNA class')
+        sc.note('rna','Native RNA and endogenous TRMT2A in growing HEK293 cells; no stabilized adduct is assigned before 5FU exposure.'if kind=='input'else'Endogenous TRMT2A remains covalently trapped on incorporated fluorouridine.'if kind in {'trap','ligated','labelled'}else'Proteinase K leaves a peptide–RNA crosslink class; complete proteolysis and occupied remnants are not assigned.')
+        if kind=='rt':
+            sc.strand('cdna',[replace(x,inferred=True)for x in rt_parts()]+[role('reverse-complement RNA copy, endpoint near peptide adduct',inferred=True)],mod5='P',
+                      label='INFERRED RT cDNA')
+    elif kind=='linear':
+        sc.strand('dna',[role('BamHI-linearized cDNA; retained primer / copied-RNA intervals, whole order unassembled',inferred=True)],
+                  label='INFERRED linear cDNA')
+    else:
+        sc.strand('dna',[Segment('P5 primer-derived boundary',SOURCE_ORDERS['p5'],inferred=True),
+            role('retained cDNA interval; whole PCR/read geometry unassembled',inferred=True),
+            Segment('opposite P3 primer-derived boundary',revcomp(SOURCE_ORDERS['p3']),inferred=True)],
+            label='INFERRED PCR reference')
+    return sc.rows()
+
+
+def molecular_walkthrough():
+    w=Workflow(MolecularState('INFERRED — native RNA before 5FU treatment',tuple(molecular_class('input'))),track_graph=False)
+    def step(title,kind,note):w.react(title,molecular_class(kind),name=title,note=note)
+    step('1 · Trap endogenous TRMT2A on fluorouridine-containing RNA','trap',
+         'Selected HEK293 route: 100 µM 5-fluorouracil for 24 h. Cellular FUTP incorporation allows the methyltransferase to form a catalytic covalent intermediate and transfer methyl; normal enzyme release then fails. This is not UV crosslinking, a purified-enzyme addition or an engineered TRMT2A mutant recipe. Exact incorporated sites and trapping yield remain unassigned.')
+    step('2 · Fragment RNA and immunocapture the covalent complexes','trap',
+         'Lyse in 0.8 ml buffer at 4°C for 30 min. Treat with Turbo DNase and RNaseI (1:200) at 37°C for 3 min, then ice 5 min and clarify. Capture with 5 µg anti-TRMT2A on 100 µl ProteinG beads for 2 h at 4°C; wash in lysis and PNK buffers. Limited RNaseI digestion trims RNA; antibody capture is distinct from the covalent catalytic adduct.')
+    step('3 · Dephosphorylate RNA 3′ ends; ligate preadenylated L3','ligated',
+         'PNK in the source pH6.5 buffer, 37°C 20 min, then wash. Ligate L3 with T4 RNA ligase and PEG400 overnight at 16°C. The L3 donor has a 5′ adenylated phosphate and an additional physical 3′ ddC nucleotide. The intended RNA–L3 join is inferred in an unresolved occupied RNA context; full end conversion and ligation yield are not asserted. The source listed additions total 12 µl; no unlisted water is supplied.')
+    step('4 · Radiolabel RNA 5′ ends and isolate the RNP membrane region','labelled',
+         'Fresh PNK and gamma-32P-ATP, 37°C 5 min, then remove supernatant. Heat-elute in NuPAGE buffer at 70°C 5 min; resolve 4–12% Bis-Tris gel, transfer to nitrocellulose and locate/excise radioactive RNP regions. The phosphate labels guide physical selection; they are not molecular barcodes.')
+    step('5 · Proteolyze the selected complexes and recover peptide-bearing RNA','peptide',
+         'Proteinase K 200 µg in 200 µl, 37°C 20 min, then 200 µl 7 M urea mix and a further 20 min. Phenol/chloroform extraction, precipitation and water resuspension recover RNA. Protein degradation does not establish removal of the covalent peptide–RNA remnant that can stall RT.')
+    step('6 · INFERRED — source primer adds split UMI and sample code during RT','rt',
+         'Anneal the 5′-phosphorylated NN–XXXX–NNN RT primer with dNTPs at 65°C 5 min / ice 5 min. SuperScriptII programme: 25°C 5 min, 42°C 20 min, 50°C 40 min, 80°C 5 min. N2+N3 are five random deduplication bases; X4 is a fixed sample code, whose selected value remains unassigned. Catalytic-crosslink truncation is interpreted under the FICC-specific source analysis, not a universal UV-iCLIP offset.')
+    step('7 · Select 70–150-nt cDNA and circularize with CircLigaseII','circle',
+         'Precipitate cDNA and run 6% TBE-urea gel after 70°C denaturation; excise 70–150-nt cDNA and recover. CircLigaseII reaction: 8 µl total, 60°C 1 h. The circular reference class preserves primer feature identities and an unknown copied-RNA interval. The source gel extraction prints 400 ml TE while later collecting into 1.5-ml tubes; executed volume remains unresolved.')
+    step('8 · Anneal the BamHI oligo to the known primer-derived window','bamhi',
+         'Add 26 µl water, 3 µl FastDigest buffer and 1 µl 10 µM BamHI oligo; 95°C 2 min, then 70 steps cooling by 1°C. The separate cropped duplex is a local view of the same primer-derived site; it is not a second molecule added to the circle inventory. Its 23-bp core is computed, while the oligo AAAA tail is not forced to pair with incompatible flanks.')
+    step('9 · BamHI linearization; recover and allocate half the stock to PCR','linear',
+         'FastDigest BamHI 2 µl, 37°C 30 min, then source precipitation and resuspension in 20 µl. Select 10 µl for PCR and keep the remaining stock explicit. The cleavage product is represented as a class because whole occupied circle/cut products and remnant-oligo fates remain unassembled.')
+    step('10 · INFERRED — P5/P3 PCR and final library-band selection','library',
+         '40 µl Accuprime PCR, 25 cycles after 94°C 2 min: 94°C 15 s / 65°C 30 s / 68°C 30 s, then 68°C 3 min. Use the exact source P5 and custom P3 orders shown below. Select the 150–200-nt final library on 6% TBE gel; source again prints 400 ml TE for extraction, left unresolved. The boundary diagram does not establish a complete primer-landing or read-cycle map.')
+    step('11 · Sequence single-end 50 cycles on HiSeq4000','library',
+         'Recovered library is physically allocated for sequencing. Source UMI deduplication and four-base sample demultiplexing are computational interpretations, not further wet-lab ligations or physical molecule removal. Exact identifier cycle spans and selected sample code remain unassigned without a complete assembled read geometry.')
+    return w
+
+
 def render_page():
     from page import head,info
     from chemdraw import panel
@@ -162,6 +222,8 @@ def render_page():
       '<p>Fluorouracil-induced catalytic crosslinking captures RNA substrates of endogenous TRMT2A. Metabolically incorporated fluorouridine traps the enzyme–RNA catalytic intermediate; reverse transcription can stop at the recovered peptide–RNA crosslink.</p>',
       info('Source: <a href="https://doi.org/10.1093/nar/gkz658">FICC-Seq: a method for enzyme-specified profiling of methyl-5-uridine in cellular RNA</a>, published article and Supplementary Methods. This schematic selects endogenous TRMT2A in HEK293 cells treated with 100 µM 5-fluorouracil for 24 hours. HAP1, mutant miCLIP, UV-iCLIP and LC–MS comparisons are separate branches; their recipes are not substituted here.'),
       '<h2>Source volume ambiguity</h2>',info('The Supplementary Methods print “400ml TE buffer” twice: after the 70–150-nt cDNA gel and after the final 150–200-nt library gel. Each extraction subsequently collects flow-through into a 1.5-ml tube. The model preserves 400 ml as printed and leaves the executed volume unresolved; it does not silently replace it with 400 µl. The listed ligation additions total 12 µl, with no extra water invented.'),
+      '<h2>Step by step</h2><p>INFERRED — the molecular classes below explain changes in RNA association, terminal handles, cDNA topology and primer-derived features. Exact occupied RNA/adduct/ligation/circle products remain unassembled. Literal source oligos and checked local pairing are shown separately below.</p>',
+      workflow_panel(molecular_walkthrough(),caption='Endogenous TRMT2A catalytic trapping through cDNA circularization, BamHI opening and library PCR'),
       '<h2>Known oligos and identifiers</h2><p>The preadenylated L3 adapter ends in an additional physical ddC nucleotide. The 5′-phosphorylated RT primer carries a split five-base UMI (N2 + N3) and a fixed four-base sample code (X4). The actual sample-code value is unassigned. The BamHI oligo pairs with a known local RT-derived window; a complete occupied circle is not inferred.</p>']
     for name,caption in [('l3','Source L3 adapter: 5′ adenylation and terminal physical ddC.'),('rt','Source RT primer: N2–X4–N3 identifier arrangement and 5′ phosphate.'),('bamhi','Source BamHI annealing oligo; its terminal AAAA is retained.'),('p5','Source P5 amplification primer.'),('p3','Source custom P3 amplification primer.')]:
         parts.append(panel(oligo_scene(name).rows(),caption=caption))

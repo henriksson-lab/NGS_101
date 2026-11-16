@@ -52,6 +52,12 @@ jobs:
       - name: Shared nucleotide simulator self-test
         run: python3 tools/selftest_nucleotide_simulator.py
 
+      - name: Protocol presentation audit self-test
+        run: python3 tools/selftest_presentation_audit.py
+
+      - name: Public alignment sampler self-test (offline)
+        run: python3 spatial-vdj__10.1126+science.adf8486/tools/selftest_public_alignments.py
+
       - name: Sequence catalogue self-test
         run: python3 tools/selftest_sequence_catalogue.py
 

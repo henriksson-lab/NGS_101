@@ -54,6 +54,21 @@
       ],
       "oligo_scraper": "Mandatory bundle scraper rerun /tmp/unlinked41-artr-scraper.log:16 hits in3 representations; exact source whole primer/modified adapter fixtures pass.",
       "verification": "22 focused checks, normal publication gate, build, 2 source-exact/0failed/0exemptions and rendered pairing pass; same chemistry scope37unresolved/0contradictory. New-input regression prevents automatic source coverage."
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC10864177 standard ARTR Methods heading through amplification (main209–220), adjacent tissue/low-input roles checked to avoid inheritance; existing SI1 original Tables1–3 source-order fixtures rerun.",
+      "findings": "Ten visible steps distinguish antibody-localized retained RTase, random-N10 primer biotin-cDNA copying, imaging of retained cells, RNA digestion, preblocked C1 capture and later N8-UMI adapter ligation. Source SpC3 remains a nonnucleotide block; complete library/read geometry remains unresolved.",
+      "deferred": [
+        "Occupied RNA/RT-primer hybrids, copied biotin sites/chemical atom maps, exact sealed cDNA-adapter junctions and full PCR/index/read landing remain unassembled.",
+        "Source E7335S is an example product, not assumed actual whole historical primers; no optional tissue/lowinput cell/sample barcode inherited."
+      ],
+      "oligo_scraper": "Ran complete external bundle /tmp/artr-presentation-primers.log;16hits/3files. Whole RT/adaptor orders and six nucleotide classes verified directly in published standard ARTR Methods; existing SI source tests rerun.",
+      "verification": "Protocol suite, schematic build and pairing lint passed; priority53.5 to18.0. No full molecular/source validation or confirmed absence claimed.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

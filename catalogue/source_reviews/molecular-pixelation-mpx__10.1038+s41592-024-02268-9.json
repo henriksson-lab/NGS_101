@@ -72,6 +72,21 @@
       ],
       "oligo_scraper": "Existing same-source mandatoryscraper scope unchanged; no new sequence introduced by this correction.",
       "verification": "18focusedPASS/normalgate0/actualbuild66121bytes/pairing0;sourceguard0exact0fail8wholeunknowninputs;47unresolved0contradictory; no whole chemistry validation claim."
+    },
+    {
+      "documents": 3,
+      "locations": "Published PMC11166577 main Fig1 caption and Results85–99 / Methods183–239; published MOESM1 Step3 hybridization/gap-fill and Step4 allocation; MOESM4 workbook TableS4 CD274/BC1 and TableS5 oligos, original sheet14 cells A2:D12 (raw XLSX XML checked).",
+      "findings": "Twelve initially visible reaction steps distinguish independent A/B pixel factories from cell-associated AOC labeling; literal pixel/splint/RCA/GFP/PCR and BC1 orders plus source modifications are shown. UPI meanings and antibody UMI/protein identity remain distinct. Repeated sequence excerpts are computed with retained feature metadata, not measured whole molecules.",
+      "deferred": [
+        "Whole occupied circle/splint and gap-fill/ligation geometry, exact final amplicon/read-primer landing and index masks remain unassembled.",
+        "Main/SI timing and cell-count differences preserved; no complete source or absence audit claimed."
+      ],
+      "oligo_scraper": "Ran whole bundle; /tmp/mpx-presentation-primers.log. Verified selected hits against original MOESM4 sheet14 cells, including 5prime phosphate, 3prime Azido-PEG4 and modified B_GFP/PCR orders.",
+      "verification": "33 protocol checks passed, including 15 selected original XLSX transcription/modification checks; page build passed; rendered review priority90.1 to8.0.",
+      "round": "2026-11-16-presentation-priority",
+      "reviewer": "primary-curator",
+      "date": "2026-11-16",
+      "scope": "Visible source-qualified molecular-class walkthrough; not full reaction/source validation or accepted absence review."
     }
   ],
   "linked_information": {

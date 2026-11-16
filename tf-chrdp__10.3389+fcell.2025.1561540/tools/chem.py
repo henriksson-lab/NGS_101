@@ -2,7 +2,9 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
-from chemdraw import Scene,Segment,feature
+from chemdraw import (Scene,Segment,feature,complement_segments,MolecularState,
+                     Workflow,workflow_panel)
+from protocol_model import role
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,Terminal,Disposition,SourceItem,SourceCoverage,SequencingPlan
 from pcr import PCRGeometry
 AUTHORITY='Published2025PMC11925928 main/reagents/Methods265–479/Results497–503 andactualFigure1PDFp9. ONEoriginal; no vendor/predecessor/wholekitoligo authority imported. HCT116/5FU/p53 selectedreference route.'
@@ -189,6 +191,73 @@ def protocol_graph():
     g.add_source_item(SourceItem('array_scope','~20Mcellsperdish pooledbytreatment→30Mselectedsample; threeactual1mlsonications.','Actualdishcardinality, recovered1mlchromatindistribution andper-samplebeadstockmultiplicityunassembled; nofakephysicalcell/nucleic-acidpool orone-dosecloning.'))
     g.add_source_item(SourceItem('kit_scope','SourceTn5DNAadapterinstallation and25ulMasterMixM0541 arepositive; actualwholekitoligosunassembled.','Knownfunctionaladapter/enzyme andPCRenzyme/nucleotide/bufferclassesfromSAMEactualstocks; not freshindependentadditions or borrowedcanonicalends.'));return declare_page_scope(g)
 
+def molecular_class(kind,*,substrate='chromatin DNA interval'):
+    """Source-supported molecule classes; never fabricated DNA/RNA sequences."""
+    sc=Scene()
+    if kind in {'precomplex','complex','captured','dna','cdna','tagged','indexed'}:
+        body=role('RNA-derived cDNA fragment' if kind=='cdna' else substrate,inferred=True)
+        parts=[body]
+        if kind in {'tagged','indexed'}:
+            parts=[role('Tn5-derived end; exact transferred body unassembled',inferred=True),body,
+                   role('opposite adapter end; gap and strand geometry unassembled',inferred=True)]
+        if kind=='indexed':
+            parts=[role('index-PCR extension; whole primer unassembled',inferred=True)]+parts+[
+                role('opposite indexed extension; whole primer unassembled',inferred=True)]
+        bottom=complement_segments(parts)
+        sc.strand('top',parts,label='INFERRED DNA class')
+        if kind!='tagged':
+            sc.anneal('bottom',bottom,to='top',pair=(bottom[-1].name,parts[0].name),
+                      unpaired=tuple(p.name for p in bottom),label='DNA complement class')
+    if kind in {'precomplex','complex','captured','rna','hybrid'}:
+        sc.strand('rna',[role('associated RNA' if kind in {'precomplex','complex','captured'} else 'purified RNA template',inferred=True)],
+                  label='Separate RNA class')
+        if kind=='hybrid':
+            sc.strand('first_cdna',[role('first-strand DNA copied from RNA',inferred=True)],rev=True,
+                      label='INFERRED first cDNA')
+    if kind=='precomplex':
+        sc.note('rna','Native protein / nucleic-acid context before FA/EGS treatment; exact occupied associations are unassembled.')
+    if kind in {'complex','captured'}:
+        sc.note('rna','Protein association '+('retained by anti-p53 / Protein G capture' if kind=='captured' else 'stabilized by formaldehyde then EGS')+'; crosslink atoms and occupancy unassembled.')
+    if kind=='rna':
+        sc.strand('n6',[Segment('Source random hexamers','NNNNNN',placeholder=True,length_bp=6)],label='Random hexamers; not UMI')
+    if kind=='tagged':
+        sc.note('top','Fragmentation plus adapter transfer are source-supported. Exact stagger, repair and full duplex ends remain unresolved; this is a class map, not a gap-filled product.')
+    return sc
+
+
+def presentation_workflows():
+    def begin(kind,name):return Workflow(MolecularState(name,tuple(molecular_class(kind).rows())),track_graph=False)
+    def step(w,title,kind,name,note,*,substrate='chromatin DNA interval'):
+        sc=molecular_class(kind,substrate=substrate);sc.note('top'if kind=='tagged'else'bottom'if kind in {'dna','cdna','indexed'}else'rna',name)
+        w.react(title,sc.rows(),name=name,note=note)
+    shared=begin('precomplex','INFERRED — cellular DNA / RNA before crosslinking')
+    step(shared,'1 · HCT116 / 5-FU treatment; FA then EGS crosslinking','complex','Associations stabilized; DNA and RNA are not ligated together',
+         'Selected source route uses 375 µM 5-FU for 9 h, 1% formaldehyde then 2 mM EGS, separate glycine quenches and washes. The source Figure1 supplies this association-level topology, not crosslink atom coordinates.')
+    step(shared,'2 · Lyse nuclei, sonicate three tubes, recombine and preclear','complex','Fragmented chromatin complexes; retain separate input QC controls',
+         'The source sonicates three actual 1 ml tubes and recombines them. Two 10 µl input aliquots are reserved for DNA and RNA QC before anti-p53 capture; they are not physically added back to the production libraries.')
+    step(shared,'3 · Anti-p53 / Protein G immunoprecipitation and washes','captured','Retain the antibody-enriched complex preparation',
+         'Source anti-p53 binds Protein G support before IP. Wash low-salt, high-salt and TE, then allocate beads into separate DNA, RNA and proteomics tubes. The same initial enrichment does not imply that a DNA read is physically paired to an RNA read.')
+    dna=begin('captured','DNA allocation from the captured-complex preparation')
+    step(dna,'4D · Proteinase K and overnight 65°C decrosslinking; recover DNA','dna','DNA is now the library substrate; RNA and protein are not sequencing adapters',
+         'Magnetically remove the original IP beads, purify with the source DNA column, and quantify. Input DNA QC follows a separate source allocation; do not substitute its measured yield or Tn5 amount for the production sample.')
+    step(dna,'5D · Source-calibrated Tn5 tagmentation','tagged','INFERRED — adapter-tagged DNA fragment class',
+         'Source Tn5 testing uses 4 ng DNA at 55°C for 10 min, followed by SDS release. Testing is used to establish a suitable production condition; the test amount is not an invented optimized production dose. Adapter sequences, occupied ends and gap repair remain unassembled.')
+    step(dna,'6D · SDS release, index one / index two PCR, double size selection','indexed','INFERRED — separate indexed DNA-library class',
+         'Source test programme: 72°C 3 min, 98°C 30 s; eight cycles 98°C 15 s / 60°C 30 s / 72°C 3 min; 72°C 5 min. Production follows suitable tested conditions. Retain the first 0.61× bead supernatant, then add 19 µl beads relative to the original 100 µl preparation and retain the bead fraction. Sequence DNA as PE150; full primers and read landing remain unresolved.')
+    rna=begin('captured','Separate RNA allocation; not the DNA-library tube')
+    step(rna,'4R · Proteinase K at 50°C; heat / TRIzol and column recovery','rna','Purified RNA after DNase, without a new barcode or adapter',
+         'The RNA route differs from the overnight DNA decrosslinking: source Proteinase K at 50°C for 45 min, 95°C for 10 min, TRIzol/chloroform, ethanol and column recovery. On-column DNase removes DNA; the source retains and reapplies the first RWT flow-through once.')
+    step(rna,'5R · Random hexamers and SuperScript III first-strand synthesis','hybrid','INFERRED — RNA-template / first-cDNA class, not an RNA–DNA covalent join',
+         'Add random hexamers and dNTPs; 65°C 5 min then ice. The source RT reaction uses 25°C 10 min and 50°C 50 min. Primers provide extendable DNA 3′ ends. Exact occupied sites and individual cDNA lengths remain unknown; random-primer positions are not molecule identifiers.')
+    step(rna,'6R · RNase H, E. coli DNA polymerase I and DNA ligase','cdna','INFERRED — double-stranded cDNA for subsequent tagmentation',
+         'Source second-strand synthesis is 16°C for 2 h with RNase H, polymerase I, ligase and dNTPs. RNA processing and DNA synthesis replace the RNA-templated hybrid with a dsDNA product class. T4 DNA polymerase acts at 12°C for 15 min; EDTA stops the reaction. Residual RNA, degradation products, exact nicks and end states are not claimed absent.')
+    step(rna,'7R · Purify cDNA; source-calibrated Tn5 tagmentation','tagged','INFERRED — RNA-derived adapter-tagged dsDNA class',
+         'The paper explicitly reuses its DNA tagmentation/library procedure on purified dsDNA cDNA. Input-derived cDNA tests are controls; they are not pooled into the RNA production library. This does not establish canonical Nextera adapter identities.',substrate='RNA-derived cDNA fragment')
+    step(rna,'8R · Index PCR, double size selection and PE150 sequencing','indexed','INFERRED — separate RNA-derived DNA library; no physical DNA/RNA library pool asserted',
+         'Use source index-primer functions and tested tagmentation/PCR conditions, followed by the two bead selections. Each branch is sequenced as a DNA library on NovaSeq6000 PE150. A shared original capture does not make corresponding DNA/RNA reads a paired molecular observation.',substrate='RNA-derived cDNA fragment')
+    return shared,dna,rna
+
+
 def render_page():
     from page import head,info,caveat,table
     from protocol_views import assemble_page,WorkflowSection,PlanLimitationSection
@@ -204,7 +273,9 @@ def render_page():
         info('<a href="https://doi.org/10.3389/fcell.2025.1561540">Ning et al., Frontiers in Cell and Developmental Biology (2025)</a> · <a href="01_tf-chrdp.html">Research notes</a>'),
         '<p>Capture transcription-factor-associated chromatin complexes once, then divide them into DNA, RNA and protein fractions. This page follows the published HCT116/5-FU/p53 preparation.</p>',
         caveat('The source-supported preparation and physical fractions are represented. Complete substrates, crosslinks, loaded adapters, index-primer sequences and occupied read sites remain unassembled. The optimized production Tn5 amount is unassigned; the DNA-control test dose is kept as a reference.'),
-        '<h2>Shared capture</h2><ol><li>Treat cells with 5-FU, then crosslink with formaldehyde followed by EGS, with separate glycine quenches and washes.</li><li>Pool same-treatment cells, select a 30-million-cell sample, lyse/permeabilize nuclei and divide the sonication suspension into three 1 ml tubes. Recombine after sonication.</li><li>Preclear chromatin and retain separate 10 µl DNA and RNA controls. Immunoprecipitate the remaining chromatin with prepared anti-p53/Protein G beads.</li><li>Wash the captured complexes and allocate separate DNA, RNA and protein fractions.</li></ol>',
+        '<h2>Step by step: shared capture, then two independent DNA-library routes</h2>',
+        '<p>The visible molecular classes below follow published Figure1 and Methods3.1–3.18. All bracketed bodies are inferred class geometry, not invented sequences or occupied binding sites. Exact RNA/DNA contacts, adapter transfer and finishing chemistry remain limited as recorded in the process graph.</p>',
+        *(workflow_panel(w,caption=caption)for w,caption in zip(presentation_workflows(),('Shared anti-p53 capture: DNA/RNA associations, not a covalent sequencing chimera','DNA branch: decrosslink, purify, tagment and index','RNA branch: recover RNA, make both DNA strands, then tagment and index'))),
         '<h2>Separate downstream preparations</h2>',branches,
         '<h2>Library construction</h2><p>The source explicitly reuses its DNA tagmentation/PCR procedure for RNA-derived double-stranded cDNA. The same actual transposome inventory supplies catalyst and adapter classes; the actual PCR master mix supplies enzyme, nucleotide and buffer classes. Whole adapter/index orders are not filled from a current kit or platform name.</p>',
         '<p>Production libraries retain the first 0.61× bead-selection supernatant, then add 19 µl more beads relative to the original 100 µl preparation and retain the bead-bound fraction. Input-derived test reactions and analytical aliquots stay separate from the sequencing endpoints.</p>',

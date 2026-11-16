@@ -42,3 +42,10 @@ Cropped RTA paired-stem fragments only; divergent arms and poly(T) tail are omit
 The page now publishes the selected commercial total yeast tRNA route, with a curator-written literal inventory linking the source-supported stages to the model. The two existing SourceItems describe the selected branch and computational-setting difference; neither was a broad missing-library obligation. Both remain declared and covered. Whole occupied tRNAs, ligation junctions, RMX/motor and modified-base read behavior remain unassembled, without an absence claim. The complete workflow and unresolved chemistry remain visible in a collapsed section.
 
 Analytical TapeStation/Qubit allocations are typed as QC. Used and remaining padding/RTA stocks retain the same known source oligos and modifications. The three source RNasin contributions (1 µl padding anneal, 1 µl padding ligation, 0.5 µl RTA ligation) are explicit molecular inputs. The residue parser remains unchanged: terminal `rN` is one RNA residue, making RNA5 entirely RNA; it is not a molecular identifier. Source main250 versus Extended Data Fig4caption300 read-classification settings are disclosed on the page. No inferred occupied tRNA or example genome sequence is drawn.
+
+
+## Visible molecular walkthrough — 16 November 2026
+
+🟢 Re-read published Methods202/206 and visually inspected Figure1b in the original PDF. The figure explicitly distinguishes padding oligos, ligation to native tRNA, RTA, protective RT and sequencing-adapter addition. The complete modified source orders now appear on the public page as well as in these notes.
+
+🟡 Visible product classes use the source intended padding order, retain separate native RNA and protective cDNA, and mark exact occupied joins/register/RT extent as unassembled. Initial commercial-tRNA aminoacylation is unassigned; deacylation is an actual transition. The 25 µl RT master is added directly to the 15 µl RTA reaction; the subsequent 3 µl ligase addition is distinct from the earlier 1.5 µl. Native RNA remains the sequencing substrate; no PCR or modern RNA004 chemistry is introduced. This is a bounded presentation pass, not complete reaction/source validation.
