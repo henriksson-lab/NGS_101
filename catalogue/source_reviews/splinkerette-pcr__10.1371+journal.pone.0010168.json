@@ -14,7 +14,7 @@
     },
     {
       "id": "protocol_s1",
-      "role": "published_supplement",
+      "role": "detailed_protocol",
       "locator": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0010168.s002&type=supplementary",
       "availability": "read",
       "relevance": "relevant",
@@ -24,13 +24,19 @@
     },
     {
       "id": "insertion_workbook",
-      "role": "published_supplement",
+      "role": "supplement",
       "locator": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0010168.s001&type=supplementary",
-      "availability": "downloaded_not_inspected",
-      "relevance": "not_used_for_synthetic_locus",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Downloaded but not inspected. Not used for the explicitly synthetic locus; remains pending for a complete source review.",
       "reason": "No study-specific insertion reconstruction or absence claim; this example uses explicitly invented template DNA."
     }
   ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Complete linked-source enumeration and independent review remain pending after the bounded article/Protocol S1 pass. Earlier attributed methods are not inherited chemistry authorities; no confirmed absence claim is made."
+  },
+  "missing_claims": [],
   "bounded_checks": [
     {
       "round": "2026-11-04-splinkerette",
