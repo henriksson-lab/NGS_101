@@ -1,4 +1,5 @@
 from pathlib import Path
+from dataclasses import replace
 import html
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
@@ -11,6 +12,7 @@ from protocol_model import role
 from protocol_handoff import import_material
 from pcr import PCRGeometry
 import oligos_spatial_vdj as oligos
+import stahl_indexing as indexing
 from protocol_graph import ProtocolGraph,MaterialKind as K,InputRole as R,StepKind as S,SourceItem,SourceCoverage,SequencingPlan,Terminal,Disposition,AnnotationSlot,SourceClaim,SourceDiscrepancy
 from page import head, info, caveat, table
 from protocol_views import assemble_page, WorkflowSection, PlanLimitationSection, HandoffSection
@@ -81,6 +83,10 @@ def primer(b,key,label,identifier=None):
         return b.stock(key,'Visium Rev A cDNA Primers PN-2000089: Partial Read1 forward and Partial TSO reverse',K.OLIGO,R.STRUCTURAL,
             state=visium_rev_a.cdna_primer_scene(),source=visium_rev_a.SOURCE,
             chemical_state={'source_scope':'Same cDNA primer preparation in the exact Visium revision cited by the final Spatial VDJ Methods; whole sequence patterns, not an independent stock-dose declaration','end_modifications':'unassigned'})
+    if key=='index_primers':
+        return b.stock(key,'Source-linked Ståhl three-primer indexing preparation; selected six-base index unassigned',
+            K.OLIGO,R.STRUCTURAL,state=indexing.primer_scene(),source=indexing.SOURCE,
+            chemical_state={'scope':'Published precursor primer patterns inherited through explicit Engblom reference6; actual index member/end modifications and 2023 dosing unassigned'})
     kind = ('partread1' if key.endswith('_partread1') else
             'outer' if key.endswith('_outer_v') else
             'inner' if key.endswith('_inner_v') else
@@ -98,7 +104,7 @@ def amp(b,key,label,primers,programme,kapa=True):
         b.op(key,label,S.PCR,supplies,geometry=PCRGeometry.unavailable(
             unknown_oligo('Actual captured transcript template sequence unassembled'), reason='Published Data S1 gives both primer pools; actual captured transcripts, occupied sites and complete amplicons remain unassembled.'))
     else:
-        reason=('The Rev A cDNA primer pair is now declared, but actual source reaction collections, first-cycle occupancy and products remain unassembled; knowing the primer orders does not validate the PCR.'if key in ('preamp','postcapture')else'Published indexing order; selected whole index primers and occupied products remain unassembled. Index supplies are not assumed to be the earlier ReadyMix.')
+        reason=('The Rev A cDNA primer pair is now declared, but actual source reaction collections, first-cycle occupancy and products remain unassembled; knowing the primer orders does not validate the PCR.'if key in ('preamp','postcapture')else'Published indexing order and cited Ståhl primer patterns; actual sample index, occupied products and 2023 formulation remain unassembled. Precursor reagent concentrations are not assigned to the 2023 reaction.')
         b.op(key,label,S.MAGIC,supplies,reason=reason)
 
 def cleanup(b,key,label):b.clean(key,label,extra=(b.stock(key+'_beads','Actualsource '+label+' bead allocation',K.SELECTION,R.SELECTION),))
@@ -142,15 +148,18 @@ def protocol_graph():
         qc(b,k+'_inner_qc','SourceQubit/Bioanalyzeranalyticalallocation; amountunassigned')
         b.split(k+'_select10ng','Actual10ngfromreplicateforindexingpool','Actual10ngselectedinnerPCRproduct','UntransferredinnerPCRstock');indexed.append(b.x)
     pool=g.product('index_pool','Actualfour10ngreplicateallocationspooledforonesample/sameindex',K.MOLECULAR);g.react('pool_replicates','Sourcepoolbeforeindexing, notfourindependentlyindexedlibraries',S.POOL,tuple((x,R.TEMPLATE)for x in indexed),(pool,));b.x=pool
-    amp(b,'index','SourceTruSeqindexPCR8cycles',(primer(b,'index_primers','ActualTruSeqindexingprimerpreparation; selected whole index orders/paired index geometry unassembled',feature('spatialvdj.sample','sample_index','unknown',note='Sourceassignssameindextoallfourreplicates; wholeindexposition/bodyunassembled, notinferredfromTruSeqname')),),'Source98C3min;8x98C20s/60C30s/72C90s;72C5min; completehistoricalindexsupplyformulationunassembled.',kapa=False)
+    amp(b,'index','SourceTruSeqindexPCR8cycles',(primer(b,'index_primers','Ståhl ref6 InPE1.0, InPE2.0 and PCR Index patterns'),),'Source98C3min;8x98C20s/60C30s/72C90s;72C5min; source-linked primer patterns known, 2023 supply amounts/formulation unassembled.',kapa=False)
     cleanup(b,'index_clean','SourceAMPureandEtOHwashafterindexPCR')
     qc(b,'final_qc','SourceQubit/Bioanalyzerfinalanalyticalallocation; amountunassigned')
     b.split('load_select','Actualsamplesselectedforsequencingpool; amountsunassigned','SelectedindexedSRTRBsamplelibraryallocation','UntransferredindexedSRTRBlibrary')
     b.op('sequencing_pool','Sourcepoolsindexed samples forsequencing; otheractualsamples/molaritiesunassembled',S.MAGIC,(b.stock('other_samples','Otheractualindexedlibraryallocations in sourcepool; sourcebodiesandamountsunassembled',K.MOLECULAR,R.STRUCTURAL),))
     b.split('pool_loading','Actualsequencingloadingallocationfrompreparedmultisamplepool; amountunassigned','Selectedpooledlibraryloadingaliquot','Untransferredpreparedsequencingpool')
-    lib=g.product('library','Published-source SRTRBsequencinglibrary; source spatial primers declared; full amplicons/index primers unassembled',K.LIBRARY);g.react('load','SourceNovaSeq6000SP; R135/I6/R2259',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False)
-    g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='The published run lengths are reported here. Data S1 supplies the spatial primer/probe inventories; complete index-primer preparations, index orientation, occupied transcript sites and full amplicons remain unassigned. Run lengths alone do not establish molecular products.'))
-    g.add_source_item(SourceItem('published_scope',AUTHORITY,'Final published article supports this selected SR-TRB preparation; published SM and separate Data S1 retrieved; Visium Rev A full-length cDNA and PN-2000089 primers are now inherited from the source-owned upstream declaration; historical capture and selected index-primer preparations remain unresolved. No whole-version equivalence or confirmed absence.'))
+    lib=g.product('library','Published-source SRTRBsequencinglibrary; source spatial primers declared; full amplicons and selected sample index unassembled',K.LIBRARY);g.react('load','SourceNovaSeq6000SP; R135/I6/R2259',S.GENERIC,((b.x,R.TEMPLATE),),(lib,),changes_molecule=False)
+    g.sequence(lib,SequencingPlan(read_lengths={'R1':35,'I1':6,'R2':259},limitation='The published run lengths are reported here. Data S1 supplies the spatial primer/probe inventories; Ståhl reference6 resolves the three primer patterns and six-base index placement; selected sample index, occupied transcript sites and full amplicons remain unassigned. Run lengths alone do not establish molecular products.'))
+    g.add_source_item(SourceItem('published_scope',AUTHORITY,'Final published article supports this selected SR-TRB preparation; published SM and separate Data S1 retrieved; Visium Rev A full-length cDNA and PN-2000089 primers are now inherited from the source-owned upstream declaration; Ståhl2016 reference6 now supplies index-primer patterns; historical capture and selected sample index remain unresolved. No whole-version equivalence or confirmed absence.'))
+    g.add_source_item(SourceItem('stahl_indexing',indexing.SOURCE,
+        'Published PDF pp8–9 supplies InPE1.0, InPE2.0 and PCR Index with six Xs. Inherit primer design only through explicit final Engblom ref6; precursor qPCR composition is recorded separately, not silently assigned to the 2023 indexing reaction.'))
+    g.cover_source_item(SourceCoverage('stahl_indexing','modelled','index_primers'))
     g.add_source_item(SourceItem('analysis_metadata','Final published article, LR Spatial VDJ read processing, text1685; SR clonotype analysis1693–1700','Final article verifies16nt spatial barcode/12nt UMI in LR parsing. These are analysis coordinates, not whole primer sequences or a verified SR primer-binding geometry. SR processing groups by barcode plus UMI.'))
     g.add_source_item(SourceItem('preamp_programme',PREAMP_PROGRAMME,'Retainactualprintedvalues, executedpreamplificationcountunassigned. OtherselectedSRcyclecountsarelocallyexplicit.'))
     g.declare_reviewed_scope(MAIN_COMMON_TARGETS,
@@ -222,7 +231,11 @@ def primer_design_rows():
         ('TRBV10-1 inner, handle assembly',code(handle)+' + '+code(target),
          str(len(handle))+'-base 5′ handle + '+str(len(target))+'-base 3′ V-specific portion = '+str(len(whole))+' bases. Order the concatenation in this direction. The 3′ portion binds the first template; the 5′ handle is copied into later products. Pair with the same PartRead1.'),
         ('TRBV10-1 inner, complete sequence',code(whole),
-         'This is the published whole order, not its reverse complement. The shared handle is compatible with the source TruSeq indexing route; it does not specify which index-primer stock was used.'),
+         'This is the published whole order, not its reverse complement. Its shared handle contains the binding sites for both InPE2.0 and the shorter PCR Index foot in the explicitly cited Ståhl recipe.'),
+        ('Index PCR InPE1.0',code(indexing.INPE1),str(len(indexing.INPE1))+'-base P5/Read1 forward primer. Its last '+str(len(oligos.PARTREAD1))+' bases bind the retained PartRead1 end; the upstream extension completes the P5/Read1 arm.'),
+        ('Index PCR InPE2.0',code(indexing.INPE2),str(len(indexing.INPE2))+'-base Read2 primer in the cited three-primer recipe. It binds the copied inner-primer handle; it adds no sample index.'),
+        ('PCR Index, complete ordering pattern',code(oligos.illumina.P7)+' + '+code('XXXXXX')+' + '+code(indexing.INDEX_FOOT),
+         '24-base P7 + selected six-base index in primer-order orientation + 13-base Read2 binding foot = 43 bases. Replace XXXXXX with the chosen index, not an N-mixed synthesis. The particular sample assignments remain unassigned. Ståhl2016 supplement PDF p9, cited by Engblom ref6.'),
     )
 
 
@@ -230,6 +243,7 @@ def oligo_tables():
     groups=[]
     for title, rows in (
         ('Upstream cDNA primers and PartRead1',[("PN-2000089 forward / PartRead1",visium_rev_a.FORWARD),("PN-2000089 reverse",visium_rev_a.REVERSE)]),
+        ('Source-linked Ståhl indexing patterns', [('InPE1.0',indexing.INPE1),('InPE2.0',indexing.INPE2),('PCR Index (XXXXXX = selected index)',oligos.illumina.P7+'XXXXXX'+indexing.INDEX_FOOT)]),
         ('Outer TRBV primers',[(name,seq.upper())for name,seq in oligos.OUTER_SOURCE.items()]),
         ('Inner TRBV primers',list(oligos.INNER.items())),
         ('Capture probes',[(pool+' row '+str(i),seq)for i,(pool,seq)in enumerate(oligos.CAPTURE_SOURCE,1)]),
@@ -265,8 +279,15 @@ def receptor_class(stage):
             Segment('inner-primer-derived V end',revcomp(target),'r2',inferred=True),
             Segment('copied inner 5′ Read2 handle',revcomp(oligos.illumina.TRUSEQ_READ2),'r2',inferred=True)]
         if stage=='indexed':
-            parts=[role('P5 / indexing-primer extension; exact order unassembled',inferred=True)]+parts+[
-                role('sample index / P7 extension; exact order unassembled',inferred=True)]
+            # Extend the retained PartRead1 end without duplicating its 22 bases.
+            if not indexing.INPE1.endswith(prefix[0].top):
+                raise ValueError('InPE1.0 does not retain the upstream PartRead1 end')
+            parts=[Segment('P5 / Read1 extension',indexing.INPE1[:-len(prefix[0].top)],'p5',inferred=True)]+parts
+            # The source index order is on the opposite strand; preserve its
+            # unknown value as a six-base feature, never six invented bases.
+            parts+=complement_segments(indexing.index_segments()[:2])
+            # These are conditional copied ends, not a validated occupied reaction.
+            parts=[replace(seg,inferred=True) for seg in parts]
     return Construct(parts,'INFERRED — '+stage+' TRB molecule class; not an occupied transcript reconstruction')
 
 
@@ -294,6 +315,28 @@ def step_scene(stage,*,primers=False):
                 label='Incoming partial TSO primer → full receptor / tag side')
         sc.note('v_primer' if primers in {'outer','inner'} else 'tso_primer',
             'Separate reagent rows; V-allele coordinates and occupied primer complexes remain unassembled.')
+    return sc
+
+
+def index_binding(which):
+    con=receptor_class('inner')
+    sc=Scene()
+    if which=='forward':
+        sc.strand('template',complement_segments([list(con)[0]]),rev=True,
+                  label='Tag-side Read1 site; rest of template not shown')
+        retained=list(con)[0]
+        sc.anneal('InPE1.0',[
+            Segment('P5 / Read1 overhang',indexing.INPE1[:-len(retained.top)],'p5'),
+            Segment('PartRead1 binding part',retained.top,'r1')],
+            to='template',pair=('PartRead1 binding part',retained.name+"'"))
+        sc.arrow('InPE1.0','3′ extension toward receptor')
+    elif which=='index':
+        sc.strand('template',[list(con)[-1]],label='V-side Read2 site; rest of template not shown')
+        sc.anneal('PCR_Index',indexing.index_segments(),to='template',
+                  pair=('3′ Read2 binding foot','copied inner 5′ Read2 handle'),
+                  shift=len(indexing.INPE2)-len(indexing.INDEX_FOOT))
+        sc.arrow('PCR_Index','3′ extension toward barcode / UMI')
+    else:raise ValueError('unknown index binding view')
     return sc
 
 
@@ -334,8 +377,8 @@ def molecular_walkthrough():
         'INFERRED — one sample-level pool; original spot barcodes and UMIs still distinguish molecules',
         'Use the source AMPure/ethanol cleanup and Qubit/Bioanalyzer checks. Pool 10 ng per replicate at indexing, not earlier. All four replicates receive one sample index and cannot be distinguished as technical replicates afterwards.')
     add('9 · TruSeq index PCR, 8 cycles; AMPure cleanup and QC','indexed',
-        'INFERRED — final library architecture; unresolved whole index-primer arms are explicit',
-        'Indexing adds the external sequencing/sample-index arms; it does not create new spatial barcodes or UMIs. The final Methods delegate the selected TruSeq index primers to reference 6. Their actual whole orders, index polarity and final primer landing remain unassembled; bracketed arms are not invented adapter sequences.')
+        'INFERRED — bounded library class with the source-linked P5 / single-index / P7 arms',
+        'The final Methods cite Ståhl2016 reference6, whose supplement PDF pp8–9 lists InPE1.0, InPE2.0 and PCR Index. InPE1.0 extends the PartRead1 end to P5; the 43-base PCR Index pattern has P7, six selected index bases and a 13-base Read2 binding foot. InPE2.0 binds the full copied Read2 handle. Later copying produces the bounded duplex shown. The six-base index appears as its complement on this displayed strand; its actual value is unassigned. The original spot barcode and UMI remain. The 2023 programme overrides the precursor cycling; its precise reagent dosing is not assigned from the 2016 qPCR recipe.')
     add('10 · Pool indexed samples and sequence on NovaSeq 6000 SP','indexed',
         'INFERRED — same library enters sequencing: Read1 35 nt / index 6 nt / Read2 259 nt',
         'Read1 recovers spatial-tag information; the long Read2 is designed to cover CDR3 and part of the constant region from the V side. The published run lengths are exact; this region-level class does not establish the first sequenced base or every SR cycle boundary. Map receptor calls to the retained Visium barcode and collapse by barcode plus UMI.')
@@ -350,7 +393,7 @@ def render_page():
         ('Read 1', str(g.sequencing['library'].read_lengths['R1']),
          'Short spatial-tag read. The published run recipe is explicit; an exact cycle-by-cycle SR binding and base map is not assembled here.'),
         ('Index read', str(g.sequencing['library'].read_lengths['I1']),
-         'Sample demultiplexing. The chosen index-primer orders and index orientation remain unassigned in this model.'),
+         'Single six-base sample index. The cited PCR Index order is P7 + XXXXXX + the Read2 foot; the displayed library strand carries its complement. Sample-specific bases and sample-sheet assignments remain unassigned.'),
         ('Read 2', str(g.sequencing['library'].read_lengths['R2']),
          'Long receptor read. The authors designed the asymmetric run to cover the entire CDR3 and part of the constant region from the 5′ end.'),
     ))
@@ -383,7 +426,7 @@ def render_page():
         HandoffSection(),
          '<h2 id="preparation">Step by step: from full-length cDNA to the TRB library</h2>',
         '<p>Follow the connected molecular states below. The top strand runs from the spatial-tag end toward the receptor’s V end; its receptor sequence therefore appears in the reverse order to the original RNA. A variable <strong>constant / J / CDR3 / V</strong> region replaces the unknown transcript, with no invented allele or measurable length. Each reagent row gives a source primer, not a fabricated occupied V-gene binding site.</p>',
-        caveat('INFERRED — the walkthrough shows expected molecular classes, not validated full amplicons. The upstream Visium duplex and input primer orders are source declarations. The selected receptor products retain those source tag features; their V-site placement, amplicon sequence and index-primer arms remain unresolved. Dotted inferred sequence and bracketed regions preserve those limits. The separate process graph below records the actual partial-validation boundary.'),
+        caveat('INFERRED — the walkthrough shows expected molecular classes, not validated full amplicons. The upstream Visium duplex and input primer orders are source declarations. The selected receptor products retain those source tag features; their V-site placement, full amplicon sequence and selected sample-index values remain unresolved; the cited Ståhl index-primer patterns are now declared. Dotted inferred sequence and bracketed regions preserve those limits. The separate process graph below records the actual partial-validation boundary.'),
         workflow_panel(molecular_walkthrough(),caption='Step-by-step SR-TRB preparation: source input, receptor capture, outer PCR, seminested handle addition and indexed library class'),
         table(('Receptor / index PCR','Published programme'),(
             ('Outer TRB, 12 cycles','98°C 5 min; 12 × (98°C 20 s, 65°C 30 s, 72°C 90 s); 72°C 7 min.'),
@@ -395,10 +438,13 @@ def render_page():
         table(('Primer or stage','Sequence or construction,5′→3′','Design and binding role'),primer_design_rows()),
         panel(partread1_binding().rows(),caption='Computed PartRead1 binding on a denatured strand of the imported Visium Rev A cDNA. Barcode and UMI lie on the extension side and are retained in receptor-directed products. The other original strand is not shown in this site view; no TRBV coordinate or full receptor amplicon is asserted.'),
         '<p><strong>PartRead1</strong> recognizes the universal partial Read1 sequence of the spatial cDNA and is reused in both receptor-specific PCRs. <strong>Outer TRBV</strong> primers target V genes upstream of CDR3. <strong>Inner TRBV</strong> primers target closer to CDR3 and carry a shared Read2-compatible 5′ handle for subsequent TruSeq indexing. One matching V-gene example is shown below; each reaction uses the published primer pool, not just this pair. '+data+', SR-Spatial VDJ worksheets.</p>',
-        '<p><strong>Can reads resolve the index-primer ends?</strong> Raw tonsil FASTQs are deposited under controlled access at <a href="https://ega-archive.org/datasets/EGAD00001011062">EGA</a>. The public <a href="https://zenodo.org/records/7961605">Zenodo archive</a> also contains processed TSV exports. We checked only their <code>targetSequences</code> fields in the first 100 TRB rows, finding no informative P5/P7/Read1/Read2 adapter read-through; this does not establish absence in the full dataset. Saved-input VDJCA contents and raw EGA reads were not inspected. Upstream trimming and UMI collapsing still limit interpretation. Even a copied terminal sequence would not uniquely establish the original primer synthesis order or modifications; the exact index-primer arms remain unresolved.</p>',
+        '<details><summary>Earlier read-through check</summary><p>Raw tonsil FASTQs are deposited under controlled access at <a href="https://ega-archive.org/datasets/EGAD00001011062">EGA</a>. The public <a href="https://zenodo.org/records/7961605">Zenodo archive</a> also contains processed TSV exports. We checked only their <code>targetSequences</code> fields in the first 100 TRB rows, finding no informative P5/P7/Read1/Read2 adapter read-through; this does not establish absence in the full dataset. Saved-input VDJCA contents and raw EGA reads were not inspected. Upstream trimming and UMI collapsing still limit interpretation. This earlier read-through search is now superseded for the primer patterns by the supplied Ståhl original. It does not establish sample-specific index values or modifications.</p></details>',
+        '<p><strong>Historical indexing source recovered.</strong> <a href="https://doi.org/10.1126/science.aaf2403">Ståhl et al.2016</a>, published supplement PDF pp8–9, supplies the three PCR orders above. This is the method explicitly cited by Engblom’s indexing paragraph. The precursor qPCR uses InPE1.0 0.5 µM, InPE2.0 0.01 µM and PCR Index 0.5 µM, with KAPA HiFi HotStart ReadyMix KK2601 and EVA green. These are the <em>2016 precursor conditions</em>; the 2023 eight-cycle programme is shown above, and exact 2023 reagent doses are not assigned from that citation alone. This does not replace the Visium starting cDNA with the older ST capture/IVT preparation.</p>',
+        panel(index_binding('forward').rows(),caption='INFERRED — InPE1.0 binding to the retained PartRead1 end of the denatured inner-product class; the P5/Read1 extension is a first-cycle overhang. Only the local handle is shown. Pairing is computed from the source oligos; receptor occupancy is not asserted.'),
+        panel(index_binding('index').rows(),caption='INFERRED — local handle view: PCR Index binds through its 13-base Read2 foot; P7 and the selected six-base index overhang. InPE2.0 is an alternative primer at the same end, covering the entire 34-base handle, not a simultaneously occupied overlapping site.'),
         panel(primer_example().rows(),caption='Independent source primer orders: the universal pair and one TRBV outer/inner example. Only the3′ target-specific part of an inner primer participates in its first-cycle receptor binding; its shared 5′ handle is carried as an overhang.'),
         '<p><strong>Reusing the design.</strong> Choose the matching outer/inner gene entry from the published pool: the same gene name identifies a pair, not identical binding positions. Outer targets lie 5′ of CDR3; inner targets lie closer to CDR3. Keep the source Read2 handle at the 5′ end of an inner primer, with its V-specific sequence at the3′ end. No universal sequence alone selects a receptor. Re-targeting requires the relevant transcript/allele and actual binding coordinates; the displayed variable transcript cannot establish those sites, amplicon length or specificity. Gene-specific annealing should be assessed from the binding portion rather than treating the nonbinding5′ handle as a first-cycle duplex.</p>',
-        '<p><strong>What is inherited, and what is added?</strong> Spatial barcode and UMI come from the Visium starting cDNA. The outer/inner primers do not create new ones. The inner primer adds the Read2-compatible handle. The later index PCR adds sample demultiplexing information; its exact whole primer orders and index orientation still need reconstruction from the source-linked indexing method or verified read-derived evidence.</p>',
+        '<p><strong>What is inherited, and what is added?</strong> Spatial barcode and UMI come from the Visium starting cDNA. The outer/inner primers do not create new ones. The inner primer adds the Read2-compatible handle. The later index PCR adds sample demultiplexing information; its three primer patterns and six-base index location are supplied by the explicitly cited Ståhl method. Individual sample/index assignments are still unassigned.</p>',
         '<p><strong>Capture probes</strong> target IG and TRA/TRB constant regions. <strong>Blocking oligos</strong> occupy universal adapter sequences to reduce off-target capture. The Read1+polyT blocker contains a degenerate N window and a polyT tract; those N bases are a reagent pattern, not a declared barcode or UMI for a particular molecule.</p>',
         panel(oligos.pool_scene('blockers').rows(),caption='The two published capture-blocker patterns from Data S1. N and V retain their source degeneracy; terminal modifications are not assigned from sequence-only cells.'),
         '<details><summary>All published oligo sequences</summary><p>Whole source orders are retained, including repeated source rows. Sequences alone do not establish terminal modifications, occupied transcript binding sites or a complete library construct.</p>',oligo_tables(),'</details>',
@@ -407,7 +453,7 @@ def render_page():
         '<p><strong>From reads to a tissue map.</strong> The published SR analysis filters low-quality reads, requires a valid Visium barcode and the inner-V primer sequence, and collapses reads by barcode plus UMI. For tonsil repertoire analysis, each UMI group must have at least three supporting reads. MiXCR supplies CDR3/clonotype calls, which become a clone-by-spatial-barcode count matrix and are matched to the gene-expression map. The authors also filter index-hopping candidates and a small number of suspected overamplification artifacts. These analysis choices affect the reported clone map; sequencing yield alone is not a count of clones or cells. '+paper+', “SR Spatial VDJ clonotype analysis”.</p>',
         '<h2 id="limits">Branches and interpretation limits</h2>',branches,
         '<p><strong>Spatial colocalization does not physically pair receptor chains.</strong> Spatial VDJ captures individual receptor transcripts. The paper predicts IG heavy/light pairing computationally with “repair” and evaluates predictions using matched single-cell VDJ data. A TRB map alone does not identify its paired TRA chain or establish antigen specificity. '+paper+', receptor-pairing Results.</p>',
-        caveat('This page represents the published preparation order and source oligos. The pre-fragmentation starting duplex and cDNA primer pair now come from the exact cited Visium Rev A declaration. Source-specific index-primer orders, terminal modifications of the Data S1 reagents, occupied receptor sites, full amplicons and exact final sequencing-primer landing remain unassembled. These are model boundaries, not a claim that the publication omits those details.'),
+        caveat('This page represents the published preparation order and source oligos. The pre-fragmentation starting duplex and cDNA primer pair now come from the exact cited Visium Rev A declaration. The cited Ståhl primer patterns and their handle binding sites are now resolved. Selected index values, terminal modifications of the Data S1 reagents, occupied receptor sites, complete amplicons and a source-qualified full SR sequencing cycle map remain unassembled. These are model boundaries, not a claim that the publication omits those details.'),
         '<details><summary>Read-plan detail</summary>',PlanLimitationSection('library'),'</details>',
         '<h2>Published source discrepancies</h2>',AnnotationSlot.BEFORE_WORKFLOW,
         '<details><summary>Full reaction workflow, physical fractions and validation</summary><p>The expanded workflow retains separate PCR replicates, cleanup fractions, analytical aliquots and stock remainders. Its unresolved transitions expose where molecular products or reagent geometry have not been assembled.</p>',
@@ -426,7 +472,7 @@ def selftest():
     for stage in ('captured','outer','inner','indexed'):
         model=receptor_class(stage)
         c(stage+' class retains the same upstream tag features',
-          {seg.name:seg.feature for seg in model if seg.feature},upstream_tags)
+          {seg.name:seg.feature for seg in model if seg.name in upstream_tags},upstream_tags)
         c(stage+' unknown receptor region is not assigned an invented nucleotide length',
           next(seg for seg in model if seg.is_role_token() and seg.name.startswith('TRB:')).length_bp,None)
     model=receptor_class('inner')
@@ -486,5 +532,18 @@ def selftest():
         c('All whole inner source orders occur verbatim',all((name+'\t'+whole+'\t'+target).upper() in source_text for name,(whole,target)in oligos.INNER_SOURCE.items()),True)
         c('All capture probe rows occur verbatim',all((pool+'\t'+seq).upper() in source_text for pool,seq in oligos.CAPTURE_SOURCE),True)
         c('Both complete source blockers occur verbatim',all((name+'\t'+seq).upper() in source_text for name,seq in oligos.BLOCKER_SOURCE.items()),True)
+    p=sources_root()/'doi_10.1126+science.aaf2403'/'aaf2403_stahl_sm.pdf.txt'
+    if have(c,Source(p,indexing.SOURCE_URL)):
+        text=''.join(p.read_text().split())
+        for label,order in [('InPE1.0',indexing.INPE1),('InPE2.0',indexing.INPE2),
+                            ('PCR Index',oligos.illumina.P7+'XXXXXX'+indexing.INDEX_FOOT)]:
+            c('Ståhl published '+label+' transcription',order in text,True)
+    indexed=receptor_class('indexed')
+    c('Indexing extends the source PartRead1 end into the complete InPE1.0 arm',
+      indexed.top().startswith(indexing.INPE1),True)
+    c('Opposite index arm retains its whole selected-index ordering pattern',
+      revcomp(indexed.top()[-43:]),oligos.illumina.P7+'xxxxxx'+indexing.INDEX_FOOT)
+    # Construct the actual first-cycle binding views: Scene rejects bad pairing.
+    for which in ('forward','index'):index_binding(which).rows()
     c.report()
 if __name__=='__main__':selftest()

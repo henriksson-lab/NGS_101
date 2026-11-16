@@ -1243,11 +1243,6 @@ or separately required version-of-record Methods available.
     Directory: exseq__10.1126+science.aax2656
 
 
-171. Spatial VDJ primer-design follow-up — Ståhl et al. 2016
-    https://doi.org/10.1126/science.aaf2403
-    Needed: Published original Visualization and analysis of gene expression in tissue sections by spatial transcriptomics, and its chemistry-relevant linked material. This is reference 6 in Engblom 2023's Spatial VDJ indexing paragraph; inspect the original indexing procedure and whole primer orders.
-    Status: 2026-11-01. Cached standard retrieval manifest is manual/no-open-fulltext; no original text on disk. No undiscovered supplement filename is assumed. Visium CG000239 Rev A is now obtained and does not need to be downloaded for this follow-up.
-    Directory: doi_10.1126+science.aaf2403
 
 172. Rapture — defining original for the input-pool review
     https://pmc.ncbi.nlm.nih.gov/articles/PMC4788223/

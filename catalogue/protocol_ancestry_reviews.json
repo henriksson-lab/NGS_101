@@ -28874,8 +28874,8 @@
     },
     "spatial-vdj__10.1126+science.adf8486": {
       "status": "existing_curated",
-      "formal_assignment": "internal",
-      "reason": "Existing scoped lineage relations retained; no complete set of possible ancestors asserted.",
+      "formal_assignment": "internal_and_external",
+      "reason": "Visium material/component ancestry retained; Ståhl2016 explicitly documented indexing component added after published supplement inspection. No complete set of possible ancestors asserted.",
       "sources": [
         {
           "url": "https://doi.org/10.1126/science.adf8486",
@@ -28884,12 +28884,33 @@
           "availability": "prior_curation"
         }
       ],
-      "external_predecessors": [],
+      "external_predecessors": [
+        {
+          "title": "Spatial transcriptomics — Ståhl et al.2016",
+          "url": "https://doi.org/10.1126/science.aaf2403",
+          "relation": "adapted_component",
+          "basis": "documented",
+          "scope": "Three-primer TruSeq indexing design for the SR Spatial VDJ product",
+          "evidence": [
+            {
+              "url": "https://doi.org/10.1126/science.adf8486",
+              "locator": "Final published SR Spatial VDJ Methods indexing paragraph, reference6"
+            },
+            {
+              "url": "https://doi.org/10.1126/science.aaf2403",
+              "locator": "Published supplement PDF pp8–9, library preparation and PCR oligo list"
+            }
+          ],
+          "rationale": "Engblom explicitly delegates TruSeq indexing to Ståhl reference6; the supplied published original now verifies all three precursor primer patterns.",
+          "limits": "Indexing design only; older ST capture/IVT preparation, selected sample index values and exact 2023 stock composition are not inherited.",
+          "reviewed": "2026-11-16"
+        }
+      ],
       "inference_status": "not_needed",
       "inference_reason": "An explicit internal component/method predecessor is already curated.",
       "blockers": [],
       "limits": "Method/component ancestry only; no chemistry inheritance, universal independence claim or accepted source-absence finding. Existing curation does not prove that all possible parents were found.",
-      "reviewed": "2026-11-02"
+      "reviewed": "2026-11-16"
     },
     "speac-seq__10.1038+s41596-024-01056-1": {
       "status": "reviewed",

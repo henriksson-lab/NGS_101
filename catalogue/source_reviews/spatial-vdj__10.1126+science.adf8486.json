@@ -72,10 +72,17 @@
       "id": "stahl2016_indexing_predecessor",
       "role": "predecessor",
       "locator": "https://doi.org/10.1126/science.aaf2403",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Final Spatial VDJ indexing paragraph cites reference6. Existing external source manifest doi_10.1126+science.aaf2403 records the defining original as manual/no open full text; no original text is cached. The exact source indexing oligos remain blocked on this original and its linked chemistry material.",
-      "inspection_scope": "Identity checked in final Spatial VDJ reference6; original not inspected. No sequence or absence conclusion inferred."
+      "inspection_scope": "User-supplied final published main PDF; title/DOI, array-capture/IVT explanation and supplementary index. Published source identity checked; exact index oligos read separately in its supplement."
+    },
+    {
+      "id": "stahl2016_published_sm",
+      "role": "supplement",
+      "locator": "http://www.sciencemag.org/content/353/6294/78/suppl/DC1",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "User-supplied aaf2403_stahl_sm.pdf, printed DOI/cover; PDF pp7\u20139 library preparation, precursor qPCR composition and three whole PCR oligo patterns. Garbled font mapping: labelled OCR aid followed by direct original rendered pp8\u20139 verification, including six Xs. No linked sources recursively inspected."
     }
   ],
   "bounded_checks": [
@@ -148,7 +155,7 @@
       "date": "2026-11-16",
       "documents": 1,
       "scope": "Step-by-step presentation of source-supported preparation and explicitly inferred molecular classes; no complete chemistry or absence review.",
-      "locations": "Final published Science article target enrichment and SR Spatial VDJ Methods, cached HTML text1625–1668; existing DataS1 source-owned oligo declarations used without importing new biology.",
+      "locations": "Final published Science article target enrichment and SR Spatial VDJ Methods, cached HTML text1625\u20131668; existing DataS1 source-owned oligo declarations used without importing new biology.",
       "findings": "Replaced stage-summary table with a visible connected molecular Workflow. Exact upstream identifier features retained; primer-derived ends and copied Read2 handle computed from source orders. Unknown receptor interval and whole index arms remain explicit, and graph validation status is unchanged.",
       "oligo_scraper": "Rerun on external source bundle; no new sequence transcription in this pass.",
       "deferred": [
@@ -163,7 +170,7 @@
       "reviewer": "primary-curator-parallel-data-review",
       "date": "2026-11-16",
       "scope": "Bounded read-data feasibility only; no full reaction/source or accepted absence review.",
-      "locations": "Same final published article Methods1645–1668/SRanalysis1693–1698/dataavailability1764; direct EGA EGAD00001011062 metadata; direct Zenodo7961605 ZIP64 central directory and four CRC-validated small README/analysis/report text members.",
+      "locations": "Same final published article Methods1645\u20131668/SRanalysis1693\u20131698/dataavailability1764; direct EGA EGAD00001011062 metadata; direct Zenodo7961605 ZIP64 central directory and four CRC-validated small README/analysis/report text members.",
       "findings": "Raw FASTQs require controlled EGA access. Public SR TRA/TRB .vdjca and exported matrix.tsv are concrete read-derived candidates. Actual public TRB report verifies MiXCR3.0.13 saveOriginalReads=true on already preprocessed/merged input,43,999 reads. Trimming/consensus provenance remains unresolved; no biological read-bearing member fetched.",
       "access": "Public ZIP metadata read with HTTP206 ranges; inspected archive-size25609313924 / central-directory587380bytes /2965entries. Small TRB report CRC32fe9b1c96 verified. No full ZIP, FASTQ, BAM or .vdjca downloaded.",
       "deferred": [
@@ -181,7 +188,7 @@
       "locations": "Zenodo7961605/SpatialVDJ_forZenodo_resubmission.zip member SpatialVDJ_forZenodo/data/tonsil/2_SR-SpatialVDJ/TRB/Tonsil_merged.matrix.tsv; exact source ZIP headers and bounded131072-byte compressed member prefix.",
       "findings": "Inspected only TSV targetSequences fields in the first 100 exported TRB rows /200 target strings,100x35nt and100x259nt. Saved-input VDJCA contents and raw EGA reads were not inspected; cloneId alone does not establish clone consensus. No exact full or12/16/20nt window of canonical P5/P7/TruSeqRead1/Read2 or source PartRead1 on either orientation. No informative technical read-through in this first 100-row sample; no whole-study absence or primer-order inference.",
       "provenance": "Sample SHA2564dab7e97e6e6e17dea09d44ad66931c0d456b969e4ab46d37034c5e9c003dc62. External CHEM_DATA/read_samples/spatial-vdj__10.1126+science.adf8486/index-tail-probe-2026-11-16/ sample, manifest and derived summary. Whole-member CRC retained from exact central directory, not verified from partial prefix.",
-      "verification": "Protocol-local standard-library sampler enforces max-reads1–100, compressed-prefix cap, exact HTTP206 intervals (including suffix total), member name/CRC/sizes/layout, existing and incoming sample hashes, external storage and byte-line trimming before UTF8. Offline24-check sampler suite passed; no further downloads. No complete .vdjca or ZIP downloaded.",
+      "verification": "Protocol-local standard-library sampler enforces max-reads1\u2013100, compressed-prefix cap, exact HTTP206 intervals (including suffix total), member name/CRC/sizes/layout, existing and incoming sample hashes, external storage and byte-line trimming before UTF8. Offline24-check sampler suite passed; no further downloads. No complete .vdjca or ZIP downloaded.",
       "deferred": [
         "Informative shorter-insert pre-trim paired reads, qualities and sample/index data or original indexing-oligo records.",
         "Complete original primer synthesis order/modifications cannot be uniquely inferred from a chemically equivalent copied endpoint alone."
@@ -192,12 +199,11 @@
     "result": "enumerated",
     "pass_1": null,
     "pass_2": null,
-    "notes": "Final main/SM/DataS1 available. Exact cited Visium CG000239 Rev A now retrieved/read and used for a versioned cDNA handoff and known PN2000089 primers. IDT xGen v4 and source-linked St\u00e5hl2016 indexing original remain unresolved; DataS2\u2013S5 uninspected as chemistry. No absence conclusion."
+    "notes": "Exact Visium RevA and source-linked St\u00e5hl2016 main/supplement now obtained and read in the stated scopes. St\u00e5hl supplement supplies three index-primer patterns; selected sample indexes, complete occupied amplicons and 2023 index-PCR doses remain open model questions. IDT xGen v4 remains deferred. DataS2\u2013S5 not read as chemistry. No absence conclusion."
   },
   "missing_claims": [],
   "pending_sources": [
-    "IDT xGen hybridization capture v4 exact cited original; ordinary unread in this pass",
-    "St\u00e5hl2016 doi10.1126/science.aaf2403 and source-linked indexing chemistry originals; cached defining-source route is manual/unavailable"
+    "IDT xGen hybridization capture v4 exact cited original; ordinary unread in this pass"
   ],
   "historical_checkpoints": [
     {
@@ -208,7 +214,7 @@
       "disposition": "Historicaldefermentresumed2026-10-30afterlegitimateauthoracceptedPDFwasretrieved; notactiveuserblock."
     }
   ],
-  "conclusion": "Source-qualified SR-TRB page now consumes the exact Visium Rev A pre-fragmentation cDNA declaration and exposes the PN2000089 cDNA primer pair plus worked outer/inner/PartRead1 designs. Sample-specific transcript occupancy, source-specific index primers/geometry, capture formulation and terminal chemistry remain incomplete. Handoff compatibility and primer footprints are checked; upstream and downstream reactions are not thereby biochemically validated. No absence claim.",
+  "conclusion": "Source-qualified SR-TRB page imports exact Visium RevA pre-fragmentation cDNA and exposes PN2000089, outer/inner/PartRead1 and explicitly cited St\u00e5hl three-primer indexing patterns. Conditional expected indexed duplex and computed primer-handle binding views now have known constant arms and an unassigned six-base sample-index feature. Actual sample-index assignments, receptor occupancy/full amplicons, end chemistry and 2023 indexing/capture formulation remain incomplete. No complete reaction validation or missing-information claim.",
   "independent_implementation_recheck": {
     "reviewer": "targeted_peer_spatialvdj_resumed",
     "date": "2026-10-30",
@@ -339,5 +345,18 @@
       "All local source discrepancies retained"
     ],
     "validation_scope": "Version/stage/known-primer-site/molecular-declaration handoff checks; no full population/reaction proof, no second independent missing-information audit."
+  },
+  "stahl_indexing_followup": {
+    "date": "2026-11-16",
+    "documents": 2,
+    "source_scope": "Final published St\u00e5hl2016 main identity/array-capture-to-IVT paragraph/supplement index; supplement PDF pp7\u20139 and rendered original pp8\u20139. Final Engblom ref6 indexing delegation retained. Source investigation closed after this depth-one follow-up; implementation/testing separate.",
+    "findings": [
+      "Three source PCR oligos: InPE1.0 58nt, InPE2.0 34nt, PCR Index 43nt with six Xs and 13nt Read2 foot",
+      "2016 qPCR three-primer dosing read but not silently imposed on 2023 reaction",
+      "Source-linked precursor indexing only; Visium input and Engblom2023 cycling retained"
+    ],
+    "absence_audit": false,
+    "scraper": "Initial zero hits from garbled PDF font encoding; labelled OCR appended to original text twin, rendered originals verified, mandatory scraper rerun: four source hits.",
+    "verification": "57 protocol checks pass; 685 source-oligo instances matched, zero failures; pairing lint zero invalid duplexes; shared 2273, source-tool 227 and sequence-catalogue 57 checks pass; sample-sheet catalogue 1036 source trials and 480 kit trials pass. Compact local-handle panels visually inspected in Chrome. Exact sample index values and complete occupied reaction products remain unassigned."
   }
 }

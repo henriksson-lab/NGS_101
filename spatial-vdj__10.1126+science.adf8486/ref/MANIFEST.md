@@ -20,3 +20,7 @@ The external `MANIFEST.tsv` records original publisher URLs, archive-member iden
 Related 2022 preprint entries in the external manifest remain superseded and excluded. The 25.6 GB Zenodo data/scripts archive was not downloaded or substituted for chemistry sources. No fingerprint spoofing, headless challenge solving or proxy rotation was used; automated fetcher cool-downs were preserved.
 
 See [selected scope and follow-up](../01_spatial_vdj.md).
+
+## Ståhl2016 indexing predecessor obtained (16 November 2026)
+
+The user supplied the final main `science.aaf2403.pdf` and published supplement `aaf2403_stahl_sm.pdf`. Both live in the external canonical `sources/doi_10.1126+science.aaf2403/` bundle, with exact DOI/printed supplement locators, sizes and checksums in its `MANIFEST.tsv`. They were revalidated; no further download request remains for these originals. The supplement’s text twin includes a clearly labelled OCR reading aid for garbled PDF pp7–9, verified visually against the original. The external DOI bundle is explicitly declared through `doi:10.1126/science.aaf2403` in `catalogue/extra_sources.tsv`, so source guards reuse it without copying material into this protocol’s folder. This supplies the source-linked three-primer indexing design, not permission to inherit the older whole ST preparation or substitute its reagent doses into Engblom2023.
